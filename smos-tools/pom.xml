@@ -4,25 +4,25 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <artifactId>smos-box</artifactId>
-        <groupId>org.esa.beam.smos</groupId>
-        <version>3.0</version>
+        <artifactId>smostbx</artifactId>
+        <groupId>org.esa.smostbx</groupId>
+        <version>0.5.0-SNAPSHOT</version>
     </parent>
 
     <packaging>jar</packaging>
 
-    <artifactId>smos-tools</artifactId>
+    <artifactId>smostbx-tools</artifactId>
     <name>SMOS Tools Package</name>
     <description>SMOS Tools</description>
 
     <dependencies>
         <dependency>
-            <groupId>com.bc.ceres</groupId>
-            <artifactId>ceres-binio</artifactId>
+            <groupId>org.esa.snap</groupId>
+            <artifactId>snap-binio</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.esa.beam</groupId>
-            <artifactId>beam-core</artifactId>
+            <groupId>org.esa.snap</groupId>
+            <artifactId>snap-core</artifactId>
         </dependency>
 
         <dependency>

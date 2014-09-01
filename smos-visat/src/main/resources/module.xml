@@ -1,7 +1,7 @@
 <module>
     <manifestVersion>1.0.0</manifestVersion>
-    <symbolicName>smos-visat</symbolicName>
-    <version>3.0</version>
+    <symbolicName>smostbx-visat</symbolicName>
+    <version>0.5.0</version>
     <name>SMOS BEAM-VISAT Extensions</name>
     <description>
         This module provides components for the visual inspection and
@@ -25,21 +25,21 @@
         <module>blue-marble-worldmap</module>
     </dependency>
     <dependency>
-        <module>beam-visat</module>
+        <module>snap-visat</module>
     </dependency>
     <dependency>
-        <module>smos-reader</module>
+        <module>smostbx-reader</module>
     </dependency>
     <dependency>
-        <module>smos-tools</module>
+        <module>smostbx-tools</module>
     </dependency>
     <dependency>
-        <module>smos-gui</module>
+        <module>smostbx-gui</module>
     </dependency>
 
     <categories>SMOS</categories>
 
-    <extension point="beam-ui:actions">
+    <extension point="snap-ui:actions">
         <action>
             <id>smosGridPointExport</id>
             <class>org.esa.beam.smos.visat.export.GridPointExportAction</class>
@@ -50,7 +50,7 @@
         </action>
     </extension>
 
-    <extension point="beam-ui:toolViews">
+    <extension point="snap-ui:toolViews">
         <toolView>
             <id>org.esa.beam.smos.visat.GridPointBtDataTableToolView</id>
             <class>org.esa.beam.smos.visat.GridPointBtDataTableToolView</class>
@@ -112,9 +112,9 @@
         </toolView>
     </extension>
 
-    <extension point="beam-ui:helpSets">
+    <extension point="snap-ui:helpSets">
         <helpSet>
-            <parent>beam-help</parent>
+            <parent>snap-beam-help</parent>
             <path>doc/help/smosbox.hs</path>
         </helpSet>
     </extension>

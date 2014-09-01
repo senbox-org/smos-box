@@ -1,9 +1,9 @@
 <module>
     <manifestVersion>1.0.0</manifestVersion>
 
-    <symbolicName>smos-tools</symbolicName>
+    <symbolicName>smostbx-tools</symbolicName>
     <name>SMOS Tools and Utilities</name>
-    <version>3.0</version>
+    <version>0.5.0</version>
     <description>
         This module provides several utility classes for SMOS data handling.
     </description>
@@ -22,11 +22,11 @@
     <categories>SMOS, Tools</categories>
 
     <dependency>
-        <module>ceres-binio</module>
+        <module>snap-binio</module>
     </dependency>
 
     <dependency>
-        <module>beam-core</module>
+        <module>snap-core</module>
     </dependency>
 
 </module>

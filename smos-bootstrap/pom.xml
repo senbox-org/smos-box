@@ -5,9 +5,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <artifactId>smos-box</artifactId>
-        <groupId>org.esa.beam.smos</groupId>
-        <version>3.0</version>
+        <artifactId>smostbx</artifactId>
+        <groupId>org.esa.smostbx</groupId>
+        <version>0.5.0-SNAPSHOT</version>
     </parent>
 
     <packaging>jar</packaging>
@@ -18,38 +18,38 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.esa.beam</groupId>
-            <artifactId>beam-bootstrap</artifactId>
+            <groupId>org.esa.snap</groupId>
+            <artifactId>snap-beam-bootstrap</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>org.esa.beam.smos</groupId>
-            <artifactId>smos-dgg</artifactId>
+            <groupId>org.esa.smostbx</groupId>
+            <artifactId>smostbx-dgg</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>org.esa.beam.smos</groupId>
-            <artifactId>smos-lsmask</artifactId>
+            <groupId>org.esa.smostbx</groupId>
+            <artifactId>smostbx-lsmask</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>org.esa.beam.smos</groupId>
-            <artifactId>smos-reader</artifactId>
+            <groupId>org.esa.smostbx</groupId>
+            <artifactId>smostbx-reader</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>org.esa.beam.smos</groupId>
-            <artifactId>smos-visat</artifactId>
+            <groupId>org.esa.smostbx</groupId>
+            <artifactId>smostbx-visat</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>org.esa.beam.smos</groupId>
-            <artifactId>smos-gui</artifactId>
+            <groupId>org.esa.smostbx</groupId>
+            <artifactId>smostbx-gui</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>org.esa.beam.smos</groupId>
-            <artifactId>smos-ee2netcdf</artifactId>
+            <groupId>org.esa.smostbx</groupId>
+            <artifactId>smostbx-ee2netcdf</artifactId>
         </dependency>
     </dependencies>
 

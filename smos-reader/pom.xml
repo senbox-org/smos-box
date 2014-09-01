@@ -4,56 +4,56 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <artifactId>smos-box</artifactId>
-        <groupId>org.esa.beam.smos</groupId>
-        <version>3.0</version>
+        <artifactId>smostbx</artifactId>
+        <groupId>org.esa.smostbx</groupId>
+        <version>0.5.0-SNAPSHOT</version>
     </parent>
 
     <packaging>jar</packaging>
 
-    <artifactId>smos-reader</artifactId>
+    <artifactId>smostbx-reader</artifactId>
     <name>SMOS Product Reader</name>
     <description>SMOS Product Reader</description>
 
     <dependencies>
         <dependency>
-            <groupId>org.esa.beam</groupId>
-            <artifactId>beam-reader-tests</artifactId>
+            <groupId>org.esa.snap</groupId>
+            <artifactId>snap-reader-tests</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.esa.beam</groupId>
-            <artifactId>beam-reader-tests</artifactId>
+            <groupId>org.esa.snap</groupId>
+            <artifactId>snap-reader-tests</artifactId>
             <type>test-jar</type>
         </dependency>
 
         <dependency>
-            <groupId>com.bc.ceres</groupId>
-            <artifactId>ceres-binio</artifactId>
+            <groupId>org.esa.snap</groupId>
+            <artifactId>snap-binio</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.bc.ceres</groupId>
-            <artifactId>ceres-core</artifactId>
+            <groupId>org.esa.snap</groupId>
+            <artifactId>snap-ceres-core</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.bc.ceres</groupId>
-            <artifactId>ceres-jai</artifactId>
+            <groupId>org.esa.snap</groupId>
+            <artifactId>snap-jai</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>org.esa.beam.smos</groupId>
-            <artifactId>smos-dgg</artifactId>
+            <groupId>org.esa.smostbx</groupId>
+            <artifactId>smostbx-dgg</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.esa.beam.smos</groupId>
-            <artifactId>smos-lsmask</artifactId>
+            <groupId>org.esa.smostbx</groupId>
+            <artifactId>smostbx-lsmask</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.esa.beam.smos</groupId>
-            <artifactId>smos-tools</artifactId>
+            <groupId>org.esa.smostbx</groupId>
+            <artifactId>smostbx-tools</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.esa.beam.smos</groupId>
-            <artifactId>smos-tools</artifactId>
+            <groupId>org.esa.smostbx</groupId>
+            <artifactId>smostbx-tools</artifactId>
             <type>test-jar</type>
             <scope>test</scope>
         </dependency>
@@ -64,26 +64,26 @@
         </dependency>
 
         <dependency>
-            <groupId>org.esa.beam</groupId>
-            <artifactId>beam-binning</artifactId>
+            <groupId>org.esa.snap</groupId>
+            <artifactId>snap-binning</artifactId>
             <exclusions>
                 <exclusion>
-                    <groupId>org.esa.beam</groupId>
-                    <artifactId>beam-ui</artifactId>
+                    <groupId>org.esa.snap</groupId>
+                    <artifactId>snap-ui</artifactId>
                 </exclusion>
                 <exclusion>
-                    <groupId>org.esa.beam</groupId>
-                    <artifactId>beam-gpf</artifactId>
+                    <groupId>org.esa.snap</groupId>
+                    <artifactId>snap-gpf</artifactId>
                 </exclusion>
                 <exclusion>
-                    <groupId>org.esa.beam</groupId>
-                    <artifactId>beam-visat-rcp</artifactId>
+                    <groupId>org.esa.snap</groupId>
+                    <artifactId>snap-visat-rcp</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
         <dependency>
-            <groupId>org.esa.beam</groupId>
-            <artifactId>beam-netcdf</artifactId>
+            <groupId>org.esa.snap</groupId>
+            <artifactId>snap-netcdf</artifactId>
         </dependency>
 
         <dependency>

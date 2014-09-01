@@ -1,7 +1,7 @@
 <module>
     <manifestVersion>1.0.0</manifestVersion>
-    <symbolicName>smos-reader</symbolicName>
-    <version>3.0</version>
+    <symbolicName>smostbx-reader</symbolicName>
+    <version>0.5.0</version>
     <name>SMOS Product Reader</name>
     <description>
         The SMOS Product Reader provides the capability of reading data
@@ -24,31 +24,31 @@
     </changelog>
 
     <dependency>
-        <module>ceres-binio</module>
+        <module>snap-binio</module>
     </dependency>
     <dependency>
-        <module>ceres-jai</module>
+        <module>snap-jai</module>
     </dependency>
     <dependency>
-        <module>beam-core</module>
+        <module>snap-core</module>
     </dependency>
     <dependency>
-        <module>beam-visat-rcp</module>
+        <module>snap-visat-rcp</module>
         <optional>true</optional>
     </dependency>
     <dependency>
-        <module>smos-dgg</module>
+        <module>smostbx-dgg</module>
     </dependency>
     <dependency>
-        <module>smos-lsmask</module>
+        <module>smostbx-lsmask</module>
     </dependency>
     <dependency>
-        <module>smos-tools</module>
+        <module>smostbx-tools</module>
     </dependency>
 
     <categories>Reader,SMOS</categories>
 
-    <extension point="beam-ui:actions">
+    <extension point="snap-ui:actions">
         <action>
             <class>org.esa.beam.visat.actions.ProductImportAction</class>
             <id>importSmosProductDataBlockFile</id>

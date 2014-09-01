@@ -1,9 +1,9 @@
 <module>
     <manifestVersion>1.0.0</manifestVersion>
 
-    <symbolicName>smos-dgg</symbolicName>
+    <symbolicName>smostbx-dgg</symbolicName>
     <name>SMOS Discrete Global Grid</name>
-    <version>3.0</version>
+    <version>0.5.0</version>
     <description>
         This module provides the mapping between the SMOS Discrete Global
         Grid and VISAT image pixels.
@@ -21,10 +21,10 @@
     <categories>SMOS</categories>
 
     <dependency>
-        <module>ceres-glayer</module>
+        <module>snap-glayer</module>
     </dependency>
     <dependency>
-        <module>beam-core</module>
+        <module>snap-core</module>
     </dependency>
     
 </module>

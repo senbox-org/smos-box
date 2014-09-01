@@ -1,9 +1,9 @@
 <module>
     <manifestVersion>1.0.0</manifestVersion>
 
-    <symbolicName>smos-ee2netcdf</symbolicName>
+    <symbolicName>smostbx-ee2netcdf</symbolicName>
     <name>SMOS EarthExplorer to NetCDF converter</name>
-    <version>3.0</version>
+    <version>0.5.0</version>
 
     <description>
         This module facilitates converting SMOS product files from
@@ -22,25 +22,25 @@
     <licenseUrl>http://www.gnu.org/licenses/gpl.html</licenseUrl>
 
     <dependency>
-        <module>beam-gpf</module>
+        <module>snap-gpf</module>
     </dependency>
     <dependency>
-        <module>beam-netcdf</module>
+        <module>snap-netcdf</module>
     </dependency>
     <dependency>
-        <module>smos-reader</module>
+        <module>smostbx-reader</module>
     </dependency>
     <dependency>
-        <module>smos-tools</module>
+        <module>smostbx-tools</module>
     </dependency>
     <dependency>
-        <module>smos-gui</module>
+        <module>smostbx-gui</module>
     </dependency>
 
 
     <categories>Processor,SMOS,Data Conversion</categories>
 
-    <extension point="beam-ui:actions">
+    <extension point="snap-ui:actions">
         <action>
             <id>smosEE2NetCDFExport</id>
             <class>org.esa.beam.smos.ee2netcdf.visat.EEToNetCDFExportAction</class>
