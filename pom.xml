@@ -140,11 +140,6 @@
                 <artifactId>blue-marble-worldmap</artifactId>
                 <version>${snap.version}</version>
             </dependency>
-            <dependency>
-                <groupId>org.esa.snap</groupId>
-                <artifactId>snap-visat</artifactId>
-                <version>${snap.version}</version>
-            </dependency>
 
             <!-- SMOS Libraries ############################################# -->
 

@@ -25,7 +25,7 @@
         <module>blue-marble-worldmap</module>
     </dependency>
     <dependency>
-        <module>snap-visat</module>
+        <module>snap-visat-rcp</module>
     </dependency>
     <dependency>
         <module>smostbx-reader</module>
