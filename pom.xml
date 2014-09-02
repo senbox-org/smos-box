@@ -306,7 +306,6 @@
                     <descriptors>
                         <descriptor>src/main/assembly/bin.xml</descriptor>
                         <descriptor>src/main/assembly/project.xml</descriptor>
-                        <!--<descriptor>src/main/assembly/eeToNetCDF.xml</descriptor>-->
                     </descriptors>
                     <finalName>smos-box</finalName>
                 </configuration>
