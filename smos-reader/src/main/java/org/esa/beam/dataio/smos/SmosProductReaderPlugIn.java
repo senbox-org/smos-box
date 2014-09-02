@@ -70,8 +70,8 @@ public class SmosProductReaderPlugIn implements ProductReaderPlugIn {
             }
         } else if (SmosUtils.isCompressedFile(file)) {
             if (SmosUtils.isL1cType(fileName) ||
-                SmosUtils.isL2Type(fileName) ||
-                SmosUtils.isAuxECMWFType(fileName)) {
+                    SmosUtils.isL2Type(fileName) ||
+                    SmosUtils.isAuxECMWFType(fileName)) {
                 return DecodeQualification.INTENDED;
             } else {
                 ZipFile zipFile = null;
@@ -87,7 +87,7 @@ public class SmosProductReaderPlugIn implements ProductReaderPlugIn {
                     }
                     if (!entries.hasMoreElements()) {
                         if ((name1.endsWith(".HDR") && name2.endsWith(".DBL")) ||
-                            (name1.endsWith(".DBL") && name2.endsWith(".HDR"))) {
+                                (name1.endsWith(".DBL") && name2.endsWith(".HDR"))) {
                             return DecodeQualification.SUITABLE;
                         }
                     }

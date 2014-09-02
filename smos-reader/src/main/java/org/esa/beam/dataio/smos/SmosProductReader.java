@@ -31,6 +31,8 @@ import org.esa.beam.smos.EEFilePair;
 import org.esa.beam.smos.SmosUtils;
 import org.esa.beam.smos.lsmask.SmosLsMask;
 import org.esa.beam.util.io.FileUtils;
+import ucar.nc2.NetcdfFile;
+import ucar.nc2.iosp.bufr.BufrIosp;
 
 import java.awt.Rectangle;
 import java.awt.image.Raster;
@@ -42,6 +44,8 @@ import java.text.MessageFormat;
 public class SmosProductReader extends AbstractProductReader {
 
     private static final String LSMASK_SCHEMA_NAME = "DBL_SM_XXXX_AUX_LSMASK_0200";
+
+    private static boolean isIOSPInjected = false;
 
     private ProductFile productFile;
     private VirtualDir virtualDir;
@@ -220,6 +224,7 @@ public class SmosProductReader extends AbstractProductReader {
 
     private static ProductFile createProductFileImplementation(File file) throws IOException {
         if (SmosUtils.isLightBufrTypeSupported() && SmosUtils.isLightBufrType(file.getName())) {
+            ensureNetcdfBufrSupport();
             return new LightBufrFile(file);
         }
 
@@ -262,5 +267,18 @@ public class SmosProductReader extends AbstractProductReader {
         }
 
         return null;
+    }
+
+    private static void ensureNetcdfBufrSupport() throws IOException {
+        if (!isIOSPInjected) {
+            if (SmosUtils.isLightBufrTypeSupported()) {
+                try {
+                    NetcdfFile.registerIOProvider(BufrIosp.class);
+                } catch (IllegalAccessException | InstantiationException e) {
+                    throw new IOException(e.getMessage());
+                }
+            }
+            isIOSPInjected = true;
+        }
     }
 }
