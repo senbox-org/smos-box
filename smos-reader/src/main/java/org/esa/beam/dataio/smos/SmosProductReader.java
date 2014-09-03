@@ -105,9 +105,8 @@ public class SmosProductReader extends AbstractProductReader {
         synchronized (this) {
             final File inputFile = getInputFile();
             final String inputFileName = inputFile.getName();
-            if (SmosUtils.isDblFileName(
-                    inputFileName) || (SmosUtils.isLightBufrTypeSupported() && SmosUtils.isLightBufrType(
-                    inputFileName))) {
+            if (SmosUtils.isDblFileName(inputFileName) ||
+                    (SmosUtils.isLightBufrTypeSupported() && SmosUtils.isLightBufrType(inputFileName))) {
                 productFile = createProductFile(inputFile);
             } else {
                 productFile = createProductFile(getInputVirtualDir());
