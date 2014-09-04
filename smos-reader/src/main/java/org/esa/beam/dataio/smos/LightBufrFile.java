@@ -12,6 +12,7 @@ import org.esa.beam.dataio.smos.dddb.BandDescriptor;
 import org.esa.beam.dataio.smos.dddb.Dddb;
 import org.esa.beam.dataio.smos.dddb.Family;
 import org.esa.beam.framework.datamodel.Band;
+import org.esa.beam.framework.datamodel.MetadataElement;
 import org.esa.beam.framework.datamodel.Product;
 import org.esa.beam.framework.datamodel.ProductData;
 import org.esa.beam.jai.ResolutionLevel;
@@ -108,21 +109,24 @@ class LightBufrFile implements ProductFile {
     @Override
     public Product createProduct() throws IOException {
         final String productName = FileUtils.getFilenameWithoutExtension(getDataFile());
-        final String productType = "W_ES-ESA-ESAC,SMOS,N256";
+        final String productType = "SMOS_BUFR_LIGHT";
         final Dimension dimension = ProductHelper.getSceneRasterDimension();
         final Product product = new Product(productName, productType, dimension.width, dimension.height);
 
         product.setFileLocation(getDataFile());
         product.setPreferredTileSize(512, 512);
-        final List<Attribute> globalAttributes = ncfile.getGlobalAttributes();
-        product.getMetadataRoot().addElement(
-                MetadataUtils.readAttributeList(globalAttributes, "Global_Attributes"));
-        final Sequence sequence = getObservationSequence();
-        final List<Variable> variables = sequence.getVariables();
-        product.getMetadataRoot().addElement(
-                MetadataUtils.readVariableDescriptions(variables, "Variable_Attributes", 100));
-        product.setGeoCoding(ProductHelper.createGeoCoding(dimension));
 
+        final MetadataElement metadataRoot = product.getMetadataRoot();
+        final List<Attribute> globalAttributeList = ncfile.getGlobalAttributes();
+        final MetadataElement globalAttributeMeta = MetadataUtils.readAttributeList(globalAttributeList, "Global_Attributes");
+        metadataRoot.addElement(globalAttributeMeta);
+
+        final Sequence sequence = getObservationSequence();
+        final List<Variable> variableList = sequence.getVariables();
+        final MetadataElement variableAttributeMeta = MetadataUtils.readVariableDescriptions(variableList, "Variable_Attributes", 100);
+        metadataRoot.addElement(variableAttributeMeta);
+
+        product.setGeoCoding(ProductHelper.createGeoCoding(dimension));
 
         addBands(product);
         setTimes(product);
@@ -197,7 +201,9 @@ class LightBufrFile implements ProductFile {
     }
 
     private void setTimes(Product product) {
-        // TODO - implement
+        // @todo 2 tb/**
+        // the current version of NetCDF 4.3.22 seems to have a bug concerniung access to scalar variables. Therefore it is not
+        // possible to extract the sensing times from the variables :-( tb 2014-09-04
     }
 
     private MultiLevelImage createSourceImage(final Band band, final CellValueProvider valueProvider) {
