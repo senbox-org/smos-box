@@ -16,27 +16,24 @@
 
 package org.esa.beam.dataio.smos;
 
+import org.esa.beam.dataio.smos.bufr.SmosBufrReader;
+import org.esa.beam.dataio.smos.bufr.SmosBufrReaderPlugin;
+import org.esa.beam.framework.datamodel.Product;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-import ucar.ma2.Array;
-import ucar.ma2.DataType;
-import ucar.ma2.InvalidRangeException;
-import ucar.ma2.StructureData;
-import ucar.ma2.StructureDataIterator;
-import ucar.ma2.StructureMembers;
+import ucar.ma2.*;
 import ucar.nc2.Attribute;
 import ucar.nc2.NetcdfFile;
 import ucar.nc2.Sequence;
 import ucar.nc2.Variable;
 import ucar.nc2.iosp.bufr.BufrIosp;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 /**
  * Tests for trying out reading SMOS BUFR formatted files obtained from 'ideas-nas.eo.esa.int'.
@@ -151,6 +148,44 @@ public class BufrTest {
             final Array brightnessTemperatureRealPartData = structureData.getArray("Brightness_temperature_real_part");
             assertNotNull(brightnessTemperatureRealPartData);
             assertEquals(1, brightnessTemperatureRealPartData.getSize());
+        }
+    }
+
+    @Test
+    public void testBufrLightReader() throws IOException {
+        final String pathToFile = "/usr/local/data/SMOS/W_ES-ESA-ESAC,SMOS,N256_C_LEMM_20131028030552_20131028003256_20131028020943_bufr_v505.bin";
+        final File bufrProductFile = new File(pathToFile);
+        assertTrue(bufrProductFile.isFile());
+
+        final SmosProductReaderPlugIn readerPlugIn = new SmosProductReaderPlugIn();
+        final SmosProductReader smosProductReader = readerPlugIn.createReaderInstance();
+        final Product product = smosProductReader.readProductNodes(bufrProductFile, null);
+
+        try {
+
+        } finally {
+            if (product != null) {
+                product.dispose();
+            }
+        }
+    }
+
+    @Test
+    public void testBufrLightReader_newImplementation() throws IOException {
+        final String pathToFile = "/usr/local/data/SMOS/W_ES-ESA-ESAC,SMOS,N256_C_LEMM_20131028044206_20131028020942_20131028034943_bufr_v505.bin";
+        final File bufrProductFile = new File(pathToFile);
+        assertTrue(bufrProductFile.isFile());
+
+        final SmosBufrReaderPlugin readerPlugin = new SmosBufrReaderPlugin();
+        final SmosBufrReader bufrReader = (SmosBufrReader) readerPlugin.createReaderInstance();
+        final Product product = bufrReader.readProductNodes(bufrProductFile, null);
+
+        try {
+
+        } finally {
+            if (product != null) {
+                product.dispose();
+            }
         }
     }
 }

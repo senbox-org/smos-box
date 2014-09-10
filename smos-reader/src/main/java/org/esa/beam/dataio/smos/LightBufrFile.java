@@ -24,18 +24,14 @@ import ucar.nc2.NetcdfFile;
 import ucar.nc2.Sequence;
 import ucar.nc2.Variable;
 
-import java.awt.Dimension;
+import java.awt.*;
 import java.awt.geom.Area;
 import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.IOException;
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * @author Ralf Quast
@@ -86,7 +82,7 @@ class LightBufrFile implements ProductFile {
                 final double lat = latAccessor.getDouble(i);
                 final long cellIndex = grid.getCellIndex(lon, lat);
                 if (!indexMap.containsKey(cellIndex)) {
-                    indexMap.put(cellIndex, new ArrayList<Integer>(50));
+                    indexMap.put(cellIndex, new ArrayList<>(50));
                 }
                 indexMap.get(cellIndex).add(i);
             }
@@ -162,7 +158,7 @@ class LightBufrFile implements ProductFile {
     }
 
     private void addBand(Product product, Variable variable, int dataType, BandDescriptor descriptor) throws
-                                                                                                      IOException {
+            IOException {
         if (!descriptor.isVisible()) {
             return;
         }
@@ -192,7 +188,7 @@ class LightBufrFile implements ProductFile {
         }
         if (descriptor.getFlagDescriptors() != null) {
             ProductHelper.addFlagsAndMasks(product, band, descriptor.getFlagCodingName(),
-                                           descriptor.getFlagDescriptors());
+                    descriptor.getFlagDescriptors());
         }
 
         final CellValueProvider valueProvider = createCellValueProvider(variable, descriptor.getPolarization());
@@ -202,7 +198,7 @@ class LightBufrFile implements ProductFile {
 
     private void setTimes(Product product) {
         // @todo 2 tb/**
-        // the current version of NetCDF 4.3.22 seems to have a bug concerniung access to scalar variables. Therefore it is not
+        // the current version of NetCDF 4.3.22 seems to have a bug concerning access to scalar variables. Therefore it is not
         // possible to extract the sensing times from the variables :-( tb 2014-09-04
     }
 
@@ -266,15 +262,6 @@ class LightBufrFile implements ProductFile {
             this.cellValueAccumulator = cellValueAccumulator;
             snapshotId = -1;
         }
-
-        public final long getSnapshotId() { // TODO: why is this not synchronized?
-            return snapshotId;
-        }
-
-        public final void setSnapshotId(long snapshotId) { // TODO: why is this not synchronized?
-            this.snapshotId = snapshotId;
-        }
-
 
         private Array getArray() throws IOException {
             if (array == null) {
@@ -379,8 +366,8 @@ class LightBufrFile implements ProductFile {
                         if (polFlagsAccessor.isValid(index)) {
                             final int polFlags = polFlagsAccessor.getInt(index);
                             if (polarization == 4 || // for flags (they do not depend on polarisation)
-                                polarization == (polFlags & 1) || // for x or y polarisation (dual pol)
-                                (polarization & polFlags & 2) != 0) { // for xy polarisation (full pol, real and imaginary)
+                                    polarization == (polFlags & 1) || // for x or y polarisation (dual pol)
+                                    (polarization & polFlags & 2) != 0) { // for xy polarisation (full pol, real and imaginary)
                                 return (Number) getArray().getObject(index);
                             }
                         }

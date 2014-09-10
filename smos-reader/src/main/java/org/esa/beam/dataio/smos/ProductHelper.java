@@ -54,7 +54,7 @@ import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.Random;
 
-class ProductHelper {
+public class ProductHelper {
 
     private ProductHelper() {
     }
@@ -122,7 +122,7 @@ class ProductHelper {
         }
     }
 
-    static Dimension getSceneRasterDimension() {
+    public static Dimension getSceneRasterDimension() {
         final MultiLevelImage dggMultiLevelImage = SmosDgg.getInstance().getMultiLevelImage();
         final int w = dggMultiLevelImage.getWidth();
         final int h = dggMultiLevelImage.getHeight();
