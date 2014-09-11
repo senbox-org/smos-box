@@ -21,12 +21,14 @@ import java.io.File;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class SmosBufrReader extends AbstractProductReader {
 
     private NetcdfFile ncfile;
     private ArrayList<Observation> observations;
+    private HashMap<Integer, ArrayList<Observation>> snapshotMap;
 
     SmosBufrReader(SmosBufrReaderPlugin smosBufrReaderPlugin) {
         super(smosBufrReaderPlugin);
@@ -43,6 +45,7 @@ public class SmosBufrReader extends AbstractProductReader {
         extractMetaData(product);
 
         observations = new ArrayList<>();
+        snapshotMap = new HashMap<>();
         final Sequence observationSequence = getObservationSequence();
         final StructureDataIterator structureIterator = observationSequence.getStructureIterator();
         while (structureIterator.hasNext()) {
@@ -61,6 +64,26 @@ public class SmosBufrReader extends AbstractProductReader {
             observation.pixel_rad_acc = next.getScalarShort("Pixel_radiometric_accuracy");
             observation.smos_info_flag = next.getScalarShort("SMOS_information_flag");
             observation.water_fraction = next.getScalarShort("Water_fraction");
+
+            final int snapshot_id = next.getScalarInt("Snapshot_identifier");
+            ArrayList<Observation> snapshotObservations = snapshotMap.get(snapshot_id);
+            if (snapshotObservations == null) {
+                snapshotObservations = new ArrayList<>();
+                snapshotMap.put(snapshot_id, snapshotObservations);
+            }
+            snapshotObservations.add(observation);
+
+//            final int gridpoint_id = next.getScalarInt("Grid_point_identifier");
+//            final short number_of_grid_points = next.getScalarShort("Number_of_grid_points");
+
+            final int longitude_high_accuracy = next.getScalarInt("Longitude_high_accuracy");
+            final float lon = longitude_high_accuracy * 1.0e-5f - 180.f;
+
+            final int latitude_high_accuracy = next.getScalarInt("Latitude_high_accuracy");
+            final float lat = latitude_high_accuracy * 1.0e-5f - 90.f;
+//            System.out.println("lon/lat = " + lon + " " + lat);
+            //System.out.println("snap = " + snapshot_id + ", grid = " + gridpoint_id + ", num = " + number_of_grid_points);
+
 
             observations.add(observation);
         }
@@ -94,6 +117,8 @@ public class SmosBufrReader extends AbstractProductReader {
 
         product.setFileLocation(new File(ncfile.getLocation()));
         product.setPreferredTileSize(512, 512);
+
+        product.setGeoCoding(ProductHelper.createGeoCoding(dimension));
 
         return product;
     }

@@ -113,7 +113,7 @@ public class ProductHelper {
     }
 
 
-    static GeoCoding createGeoCoding(Dimension dimension) {
+    public static GeoCoding createGeoCoding(Dimension dimension) {
         final AffineTransform transform = SmosDgg.getInstance().getImageToMapTransform();
         try {
             return new CrsGeoCoding(DefaultGeographicCRS.WGS84, new Rectangle(dimension), transform);
