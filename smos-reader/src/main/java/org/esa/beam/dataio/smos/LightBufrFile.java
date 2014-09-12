@@ -74,7 +74,6 @@ class LightBufrFile implements ProductFile {
         final PointList pointList = createPointList(lonAccessor, latAccessor);
         area = DggUtils.computeArea(pointList);
 
-
         indexMap = new HashMap<>(pointList.getElementCount());
         for (int i = 0; i < elementCount; i++) {
             if (lonAccessor.isValid(i) && latAccessor.isValid(i)) {
@@ -375,19 +374,6 @@ class LightBufrFile implements ProductFile {
                 }
             }
             return noDataValue;
-        }
-    }
-
-    private static final class Grid {
-
-        private final PlanetaryGrid grid;
-
-        public Grid(PlanetaryGrid grid) {
-            this.grid = grid;
-        }
-
-        public int getCellIndex(double lon, double lat) {
-            return (int) grid.getBinIndex(lat, lon);
         }
     }
 

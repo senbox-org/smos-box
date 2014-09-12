@@ -173,7 +173,7 @@ public class BufrTest {
 
     @Test
     public void testBufrLightReader_newImplementation() throws IOException {
-        final String pathToFile = "/usr/local/data/SMOS/W_ES-ESA-ESAC,SMOS,N256_C_LEMM_20131028030552_20131028003256_20131028020943_bufr_v505.bin";
+        final String pathToFile = "C:\\Data\\SMOS\\SMOS_BUFR_LIGHT\\W_ES-ESA-ESAC,SMOS,N256_C_LEMM_20131028044206_20131028020942_20131028034943_bufr_v505.bin";
         final File bufrProductFile = new File(pathToFile);
         assertTrue(bufrProductFile.isFile());
 

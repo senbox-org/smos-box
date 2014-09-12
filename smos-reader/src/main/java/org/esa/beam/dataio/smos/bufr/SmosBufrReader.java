@@ -1,7 +1,9 @@
 package org.esa.beam.dataio.smos.bufr;
 
 import com.bc.ceres.core.ProgressMonitor;
+import org.esa.beam.binning.support.ReducedGaussianGrid;
 import org.esa.beam.dataio.netcdf.util.MetadataUtils;
+import org.esa.beam.dataio.smos.Grid;
 import org.esa.beam.dataio.smos.ProductHelper;
 import org.esa.beam.framework.dataio.AbstractProductReader;
 import org.esa.beam.framework.datamodel.Band;
@@ -29,6 +31,8 @@ public class SmosBufrReader extends AbstractProductReader {
     private NetcdfFile ncfile;
     private ArrayList<Observation> observations;
     private HashMap<Integer, ArrayList<Observation>> snapshotMap;
+    private HashMap<Integer, ArrayList<Observation>> gridPointMap;
+    private Grid grid;
 
     SmosBufrReader(SmosBufrReaderPlugin smosBufrReaderPlugin) {
         super(smosBufrReaderPlugin);
@@ -39,6 +43,7 @@ public class SmosBufrReader extends AbstractProductReader {
     protected Product readProductNodesImpl() throws IOException {
         final File inputFile = getInputFile();
         ncfile = NetcdfFile.open(inputFile.getPath());
+        grid = new Grid(new ReducedGaussianGrid(512));
 
         final Product product = createProduct(inputFile);
 
@@ -46,6 +51,7 @@ public class SmosBufrReader extends AbstractProductReader {
 
         observations = new ArrayList<>();
         snapshotMap = new HashMap<>();
+        gridPointMap = new HashMap<>();
         final Sequence observationSequence = getObservationSequence();
         final StructureDataIterator structureIterator = observationSequence.getStructureIterator();
         while (structureIterator.hasNext()) {
@@ -66,29 +72,46 @@ public class SmosBufrReader extends AbstractProductReader {
             observation.water_fraction = next.getScalarShort("Water_fraction");
 
             final int snapshot_id = next.getScalarInt("Snapshot_identifier");
-            ArrayList<Observation> snapshotObservations = snapshotMap.get(snapshot_id);
-            if (snapshotObservations == null) {
-                snapshotObservations = new ArrayList<>();
-                snapshotMap.put(snapshot_id, snapshotObservations);
-            }
-            snapshotObservations.add(observation);
+            addObservationToSnapshots(observation, snapshot_id);
 
-//            final int gridpoint_id = next.getScalarInt("Grid_point_identifier");
-//            final short number_of_grid_points = next.getScalarShort("Number_of_grid_points");
+            final int gridpoint_id = next.getScalarInt("Grid_point_identifier");
+            final short number_of_grid_points = next.getScalarShort("Number_of_grid_points");
 
+            // @todo 1 tb/tb scale factors from netcdf variables
             final int longitude_high_accuracy = next.getScalarInt("Longitude_high_accuracy");
             final float lon = longitude_high_accuracy * 1.0e-5f - 180.f;
 
             final int latitude_high_accuracy = next.getScalarInt("Latitude_high_accuracy");
             final float lat = latitude_high_accuracy * 1.0e-5f - 90.f;
+
+            final int grid_point_index = grid.getCellIndex(lon, lat);
+            addObservationToGridPoints(observation, grid_point_index);
 //            System.out.println("lon/lat = " + lon + " " + lat);
-            //System.out.println("snap = " + snapshot_id + ", grid = " + gridpoint_id + ", num = " + number_of_grid_points);
+//            System.out.println("snap = " + snapshot_id + ", grid = " + gridpoint_id + ", num = " + number_of_grid_points);
 
 
             observations.add(observation);
         }
 
         return product;
+    }
+
+    private void addObservationToGridPoints(Observation observation, int grid_point_index) {
+        ArrayList<Observation> gridPointObservations = gridPointMap.get(grid_point_index);
+        if (gridPointObservations == null) {
+            gridPointObservations = new ArrayList<>();
+            gridPointMap.put(grid_point_index, gridPointObservations);
+        }
+        gridPointObservations.add(observation);
+    }
+
+    private void addObservationToSnapshots(Observation observation, int snapshot_id) {
+        ArrayList<Observation> snapshotObservations = snapshotMap.get(snapshot_id);
+        if (snapshotObservations == null) {
+            snapshotObservations = new ArrayList<>();
+            snapshotMap.put(snapshot_id, snapshotObservations);
+        }
+        snapshotObservations.add(observation);
     }
 
     @Override
@@ -103,6 +126,11 @@ public class SmosBufrReader extends AbstractProductReader {
 
     @Override
     public void close() throws IOException {
+        // just to make sure the garbage collector is not confused by this multiple referenced maps
+        gridPointMap.clear();
+        snapshotMap.clear();
+        observations.clear();
+
         if (ncfile != null) {
             ncfile.close();
             ncfile = null;
@@ -111,7 +139,7 @@ public class SmosBufrReader extends AbstractProductReader {
 
     private Product createProduct(File inputFile) {
         final String productName = FileUtils.getFilenameWithoutExtension(inputFile);
-        final String productType = "W_ES-ESA-ESAC,SMOS,N256";
+        final String productType = "SMOS.MIRAS.NRT_BUFR_Light";
         final Dimension dimension = ProductHelper.getSceneRasterDimension();
         final Product product = new Product(productName, productType, dimension.width, dimension.height);
 
@@ -140,6 +168,7 @@ public class SmosBufrReader extends AbstractProductReader {
         return (Sequence) ncfile.findVariable("obs");
     }
 
+    // @todo 2 tb/tb duplicated code - is copied from old BUFR lightreader tb 2014-09-12
     private void extractMetaData(Product product) {
         final List<Attribute> globalAttributes = ncfile.getGlobalAttributes();
         final MetadataElement metadataRoot = product.getMetadataRoot();
@@ -150,6 +179,7 @@ public class SmosBufrReader extends AbstractProductReader {
     }
 
     private class Observation {
+        // @todo 1 tb/tb implement class that is configured by DDDB tb 2014-09-12
         short bt_real;
         short bt_imag;
         short pixel_rad_acc;
