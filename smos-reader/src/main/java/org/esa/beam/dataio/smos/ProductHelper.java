@@ -242,7 +242,7 @@ public class ProductHelper {
         }
     }
 
-    static void addFlagsAndMasks(Product product, Band band,
+    public static void addFlagsAndMasks(Product product, Band band,
                                  String flagCodingName, Family<FlagDescriptor> flagDescriptors) {
         FlagCoding flagCoding = product.getFlagCodingGroup().get(flagCodingName);
         if (flagCoding == null) {
