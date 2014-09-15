@@ -61,6 +61,15 @@ public class ProductHelper {
 
     static ImageInfo createImageInfo(Band band, BandDescriptor descriptor) {
         final Color[] colors;
+
+        if (descriptor.getBandName().equalsIgnoreCase("Soil_Moisture")) {
+            return createSoilMoistureImageInfo();
+        }
+
+        if (descriptor.getBandName().equalsIgnoreCase("Tau_Nad_FO")) {
+            return createTauNadImageInfo();
+        }
+
         if (descriptor.isCyclic()) {
             colors = new Color[]{
                     new Color(85, 0, 136),
@@ -108,6 +117,40 @@ public class ProductHelper {
             final double sample = min + ((max - min) * i / (colors.length - 1));
             points[i] = new ColorPaletteDef.Point(sample, colors[i]);
         }
+
+        return new ImageInfo(new ColorPaletteDef(points));
+    }
+
+    private static ImageInfo createSoilMoistureImageInfo() {
+        final ColorPaletteDef.Point[] points = new ColorPaletteDef.Point[5];
+        points[0] = new ColorPaletteDef.Point(0.000000, new Color(255,136,0));
+        points[1] = new ColorPaletteDef.Point(0.050000, new Color(237,190,0));
+        points[2] = new ColorPaletteDef.Point(0.100000, new Color(225,221,0));
+        points[3] = new ColorPaletteDef.Point(0.200000, new Color(106,193,0));
+        points[4] = new ColorPaletteDef.Point(1.000000, new Color(0,0,153));
+//        points[4] = new ColorPaletteDef.Point(0.498039, new Color(0,169,67));
+//        points[5] = new ColorPaletteDef.Point(0.623529, new Color(0,187,134));
+//        points[6] = new ColorPaletteDef.Point(0.749020, new Color(0,169,190));
+//        points[7] = new ColorPaletteDef.Point(0.874510, new Color(0,76,171));
+//        points[8] = new ColorPaletteDef.Point(1.000000, new Color(0,0,153));
+
+
+        return new ImageInfo(new ColorPaletteDef(points));
+    }
+
+    private static ImageInfo createTauNadImageInfo() {
+        final ColorPaletteDef.Point[] points = new ColorPaletteDef.Point[3];
+        points[0] = new ColorPaletteDef.Point(0.000000, new Color(213,255,135));
+        points[1] = new ColorPaletteDef.Point(0.150000, new Color(135,181,0));
+        points[2] = new ColorPaletteDef.Point(1.200000, new Color(0,45,0));
+//        points[2] = new ColorPaletteDef.Point(0.296471, new Color(118,164,0));
+//        points[3] = new ColorPaletteDef.Point(0.447059, new Color(98,144,0));
+//        points[4] = new ColorPaletteDef.Point(0.597647, new Color(78,124,0));
+//        points[5] = new ColorPaletteDef.Point(0.748235, new Color(59,104,0));
+//        points[6] = new ColorPaletteDef.Point(0.898824, new Color(39,84,0));
+//        points[7] = new ColorPaletteDef.Point(1.049412, new Color(19,64,0));
+//        points[8] = new ColorPaletteDef.Point(1.200000, new Color(0,45,0));
+
 
         return new ImageInfo(new ColorPaletteDef(points));
     }

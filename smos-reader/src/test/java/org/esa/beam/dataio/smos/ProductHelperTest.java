@@ -1,8 +1,7 @@
 package org.esa.beam.dataio.smos;
 
 import org.esa.beam.dataio.smos.dddb.BandDescriptor;
-import org.esa.beam.framework.datamodel.Band;
-import org.esa.beam.framework.datamodel.Product;
+import org.esa.beam.framework.datamodel.*;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -72,5 +71,33 @@ public class ProductHelperTest {
         final Band band = product.getBand(VIRTUAL_BAND_NAME);
         assertNotNull(band);
         assertTrue(band.isNoDataValueUsed());
+    }
+
+    @Test
+    public void testCreateImageInfo_SoilMoisture() {
+        when(bandDescriptor.getBandName()).thenReturn("Soil_Moisture");
+
+        final ImageInfo imageInfo = ProductHelper.createImageInfo(null, bandDescriptor);
+        assertNotNull(imageInfo);
+
+        final ColorPaletteDef colorPaletteDef = imageInfo.getColorPaletteDef();
+        final ColorPaletteDef.Point[] points = colorPaletteDef.getPoints();
+        assertEquals(5, points.length);
+
+        // @todo 2 tb/tb add more assertions when Raffaele sent full description tb 2014-10-15
+    }
+
+    @Test
+    public void testCreateImageInfo_TauNad() {
+        when(bandDescriptor.getBandName()).thenReturn("Tau_Nad_FO");
+
+        final ImageInfo imageInfo = ProductHelper.createImageInfo(null, bandDescriptor);
+        assertNotNull(imageInfo);
+
+        final ColorPaletteDef colorPaletteDef = imageInfo.getColorPaletteDef();
+        final ColorPaletteDef.Point[] points = colorPaletteDef.getPoints();
+        assertEquals(3, points.length);
+
+        // @todo 2 tb/tb add more assertions when Raffaele sent full description tb 2014-10-15
     }
 }
