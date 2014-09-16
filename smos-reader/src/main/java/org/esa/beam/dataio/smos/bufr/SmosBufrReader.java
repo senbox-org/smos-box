@@ -42,8 +42,35 @@ public class SmosBufrReader extends AbstractProductReader {
     private static final String ATTR_NAME_ADD_OFFSET = "add_offset";
     private static final String ATTR_NAME_SCALE_FACTOR = "scale_factor";
     private static final String ATTR_NAME_MISSING_VALUE = "missing_value";
+    private static final HashMap<String, Integer> datasetNameIndexMap;
 
+    private static final int BT_REAL_INDEX = 0;
+    private static final int BT_IMAG_INDEX = 1;
+    private static final int RADIOMETIRC_ACCURACY_INDEX = 2;
+    private static final int INCIDENCE_ANGLE_INDEX = 3;
+    private static final int AZIMUTH_ANGLE_INDEX = 4;
+    private static final int FARADAY_ANGLE_INDEX = 5;
+    private static final int GEOMETRIC_ANGLE_INDEX = 6;
+    private static final int FOOTPRINT_AXIS_1_INDEX = 7;
+    private static final int FOOTPRINT_AXIS_2_INDEX = 8;
+    private static final int WATER_FRACTION_INDEX = 9;
+    private static final int INFORMATION_FLAG_INDEX = 10;
     private static final int POLARISATION_INDEX = 11;
+
+    static {
+        datasetNameIndexMap = new HashMap<>();
+        datasetNameIndexMap.put("Brightness_temperature_real_part", BT_REAL_INDEX);
+        datasetNameIndexMap.put("Brightness_temperature_imaginary_part", BT_IMAG_INDEX);
+        datasetNameIndexMap.put("Pixel_radiometric_accuracy", RADIOMETIRC_ACCURACY_INDEX);
+        datasetNameIndexMap.put("Incidence_angle", INCIDENCE_ANGLE_INDEX);
+        datasetNameIndexMap.put("Azimuth_angle", AZIMUTH_ANGLE_INDEX);
+        datasetNameIndexMap.put("Faraday_rotational_angle", FARADAY_ANGLE_INDEX);
+        datasetNameIndexMap.put("Geometric_rotational_angle", GEOMETRIC_ANGLE_INDEX);
+        datasetNameIndexMap.put("Footprint_axis_1", FOOTPRINT_AXIS_1_INDEX);
+        datasetNameIndexMap.put("Footprint_axis_2", FOOTPRINT_AXIS_2_INDEX);
+        datasetNameIndexMap.put("Water_fraction", WATER_FRACTION_INDEX);
+        datasetNameIndexMap.put("SMOS_information_flag", INFORMATION_FLAG_INDEX);
+    }
 
     private NetcdfFile ncfile;
     private ArrayList<Observation> observations;
@@ -98,18 +125,18 @@ public class SmosBufrReader extends AbstractProductReader {
             final StructureData next = structureIterator.next();
 
             final Observation observation = new Observation();
-            observation.data[4] = next.getScalarInt("Azimuth_angle");
-            observation.data[1] = next.getScalarShort("Brightness_temperature_imaginary_part");
-            observation.data[0] = next.getScalarShort("Brightness_temperature_real_part");
-            observation.data[5] = next.getScalarInt("Faraday_rotational_angle");
-            observation.data[7] = next.getScalarShort("Footprint_axis_1");
-            observation.data[8]= next.getScalarShort("Footprint_axis_2");
-            observation.data[6] = next.getScalarInt("Geometric_rotational_angle");
-            observation.data[3] = next.getScalarInt("Incidence_angle");
-            observation.data[2] = next.getScalarShort("Pixel_radiometric_accuracy");
-            observation.data[10] = next.getScalarShort("SMOS_information_flag");
-            observation.data[9] = next.getScalarShort("Water_fraction");
-            observation.data[POLARISATION_INDEX]= next.getScalarByte("Polarisation");
+            observation.data[AZIMUTH_ANGLE_INDEX] = next.getScalarInt("Azimuth_angle");
+            observation.data[BT_IMAG_INDEX] = next.getScalarShort("Brightness_temperature_imaginary_part");
+            observation.data[BT_REAL_INDEX] = next.getScalarShort("Brightness_temperature_real_part");
+            observation.data[FARADAY_ANGLE_INDEX] = next.getScalarInt("Faraday_rotational_angle");
+            observation.data[FOOTPRINT_AXIS_1_INDEX] = next.getScalarShort("Footprint_axis_1");
+            observation.data[FOOTPRINT_AXIS_2_INDEX] = next.getScalarShort("Footprint_axis_2");
+            observation.data[GEOMETRIC_ANGLE_INDEX] = next.getScalarInt("Geometric_rotational_angle");
+            observation.data[INCIDENCE_ANGLE_INDEX] = next.getScalarInt("Incidence_angle");
+            observation.data[RADIOMETIRC_ACCURACY_INDEX] = next.getScalarShort("Pixel_radiometric_accuracy");
+            observation.data[INFORMATION_FLAG_INDEX] = next.getScalarShort("SMOS_information_flag");
+            observation.data[WATER_FRACTION_INDEX] = next.getScalarShort("Water_fraction");
+            observation.data[POLARISATION_INDEX] = next.getScalarByte("Polarisation");
 
             final int snapshot_id = next.getScalarInt("Snapshot_identifier");
             addObservationToSnapshots(observation, snapshot_id);
@@ -265,7 +292,9 @@ public class SmosBufrReader extends AbstractProductReader {
         if (descriptor.getFlagDescriptors() != null) {
             ProductHelper.addFlagsAndMasks(product, band, descriptor.getFlagCodingName(), descriptor.getFlagDescriptors());
         }
-        final CellValueProvider valueProvider = new FakeCelllValueProvider();
+
+        final Integer index = datasetNameIndexMap.get(descriptor.getMemberName());
+        final CellValueProvider valueProvider = new BufrCellValueProvider(index, descriptor.getPolarization());
         band.setSourceImage(createSourceImage(band, valueProvider));
         band.setImageInfo(ProductHelper.createImageInfo(band, descriptor));
     }
@@ -317,7 +346,16 @@ public class SmosBufrReader extends AbstractProductReader {
         // 11: polarisation;
     }
 
-    private class FakeCelllValueProvider implements CellValueProvider {
+    private class BufrCellValueProvider implements CellValueProvider {
+
+        private final int dataindex;
+        private final int polarisation;
+
+        private BufrCellValueProvider(int polarisation, int dataIndex) {
+            this.dataindex = dataIndex;
+            this.polarisation = polarisation;
+        }
+
         @Override
         public Area getArea() {
             return SmosBufrReader.this.area;
@@ -330,30 +368,38 @@ public class SmosBufrReader extends AbstractProductReader {
 
         @Override
         public byte getValue(long cellIndex, byte noDataValue) {
-            return 5;
+            return (byte) getData((int) cellIndex, noDataValue);
+        }
+
+
+        @Override
+        public int getValue(long cellIndex, int noDataValue) {
+            return getData((int) cellIndex, noDataValue);
         }
 
         @Override
         public short getValue(long cellIndex, short noDataValue) {
-            final ArrayList<Observation> cellObservations = gridPointMap.get((int)cellIndex);
+            return (short) getData((int) cellIndex, noDataValue);
+        }
+
+        @Override
+        public float getValue(long cellIndex, float noDataValue) {
+            throw new IllegalStateException("not implemented");
+        }
+
+        private int getData(int cellIndex, int noDataValue) {
+            final ArrayList<Observation> cellObservations = gridPointMap.get(cellIndex);
             if (cellObservations != null) {
+                // @todo 1 tb/tb use all cell observations tb 2014-10-15
                 final Observation observation = cellObservations.get(0);
-                if (observation.data[POLARISATION_INDEX] == 1) {
-                    return (short) observation.data[0];
+                if (observation.data[POLARISATION_INDEX] == polarisation || polarisation > 2) {
+                    return observation.data[dataindex];
                 }
             }
             return noDataValue;
         }
 
-        @Override
-        public int getValue(long cellIndex, int noDataValue) {
-            return 5;
-        }
 
-        @Override
-        public float getValue(long cellIndex, float noDataValue) {
-            return 5.f;
-        }
     }
 
     private static class ObservationPointList implements PointList {
