@@ -59,7 +59,7 @@ public class ProductHelper {
     private ProductHelper() {
     }
 
-    static ImageInfo createImageInfo(Band band, BandDescriptor descriptor) {
+    public static ImageInfo createImageInfo(Band band, BandDescriptor descriptor) {
         final Color[] colors;
 
         if (descriptor.getBandName().equalsIgnoreCase("Soil_Moisture")) {

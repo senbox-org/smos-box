@@ -35,7 +35,7 @@ import java.awt.image.Raster;
 import java.awt.image.WritableRaster;
 import java.util.Arrays;
 
-class CellGridOpImage extends SingleBandedOpImage {
+public class CellGridOpImage extends SingleBandedOpImage {
 
     private final CellValueProvider valueProvider;
     private final MultiLevelModel model;
@@ -44,7 +44,7 @@ class CellGridOpImage extends SingleBandedOpImage {
     private volatile Area area;
     private volatile NoDataRaster noDataRaster;
 
-    CellGridOpImage(CellValueProvider valueProvider, RasterDataNode rasterDataNode, MultiLevelModel model,
+    public CellGridOpImage(CellValueProvider valueProvider, RasterDataNode rasterDataNode, MultiLevelModel model,
                     ResolutionLevel level) {
         super(ImageManager.getDataBufferType(rasterDataNode.getDataType()),
               rasterDataNode.getSceneRasterWidth(),

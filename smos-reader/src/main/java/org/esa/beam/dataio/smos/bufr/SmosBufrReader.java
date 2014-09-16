@@ -1,11 +1,14 @@
 package org.esa.beam.dataio.smos.bufr;
 
 import com.bc.ceres.core.ProgressMonitor;
+import com.bc.ceres.glevel.MultiLevelImage;
+import com.bc.ceres.glevel.MultiLevelSource;
+import com.bc.ceres.glevel.support.AbstractMultiLevelSource;
+import com.bc.ceres.glevel.support.DefaultMultiLevelImage;
 import org.esa.beam.binning.support.ReducedGaussianGrid;
 import org.esa.beam.dataio.netcdf.util.DataTypeUtils;
 import org.esa.beam.dataio.netcdf.util.MetadataUtils;
-import org.esa.beam.dataio.smos.Grid;
-import org.esa.beam.dataio.smos.ProductHelper;
+import org.esa.beam.dataio.smos.*;
 import org.esa.beam.dataio.smos.dddb.BandDescriptor;
 import org.esa.beam.dataio.smos.dddb.Dddb;
 import org.esa.beam.dataio.smos.dddb.Family;
@@ -14,6 +17,8 @@ import org.esa.beam.framework.datamodel.Band;
 import org.esa.beam.framework.datamodel.MetadataElement;
 import org.esa.beam.framework.datamodel.Product;
 import org.esa.beam.framework.datamodel.ProductData;
+import org.esa.beam.jai.ResolutionLevel;
+import org.esa.beam.smos.dgg.SmosDgg;
 import org.esa.beam.util.io.FileUtils;
 import ucar.ma2.StructureData;
 import ucar.ma2.StructureDataIterator;
@@ -23,11 +28,13 @@ import ucar.nc2.Sequence;
 import ucar.nc2.Variable;
 
 import java.awt.*;
+import java.awt.geom.Area;
+import java.awt.image.Raster;
+import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.IOException;
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 import java.util.List;
 
 public class SmosBufrReader extends AbstractProductReader {
@@ -36,11 +43,14 @@ public class SmosBufrReader extends AbstractProductReader {
     private static final String ATTR_NAME_SCALE_FACTOR = "scale_factor";
     private static final String ATTR_NAME_MISSING_VALUE = "missing_value";
 
+    private static final int POLARISATION_INDEX = 11;
+
     private NetcdfFile ncfile;
     private ArrayList<Observation> observations;
     private HashMap<Integer, ArrayList<Observation>> snapshotMap;
     private HashMap<Integer, ArrayList<Observation>> gridPointMap;
     private Grid grid;
+    private Area area;
 
     SmosBufrReader(SmosBufrReaderPlugin smosBufrReaderPlugin) {
         super(smosBufrReaderPlugin);
@@ -57,9 +67,24 @@ public class SmosBufrReader extends AbstractProductReader {
 
         extractMetaData(product);
         readObservations();
+        calculateArea();
         addBands(product);
 
         return product;
+    }
+
+    private void calculateArea() throws IOException {
+        final ArrayList<Point> points = new ArrayList<>();
+        final Set<Map.Entry<Integer, ArrayList<Observation>>> entries = gridPointMap.entrySet();
+        for (Map.Entry<Integer, ArrayList<Observation>> next : entries) {
+            final ArrayList<Observation> value = next.getValue();
+            final Observation observation = value.get(0);
+
+            final Point point = new Point(observation.lon, observation.lat);
+            points.add(point);
+        }
+
+        area = DggUtils.computeArea(new ObservationPointList(points.toArray(new Point[points.size()])));
     }
 
     private void readObservations() throws IOException {
@@ -84,7 +109,7 @@ public class SmosBufrReader extends AbstractProductReader {
             observation.data[2] = next.getScalarShort("Pixel_radiometric_accuracy");
             observation.data[10] = next.getScalarShort("SMOS_information_flag");
             observation.data[9] = next.getScalarShort("Water_fraction");
-            observation.data[11]= next.getScalarByte("Polarisation");
+            observation.data[POLARISATION_INDEX]= next.getScalarByte("Polarisation");
 
             final int snapshot_id = next.getScalarInt("Snapshot_identifier");
             addObservationToSnapshots(observation, snapshot_id);
@@ -103,8 +128,6 @@ public class SmosBufrReader extends AbstractProductReader {
 
             final int grid_point_index = grid.getCellIndex(lon, lat);
             addObservationToGridPoints(observation, grid_point_index);
-//            System.out.println("lon/lat = " + lon + " " + lat);
-//            System.out.println("snap = " + snapshot_id + ", grid = " + gridpoint_id + ", num = " + number_of_grid_points);
 
             observations.add(observation);
         }
@@ -129,13 +152,13 @@ public class SmosBufrReader extends AbstractProductReader {
     }
 
     @Override
-    public void readBandRasterData(Band destBand, int destOffsetX, int destOffsetY, int destWidth, int destHeight, ProductData destBuffer, ProgressMonitor pm) throws IOException {
-
-    }
-
-    @Override
     protected void readBandRasterDataImpl(int sourceOffsetX, int sourceOffsetY, int sourceWidth, int sourceHeight, int sourceStepX, int sourceStepY, Band destBand, int destOffsetX, int destOffsetY, int destWidth, int destHeight, ProductData destBuffer, ProgressMonitor pm) throws IOException {
+        synchronized (this) {
+            final RenderedImage image = destBand.getSourceImage();
+            final Raster data = image.getData(new Rectangle(destOffsetX, destOffsetY, destWidth, destHeight));
 
+            data.getDataElements(destOffsetX, destOffsetY, destWidth, destHeight, destBuffer.getElems());
+        }
     }
 
     @Override
@@ -214,6 +237,7 @@ public class SmosBufrReader extends AbstractProductReader {
         if (!descriptor.isVisible()) {
             return;
         }
+
         final Band band = product.addBand(descriptor.getBandName(), dataType);
         final Attribute units = variable.findAttribute("units");
         if (units != null) {
@@ -241,10 +265,9 @@ public class SmosBufrReader extends AbstractProductReader {
         if (descriptor.getFlagDescriptors() != null) {
             ProductHelper.addFlagsAndMasks(product, band, descriptor.getFlagCodingName(), descriptor.getFlagDescriptors());
         }
-
-//        final CellValueProvider valueProvider = createCellValueProvider(variable, descriptor.getPolarization());
-//        band.setSourceImage(createSourceImage(band, valueProvider));
-//        band.setImageInfo(ProductHelper.createImageInfo(band, descriptor));
+        final CellValueProvider valueProvider = new FakeCelllValueProvider();
+        band.setSourceImage(createSourceImage(band, valueProvider));
+        band.setImageInfo(ProductHelper.createImageInfo(band, descriptor));
     }
 
     private static double getAttributeValue(Variable lonVariable, String attributeName, double defaultValue) {
@@ -253,6 +276,19 @@ public class SmosBufrReader extends AbstractProductReader {
             return defaultValue;
         }
         return attribute.getNumericValue().doubleValue();
+    }
+
+    private MultiLevelImage createSourceImage(final Band band, final CellValueProvider valueProvider) {
+        return new DefaultMultiLevelImage(createMultiLevelSource(band, valueProvider));
+    }
+
+    private MultiLevelSource createMultiLevelSource(final Band band, final CellValueProvider valueProvider) {
+        return new AbstractMultiLevelSource(SmosDgg.getInstance().getMultiLevelImage().getModel()) {
+            @Override
+            protected RenderedImage createImage(int level) {
+                return new CellGridOpImage(valueProvider, band, getModel(), ResolutionLevel.create(getModel(), level));
+            }
+        };
     }
 
 
@@ -279,5 +315,87 @@ public class SmosBufrReader extends AbstractProductReader {
         // 9: water_fraction;
         // 10: smos_info_flag;
         // 11: polarisation;
+    }
+
+    private class FakeCelllValueProvider implements CellValueProvider {
+        @Override
+        public Area getArea() {
+            return SmosBufrReader.this.area;
+        }
+
+        @Override
+        public long getCellIndex(double lon, double lat) {
+            return SmosBufrReader.this.grid.getCellIndex(lon, lat);
+        }
+
+        @Override
+        public byte getValue(long cellIndex, byte noDataValue) {
+            return 5;
+        }
+
+        @Override
+        public short getValue(long cellIndex, short noDataValue) {
+            final ArrayList<Observation> cellObservations = gridPointMap.get((int)cellIndex);
+            if (cellObservations != null) {
+                final Observation observation = cellObservations.get(0);
+                if (observation.data[POLARISATION_INDEX] == 1) {
+                    return (short) observation.data[0];
+                }
+            }
+            return noDataValue;
+        }
+
+        @Override
+        public int getValue(long cellIndex, int noDataValue) {
+            return 5;
+        }
+
+        @Override
+        public float getValue(long cellIndex, float noDataValue) {
+            return 5.f;
+        }
+    }
+
+    private static class ObservationPointList implements PointList {
+
+        private final Point[] points;
+
+        public ObservationPointList(Point[] points) {
+            this.points = points;
+        }
+
+        @Override
+        public int getElementCount() {
+            return points.length;
+        }
+
+        @Override
+        public double getLon(int i) throws IOException {
+            return points[i].getLon();
+        }
+
+        @Override
+        public double getLat(int i) throws IOException {
+            return points[i].getLat();
+        }
+    }
+
+    private static final class Point {
+
+        private final double lon;
+        private final double lat;
+
+        public Point(double lon, double lat) {
+            this.lon = lon;
+            this.lat = lat;
+        }
+
+        public double getLon() {
+            return lon;
+        }
+
+        public double getLat() {
+            return lat;
+        }
     }
 }
