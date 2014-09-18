@@ -30,7 +30,7 @@
 <table class="header">
     <tr class="header">
         <td class="header">&nbsp; File Format Updates</td>
-
+        <!-- @todo 2 tb/** adapt to s3tbx tb 2014-09-18 -->
         <td class="header" align="right"><a href="../../index.html"><img src="../images/BeamHeader.jpg"
                                                                          border="0"/></a></td>
     </tr>
@@ -40,7 +40,7 @@
 
 <p>
     The DDDB band descriptor file is used to define which data of the SMOS Data Block Structures is displayed as a
-    product band in BEAM.
+    product band in S-3 Toolbox.
     The band descriptor file is a line based text file (comma separated file) that is using the vertical-bar character (<i>
     &#124;</i>) as separator.
     A line beginning with a number-sign (<i>&#035; </i>) is treated as comment line. The file extension must be <i>.csv</i>.
@@ -57,14 +57,13 @@ The following table lists all properties that may be used to describe a band.
     <tr>
         <td>visible</td>
         <td>boolean</td>
-        <td>Should the band appear in the BEAM product tree (<i>true</i> or <i>false</i>). This property is currently
-            not supported
+        <td>Should the band appear in the S-3 Toolbox product tree (<i>true</i> or <i>false</i>).
         </td>
     </tr>
     <tr>
         <td>band</td>
         <td>string</td>
-        <td>Band name used in BEAM</td>
+        <td>Band name used in S-3 Toolbox</td>
     </tr>
     <tr>
         <td>dataset</td>
@@ -109,12 +108,12 @@ The following table lists all properties that may be used to describe a band.
     <tr>
         <td>fillValue</td>
         <td>double</td>
-        <td>Value indicating no-data in BEAM</td>
+        <td>Value indicating no-data in S-3 Toolbox</td>
     </tr>
     <tr>
         <td>validExpr</td>
         <td>string</td>
-        <td>Valid-pixel expression used in BEAM</td>
+        <td>Valid-pixel expression used in S-3 Toolbox</td>
     </tr>
     <tr>
         <td>unit</td>
@@ -124,7 +123,7 @@ The following table lists all properties that may be used to describe a band.
     <tr>
         <td>description</td>
         <td>string</td>
-        <td>Band description text displayed in VISAT</td>
+        <td>Band description text displayed in S-3 Toolbox</td>
     </tr>
     <tr>
         <td>flagCoding</td>
@@ -135,6 +134,16 @@ The following table lists all properties that may be used to describe a band.
         <td>flags</td>
         <td>string</td>
         <td>For flag bands only: the name of the flag descriptor resource</td>
+    </tr>
+    <tr>
+        <td>gridPointData</td>
+        <td>boolean</td>
+        <td>Is the data field member of a grid point structure (<i>true</i> or <i>false</i>).</td>
+    </tr>
+    <tr>
+        <td>dimensionNames</td>
+        <td>string</td>
+        <td>Blank separated list of dimension names used for NetCDF export</td>
     </tr>
 </table>
 
@@ -152,9 +161,9 @@ The following table lists all properties that may be used to describe a band.
     Below is an example of a band-properties file. This example is taken from the operational resources of the SMOS-Box:
 </p>
 <pre>
-    # visible | band       | dataset    | pol | sampleModel | scalingOffset | scalingFactor | typicaMin | typicalMax | cyclic | fillValue | validExpr | unit | decription                                   | flagCoding | flags
-         *    | SSS1       | SSS1       | *   | *           | *             | *             | 0.0       | 40.0       | *      | -999.0    | *         | psu  | Sea surface salinity using Roughness Model 1 | *          | *
-         *    | Sigma_SSS1 | Sigma_SSS1 | *   | *           | *             | *             | 0.1       | 1.5        | *      | -999.0    | *         | psu  | Theoretical uncertainty computed for SSS1    | *          | *
+    # visible | band       | dataset    | pol | sampleModel | scalingOffset | scalingFactor | typicaMin | typicalMax | cyclic | fillValue | validExpr | unit | decription                                   | flagCoding | flags | gridPointData | dimensionNames
+         *    | SSS1       | SSS1       | *   | *           | *             | *             | 0.0       | 40.0       | *      | -999.0    | *         | psu  | Sea surface salinity using Roughness Model 1 | *          | *     | true          | n_grid_points
+         *    | Sigma_SSS1 | Sigma_SSS1 | *   | *           | *             | *             | 0.1       | 1.5        | *      | -999.0    | *         | psu  | Theoretical uncertainty computed for SSS1    | *          | *     | true          | n_grid_points
 </pre>
 </body>
 </html>

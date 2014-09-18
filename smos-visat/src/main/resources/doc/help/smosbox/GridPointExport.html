@@ -1,5 +1,5 @@
 <!--
-  ~ Copyright (C) 2010 Brockmann Consult GmbH (info@brockmann-consult.de)
+  ~ Copyright (C) 2010-2014 Brockmann Consult GmbH (info@brockmann-consult.de)
   ~
   ~ This program is free software; you can redistribute it and/or modify it
   ~ under the terms of the GNU General Public License as published by the Free
@@ -31,6 +31,7 @@
     <tr class="header">
         <td class="header">&nbsp; SMOS Grid Point Export</td>
 
+        <!-- @todo 2 tb/** replace with s3tbx specific image tb 2014-09-18 -->
         <td class="header" align="right"><a href=
                 "../../index.html"><img src="../images/BeamHeader.jpg"
                                         border="0"/></a></td>
@@ -44,13 +45,13 @@
     formatted text file (where individual values are separated by
     a semicolon) or as Earth Explorer formatted subsets.</p>
 
-<h4>Grid Point Export in VISAT</h4>
+<h4>Grid Point Export in S-3 Toolbox</h4>
 
 <p><img src="images/GridPointExport.png" alt=
         "Grid Point Export"/></p>
 
 <p><b>Source Products:</b> Either the SMOS product selected in
-    VISAT, or all SMOS products residing in a directory of the file
+    S-3 Toolbox, or all SMOS products residing in a directory of the file
     system can be used for exporting. The search for SMOS products
     may optionally include subdirectories.</p>
 
@@ -61,7 +62,7 @@
     <li>A ROI defined by a geometry</li>
 
     <li>A ROI defined by the grid points under the pins of the SMOS
-        product selected in VISAT
+        product selected in S-3 Toolbox
     </li>
 
     <li>A ROI defined by a latitude-longitude box</li>
@@ -82,8 +83,9 @@
 <h4>Grid Point Export on the Command Line</h4>
 
 <p>The command line tool for exporting grid point data resides in
-    the <code>bin</code> directory of your BEAM installation.
+    the <code>bin</code> directory of your S-3 Toolbox installation.
     Depending on your system platform, type</p>
+<!-- @todo 2 tb /** adapt path to S-3 Toolbox tb 2014-09-18 -->
   <pre>
     ${BEAM_HOME}/bin/export-grid-points.bat
   

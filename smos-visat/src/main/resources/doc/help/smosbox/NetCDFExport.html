@@ -1,5 +1,5 @@
 <!--
-  ~ Copyright (C) 2013 Brockmann Consult GmbH (info@brockmann-consult.de)
+  ~ Copyright (C) 2013-2014 Brockmann Consult GmbH (info@brockmann-consult.de)
   ~
   ~ This program is free software; you can redistribute it and/or modify it
   ~ under the terms of the GNU General Public License as published by the Free
@@ -28,6 +28,7 @@
     <tr class="header">
         <td class="header">&nbsp; SMOS NetCDF Conversion</td>
 
+        <!-- @todo 2 tb/** adapt image to S-3 Toolbox tb 2014-09-18 -->
         <td class="header" align="right"><a href="../../index.html"><img src="../images/BeamHeader.jpg"
                                                                          border="0"/></a></td>
     </tr>
@@ -54,12 +55,12 @@
     <li>MIR_SM_OSUDP2</li>
     <li>MIR_SM_SMUDP2</li>
 </ul>
-The NetCDF Conversion Command is integrated into the BEAM framework in two different places.
-It can be either invoked from within VISAT or be used as a GPT-Operator for batch-processing using the cmd-line.
+The NetCDF Conversion Command is integrated into the S-3 Toolbox framework in two different places.
+It can be either invoked from within S-3 Toolbox application or be used as a GPT-Operator for batch-processing using the cmd-line.
 </p>
 <p>
     <b>Note:</b> The conversion tool converts the L1C data using the <i>browse-view</i> data representation as described
-    in the chapter <a href="DataModel.html">SMOS Data in BEAM</a>. The target product does not contain snapshot information anymore.
+    in the chapter <a href="DataModel.html">SMOS Data in S-3 Toolbox</a>. The target product does not contain snapshot information anymore.
 </p>
 
 <h4>NetCDF Output File Format</h4>
@@ -116,17 +117,17 @@ It can be either invoked from within VISAT or be used as a GPT-Operator for batc
     It can clearly be seen that most parts of the product contain no data.
 </p>
 
-<h4>NetCDF Conversion in VISAT</h4>
+<h4>NetCDF Conversion in S-3 Toolbox</h4>
 
 <p><img src="images/EE2NetCDFGui.png" alt=
         "NetCDF Conversion GUI"/></p>
 
 <p>
-    The NetCDF Conversion dialog can be invoked from within VISAT using the "Tools" menu.
+    The NetCDF Conversion dialog can be invoked from within S-3 Toolbox using the "Tools" menu.
 </p>
 
 <p><b>Source Products:</b> Either the SMOS product selected in
-    VISAT, or all SMOS products residing in a directory of the file
+    S-3 Toolbox, or all SMOS products residing in a directory of the file
     system can be used for conversion. When a directory is selected,
     the conversion process will convert all SMOS files contained in the directory.
     The software can handle zip-compressed products.
@@ -141,7 +142,7 @@ It can be either invoked from within VISAT or be used as a GPT-Operator for batc
         boundary of the input file, i.e. all measurement data is converted.
     </li>
 
-    <li>Geometry: the target product covers all pixels contained in a polygon defined in VISAT.
+    <li>Geometry: the target product covers all pixels contained in a polygon defined in S-3 Toolbox.
         Polygons can be selected using a drop-down list. Only products intersecting with the polygon will be converted.
         The target product will be tailored to the intersecting geometry.
     </li>
@@ -163,8 +164,9 @@ It can be either invoked from within VISAT or be used as a GPT-Operator for batc
 <p>
     The NetCDF conversion tool is implemented as a GPT operator. This allows to use the converter in batch mode using
     the
-    GPT command line tool. Information about the Graph Processing Tool can be found in the VISAT main documentation,
-    chapter <i>Graph Processing Framework</i> and online in the BEAM-Wiki:
+    GPT command line tool. Information about the Graph Processing Tool can be found in the S-3 Toolbox main documentation,
+    chapter <i>Graph Processing Framework</i> and online in the S-3 Toolbox-Wiki:
+    <!-- @todo 2 tb/** adapt link to s3tbx -->
     <a href="http://www.brockmann-consult.de/beam-wiki/display/BEAM/Bulk+Processing+with+GPT">GPT bulk processing</a>.
 </p>
 
@@ -257,8 +259,9 @@ calculates the bounding box of the input SMOS data and applies the resulting geo
 <h4>GPT Conversion Examples</h4>
 The following section gives some examples on the usage of the <i>SmosEE2NetCDF</i> operator, covering the most important
 use cases.
+<!--  @todo 2 tb/** adapt to s3tbx tb 2014-09-18 -->
 The GPT tool is invoked from the command-line. This section uses the tag <i>&lt;BEAM-HOME&gt;</i> for the installation
-directory of BEAM. The following paragraphs use Windows specific notation; for Linux, please replace "gpt.bat" with "gpt.sh".
+directory of S-3 Toolbox. The following paragraphs use Windows specific notation; for Linux, please replace "gpt.bat" with "gpt.sh".
 <br>
 <br>
 <b>Note:</b> Region definitions in the examples below define polygon objects as WKT. A concise description and links

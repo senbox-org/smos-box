@@ -1,5 +1,5 @@
 <!--
-  ~ Copyright (C) 2010 Brockmann Consult GmbH (info@brockmann-consult.de)
+  ~ Copyright (C) 2010-2014 Brockmann Consult GmbH (info@brockmann-consult.de)
   ~
   ~ This program is free software; you can redistribute it and/or modify it
   ~ under the terms of the GNU General Public License as published by the Free
@@ -30,7 +30,7 @@
   <table class="header">
     <tr class="header">
       <td class="header">&nbsp; SMOS-Box Tools</td>
-
+      <!-- @todo 2 tb/** adapt to s3tbx tb 2014-09-18 -->
       <td class="header" align="right"><a href=
       "../../index.html"><img src="../images/BeamHeader.jpg"
       border="0" /></a></td>
@@ -44,7 +44,7 @@
   <p>Readers not familiar with the SMOS-Box software might read the
   <a href="Introduction.html">Introduction to the SMOS-Box</a> and
   the explanation of the representation of <a href=
-  "DataModel.html">SMOS Data in BEAM</a> first.</p>
+  "DataModel.html">SMOS Data in S-3 Toolbox</a> first.</p>
 
   <h4>Usage</h4>
 
@@ -63,18 +63,18 @@
   <p><img src="images/Toolbar.png" alt="SMOS Toolbar" /></p>
 
   <p>By default the SMOS-Box toolbar is located next to the
-  standard VISAT toolbar.</p>
+  standard S-3 Toolbox toolbar.</p>
 
   <h5>Opening a SMOS product and displaying image data</h5>
 
-  <p>When a SMOS product is opened in VISAT, the list of available
+  <p>When a SMOS product is opened in S-3 Toolbox, the list of available
   band data is displayed in the <strong>Products View</strong>.
   Double-clicking onto a band name opens a window displaying the
   band data as an image (see the screenshots below). Due to the
-  BEAM data model used internally to represent all EO data
+  S-3 Toolbox data model used internally to represent all EO data
   products, it is required to resample SMOS L1C and L2 gridded data
   to rectangular raster data. The images created from SMOS products
-  in BEAM thus use the Geographic WGS-84 coordinate reference
+  in S-3 Toolbox thus use the Geographic WGS-84 coordinate reference
   system.</p>
 
   <p>The geo-coding of all SMOS data products is provided by the
@@ -91,10 +91,10 @@
   product.</p>
 
   <p><img src="images/SmosBox.png" alt=
-  "VISAT with SMOS product opened" /></p>
+  "S-3 Toolbox with SMOS product opened" /></p>
 
   <p><img src="images/SmosBoxSnapshot.png" alt=
-  "VISAT with SMOS product opened in snapshot mode" /></p>
+  "S-3 Toolbox with SMOS product opened in snapshot mode" /></p>
 
   <h5><a name="gridPointTable" id="gridPointTable"><img src=
   "images/SmosGridPoint16.png" alt="Grid point data table icon" />
@@ -111,7 +111,7 @@
   position of a currently selected pin.</p>
 
   <p>The measurements displayed in the table columns can be
-  explicitly choosen by clicking on the <strong>Columns...</strong>
+  explicitly chosen by clicking on the <strong>Columns...</strong>
   button, which pops up a dialog for selecting or deselecting
   individual measurements. The whole table can be exported to
   character-separated text, either stored in a file or the
@@ -226,7 +226,7 @@
     <li>The 'radio buttons' (see below) are enabled.</li>
   </ol>
 
-  <p>Changing the active image view while being in synchonised mode
+  <p>Changing the active image view while being in synchronised mode
   implies:</p>
 
   <ol>
