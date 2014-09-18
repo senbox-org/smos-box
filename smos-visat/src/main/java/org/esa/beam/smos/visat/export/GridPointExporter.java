@@ -17,10 +17,10 @@ package org.esa.beam.smos.visat.export;
 
 import com.bc.ceres.core.ProgressMonitor;
 
-import java.awt.geom.Area;
-import java.awt.geom.Rectangle2D;
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -64,7 +64,7 @@ public class GridPointExporter {
     }
 
     public static void main(String[] args) {
-        final Arguments arguments = new Arguments(args, new ErrorHandler() {
+        final GPEArguments arguments = new GPEArguments(args, new ErrorHandler() {
             @Override
             public void warning(final Throwable t) {
             }
@@ -72,7 +72,7 @@ public class GridPointExporter {
             @Override
             public void error(final Throwable t) {
                 System.err.println(t.getMessage());
-                printUsage();
+                printUsageTo(System.out);
                 System.exit(1);
             }
         });
@@ -96,16 +96,17 @@ public class GridPointExporter {
         });
     }
 
-    private static void execute(Arguments arguments, ErrorHandler errorHandler) {
-        final List<Exception> problemList = new ArrayList<Exception>();
+    private static void execute(GPEArguments arguments, ErrorHandler errorHandler) {
+        final List<Exception> problemList = new ArrayList<>();
         logger.info(MessageFormat.format("targetFile = {0}", arguments.targetFile));
-        logger.info(MessageFormat.format("ROI = {0}", arguments.roi.getBounds2D()));
+        final Shape roi = arguments.getRoi();
+        logger.info(MessageFormat.format("ROI = {0}", roi.getBounds2D()));
 
         GridPointFilterStream filterStream = null;
         try {
             filterStream = createGridPointFilterStream(arguments);
             final GridPointFilterStreamHandler streamHandler =
-                    new GridPointFilterStreamHandler(filterStream, new RegionFilter(arguments.roi));
+                    new GridPointFilterStreamHandler(filterStream, new RegionFilter(roi));
             for (final File sourceFile : arguments.sourceFiles) {
                 try {
                     logger.info(MessageFormat.format("Exporting source file ''{0}''.", sourceFile.getPath()));
@@ -132,7 +133,7 @@ public class GridPointExporter {
         }
     }
 
-    private static GridPointFilterStream createGridPointFilterStream(Arguments arguments) throws IOException {
+    private static GridPointFilterStream createGridPointFilterStream(GPEArguments arguments) throws IOException {
         if (arguments.targetFile != null) {
             if (arguments.targetFile.isDirectory()) {
                 return new EEExportStream(arguments.targetFile);
@@ -143,131 +144,25 @@ public class GridPointExporter {
         return new CsvExportStream(new PrintWriter(System.out), ";");
     }
 
-    private static void printUsage() {
-        System.out.println("SMOS-Box Grid Point Export command line tool, version 2.1");
-        System.out.println("July 16, 2010");
-        System.out.println();
-        System.out.println("usage : export-grid-points [ROI] [-o targetFile] [sourceProduct ...]");
-        System.out.println();
-        System.out.println("ROI\n" +
-                           "\n" +
-                           "    [-box minLon maxLon minLat maxLat] | [-point lon lat]\n" +
-                           "        a region-of-interest either defined by a latitude-longitude\n" +
-                           "        box or the coordinates of a DGG grid point");
-        System.out.println();
-        System.out.println("Note that each source product must be specified by the path name of\n" +
-                           "the directory, which contains the SMOS '.HDR' and '.DBL' files.");
-        System.out.println();
-        System.out.println("If the target file is a directory, the grid point data are exported" +
-                           "into of EE formatted files, which reside in the target directory.\n" +
-                           "If the target file is a normal file, the grid point data are stored" +
-                           "into the target file in form of a CSV table.\n");
-        System.out.println("If no target file is specified,  the grid point data are printed to" +
-                           "the console (in CSV format).");
-        System.out.println();
-        System.out.println();
-    }
-
-    private static class Arguments {
-
-        Area roi;
-        File targetFile;
-        File[] sourceFiles;
-
-        public Arguments(String[] args, ErrorHandler errorHandler) {
-            try {
-                parse(args);
-            } catch (IllegalArgumentException e) {
-                errorHandler.error(e);
-            }
-            if (roi == null) {
-                roi = createBoxedArea(-180, 180, -90, 90);
-            }
-        }
-
-        private void parse(String[] args) {
-            if (args.length == 0) {
-                throw new IllegalArgumentException("No arguments specified.");
-            }
-            for (int i = 0; i < args.length; i++) {
-                if (args[i].equals("-box")) {
-                    if (args.length < i + 6) {
-                        throw new IllegalArgumentException("Not enough arguments specified.");
-                    }
-                    if (roi != null) {
-                        throw new IllegalArgumentException("A ROI may either be defined by '-box' or '-point'.");
-                    }
-                    final double minLon = Double.valueOf(args[i + 1]);
-                    ensureRange("minLon", minLon, -180, 180);
-                    final double maxLon = Double.valueOf(args[i + 2]);
-                    ensureRange("maxLon", maxLon, -180, 180);
-                    if (maxLon <= minLon) {
-                        throw new IllegalArgumentException("The value of 'maxLon' must exceed the value of 'minLon'.");
-                    }
-                    final double minLat = Double.valueOf(args[i + 3]);
-                    ensureRange("minLat", minLat, -90, 90);
-                    final double maxLat = Double.valueOf(args[i + 4]);
-                    ensureRange("maxLat", maxLat, -90, 90);
-                    if (maxLat <= minLat) {
-                        throw new IllegalArgumentException("The value of 'maxLat' must exceed the value of 'minLat'.");
-                    }
-                    roi = createBoxedArea(minLon, maxLon, minLat, maxLat);
-                    i += 4;
-                } else if (args[i].equals("-point")) {
-                    if (args.length < i + 4) {
-                        throw new IllegalArgumentException("Not enough arguments specified.");
-                    }
-                    if (roi != null) {
-                        throw new IllegalArgumentException("A ROI may either be defined by '-box' or '-point'.");
-                    }
-                    final double lon = Double.valueOf(args[i + 1]);
-                    ensureRange("lon", lon, -180, 180);
-                    final double lat = Double.valueOf(args[i + 2]);
-                    ensureRange("lat", lat, -90, 90);
-                    roi = createPointArea(lon, lat);
-                    i += 2;
-                } else if (args[i].equals("-o")) {
-                    if (args.length < i + 3) {
-                        throw new IllegalArgumentException("Not enough arguments specified.");
-                    }
-                    targetFile = new File(args[i + 1]);
-                    i += 1;
-                } else if (args[i].startsWith("-")) {
-                    throw new IllegalArgumentException("Illegal option.");
-                } else {
-                    final List<File> sourceFileList = new ArrayList<File>();
-                    for (int j = i; j < args.length; j++) {
-                        final File sourceFile = new File(args[j]);
-                        if (sourceFile.isDirectory()) {
-                            sourceFileList.add(sourceFile);
-                        }
-                    }
-                    sourceFiles = sourceFileList.toArray(new File[sourceFileList.size()]);
-                    i = args.length - 1;
-                }
-            }
-        }
-
-        private static void ensureRange(String name, double value, double min, double max) {
-            if (value < min || value > max) {
-                throw new IllegalArgumentException(MessageFormat.format(
-                        "The value of ''{0}'' = ''{1}'' is out of range [''{2}'', ''{3}''].", name, value, min, max));
-            }
-        }
-
-        private static Area createBoxedArea(double lon1, double lon2, double lat1, double lat2) {
-            return new Area(new Rectangle2D.Double(lon1, lat1, lon2 - lon1, lat2 - lat1));
-        }
-
-        private static Area createPointArea(double lon, double lat) {
-            return new Area(new Rectangle2D.Double(lon, lat, 0.0, 0.0));
-        }
-    }
-
-    private interface ErrorHandler {
-
-        public void warning(final Throwable t);
-
-        public void error(final Throwable t);
+    static void printUsageTo(PrintStream outputStream) {
+        outputStream.println("SMOS-Box Grid Point Export command line tool, version 3.0");
+        outputStream.println();
+        outputStream.println("usage : export-grid-points [ROI] [-o targetFile] [sourceProduct ...]");
+        outputStream.println();
+        outputStream.println("ROI");
+        outputStream.println("    [-box minLon maxLon minLat maxLat] | [-point lon lat]");
+        outputStream.println("    a region-of-interest either defined by a latitude-longitude box");
+        outputStream.println("    or the coordinates of a DGG grid point");
+        outputStream.println();
+        outputStream.println("Note that each source product must be specified by the path name of");
+        outputStream.println("the directory which contains the SMOS '.HDR' and '.DBL' files.");
+        outputStream.println();
+        outputStream.println("targetFile");
+        outputStream.println("    If the target file is a directory, the grid point data are exported");
+        outputStream.println("      into that directory, the data is stored in EE formatted files.");
+        outputStream.println("    If the target file is a normal file, the grid point data are stored");
+        outputStream.println("      to this file as CSV table.");
+        outputStream.println("    If no target file is specified, the grid point data are printed to");
+        outputStream.println("      the console (in CSV format).");
     }
 }
