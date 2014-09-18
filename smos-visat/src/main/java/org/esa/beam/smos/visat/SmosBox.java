@@ -17,6 +17,7 @@
 package org.esa.beam.smos.visat;
 
 import com.bc.ceres.binding.PropertySet;
+import com.bc.ceres.core.ProgressMonitor;
 import com.bc.ceres.glayer.Layer;
 import com.bc.ceres.glayer.LayerFilter;
 import com.bc.ceres.glayer.LayerType;
@@ -30,8 +31,14 @@ import org.esa.beam.framework.dataio.ProductReader;
 import org.esa.beam.framework.datamodel.RasterDataNode;
 import org.esa.beam.framework.ui.product.ProductSceneView;
 import org.esa.beam.glayer.WorldMapLayerType;
+import org.esa.beam.util.ResourceInstaller;
+import org.esa.beam.util.SystemUtils;
 import org.esa.beam.visat.VisatApp;
 import org.esa.beam.visat.VisatPlugIn;
+
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 
 public class SmosBox implements VisatPlugIn {
 
@@ -43,6 +50,8 @@ public class SmosBox implements VisatPlugIn {
     private volatile SnapshotSelectionService snapshotSelectionService;
     private volatile GridPointSelectionService gridPointSelectionService;
     private volatile SceneViewSelectionService sceneViewSelectionService;
+
+    private boolean colorPalettesInstalled = false;
 
     public static SmosBox getInstance() {
         return instance;
@@ -83,7 +92,16 @@ public class SmosBox implements VisatPlugIn {
                 }
             });
         }
+
+        if (!colorPalettesInstalled) {
+            try {
+                installColorPalettes();
+            } catch (IOException e) {
+                visatApp.getLogger().warning("Unable to install SMOS color palettes" + e.getMessage());
+            }
+        }
     }
+
 
     @Override
     public final void stop(VisatApp visatApp) {
@@ -137,7 +155,7 @@ public class SmosBox implements VisatPlugIn {
     private LayerType getWorldMapLayerType() {
         final VisatApp visatApp = VisatApp.getApp();
         String layerTypeClassName = visatApp.getPreferences().getPropertyString(WORLDMAP_TYPE_PROPERTY_NAME,
-                                                                                BLUE_MARBLE_LAYER_TYPE);
+                BLUE_MARBLE_LAYER_TYPE);
         return LayerTypeRegistry.getLayerType(layerTypeClassName);
     }
 
@@ -155,5 +173,19 @@ public class SmosBox implements VisatPlugIn {
                 return layer.getLayerType() instanceof WorldMapLayerType;
             }
         });
+    }
+
+    private void installColorPalettes() throws IOException {
+        final URL codeSourceUrl = SmosBox.class.getProtectionDomain().getCodeSource().getLocation();
+        final File auxdataDir = getSystemAuxdataDir();
+        final ResourceInstaller resourceInstaller = new ResourceInstaller(codeSourceUrl, "auxdata/color_palettes/", auxdataDir);
+
+        resourceInstaller.install(".*.cpd", ProgressMonitor.NULL);
+        colorPalettesInstalled = true;
+    }
+
+    private File getSystemAuxdataDir() {
+        // @todo 3 tb/** code duplicated from ColormanipulationForm class. we should have central services classes that over such services. tb 2014-09-18
+        return new File(SystemUtils.getApplicationDataDir(), "beam-ui/auxdata/color-palettes");
     }
 }
