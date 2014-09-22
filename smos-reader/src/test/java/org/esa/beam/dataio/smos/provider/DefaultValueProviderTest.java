@@ -1,6 +1,7 @@
-package org.esa.beam.dataio.smos;
+package org.esa.beam.dataio.smos.provider;
 
 import com.bc.ceres.binio.CompoundData;
+import org.esa.beam.dataio.smos.DggFile;
 import org.junit.Before;
 import org.junit.Test;
 

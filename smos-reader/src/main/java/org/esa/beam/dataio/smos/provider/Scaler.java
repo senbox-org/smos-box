@@ -14,20 +14,19 @@
  * with this program; if not, see http://www.gnu.org/licenses/
  */
 
-package org.esa.beam.dataio.smos;
+package org.esa.beam.dataio.smos.provider;
 
-import org.esa.beam.dataio.smos.provider.AbstractValueProvider;
 import org.esa.beam.framework.datamodel.Scaling;
 
 import java.awt.geom.Area;
 import java.io.IOException;
 
-class Scaler extends AbstractValueProvider {
+public class Scaler extends AbstractValueProvider {
 
     private final AbstractValueProvider provider;
     private final Scaling scaling;
 
-    Scaler(AbstractValueProvider provider, Scaling scaling) {
+    public Scaler(AbstractValueProvider provider, Scaling scaling) {
         this.provider = provider;
         this.scaling = scaling;
     }

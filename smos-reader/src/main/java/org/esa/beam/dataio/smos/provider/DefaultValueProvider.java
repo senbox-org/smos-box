@@ -13,9 +13,9 @@
  * You should have received a copy of the GNU General Public License along
  * with this program; if not, see http://www.gnu.org/licenses/
  */
-package org.esa.beam.dataio.smos;
+package org.esa.beam.dataio.smos.provider;
 
-import org.esa.beam.dataio.smos.provider.AbstractValueProvider;
+import org.esa.beam.dataio.smos.DggFile;
 
 import java.awt.geom.Area;
 import java.io.IOException;
@@ -28,12 +28,12 @@ import java.io.IOException;
  * @version $Revision$ $Date$
  * @since SMOS-Box 1.0
  */
-class DefaultValueProvider extends AbstractValueProvider {
+public class DefaultValueProvider extends AbstractValueProvider {
 
     private final DggFile dggFile;
     private final int memberIndex;
 
-    DefaultValueProvider(DggFile dggFile, int memberIndex) {
+    public DefaultValueProvider(DggFile dggFile, int memberIndex) {
         this.dggFile = dggFile;
         this.memberIndex = memberIndex;
     }

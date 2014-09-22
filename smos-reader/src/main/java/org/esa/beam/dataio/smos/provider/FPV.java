@@ -14,16 +14,15 @@
  * with this program; if not, see http://www.gnu.org/licenses/
  */
 
-package org.esa.beam.dataio.smos;
+package org.esa.beam.dataio.smos.provider;
 
-import org.esa.beam.dataio.smos.provider.AbstractValueProvider;
 import org.esa.beam.framework.datamodel.Product;
 
 import java.util.Map;
 
-class FPV extends FP {
+public class FPV extends FP {
 
-    FPV(Product product, Map<String, AbstractValueProvider> valueProviderMap, boolean accuracy) {
+    public FPV(Product product, Map<String, AbstractValueProvider> valueProviderMap, boolean accuracy) {
         super(product, valueProviderMap, accuracy, false);
     }
 

@@ -14,26 +14,25 @@
  * with this program; if not, see http://www.gnu.org/licenses/
  */
 
-package org.esa.beam.dataio.smos;
+package org.esa.beam.dataio.smos.provider;
 
-import org.esa.beam.dataio.smos.provider.AbstractValueProvider;
 import org.esa.beam.framework.datamodel.Product;
 
 import java.util.Map;
 
-class FPH extends FP {
+public class FPHVR extends FP {
 
-    FPH(Product product, Map<String, AbstractValueProvider> valueProviderMap, boolean accuracy) {
+    public FPHVR(Product product, Map<String, AbstractValueProvider> valueProviderMap, boolean accuracy) {
         super(product, valueProviderMap, accuracy, false);
     }
 
     @Override
     protected float computeBT(double btx, double bty, double btxy, double aa, double ab, double bb) {
-        return (float) (aa * btx - 2.0 * ab * btxy + bb * bty);
+        return (float) (ab * (btx - bty) + (aa - bb) * btxy);
     }
 
     @Override
     protected float computeRA(double rax, double ray, double raxy, double aa, double ab, double bb) {
-        return (float) Math.sqrt(aa * aa * rax * rax + 4.0 * ab * ab * raxy * raxy + bb * bb * ray * ray);
+        return (float) Math.sqrt(ab * ab * (rax * rax + ray * ray) + (aa - bb) * (aa - bb) * raxy * raxy);
     }
 }

@@ -14,9 +14,8 @@
  * with this program; if not, see http://www.gnu.org/licenses/
  */
 
-package org.esa.beam.dataio.smos;
+package org.esa.beam.dataio.smos.provider;
 
-import org.esa.beam.dataio.smos.provider.AbstractValueProvider;
 import org.esa.beam.framework.datamodel.Band;
 import org.esa.beam.framework.datamodel.Product;
 
@@ -24,7 +23,7 @@ import java.awt.geom.Area;
 import java.io.IOException;
 import java.util.Map;
 
-abstract class DP extends AbstractValueProvider {
+abstract public class DP extends AbstractValueProvider {
 
     private final AbstractValueProvider frxProvider;
     private final AbstractValueProvider fryProvider;
@@ -35,7 +34,7 @@ abstract class DP extends AbstractValueProvider {
 
     private final boolean accuracy;
 
-    protected DP(Product product, Map<String, AbstractValueProvider> valueProviderMap, boolean accuracy) {
+    public DP(Product product, Map<String, AbstractValueProvider> valueProviderMap, boolean accuracy) {
         this.accuracy = accuracy;
 
         frxProvider = getValueProvider(product.getBand("Faraday_Rotation_Angle_X"), valueProviderMap);

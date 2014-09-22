@@ -8,6 +8,7 @@ import org.esa.beam.dataio.smos.dddb.BandDescriptor;
 import org.esa.beam.dataio.smos.dddb.Dddb;
 import org.esa.beam.dataio.smos.dddb.Family;
 import org.esa.beam.dataio.smos.provider.AbstractValueProvider;
+import org.esa.beam.dataio.smos.provider.DefaultValueProvider;
 import org.esa.beam.dataio.smos.provider.ValueProvider;
 import org.esa.beam.framework.datamodel.Band;
 import org.esa.beam.framework.datamodel.Product;

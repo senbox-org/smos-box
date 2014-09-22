@@ -14,9 +14,8 @@
  * with this program; if not, see http://www.gnu.org/licenses/
  */
 
-package org.esa.beam.dataio.smos;
+package org.esa.beam.dataio.smos.provider;
 
-import org.esa.beam.dataio.smos.provider.AbstractValueProvider;
 import org.esa.beam.framework.datamodel.Band;
 import org.esa.beam.framework.datamodel.Product;
 
@@ -24,7 +23,7 @@ import java.awt.geom.Area;
 import java.io.IOException;
 import java.util.Map;
 
-abstract class FP extends AbstractValueProvider {
+abstract public class FP extends AbstractValueProvider {
 
     private final AbstractValueProvider frxProvider;
     private final AbstractValueProvider fryProvider;
@@ -37,8 +36,8 @@ abstract class FP extends AbstractValueProvider {
     private final boolean accuracy;
     private final boolean imaginary;
 
-    protected FP(Product product, Map<String, AbstractValueProvider> valueProviderMap, boolean accuracy,
-                 boolean imaginary) {
+    public FP(Product product, Map<String, AbstractValueProvider> valueProviderMap, boolean accuracy,
+              boolean imaginary) {
         this.accuracy = accuracy;
         this.imaginary = imaginary;
 
