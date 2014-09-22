@@ -15,6 +15,8 @@
  */
 package org.esa.beam.dataio.smos;
 
+import org.esa.beam.dataio.smos.provider.AbstractValueProvider;
+
 import java.awt.geom.Area;
 import java.io.IOException;
 
@@ -47,17 +49,17 @@ class DefaultValueProvider extends AbstractValueProvider {
     }
 
     @Override
-    protected byte getByte(int gridPointIndex) throws IOException {
+    public byte getByte(int gridPointIndex) throws IOException {
         return dggFile.getGridPointData(gridPointIndex).getByte(memberIndex);
     }
 
     @Override
-    protected short getShort(int gridPointIndex) throws IOException {
+    public short getShort(int gridPointIndex) throws IOException {
         return dggFile.getGridPointData(gridPointIndex).getShort(memberIndex);
     }
 
     @Override
-    protected int getInt(int gridPointIndex) throws IOException {
+    public int getInt(int gridPointIndex) throws IOException {
         return dggFile.getGridPointData(gridPointIndex).getInt(memberIndex);
     }
 
@@ -66,7 +68,7 @@ class DefaultValueProvider extends AbstractValueProvider {
     }
 
     @Override
-    protected float getFloat(int gridPointIndex) throws IOException {
+    public float getFloat(int gridPointIndex) throws IOException {
         return dggFile.getGridPointData(gridPointIndex).getFloat(memberIndex);
     }
 }

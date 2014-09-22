@@ -16,6 +16,7 @@
 
 package org.esa.beam.dataio.smos;
 
+import org.esa.beam.dataio.smos.provider.AbstractValueProvider;
 import org.esa.beam.framework.datamodel.Product;
 
 import java.util.Map;

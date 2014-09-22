@@ -7,6 +7,8 @@ import com.bc.ceres.glevel.support.DefaultMultiLevelImage;
 import org.esa.beam.dataio.smos.dddb.BandDescriptor;
 import org.esa.beam.dataio.smos.dddb.Dddb;
 import org.esa.beam.dataio.smos.dddb.Family;
+import org.esa.beam.dataio.smos.provider.AbstractValueProvider;
+import org.esa.beam.dataio.smos.provider.ValueProvider;
 import org.esa.beam.framework.datamodel.Band;
 import org.esa.beam.framework.datamodel.Product;
 import org.esa.beam.framework.datamodel.ProductData;
@@ -179,7 +181,7 @@ public class DggFile extends ExplorerFile {
             case 1:
                 return new DefaultValueProvider(this, memberIndex) {
                     @Override
-                    protected int getInt(int gridPointIndex) throws IOException {
+                    public int getInt(int gridPointIndex) throws IOException {
                         return (int) (getLong(memberIndex) & 0x00000000FFFFFFFFL);
                     }
                 };

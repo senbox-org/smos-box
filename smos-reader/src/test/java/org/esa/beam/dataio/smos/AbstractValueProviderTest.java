@@ -1,5 +1,6 @@
 package org.esa.beam.dataio.smos;
 
+import org.esa.beam.dataio.smos.provider.AbstractValueProvider;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

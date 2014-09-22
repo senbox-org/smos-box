@@ -16,6 +16,8 @@
 
 package org.esa.beam.dataio.smos;
 
+import org.esa.beam.dataio.smos.provider.AbstractValueProvider;
+
 import java.awt.geom.Area;
 import java.io.IOException;
 
@@ -42,22 +44,22 @@ class L1cBrowseValueProvider extends AbstractValueProvider {
     }
 
     @Override
-    protected byte getByte(int gridPointIndex) throws IOException {
+    public byte getByte(int gridPointIndex) throws IOException {
         return smosFile.getBtDataList(gridPointIndex).getCompound(polarisation).getByte(memberIndex);
     }
 
     @Override
-    protected short getShort(int gridPointIndex) throws IOException {
+    public short getShort(int gridPointIndex) throws IOException {
         return smosFile.getBtDataList(gridPointIndex).getCompound(polarisation).getShort(memberIndex);
     }
 
     @Override
-    protected int getInt(int gridPointIndex) throws IOException {
+    public int getInt(int gridPointIndex) throws IOException {
         return smosFile.getBtDataList(gridPointIndex).getCompound(polarisation).getInt(memberIndex);
     }
 
     @Override
-    protected float getFloat(int gridPointIndex) throws IOException {
+    public float getFloat(int gridPointIndex) throws IOException {
         return smosFile.getBtDataList(gridPointIndex).getCompound(polarisation).getFloat(memberIndex);
     }
 }

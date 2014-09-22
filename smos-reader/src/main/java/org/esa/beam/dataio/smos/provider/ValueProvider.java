@@ -13,26 +13,26 @@
  * You should have received a copy of the GNU General Public License along
  * with this program; if not, see http://www.gnu.org/licenses/
  */
+package org.esa.beam.dataio.smos.provider;
 
-package org.esa.beam.dataio.smos;
+import java.awt.geom.Area;
 
-import org.esa.beam.framework.datamodel.Product;
+/**
+ * Interface providing access to the grid point data values.
+ *
+ * @author Ralf Quast
+ * @version $Revision$ $Date$
+ * @since SMOS-Box 1.0
+ */
+public interface ValueProvider {
 
-import java.util.Map;
+    Area getArea();
 
-class FPHVI extends FP {
+    byte getValue(int seqnum, byte noDataValue);
 
-    FPHVI(Product product, Map<String, AbstractValueProvider> valueProviderMap, boolean accuracy) {
-        super(product, valueProviderMap, accuracy, true);
-    }
+    short getValue(int seqnum, short noDataValue);
 
-    @Override
-    protected float computeBT(double btx, double bty, double btxy, double aa, double ab, double bb) {
-        return (float) ((aa + bb) * btxy);
-    }
+    int getValue(int seqnum, int noDataValue);
 
-    @Override
-    protected float computeRA(double rax, double ray, double raxy, double aa, double ab, double bb) {
-        return (float) Math.sqrt((aa + bb) * (aa + bb) * raxy * raxy);
-    }
+    float getValue(int seqnum, float noDataValue);
 }

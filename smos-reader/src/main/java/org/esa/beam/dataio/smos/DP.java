@@ -16,6 +16,7 @@
 
 package org.esa.beam.dataio.smos;
 
+import org.esa.beam.dataio.smos.provider.AbstractValueProvider;
 import org.esa.beam.framework.datamodel.Band;
 import org.esa.beam.framework.datamodel.Product;
 
@@ -80,17 +81,17 @@ abstract class DP extends AbstractValueProvider {
     }
 
     @Override
-    protected final byte getByte(int gridPointIndex) {
+    public final byte getByte(int gridPointIndex) {
         return 0;
     }
 
     @Override
-    protected final short getShort(int gridPointIndex) {
+    public final short getShort(int gridPointIndex) {
         return 0;
     }
 
     @Override
-    protected final int getInt(int gridPointIndex) {
+    public final int getInt(int gridPointIndex) {
         return 0;
     }
 

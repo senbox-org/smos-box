@@ -17,6 +17,7 @@
 package org.esa.beam.dataio.smos;
 
 import com.bc.ceres.glevel.support.AbstractMultiLevelSource;
+import org.esa.beam.dataio.smos.provider.ValueProvider;
 import org.esa.beam.framework.datamodel.RasterDataNode;
 import org.esa.beam.jai.ResolutionLevel;
 import org.esa.beam.smos.dgg.SmosDgg;

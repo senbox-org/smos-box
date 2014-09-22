@@ -17,6 +17,7 @@
 package org.esa.beam.dataio.smos;
 
 import com.bc.ceres.binio.CompoundData;
+import org.esa.beam.dataio.smos.provider.AbstractValueProvider;
 
 import java.awt.geom.Area;
 import java.io.IOException;
@@ -63,22 +64,22 @@ public class L1cScienceValueProvider extends AbstractValueProvider {
     }
 
     @Override
-    protected byte getByte(int gridPointIndex) throws IOException {
+    public byte getByte(int gridPointIndex) throws IOException {
         return valueProviderImpl.getByte(gridPointIndex);
     }
 
     @Override
-    protected short getShort(int gridPointIndex) throws IOException {
+    public short getShort(int gridPointIndex) throws IOException {
         return valueProviderImpl.getShort(gridPointIndex);
     }
 
     @Override
-    protected int getInt(int gridPointIndex) throws IOException {
+    public int getInt(int gridPointIndex) throws IOException {
         return valueProviderImpl.getInt(gridPointIndex);
     }
 
     @Override
-    protected float getFloat(int gridPointIndex) throws IOException {
+    public float getFloat(int gridPointIndex) throws IOException {
         return valueProviderImpl.getFloat(gridPointIndex);
     }
 
@@ -95,27 +96,27 @@ public class L1cScienceValueProvider extends AbstractValueProvider {
         }
 
         @Override
-        protected int getGridPointIndex(int seqnum) {
+        public int getGridPointIndex(int seqnum) {
             return 0; // not required in this implementation tb 2014-09-22
         }
 
         @Override
-        protected byte getByte(int gridPointIndex) throws IOException {
+        public byte getByte(int gridPointIndex) throws IOException {
             return smosFile.getBrowseBtDataValueByte(gridPointIndex, memberIndex, polarisation);
         }
 
         @Override
-        protected short getShort(int gridPointIndex) throws IOException {
+        public short getShort(int gridPointIndex) throws IOException {
             return smosFile.getBrowseBtDataValueShort(gridPointIndex, memberIndex, polarisation);
         }
 
         @Override
-        protected int getInt(int gridPointIndex) throws IOException {
+        public int getInt(int gridPointIndex) throws IOException {
             return smosFile.getBrowseBtDataValueInt(gridPointIndex, memberIndex, polarisation);
         }
 
         @Override
-        protected float getFloat(int gridPointIndex) throws IOException {
+        public float getFloat(int gridPointIndex) throws IOException {
             return smosFile.getBrowseBtDataValueFloat(gridPointIndex, memberIndex, polarisation);
         }
 
@@ -140,30 +141,30 @@ public class L1cScienceValueProvider extends AbstractValueProvider {
         }
 
         @Override
-        protected int getGridPointIndex(int seqnum) {
+        public int getGridPointIndex(int seqnum) {
             return 0; // not required in this implementation tb 2014-09-22
         }
 
         @Override
-        protected byte getByte(int gridPointIndex) throws IOException {
+        public byte getByte(int gridPointIndex) throws IOException {
             final CompoundData data = getCompoundData(gridPointIndex);
             return data.getByte(memberIndex);
         }
 
         @Override
-        protected short getShort(int gridPointIndex) throws IOException {
+        public short getShort(int gridPointIndex) throws IOException {
             final CompoundData data = getCompoundData(gridPointIndex);
             return data.getShort(memberIndex);
         }
 
         @Override
-        protected int getInt(int gridPointIndex) throws IOException {
+        public int getInt(int gridPointIndex) throws IOException {
             final CompoundData data = getCompoundData(gridPointIndex);
             return data.getInt(memberIndex);
         }
 
         @Override
-        protected float getFloat(int gridPointIndex) throws IOException {
+        public float getFloat(int gridPointIndex) throws IOException {
             final CompoundData data = getCompoundData(gridPointIndex);
             return data.getFloat(memberIndex);
         }

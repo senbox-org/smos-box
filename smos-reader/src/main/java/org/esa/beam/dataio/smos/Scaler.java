@@ -16,6 +16,7 @@
 
 package org.esa.beam.dataio.smos;
 
+import org.esa.beam.dataio.smos.provider.AbstractValueProvider;
 import org.esa.beam.framework.datamodel.Scaling;
 
 import java.awt.geom.Area;
@@ -42,22 +43,22 @@ class Scaler extends AbstractValueProvider {
     }
 
     @Override
-    protected final byte getByte(int gridPointIndex) throws IOException {
+    public final byte getByte(int gridPointIndex) throws IOException {
         return provider.getByte(gridPointIndex);
     }
 
     @Override
-    protected final short getShort(int gridPointIndex) throws IOException {
+    public final short getShort(int gridPointIndex) throws IOException {
         return provider.getShort(gridPointIndex);
     }
 
     @Override
-    protected final int getInt(int gridPointIndex) throws IOException {
+    public final int getInt(int gridPointIndex) throws IOException {
         return provider.getInt(gridPointIndex);
     }
 
     @Override
-    protected final float getFloat(int gridPointIndex) throws IOException {
+    public final float getFloat(int gridPointIndex) throws IOException {
         return (float) scaling.scale(provider.getFloat(gridPointIndex));
     }
 }

@@ -17,6 +17,7 @@ package org.esa.beam.dataio.smos;
 
 import com.bc.ceres.binio.DataContext;
 import org.esa.beam.dataio.smos.dddb.BandDescriptor;
+import org.esa.beam.dataio.smos.provider.AbstractValueProvider;
 import org.esa.beam.framework.datamodel.Product;
 import org.esa.beam.smos.EEFilePair;
 

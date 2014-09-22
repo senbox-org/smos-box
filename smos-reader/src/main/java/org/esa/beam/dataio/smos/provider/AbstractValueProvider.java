@@ -14,11 +14,11 @@
  * with this program; if not, see http://www.gnu.org/licenses/
  */
 
-package org.esa.beam.dataio.smos;
+package org.esa.beam.dataio.smos.provider;
 
 import java.io.IOException;
 
-abstract class AbstractValueProvider implements ValueProvider {
+abstract public class AbstractValueProvider implements ValueProvider {
 
     @Override
     public byte getValue(int seqnum, byte noDataValue) {
@@ -72,17 +72,17 @@ abstract class AbstractValueProvider implements ValueProvider {
         }
     }
 
-    protected abstract int getGridPointIndex(int seqnum);
+    public abstract int getGridPointIndex(int seqnum);
 
-    protected abstract byte getByte(int gridPointIndex) throws IOException;
+    public abstract byte getByte(int gridPointIndex) throws IOException;
 
-    protected abstract short getShort(int gridPointIndex) throws IOException;
+    public abstract short getShort(int gridPointIndex) throws IOException;
 
-    protected abstract int getInt(int gridPointIndex) throws IOException;
+    public abstract int getInt(int gridPointIndex) throws IOException;
 
-    protected abstract float getFloat(int gridPointIndex) throws IOException;
+    public abstract float getFloat(int gridPointIndex) throws IOException;
 
-    protected static double angularAverage(double angle1, double angle2) {
+    public static double angularAverage(double angle1, double angle2) {
         if (inQuadrant1(angle1) && inQuadrant4(angle2)) {
             angle2 = angle2 - 360.0;
         } else if (inQuadrant1(angle2) && inQuadrant4(angle1)) {
@@ -98,6 +98,4 @@ abstract class AbstractValueProvider implements ValueProvider {
     private static boolean inQuadrant4(double angle) {
         return angle > 270.0 && angle <= 360.0;
     }
-
-
 }
