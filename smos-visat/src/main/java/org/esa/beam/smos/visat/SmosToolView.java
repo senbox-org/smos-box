@@ -27,12 +27,8 @@ import org.esa.beam.framework.ui.application.support.PageComponentListenerAdapte
 import org.esa.beam.framework.ui.product.ProductSceneView;
 import org.esa.beam.framework.ui.tool.ToolButtonFactory;
 
-import javax.swing.AbstractButton;
-import javax.swing.ImageIcon;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import java.awt.BorderLayout;
+import javax.swing.*;
+import java.awt.*;
 import java.net.URL;
 
 public abstract class SmosToolView extends AbstractToolView {
@@ -144,10 +140,10 @@ public abstract class SmosToolView extends AbstractToolView {
     }
 
     protected void realizeSmosView(ProductSceneView view) {
-        if (clientComponent == null) {
-            clientComponent = createClientComponent();
-        }
         if (view != null) {
+            if (clientComponent == null) {
+                clientComponent = createClientComponent();
+            }
             setToolViewComponent(clientComponent);
             updateClientComponent(view);
         } else {
@@ -156,7 +152,7 @@ public abstract class SmosToolView extends AbstractToolView {
     }
 
     protected final JComponent getClientComponent() {
-        return clientComponent;
+        return clientComponent != null ? clientComponent : defaultComponent;
     }
 
     protected abstract JComponent createClientComponent();
