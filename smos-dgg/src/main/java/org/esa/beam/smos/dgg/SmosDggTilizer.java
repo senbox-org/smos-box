@@ -45,7 +45,7 @@ public class SmosDggTilizer {
 
     private void doIt(File inputLevel0Dir, File outputDir) throws IOException {
         if (!outputDir.exists() && !outputDir.mkdir()) {
-            throw new IOException("Failed to create directory: "+outputDir.getAbsolutePath());
+            throw new IOException("Failed to create directory: "+ outputDir.getAbsolutePath());
         }
 
         final TiledFileOpImage opImage = TiledFileOpImage.create(inputLevel0Dir, null);
