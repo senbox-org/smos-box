@@ -164,7 +164,7 @@ public class L1cScienceSmosFile extends L1cSmosFile {
         }
     }
 
-    byte getBrowseBtDataValueByte(int gridPointIndex, int memberIndex, int polarization) throws IOException {
+    public byte getBrowseBtDataValueByte(int gridPointIndex, int memberIndex, int polarization) throws IOException {
         if (memberIndex == flagsIndex) {
             return (byte) getCombinedFlags(gridPointIndex, polarization);
         } else {
@@ -172,7 +172,7 @@ public class L1cScienceSmosFile extends L1cSmosFile {
         }
     }
 
-    short getBrowseBtDataValueShort(int gridPointIndex, int memberIndex, int polarization) throws IOException {
+    public short getBrowseBtDataValueShort(int gridPointIndex, int memberIndex, int polarization) throws IOException {
         if (memberIndex == flagsIndex) {
             return (short) getCombinedFlags(gridPointIndex, polarization);
         } else {
@@ -180,7 +180,7 @@ public class L1cScienceSmosFile extends L1cSmosFile {
         }
     }
 
-    int getBrowseBtDataValueInt(int gridPointIndex, int memberIndex, int polarization) throws IOException {
+    public int getBrowseBtDataValueInt(int gridPointIndex, int memberIndex, int polarization) throws IOException {
         if (memberIndex == flagsIndex) {
             return getCombinedFlags(gridPointIndex, polarization);
         } else {
@@ -188,11 +188,11 @@ public class L1cScienceSmosFile extends L1cSmosFile {
         }
     }
 
-    float getBrowseBtDataValueFloat(int gridPointIndex, int memberIndex, int polarization) throws IOException {
+    public float getBrowseBtDataValueFloat(int gridPointIndex, int memberIndex, int polarization) throws IOException {
         return (float) getInterpolatedValue(gridPointIndex, memberIndex, polarization);
     }
 
-    CompoundData getSnapshotBtData(int gridPointIndex, int polarization, long snapshotId) throws IOException {
+    public CompoundData getSnapshotBtData(int gridPointIndex, int polarization, long snapshotId) throws IOException {
         final SequenceData btDataList = getBtDataList(gridPointIndex);
         final int elementCount = btDataList.getElementCount();
 
