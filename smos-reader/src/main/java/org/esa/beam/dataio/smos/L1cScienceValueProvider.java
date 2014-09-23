@@ -17,7 +17,7 @@
 package org.esa.beam.dataio.smos;
 
 import org.esa.beam.dataio.smos.provider.AbstractValueProvider;
-import org.esa.beam.dataio.smos.provider.FirlefanzProvider;
+import org.esa.beam.dataio.smos.provider.BTValueProvider;
 import org.esa.beam.dataio.smos.provider.SnapshotValueProvider;
 
 import java.awt.geom.Area;
@@ -37,7 +37,7 @@ public class L1cScienceValueProvider extends AbstractValueProvider {
         this.memberIndex = memberIndex;
         this.polarisation = polarization;
         this.snapshotId = -1;
-        valueProviderImpl = new FirlefanzProvider(smosFile, memberIndex, polarisation);
+        valueProviderImpl = new BTValueProvider(smosFile, memberIndex, polarisation);
     }
 
     public final long getSnapshotId() {
@@ -47,7 +47,7 @@ public class L1cScienceValueProvider extends AbstractValueProvider {
     public final void setSnapshotId(long snapshotId) {
         this.snapshotId = snapshotId;
         if (snapshotId < 0) {
-            valueProviderImpl = new FirlefanzProvider(smosFile, memberIndex, polarisation);
+            valueProviderImpl = new BTValueProvider(smosFile, memberIndex, polarisation);
         } else {
             valueProviderImpl = new SnapshotValueProvider(smosFile, memberIndex, polarisation, snapshotId);
         }

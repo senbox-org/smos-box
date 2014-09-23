@@ -5,13 +5,13 @@ import org.esa.beam.dataio.smos.L1cScienceSmosFile;
 import java.awt.geom.Area;
 import java.io.IOException;
 
-public class FirlefanzProvider extends AbstractValueProvider {
+public class BTValueProvider extends AbstractValueProvider {
 
     private final L1cScienceSmosFile smosFile;
     private final int memberIndex;
     private final int polarisation;
 
-    public FirlefanzProvider(L1cScienceSmosFile smosFile, int memberIndex, int polarisation) {
+    public BTValueProvider(L1cScienceSmosFile smosFile, int memberIndex, int polarisation) {
         this.smosFile = smosFile;
         this.memberIndex = memberIndex;
         this.polarisation = polarisation;
