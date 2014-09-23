@@ -259,8 +259,7 @@ public class SmosBufrReader extends AbstractProductReader {
         }
     }
 
-    private void addBand(Product product, Variable variable, int dataType, BandDescriptor descriptor) throws
-            IOException {
+    private void addBand(Product product, Variable variable, int dataType, BandDescriptor descriptor) throws IOException {
         if (!descriptor.isVisible()) {
             return;
         }
