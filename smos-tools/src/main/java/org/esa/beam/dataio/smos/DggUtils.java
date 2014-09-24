@@ -49,11 +49,11 @@ public class DggUtils {
     // package access for testing only tb 2014-07-21
     static Rectangle2D createTileRectangle(int i, int j) {
         final double w = 11.25;
-        final double h = 11.25;
+        final double h = 11.07421875;
         final double x = w * i - 180.0;
-        final double y = 90.0 - h * (j + 1);
+        final double y = 88.59375 - h * (j + 1);
 
-        return new Rectangle2D.Double(x, y, w, w);
+        return new Rectangle2D.Double(x, y, w, h);
     }
 
     // Keep this method public - else we get weired class loading problems from within Visat tb 2014-08-04

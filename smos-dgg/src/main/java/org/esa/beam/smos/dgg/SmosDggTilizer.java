@@ -25,10 +25,13 @@ import org.esa.beam.jai.TiledFileOpImage;
 import javax.imageio.stream.ImageOutputStream;
 import javax.imageio.stream.MemoryCacheImageOutputStream;
 import javax.media.jai.PlanarImage;
+import javax.media.jai.operator.CropDescriptor;
 import java.awt.Rectangle;
 import java.awt.geom.AffineTransform;
+import java.awt.image.DataBufferByte;
 import java.awt.image.DataBufferInt;
 import java.awt.image.Raster;
+import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
@@ -48,17 +51,19 @@ public class SmosDggTilizer {
             throw new IOException("Failed to create directory: "+ outputDir.getAbsolutePath());
         }
 
-        final TiledFileOpImage opImage = TiledFileOpImage.create(inputLevel0Dir, null);
+        RenderedImage opImage;
+        opImage = TiledFileOpImage.create(inputLevel0Dir, null);
+        opImage = CropDescriptor.create(opImage, 0.0f, 64.0f, 16384.0f, 8064.0f, null);
         final int dataType = opImage.getSampleModel().getDataType();
         int tileWidth = 512;
-        int tileHeight = 512;
+        int tileHeight = 504;
         final int levelCount = 7;
-        final MultiLevelModel model = new DefaultMultiLevelModel(levelCount, new AffineTransform(), opImage.getWidth(),
+        final MultiLevelModel model = new DefaultMultiLevelModel(levelCount, new AffineTransform(),
+                                                                 opImage.getWidth(),
                                                                  opImage.getHeight());
         final MultiLevelSource multiLevelSource = new DefaultMultiLevelSource(opImage, model);
 
-        for (int level = 5; level < levelCount; level++) {
-
+        for (int level = 0; level < levelCount; level++) {
             final PlanarImage image = PlanarImage.wrapRenderedImage(multiLevelSource.getImage(level));
 
             final int width = image.getWidth();
@@ -82,7 +87,7 @@ public class SmosDggTilizer {
             if (numXTiles == 0 || numYTiles == 0) {
                 throw new IllegalStateException("numXTiles == 0 || numYTiles == 0");
             }
-            if (tileWidth < 512 && tileHeight < 512) {
+            if (tileWidth < 512 && tileHeight < 504) {
                 tileWidth = width;
                 tileHeight = height;
                 numXTiles = numYTiles = 1;
@@ -112,7 +117,7 @@ public class SmosDggTilizer {
         for (int tileY = 0; tileY < numYTiles; tileY++) {
             for (int tileX = 0; tileX < numXTiles; tileX++) {
                 final int x = tileX * tileWidth;
-                final int y = tileY * tileHeight;
+                final int y = tileY * tileHeight + image.getMinY();
                 final Raster raster = image.getData(new Rectangle(x, y, tileWidth, tileHeight));
                 int[] data = ((DataBufferInt) raster.getDataBuffer()).getData();
                 if (data.length != tileWidth * tileHeight) {

@@ -17,6 +17,9 @@ package org.esa.beam.smos.dgg;
 
 import org.junit.Test;
 
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
+
 import static org.junit.Assert.assertEquals;
 
 
@@ -215,5 +218,17 @@ public class SmosDggTest {
         assertEquals(10, SmosDgg.seqnumToZoneId(2359299));
         assertEquals(10, SmosDgg.seqnumToZoneId(2621441));
         assertEquals(10, SmosDgg.seqnumToZoneId(2621442));
+    }
+
+    @Test
+    public void testImageToModelTransform() throws Exception {
+        final AffineTransform t = SmosDgg.getInstance().getMultiLevelImage().getModel().getImageToModelTransform(0);
+
+        final Point2D i = new Point2D.Double(0.0, 0.0);
+        final Point2D m = new Point2D.Double();
+        t.transform(i, m);
+
+        assertEquals(-180.0, m.getX(), 0.0);
+        assertEquals(90.0 - 0.02197265625 * 64, m.getY(), 0.0);
     }
 }

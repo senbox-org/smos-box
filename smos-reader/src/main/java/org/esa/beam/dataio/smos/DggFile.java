@@ -107,7 +107,7 @@ public class DggFile extends ExplorerFile {
         final Product product = new Product(productName, productType, dimension.width, dimension.height);
 
         product.setFileLocation(getDataFile());
-        product.setPreferredTileSize(512, 512);
+        product.setPreferredTileSize(512, 504);
         ProductHelper.addMetadata(product.getMetadataRoot(), this);
 
         product.setGeoCoding(ProductHelper.createGeoCoding(dimension));

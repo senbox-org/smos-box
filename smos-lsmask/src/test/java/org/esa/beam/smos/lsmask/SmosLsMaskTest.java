@@ -32,14 +32,14 @@ public class SmosLsMaskTest {
     @Test
     public void imageProperties() {
         assertEquals(16384, multiLevelImage.getWidth());
-        assertEquals(8192, multiLevelImage.getHeight());
+        assertEquals(8064, multiLevelImage.getHeight());
         assertEquals(7, multiLevelImage.getModel().getLevelCount());
         assertEquals(DataBuffer.TYPE_BYTE, multiLevelImage.getSampleModel().getDataType());
     }
 
     @Test
     public void imageSamples() {
-        final Raster data = multiLevelImage.getData(new Rectangle(0, 0, 512, 512));
+        final Raster data = multiLevelImage.getData(new Rectangle(0, 0, 512, 504));
         assertEquals(193, data.getSample(0, 0, 0), 0.0);
     }
 }
