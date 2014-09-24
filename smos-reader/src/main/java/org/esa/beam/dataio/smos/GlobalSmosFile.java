@@ -38,7 +38,7 @@ class GlobalSmosFile extends ExplorerFile {
 
     @Override
     public final Area getArea() {
-        return new Area(new Rectangle2D.Double(-180.0, -90.0, 360.0, 180.0));
+        return new Area(new Rectangle2D.Double(-180.0, -88.59375, 360.0, 177.1875));
     }
 
     @Override
@@ -49,7 +49,7 @@ class GlobalSmosFile extends ExplorerFile {
         final Product product = new Product(productName, productType, dimension.width, dimension.height);
 
         product.setFileLocation(getDataFile());
-        product.setPreferredTileSize(512, 512);
+        product.setPreferredTileSize(512, 504);
         ProductHelper.addMetadata(product.getMetadataRoot(), this);
 
         product.setGeoCoding(ProductHelper.createGeoCoding(dimension));

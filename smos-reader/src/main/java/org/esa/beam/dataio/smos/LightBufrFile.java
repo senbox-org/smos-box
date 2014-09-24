@@ -109,7 +109,7 @@ class LightBufrFile implements ProductFile {
         final Product product = new Product(productName, productType, dimension.width, dimension.height);
 
         product.setFileLocation(getDataFile());
-        product.setPreferredTileSize(512, 512);
+        product.setPreferredTileSize(512, 504);
 
         final MetadataElement metadataRoot = product.getMetadataRoot();
         final List<Attribute> globalAttributeList = ncfile.getGlobalAttributes();
