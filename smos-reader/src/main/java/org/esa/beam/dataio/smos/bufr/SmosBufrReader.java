@@ -78,6 +78,7 @@ public class SmosBufrReader extends AbstractProductReader {
     private HashMap<Integer, ArrayList<Observation>> gridPointMap;
     private Grid grid;
     private Area area;
+    private ScaleFactors scaleFactors;
 
     SmosBufrReader(SmosBufrReaderPlugin smosBufrReaderPlugin) {
         super(smosBufrReaderPlugin);
@@ -93,6 +94,7 @@ public class SmosBufrReader extends AbstractProductReader {
         final Product product = createProduct(inputFile);
 
         extractMetaData(product);
+        extractScaleFactors();
         readObservations();
         calculateArea();
         addBands(product);
@@ -114,12 +116,33 @@ public class SmosBufrReader extends AbstractProductReader {
         area = DggUtils.computeArea(new ObservationPointList(points.toArray(new Point[points.size()])));
     }
 
+    private void extractScaleFactors() {
+        final Sequence sequence = getObservationSequence();
+        scaleFactors = new ScaleFactors();
+
+        scaleFactors.lon = createFactor(sequence, "Longitude_high_accuracy");
+        scaleFactors.lat = createFactor(sequence, "Latitude_high_accuracy");
+        scaleFactors.polarisation = createFactor(sequence, "Polarisation");
+
+    }
+
+    private Factor createFactor(Sequence sequence, String variableName) {
+        final Variable variable = sequence.findVariable(variableName);
+        final Factor factor = new Factor();
+        factor.offset = getAttributeValue(variable, ATTR_NAME_ADD_OFFSET, 0.0);
+        factor.scale = getAttributeValue(variable, ATTR_NAME_SCALE_FACTOR, 1.0);
+        factor.missingValue = getAttributeValue(variable, ATTR_NAME_MISSING_VALUE, Double.NaN);
+
+        return factor;
+    }
+
     private void readObservations() throws IOException {
         observations = new ArrayList<>();
         snapshotMap = new HashMap<>();
         gridPointMap = new HashMap<>();
         final Sequence observationSequence = getObservationSequence();
         final StructureDataIterator structureIterator = observationSequence.getStructureIterator();
+
         while (structureIterator.hasNext()) {
             structureIterator.hasNext();
             final StructureData next = structureIterator.next();
@@ -138,20 +161,16 @@ public class SmosBufrReader extends AbstractProductReader {
             observation.data[WATER_FRACTION_INDEX] = next.getScalarShort("Water_fraction");
             observation.data[POLARISATION_INDEX] = next.getScalarByte("Polarisation");
 
-            final int snapshot_id = next.getScalarInt("Snapshot_identifier");
-            addObservationToSnapshots(observation, snapshot_id);
-
-//            final int gridpoint_id = next.getScalarInt("Grid_point_identifier");
-//            final short number_of_grid_points = next.getScalarShort("Number_of_grid_points");
-
-            // @todo 1 tb/tb scale factors from netcdf variables
             final int longitude_high_accuracy = next.getScalarInt("Longitude_high_accuracy");
-            final float lon = longitude_high_accuracy * 1.0e-5f - 180.f;
+            final float lon = (float) (longitude_high_accuracy * scaleFactors.lon.scale + scaleFactors.lon.offset);
             observation.lon = lon;
 
             final int latitude_high_accuracy = next.getScalarInt("Latitude_high_accuracy");
-            final float lat = latitude_high_accuracy * 1.0e-5f - 90.f;
+            final float lat = (float) (latitude_high_accuracy *scaleFactors.lat.scale + scaleFactors.lat.offset);
             observation.lat = lat;
+
+            final int snapshot_id = next.getScalarInt("Snapshot_identifier");
+            addObservationToSnapshots(observation, snapshot_id);
 
             final int grid_point_index = grid.getCellIndex(lon, lat);
             addObservationToGridPoints(observation, grid_point_index);
