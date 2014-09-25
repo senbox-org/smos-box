@@ -42,28 +42,9 @@ public class GridPointExporter {
 
     private static Logger logger;
 
+    public static void main(String[] args) throws IOException {
+        initializeLogging();
 
-    static {
-        logger = Logger.getLogger("org.esa.beam.smos");
-
-        try {
-            final FileHandler fileHandler = new FileHandler("export.log");
-            fileHandler.setLevel(Level.ALL);
-            logger.addHandler(fileHandler);
-
-            final ConsoleHandler consoleHandler = new ConsoleHandler();
-            consoleHandler.setLevel(Level.INFO);
-            logger.addHandler(consoleHandler);
-
-            // handlers are set, so
-            logger.setUseParentHandlers(false);
-            logger.setLevel(Level.INFO);
-        } catch (Exception e) {
-            // ignore
-        }
-    }
-
-    public static void main(String[] args) {
         final GPEArguments arguments = new GPEArguments(args, new ErrorHandler() {
             @Override
             public void warning(final Throwable t) {
@@ -94,6 +75,21 @@ public class GridPointExporter {
                 System.exit(1);
             }
         });
+    }
+
+    private static void initializeLogging() throws IOException {
+        logger = Logger.getLogger("org.esa.beam.smos");
+        final FileHandler fileHandler = new FileHandler("export.log");
+        fileHandler.setLevel(Level.ALL);
+        logger.addHandler(fileHandler);
+
+        final ConsoleHandler consoleHandler = new ConsoleHandler();
+        consoleHandler.setLevel(Level.INFO);
+        logger.addHandler(consoleHandler);
+
+        // handlers are set, so
+        logger.setUseParentHandlers(false);
+        logger.setLevel(Level.INFO);
     }
 
     private static void execute(GPEArguments arguments, ErrorHandler errorHandler) {
