@@ -25,13 +25,19 @@
             <filtered>false</filtered>
         </file>
 
-        <file>
-            <source>${project.basedir}/src/main/doc/*</source>
+    </files>
+
+    <fileSets>
+        <fileSet>
+            <directory>${project.basedir}/src/main/doc/</directory>
             <outputDirectory>/</outputDirectory>
             <fileMode>0755</fileMode>
             <filtered>false</filtered>
-        </file>
-    </files>
+            <includes>
+                <include>SMOS-BOX-FormatConversionUserGuide-*-forAcceptance.pdf</include>
+            </includes>
+        </fileSet>
+    </fileSets>
 
     <dependencySets>
         <dependencySet>
