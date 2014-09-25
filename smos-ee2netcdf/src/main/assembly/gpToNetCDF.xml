@@ -10,7 +10,7 @@
 
     <files>
         <file>
-            <source>${project.basedir}/src/main/bin/smos-gptonetcdf.bat</source>
+            <source>${project.basedir}/src/main/bin/smos-gp-to-nc.bat</source>
             <outputDirectory>/</outputDirectory>
             <lineEnding>dos</lineEnding>
             <fileMode>0755</fileMode>
@@ -18,7 +18,7 @@
         </file>
 
         <file>
-            <source>${project.basedir}/src/main/bin/smos-gptonetcdf.sh</source>
+            <source>${project.basedir}/src/main/bin/smos-gp-to-nc.sh</source>
             <outputDirectory>/</outputDirectory>
             <lineEnding>unix</lineEnding>
             <fileMode>0755</fileMode>
