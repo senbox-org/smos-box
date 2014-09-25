@@ -16,7 +16,9 @@
     <url>http://envisat.esa.int/beam/</url>
     <licenseUrl>http://www.gnu.org/licenses/gpl.html</licenseUrl>
 
-    <changelog/>
+    <changelog>
+        Initial release for Sentinel-3 Toolbox.
+    </changelog>
 
     <categories>SMOS</categories>
 
