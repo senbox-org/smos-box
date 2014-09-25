@@ -15,25 +15,26 @@ public class GridPointExporterTest {
 
         GridPointExporter.printUsageTo(new PrintStream(outputStream));
 
+        final String lineSep = System.lineSeparator();
         final String usage = outputStream.toString();
-        assertEquals("SMOS-Box Grid Point Export command line tool, version 3.0\n" +
-                "\n" +
-                "usage : export-grid-points [ROI] [-o targetFile] [sourceProduct ...]\n" +
-                "\n" +
-                "ROI\n" +
-                "    [-box minLon maxLon minLat maxLat] | [-point lon lat]\n" +
-                "    a region-of-interest either defined by a latitude-longitude box\n" +
-                "    or the coordinates of a DGG grid point\n" +
-                "\n" +
-                "Note that each source product must be specified by the path name of\n" +
-                "the directory which contains the SMOS '.HDR' and '.DBL' files.\n" +
-                "\n" +
-                "targetFile\n" +
-                "    If the target file is a directory, the grid point data are exported\n" +
-                "      into that directory, the data is stored in EE formatted files.\n" +
-                "    If the target file is a normal file, the grid point data are stored\n" +
-                "      to this file as CSV table.\n" +
-                "    If no target file is specified, the grid point data are printed to\n" +
-                "      the console (in CSV format).\n", usage) ;
+        assertEquals("SMOS-Box Grid Point Export command line tool, version 3.0" + lineSep +
+                lineSep +
+                "usage : export-grid-points [ROI] [-o targetFile] [sourceProduct ...]" + lineSep +
+                lineSep +
+                "ROI" + lineSep +
+                "    [-box minLon maxLon minLat maxLat] | [-point lon lat]" + lineSep +
+                "    a region-of-interest either defined by a latitude-longitude box" + lineSep +
+                "    or the coordinates of a DGG grid point" +
+                lineSep + lineSep +
+                "Note that each source product must be specified by the path name of" + lineSep +
+                "the directory which contains the SMOS '.HDR' and '.DBL' files." + lineSep +
+                lineSep +
+                "targetFile" + lineSep +
+                "    If the target file is a directory, the grid point data are exported" + lineSep +
+                "      into that directory, the data is stored in EE formatted files." + lineSep +
+                "    If the target file is a normal file, the grid point data are stored" + lineSep +
+                "      to this file as CSV table." + lineSep +
+                "    If no target file is specified, the grid point data are printed to" + lineSep +
+                "      the console (in CSV format)." + lineSep, usage);
     }
 }
