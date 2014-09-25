@@ -10,7 +10,7 @@
 
     <files>
         <file>
-            <source>${project.basedir}/src/main/bin/smos-gp-to-nc.bat</source>
+            <source>${project.basedir}/src/main/bin/smos-gptonetcdf.bat</source>
             <outputDirectory>/</outputDirectory>
             <lineEnding>dos</lineEnding>
             <fileMode>0755</fileMode>
@@ -18,20 +18,26 @@
         </file>
 
         <file>
-            <source>${project.basedir}/src/main/bin/smos-gp-to-nc.sh</source>
+            <source>${project.basedir}/src/main/bin/smos-gptonetcdf.sh</source>
             <outputDirectory>/</outputDirectory>
             <lineEnding>unix</lineEnding>
             <fileMode>0755</fileMode>
             <filtered>false</filtered>
         </file>
 
-        <file>
-            <source>${project.basedir}/src/main/doc/SMOS-BOX-FormatConversionUserGuide-1.1-forAcceptance.pdf</source>
+    </files>
+
+    <fileSets>
+        <fileSet>
+            <directory>${project.basedir}/src/main/doc/</directory>
             <outputDirectory>/</outputDirectory>
             <fileMode>0755</fileMode>
             <filtered>false</filtered>
-        </file>
-    </files>
+            <includes>
+                <include>SMOS-BOX-FormatConversionUserGuide-*-forAcceptance.pdf</include>
+            </includes>
+        </fileSet>
+    </fileSets>
 
     <dependencySets>
         <dependencySet>
