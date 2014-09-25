@@ -40,13 +40,13 @@
         <optional>true</optional>
     </dependency>
     <dependency>
-        <module>smostbx-dgg</module>
+        <module>smos-dgg</module>
     </dependency>
     <dependency>
-        <module>smostbx-lsmask</module>
+        <module>smos-lsmask</module>
     </dependency>
     <dependency>
-        <module>smostbx-tools</module>
+        <module>smos-tools</module>
     </dependency>
 
     <categories>Reader,SMOS</categories>

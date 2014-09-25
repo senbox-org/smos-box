@@ -28,13 +28,13 @@
         <module>snap-visat-rcp</module>
     </dependency>
     <dependency>
-        <module>smostbx-reader</module>
+        <module>smos-reader</module>
     </dependency>
     <dependency>
-        <module>smostbx-tools</module>
+        <module>smos-tools</module>
     </dependency>
     <dependency>
-        <module>smostbx-gui</module>
+        <module>smos-gui</module>
     </dependency>
 
     <categories>SMOS</categories>
