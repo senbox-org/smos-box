@@ -1,0 +1,1 @@
+The shell script files for the grid point exporter have been moved to the main S3TBX installation dir. tb 2014-09-25
