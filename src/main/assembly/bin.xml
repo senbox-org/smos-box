@@ -99,11 +99,11 @@
                         <outputFileNameMapping>${artifact.artifactId}-${artifact.version}.${artifact.extension}
                         </outputFileNameMapping>
                         <includes>
-                            <include>org.esa.beam:beam-core</include>
-                            <include>org.esa.beam:beam-binning</include>
-                            <include>org.esa.beam:beam-gpt</include>
-                            <include>org.esa.beam:beam-netcdf</include>
-                            <include>org.esa.beam:beam-ui</include>
+                            <include>org.esa.snap:snap-core</include>
+                            <include>org.esa.snap:snap-binning</include>
+                            <include>org.esa.snap:snap-gpt</include>
+                            <include>org.esa.snap:snap-netcdf</include>
+                            <include>org.esa.snap:snap-ui</include>
                         </includes>
                     </dependencySet>
                 </dependencySets>

@@ -1,9 +1,9 @@
 <module>
     <manifestVersion>1.0.0</manifestVersion>
 
-    <symbolicName>smostbx-ee2netcdf</symbolicName>
+    <symbolicName>smos-ee2netcdf</symbolicName>
     <name>SMOS EarthExplorer to NetCDF converter</name>
-    <version>0.5.0</version>
+    <version>4.0</version>
 
     <description>
         This module facilitates converting SMOS product files from

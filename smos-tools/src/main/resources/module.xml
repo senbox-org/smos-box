@@ -1,9 +1,9 @@
 <module>
     <manifestVersion>1.0.0</manifestVersion>
 
-    <symbolicName>smostbx-tools</symbolicName>
+    <symbolicName>smos-tools</symbolicName>
     <name>SMOS Tools and Utilities</name>
-    <version>0.5.0</version>
+    <version>4.0</version>
     <description>
         This module provides several utility classes for SMOS data handling.
     </description>

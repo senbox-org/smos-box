@@ -4,14 +4,14 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <artifactId>smostbx</artifactId>
+        <artifactId>smos-box</artifactId>
         <groupId>org.esa.smostbx</groupId>
-        <version>0.5.0-SNAPSHOT</version>
+        <version>4.0-SNAPSHOT</version>
     </parent>
 
     <packaging>jar</packaging>
 
-    <artifactId>smostbx-reader</artifactId>
+    <artifactId>smos-reader</artifactId>
     <name>SMOS Product Reader</name>
     <description>SMOS Product Reader</description>
 
@@ -41,19 +41,19 @@
 
         <dependency>
             <groupId>org.esa.smostbx</groupId>
-            <artifactId>smostbx-dgg</artifactId>
+            <artifactId>smos-dgg</artifactId>
         </dependency>
         <dependency>
             <groupId>org.esa.smostbx</groupId>
-            <artifactId>smostbx-lsmask</artifactId>
+            <artifactId>smos-lsmask</artifactId>
         </dependency>
         <dependency>
             <groupId>org.esa.smostbx</groupId>
-            <artifactId>smostbx-tools</artifactId>
+            <artifactId>smos-tools</artifactId>
         </dependency>
         <dependency>
             <groupId>org.esa.smostbx</groupId>
-            <artifactId>smostbx-tools</artifactId>
+            <artifactId>smos-tools</artifactId>
             <type>test-jar</type>
             <scope>test</scope>
         </dependency>

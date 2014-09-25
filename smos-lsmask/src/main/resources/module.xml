@@ -1,9 +1,9 @@
 <module>
     <manifestVersion>1.0.0</manifestVersion>
 
-    <symbolicName>smostbx-lsmask</symbolicName>
+    <symbolicName>smos-lsmask</symbolicName>
     <name>SMOS Land/Sea Mask</name>
-    <version>0.5.0</version>
+    <version>4.0</version>
     <description>
         This module provides the static SMOS land/sea mask, which is mapped to BEAM image pixels.
     </description>
