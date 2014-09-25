@@ -85,17 +85,17 @@
     the <code>bin</code> directory of your S-3 Toolbox installation.
     Depending on your system platform, type</p>
   <pre>
-    ${S3TBX_HOME}/bin/export-grid-points.bat
+    ${S3TBX_HOME}/bin/smos-gp-export.bat
   
 </pre>
   <pre>
-    ${S3TBX_HOME}/bin/export-grid-points.sh
+    ${S3TBX_HOME}/bin/smos-gp-export.sh
   
 </pre>
 
 <p>or</p>
   <pre>
-    ${S3TBX_HOME}/bin/export-grid-points.command
+    ${S3TBX_HOME}/bin/smos-gp-export.command
   
 </pre>
 
@@ -103,13 +103,13 @@
     data is exported can be defined by either a latitude-longitude
     box or a latitude-longitude point. For instance, type</p>
   <pre>
-    export-grid-points.sh -point 1.0 7.0 SM_TEST_MIR_SCLF1C_20070223T061043_20070223T061105_310_001_0
+    smos-gp-export.sh -point 1.0 7.0 SM_TEST_MIR_SCLF1C_20070223T061043_20070223T061105_310_001_0
   
 </pre>
 
 <p>for exporting the data of a single grid point. Type</p>
   <pre>
-    export-grid-points.sh -box -10.0 10.0 -20.0 20.0 SM_TEST_MIR_SCLF1C_20070223T061043_20070223T061105_310_001_0
+    smos-gp-export.sh -box -10.0 10.0 -20.0 20.0 SM_TEST_MIR_SCLF1C_20070223T061043_20070223T061105_310_001_0
   
 </pre>
 
@@ -118,7 +118,7 @@
     the <code>-o</code> option. If a target file is not defined, the
     output is printed to the console. For example, type</p>
   <pre>
-    export-grid-points.sh -point 1.0 7.0 -o export.csv SM_TEST_MIR_SCLF1C_20070223T061043_20070223T061105_310_001_0
+    smos-gp-export.sh -point 1.0 7.0 -o export.csv SM_TEST_MIR_SCLF1C_20070223T061043_20070223T061105_310_001_0
   
 </pre>
 
@@ -128,7 +128,7 @@
     generated from the file name of its source product. For example,
     type</p>
   <pre>
-    export-grid-points.sh -point 1.0 7.0 -o exportDir SM_????_MIR_SCLD1C_2010*
+    smos-gp-export.sh -point 1.0 7.0 -o exportDir SM_????_MIR_SCLD1C_2010*
   
 </pre>
 
@@ -136,13 +136,13 @@
     The usual shell completion can be used to specify multiple
     product files. For example, type</p>
   <pre>
-    export-grid-points.sh -point 1.0 7.0 -o export.csv SM_????_MIR_SCLD1C_2010*
+    smos-gp-export.sh -point 1.0 7.0 -o export.csv SM_????_MIR_SCLD1C_2010*
 
 </pre>
 
 <p>or</p>
   <pre>
-    export-grid-points.sh -point 1.0 7.0 -o exportDir SM_????_MIR_SCLD1C_2010*
+    smos-gp-export.sh -point 1.0 7.0 -o exportDir SM_????_MIR_SCLD1C_2010*
 
 </pre>
 
