@@ -25,7 +25,7 @@ import java.util.logging.Logger;
  */
 public class GPToNetCDFExporterTool {
 
-    private static final String TOOL_NAME = "ee2netcdf";
+    private static final String TOOL_NAME = "smos-gp-to-nc";
     private static final String TOOL_VERSION = "1.0";
 
     private static final int ERROR = 1;
