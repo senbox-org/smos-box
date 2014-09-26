@@ -26,17 +26,12 @@ import javax.imageio.stream.ImageOutputStream;
 import javax.imageio.stream.MemoryCacheImageOutputStream;
 import javax.media.jai.PlanarImage;
 import javax.media.jai.operator.CropDescriptor;
-import java.awt.Rectangle;
+import java.awt.*;
 import java.awt.geom.AffineTransform;
-import java.awt.image.DataBufferByte;
 import java.awt.image.DataBufferInt;
 import java.awt.image.Raster;
 import java.awt.image.RenderedImage;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -48,7 +43,7 @@ public class SmosDggTilizer {
 
     private void doIt(File inputLevel0Dir, File outputDir) throws IOException {
         if (!outputDir.exists() && !outputDir.mkdir()) {
-            throw new IOException("Failed to create directory: "+ outputDir.getAbsolutePath());
+            throw new IOException("Failed to create directory: " + outputDir.getAbsolutePath());
         }
 
         RenderedImage opImage;
@@ -59,8 +54,8 @@ public class SmosDggTilizer {
         int tileHeight = 504;
         final int levelCount = 7;
         final MultiLevelModel model = new DefaultMultiLevelModel(levelCount, new AffineTransform(),
-                                                                 opImage.getWidth(),
-                                                                 opImage.getHeight());
+                opImage.getWidth(),
+                opImage.getHeight());
         final MultiLevelSource multiLevelSource = new DefaultMultiLevelSource(opImage, model);
 
         for (int level = 0; level < levelCount; level++) {
@@ -95,16 +90,16 @@ public class SmosDggTilizer {
 
             final File outputLevelDir = new File(outputDir, "" + level);
             if (!outputLevelDir.exists() && !outputLevelDir.mkdir()) {
-                throw new IOException("Failed to create directory: "+outputLevelDir.getAbsolutePath());
+                throw new IOException("Failed to create directory: " + outputLevelDir.getAbsolutePath());
             }
 
             final File imagePropertiesFile = new File(outputLevelDir, "image.properties");
             System.out.println("Writing " + imagePropertiesFile + "...");
             final PrintWriter printWriter = new PrintWriter(new FileWriter(imagePropertiesFile));
             writeImageProperties(level, dataType, width, height, tileWidth, tileHeight, numXTiles, numYTiles,
-                                 new PrintWriter(System.out));
+                    new PrintWriter(System.out));
             writeImageProperties(level, dataType, width, height, tileWidth, tileHeight, numXTiles, numYTiles,
-                                 printWriter);
+                    printWriter);
             System.out.flush();
             printWriter.close();
 
