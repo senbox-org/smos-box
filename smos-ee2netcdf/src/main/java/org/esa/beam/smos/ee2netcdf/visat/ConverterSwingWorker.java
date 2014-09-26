@@ -21,8 +21,8 @@ import java.util.concurrent.ExecutionException;
 
 class ConverterSwingWorker extends ProgressMonitorSwingWorker<List<Exception>, File> {
 
-    private AppContext appContext;
-    private ExportParameter exportParameter;
+    private final AppContext appContext;
+    private final ExportParameter exportParameter;
 
     ConverterSwingWorker(AppContext appContext, ExportParameter exportParameter) {
         super(appContext.getApplicationWindow(), "Converting EE to NetCDF");

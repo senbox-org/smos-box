@@ -70,7 +70,7 @@ class L1CFormatExporter extends AbstractFormatExporter {
     }
 
     @Override
-    public void prepareGeographicSubset(NFileWriteable nFileWriteable, ExportParameter exportParameter) throws IOException {
+    public void prepareGeographicSubset(ExportParameter exportParameter) throws IOException {
         if (exportParameter.getRegion() != null) {
             final GeometryFilter geometryFilter = GeometryFilterFactory.create(exportParameter.getRegion());
             gpIndexList = new ArrayList<>(gridPointCount);

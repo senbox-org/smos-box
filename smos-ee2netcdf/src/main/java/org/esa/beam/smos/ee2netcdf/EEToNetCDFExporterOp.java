@@ -104,7 +104,7 @@ public class EEToNetCDFExporterOp extends AbstractNetCDFExporterOp {
     }
 
     // package access for testing only tb 2013-03-26
-    static Rectangle getDataBoundingRect(Product sourceProduct, Geometry dataArea) throws IOException {
+    static Rectangle getDataBoundingRect(Product sourceProduct, Geometry dataArea) {
         final GeoCoding geoCoding = sourceProduct.getGeoCoding();
         final GeoPos geoPos = new GeoPos(0.f, 0.f);
         final PixelPos pixelPos = new PixelPos(0.f, 0.f);
