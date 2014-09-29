@@ -21,24 +21,13 @@ import org.esa.beam.dataio.smos.ProductFile;
 import org.esa.beam.dataio.smos.SmosFile;
 import org.esa.beam.dataio.smos.SmosProductReader;
 import org.esa.beam.framework.dataio.ProductReader;
-import org.esa.beam.framework.datamodel.MetadataElement;
-import org.esa.beam.framework.datamodel.PixelPos;
-import org.esa.beam.framework.datamodel.Placemark;
-import org.esa.beam.framework.datamodel.Product;
-import org.esa.beam.framework.datamodel.ProductNode;
-import org.esa.beam.framework.datamodel.ProductNodeEvent;
-import org.esa.beam.framework.datamodel.ProductNodeListener;
+import org.esa.beam.framework.datamodel.*;
 import org.esa.beam.framework.help.HelpSys;
 import org.esa.beam.framework.ui.product.ProductSceneView;
 import org.esa.beam.visat.VisatApp;
 
-import javax.swing.AbstractButton;
-import javax.swing.JCheckBox;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.SwingWorker;
-import java.awt.BorderLayout;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.beans.PropertyChangeEvent;
@@ -156,10 +145,10 @@ public abstract class GridPointBtDataToolView extends SmosToolView {
         final int gridPointIndex = l1cSmosFile != null ? l1cSmosFile.getGridPointIndex(selectedGridPointId) : -1;
         if (gridPointIndex >= 0) {
             setInfoText("" +
-                        "<html>" +
-                        "SEQNUM=<b>" + selectedGridPointId + "</b>, " +
-                        "INDEX=<b>" + gridPointIndex + "</b>" +
-                        "</html>");
+                    "<html>" +
+                    "SEQNUM=<b>" + selectedGridPointId + "</b>, " +
+                    "INDEX=<b>" + gridPointIndex + "</b>" +
+                    "</html>");
 
             new SwingWorker<GridPointBtDataset, Void>() {
 
@@ -189,7 +178,9 @@ public abstract class GridPointBtDataToolView extends SmosToolView {
     }
 
     protected void setInfoText(String text) {
-        infoLabel.setText(text);
+        if (infoLabel != null) {
+            infoLabel.setText(text);
+        }
     }
 
     protected abstract JComponent createGridPointComponent();
@@ -217,7 +208,7 @@ public abstract class GridPointBtDataToolView extends SmosToolView {
     private static String getReferredFileName(MetadataElement element) {
         for (final MetadataElement metadataElement : element.getElements()) {
             if ("L1C_SM_FILE".equals(metadataElement.getAttributeString(TAG_DS_NAME, ""))
-                || "L1C_OS_FILE".equals(metadataElement.getAttributeString(TAG_DS_NAME, ""))) {
+                    || "L1C_OS_FILE".equals(metadataElement.getAttributeString(TAG_DS_NAME, ""))) {
                 final String name = metadataElement.getAttributeString(TAG_REF_FILENAME, "");
                 return trimVersionNumber(name);
             }

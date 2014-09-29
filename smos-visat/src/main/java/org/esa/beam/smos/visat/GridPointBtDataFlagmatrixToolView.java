@@ -37,8 +37,8 @@ import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYZDataset;
 import org.jfree.ui.RectangleInsets;
 
-import javax.swing.JComponent;
-import java.awt.Color;
+import javax.swing.*;
+import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -118,7 +118,7 @@ public class GridPointBtDataFlagmatrixToolView extends GridPointBtDataToolView {
     }
 
     static boolean canNotDisplayFile(L1cSmosFile smosFile) {
-        return smosFile == null || ! (smosFile instanceof L1cScienceSmosFile);
+        return smosFile == null || !(smosFile instanceof L1cScienceSmosFile);
     }
 
     @Override
@@ -155,8 +155,12 @@ public class GridPointBtDataFlagmatrixToolView extends GridPointBtDataToolView {
 
     @Override
     protected void clearGridPointBtDataComponent() {
-        dataset.removeSeries(SERIES_KEY);
-        plot.setNoDataMessage("No data");
+        if (dataset != null) {
+            dataset.removeSeries(SERIES_KEY);
+        }
+        if (plot != null) {
+            plot.setNoDataMessage("No data");
+        }
     }
 
     private String[] createFlagNames(Family<FlagDescriptor> flagDescriptors) {
