@@ -125,6 +125,10 @@ The most important file formats are the
     org.esa.beam.smos.dddbDir = /home/tom/smos/dddb
 </pre>
 <p>
+    <b>Note:</b> On Windows Operating Systems, please make sure either to use forward slashes as path separator ('/') or
+    to escape the backslashes (i.e. instead of "C:\Data" use "C:\\Data").
+</p>
+<p>
     The external DDDB resources are treated as additional resource location which are checked in the first place. If a
     requested resource could not be located in the external DDDB, the internal DDDB is used as fallback. This behaviour
     allows also to override the product-descriptors shipped with S-3 Toolbox.
