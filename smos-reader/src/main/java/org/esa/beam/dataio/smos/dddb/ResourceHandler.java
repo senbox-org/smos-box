@@ -35,7 +35,7 @@ class ResourceHandler {
         if (StringUtils.isNotNullAndNotEmpty(dddbDirFromProperty)) {
             final File resourceFile = new File(dddbDirFromProperty, path);
             if (resourceFile.isFile()) {
-                return new URL("file", "", 0, resourceFile.getAbsolutePath());
+                return resourceFile.toURI().toURL();
             }
         }
         return getClass().getResource(path);

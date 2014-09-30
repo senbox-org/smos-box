@@ -14,6 +14,7 @@ import java.util.Properties;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 public class ResourceHandlerTest {
 
@@ -87,7 +88,8 @@ public class ResourceHandlerTest {
 
         try {
             targetDirectory = createTestDirectory();
-            System.setProperty(ResourceHandler.SMOS_DDDB_DIR_PROPERTY_NAME, targetDirectory.getAbsolutePath());
+            final String absoluteTargetPath = targetDirectory.getAbsolutePath();
+            System.setProperty(ResourceHandler.SMOS_DDDB_DIR_PROPERTY_NAME, absoluteTargetPath);
             final File targetFile = new File(targetDirectory, "wurst");
             if (!targetFile.createNewFile()) {
                 fail("unable to create test file");
@@ -95,8 +97,8 @@ public class ResourceHandlerTest {
 
             final URL resourceUrl = resourceHandler.getResourceUrl("wurst");
             assertNotNull(resourceUrl);
-            assertEquals(targetDirectory.getAbsolutePath() + File.separator + "wurst", resourceUrl.getPath());
             assertEquals("file", resourceUrl.getProtocol());
+            assertTrue(new File(resourceUrl.getFile()).isFile());
 
         } finally {
             System.clearProperty(ResourceHandler.SMOS_DDDB_DIR_PROPERTY_NAME);
@@ -180,8 +182,7 @@ public class ResourceHandlerTest {
     }
 
     private File createTestDirectory() {
-        File targetDirectory;
-        targetDirectory = new File("test_out");
+        final File targetDirectory = new File("test_out");
         if (!targetDirectory.mkdirs()) {
             fail("unable to create test directory.");
         }
