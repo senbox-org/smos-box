@@ -33,7 +33,8 @@ public class DggFile extends ExplorerFile {
     private final Area area;
     private final GridPointInfo gridPointInfo;
 
-    protected DggFile(EEFilePair eeFilePair, DataContext dataContext, boolean fromZones) throws IOException {
+
+    protected DggFile(EEFilePair eeFilePair, DataContext dataContext, boolean fromZones, Area suppliedArea) throws IOException {
         super(eeFilePair, dataContext);
         try {
             if (fromZones) {
@@ -46,8 +47,16 @@ public class DggFile extends ExplorerFile {
             throw new IOException(MessageFormat.format(
                     "Unable to read SMOS File ''{0}'': {1}.", eeFilePair.getDblFile().getPath(), e.getMessage()), e);
         }
-        area = DggUtils.computeArea(this.getGridPointList());
         gridPointInfo = createGridPointInfo();
+        if (suppliedArea == null) {
+            area = DggUtils.computeArea(this.getGridPointList());
+        } else {
+            area = suppliedArea;
+        }
+    }
+
+    protected DggFile(EEFilePair eeFilePair, DataContext dataContext, boolean fromZones) throws IOException {
+        this(eeFilePair, dataContext, fromZones, null);
     }
 
     private GridPointList createGridPointList(SequenceData sequence) {

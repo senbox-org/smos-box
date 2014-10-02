@@ -19,6 +19,8 @@ package org.esa.beam.dataio.smos;
 import com.bc.ceres.binio.DataContext;
 import org.esa.beam.smos.EEFilePair;
 
+import java.awt.geom.Area;
+import java.awt.geom.Rectangle2D;
 import java.io.IOException;
 
 /**
@@ -30,7 +32,9 @@ import java.io.IOException;
  */
 class AuxiliaryFile extends DggFile {
 
+    private static Area auxFileArea = new Area(new Rectangle2D.Double(-180.0, -88.59375, 360.0, 177.1875));
+
     AuxiliaryFile(EEFilePair eeFilePair, DataContext dataContext) throws IOException {
-        super(eeFilePair, dataContext, true);
+        super(eeFilePair, dataContext, true, auxFileArea);
     }
 }
