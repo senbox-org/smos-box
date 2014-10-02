@@ -7,7 +7,7 @@
     <name>SMOS-Box</name>
     <groupId>org.esa.smostbx</groupId>
     <artifactId>smos-box</artifactId>
-    <version>4.0</version>
+    <version>4.0.1-SNAPSHOT</version>
 
     <packaging>pom</packaging>
 

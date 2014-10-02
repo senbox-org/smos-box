@@ -3,7 +3,7 @@
 
     <symbolicName>smos-gui</symbolicName>
     <name>SMOS Gui Tools and Utilities</name>
-    <version>4.0</version>
+    <version>4.0.1</version>
     <description>
         This module provides several utility classes for SMOS GUI components.
     </description>

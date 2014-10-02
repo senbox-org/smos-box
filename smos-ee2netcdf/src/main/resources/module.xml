@@ -3,7 +3,7 @@
 
     <symbolicName>smos-ee2netcdf</symbolicName>
     <name>SMOS EarthExplorer to NetCDF converter</name>
-    <version>4.0</version>
+    <version>4.0.1</version>
 
     <description>
         This module facilitates converting SMOS product files from

@@ -3,8 +3,9 @@
     <parent>
         <artifactId>smos-box</artifactId>
         <groupId>org.esa.smostbx</groupId>
-        <version>4.0</version>
+        <version>4.0.1-SNAPSHOT</version>
     </parent>
+
     <modelVersion>4.0.0</modelVersion>
     <artifactId>smos-dgg</artifactId>
     <name>SMOS Discrete Global Grid</name>
