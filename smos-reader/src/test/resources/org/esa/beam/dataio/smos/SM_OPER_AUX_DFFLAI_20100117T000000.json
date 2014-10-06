@@ -3,13 +3,13 @@
     "decodeQualification": "intended",
     "expectedContent": {
         "sceneWidth": 16384,
-        "sceneHeight": 8192,
+        "sceneHeight": 8064,
         "geoCoding": {
             "coordinates": [
                 {
                     "x": 7066.659,
                     "y": 4403.7256,
-                    "lat": -6.7615485,
+                    "lat": -8.16779899597168,
                     "lon": -24.726727
                 }
             ],
@@ -48,7 +48,7 @@
                 "expectedPixels": [
                     {
                         "x": 12765,
-                        "y": 3235,
+                        "y": 3171,
                         "value": 4.9
                     },
                     {
