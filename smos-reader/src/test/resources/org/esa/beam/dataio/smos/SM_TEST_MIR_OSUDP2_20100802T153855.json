@@ -3,7 +3,7 @@
     "decodeQualification": "INTENDED",
     "expectedContent": {
         "sceneWidth": 16384,
-        "sceneHeight": 8192,
+        "sceneHeight": 8064,
         "startTime": "02-AUG-2010 15:38:55.000000",
         "endTime": "02-AUG-2010 16:32:15.000000",
         "geoCoding": {
@@ -11,13 +11,13 @@
                 {
                     "x": 7066.0,
                     "y": 4403.0,
-                    "lat": -6.7456055,
+                    "lat": -8.15185546875,
                     "lon": -24.74121
                 },
                 {
                     "x": 12164.0,
                     "y": 5315.0,
-                    "lat": -26.784668,
+                    "lat": -28.19091796875,
                     "lon": 87.27539
                 }
             ],
@@ -343,7 +343,7 @@
                     {
                         "x": 11483,
                         "y": 483,
-                        "value": 30.517365
+                        "value": 41.27904510498047
                     },
                     {
                         "x": 11224,
@@ -362,9 +362,9 @@
                 "spectralBandwidth": "0.0",
                 "expectedPixels": [
                     {
-                        "x": 12317,
-                        "y": 523,
-                        "value": 93.774345
+                        "x": 556,
+                        "y": 1457,
+                        "value": 2.66841
                     },
                     {
                         "x": 10002,
@@ -383,9 +383,9 @@
                 "spectralBandwidth": "0.0",
                 "expectedPixels": [
                     {
-                        "x": 14702,
-                        "y": 584,
-                        "value": 22.820189
+                        "x": 556,
+                        "y": 1457,
+                        "value": 22.543415
                     },
                     {
                         "x": 9966,
@@ -404,9 +404,9 @@
                 "spectralBandwidth": "0.0",
                 "expectedPixels": [
                     {
-                        "x": 13912,
-                        "y": 605,
-                        "value": 96.92353
+                        "x": 938,
+                        "y": 2347,
+                        "value": 0.4520891
                     },
                     {
                         "x": 8505,
@@ -425,9 +425,9 @@
                 "spectralBandwidth": "0.0",
                 "expectedPixels": [
                     {
-                        "x": 16254,
-                        "y": 1313,
-                        "value": 33.018677
+                        "x": 938,
+                        "y": 2347,
+                        "value": 33.481518
                     },
                     {
                         "x": 15577,
@@ -446,9 +446,9 @@
                 "spectralBandwidth": "0.0",
                 "expectedPixels": [
                     {
-                        "x": 16343,
-                        "y": 1384,
-                        "value": 3.0056434
+                        "x": 1052,
+                        "y": 3681,
+                        "value": 0.81448025
                     },
                     {
                         "x": 163,
@@ -468,7 +468,7 @@
                     {
                         "x": 261,
                         "y": 1277,
-                        "value": 41.97124
+                        "value": 42.458168029785156
                     },
                     {
                         "x": 4475,
@@ -486,9 +486,9 @@
                 "spectralBandwidth": "0.0",
                 "expectedPixels": [
                     {
-                        "x": 461,
-                        "y": 1416,
-                        "value": 0.47154877
+                        "x": 1052,
+                        "y": 3681,
+                        "value": 0.7221852
                     },
                     {
                         "x": 9377,
@@ -509,7 +509,7 @@
                     {
                         "x": 480,
                         "y": 1786,
-                        "value": 6.952513
+                        "value": 8.643475532531738
                     },
                     {
                         "x": 5260,
@@ -638,9 +638,9 @@
                         "value": "NaN"
                     },
                     {
-                        "x": 1149,
-                        "y": 8133,
-                        "value": "NaN"
+                        "x": 1451,
+                        "y": 4121,
+                        "value": 92.383026
                     }
                 ]
             },
@@ -783,7 +783,7 @@
                     {
                         "x": 1439,
                         "y": 4363,
-                        "value": 3.814196E7
+                        "value": 393216
                     }
                 ]
             },
@@ -981,9 +981,9 @@
                         "value": "NaN"
                     },
                     {
-                        "x": 4875,
-                        "y": 8132,
-                        "value": "NaN"
+                        "x": 1451,
+                        "y": 4121,
+                        "value": 217
                     }
                 ]
             },
@@ -1038,7 +1038,7 @@
                     {
                         "x": 1681,
                         "y": 5543,
-                        "value": 2.0
+                        "value": 3.0
                     },
                     {
                         "x": 11976,
@@ -1123,7 +1123,7 @@
                     {
                         "x": 16343,
                         "y": 618,
-                        "value": 228.0
+                        "value": 243.0
                     }
                 ]
             },
@@ -1143,7 +1143,7 @@
                     {
                         "x": 1027,
                         "y": 3157,
-                        "value": 159.0
+                        "value": 143.0
                     }
                 ]
             },
@@ -1330,80 +1330,80 @@
             {
                 "name": "Dg_sky",
                 "description": "Count measurements with specular direction toward a strong galactic source",
-                "noDataValue": "0.0",
-                "noDataValueUsed": "false",
+                "noDataValue": "64537.0",
+                "noDataValueUsed": "true",
                 "spectralWavelength": "0.0",
                 "spectralBandwidth": "0.0",
                 "expectedPixels": [
                     {
-                        "x": 13755,
-                        "y": 4662,
-                        "value": 0.0
+                        "x": 15196,
+                        "y": 695,
+                        "value": 28
                     },
                     {
                         "x": 9673,
                         "y": 3261,
-                        "value": 0.0
+                        "value": "NaN"
                     }
                 ]
             },
             {
                 "name": "Dg_RFI_L1",
                 "description": "Number of measurements suspected by L1 as being contaminated by RFI",
-                "noDataValue": "0.0",
-                "noDataValueUsed": "false",
+                "noDataValue": "64537.0",
+                "noDataValueUsed": "true",
                 "spectralWavelength": "0.0",
                 "spectralBandwidth": "0.0",
                 "expectedPixels": [
                     {
-                        "x": 6465,
-                        "y": 8097,
+                        "x": 15196,
+                        "y": 695,
                         "value": 0.0
                     },
                     {
                         "x": 3761,
                         "y": 5874,
-                        "value": 0.0
+                        "value": "NaN"
                     }
                 ]
             },
             {
                 "name": "Dg_RFI_X",
                 "description": "Number of measurements suspected by L1 as being contaminated by RFI in X polarisation",
-                "noDataValue": "0.0",
-                "noDataValueUsed": "false",
+                "noDataValue": "64537.0",
+                "noDataValueUsed": "true",
                 "spectralWavelength": "0.0",
                 "spectralBandwidth": "0.0",
                 "expectedPixels": [
                     {
-                        "x": 15380,
-                        "y": 2363,
-                        "value": 0.0
+                        "x": 326,
+                        "y": 1750,
+                        "value": 3.0
                     },
                     {
                         "x": 5154,
                         "y": 6979,
-                        "value": 0.0
+                        "value": "NaN"
                     }
                 ]
             },
             {
                 "name": "Dg_RFI_Y",
                 "description": "Number of measurements suspected by L1 as being contaminated by RFI in Y polarisation",
-                "noDataValue": "0.0",
-                "noDataValueUsed": "false",
+                "noDataValue": "64537.0",
+                "noDataValueUsed": "true",
                 "spectralWavelength": "0.0",
                 "spectralBandwidth": "0.0",
                 "expectedPixels": [
                     {
-                        "x": 5367,
-                        "y": 4332,
-                        "value": 0.0
+                        "x": 326,
+                        "y": 1750,
+                        "value": 4.0
                     },
                     {
                         "x": 5868,
                         "y": 6551,
-                        "value": 0.0
+                        "value": "NaN"
                     }
                 ]
             },
@@ -1411,15 +1411,15 @@
                 "name": "Dg_RFI_probability",
                 "description": "Probability of grid point being contaminated by RFI estimated from AUX_DGGRFI",
                 "geophysicalUnit": "%",
-                "noDataValue": "0.0",
-                "noDataValueUsed": "false",
+                "noDataValue": "64537.0",
+                "noDataValueUsed": "true",
                 "spectralWavelength": "0.0",
                 "spectralBandwidth": "0.0",
                 "expectedPixels": [
                     {
                         "x": 9183,
                         "y": 1786,
-                        "value": 0.0
+                        "value": "NaN"
                     },
                     {
                         "x": 1558,
@@ -1445,7 +1445,7 @@
                     {
                         "x": 13829,
                         "y": 557,
-                        "value": 395.4579
+                        "value": 559.2418823242188
                     }
                 ]
             },
@@ -1544,7 +1544,7 @@
                     },
                     {
                         "x": 11564,
-                        "y": 8108,
+                        "y": 8012,
                         "value": "NaN"
                     }
                 ]
