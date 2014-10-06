@@ -3,7 +3,7 @@
     "decodeQualification": "INTENDED",
     "expectedContent": {
         "sceneWidth": 16384,
-        "sceneHeight": 8192,
+        "sceneHeight": 8064,
         "startTime": "18-JUL-2012 13:38:03.000000",
         "endTime": "18-JUL-2012 14:31:17.000000",
         "geoCoding": {
@@ -11,13 +11,13 @@
                 {
                     "x": 7066.0,
                     "y": 4403.0,
-                    "lat": -6.7456055,
+                    "lat": -8.15185546875,
                     "lon": -24.74121
                 },
                 {
                     "x": 12164.0,
                     "y": 5315.0,
-                    "lat": -26.784668,
+                    "lat": -28.19091796875,
                     "lon": 87.27539
                 }
             ],
@@ -332,8 +332,8 @@
                 "expectedPixels": [
                     {
                         "x": 13300,
-                        "y": 630,
-                        "value": 0.25679675
+                        "y": 556,
+                        "value": 0.331238329410553
                     },
                     {
                         "x": 11224,
@@ -352,9 +352,9 @@
                 "spectralBandwidth": "0.0",
                 "expectedPixels": [
                     {
-                        "x": 12979,
-                        "y": 735,
-                        "value": 0.012901308
+                        "x": 11289,
+                        "y": 2787,
+                        "value": 0.020657415
                     },
                     {
                         "x": 10002,
@@ -374,8 +374,8 @@
                 "expectedPixels": [
                     {
                         "x": 11903,
-                        "y": 1047,
-                        "value": 0.55059516
+                        "y": 919,
+                        "value": 0.1507185697555542
                     },
                     {
                         "x": 9966,
@@ -395,7 +395,7 @@
                 "expectedPixels": [
                     {
                         "x": 11874,
-                        "y": 894,
+                        "y": 830,
                         "value": 0.014993104
                     },
                     {
@@ -416,7 +416,7 @@
                 "expectedPixels": [
                     {
                         "x": 11578,
-                        "y": 1992,
+                        "y": 1928,
                         "value": 292.318
                     },
                     {
@@ -437,7 +437,7 @@
                 "expectedPixels": [
                     {
                         "x": 11552,
-                        "y": 2014,
+                        "y": 1950,
                         "value": 0.85212445
                     },
                     {
@@ -622,9 +622,9 @@
                         "value": 0.0
                     },
                     {
-                        "x": 1149,
-                        "y": 8133,
-                        "value": "NaN"
+                        "x": 9051,
+                        "y": 7577,
+                        "value": 0.0
                     }
                 ]
             },
@@ -660,7 +660,7 @@
                 "expectedPixels": [
                     {
                         "x": 11265,
-                        "y": 2502,
+                        "y": 2438,
                         "value": 9.433716
                     },
                     {
@@ -681,7 +681,7 @@
                 "expectedPixels": [
                     {
                         "x": 11052,
-                        "y": 2812,
+                        "y": 2748,
                         "value": 0.031703684
                     },
                     {
@@ -702,7 +702,7 @@
                 "expectedPixels": [
                     {
                         "x": 10998,
-                        "y": 2958,
+                        "y": 2894,
                         "value": -7.048838
                     },
                     {
@@ -723,7 +723,7 @@
                 "expectedPixels": [
                     {
                         "x": 10871,
-                        "y": 2915,
+                        "y": 2851,
                         "value": 0.0072194748
                     },
                     {
@@ -744,7 +744,7 @@
                 "expectedPixels": [
                     {
                         "x": 10727,
-                        "y": 4370,
+                        "y": 4306,
                         "value": 70.00197
                     },
                     {
@@ -765,7 +765,7 @@
                 "expectedPixels": [
                     {
                         "x": 10843,
-                        "y": 3105,
+                        "y": 3041,
                         "value": 0.07794194
                     },
                     {
@@ -786,7 +786,7 @@
                 "expectedPixels": [
                     {
                         "x": 10361,
-                        "y": 5131,
+                        "y": 5067,
                         "value": -1.522544
                     },
                     {
@@ -807,8 +807,8 @@
                 "expectedPixels": [
                     {
                         "x": 10378,
-                        "y": 5082,
-                        "value": 0.1323375
+                        "y": 5014,
+                        "value": 0.23483644425868988
                     },
                     {
                         "x": 3753,
@@ -828,7 +828,7 @@
                 "expectedPixels": [
                     {
                         "x": 10611,
-                        "y": 6241,
+                        "y": 6177,
                         "value": 78.40815
                     },
                     {
@@ -979,9 +979,9 @@
                         "value": "NaN"
                     },
                     {
-                        "x": 4875,
-                        "y": 8132,
-                        "value": "NaN"
+                        "x": 11933,
+                        "y": 1531,
+                        "value": 3.379398
                     }
                 ]
             },
@@ -1351,9 +1351,9 @@
                 "spectralBandwidth": "0.0",
                 "expectedPixels": [
                     {
-                        "x": 6465,
-                        "y": 8097,
-                        "value": "NaN"
+                        "x": 11933,
+                        "y": 1531,
+                        "value": 44
                     },
                     {
                         "x": 3761,
@@ -1536,9 +1536,9 @@
                         "value": "NaN"
                     },
                     {
-                        "x": 11564,
-                        "y": 8108,
-                        "value": "NaN"
+                        "x": 11491,
+                        "y": 2390,
+                        "value": 0.69403017
                     }
                 ]
             },
@@ -1573,7 +1573,7 @@
                     {
                         "x": 8191,
                         "y": 7617,
-                        "value": "NaN"
+                        "value": 1.0
                     },
                     {
                         "x": 9376,
@@ -1731,19 +1731,19 @@
                 "description": "Mean acquisition time (days part) of the set of snapshots participating in the current successful or the latest failed retrieval attempt",
                 "geophysicalUnit": "days",
                 "noDataValue": "0.0",
-                "noDataValueUsed": "false",
+                "noDataValueUsed": "true",
                 "spectralWavelength": "0.0",
                 "spectralBandwidth": "0.0",
                 "expectedPixels": [
                     {
                         "x": 13116,
                         "y": 6237,
-                        "value": 0.0
+                        "value": "NaN"
                     },
                     {
                         "x": 13684,
                         "y": 6028,
-                        "value": 0.0
+                        "value": "NaN"
                     }
                 ]
             },
@@ -1752,19 +1752,19 @@
                 "description": "Mean acquisition time (seconds part) of the set of snapshots participating in the current successful or the latest failed retrieval attempt",
                 "geophysicalUnit": "s",
                 "noDataValue": "0.0",
-                "noDataValueUsed": "false",
+                "noDataValueUsed": "true",
                 "spectralWavelength": "0.0",
                 "spectralBandwidth": "0.0",
                 "expectedPixels": [
                     {
                         "x": 10309,
                         "y": 3490,
-                        "value": 0.0
+                        "value": "NaN"
                     },
                     {
                         "x": 8853,
                         "y": 6252,
-                        "value": 0.0
+                        "value": "NaN"
                     }
                 ]
             },
@@ -1773,19 +1773,19 @@
                 "description": "Mean acquisition time (microseconds part) of the set of snapshots participating in the current successful or the latest failed retrieval attempt",
                 "geophysicalUnit": "µs",
                 "noDataValue": "0.0",
-                "noDataValueUsed": "false",
+                "noDataValueUsed": "true",
                 "spectralWavelength": "0.0",
                 "spectralBandwidth": "0.0",
                 "expectedPixels": [
                     {
                         "x": 10386,
                         "y": 1245,
-                        "value": 0.0
+                        "value": "NaN"
                     },
                     {
                         "x": 14457,
                         "y": 2579,
-                        "value": 0.0
+                        "value": "NaN"
                     }
                 ]
             },
@@ -1800,12 +1800,12 @@
                     {
                         "x": 4481,
                         "y": 3149,
-                        "value": 25.0
+                        "value": 57.0
                     },
                     {
                         "x": 11179,
                         "y": 1527,
-                        "value": 26.0
+                        "value": 10.0
                     }
                 ]
             }
