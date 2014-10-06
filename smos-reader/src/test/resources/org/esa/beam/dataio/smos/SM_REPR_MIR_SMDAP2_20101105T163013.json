@@ -3,7 +3,7 @@
     "decodeQualification": "intended",
     "expectedContent": {
         "sceneWidth": 16384,
-        "sceneHeight": 8192,
+        "sceneHeight": 8064,
         "startTime": "05-NOV-2010 16:30:13.000000",
         "endTime": "05-NOV-2010 17:24:13.000000",
         "geoCoding": {
@@ -11,7 +11,7 @@
                 {
                     "x": 7066.659,
                     "y": 4403.7256,
-                    "lat": -6.7615485,
+                    "lat": -8.16779899597168,
                     "lon": -24.726727
                 }
             ],
@@ -211,7 +211,7 @@
                 "expectedPixels": [
                     {
                         "x": 12704,
-                        "y": 677,
+                        "y": 613,
                         "value": 685.013916015625
                     },
                     {
@@ -231,7 +231,7 @@
                 "expectedPixels": [
                     {
                         "x": 9614,
-                        "y": 1933,
+                        "y": 1869,
                         "value": 13
                     },
                     {
@@ -251,7 +251,7 @@
                 "expectedPixels": [
                     {
                         "x": 10954,
-                        "y": 329,
+                        "y": 265,
                         "value": 0.6705882549285889
                     },
                     {
@@ -271,7 +271,7 @@
                 "expectedPixels": [
                     {
                         "x": 8714,
-                        "y": 4505,
+                        "y": 4441,
                         "value": 2
                     },
                     {
@@ -291,7 +291,7 @@
                 "expectedPixels": [
                     {
                         "x": 9167,
-                        "y": 2211,
+                        "y": 2147,
                         "value": 15
                     },
                     {
@@ -311,7 +311,7 @@
                 "expectedPixels": [
                     {
                         "x": 10451,
-                        "y": 916,
+                        "y": 852,
                         "value": 10
                     },
                     {
@@ -421,7 +421,7 @@
                     {
                         "x": 9415,
                         "y": 752,
-                        "value": "NaN"
+                        "value": -999
                     }
                 ]
             },
@@ -514,9 +514,9 @@
                 "spectralBandwidth": "0.0",
                 "expectedPixels": [
                     {
-                        "x": 1149,
-                        "y": 8133,
-                        "value": "NaN"
+                        "x": 9249,
+                        "y": 2026,
+                        "value": 0.1
                     },
                     {
                         "x": 4862,
@@ -860,9 +860,9 @@
                 "spectralBandwidth": "0.0",
                 "expectedPixels": [
                     {
-                        "x": 4875,
-                        "y": 8132,
-                        "value": "NaN"
+                        "x": 9249,
+                        "y": 2026,
+                        "value": -999.0
                     },
                     {
                         "x": 8965,
@@ -1225,9 +1225,9 @@
                         "value": "NaN"
                     },
                     {
-                        "x": 6465,
-                        "y": 8097,
-                        "value": "NaN"
+                        "x": 8765,
+                        "y": 4856,
+                        "value": 52.605476
                     }
                 ]
             },
@@ -1398,18 +1398,18 @@
                 "name": "DAP_Flags",
                 "description": "DAP_Flags",
                 "noDataValue": "0.0",
-                "noDataValueUsed": "false",
+                "noDataValueUsed": "true",
                 "spectralWavelength": "0.0",
                 "spectralBandwidth": "0.0",
                 "expectedPixels": [
                     {
                         "x": 11812,
                         "y": 4555,
-                        "value": 0.0
+                        "value": "NaN"
                     },
                     {
                         "x": 10018,
-                        "y": 1488,
+                        "y": 1424,
                         "value": 8388608
                     }
                 ]

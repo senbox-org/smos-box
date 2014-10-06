@@ -3,7 +3,7 @@
     "decodeQualification": "intended",
     "expectedContent": {
         "sceneWidth": 16384,
-        "sceneHeight": 8192,
+        "sceneHeight": 8064,
         "startTime": "26-OCT-2011 07:51:49.000000",
         "endTime": "26-OCT-2011 08:45:01.000000",
         "geoCoding": {
@@ -11,7 +11,7 @@
                 {
                     "x": 7066.659,
                     "y": 4403.7256,
-                    "lat": -6.7615485,
+                    "lat": -8.16779899597168,
                     "lon": -24.726727
                 }
             ],
@@ -211,7 +211,7 @@
                 "expectedPixels": [
                     {
                         "x": 9259,
-                        "y": 8090,
+                        "y": 8026,
                         "value": 712.79638671875
                     },
                     {
@@ -231,7 +231,7 @@
                 "expectedPixels": [
                     {
                         "x": 15324,
-                        "y": 1652,
+                        "y": 1588,
                         "value": 175
                     },
                     {
@@ -251,7 +251,7 @@
                 "expectedPixels": [
                     {
                         "x": 10584,
-                        "y": 7628,
+                        "y": 7564,
                         "value": 0.6666666865348816
                     },
                     {
@@ -271,7 +271,7 @@
                 "expectedPixels": [
                     {
                         "x": 14607,
-                        "y": 5109,
+                        "y": 5045,
                         "value": 1
                     },
                     {
@@ -291,7 +291,7 @@
                 "expectedPixels": [
                     {
                         "x": 15631,
-                        "y": 1471,
+                        "y": 1407,
                         "value": 27
                     },
                     {
@@ -311,7 +311,7 @@
                 "expectedPixels": [
                     {
                         "x": 13495,
-                        "y": 7308,
+                        "y": 7244,
                         "value": 4
                     },
                     {
@@ -352,7 +352,7 @@
                 "expectedPixels": [
                     {
                         "x": 15213,
-                        "y": 2993,
+                        "y": 2929,
                         "value": 301.0323
                     },
                     {
@@ -514,9 +514,9 @@
                 "spectralBandwidth": "0.0",
                 "expectedPixels": [
                     {
-                        "x": 1149,
-                        "y": 8133,
-                        "value": "NaN"
+                        "x": 15403,
+                        "y": 1539,
+                        "value": -999.0
                     },
                     {
                         "x": 4862,
@@ -540,7 +540,7 @@
                     },
                     {
                         "x": 13671,
-                        "y": 7745,
+                        "y": 7681,
                         "value": -999.0
                     }
                 ]
@@ -860,9 +860,9 @@
                 "spectralBandwidth": "0.0",
                 "expectedPixels": [
                     {
-                        "x": 4875,
-                        "y": 8132,
-                        "value": "NaN"
+                        "x": 15403,
+                        "y": 1539,
+                        "value": -999.0
                     },
                     {
                         "x": 8965,
@@ -1225,9 +1225,9 @@
                         "value": "NaN"
                     },
                     {
-                        "x": 6465,
-                        "y": 8097,
-                        "value": "NaN"
+                        "x": 16284,
+                        "y": 951,
+                        "value": 27.04509
                     }
                 ]
             },
@@ -1342,7 +1342,7 @@
                 "expectedPixels": [
                     {
                         "x": 10692,
-                        "y": 7620,
+                        "y": 7556,
                         "value": -77.377
                     },
                     {
@@ -1398,18 +1398,18 @@
                 "name": "DAP_Flags",
                 "description": "DAP_Flags",
                 "noDataValue": "0.0",
-                "noDataValueUsed": "false",
+                "noDataValueUsed": "true",
                 "spectralWavelength": "0.0",
                 "spectralBandwidth": "0.0",
                 "expectedPixels": [
                     {
                         "x": 11812,
-                        "y": 4555,
-                        "value": 0.0
+                        "y": 4491,
+                        "value": "NaN"
                     },
                     {
                         "x": 14675,
-                        "y": 5297,
+                        "y": 5233,
                         "value": 4194304
                     }
                 ]

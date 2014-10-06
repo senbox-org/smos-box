@@ -121,9 +121,17 @@ public class DggFile extends ExplorerFile {
 
         product.setGeoCoding(ProductHelper.createGeoCoding(dimension));
         addBands(product);
+        addAncilliaryBands(product);
         setTimes(product);
 
         return product;
+    }
+
+    private void addAncilliaryBands(Product product) {
+        final Band soil_moisture = product.getBand("Soil_Moisture");
+        if (soil_moisture != null) {
+            soil_moisture.setAncillaryBand("error", product.getBand("Soil_Moisture_DQX"));
+        }
     }
 
     protected void addBands(Product product) {
