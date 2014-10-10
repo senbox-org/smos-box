@@ -3,7 +3,7 @@
 
     <symbolicName>smos-lsmask</symbolicName>
     <name>SMOS Land/Sea Mask</name>
-    <version>4.0.1</version>
+    <version>4.1.0</version>
     <description>
         This module provides the static SMOS land/sea mask, which is mapped to BEAM image pixels.
     </description>
