@@ -73,7 +73,6 @@ public class SmosBufrReader extends AbstractProductReader {
     }
 
     private NetcdfFile ncfile;
-    private ArrayList<Observation> observations;
     private HashMap<Integer, ArrayList<Observation>> snapshotMap;
     private HashMap<Integer, ArrayList<Observation>> gridPointMap;
     private Grid grid;
@@ -137,7 +136,6 @@ public class SmosBufrReader extends AbstractProductReader {
     }
 
     private void readObservations() throws IOException {
-        observations = new ArrayList<>();
         snapshotMap = new HashMap<>();
         gridPointMap = new HashMap<>();
         final Sequence observationSequence = getObservationSequence();
@@ -174,8 +172,6 @@ public class SmosBufrReader extends AbstractProductReader {
 
             final int grid_point_index = grid.getCellIndex(lon, lat);
             addObservationToGridPoints(observation, grid_point_index);
-
-            observations.add(observation);
         }
     }
 
@@ -212,7 +208,6 @@ public class SmosBufrReader extends AbstractProductReader {
         // just to make sure the garbage collector is not confused by this multiple referenced maps
         gridPointMap.clear();
         snapshotMap.clear();
-        observations.clear();
 
         if (ncfile != null) {
             ncfile.close();
