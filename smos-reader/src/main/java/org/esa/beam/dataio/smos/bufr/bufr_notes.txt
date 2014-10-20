@@ -1,0 +1,21 @@
+- Snapshot_identifier   - only for hashmap
+- Grid_point_identifier - not used, buggy in ESA data
+- Number_of_grid_points - not used
+- Grid_point_altitude   - TODO - add - scale + offset
+- Total_electron_count_per_square_meter - TODO add - scale
+- Direct_sun_brightness_temperature - TODO - add
+- Snapshot_accuracy     - TODO - add - scale + offset
+- Radiometric_accuracy_pure_polarisation - TODO - add - scale
+- Radiometric_accuracy_cross_polarisation - TODO - add - scale
+- Footprint_axis_1       - TODO - add scale factor
+- Footprint_axis_2       - TODO - add scale factor
+- Polarisation           - TODO - implement sorting per polarisation
+- Water_fraction         - TODO - scale factor
+- Incidence_angle        - TODO - scale factor
+- Azimuth_angle          - TODO - scale factor
+- Faraday_rotational_angle - TODO - scale factor
+- Geometric_rotational_angle - TODO - scale factor
+- Brightness_temperature_real_part - TODO - polarisation, scale + offset
+- Brightness_temperature_imaginary_part - TODO - polarisation, scale + offset
+- Pixel_radiometric_accuracy - TODO scale factor
+- SMOS_information_flag   - TODO flag-coding (?)
