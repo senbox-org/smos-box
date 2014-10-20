@@ -4,5 +4,5 @@ class ScaleFactors {
 
     Factor lon;
     Factor lat;
-    Factor polarisation;
+    Factor incidenceAngle;
 }

@@ -19,6 +19,7 @@ import org.esa.beam.framework.datamodel.Product;
 import org.esa.beam.framework.datamodel.ProductData;
 import org.esa.beam.jai.ResolutionLevel;
 import org.esa.beam.smos.dgg.SmosDgg;
+import org.esa.beam.util.StringUtils;
 import org.esa.beam.util.io.FileUtils;
 import ucar.ma2.StructureData;
 import ucar.ma2.StructureDataIterator;
@@ -43,6 +44,10 @@ public class SmosBufrReader extends AbstractProductReader {
     private static final String ATTR_NAME_SCALE_FACTOR = "scale_factor";
     private static final String ATTR_NAME_MISSING_VALUE = "missing_value";
     private static final HashMap<String, Integer> datasetNameIndexMap;
+
+    private static final double CENTER_BROWSE_INCIDENCE_ANGLE = 42.5;
+    private static final double MIN_BROWSE_INCIDENCE_ANGLE = 37.5;
+    private static final double MAX_BROWSE_INCIDENCE_ANGLE = 52.5;
 
     private static final int BT_REAL_INDEX = 0;
     private static final int BT_IMAG_INDEX = 1;
@@ -121,8 +126,7 @@ public class SmosBufrReader extends AbstractProductReader {
 
         scaleFactors.lon = createFactor(sequence, "Longitude_high_accuracy");
         scaleFactors.lat = createFactor(sequence, "Latitude_high_accuracy");
-        scaleFactors.polarisation = createFactor(sequence, "Polarisation");
-
+        scaleFactors.incidenceAngle = createFactor(sequence, "Incidence_angle");
     }
 
     private Factor createFactor(Sequence sequence, String variableName) {
@@ -164,7 +168,7 @@ public class SmosBufrReader extends AbstractProductReader {
             observation.lon = lon;
 
             final int latitude_high_accuracy = next.getScalarInt("Latitude_high_accuracy");
-            final float lat = (float) (latitude_high_accuracy *scaleFactors.lat.scale + scaleFactors.lat.offset);
+            final float lat = (float) (latitude_high_accuracy * scaleFactors.lat.scale + scaleFactors.lat.offset);
             observation.lat = lat;
 
             final int snapshot_id = next.getScalarInt("Snapshot_identifier");
@@ -259,15 +263,15 @@ public class SmosBufrReader extends AbstractProductReader {
     private void addBands(Product product) throws IOException {
         final Sequence sequence = getObservationSequence();
         final Family<BandDescriptor> descriptors = Dddb.getInstance().getBandDescriptors("BUFR");
-        for (final BandDescriptor d : descriptors.asList()) {
-            final Variable v = sequence.findVariable(d.getMemberName());
-            if (v.getDataType().isEnum()) {
+        for (final BandDescriptor descriptor : descriptors.asList()) {
+            final Variable variable = sequence.findVariable(descriptor.getMemberName());
+            if (variable.getDataType().isEnum()) {
                 final int dataType = ProductData.TYPE_UINT8;
-                addBand(product, v, dataType, d);
+                addBand(product, variable, dataType, descriptor);
             } else {
-                final int dataType = DataTypeUtils.getRasterDataType(v);
+                final int dataType = DataTypeUtils.getRasterDataType(variable);
                 if (dataType != -1) {
-                    addBand(product, v, dataType, d);
+                    addBand(product, variable, dataType, descriptor);
                 }
             }
         }
@@ -296,8 +300,9 @@ public class SmosBufrReader extends AbstractProductReader {
             band.setNoDataValue(missingValue.getNumericValue().doubleValue());
             band.setNoDataValueUsed(true);
         }
-        if (!descriptor.getValidPixelExpression().isEmpty()) {
-            band.setValidPixelExpression(descriptor.getValidPixelExpression());
+        final String validPixelExpression = descriptor.getValidPixelExpression();
+        if (StringUtils.isNotNullAndNotEmpty(validPixelExpression)) {
+            band.setValidPixelExpression(validPixelExpression);
         }
         if (!descriptor.getDescription().isEmpty()) {
             band.setDescription(descriptor.getDescription());
@@ -307,7 +312,13 @@ public class SmosBufrReader extends AbstractProductReader {
         }
 
         final Integer index = datasetNameIndexMap.get(descriptor.getMemberName());
-        final CellValueProvider valueProvider = new BufrCellValueProvider(index, descriptor.getPolarization());
+
+        final CellValueProvider valueProvider;
+        if(descriptor.getFlagDescriptors() == null) {
+            valueProvider = new BufrCellValueProvider(index, descriptor.getPolarization());
+        } else {
+            valueProvider = new FlagCellValueProvider(index, descriptor.getPolarization());
+        }
         band.setSourceImage(createSourceImage(band, valueProvider));
         band.setImageInfo(ProductHelper.createImageInfo(band, descriptor));
     }
@@ -411,8 +422,83 @@ public class SmosBufrReader extends AbstractProductReader {
             }
             return noDataValue;
         }
+    }
+
+    private class FlagCellValueProvider implements CellValueProvider {
+
+        private final int dataindex;
+        private final int polarisation;
+
+        private FlagCellValueProvider(int polarisation, int dataIndex) {
+            this.dataindex = dataIndex;
+            this.polarisation = polarisation;
+        }
+
+        @Override
+        public Area getArea() {
+            return SmosBufrReader.this.area;
+        }
+
+        @Override
+        public long getCellIndex(double lon, double lat) {
+            return SmosBufrReader.this.grid.getCellIndex(lon, lat);
+        }
+
+        @Override
+        public byte getValue(long cellIndex, byte noDataValue) {
+            return (byte) getData((int) cellIndex, noDataValue);
+        }
 
 
+        @Override
+        public int getValue(long cellIndex, int noDataValue) {
+            return getData((int) cellIndex, noDataValue);
+        }
+
+        @Override
+        public short getValue(long cellIndex, short noDataValue) {
+            return (short) getData((int) cellIndex, noDataValue);
+        }
+
+        @Override
+        public float getValue(long cellIndex, float noDataValue) {
+            throw new IllegalStateException("not implemented");
+        }
+
+        private int getData(int cellIndex, int noDataValue) {
+            final ArrayList<Observation> cellObservations = gridPointMap.get(cellIndex);
+            if (cellObservations != null) {
+                boolean hasLower = false;
+                boolean hasUpper = false;
+                int combinedFlags = 0;
+
+                for (final Observation observation : cellObservations) {
+                    if (polarisation == 4 ||
+                            (observation.data[POLARISATION_INDEX] & 3) == polarisation ||
+                            (polarisation & observation.data[POLARISATION_INDEX] & 2) != 0) {
+
+                        final int incidenceAngleInt = observation.data[INCIDENCE_ANGLE_INDEX];
+                        final double incidenceAngle = scaleFactors.incidenceAngle.scale * incidenceAngleInt + scaleFactors.incidenceAngle.offset;
+                        if (incidenceAngle >= MIN_BROWSE_INCIDENCE_ANGLE && incidenceAngle <= MAX_BROWSE_INCIDENCE_ANGLE) {
+                            combinedFlags |= observation.data[dataindex];
+
+                            if (!hasLower) {
+                                hasLower = incidenceAngle <= CENTER_BROWSE_INCIDENCE_ANGLE;
+                            }
+                            if (!hasUpper) {
+                                hasUpper = incidenceAngle > CENTER_BROWSE_INCIDENCE_ANGLE;
+                            }
+                        }
+                    }
+                }
+
+                if (hasLower && hasUpper) {
+                    return combinedFlags;
+                }
+            }
+
+            return noDataValue;
+        }
     }
 
     private static class ObservationPointList implements PointList {

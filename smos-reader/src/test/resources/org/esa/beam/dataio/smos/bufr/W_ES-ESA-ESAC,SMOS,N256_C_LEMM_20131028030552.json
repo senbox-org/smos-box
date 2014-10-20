@@ -81,6 +81,28 @@
                     }
                 ]
             }
+        ],
+        "bands": [
+            {
+                "name": "Flags",
+                "geophysicalUnit": "FlagTable 0-25-174",
+                "noDataValue": "16383",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 2875,
+                        "y": 777,
+                        "value": "NaN"
+                    },
+                    {
+                        "x": 1290,
+                        "y": 2373,
+                        "value": "NaN"
+                    }
+                ]
+            }
         ]
     }
 }
