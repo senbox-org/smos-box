@@ -9,14 +9,14 @@ import org.esa.beam.util.io.BeamFileFilter;
 import java.io.File;
 import java.util.Locale;
 
-public class SmosBufrReaderPlugin implements ProductReaderPlugIn {
+public class SmosBufrReaderPlugIn implements ProductReaderPlugIn {
 
     @Override
     public DecodeQualification getDecodeQualification(Object input) {
         final File file = input instanceof File ? (File) input : new File(input.toString());
         final String fileName = file.getName();
 
-        if (SmosUtils.isLightBufrTypeSupported() && SmosUtils.isLightBufrType(fileName)) {
+        if (SmosUtils.isLightBufrType(fileName)) {
             return DecodeQualification.INTENDED;
         }
 

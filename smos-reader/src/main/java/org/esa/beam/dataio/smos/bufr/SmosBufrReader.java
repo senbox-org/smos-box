@@ -79,8 +79,8 @@ public class SmosBufrReader extends AbstractProductReader {
     private Area area;
     private ScaleFactors scaleFactors;
 
-    SmosBufrReader(SmosBufrReaderPlugin smosBufrReaderPlugin) {
-        super(smosBufrReaderPlugin);
+    SmosBufrReader(SmosBufrReaderPlugIn smosBufrReaderPlugIn) {
+        super(smosBufrReaderPlugIn);
         ncfile = null;
     }
 

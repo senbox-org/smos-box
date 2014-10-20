@@ -17,7 +17,7 @@
 package org.esa.beam.dataio.smos;
 
 import org.esa.beam.dataio.smos.bufr.SmosBufrReader;
-import org.esa.beam.dataio.smos.bufr.SmosBufrReaderPlugin;
+import org.esa.beam.dataio.smos.bufr.SmosBufrReaderPlugIn;
 import org.esa.beam.framework.datamodel.Product;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -177,7 +177,7 @@ public class BufrTest {
         final File bufrProductFile = new File(pathToFile);
         assertTrue(bufrProductFile.isFile());
 
-        final SmosBufrReaderPlugin readerPlugin = new SmosBufrReaderPlugin();
+        final SmosBufrReaderPlugIn readerPlugin = new SmosBufrReaderPlugIn();
         final SmosBufrReader bufrReader = (SmosBufrReader) readerPlugin.createReaderInstance();
         final Product product = bufrReader.readProductNodes(bufrProductFile, null);
 

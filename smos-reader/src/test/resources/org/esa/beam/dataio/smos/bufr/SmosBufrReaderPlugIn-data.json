@@ -1,0 +1,9 @@
+{
+    "testProducts": [
+        {
+            "id": "W_ES-ESA-ESAC,SMOS,N256_C_LEMM_20131028030552",
+            "relativePath": "sensors_platforms/SMOS/BUFR/W_ES-ESA-ESAC,SMOS,N256_C_LEMM_20131028030552_20131028003256_20131028020943_bufr_v505.bin",
+            "description": "BUFR light, version 505"
+        }
+    ]
+}
