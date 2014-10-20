@@ -1,3 +1,5 @@
+Bands in BUFR file spec
+=======================
 - Snapshot_identifier   - only for hashmap
 - Grid_point_identifier - not used, buggy in ESA data
 - Number_of_grid_points - not used
@@ -19,3 +21,7 @@
 - Brightness_temperature_imaginary_part - TODO - polarisation, scale + offset
 - Pixel_radiometric_accuracy - TODO scale factor
 - SMOS_information_flag   - TODO flag-coding (?)
+
+Sensing times
+=============
+- product start and stop time - TODO - parse from data

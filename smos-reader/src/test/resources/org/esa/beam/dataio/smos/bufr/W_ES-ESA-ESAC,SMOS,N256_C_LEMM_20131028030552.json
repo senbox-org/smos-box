@@ -2,5 +2,85 @@
     "id": "W_ES-ESA-ESAC,SMOS,N256_C_LEMM_20131028030552",
     "decodeQualification": "INTENDED",
     "expectedContent": {
+        "sceneWidth": 16384,
+        "sceneHeight": 8064,
+
+        "flagCodings": [
+            {
+                "name": "Flags",
+                "samples": [
+                    {
+                        "name": "RFI",
+                        "value": 1,
+                        "description": "Pixel is affected by RFI effects as identified in the AUX_RFILST or it has exceeded the BT thresholds."
+                    },
+                    {
+                        "name": "SUN_TAILS",
+                        "value": 2,
+                        "description": "Pixel is located in the hexagonal alias directions centred on a Sun alias (if Sun is not removed, measurement may be degraded in these directions)."
+                    },
+                    {
+                        "name": "BORDER_FOV",
+                        "value": 4,
+                        "description": "Pixel is close to the border delimiting the Extended Alias free zone or to the unit circle replicas borders."
+                    },
+                    {
+                        "name": "RFI_TAIL",
+                        "value": 8,
+                        "description": "Measurement is affected by the tails of a point source RFI as identified in the AUX RFI list (tail width is dependant on the RFI expected BT defined in the AUX RFILST)."
+                    },
+                    {
+                        "name": "AF_FOV",
+                        "value": 16,
+                        "description": "Pixel is inside the exclusive zone of Alias free."
+                    },
+                    {
+                        "name": "MOON_POINT",
+                        "value": 32,
+                        "description": "Pixel is located in a zone where a Moon alias was reconstructed."
+                    },
+                    {
+                        "name": "SUN_GLINT_AREA",
+                        "value": 64,
+                        "description": "Pixel is located in a zone where Sun reflection has been detected."
+                    },
+                    {
+                        "name": "SUN_POINT",
+                        "value": 128,
+                        "description": "Pixel is located in a zone where a Sun alias was reconstructed."
+                    },
+                    {
+                        "name": "RFI_MITIGATION",
+                        "value": 256,
+                        "description": "RFI mitigation has been performed during image reconstruction of this pixel."
+                    },
+                    {
+                        "name": "SINGLE_SNAPSHOT",
+                        "value": 512,
+                        "description": "Scene has not been combined with an adjacent scene in opposite polarisation during image reconstruction."
+                    },
+                    {
+                        "name": "MOON_FV",
+                        "value": 1024,
+                        "description": "Direct Moon correction has been performed during image reconstruction of this pixel."
+                    },
+                    {
+                        "name": "SUN_GLINT_FOV",
+                        "value": 2048,
+                        "description": "Reflected Sun correction has been performed during image reconstruction of this pixel."
+                    },
+                    {
+                        "name": "SUN_FOV",
+                        "value": 4096,
+                        "description": "Direct Sun correction has been performed during image reconstruction of this pixel."
+                    },
+                    {
+                        "name": "MISSING_VALUE",
+                        "value": 16383,
+                        "description": "Missing value."
+                    }
+                ]
+            }
+        ]
     }
 }
