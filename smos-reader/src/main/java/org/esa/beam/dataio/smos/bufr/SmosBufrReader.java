@@ -129,14 +129,14 @@ public class SmosBufrReader extends AbstractProductReader {
         scaleFactors.incidenceAngle = createFactor(sequence, "Incidence_angle");
     }
 
-    private Factor createFactor(Sequence sequence, String variableName) {
+    private ScaleFactor createFactor(Sequence sequence, String variableName) {
         final Variable variable = sequence.findVariable(variableName);
-        final Factor factor = new Factor();
-        factor.offset = getAttributeValue(variable, ATTR_NAME_ADD_OFFSET, 0.0);
-        factor.scale = getAttributeValue(variable, ATTR_NAME_SCALE_FACTOR, 1.0);
-        factor.missingValue = getAttributeValue(variable, ATTR_NAME_MISSING_VALUE, Double.NaN);
 
-        return factor;
+        final double scale = getAttributeValue(variable, ATTR_NAME_SCALE_FACTOR, 1.0);
+        final double offset = getAttributeValue(variable, ATTR_NAME_ADD_OFFSET, 0.0);
+        final int missingValue = (int) getAttributeValue(variable, ATTR_NAME_MISSING_VALUE, Double.NaN);
+
+        return new ScaleFactor(scale, offset, missingValue);
     }
 
     private void readObservations() throws IOException {
@@ -164,11 +164,11 @@ public class SmosBufrReader extends AbstractProductReader {
             observation.data[POLARISATION_INDEX] = next.getScalarByte("Polarisation");
 
             final int longitude_high_accuracy = next.getScalarInt("Longitude_high_accuracy");
-            final float lon = (float) (longitude_high_accuracy * scaleFactors.lon.scale + scaleFactors.lon.offset);
+            final float lon = (float) scaleFactors.lon.scale(longitude_high_accuracy);
             observation.lon = lon;
 
             final int latitude_high_accuracy = next.getScalarInt("Latitude_high_accuracy");
-            final float lat = (float) (latitude_high_accuracy * scaleFactors.lat.scale + scaleFactors.lat.offset);
+            final float lat = (float) scaleFactors.lat.scale(latitude_high_accuracy);
             observation.lat = lat;
 
             final int snapshot_id = next.getScalarInt("Snapshot_identifier");
@@ -314,7 +314,7 @@ public class SmosBufrReader extends AbstractProductReader {
         final Integer index = datasetNameIndexMap.get(descriptor.getMemberName());
 
         final CellValueProvider valueProvider;
-        if(descriptor.getFlagDescriptors() == null) {
+        if (descriptor.getFlagDescriptors() == null) {
             valueProvider = new BufrCellValueProvider(index, descriptor.getPolarization());
         } else {
             valueProvider = new FlagCellValueProvider(index, descriptor.getPolarization());
@@ -414,10 +414,11 @@ public class SmosBufrReader extends AbstractProductReader {
         private int getData(int cellIndex, int noDataValue) {
             final ArrayList<Observation> cellObservations = gridPointMap.get(cellIndex);
             if (cellObservations != null) {
-                // @todo 1 tb/tb use all cell observations tb 2014-10-15
-                final Observation observation = cellObservations.get(0);
-                if (observation.data[POLARISATION_INDEX] == polarisation || polarisation > 2) {
-                    return observation.data[dataindex];
+                for (final Observation observation : cellObservations) {
+                    if (polarisation == 4 ||
+                            (observation.data[POLARISATION_INDEX] & 3) == polarisation ||
+                            (polarisation & observation.data[POLARISATION_INDEX] & 2) != 0) {
+                    }
                 }
             }
             return noDataValue;
@@ -478,7 +479,7 @@ public class SmosBufrReader extends AbstractProductReader {
                             (polarisation & observation.data[POLARISATION_INDEX] & 2) != 0) {
 
                         final int incidenceAngleInt = observation.data[INCIDENCE_ANGLE_INDEX];
-                        final double incidenceAngle = scaleFactors.incidenceAngle.scale * incidenceAngleInt + scaleFactors.incidenceAngle.offset;
+                        final double incidenceAngle = scaleFactors.incidenceAngle.scale(incidenceAngleInt);
                         if (incidenceAngle >= MIN_BROWSE_INCIDENCE_ANGLE && incidenceAngle <= MAX_BROWSE_INCIDENCE_ANGLE) {
                             combinedFlags |= observation.data[dataindex];
 
