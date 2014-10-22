@@ -31,4 +31,13 @@ public class ScaleFactorTest {
         assertTrue(scaleFactor.isValid(109));
         assertFalse(scaleFactor.isValid(32766));
     }
+
+    @Test
+    public void testScaleInverse() {
+        final ScaleFactor scaleFactor = new ScaleFactor(1.8, 0.65, 32767);
+
+        assertEquals(0, scaleFactor.scaleInverse(0.65));
+        assertEquals(1, scaleFactor.scaleInverse(2.45));
+        assertEquals(-1, scaleFactor.scaleInverse(-1.15));
+    }
 }

@@ -315,9 +315,10 @@ public class SmosBufrReader extends AbstractProductReader {
 
         final CellValueProvider valueProvider;
         if (descriptor.getFlagDescriptors() == null) {
-            valueProvider = new BufrCellValueProvider(index, descriptor.getPolarization());
+            final ScaleFactor scalingFactor = createFactor(getObservationSequence(), descriptor.getMemberName());
+            valueProvider = new BufrCellValueProvider(descriptor.getPolarization(), index, scalingFactor);
         } else {
-            valueProvider = new FlagCellValueProvider(index, descriptor.getPolarization());
+            valueProvider = new FlagCellValueProvider(descriptor.getPolarization(), index);
         }
         band.setSourceImage(createSourceImage(band, valueProvider));
         band.setImageInfo(ProductHelper.createImageInfo(band, descriptor));
@@ -374,10 +375,12 @@ public class SmosBufrReader extends AbstractProductReader {
 
         private final int dataindex;
         private final int polarisation;
+        private final ScaleFactor scaleFactor;
 
-        private BufrCellValueProvider(int polarisation, int dataIndex) {
+        private BufrCellValueProvider(int polarisation, int dataIndex, ScaleFactor scaleFactor) {
             this.dataindex = dataIndex;
             this.polarisation = polarisation;
+            this.scaleFactor = scaleFactor;
         }
 
         @Override
@@ -422,19 +425,21 @@ public class SmosBufrReader extends AbstractProductReader {
 
                 boolean hasLower = false;
                 boolean hasUpper = false;
+                final ScaleFactor incidenceAngleScaleFactor = scaleFactors.incidenceAngle;
 
                 for (final Observation observation : cellObservations) {
+                    final int value = observation.data[dataindex];
+                    if (!scaleFactor.isValid(value)) {
+                        continue;
+                    }
                     if (polarisation == 4 ||
                             (observation.data[POLARISATION_INDEX] & 3) == polarisation ||
                             (polarisation & observation.data[POLARISATION_INDEX] & 2) != 0) {
 
                         final int incidenceAngleInt = observation.data[INCIDENCE_ANGLE_INDEX];
-                        final ScaleFactor incidenceAngleScaleFactor = scaleFactors.incidenceAngle;
                         if (incidenceAngleScaleFactor.isValid(incidenceAngleInt)) {
                             final double incidenceAngle = incidenceAngleScaleFactor.scale(incidenceAngleInt);
                             if (incidenceAngle >= MIN_BROWSE_INCIDENCE_ANGLE && incidenceAngle <= MAX_BROWSE_INCIDENCE_ANGLE) {
-                                final int value = observation.data[dataindex];
-
                                 sx += incidenceAngle;
                                 sy += value;
                                 sxx += incidenceAngle * incidenceAngle;
@@ -456,7 +461,6 @@ public class SmosBufrReader extends AbstractProductReader {
                     final double b = (sy - a * sx) / count;
                     return (int) (a * CENTER_BROWSE_INCIDENCE_ANGLE + b);
                 }
-
             }
             return noDataValue;
         }
@@ -506,6 +510,8 @@ public class SmosBufrReader extends AbstractProductReader {
         private int getData(int cellIndex, int noDataValue) {
             final ArrayList<Observation> cellObservations = gridPointMap.get(cellIndex);
             if (cellObservations != null) {
+                final ScaleFactor incidenceAngleScaleFactor = scaleFactors.incidenceAngle;
+
                 boolean hasLower = false;
                 boolean hasUpper = false;
                 int combinedFlags = 0;
@@ -517,7 +523,6 @@ public class SmosBufrReader extends AbstractProductReader {
 
                         final int incidenceAngleInt = observation.data[INCIDENCE_ANGLE_INDEX];
 
-                        final ScaleFactor incidenceAngleScaleFactor = scaleFactors.incidenceAngle;
                         if (incidenceAngleScaleFactor.isValid(incidenceAngleInt)) {
                             final double incidenceAngle = incidenceAngleScaleFactor.scale(incidenceAngleInt);
                             if (incidenceAngle >= MIN_BROWSE_INCIDENCE_ANGLE && incidenceAngle <= MAX_BROWSE_INCIDENCE_ANGLE) {

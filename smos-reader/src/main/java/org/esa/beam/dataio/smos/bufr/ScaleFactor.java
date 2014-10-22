@@ -23,4 +23,9 @@ class ScaleFactor {
     boolean isValid(int rawValue) {
         return rawValue != missingValue;
     }
+
+    public int scaleInverse(double scaledVal) {
+        final double inverse = (scaledVal - offset) / scale;
+        return (int) Math.round(inverse);
+    }
 }

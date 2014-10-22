@@ -84,6 +84,46 @@
         ],
         "bands": [
             {
+                "name": "BT_Value_X",
+                "geophysicalUnit": "K",
+                "noDataValue": "555.349985351786",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 3943,
+                        "y": 1581,
+                        "value": 248.6699981689453
+                    },
+                    {
+                        "x": 1290,
+                        "y": 2373,
+                        "value": "NaN"
+                    }
+                ]
+            },
+            {
+                "name": "BT_Value_Y",
+                "geophysicalUnit": "K",
+                "noDataValue": "555.349985351786",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 10419,
+                        "y": 2507,
+                        "value": 260.86
+                    },
+                    {
+                        "x": 9216,
+                        "y": 4011,
+                        "value": "NaN"
+                    }
+                ]
+            },
+            {
                 "name": "Flags",
                 "geophysicalUnit": "FlagTable 0-25-174",
                 "noDataValue": "16383",
@@ -94,7 +134,7 @@
                     {
                         "x": 6820,
                         "y": 354,
-                        "value": 4095
+                        "value": 5136
                     },
                     {
                         "x": 1290,
