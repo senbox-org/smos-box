@@ -19,4 +19,8 @@ class ScaleFactor {
         }
         return scale * rawValue + offset;
     }
+
+    boolean isValid(int rawValue) {
+        return rawValue != missingValue;
+    }
 }

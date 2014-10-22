@@ -3,6 +3,8 @@ package org.esa.beam.dataio.smos.bufr;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class ScaleFactorTest {
 
@@ -20,5 +22,13 @@ public class ScaleFactorTest {
         final ScaleFactor scaleFactor = new ScaleFactor(1.9, 0.55, 32767);
 
         assertEquals(Double.NaN, scaleFactor.scale(32767), 1e-8);
+    }
+
+    @Test
+    public void testIsValid() {
+        final ScaleFactor scaleFactor = new ScaleFactor(2.0, 0.45, 32766);
+
+        assertTrue(scaleFactor.isValid(109));
+        assertFalse(scaleFactor.isValid(32766));
     }
 }

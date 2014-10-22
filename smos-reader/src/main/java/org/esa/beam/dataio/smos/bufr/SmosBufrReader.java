@@ -414,12 +414,49 @@ public class SmosBufrReader extends AbstractProductReader {
         private int getData(int cellIndex, int noDataValue) {
             final ArrayList<Observation> cellObservations = gridPointMap.get(cellIndex);
             if (cellObservations != null) {
+                int count = 0;
+                double sx = 0;
+                double sy = 0;
+                double sxx = 0;
+                double sxy = 0;
+
+                boolean hasLower = false;
+                boolean hasUpper = false;
+
                 for (final Observation observation : cellObservations) {
                     if (polarisation == 4 ||
                             (observation.data[POLARISATION_INDEX] & 3) == polarisation ||
                             (polarisation & observation.data[POLARISATION_INDEX] & 2) != 0) {
+
+                        final int incidenceAngleInt = observation.data[INCIDENCE_ANGLE_INDEX];
+                        final ScaleFactor incidenceAngleScaleFactor = scaleFactors.incidenceAngle;
+                        if (incidenceAngleScaleFactor.isValid(incidenceAngleInt)) {
+                            final double incidenceAngle = incidenceAngleScaleFactor.scale(incidenceAngleInt);
+                            if (incidenceAngle >= MIN_BROWSE_INCIDENCE_ANGLE && incidenceAngle <= MAX_BROWSE_INCIDENCE_ANGLE) {
+                                final int value = observation.data[dataindex];
+
+                                sx += incidenceAngle;
+                                sy += value;
+                                sxx += incidenceAngle * incidenceAngle;
+                                sxy += incidenceAngle * value;
+                                count++;
+
+                                if (!hasLower) {
+                                    hasLower = incidenceAngle <= CENTER_BROWSE_INCIDENCE_ANGLE;
+                                }
+                                if (!hasUpper) {
+                                    hasUpper = incidenceAngle > CENTER_BROWSE_INCIDENCE_ANGLE;
+                                }
+                            }
+                        }
                     }
                 }
+                if (hasLower && hasUpper) {
+                    final double a = (count * sxy - sx * sy) / (count * sxx - sx * sx);
+                    final double b = (sy - a * sx) / count;
+                    return (int) (a * CENTER_BROWSE_INCIDENCE_ANGLE + b);
+                }
+
             }
             return noDataValue;
         }
@@ -479,15 +516,19 @@ public class SmosBufrReader extends AbstractProductReader {
                             (polarisation & observation.data[POLARISATION_INDEX] & 2) != 0) {
 
                         final int incidenceAngleInt = observation.data[INCIDENCE_ANGLE_INDEX];
-                        final double incidenceAngle = scaleFactors.incidenceAngle.scale(incidenceAngleInt);
-                        if (incidenceAngle >= MIN_BROWSE_INCIDENCE_ANGLE && incidenceAngle <= MAX_BROWSE_INCIDENCE_ANGLE) {
-                            combinedFlags |= observation.data[dataindex];
 
-                            if (!hasLower) {
-                                hasLower = incidenceAngle <= CENTER_BROWSE_INCIDENCE_ANGLE;
-                            }
-                            if (!hasUpper) {
-                                hasUpper = incidenceAngle > CENTER_BROWSE_INCIDENCE_ANGLE;
+                        final ScaleFactor incidenceAngleScaleFactor = scaleFactors.incidenceAngle;
+                        if (incidenceAngleScaleFactor.isValid(incidenceAngleInt)) {
+                            final double incidenceAngle = incidenceAngleScaleFactor.scale(incidenceAngleInt);
+                            if (incidenceAngle >= MIN_BROWSE_INCIDENCE_ANGLE && incidenceAngle <= MAX_BROWSE_INCIDENCE_ANGLE) {
+                                combinedFlags |= observation.data[dataindex];
+
+                                if (!hasLower) {
+                                    hasLower = incidenceAngle <= CENTER_BROWSE_INCIDENCE_ANGLE;
+                                }
+                                if (!hasUpper) {
+                                    hasUpper = incidenceAngle > CENTER_BROWSE_INCIDENCE_ANGLE;
+                                }
                             }
                         }
                     }
