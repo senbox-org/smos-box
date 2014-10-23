@@ -39,6 +39,7 @@ import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.IOException;
 import java.text.MessageFormat;
+import java.util.HashMap;
 
 public class SmosProductReader extends SmosReader {
 
@@ -128,7 +129,14 @@ public class SmosProductReader extends SmosReader {
             }
         }
 
-        return new GridPointBtDataset(smosFile.getBtDataType(), columnClasses, tableData);
+        final CompoundType btDataType = smosFile.getBtDataType();
+        final int dataMemberCount = btDataType.getMemberCount();
+        final HashMap<String, Integer> memberNamesMap = new HashMap<>();
+        for (int i = 0; i < dataMemberCount; i++) {
+            final CompoundMember member = btDataType.getMember(i);
+            memberNamesMap.put(member.getName(), i);
+        }
+        return new GridPointBtDataset(memberNamesMap, columnClasses, tableData);
     }
 
     private static ProductFile createProductFile(VirtualDir virtualDir) throws IOException {

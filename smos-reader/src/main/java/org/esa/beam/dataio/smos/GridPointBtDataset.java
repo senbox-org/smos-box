@@ -16,24 +16,27 @@
 
 package org.esa.beam.dataio.smos;
 
-import com.bc.ceres.binio.CompoundType;
+import java.util.HashMap;
 
 
 public class GridPointBtDataset {
 
-    private final CompoundType btDataType;
+    private final HashMap<String, Integer> memberNamesMap;
     private final Class[] columnClasses;
     private final Number[][] data;
 
-    public GridPointBtDataset(CompoundType btDataType, Class[] columnClasses,
-                              Number[][] data) {
-        this.btDataType = btDataType;
+    public GridPointBtDataset(HashMap<String, Integer> memberNamesMap, Class[] columnClasses, Number[][] data) {
+        this.memberNamesMap = memberNamesMap;
         this.columnClasses = columnClasses;
         this.data = data;
     }
 
     public int getColumnIndex(String name) {
-        return btDataType.getMemberIndex(name);
+        final Integer index = memberNamesMap.get(name);
+        if (index == null) {
+            return -1;
+        }
+        return index;
     }
 
     public Number[][] getData() {
