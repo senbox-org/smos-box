@@ -12,7 +12,6 @@ import org.esa.beam.dataio.smos.*;
 import org.esa.beam.dataio.smos.dddb.BandDescriptor;
 import org.esa.beam.dataio.smos.dddb.Dddb;
 import org.esa.beam.dataio.smos.dddb.Family;
-import org.esa.beam.framework.dataio.AbstractProductReader;
 import org.esa.beam.framework.datamodel.Band;
 import org.esa.beam.framework.datamodel.MetadataElement;
 import org.esa.beam.framework.datamodel.Product;
@@ -38,7 +37,7 @@ import java.text.MessageFormat;
 import java.util.*;
 import java.util.List;
 
-public class SmosBufrReader extends AbstractProductReader {
+public class SmosBufrReader extends SmosReader {
 
     private static final String ATTR_NAME_ADD_OFFSET = "add_offset";
     private static final String ATTR_NAME_SCALE_FACTOR = "scale_factor";

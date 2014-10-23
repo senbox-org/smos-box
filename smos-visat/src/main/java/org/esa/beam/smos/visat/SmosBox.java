@@ -69,7 +69,7 @@ public class SmosBox implements VisatPlugIn {
         return sceneViewSelectionService;
     }
 
-    @Override
+        @Override
     public final void start(VisatApp visatApp) {
         synchronized (this) {
             instance = this;

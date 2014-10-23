@@ -22,6 +22,7 @@ import com.jidesoft.grid.AutoResizePopupMenuCustomizer;
 import com.jidesoft.grid.TableColumnChooser;
 import com.jidesoft.grid.TableColumnChooserPopupMenuCustomizer;
 import com.jidesoft.grid.TableHeaderPopupMenuInstaller;
+import org.esa.beam.dataio.smos.GridPointBtDataset;
 import org.esa.beam.dataio.smos.L1cSmosFile;
 import org.esa.beam.framework.ui.product.ProductSceneView;
 

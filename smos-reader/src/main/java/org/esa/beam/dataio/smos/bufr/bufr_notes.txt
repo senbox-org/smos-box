@@ -17,8 +17,8 @@ Bands in BUFR file spec
 - Azimuth_angle          - TODO - scale factor
 - Faraday_rotational_angle - TODO - scale factor
 - Geometric_rotational_angle - TODO - scale factor
-- Brightness_temperature_real_part - TODO - polarisation, scale + offset
-- Brightness_temperature_imaginary_part - TODO - polarisation, scale + offset
+- Brightness_temperature_real_part
+- Brightness_temperature_imaginary_part
 - Pixel_radiometric_accuracy - TODO scale factor
 - SMOS_information_flag   - done
 

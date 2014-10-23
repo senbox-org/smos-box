@@ -22,7 +22,6 @@ import com.bc.ceres.core.ProgressMonitor;
 import com.bc.ceres.core.VirtualDir;
 import org.esa.beam.dataio.smos.dddb.BandDescriptor;
 import org.esa.beam.dataio.smos.dddb.Dddb;
-import org.esa.beam.framework.dataio.AbstractProductReader;
 import org.esa.beam.framework.dataio.ProductReaderPlugIn;
 import org.esa.beam.framework.datamodel.Band;
 import org.esa.beam.framework.datamodel.Product;
@@ -34,14 +33,14 @@ import org.esa.beam.util.io.FileUtils;
 import ucar.nc2.NetcdfFile;
 import ucar.nc2.iosp.bufr.BufrIosp;
 
-import java.awt.Rectangle;
+import java.awt.*;
 import java.awt.image.Raster;
 import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.IOException;
 import java.text.MessageFormat;
 
-public class SmosProductReader extends AbstractProductReader {
+public class SmosProductReader extends SmosReader {
 
     private static final String LSMASK_SCHEMA_NAME = "DBL_SM_XXXX_AUX_LSMASK_0200";
 
@@ -214,7 +213,7 @@ public class SmosProductReader extends AbstractProductReader {
         }
         if (descriptor.getFlagDescriptors() != null) {
             ProductHelper.addFlagsAndMasks(product, band, descriptor.getFlagCodingName(),
-                                           descriptor.getFlagDescriptors());
+                    descriptor.getFlagDescriptors());
         }
 
         band.setSourceImage(SmosLsMask.getInstance().getMultiLevelImage());
@@ -242,14 +241,14 @@ public class SmosProductReader extends AbstractProductReader {
         if (SmosUtils.isBrowseFormat(formatName)) {
             return new L1cBrowseSmosFile(eeFilePair, context);
         } else if (SmosUtils.isDualPolScienceFormat(formatName) ||
-                   SmosUtils.isFullPolScienceFormat(formatName)) {
+                SmosUtils.isFullPolScienceFormat(formatName)) {
             return new L1cScienceSmosFile(eeFilePair, context);
         } else if (SmosUtils.isSmUserFormat(formatName)) {
             return new SmUserSmosFile(eeFilePair, context);
         } else if (SmosUtils.isOsUserFormat(formatName) ||
-                   SmosUtils.isOsAnalysisFormat(formatName) ||
-                   SmosUtils.isSmAnalysisFormat(formatName) ||
-                   SmosUtils.isAuxECMWFType(formatName)) {
+                SmosUtils.isOsAnalysisFormat(formatName) ||
+                SmosUtils.isSmAnalysisFormat(formatName) ||
+                SmosUtils.isAuxECMWFType(formatName)) {
             return new SmosFile(eeFilePair, context);
         } else if (SmosUtils.isDffLaiFormat(formatName)) {
             return new LaiFile(eeFilePair, context);
@@ -258,10 +257,10 @@ public class SmosProductReader extends AbstractProductReader {
         } else if (SmosUtils.isLsMaskFormat(formatName)) {
             return new GlobalSmosFile(eeFilePair, context);
         } else if (SmosUtils.isDggFloFormat(formatName) ||
-                   SmosUtils.isDggRfiFormat(formatName) ||
-                   SmosUtils.isDggRouFormat(formatName) ||
-                   SmosUtils.isDggTfoFormat(formatName) ||
-                   SmosUtils.isDggTlvFormat(formatName)) {
+                SmosUtils.isDggRfiFormat(formatName) ||
+                SmosUtils.isDggRouFormat(formatName) ||
+                SmosUtils.isDggTfoFormat(formatName) ||
+                SmosUtils.isDggTlvFormat(formatName)) {
             return new AuxiliaryFile(eeFilePair, context);
         }
 

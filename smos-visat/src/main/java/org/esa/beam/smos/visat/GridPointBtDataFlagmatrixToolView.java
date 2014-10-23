@@ -16,6 +16,7 @@
 
 package org.esa.beam.smos.visat;
 
+import org.esa.beam.dataio.smos.GridPointBtDataset;
 import org.esa.beam.dataio.smos.L1cScienceSmosFile;
 import org.esa.beam.dataio.smos.L1cSmosFile;
 import org.esa.beam.dataio.smos.SmosConstants;

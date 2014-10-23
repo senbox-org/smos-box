@@ -16,10 +16,7 @@
 
 package org.esa.beam.smos.visat;
 
-import org.esa.beam.dataio.smos.L1cSmosFile;
-import org.esa.beam.dataio.smos.ProductFile;
-import org.esa.beam.dataio.smos.SmosFile;
-import org.esa.beam.dataio.smos.SmosProductReader;
+import org.esa.beam.dataio.smos.*;
 import org.esa.beam.framework.dataio.ProductReader;
 import org.esa.beam.framework.datamodel.*;
 import org.esa.beam.framework.help.HelpSys;

@@ -14,26 +14,25 @@
  * with this program; if not, see http://www.gnu.org/licenses/
  */
 
-package org.esa.beam.smos.visat;
+package org.esa.beam.dataio.smos;
 
 import com.bc.ceres.binio.CompoundData;
 import com.bc.ceres.binio.CompoundType;
 import com.bc.ceres.binio.SequenceData;
 import com.bc.ceres.binio.util.NumberUtils;
-import org.esa.beam.dataio.smos.L1cSmosFile;
 import org.esa.beam.dataio.smos.dddb.BandDescriptor;
 import org.esa.beam.dataio.smos.dddb.Dddb;
 
 import java.io.IOException;
 
 
-class GridPointBtDataset {
+public class GridPointBtDataset {
 
     private final CompoundType btDataType;
     private final Class[] columnClasses;
     private final Number[][] data;
 
-    static GridPointBtDataset read(L1cSmosFile smosFile, int gridPointIndex) throws IOException {
+    public static GridPointBtDataset read(L1cSmosFile smosFile, int gridPointIndex) throws IOException {
         SequenceData btDataList = smosFile.getBtDataList(gridPointIndex);
 
         CompoundType type = (CompoundType) btDataList.getType().getElementType();
@@ -74,22 +73,22 @@ class GridPointBtDataset {
         return new GridPointBtDataset(smosFile.getBtDataType(), columnClasses, tableData);
     }
 
-    GridPointBtDataset(CompoundType btDataType, Class[] columnClasses,
+    public GridPointBtDataset(CompoundType btDataType, Class[] columnClasses,
                        Number[][] data) {
         this.btDataType = btDataType;
         this.columnClasses = columnClasses;
         this.data = data;
     }
 
-    int getColumnIndex(String name) {
+    public int getColumnIndex(String name) {
         return btDataType.getMemberIndex(name);
     }
 
-    Number[][] getData() {
+    public Number[][] getData() {
         return data;
     }
 
-    Class[] getColumnClasses() {
+    public Class[] getColumnClasses() {
         return columnClasses;
     }
 }

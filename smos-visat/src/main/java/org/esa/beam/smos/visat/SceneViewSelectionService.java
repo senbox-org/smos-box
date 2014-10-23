@@ -22,6 +22,7 @@ import com.bc.ceres.glevel.MultiLevelImage;
 import org.esa.beam.dataio.smos.ProductFile;
 import org.esa.beam.dataio.smos.SmosFile;
 import org.esa.beam.dataio.smos.SmosProductReader;
+import org.esa.beam.dataio.smos.SmosReader;
 import org.esa.beam.framework.dataio.ProductReader;
 import org.esa.beam.framework.datamodel.Product;
 import org.esa.beam.framework.ui.PixelPositionListener;
@@ -91,7 +92,7 @@ public class SceneViewSelectionService {
         final Product product = getSelectedSmosProduct();
         if (product != null) {
             final ProductReader productReader = product.getProductReader();
-            Assert.state(productReader instanceof SmosProductReader, "productReader instanceof SmosProductReader");
+            Assert.state(productReader instanceof SmosReader, "productReader instanceof SmosProductReader");
             final ProductFile productFile = ((SmosProductReader) productReader).getProductFile();
             if (productFile instanceof SmosFile) {
                 return (SmosFile) productFile;

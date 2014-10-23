@@ -16,6 +16,8 @@
 
 package org.esa.beam.smos.visat;
 
+import org.esa.beam.dataio.smos.GridPointBtDataset;
+
 import javax.swing.table.AbstractTableModel;
 
 

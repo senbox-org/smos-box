@@ -4,7 +4,23 @@
     "expectedContent": {
         "sceneWidth": 16384,
         "sceneHeight": 8064,
-
+        "geoCoding": {
+            "coordinates": [
+                {
+                    "x": 7066.0,
+                    "y": 4334.0,
+                    "lat": -6.635742,
+                    "lon": -24.74121
+                },
+                {
+                    "x": 12164.0,
+                    "y": 5232.0,
+                    "lat": -26.367188,
+                    "lon": 87.27539
+                }
+            ],
+            "reverseAccuracy": 0.0
+        },
         "flagCodings": [
             {
                 "name": "Flags",
@@ -119,6 +135,26 @@
                     {
                         "x": 9216,
                         "y": 4011,
+                        "value": "NaN"
+                    }
+                ]
+            },
+            {
+                "name": "BT_Value_XY_Real",
+                "geophysicalUnit": "K",
+                "noDataValue": "555.349985351786",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 12110,
+                        "y": 7306,
+                        "value": -4.6400023
+                    },
+                    {
+                        "x": 9966,
+                        "y": 7487,
                         "value": "NaN"
                     }
                 ]
