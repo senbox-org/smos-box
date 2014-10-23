@@ -35,8 +35,6 @@ import org.jfree.ui.RectangleInsets;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.IOException;
 
 public class GridPointBtDataChartToolView extends GridPointBtDataToolView {
@@ -112,12 +110,7 @@ public class GridPointBtDataChartToolView extends GridPointBtDataToolView {
         };
         final JPanel optionsPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 2, 2));
         for (JCheckBox modeChecker : modeCheckers) {
-            modeChecker.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    updateGridPointBtDataComponent();
-                }
-            });
+            modeChecker.addActionListener(e -> updateGridPointBtDataComponent());
             optionsPanel.add(modeChecker);
         }
         return optionsPanel;
@@ -202,8 +195,14 @@ public class GridPointBtDataChartToolView extends GridPointBtDataToolView {
 
     @Override
     protected void clearGridPointBtDataComponent() {
-        coPolDataset.removeAllSeries();
-        crossPolDataset.removeAllSeries();
-        plot.setNoDataMessage("No data");
+        if (coPolDataset != null) {
+            coPolDataset.removeAllSeries();
+        }
+        if (crossPolDataset != null) {
+            crossPolDataset.removeAllSeries();
+        }
+        if (plot != null) {
+            plot.setNoDataMessage("No data");
+        }
     }
 }

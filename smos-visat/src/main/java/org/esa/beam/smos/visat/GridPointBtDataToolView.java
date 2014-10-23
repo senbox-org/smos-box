@@ -138,8 +138,14 @@ public abstract class GridPointBtDataToolView extends SmosToolView {
             clearGridPointBtDataComponent();
             return;
         }
-        final L1cSmosFile l1cSmosFile = getL1cSmosFile();
-        final int gridPointIndex = l1cSmosFile != null ? l1cSmosFile.getGridPointIndex(selectedGridPointId) : -1;
+
+        final SmosReader smosReader = getSelectedSmosReader();
+        if (!smosReader.canSupplyGridPointBtData()) {
+            setInfoText("No data");
+            clearGridPointBtDataComponent();
+            return;
+        }
+        final int gridPointIndex = smosReader.getGridPointIndex(selectedGridPointId);
         if (gridPointIndex >= 0) {
             setInfoText("" +
                     "<html>" +
@@ -152,7 +158,7 @@ public abstract class GridPointBtDataToolView extends SmosToolView {
                 @Override
                 protected GridPointBtDataset doInBackground() throws ExecutionException {
                     try {
-                        return GridPointBtDataset.read(l1cSmosFile, gridPointIndex);
+                        return smosReader.getBtData(gridPointIndex);
                     } catch (IOException e) {
                         throw new ExecutionException(e);
                     }

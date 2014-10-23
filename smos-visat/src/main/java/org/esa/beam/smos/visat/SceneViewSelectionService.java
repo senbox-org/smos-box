@@ -102,6 +102,17 @@ public class SceneViewSelectionService {
         return null;
     }
 
+    public SmosReader getSelectedSmosReader() {
+        final Product product = getSelectedSmosProduct();
+        if (product != null) {
+            final ProductReader productReader = product.getProductReader();
+            if (productReader instanceof SmosReader) {
+                return (SmosReader) productReader;
+            }
+        }
+        return null;
+    }
+
     public int getGridPointId(int pixelX, int pixelY) {
         return getGridPointId(pixelX, pixelY, 0);
     }

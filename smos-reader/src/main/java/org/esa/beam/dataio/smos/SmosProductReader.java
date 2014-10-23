@@ -16,8 +16,8 @@
 
 package org.esa.beam.dataio.smos;
 
-import com.bc.ceres.binio.DataContext;
-import com.bc.ceres.binio.DataFormat;
+import com.bc.ceres.binio.*;
+import com.bc.ceres.binio.util.NumberUtils;
 import com.bc.ceres.core.ProgressMonitor;
 import com.bc.ceres.core.VirtualDir;
 import org.esa.beam.dataio.smos.dddb.BandDescriptor;
@@ -66,6 +66,69 @@ public class SmosProductReader extends SmosReader {
             throw new IOException(MessageFormat.format("File ''{0}'': unknown/unsupported SMOS data format.", file));
         }
         return productFile;
+    }
+
+    @Override
+    public GridPointBtDataset getBtData(int gridPointIndex) throws IOException {
+        if (productFile instanceof L1cSmosFile) {
+            return readBtData(gridPointIndex);
+        }
+        return null;
+    }
+
+    @Override
+    public boolean canSupplyGridPointBtData() {
+        return productFile instanceof L1cSmosFile;
+    }
+
+    @Override
+    public int getGridPointIndex(int seqnum) {
+        if (productFile instanceof L1cSmosFile) {
+            return ((L1cSmosFile) productFile).getGridPointIndex(seqnum);
+        }
+        return -1;
+    }
+
+    private GridPointBtDataset readBtData(int gridPointIndex) throws IOException {
+        final L1cSmosFile smosFile = (L1cSmosFile) productFile;
+        final SequenceData btDataList = smosFile.getBtDataList(gridPointIndex);
+
+        final CompoundType type = (CompoundType) btDataList.getType().getElementType();
+        final int memberCount = type.getMemberCount();
+
+        final int btDataListCount = btDataList.getElementCount();
+
+        final Class[] columnClasses = new Class[memberCount];
+        final BandDescriptor[] descriptors = new BandDescriptor[memberCount];
+
+        final Dddb dddb = Dddb.getInstance();
+        final String formatName = smosFile.getDataFormat().getName();
+        for (int j = 0; j < memberCount; j++) {
+            final String memberName = type.getMemberName(j);
+            final BandDescriptor descriptor = dddb.findBandDescriptorForMember(formatName, memberName);
+            if (descriptor == null || descriptor.getScalingFactor() == 1.0 && descriptor.getScalingOffset() == 0.0) {
+                columnClasses[j] = NumberUtils.getNumericMemberType(type, j);
+            } else {
+                columnClasses[j] = Double.class;
+            }
+            descriptors[j] = descriptor;
+        }
+
+        final Number[][] tableData = new Number[btDataListCount][memberCount];
+        for (int i = 0; i < btDataListCount; i++) {
+            CompoundData btData = btDataList.getCompound(i);
+            for (int j = 0; j < memberCount; j++) {
+                final Number member = NumberUtils.getNumericMember(btData, j);
+                final BandDescriptor descriptor = descriptors[j];
+                if (descriptor == null || descriptor.getScalingFactor() == 1.0 && descriptor.getScalingOffset() == 0.0) {
+                    tableData[i][j] = member;
+                } else {
+                    tableData[i][j] = member.doubleValue() * descriptor.getScalingFactor() + descriptor.getScalingOffset();
+                }
+            }
+        }
+
+        return new GridPointBtDataset(smosFile.getBtDataType(), columnClasses, tableData);
     }
 
     private static ProductFile createProductFile(VirtualDir virtualDir) throws IOException {

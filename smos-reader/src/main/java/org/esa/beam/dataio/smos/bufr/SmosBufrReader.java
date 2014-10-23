@@ -89,6 +89,21 @@ public class SmosBufrReader extends SmosReader {
     }
 
     @Override
+    public GridPointBtDataset getBtData(int gridPointIndex) {
+        return null;   // @todo 1 tb/tb implement 2014-10-23
+    }
+
+    @Override
+    public boolean canSupplyGridPointBtData() {
+        return true;
+    }
+
+    @Override
+    public int getGridPointIndex(int seqnum) {
+        return -1; // @todo 1 tb/tb implement 2014-10-23
+    }
+
+    @Override
     protected Product readProductNodesImpl() throws IOException {
         final File inputFile = getInputFile();
         ncfile = NetcdfFile.open(inputFile.getPath());
@@ -396,7 +411,6 @@ public class SmosBufrReader extends SmosReader {
         public byte getValue(long cellIndex, byte noDataValue) {
             return (byte) getData((int) cellIndex, noDataValue);
         }
-
 
         @Override
         public int getValue(long cellIndex, int noDataValue) {

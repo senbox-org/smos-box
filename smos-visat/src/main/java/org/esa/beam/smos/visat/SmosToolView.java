@@ -17,6 +17,7 @@
 package org.esa.beam.smos.visat;
 
 import org.esa.beam.dataio.smos.SmosFile;
+import org.esa.beam.dataio.smos.SmosReader;
 import org.esa.beam.framework.datamodel.Product;
 import org.esa.beam.framework.datamodel.RasterDataNode;
 import org.esa.beam.framework.help.HelpSys;
@@ -56,6 +57,10 @@ public abstract class SmosToolView extends AbstractToolView {
 
     protected final SmosFile getSelectedSmosFile() {
         return getSmosViewSelectionService().getSelectedSmosFile();
+    }
+
+    protected final SmosReader getSelectedSmosReader() {
+        return getSmosViewSelectionService().getSelectedSmosReader();
     }
 
     protected final long getSelectedSnapshotId(RasterDataNode raster) {
