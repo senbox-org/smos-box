@@ -12,6 +12,7 @@ import org.esa.beam.dataio.smos.*;
 import org.esa.beam.dataio.smos.dddb.BandDescriptor;
 import org.esa.beam.dataio.smos.dddb.Dddb;
 import org.esa.beam.dataio.smos.dddb.Family;
+import org.esa.beam.dataio.smos.dddb.FlagDescriptor;
 import org.esa.beam.framework.datamodel.Band;
 import org.esa.beam.framework.datamodel.MetadataElement;
 import org.esa.beam.framework.datamodel.Product;
@@ -135,8 +136,14 @@ public class SmosBufrReader extends SmosReader {
 
     @Override
     public String[] getFlagNames() {
-        // @todo 1 tb/tb implement real functionality 2014-10-24
-        return new String[0];
+        final Family<FlagDescriptor> flagDescriptors = Dddb.getInstance().getFlagDescriptors("BUFR_flags");
+        final java.util.List<FlagDescriptor> flagDescriptorsList = flagDescriptors.asList();
+        final java.util.List<String> flagNames = new ArrayList<>(flagDescriptorsList.size());
+        for (final FlagDescriptor d : flagDescriptorsList) {
+            flagNames.add(d.getFlagName());
+        }
+
+        return flagNames.toArray(new String[flagNames.size()]);
     }
 
     @Override
