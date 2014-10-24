@@ -22,6 +22,8 @@ import com.bc.ceres.core.ProgressMonitor;
 import com.bc.ceres.core.VirtualDir;
 import org.esa.beam.dataio.smos.dddb.BandDescriptor;
 import org.esa.beam.dataio.smos.dddb.Dddb;
+import org.esa.beam.dataio.smos.dddb.Family;
+import org.esa.beam.dataio.smos.dddb.FlagDescriptor;
 import org.esa.beam.framework.dataio.ProductReaderPlugIn;
 import org.esa.beam.framework.datamodel.Band;
 import org.esa.beam.framework.datamodel.Product;
@@ -39,6 +41,7 @@ import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.IOException;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class SmosProductReader extends SmosReader {
@@ -150,6 +153,26 @@ public class SmosProductReader extends SmosReader {
                 names[i] = member.getName();
             }
             return names;
+        }
+
+        return new String[0];
+    }
+
+    @Override
+    public String[] getFlagNames() {
+        if (productFile instanceof L1cSmosFile) {
+            final L1cSmosFile smosFile = (L1cSmosFile) productFile;
+            final String dataFormatName = smosFile.getDataFormat().getName();
+            final Family<BandDescriptor> bandDescriptors = Dddb.getInstance().getBandDescriptors(dataFormatName);
+            final BandDescriptor flagsBandDescriptor = bandDescriptors.getMember(SmosConstants.BT_FLAGS_NAME);
+            final Family<FlagDescriptor> flagDescriptors = flagsBandDescriptor.getFlagDescriptors();
+            final java.util.List<FlagDescriptor> flagDescriptorsList = flagDescriptors.asList();
+            final java.util.List<String> flagNames = new ArrayList<>(flagDescriptorsList.size());
+            for (final FlagDescriptor d : flagDescriptorsList) {
+                flagNames.add(d.getFlagName());
+            }
+
+            return flagNames.toArray(new String[flagNames.size()]);
         }
 
         return new String[0];

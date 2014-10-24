@@ -134,6 +134,12 @@ public class SmosBufrReader extends SmosReader {
     }
 
     @Override
+    public String[] getFlagNames() {
+        // @todo 1 tb/tb implement real functionality 2014-10-24
+        return new String[0];
+    }
+
+    @Override
     protected Product readProductNodesImpl() throws IOException {
         final File inputFile = getInputFile();
         ncfile = NetcdfFile.open(inputFile.getPath());

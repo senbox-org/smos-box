@@ -17,10 +17,8 @@
 package org.esa.beam.smos.visat;
 
 import org.esa.beam.dataio.smos.GridPointBtDataset;
-import org.esa.beam.dataio.smos.L1cScienceSmosFile;
-import org.esa.beam.dataio.smos.L1cSmosFile;
 import org.esa.beam.dataio.smos.SmosConstants;
-import org.esa.beam.dataio.smos.dddb.BandDescriptor;
+import org.esa.beam.dataio.smos.SmosReader;
 import org.esa.beam.dataio.smos.dddb.Dddb;
 import org.esa.beam.dataio.smos.dddb.Family;
 import org.esa.beam.dataio.smos.dddb.FlagDescriptor;
@@ -99,27 +97,19 @@ public class GridPointBtDataFlagmatrixToolView extends GridPointBtDataToolView {
     @Override
     protected void updateClientComponent(ProductSceneView smosView) {
         boolean enabled = smosView != null;
-        L1cSmosFile smosFile = null;
+        SmosReader smosReader = null;
         if (enabled) {
-            smosFile = getL1cSmosFile();
-            if (canNotDisplayFile(smosFile)) {
+            smosReader = getSelectedSmosReader();
+            if (smosReader == null || !smosReader.canSupplyGridPointBtData()) {
                 enabled = false;
             }
         }
         chartPanel.setEnabled(enabled);
         if (enabled) {
-            final Family<BandDescriptor> bandDescriptors = Dddb.getInstance().getBandDescriptors(
-                    smosFile.getDataFormat().getName());
-            final BandDescriptor flagsBandDescriptor = bandDescriptors.getMember(SmosConstants.BT_FLAGS_NAME);
-            final Family<FlagDescriptor> flagDescriptors = flagsBandDescriptor.getFlagDescriptors();
-            flagNames = createFlagNames(flagDescriptors);
+            flagNames = smosReader.getFlagNames();
             final NumberAxis rangeAxis = createRangeAxis(flagNames);
             plot.setRangeAxis(rangeAxis);
         }
-    }
-
-    static boolean canNotDisplayFile(L1cSmosFile smosFile) {
-        return smosFile == null || !(smosFile instanceof L1cScienceSmosFile);
     }
 
     @Override
