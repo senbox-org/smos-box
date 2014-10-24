@@ -83,6 +83,11 @@ public class SmosProductReader extends SmosReader {
     }
 
     @Override
+    public boolean canSupplyFullPolData() {
+        return SmosUtils.isFullPolScienceFormat(productFile.getDataFile().getName());
+    }
+
+    @Override
     public int getGridPointIndex(int seqnum) {
         if (productFile instanceof L1cSmosFile) {
             return ((L1cSmosFile) productFile).getGridPointIndex(seqnum);
@@ -129,14 +134,36 @@ public class SmosProductReader extends SmosReader {
             }
         }
 
+        final HashMap<String, Integer> memberNamesMap = getRawDataMemberNamesMap(smosFile);
+        return new GridPointBtDataset(memberNamesMap, columnClasses, tableData);
+    }
+
+    @Override
+    public String[] getRawDataTableNames() {
+        if (productFile instanceof L1cSmosFile) {
+            final L1cSmosFile smosFile = (L1cSmosFile) productFile;
+            final CompoundType btDataType = smosFile.getBtDataType();
+            final CompoundMember[] members = btDataType.getMembers();
+            final String[] names = new String[members.length];
+            for (int i = 0; i < names.length; i++) {
+                CompoundMember member = members[i];
+                names[i] = member.getName();
+            }
+            return names;
+        }
+
+        return new String[0];
+    }
+
+    private HashMap<String, Integer> getRawDataMemberNamesMap(L1cSmosFile smosFile) {
         final CompoundType btDataType = smosFile.getBtDataType();
-        final int dataMemberCount = btDataType.getMemberCount();
+        final CompoundMember[] members = btDataType.getMembers();
         final HashMap<String, Integer> memberNamesMap = new HashMap<>();
-        for (int i = 0; i < dataMemberCount; i++) {
-            final CompoundMember member = btDataType.getMember(i);
+        for (int i = 0; i < members.length; i++) {
+            CompoundMember member = members[i];
             memberNamesMap.put(member.getName(), i);
         }
-        return new GridPointBtDataset(memberNamesMap, columnClasses, tableData);
+        return memberNamesMap;
     }
 
     private static ProductFile createProductFile(VirtualDir virtualDir) throws IOException {

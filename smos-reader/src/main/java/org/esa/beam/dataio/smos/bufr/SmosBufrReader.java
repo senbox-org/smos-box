@@ -82,15 +82,29 @@ public class SmosBufrReader extends SmosReader {
     private Grid grid;
     private Area area;
     private ScaleFactors scaleFactors;
+    private int gridPointMinIndex;
+    private int gridPointMaxIndex;
 
     SmosBufrReader(SmosBufrReaderPlugIn smosBufrReaderPlugIn) {
         super(smosBufrReaderPlugIn);
         ncfile = null;
+        gridPointMinIndex = -1;
+        gridPointMaxIndex = -1;
     }
 
     @Override
     public GridPointBtDataset getBtData(int gridPointIndex) {
-        return null;   // @todo 1 tb/tb implement 2014-10-23
+        // @todo 1 tb/tb implement real functionality 2014-10-24
+        final HashMap<String, Integer> memberNamesMap = new HashMap<>();
+        memberNamesMap.put("Willy", 1);
+        memberNamesMap.put("Charlotte", 2);
+        memberNamesMap.put("Hermann", 3);
+        memberNamesMap.put("Astrid", 4);
+
+        final Class[] classes = {String.class, Double.class};
+        final Number[][] data = {{1, 2}, {3, 4}};
+
+        return new GridPointBtDataset(memberNamesMap, classes, data);
     }
 
     @Override
@@ -99,8 +113,24 @@ public class SmosBufrReader extends SmosReader {
     }
 
     @Override
+    public boolean canSupplyFullPolData() {
+        return true;
+    }
+
+    @Override
     public int getGridPointIndex(int seqnum) {
-        return -1; // @todo 1 tb/tb implement 2014-10-23
+        if (seqnum >= gridPointMinIndex && seqnum <= gridPointMaxIndex) {
+            if (gridPointMap.containsKey(seqnum)) {
+                return seqnum;
+            }
+        }
+        return -1;
+    }
+
+    @Override
+    public String[] getRawDataTableNames() {
+        // @todo 1 tb/tb implement real functionality 2014-10-24
+        return new String[0];
     }
 
     @Override
@@ -159,6 +189,9 @@ public class SmosBufrReader extends SmosReader {
         final Sequence observationSequence = getObservationSequence();
         final StructureDataIterator structureIterator = observationSequence.getStructureIterator();
 
+
+        gridPointMinIndex = Integer.MAX_VALUE;
+        gridPointMaxIndex = Integer.MIN_VALUE;
         while (structureIterator.hasNext()) {
             structureIterator.hasNext();
             final StructureData next = structureIterator.next();
@@ -190,6 +223,12 @@ public class SmosBufrReader extends SmosReader {
 
             final int grid_point_index = grid.getCellIndex(lon, lat);
             addObservationToGridPoints(observation, grid_point_index);
+            if (grid_point_index < gridPointMinIndex) {
+                gridPointMinIndex = grid_point_index;
+            }
+            if (grid_point_index > gridPointMaxIndex) {
+                gridPointMaxIndex = grid_point_index;
+            }
         }
     }
 

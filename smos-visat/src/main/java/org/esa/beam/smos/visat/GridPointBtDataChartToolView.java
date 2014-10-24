@@ -17,11 +17,9 @@
 package org.esa.beam.smos.visat;
 
 import org.esa.beam.dataio.smos.GridPointBtDataset;
-import org.esa.beam.dataio.smos.L1cScienceSmosFile;
-import org.esa.beam.dataio.smos.L1cSmosFile;
 import org.esa.beam.dataio.smos.SmosConstants;
+import org.esa.beam.dataio.smos.SmosReader;
 import org.esa.beam.framework.ui.product.ProductSceneView;
-import org.esa.beam.smos.SmosUtils;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -92,12 +90,11 @@ public class GridPointBtDataChartToolView extends GridPointBtDataToolView {
 
     @Override
     protected void updateClientComponent(ProductSceneView smosView) {
-        L1cSmosFile l1cSmosFile = getL1cSmosFile();
-        if (l1cSmosFile != null && l1cSmosFile instanceof L1cScienceSmosFile) {
-            final L1cScienceSmosFile smosFile = (L1cScienceSmosFile) l1cSmosFile;
+        final SmosReader smosReader = getSelectedSmosReader();
+        if (smosReader != null && smosReader.canSupplyGridPointBtData()) {
             modeCheckers[0].setEnabled(true);
             modeCheckers[1].setEnabled(true);
-            modeCheckers[2].setEnabled(SmosUtils.isFullPolScienceFormat(smosFile.getDataFormat().getName()));
+            modeCheckers[2].setEnabled(smosReader.canSupplyFullPolData());
         }
     }
 

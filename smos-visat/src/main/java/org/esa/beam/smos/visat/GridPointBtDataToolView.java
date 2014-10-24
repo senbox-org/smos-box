@@ -145,6 +145,7 @@ public abstract class GridPointBtDataToolView extends SmosToolView {
             clearGridPointBtDataComponent();
             return;
         }
+
         final int gridPointIndex = smosReader.getGridPointIndex(selectedGridPointId);
         if (gridPointIndex >= 0) {
             setInfoText("" +

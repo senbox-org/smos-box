@@ -16,27 +16,18 @@
 
 package org.esa.beam.smos.visat;
 
-import com.bc.ceres.binio.CompoundMember;
-import com.bc.ceres.binio.CompoundType;
 import com.jidesoft.grid.AutoResizePopupMenuCustomizer;
 import com.jidesoft.grid.TableColumnChooser;
 import com.jidesoft.grid.TableColumnChooserPopupMenuCustomizer;
 import com.jidesoft.grid.TableHeaderPopupMenuInstaller;
 import org.esa.beam.dataio.smos.GridPointBtDataset;
-import org.esa.beam.dataio.smos.L1cSmosFile;
+import org.esa.beam.dataio.smos.SmosReader;
 import org.esa.beam.framework.ui.product.ProductSceneView;
 
-import javax.swing.Action;
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
+import javax.swing.*;
 import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.TableColumnModel;
-import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.*;
 import java.io.IOException;
 
 public class GridPointBtDataTableToolView extends GridPointBtDataToolView {
@@ -58,34 +49,24 @@ public class GridPointBtDataTableToolView extends GridPointBtDataToolView {
     @Override
     protected void updateClientComponent(ProductSceneView smosView) {
         boolean enabled = smosView != null;
-        L1cSmosFile smosFile = null;
+        SmosReader smosReader = null;
         if (enabled) {
-            smosFile = getL1cSmosFile();
-            if (smosFile == null) {
+            smosReader = getSelectedSmosReader();
+            if (smosReader == null) {
                 enabled = false;
             }
         }
+
         table.setEnabled(enabled);
         columnsButton.setEnabled(enabled);
         exportButton.setEnabled(enabled);
         if (enabled) {
-            String[] names = getColumnNames(smosFile);
+            String[] names = smosReader.getRawDataTableNames();
             TableColumnModel columnModel = new DefaultTableColumnModel();
             gridPointBtDataTableModel.setColumnNames(names);
             table.setColumnModel(columnModel);
             table.createDefaultColumnsFromModel();
         }
-    }
-
-    private String[] getColumnNames(L1cSmosFile smosFile) {
-        final CompoundType btDataType = smosFile.getBtDataType();
-        final CompoundMember[] members = btDataType.getMembers();
-        String[] names = new String[members.length];
-        for (int i = 0; i < members.length; i++) {
-            CompoundMember member = members[i];
-            names[i] = member.getName();
-        }
-        return names;
     }
 
     @Override
@@ -104,13 +85,10 @@ public class GridPointBtDataTableToolView extends GridPointBtDataToolView {
         columnsButton = new JButton(action);
 
         exportButton = new JButton("Export...");
-        exportButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                final TableModelExportRunner modelExportRunner = new TableModelExportRunner(
-                        getPaneWindow(), getTitle(), table.getModel(), table.getColumnModel());
-                modelExportRunner.run();
-            }
+        exportButton.addActionListener(e -> {
+            final TableModelExportRunner modelExportRunner = new TableModelExportRunner(
+                    getPaneWindow(), getTitle(), table.getModel(), table.getColumnModel());
+            modelExportRunner.run();
         });
 
         final JPanel optionsPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 2, 2));
