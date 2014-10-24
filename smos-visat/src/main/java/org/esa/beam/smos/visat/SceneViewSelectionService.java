@@ -72,7 +72,7 @@ public class SceneViewSelectionService {
                 oldView.removePixelPositionListener(ppl);
             }
             if (newView != null) {
-                Assert.argument(newView.getProduct().getProductReader() instanceof SmosProductReader, "view");
+                Assert.argument(newView.getProduct().getProductReader() instanceof SmosReader, "view");
             }
             selectedSceneView = newView;
             fireSelectionChange(oldView, newView);
@@ -147,7 +147,7 @@ public class SceneViewSelectionService {
         public void internalFrameActivated(final InternalFrameEvent e) {
             final ProductSceneView view = getProductSceneViewByFrame(e);
             if (view != null) {
-                if (view.getProduct().getProductReader() instanceof SmosProductReader) {
+                if (view.getProduct().getProductReader() instanceof SmosReader) {
                     setSelectedSceneView(view);
                 } else {
                     setSelectedSceneView(null);
