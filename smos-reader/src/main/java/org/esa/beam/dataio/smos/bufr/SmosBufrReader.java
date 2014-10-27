@@ -8,7 +8,14 @@ import com.bc.ceres.glevel.support.DefaultMultiLevelImage;
 import org.esa.beam.binning.support.ReducedGaussianGrid;
 import org.esa.beam.dataio.netcdf.util.DataTypeUtils;
 import org.esa.beam.dataio.netcdf.util.MetadataUtils;
-import org.esa.beam.dataio.smos.*;
+import org.esa.beam.dataio.smos.CellGridOpImage;
+import org.esa.beam.dataio.smos.CellValueProvider;
+import org.esa.beam.dataio.smos.DggUtils;
+import org.esa.beam.dataio.smos.Grid;
+import org.esa.beam.dataio.smos.GridPointBtDataset;
+import org.esa.beam.dataio.smos.PointList;
+import org.esa.beam.dataio.smos.ProductHelper;
+import org.esa.beam.dataio.smos.SmosReader;
 import org.esa.beam.dataio.smos.dddb.BandDescriptor;
 import org.esa.beam.dataio.smos.dddb.Dddb;
 import org.esa.beam.dataio.smos.dddb.Family;
@@ -28,15 +35,19 @@ import ucar.nc2.NetcdfFile;
 import ucar.nc2.Sequence;
 import ucar.nc2.Variable;
 
-import java.awt.*;
+import java.awt.Dimension;
+import java.awt.Rectangle;
 import java.awt.geom.Area;
 import java.awt.image.Raster;
 import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.IOException;
 import java.text.MessageFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class SmosBufrReader extends SmosReader {
 
@@ -135,15 +146,11 @@ public class SmosBufrReader extends SmosReader {
     }
 
     @Override
-    public String[] getFlagNames() {
+    public FlagDescriptor[] getBtFlagDescriptors() {
         final Family<FlagDescriptor> flagDescriptors = Dddb.getInstance().getFlagDescriptors("BUFR_flags");
-        final java.util.List<FlagDescriptor> flagDescriptorsList = flagDescriptors.asList();
-        final java.util.List<String> flagNames = new ArrayList<>(flagDescriptorsList.size());
-        for (final FlagDescriptor d : flagDescriptorsList) {
-            flagNames.add(d.getFlagName());
-        }
+        final List<FlagDescriptor> flagDescriptorsList = flagDescriptors.asList();
 
-        return flagNames.toArray(new String[flagNames.size()]);
+        return flagDescriptorsList.toArray(new FlagDescriptor[flagDescriptorsList.size()]);
     }
 
     @Override
@@ -264,7 +271,10 @@ public class SmosBufrReader extends SmosReader {
     }
 
     @Override
-    protected void readBandRasterDataImpl(int sourceOffsetX, int sourceOffsetY, int sourceWidth, int sourceHeight, int sourceStepX, int sourceStepY, Band destBand, int destOffsetX, int destOffsetY, int destWidth, int destHeight, ProductData destBuffer, ProgressMonitor pm) throws IOException {
+    protected void readBandRasterDataImpl(int sourceOffsetX, int sourceOffsetY, int sourceWidth, int sourceHeight,
+                                          int sourceStepX, int sourceStepY, Band destBand, int destOffsetX,
+                                          int destOffsetY, int destWidth, int destHeight, ProductData destBuffer,
+                                          ProgressMonitor pm) throws IOException {
         synchronized (this) {
             final RenderedImage image = destBand.getSourceImage();
             final Raster data = image.getData(new Rectangle(destOffsetX, destOffsetY, destWidth, destHeight));
@@ -343,7 +353,8 @@ public class SmosBufrReader extends SmosReader {
         }
     }
 
-    private void addBand(Product product, Variable variable, int dataType, BandDescriptor descriptor) throws IOException {
+    private void addBand(Product product, Variable variable, int dataType, BandDescriptor descriptor) throws
+                                                                                                      IOException {
         if (!descriptor.isVisible()) {
             return;
         }
@@ -374,7 +385,8 @@ public class SmosBufrReader extends SmosReader {
             band.setDescription(descriptor.getDescription());
         }
         if (descriptor.getFlagDescriptors() != null) {
-            ProductHelper.addFlagsAndMasks(product, band, descriptor.getFlagCodingName(), descriptor.getFlagDescriptors());
+            ProductHelper.addFlagsAndMasks(product, band, descriptor.getFlagCodingName(),
+                                           descriptor.getFlagDescriptors());
         }
 
         final Integer index = datasetNameIndexMap.get(descriptor.getMemberName());
@@ -498,8 +510,8 @@ public class SmosBufrReader extends SmosReader {
                         continue;
                     }
                     if (polarisation == 4 ||
-                            (observation.data[POLARISATION_INDEX] & 3) == polarisation ||
-                            (polarisation & observation.data[POLARISATION_INDEX] & 2) != 0) {
+                        (observation.data[POLARISATION_INDEX] & 3) == polarisation ||
+                        (polarisation & observation.data[POLARISATION_INDEX] & 2) != 0) {
 
                         final int incidenceAngleInt = observation.data[INCIDENCE_ANGLE_INDEX];
                         if (incidenceAngleScaleFactor.isValid(incidenceAngleInt)) {
@@ -583,8 +595,8 @@ public class SmosBufrReader extends SmosReader {
 
                 for (final Observation observation : cellObservations) {
                     if (polarisation == 4 ||
-                            (observation.data[POLARISATION_INDEX] & 3) == polarisation ||
-                            (polarisation & observation.data[POLARISATION_INDEX] & 2) != 0) {
+                        (observation.data[POLARISATION_INDEX] & 3) == polarisation ||
+                        (polarisation & observation.data[POLARISATION_INDEX] & 2) != 0) {
 
                         final int incidenceAngleInt = observation.data[INCIDENCE_ANGLE_INDEX];
 

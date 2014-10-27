@@ -16,7 +16,12 @@
 
 package org.esa.beam.dataio.smos;
 
-import com.bc.ceres.binio.*;
+import com.bc.ceres.binio.CompoundData;
+import com.bc.ceres.binio.CompoundMember;
+import com.bc.ceres.binio.CompoundType;
+import com.bc.ceres.binio.DataContext;
+import com.bc.ceres.binio.DataFormat;
+import com.bc.ceres.binio.SequenceData;
 import com.bc.ceres.binio.util.NumberUtils;
 import com.bc.ceres.core.ProgressMonitor;
 import com.bc.ceres.core.VirtualDir;
@@ -35,14 +40,15 @@ import org.esa.beam.util.io.FileUtils;
 import ucar.nc2.NetcdfFile;
 import ucar.nc2.iosp.bufr.BufrIosp;
 
-import java.awt.*;
+import java.awt.Rectangle;
 import java.awt.image.Raster;
 import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.IOException;
 import java.text.MessageFormat;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 
 public class SmosProductReader extends SmosReader {
 
@@ -159,23 +165,17 @@ public class SmosProductReader extends SmosReader {
     }
 
     @Override
-    public String[] getFlagNames() {
+    public FlagDescriptor[] getBtFlagDescriptors() {
         if (productFile instanceof L1cSmosFile) {
             final L1cSmosFile smosFile = (L1cSmosFile) productFile;
             final String dataFormatName = smosFile.getDataFormat().getName();
             final Family<BandDescriptor> bandDescriptors = Dddb.getInstance().getBandDescriptors(dataFormatName);
-            final BandDescriptor flagsBandDescriptor = bandDescriptors.getMember(SmosConstants.BT_FLAGS_NAME);
-            final Family<FlagDescriptor> flagDescriptors = flagsBandDescriptor.getFlagDescriptors();
-            final java.util.List<FlagDescriptor> flagDescriptorsList = flagDescriptors.asList();
-            final java.util.List<String> flagNames = new ArrayList<>(flagDescriptorsList.size());
-            for (final FlagDescriptor d : flagDescriptorsList) {
-                flagNames.add(d.getFlagName());
-            }
-
-            return flagNames.toArray(new String[flagNames.size()]);
+            final BandDescriptor flagBandDescriptor = bandDescriptors.getMember(SmosConstants.BT_FLAGS_NAME);
+            final List<FlagDescriptor> flagDescriptorList = flagBandDescriptor.getFlagDescriptors().asList();
+            return flagDescriptorList.toArray(new FlagDescriptor[flagDescriptorList.size()]);
         }
 
-        return new String[0];
+        return new FlagDescriptor[0];
     }
 
     private HashMap<String, Integer> getRawDataMemberNamesMap(L1cSmosFile smosFile) {
@@ -226,7 +226,7 @@ public class SmosProductReader extends SmosReader {
             final File inputFile = getInputFile();
             final String inputFileName = inputFile.getName();
             if (SmosUtils.isDblFileName(inputFileName) ||
-                    (SmosUtils.isLightBufrTypeSupported() && SmosUtils.isLightBufrType(inputFileName))) {
+                (SmosUtils.isLightBufrTypeSupported() && SmosUtils.isLightBufrType(inputFileName))) {
                 productFile = createProductFile(inputFile);
             } else {
                 productFile = createProductFile(getInputVirtualDir());
@@ -334,7 +334,7 @@ public class SmosProductReader extends SmosReader {
         }
         if (descriptor.getFlagDescriptors() != null) {
             ProductHelper.addFlagsAndMasks(product, band, descriptor.getFlagCodingName(),
-                    descriptor.getFlagDescriptors());
+                                           descriptor.getFlagDescriptors());
         }
 
         band.setSourceImage(SmosLsMask.getInstance().getMultiLevelImage());
@@ -362,14 +362,14 @@ public class SmosProductReader extends SmosReader {
         if (SmosUtils.isBrowseFormat(formatName)) {
             return new L1cBrowseSmosFile(eeFilePair, context);
         } else if (SmosUtils.isDualPolScienceFormat(formatName) ||
-                SmosUtils.isFullPolScienceFormat(formatName)) {
+                   SmosUtils.isFullPolScienceFormat(formatName)) {
             return new L1cScienceSmosFile(eeFilePair, context);
         } else if (SmosUtils.isSmUserFormat(formatName)) {
             return new SmUserSmosFile(eeFilePair, context);
         } else if (SmosUtils.isOsUserFormat(formatName) ||
-                SmosUtils.isOsAnalysisFormat(formatName) ||
-                SmosUtils.isSmAnalysisFormat(formatName) ||
-                SmosUtils.isAuxECMWFType(formatName)) {
+                   SmosUtils.isOsAnalysisFormat(formatName) ||
+                   SmosUtils.isSmAnalysisFormat(formatName) ||
+                   SmosUtils.isAuxECMWFType(formatName)) {
             return new SmosFile(eeFilePair, context);
         } else if (SmosUtils.isDffLaiFormat(formatName)) {
             return new LaiFile(eeFilePair, context);
@@ -378,10 +378,10 @@ public class SmosProductReader extends SmosReader {
         } else if (SmosUtils.isLsMaskFormat(formatName)) {
             return new GlobalSmosFile(eeFilePair, context);
         } else if (SmosUtils.isDggFloFormat(formatName) ||
-                SmosUtils.isDggRfiFormat(formatName) ||
-                SmosUtils.isDggRouFormat(formatName) ||
-                SmosUtils.isDggTfoFormat(formatName) ||
-                SmosUtils.isDggTlvFormat(formatName)) {
+                   SmosUtils.isDggRfiFormat(formatName) ||
+                   SmosUtils.isDggRouFormat(formatName) ||
+                   SmosUtils.isDggTfoFormat(formatName) ||
+                   SmosUtils.isDggTlvFormat(formatName)) {
             return new AuxiliaryFile(eeFilePair, context);
         }
 

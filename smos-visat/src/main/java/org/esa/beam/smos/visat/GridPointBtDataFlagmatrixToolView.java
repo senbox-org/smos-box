@@ -20,7 +20,6 @@ import org.esa.beam.dataio.smos.GridPointBtDataset;
 import org.esa.beam.dataio.smos.SmosConstants;
 import org.esa.beam.dataio.smos.SmosReader;
 import org.esa.beam.dataio.smos.dddb.Dddb;
-import org.esa.beam.dataio.smos.dddb.Family;
 import org.esa.beam.dataio.smos.dddb.FlagDescriptor;
 import org.esa.beam.framework.ui.product.ProductSceneView;
 import org.jfree.chart.ChartPanel;
@@ -36,10 +35,9 @@ import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYZDataset;
 import org.jfree.ui.RectangleInsets;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JComponent;
+import java.awt.Color;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class GridPointBtDataFlagmatrixToolView extends GridPointBtDataToolView {
@@ -53,7 +51,8 @@ public class GridPointBtDataFlagmatrixToolView extends GridPointBtDataToolView {
     private DefaultXYZDataset dataset;
     private XYPlot plot;
     private ChartPanel chartPanel;
-    private String[] flagNames;
+    private FlagDescriptor[] flagDescriptors;
+    private XYBlockRenderer renderer;
 
     @Override
     protected JComponent createGridPointComponent() {
@@ -65,7 +64,10 @@ public class GridPointBtDataFlagmatrixToolView extends GridPointBtDataToolView {
         xAxis.setLowerMargin(0.0);
         xAxis.setUpperMargin(0.0);
 
-        flagNames = createFlagNames(Dddb.getInstance().getFlagDescriptors(DEFAULT_FLAG_DESCRIPTOR_IDENTIFIER));
+        final List<FlagDescriptor> flagDescriptorList = Dddb.getInstance().getFlagDescriptors(
+                DEFAULT_FLAG_DESCRIPTOR_IDENTIFIER).asList();
+        flagDescriptors = flagDescriptorList.toArray(new FlagDescriptor[flagDescriptorList.size()]);
+        final String[] flagNames = createFlagNames(flagDescriptors);
         final NumberAxis yAxis = createRangeAxis(flagNames);
 
         final LookupPaintScale paintScale = new LookupPaintScale(0.0, 4.0, Color.WHITE);
@@ -75,7 +77,7 @@ public class GridPointBtDataFlagmatrixToolView extends GridPointBtDataToolView {
         paintScale.add(3.0, Color.BLUE);
         paintScale.add(4.0, Color.YELLOW);
 
-        final XYBlockRenderer renderer = new XYBlockRenderer();
+        renderer = new XYBlockRenderer();
         renderer.setPaintScale(paintScale);
         renderer.setBaseToolTipGenerator(new FlagToolTipGenerator(flagNames));
 
@@ -106,7 +108,9 @@ public class GridPointBtDataFlagmatrixToolView extends GridPointBtDataToolView {
         }
         chartPanel.setEnabled(enabled);
         if (enabled) {
-            flagNames = smosReader.getFlagNames();
+            flagDescriptors = smosReader.getBtFlagDescriptors();
+            final String[] flagNames = createFlagNames(flagDescriptors);
+            renderer.setBaseToolTipGenerator(new FlagToolTipGenerator(flagNames));
             final NumberAxis rangeAxis = createRangeAxis(flagNames);
             plot.setRangeAxis(rangeAxis);
         }
@@ -120,7 +124,7 @@ public class GridPointBtDataFlagmatrixToolView extends GridPointBtDataToolView {
         if (iq != -1) {
             final Number[][] dsData = ds.getData();
             final int m = dsData.length;
-            final int n = flagNames.length;
+            final int n = flagDescriptors.length;
             double[][] data = new double[3][n * m];
             for (int x = 0; x < m; x++) {
                 final int flags = dsData[x][iq].intValue();
@@ -128,7 +132,7 @@ public class GridPointBtDataFlagmatrixToolView extends GridPointBtDataToolView {
                     final int index = y * m + x;
                     data[0][index] = (1 + x);
                     data[1][index] = y;
-                    data[2][index] = ((flags & (1 << y)) != 0) ? (1 + y % 3) : 0.0;
+                    data[2][index] = ((flags & flagDescriptors[y].getMask()) != 0) ? (1 + y % 3) : 0.0;
                 }
             }
             dataset.addSeries(SERIES_KEY, data);
@@ -154,14 +158,13 @@ public class GridPointBtDataFlagmatrixToolView extends GridPointBtDataToolView {
         }
     }
 
-    private String[] createFlagNames(Family<FlagDescriptor> flagDescriptors) {
-        final List<FlagDescriptor> flagDescriptorsList = flagDescriptors.asList();
-        final List<String> flagNames = new ArrayList<>(flagDescriptorsList.size());
-        for (final FlagDescriptor d : flagDescriptorsList) {
-            flagNames.add(d.getFlagName());
+    private String[] createFlagNames(FlagDescriptor[] flagDescriptors) {
+        final String[] flagNames = new String[flagDescriptors.length];
+        for (int i = 0; i < flagDescriptors.length; i++) {
+            flagNames[i] = flagDescriptors[i].getFlagName();
         }
 
-        return flagNames.toArray(new String[flagNames.size()]);
+        return flagNames;
     }
 
     private NumberAxis createRangeAxis(String[] flagNames) {
