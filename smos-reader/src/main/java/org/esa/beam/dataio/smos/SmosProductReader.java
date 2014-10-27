@@ -16,15 +16,11 @@
 
 package org.esa.beam.dataio.smos;
 
-import com.bc.ceres.binio.CompoundData;
-import com.bc.ceres.binio.CompoundMember;
-import com.bc.ceres.binio.CompoundType;
-import com.bc.ceres.binio.DataContext;
-import com.bc.ceres.binio.DataFormat;
-import com.bc.ceres.binio.SequenceData;
+import com.bc.ceres.binio.*;
 import com.bc.ceres.binio.util.NumberUtils;
 import com.bc.ceres.core.ProgressMonitor;
 import com.bc.ceres.core.VirtualDir;
+import com.bc.ceres.glevel.MultiLevelImage;
 import org.esa.beam.dataio.smos.dddb.BandDescriptor;
 import org.esa.beam.dataio.smos.dddb.Dddb;
 import org.esa.beam.dataio.smos.dddb.Family;
@@ -35,18 +31,18 @@ import org.esa.beam.framework.datamodel.Product;
 import org.esa.beam.framework.datamodel.ProductData;
 import org.esa.beam.smos.EEFilePair;
 import org.esa.beam.smos.SmosUtils;
+import org.esa.beam.smos.dgg.SmosDgg;
 import org.esa.beam.smos.lsmask.SmosLsMask;
 import org.esa.beam.util.io.FileUtils;
 import ucar.nc2.NetcdfFile;
 import ucar.nc2.iosp.bufr.BufrIosp;
 
-import java.awt.Rectangle;
+import java.awt.*;
 import java.awt.image.Raster;
 import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.IOException;
 import java.text.MessageFormat;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -97,11 +93,19 @@ public class SmosProductReader extends SmosReader {
     }
 
     @Override
-    public int getGridPointIndex(int seqnum) {
+    public int getGridPointIndex(int gridPointId) {
         if (productFile instanceof L1cSmosFile) {
-            return ((L1cSmosFile) productFile).getGridPointIndex(seqnum);
+            return ((L1cSmosFile) productFile).getGridPointIndex(gridPointId);
         }
         return -1;
+    }
+
+    @Override
+    public int getGridPointId(int levelPixelX, int levelPixelY, int currentLevel) {
+        final MultiLevelImage levelImage = SmosDgg.getInstance().getMultiLevelImage();
+        final RenderedImage image = levelImage.getImage(currentLevel);
+        final Raster data = image.getData(new Rectangle(levelPixelX, levelPixelY, 1, 1));
+        return data.getSample(levelPixelX, levelPixelY, 0);
     }
 
     private GridPointBtDataset readBtData(int gridPointIndex) throws IOException {
@@ -226,7 +230,7 @@ public class SmosProductReader extends SmosReader {
             final File inputFile = getInputFile();
             final String inputFileName = inputFile.getName();
             if (SmosUtils.isDblFileName(inputFileName) ||
-                (SmosUtils.isLightBufrTypeSupported() && SmosUtils.isLightBufrType(inputFileName))) {
+                    (SmosUtils.isLightBufrTypeSupported() && SmosUtils.isLightBufrType(inputFileName))) {
                 productFile = createProductFile(inputFile);
             } else {
                 productFile = createProductFile(getInputVirtualDir());
@@ -334,7 +338,7 @@ public class SmosProductReader extends SmosReader {
         }
         if (descriptor.getFlagDescriptors() != null) {
             ProductHelper.addFlagsAndMasks(product, band, descriptor.getFlagCodingName(),
-                                           descriptor.getFlagDescriptors());
+                    descriptor.getFlagDescriptors());
         }
 
         band.setSourceImage(SmosLsMask.getInstance().getMultiLevelImage());
@@ -362,14 +366,14 @@ public class SmosProductReader extends SmosReader {
         if (SmosUtils.isBrowseFormat(formatName)) {
             return new L1cBrowseSmosFile(eeFilePair, context);
         } else if (SmosUtils.isDualPolScienceFormat(formatName) ||
-                   SmosUtils.isFullPolScienceFormat(formatName)) {
+                SmosUtils.isFullPolScienceFormat(formatName)) {
             return new L1cScienceSmosFile(eeFilePair, context);
         } else if (SmosUtils.isSmUserFormat(formatName)) {
             return new SmUserSmosFile(eeFilePair, context);
         } else if (SmosUtils.isOsUserFormat(formatName) ||
-                   SmosUtils.isOsAnalysisFormat(formatName) ||
-                   SmosUtils.isSmAnalysisFormat(formatName) ||
-                   SmosUtils.isAuxECMWFType(formatName)) {
+                SmosUtils.isOsAnalysisFormat(formatName) ||
+                SmosUtils.isSmAnalysisFormat(formatName) ||
+                SmosUtils.isAuxECMWFType(formatName)) {
             return new SmosFile(eeFilePair, context);
         } else if (SmosUtils.isDffLaiFormat(formatName)) {
             return new LaiFile(eeFilePair, context);
@@ -378,10 +382,10 @@ public class SmosProductReader extends SmosReader {
         } else if (SmosUtils.isLsMaskFormat(formatName)) {
             return new GlobalSmosFile(eeFilePair, context);
         } else if (SmosUtils.isDggFloFormat(formatName) ||
-                   SmosUtils.isDggRfiFormat(formatName) ||
-                   SmosUtils.isDggRouFormat(formatName) ||
-                   SmosUtils.isDggTfoFormat(formatName) ||
-                   SmosUtils.isDggTlvFormat(formatName)) {
+                SmosUtils.isDggRfiFormat(formatName) ||
+                SmosUtils.isDggRouFormat(formatName) ||
+                SmosUtils.isDggTfoFormat(formatName) ||
+                SmosUtils.isDggTlvFormat(formatName)) {
             return new AuxiliaryFile(eeFilePair, context);
         }
 

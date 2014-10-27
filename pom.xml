@@ -27,8 +27,6 @@
         <module>smos-gui</module>
     </modules>
 
-
-
     <dependencyManagement>
         <dependencies>
             <!-- Ceres System Level Module ############################################# -->

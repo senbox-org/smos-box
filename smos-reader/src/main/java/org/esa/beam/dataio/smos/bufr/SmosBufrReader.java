@@ -130,13 +130,18 @@ public class SmosBufrReader extends SmosReader {
     }
 
     @Override
-    public int getGridPointIndex(int seqnum) {
-        if (seqnum >= gridPointMinIndex && seqnum <= gridPointMaxIndex) {
-            if (gridPointMap.containsKey(seqnum)) {
-                return seqnum;
+    public int getGridPointIndex(int gridPointId) {
+        if (gridPointId >= gridPointMinIndex && gridPointId <= gridPointMaxIndex) {
+            if (gridPointMap.containsKey(gridPointId)) {
+                return gridPointId;
             }
         }
         return -1;
+    }
+
+    @Override
+    public int getGridPointId(int levelPixelX, int levelPixelY, int currentLevel) {
+        return grid.getCellIndex(levelPixelX, levelPixelY, currentLevel);
     }
 
     @Override
