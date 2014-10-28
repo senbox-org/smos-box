@@ -29,7 +29,7 @@ public class GPToNetCDFExporterOp extends AbstractNetCDFExporterOp {
     private String contact;
 
     @Parameter(defaultValue = "",
-            description = "Comma separated list of band names to export. If left empty, no band subsetting is applied.")
+            description = "Comma-separated list of names of variables to export. If left empty, no band sub-setting is applied.")
     private String outputBandNames;
 
     @Parameter(defaultValue = "6",
