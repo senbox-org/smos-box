@@ -118,9 +118,6 @@ public class SmosBufrReader extends SmosReader {
             return null;
         }
 
-
-
-
         final int numData = datasetNameIndexMap.size();
 
         final Class[] classes = new Class[numData];
