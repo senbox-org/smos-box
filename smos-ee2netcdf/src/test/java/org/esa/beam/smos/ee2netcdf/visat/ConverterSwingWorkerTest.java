@@ -69,7 +69,7 @@ public class ConverterSwingWorkerTest {
 
     @Test
     public void testCreateMap_wholeProduct() {
-        exportParameter.setRoiType(BindingConstants.ROI_TYPE_PRODUCT);
+        exportParameter.setRoiType(BindingConstants.ROI_TYPE_WHOLE_PRODUCT);
 
         final HashMap<String, Object> parameterMap = ConverterSwingWorker.createParameterMap(exportParameter);
         assertNull(parameterMap.get("region"));

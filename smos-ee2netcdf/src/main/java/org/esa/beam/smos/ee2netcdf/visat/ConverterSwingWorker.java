@@ -99,7 +99,7 @@ class ConverterSwingWorker extends ProgressMonitorSwingWorker<List<Exception>, F
             parameterMap.put("region", exportParameter.toAreaWKT());
         } else if (roiType == BindingConstants.ROI_TYPE_GEOMETRY) {
             addSelectedProductGeometry(exportParameter.getRegion(), parameterMap);
-        } else if (roiType == BindingConstants.ROI_TYPE_PRODUCT) {
+        } else if (roiType == BindingConstants.ROI_TYPE_WHOLE_PRODUCT) {
             parameterMap.remove("region");
         }
 

@@ -72,7 +72,7 @@ class GridPointExportDialog extends ProductChangeAwareDialog {
         }
 
         bindingContext = new BindingContext(propertyContainer);
-        bindingContext.bindEnabledState(BindingConstants.REGION, true, BindingConstants.ROI_TYPE, BindingConstants.ROI_TYPE_PRODUCT);
+        bindingContext.bindEnabledState(BindingConstants.REGION, true, BindingConstants.ROI_TYPE, BindingConstants.ROI_TYPE_WHOLE_PRODUCT);
         GuiHelper.bindLonLatPanelToRoiType(2, bindingContext);
 
         createUI();

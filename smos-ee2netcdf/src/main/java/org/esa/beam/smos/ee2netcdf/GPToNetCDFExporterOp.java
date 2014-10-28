@@ -29,12 +29,12 @@ public class GPToNetCDFExporterOp extends AbstractNetCDFExporterOp {
     private String contact;
 
     @Parameter(defaultValue = "",
-            description = "Comma separated list of band names to export. If left empty, no band subsetting is applied.")
+            description = "Comma-separated list of names of variables to export. If left empty, no band sub-setting is applied.")
     private String outputBandNames;
 
     @Parameter(defaultValue = "6",
             valueSet = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"},
-            description = "Output file compression level. 0 - no compression, 9 - highest compression.")
+            description = "Output file compression level. 0 = no compression, 9 = highest compression.")
     private int compressionLevel;
 
     @Override
