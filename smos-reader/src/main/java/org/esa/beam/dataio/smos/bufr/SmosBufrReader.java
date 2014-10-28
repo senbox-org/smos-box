@@ -21,6 +21,7 @@ import org.esa.beam.jai.ResolutionLevel;
 import org.esa.beam.smos.dgg.SmosDgg;
 import org.esa.beam.util.StringUtils;
 import org.esa.beam.util.io.FileUtils;
+import ucar.ma2.DataType;
 import ucar.ma2.StructureData;
 import ucar.ma2.StructureDataIterator;
 import ucar.nc2.Attribute;
@@ -256,8 +257,13 @@ public class SmosBufrReader extends SmosReader {
 
             final Observation observation = new Observation();
             observation.data[AZIMUTH_ANGLE_INDEX] = next.getScalarInt("Azimuth_angle");
-            observation.data[BT_IMAG_INDEX] = next.getScalarShort("Brightness_temperature_imaginary_part");
-            observation.data[BT_REAL_INDEX] = next.getScalarShort("Brightness_temperature_real_part");
+
+            final short bt_imag = next.getScalarShort("Brightness_temperature_imaginary_part");
+            observation.data[BT_IMAG_INDEX] = DataType.unsignedShortToInt(bt_imag);
+
+            final short bt_real = next.getScalarShort("Brightness_temperature_real_part");
+            observation.data[BT_REAL_INDEX] = DataType.unsignedShortToInt(bt_real);
+
             observation.data[FARADAY_ANGLE_INDEX] = next.getScalarInt("Faraday_rotational_angle");
             observation.data[FOOTPRINT_AXIS_1_INDEX] = next.getScalarShort("Footprint_axis_1");
             observation.data[FOOTPRINT_AXIS_2_INDEX] = next.getScalarShort("Footprint_axis_2");
