@@ -1,12 +1,16 @@
 package org.esa.beam.dataio.smos.bufr;
 
 import org.esa.beam.framework.dataio.DecodeQualification;
+import org.esa.beam.framework.dataio.ProductReader;
+import org.esa.beam.util.io.BeamFileFilter;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.File;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 public class SmosBufrReaderPlugInTest {
 
@@ -33,5 +37,43 @@ public class SmosBufrReaderPlugInTest {
         assertEquals(2, inputTypes.length);
         assertEquals(File.class, inputTypes[0]);
         assertEquals(String.class, inputTypes[1]);
+    }
+
+    @Test
+    public void testGetFormatNames() {
+        final String[] formatNames = plugin.getFormatNames();
+
+        assertEquals(1, formatNames.length);
+        assertEquals("SMOS Light-BUFR", formatNames[0]);
+    }
+
+    @Test
+    public void testGetDefaultFileExtensions() {
+        final String[] extensions = plugin.getDefaultFileExtensions();
+
+        assertEquals(1, extensions.length);
+        assertEquals(".bin", extensions[0]);
+    }
+
+    @Test
+    public void testGetDescription() {
+         assertEquals("SMOS BUFR light data products", plugin.getDescription(null));
+    }
+
+    @Test
+    public void testGetProductFileFilter() {
+        final BeamFileFilter productFileFilter = plugin.getProductFileFilter();
+
+        assertNotNull(productFileFilter);
+        assertEquals(".bin", productFileFilter.getDefaultExtension());
+        assertEquals("SMOS Light-BUFR", productFileFilter.getFormatName());
+    }
+
+    @Test
+    public void testCreateReaderInstance() {
+        final ProductReader reader = plugin.createReaderInstance();
+
+        assertNotNull(reader);
+        assertTrue(reader instanceof SmosBufrReader);
     }
 }

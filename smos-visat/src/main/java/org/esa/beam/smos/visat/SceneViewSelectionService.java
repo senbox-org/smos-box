@@ -18,7 +18,6 @@ package org.esa.beam.smos.visat;
 
 import com.bc.ceres.core.Assert;
 import com.bc.ceres.glayer.support.ImageLayer;
-import com.bc.ceres.glevel.MultiLevelImage;
 import org.esa.beam.dataio.smos.ProductFile;
 import org.esa.beam.dataio.smos.SmosFile;
 import org.esa.beam.dataio.smos.SmosProductReader;
@@ -28,15 +27,11 @@ import org.esa.beam.framework.datamodel.Product;
 import org.esa.beam.framework.ui.PixelPositionListener;
 import org.esa.beam.framework.ui.product.ProductSceneView;
 import org.esa.beam.visat.VisatApp;
-import org.esa.beam.smos.dgg.SmosDgg;
 
 import javax.swing.event.InternalFrameAdapter;
 import javax.swing.event.InternalFrameEvent;
-import java.awt.Container;
-import java.awt.Rectangle;
+import java.awt.*;
 import java.awt.event.MouseEvent;
-import java.awt.image.Raster;
-import java.awt.image.RenderedImage;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -98,7 +93,7 @@ public class SceneViewSelectionService {
                 return (SmosFile) productFile;
             }
         }
-        
+
         return null;
     }
 
@@ -118,10 +113,11 @@ public class SceneViewSelectionService {
     }
 
     public int getGridPointId(int pixelX, int pixelY, int currentLevel) {
-        final MultiLevelImage levelImage = SmosDgg.getInstance().getMultiLevelImage();
-        RenderedImage image = levelImage.getImage(currentLevel);
-        Raster data = image.getData(new Rectangle(pixelX, pixelY, 1, 1));
-        return data.getSample(pixelX, pixelY, 0);
+        final SmosReader smosReader = getSelectedSmosReader();
+        if (smosReader != null) {
+            return smosReader.getGridPointId(pixelX, pixelY, currentLevel);
+        }
+        return -1;
     }
 
     public synchronized void addSceneViewSelectionListener(SelectionListener selectionListener) {

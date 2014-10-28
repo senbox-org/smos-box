@@ -8,14 +8,7 @@ import com.bc.ceres.glevel.support.DefaultMultiLevelImage;
 import org.esa.beam.binning.support.ReducedGaussianGrid;
 import org.esa.beam.dataio.netcdf.util.DataTypeUtils;
 import org.esa.beam.dataio.netcdf.util.MetadataUtils;
-import org.esa.beam.dataio.smos.CellGridOpImage;
-import org.esa.beam.dataio.smos.CellValueProvider;
-import org.esa.beam.dataio.smos.DggUtils;
-import org.esa.beam.dataio.smos.Grid;
-import org.esa.beam.dataio.smos.GridPointBtDataset;
-import org.esa.beam.dataio.smos.PointList;
-import org.esa.beam.dataio.smos.ProductHelper;
-import org.esa.beam.dataio.smos.SmosReader;
+import org.esa.beam.dataio.smos.*;
 import org.esa.beam.dataio.smos.dddb.BandDescriptor;
 import org.esa.beam.dataio.smos.dddb.Dddb;
 import org.esa.beam.dataio.smos.dddb.Family;
@@ -35,19 +28,15 @@ import ucar.nc2.NetcdfFile;
 import ucar.nc2.Sequence;
 import ucar.nc2.Variable;
 
-import java.awt.Dimension;
-import java.awt.Rectangle;
+import java.awt.*;
 import java.awt.geom.Area;
 import java.awt.image.Raster;
 import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.IOException;
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 public class SmosBufrReader extends SmosReader {
 
@@ -55,6 +44,7 @@ public class SmosBufrReader extends SmosReader {
     private static final String ATTR_NAME_SCALE_FACTOR = "scale_factor";
     private static final String ATTR_NAME_MISSING_VALUE = "missing_value";
     private static final HashMap<String, Integer> datasetNameIndexMap;
+    private static final String[] rawDataNames;
 
     private static final double CENTER_BROWSE_INCIDENCE_ANGLE = 42.5;
     private static final double MIN_BROWSE_INCIDENCE_ANGLE = 37.5;
@@ -74,18 +64,31 @@ public class SmosBufrReader extends SmosReader {
     private static final int POLARISATION_INDEX = 11;
 
     static {
+        rawDataNames = new String[] {
+                "Brightness_temperature_real_part",
+                "Brightness_temperature_imaginary_part",
+                "Pixel_radiometric_accuracy",
+                "Incidence_angle",
+                "Azimuth_angle",
+                "Faraday_rotational_angle",
+                "Geometric_rotational_angle",
+                "Footprint_axis_1",
+                "Footprint_axis_2",
+                "Water_fraction",
+                "SMOS_information_flag"
+        };
         datasetNameIndexMap = new HashMap<>();
-        datasetNameIndexMap.put("Brightness_temperature_real_part", BT_REAL_INDEX);
-        datasetNameIndexMap.put("Brightness_temperature_imaginary_part", BT_IMAG_INDEX);
-        datasetNameIndexMap.put("Pixel_radiometric_accuracy", RADIOMETIRC_ACCURACY_INDEX);
-        datasetNameIndexMap.put("Incidence_angle", INCIDENCE_ANGLE_INDEX);
-        datasetNameIndexMap.put("Azimuth_angle", AZIMUTH_ANGLE_INDEX);
-        datasetNameIndexMap.put("Faraday_rotational_angle", FARADAY_ANGLE_INDEX);
-        datasetNameIndexMap.put("Geometric_rotational_angle", GEOMETRIC_ANGLE_INDEX);
-        datasetNameIndexMap.put("Footprint_axis_1", FOOTPRINT_AXIS_1_INDEX);
-        datasetNameIndexMap.put("Footprint_axis_2", FOOTPRINT_AXIS_2_INDEX);
-        datasetNameIndexMap.put("Water_fraction", WATER_FRACTION_INDEX);
-        datasetNameIndexMap.put("SMOS_information_flag", INFORMATION_FLAG_INDEX);
+        datasetNameIndexMap.put(rawDataNames[0], BT_REAL_INDEX);
+        datasetNameIndexMap.put(rawDataNames[1], BT_IMAG_INDEX);
+        datasetNameIndexMap.put(rawDataNames[2], RADIOMETIRC_ACCURACY_INDEX);
+        datasetNameIndexMap.put(rawDataNames[3], INCIDENCE_ANGLE_INDEX);
+        datasetNameIndexMap.put(rawDataNames[4], AZIMUTH_ANGLE_INDEX);
+        datasetNameIndexMap.put(rawDataNames[5], FARADAY_ANGLE_INDEX);
+        datasetNameIndexMap.put(rawDataNames[6], GEOMETRIC_ANGLE_INDEX);
+        datasetNameIndexMap.put(rawDataNames[7], FOOTPRINT_AXIS_1_INDEX);
+        datasetNameIndexMap.put(rawDataNames[8], FOOTPRINT_AXIS_2_INDEX);
+        datasetNameIndexMap.put(rawDataNames[9], WATER_FRACTION_INDEX);
+        datasetNameIndexMap.put(rawDataNames[10], INFORMATION_FLAG_INDEX);
     }
 
     private NetcdfFile ncfile;
@@ -106,17 +109,36 @@ public class SmosBufrReader extends SmosReader {
 
     @Override
     public GridPointBtDataset getBtData(int gridPointIndex) {
-        // @todo 1 tb/tb implement real functionality 2014-10-24
-        final HashMap<String, Integer> memberNamesMap = new HashMap<>();
-        memberNamesMap.put("Willy", 1);
-        memberNamesMap.put("Charlotte", 2);
-        memberNamesMap.put("Hermann", 3);
-        memberNamesMap.put("Astrid", 4);
+        if (gridPointIndex < 0) {
+            return null;
+        }
 
-        final Class[] classes = {String.class, Double.class};
-        final Number[][] data = {{1, 2}, {3, 4}};
+        final ArrayList<Observation> gridPointData = gridPointMap.get(gridPointIndex);
+        if (gridPointData == null) {
+            return null;
+        }
 
-        return new GridPointBtDataset(memberNamesMap, classes, data);
+        final int numData = datasetNameIndexMap.size();
+
+        final Class[] classes = new Class[numData];
+        for (int i = 0; i < classes.length; i++) {
+            classes[i] = Double.class;
+        }
+        final int numMeasurements = gridPointData.size();
+        final Number[][] data = new Number[numMeasurements][numData];
+
+        for (int i = 0; i < numMeasurements; i++) {
+            final Number[] currentMeasures = new Number[numData];
+
+            for (int k = 0; k < numData; k++) {
+                // @todo 1 tb/tb implement real functionality 2014-10-27
+                currentMeasures[k] = k;
+            }
+
+            data[i] = currentMeasures;
+        }
+
+        return new GridPointBtDataset(datasetNameIndexMap, classes, data);
     }
 
     @Override
@@ -130,19 +152,23 @@ public class SmosBufrReader extends SmosReader {
     }
 
     @Override
-    public int getGridPointIndex(int seqnum) {
-        if (seqnum >= gridPointMinIndex && seqnum <= gridPointMaxIndex) {
-            if (gridPointMap.containsKey(seqnum)) {
-                return seqnum;
+    public int getGridPointIndex(int gridPointId) {
+        if (gridPointId >= gridPointMinIndex && gridPointId <= gridPointMaxIndex) {
+            if (gridPointMap.containsKey(gridPointId)) {
+                return gridPointId;
             }
         }
         return -1;
     }
 
     @Override
+    public int getGridPointId(int levelPixelX, int levelPixelY, int currentLevel) {
+        return grid.getCellIndex(levelPixelX, levelPixelY, currentLevel);
+    }
+
+    @Override
     public String[] getRawDataTableNames() {
-        // @todo 1 tb/tb implement real functionality 2014-10-24
-        return new String[0];
+        return rawDataNames;
     }
 
     @Override
@@ -191,6 +217,12 @@ public class SmosBufrReader extends SmosReader {
         scaleFactors.lon = createFactor(sequence, "Longitude_high_accuracy");
         scaleFactors.lat = createFactor(sequence, "Latitude_high_accuracy");
         scaleFactors.incidenceAngle = createFactor(sequence, "Incidence_angle");
+
+        final Set<String> datasetNames = datasetNameIndexMap.keySet();
+        for (final String name : datasetNames) {
+            final ScaleFactor factor = createFactor(sequence, name);
+            scaleFactors.bandScaleFactors.put(name, factor);
+        }
     }
 
     private ScaleFactor createFactor(Sequence sequence, String variableName) {
@@ -354,7 +386,7 @@ public class SmosBufrReader extends SmosReader {
     }
 
     private void addBand(Product product, Variable variable, int dataType, BandDescriptor descriptor) throws
-                                                                                                      IOException {
+            IOException {
         if (!descriptor.isVisible()) {
             return;
         }
@@ -386,7 +418,7 @@ public class SmosBufrReader extends SmosReader {
         }
         if (descriptor.getFlagDescriptors() != null) {
             ProductHelper.addFlagsAndMasks(product, band, descriptor.getFlagCodingName(),
-                                           descriptor.getFlagDescriptors());
+                    descriptor.getFlagDescriptors());
         }
 
         final Integer index = datasetNameIndexMap.get(descriptor.getMemberName());
@@ -510,8 +542,8 @@ public class SmosBufrReader extends SmosReader {
                         continue;
                     }
                     if (polarisation == 4 ||
-                        (observation.data[POLARISATION_INDEX] & 3) == polarisation ||
-                        (polarisation & observation.data[POLARISATION_INDEX] & 2) != 0) {
+                            (observation.data[POLARISATION_INDEX] & 3) == polarisation ||
+                            (polarisation & observation.data[POLARISATION_INDEX] & 2) != 0) {
 
                         final int incidenceAngleInt = observation.data[INCIDENCE_ANGLE_INDEX];
                         if (incidenceAngleScaleFactor.isValid(incidenceAngleInt)) {
@@ -595,8 +627,8 @@ public class SmosBufrReader extends SmosReader {
 
                 for (final Observation observation : cellObservations) {
                     if (polarisation == 4 ||
-                        (observation.data[POLARISATION_INDEX] & 3) == polarisation ||
-                        (polarisation & observation.data[POLARISATION_INDEX] & 2) != 0) {
+                            (observation.data[POLARISATION_INDEX] & 3) == polarisation ||
+                            (polarisation & observation.data[POLARISATION_INDEX] & 2) != 0) {
 
                         final int incidenceAngleInt = observation.data[INCIDENCE_ANGLE_INDEX];
 
