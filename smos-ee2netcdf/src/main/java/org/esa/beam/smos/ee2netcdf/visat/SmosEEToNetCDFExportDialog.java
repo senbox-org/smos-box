@@ -9,6 +9,7 @@ import com.bc.ceres.binding.ValueSet;
 import com.bc.ceres.swing.TableLayout;
 import com.bc.ceres.swing.binding.Binding;
 import com.bc.ceres.swing.binding.BindingContext;
+import com.bc.ceres.swing.binding.PropertyPane;
 import com.bc.ceres.swing.selection.SelectionManager;
 import com.vividsolutions.jts.geom.Geometry;
 import org.esa.beam.framework.datamodel.Product;
@@ -35,7 +36,9 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
+import javax.swing.border.EmptyBorder;
 import java.awt.Insets;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -76,11 +79,11 @@ class SmosEEToNetCDFExportDialog extends ProductChangeAwareDialog {
 
         ioParametersPanel = GuiHelper.createPanelWithBoxLayout();
         ioParametersPanel.add(createSourceProductsSelector());
-        ioParametersPanel.add(createRegionSelector());
         ioParametersPanel.add(createTargetDirSelector());
+        ioParametersPanel.add(createRegionSelector());
         form = new JTabbedPane();
         form.add("I/O Parameters", ioParametersPanel);
-        /*
+
         if (bindingContext.getPropertySet().getProperties().length > 0) {
             final PropertyPane parametersPane = new PropertyPane(bindingContext);
             final JPanel parametersPanel = parametersPane.createPanel();
@@ -88,7 +91,6 @@ class SmosEEToNetCDFExportDialog extends ProductChangeAwareDialog {
             form.add("Processing Parameters", new JScrollPane(parametersPanel));
             //updateSourceProduct();
         }
-        */
         setContent(form);
 
         bindingContext.bindEnabledState(BindingConstants.REGION, true, BindingConstants.ROI_TYPE,
