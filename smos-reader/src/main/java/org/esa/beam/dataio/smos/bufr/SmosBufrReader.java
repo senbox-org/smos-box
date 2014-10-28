@@ -64,7 +64,7 @@ public class SmosBufrReader extends SmosReader {
     private static final int POLARISATION_INDEX = 11;
 
     static {
-        rawDataNames = new String[] {
+        rawDataNames = new String[]{
                 "Brightness_temperature_real_part",
                 "Brightness_temperature_imaginary_part",
                 "Pixel_radiometric_accuracy",
@@ -75,7 +75,8 @@ public class SmosBufrReader extends SmosReader {
                 "Footprint_axis_1",
                 "Footprint_axis_2",
                 "Water_fraction",
-                "SMOS_information_flag"
+                "SMOS_information_flag",
+                "Polarisation"
         };
         datasetNameIndexMap = new HashMap<>();
         datasetNameIndexMap.put(rawDataNames[0], BT_REAL_INDEX);
@@ -89,6 +90,7 @@ public class SmosBufrReader extends SmosReader {
         datasetNameIndexMap.put(rawDataNames[8], FOOTPRINT_AXIS_2_INDEX);
         datasetNameIndexMap.put(rawDataNames[9], WATER_FRACTION_INDEX);
         datasetNameIndexMap.put(rawDataNames[10], INFORMATION_FLAG_INDEX);
+        datasetNameIndexMap.put(rawDataNames[11], POLARISATION_INDEX);
     }
 
     private NetcdfFile ncfile;
@@ -122,7 +124,11 @@ public class SmosBufrReader extends SmosReader {
 
         final Class[] classes = new Class[numData];
         for (int i = 0; i < classes.length; i++) {
-            classes[i] = Double.class;
+            if (i == INFORMATION_FLAG_INDEX || i == POLARISATION_INDEX) {
+                classes[i] = Integer.class;
+            } else {
+                classes[i] = Double.class;
+            }
         }
         final int numMeasurements = gridPointData.size();
         final Number[][] data = new Number[numMeasurements][numData];
@@ -130,9 +136,9 @@ public class SmosBufrReader extends SmosReader {
         for (int i = 0; i < numMeasurements; i++) {
             final Number[] currentMeasures = new Number[numData];
 
+            final Observation observation = gridPointData.get(i);
             for (int k = 0; k < numData; k++) {
-                // @todo 1 tb/tb implement real functionality 2014-10-27
-                currentMeasures[k] = k;
+                currentMeasures[k] = scaleFactors.bandScaleFactors[k].scale(observation.data[k]);
             }
 
             data[i] = currentMeasures;
@@ -218,10 +224,10 @@ public class SmosBufrReader extends SmosReader {
         scaleFactors.lat = createFactor(sequence, "Latitude_high_accuracy");
         scaleFactors.incidenceAngle = createFactor(sequence, "Incidence_angle");
 
-        final Set<String> datasetNames = datasetNameIndexMap.keySet();
-        for (final String name : datasetNames) {
-            final ScaleFactor factor = createFactor(sequence, name);
-            scaleFactors.bandScaleFactors.put(name, factor);
+        scaleFactors.bandScaleFactors = new ScaleFactor[rawDataNames.length];
+        for (int i = 0; i < rawDataNames.length; i++) {
+            final ScaleFactor factor = createFactor(sequence, rawDataNames[i]);
+            scaleFactors.bandScaleFactors[i] = factor;
         }
     }
 
