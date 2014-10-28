@@ -144,7 +144,7 @@ public class EEToNetCDFExportDialog extends ProductChangeAwareDialog {
             selectedSmosProduct.addProductNodeListener(geometryListener);
         } else {
             propertyContainer.setValue(BindingConstants.SELECTED_PRODUCT, false);
-            propertyContainer.setValue(BindingConstants.ROI_TYPE, BindingConstants.ROI_TYPE_PRODUCT);
+            propertyContainer.setValue(BindingConstants.ROI_TYPE, BindingConstants.ROI_TYPE_WHOLE_PRODUCT);
         }
     }
 
@@ -238,7 +238,7 @@ public class EEToNetCDFExportDialog extends ProductChangeAwareDialog {
 
         final JRadioButton useAreaButton = new JRadioButton("Area");
         final Map<AbstractButton, Object> buttonGroupValueSet = new HashMap<>();
-        buttonGroupValueSet.put(wholeProductButton, BindingConstants.ROI_TYPE_PRODUCT);
+        buttonGroupValueSet.put(wholeProductButton, BindingConstants.ROI_TYPE_WHOLE_PRODUCT);
         buttonGroupValueSet.put(useGeometryButton, BindingConstants.ROI_TYPE_GEOMETRY);
         buttonGroupValueSet.put(useAreaButton, BindingConstants.ROI_TYPE_AREA);
 
