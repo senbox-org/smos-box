@@ -6,7 +6,7 @@ import org.esa.beam.smos.gui.BindingConstants;
 
 import java.io.File;
 
-public class ExportParameter {
+public class GridPointExportParameter {
 
     @Parameter(alias = BindingConstants.SELECTED_PRODUCT)
     private boolean useSelectedProduct;
@@ -141,8 +141,8 @@ public class ExportParameter {
         return exportFormat;
     }
 
-    public ExportParameter getClone() {
-        final ExportParameter clone = new ExportParameter();
+    public GridPointExportParameter getClone() {
+        final GridPointExportParameter clone = new GridPointExportParameter();
         clone.setUseSelectedProduct(useSelectedProduct);
         clone.setSourceDirectory(new File(sourceDirectory.getPath()));
         clone.setOpenFileDialog(openFileDialog);

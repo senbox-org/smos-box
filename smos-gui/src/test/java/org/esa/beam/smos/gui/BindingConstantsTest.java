@@ -15,10 +15,6 @@ public class BindingConstantsTest {
        assertEquals("openFileDialog", BindingConstants.OPEN_FILE_DIALOG);
        assertEquals("region", BindingConstants.REGION);
        assertEquals("roiType", BindingConstants.ROI_TYPE);
-       assertEquals("north", BindingConstants.NORTH);
-       assertEquals("south", BindingConstants.SOUTH);
-       assertEquals("east", BindingConstants.EAST);
-       assertEquals("west", BindingConstants.WEST);
 
         assertEquals("compressionLevel", BindingConstants.COMPRESSION_LEVEL);
     }

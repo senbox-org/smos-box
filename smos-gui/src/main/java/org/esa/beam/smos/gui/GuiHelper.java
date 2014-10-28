@@ -3,6 +3,7 @@ package org.esa.beam.smos.gui;
 
 import com.bc.ceres.binding.PropertyContainer;
 import com.bc.ceres.binding.PropertyDescriptor;
+import com.bc.ceres.binding.PropertySet;
 import com.bc.ceres.binding.ValidationException;
 import com.bc.ceres.binding.ValueSet;
 import com.bc.ceres.swing.TableLayout;
@@ -214,14 +215,14 @@ public class GuiHelper {
         propertyContainer.getProperty(BindingConstants.REGION).setValue(geometryNodeList.get(0));
     }
 
-    public static void bindGeometries(java.util.List<Geometry> geometryNodeList, PropertyContainer propertyContainer) throws ValidationException {
-        final PropertyDescriptor descriptor = propertyContainer.getDescriptor(BindingConstants.REGION);
+    public static void bindGeometries(java.util.List<Geometry> geometryNodeList, PropertySet propertySet) throws ValidationException {
+        final PropertyDescriptor descriptor = propertySet.getDescriptor(BindingConstants.REGION);
         descriptor.setNotNull(false);
         descriptor.setNotEmpty(false);
         descriptor.setValueSet(new ValueSet(geometryNodeList.toArray()));
 
-        propertyContainer.setValue(BindingConstants.ROI_TYPE, BindingConstants.ROI_TYPE_GEOMETRY);
-        propertyContainer.getProperty(BindingConstants.REGION).setValue(geometryNodeList.get(0));
+        propertySet.setValue(BindingConstants.ROI_TYPE, BindingConstants.ROI_TYPE_GEOMETRY);
+        propertySet.getProperty(BindingConstants.REGION).setValue(geometryNodeList.get(0));
     }
 
     public static JComboBox createGeometryComboBox(PropertyDescriptor geometryDescriptor, BindingContext bindingContext) {

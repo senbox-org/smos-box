@@ -9,7 +9,7 @@
         <tocitem text="SMOS Data in S-3 Toolbox" target="smosDataModel"/>
         <tocitem text="Tools" target="smosTools"/>
         <tocitem text="Grid Point Export" target="smosGridPointExport"/>
-        <tocitem text="NetCDF Export" target="smosEE2NetCDFExport"/>
+        <tocitem text="NetCDF Export" target="smosEEToNetCDFExport"/>
         <tocitem text="File Format Updates" target="smosFileFormatUpdates"/>
     </tocitem>
 </toc>

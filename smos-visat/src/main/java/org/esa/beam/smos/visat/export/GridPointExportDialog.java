@@ -57,14 +57,14 @@ class GridPointExportDialog extends ProductChangeAwareDialog {
     private final BindingContext bindingContext;
     private final ProductSelectionListener productSelectionListener;
     private GeometryListener geometryListener;
-    private final ExportParameter exportParameter;
+    private final GridPointExportParameter gridPointExportParameter;
 
     GridPointExportDialog(final AppContext appContext, String helpId) {
         super(appContext.getApplicationWindow(), "Export SMOS Grid Points", ID_OK | ID_CLOSE | ID_HELP, helpId); /* I18N */
-        exportParameter = new ExportParameter();
+        gridPointExportParameter = new GridPointExportParameter();
         this.appContext = appContext;
 
-        propertyContainer = PropertyContainer.createObjectBacked(exportParameter, new ParameterDescriptorFactory());
+        propertyContainer = PropertyContainer.createObjectBacked(gridPointExportParameter, new ParameterDescriptorFactory());
         try {
             initPropertyContainer();
         } catch (ValidationException e) {
@@ -104,10 +104,10 @@ class GridPointExportDialog extends ProductChangeAwareDialog {
             }
         }
 
-        final GridPointExportSwingWorker swingWorker = new GridPointExportSwingWorker(appContext, exportParameter.getClone());
+        final GridPointExportSwingWorker swingWorker = new GridPointExportSwingWorker(appContext, gridPointExportParameter.getClone());
 
-        GuiHelper.setDefaultSourceDirectory(exportParameter.getSourceDirectory(), appContext);
-        final File exportedFile = exportParameter.getTargetFile();
+        GuiHelper.setDefaultSourceDirectory(gridPointExportParameter.getSourceDirectory(), appContext);
+        final File exportedFile = gridPointExportParameter.getTargetFile();
         if (exportedFile != null) {
             GuiHelper.setDefaultTargetDirectory(exportedFile.getParentFile(), appContext);
         }

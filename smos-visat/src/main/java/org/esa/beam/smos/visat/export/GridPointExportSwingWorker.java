@@ -43,12 +43,12 @@ import java.util.concurrent.ExecutionException;
 class GridPointExportSwingWorker extends ProgressMonitorSwingWorker<List<Exception>, File> {
 
     private final AppContext appContext;
-    private final ExportParameter exportParameter;
+    private final GridPointExportParameter gridPointExportParameter;
 
-    GridPointExportSwingWorker(AppContext appContext, ExportParameter exportParameter) {
+    GridPointExportSwingWorker(AppContext appContext, GridPointExportParameter gridPointExportParameter) {
         super(appContext.getApplicationWindow(), "Exporting grid points");
         this.appContext = appContext;
-        this.exportParameter = exportParameter;
+        this.gridPointExportParameter = gridPointExportParameter;
     }
 
     @Override
@@ -57,8 +57,8 @@ class GridPointExportSwingWorker extends ProgressMonitorSwingWorker<List<Excepti
 
         GridPointFilterStream filterStream = null;
         try {
-            final File targetFile = exportParameter.getTargetFile();
-            final String exportFormat = exportParameter.getExportFormat();
+            final File targetFile = gridPointExportParameter.getTargetFile();
+            final String exportFormat = gridPointExportParameter.getExportFormat();
             if (GridPointExportDialog.NAME_CSV.equals(exportFormat)) {
                 filterStream = new CsvExportStream(new PrintWriter(targetFile), ";");
             } else {
@@ -68,12 +68,12 @@ class GridPointExportSwingWorker extends ProgressMonitorSwingWorker<List<Excepti
             final GridPointFilterStreamHandler handler = new GridPointFilterStreamHandler(filterStream,
                     gridPointFilter);
 
-            if (exportParameter.isUseSelectedProduct()) {
+            if (gridPointExportParameter.isUseSelectedProduct()) {
                 final Product selectedProduct = appContext.getSelectedProduct();
                 handler.processProduct(selectedProduct, pm);
             } else {
-                final File sourceDirectory = exportParameter.getSourceDirectory();
-                final boolean recursive = exportParameter.isRecursive();
+                final File sourceDirectory = gridPointExportParameter.getSourceDirectory();
+                final boolean recursive = gridPointExportParameter.isRecursive();
                 handler.processDirectory(sourceDirectory, recursive, pm, problemList);
             }
         } finally {
@@ -109,11 +109,11 @@ class GridPointExportSwingWorker extends ProgressMonitorSwingWorker<List<Excepti
     }
 
     private GridPointFilter getGridPointFilter() {
-        final int roiType = exportParameter.getRoiType();
+        final int roiType = gridPointExportParameter.getRoiType();
         switch (roiType) {
             case 0: {
                 final MultiFilter multiFilter = new MultiFilter();
-                final VectorDataNode geometry = exportParameter.getGeometry();
+                final VectorDataNode geometry = gridPointExportParameter.getGeometry();
                 if (geometry != null) {
                     final FeatureIterator<SimpleFeature> featureIterator = geometry.getFeatureCollection().features();
 
@@ -144,10 +144,10 @@ class GridPointExportSwingWorker extends ProgressMonitorSwingWorker<List<Excepti
                 return multiFilter;
             }
             case 2: {
-                final double north = exportParameter.getNorth();
-                final double south = exportParameter.getSouth();
-                final double east = exportParameter.getEast();
-                final double west = exportParameter.getWest();
+                final double north = gridPointExportParameter.getNorth();
+                final double south = gridPointExportParameter.getSouth();
+                final double east = gridPointExportParameter.getEast();
+                final double west = gridPointExportParameter.getWest();
                 return new RegionFilter(new Rectangle2D.Double(west, south, east - west, north - south));
             }
             default:

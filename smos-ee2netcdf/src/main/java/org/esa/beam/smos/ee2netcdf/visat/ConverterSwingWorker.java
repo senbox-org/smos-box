@@ -10,6 +10,7 @@ import org.esa.beam.framework.gpf.GPF;
 import org.esa.beam.framework.ui.AppContext;
 import org.esa.beam.smos.ee2netcdf.EEToNetCDFExporterOp;
 import org.esa.beam.smos.ee2netcdf.ExportParameter;
+import org.esa.beam.smos.ee2netcdf.SmosEEToNetCDFExportOp;
 import org.esa.beam.smos.gui.BindingConstants;
 
 import java.io.File;
@@ -41,9 +42,9 @@ class ConverterSwingWorker extends ProgressMonitorSwingWorker<List<Exception>, F
         try {
             if (exportParameter.isUseSelectedProduct()) {
                 final Product selectedProduct = appContext.getSelectedProduct();
-                GPF.createProduct(EEToNetCDFExporterOp.ALIAS, parameterMap, new Product[]{selectedProduct});
+                GPF.createProduct(SmosEEToNetCDFExportOp.ALIAS, parameterMap, new Product[]{selectedProduct});
             } else {
-                GPF.createProduct(EEToNetCDFExporterOp.ALIAS, parameterMap);
+                GPF.createProduct(SmosEEToNetCDFExportOp.ALIAS, parameterMap);
             }
         } catch (Exception e) {
             exceptions.add(e);

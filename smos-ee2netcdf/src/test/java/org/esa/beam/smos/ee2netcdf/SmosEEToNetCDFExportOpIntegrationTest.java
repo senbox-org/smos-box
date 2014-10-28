@@ -31,13 +31,13 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 @RunWith(AcceptanceTestRunner.class)
-public class GPToNetCDFExporterOpIntegrationTest {
+public class SmosEEToNetCDFExportOpIntegrationTest {
 
-    private final GPToNetCDFExporterOp.Spi spi;
+    private final SmosEEToNetCDFExportOp.Spi spi;
     private final File targetDirectory;
 
-    public GPToNetCDFExporterOpIntegrationTest() {
-        spi = new GPToNetCDFExporterOp.Spi();
+    public SmosEEToNetCDFExportOpIntegrationTest() {
+        spi = new SmosEEToNetCDFExportOp.Spi();
         targetDirectory = new File("test_out");
     }
 
@@ -74,7 +74,7 @@ public class GPToNetCDFExporterOpIntegrationTest {
         try {
             product = ProductIO.readProduct(file);
 
-            GPF.createProduct(GPToNetCDFExporterOp.ALIAS,
+            GPF.createProduct(SmosEEToNetCDFExportOp.ALIAS,
                     createDefaultParameterMap(),
                     new Product[]{product});
 
@@ -274,7 +274,7 @@ public class GPToNetCDFExporterOpIntegrationTest {
 
             final HashMap<String, Object> parameterMap = createDefaultParameterMap();
             parameterMap.put("outputBandNames", "Grid_Point_Latitude,Grid_Point_Longitude,BT_Value,Azimuth_Angle");
-            GPF.createProduct(GPToNetCDFExporterOp.ALIAS,
+            GPF.createProduct(SmosEEToNetCDFExportOp.ALIAS,
                     parameterMap,
                     new Product[]{product});
 
@@ -316,7 +316,7 @@ public class GPToNetCDFExporterOpIntegrationTest {
 
             final HashMap<String, Object> parameterMap = createDefaultParameterMap();
             parameterMap.put("region", "POLYGON((42 5, 42 9, 44 9, 44 5, 42 5))");
-            GPF.createProduct(GPToNetCDFExporterOp.ALIAS,
+            GPF.createProduct(SmosEEToNetCDFExportOp.ALIAS,
                     parameterMap,
                     new Product[]{product});
 
@@ -349,7 +349,7 @@ public class GPToNetCDFExporterOpIntegrationTest {
         try {
             final HashMap<String, Object> parameterMap = createDefaultParameterMap();
             parameterMap.put("sourceProductPaths", file.getParent() + File.separator + "*SCLF1C*");
-            GPF.createProduct(GPToNetCDFExporterOp.ALIAS,
+            GPF.createProduct(SmosEEToNetCDFExportOp.ALIAS,
                     parameterMap);
 
             final File outputFile = new File(targetDirectory, "SM_REPB_MIR_SCLF1C_20110201T151254_20110201T151308_505_152_1.nc");
@@ -474,7 +474,7 @@ public class GPToNetCDFExporterOpIntegrationTest {
         final HashMap<String, Object> parameterMap = createDefaultParameterMap();
         parameterMap.put("sourceProductPaths", file.getParent() + File.separator + "*SCLF1C*");
         parameterMap.put("overwriteTarget", "false");
-        GPF.createProduct(GPToNetCDFExporterOp.ALIAS,
+        GPF.createProduct(SmosEEToNetCDFExportOp.ALIAS,
                 parameterMap);
 
         assertTrue(outputFile.isFile());
@@ -493,7 +493,7 @@ public class GPToNetCDFExporterOpIntegrationTest {
         final HashMap<String, Object> parameterMap = createDefaultParameterMap();
         parameterMap.put("sourceProductPaths", file.getParent() + File.separator + "*SCLF1C*");
         parameterMap.put("overwriteTarget", "true");
-        GPF.createProduct(GPToNetCDFExporterOp.ALIAS,
+        GPF.createProduct(SmosEEToNetCDFExportOp.ALIAS,
                 parameterMap);
 
         assertTrue(outputFile.isFile());
@@ -509,7 +509,7 @@ public class GPToNetCDFExporterOpIntegrationTest {
             final HashMap<String, Object> parameterMap = createDefaultParameterMap();
             parameterMap.put("sourceProductPaths", file.getParent() + File.separator + "*SCLF1C*");
             parameterMap.put("region", "POLYGON((-3.5 -75.5,-3.5 -75, 0 -75, 0 -75.5, -3.5 -75.5))");
-            GPF.createProduct(GPToNetCDFExporterOp.ALIAS,
+            GPF.createProduct(SmosEEToNetCDFExportOp.ALIAS,
                     parameterMap);
 
             final File outputFile = new File(targetDirectory, "SM_REPB_MIR_SCLF1C_20110201T151254_20110201T151308_505_152_1.nc");
@@ -551,7 +551,7 @@ public class GPToNetCDFExporterOpIntegrationTest {
             final HashMap<String, Object> parameterMap = createDefaultParameterMap();
             parameterMap.put("institution", "BC");
             parameterMap.put("contact", "Tom");
-            GPF.createProduct(GPToNetCDFExporterOp.ALIAS,
+            GPF.createProduct(SmosEEToNetCDFExportOp.ALIAS,
                     parameterMap,
                     new Product[]{product});
 
@@ -646,7 +646,7 @@ public class GPToNetCDFExporterOpIntegrationTest {
 
             final HashMap<String, Object> parameterMap = createDefaultParameterMap();
             parameterMap.put("region", "POLYGON((80 -25, 80 -23, 83 -23, 83 -25, 80 -25))");
-            GPF.createProduct(GPToNetCDFExporterOp.ALIAS,
+            GPF.createProduct(SmosEEToNetCDFExportOp.ALIAS,
                     parameterMap,
                     new Product[]{product});
 
@@ -687,7 +687,7 @@ public class GPToNetCDFExporterOpIntegrationTest {
             product = ProductIO.readProduct(file);
 
             final HashMap<String, Object> parameterMap = createDefaultParameterMap();
-            GPF.createProduct(GPToNetCDFExporterOp.ALIAS,
+            GPF.createProduct(SmosEEToNetCDFExportOp.ALIAS,
                     parameterMap,
                     new Product[]{product});
 

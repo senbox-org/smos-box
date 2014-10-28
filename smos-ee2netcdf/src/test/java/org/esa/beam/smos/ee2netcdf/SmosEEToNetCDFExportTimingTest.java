@@ -14,13 +14,13 @@ import java.util.HashMap;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-public class GPToNetCDFTimingTest {
+public class SmosEEToNetCDFExportTimingTest {
 
-    private final GPToNetCDFExporterOp.Spi spi;
+    private final SmosEEToNetCDFExportOp.Spi spi;
     private final File targetDirectory;
 
-    public GPToNetCDFTimingTest() {
-        spi = new GPToNetCDFExporterOp.Spi();
+    public SmosEEToNetCDFExportTimingTest() {
+        spi = new SmosEEToNetCDFExportOp.Spi();
         targetDirectory = new File("timing_out");
     }
 
@@ -60,7 +60,7 @@ public class GPToNetCDFTimingTest {
 
         final long start = System.currentTimeMillis();
 
-        GPF.createProduct(GPToNetCDFExporterOp.ALIAS,
+        GPF.createProduct(SmosEEToNetCDFExportOp.ALIAS,
                 parameterMap);
 
         final long stop = System.currentTimeMillis();

@@ -12,9 +12,14 @@ import org.esa.beam.framework.datamodel.GeoCoding;
 import org.esa.beam.framework.datamodel.GeoPos;
 import org.esa.beam.framework.datamodel.PixelPos;
 import org.esa.beam.framework.datamodel.Product;
+import org.esa.beam.framework.datamodel.ProductData;
+import org.esa.beam.framework.gpf.Operator;
 import org.esa.beam.framework.gpf.OperatorException;
 import org.esa.beam.framework.gpf.OperatorSpi;
 import org.esa.beam.framework.gpf.annotations.OperatorMetadata;
+import org.esa.beam.framework.gpf.annotations.Parameter;
+import org.esa.beam.framework.gpf.annotations.SourceProducts;
+import org.esa.beam.util.converters.JtsGeometryConverter;
 import org.esa.beam.util.io.FileUtils;
 
 import java.awt.*;
@@ -33,9 +38,28 @@ import java.util.TreeSet;
         copyright = "(c) 2013, 2014 by Brockmann Consult",
         description = "Converts SMOS EE Products to NetCDF format.",
         autoWriteDisabled = true)
-public class EEToNetCDFExporterOp extends AbstractNetCDFExporterOp {
+public class EEToNetCDFExporterOp extends Operator {
 
-    public static final String ALIAS = "SmosEE2NetCDF";
+    public static final String ALIAS = "SmosEEToNetCDFExport";
+    @SourceProducts(type = ExportParameter.PRODUCT_TYPE_REGEX,
+            description = "The source products to be converted. If not given, the parameter 'sourceProductPaths' must be provided.")
+    protected Product[] sourceProducts;
+    @Parameter(description = "Comma-separated list of file paths specifying the source products.\n" +
+            "Each path may contain the wildcards '**' (matches recursively any directory),\n" +
+            "'*' (matches any character sequence in path names) and\n" +
+            "'?' (matches any single character).")
+    protected String[] sourceProductPaths;
+    @Parameter(description = "The target directory for the converted data. If not existing, directory will be created.",
+            defaultValue = ".",
+            notEmpty = true,
+            notNull = true)
+    protected File targetDirectory;
+    @Parameter(defaultValue = "false",
+            description = "Set true to overwrite already existing target files.")
+    protected boolean overwriteTarget;
+    @Parameter(description = "Target geographical region as a geometry in well-known text format (WKT). The output product will be tailored according to the region.",
+            converter = JtsGeometryConverter.class)
+    protected Geometry region;
 
     @Override
     public void initialize() throws OperatorException {
@@ -215,6 +239,12 @@ public class EEToNetCDFExporterOp extends AbstractNetCDFExporterOp {
             getLogger().severe("Failed to convert file: " + sourceProduct.getFileLocation());
             getLogger().severe(e.getMessage());
         }
+    }
+
+    protected void setDummyTargetProduct() {
+        final Product product = new Product("dummy", "dummy", 2, 2);
+        product.addBand("dummy", ProductData.TYPE_INT8);
+        setTargetProduct(product);
     }
 
     public static class Spi extends OperatorSpi {
