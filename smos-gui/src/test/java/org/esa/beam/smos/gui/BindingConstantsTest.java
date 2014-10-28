@@ -25,7 +25,7 @@ public class BindingConstantsTest {
 
     @Test
     public void testRoiTypeConstants() {
-        assertEquals(0, BindingConstants.ROI_TYPE_PRODUCT);
+        assertEquals(0, BindingConstants.ROI_TYPE_WHOLE_PRODUCT);
         assertEquals(1, BindingConstants.ROI_TYPE_GEOMETRY);
         assertEquals(2, BindingConstants.ROI_TYPE_AREA);
     }
