@@ -34,7 +34,7 @@ public class GPToNetCDFExporterOp extends AbstractNetCDFExporterOp {
 
     @Parameter(defaultValue = "6",
             valueSet = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"},
-            description = "Output file compression level. 0 - no compression, 9 - highest compression.")
+            description = "Output file compression level. 0 = no compression, 9 = highest compression.")
     private int compressionLevel;
 
     @Override
