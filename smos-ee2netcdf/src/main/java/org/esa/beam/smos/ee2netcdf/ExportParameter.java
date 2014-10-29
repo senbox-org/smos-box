@@ -1,6 +1,7 @@
 package org.esa.beam.smos.ee2netcdf;
 
 import com.vividsolutions.jts.geom.Geometry;
+import org.esa.beam.framework.datamodel.VectorDataNode;
 import org.esa.beam.framework.gpf.annotations.Parameter;
 import org.esa.beam.smos.gui.BindingConstants;
 import org.esa.beam.util.converters.JtsGeometryConverter;
@@ -34,12 +35,17 @@ public class ExportParameter {
                description = "Open a file dialog to select a product to be converted to netCDF.")
     private boolean openFileDialog;
 
-    @Parameter(alias = BindingConstants.REGION, converter = JtsGeometryConverter.class,
+    @Parameter(alias = BindingConstants.GEOMETRY, converter = JtsGeometryConverter.class,
                description = "A region-of-interest specified in geographic coordinates using well-known-text (WKT) format. For example: 'POLYGON((<lon1> <lat1>, <lon2> <lat2>, ..., <lon1> <lat1>))'.",
-               label = "region")
-    private Geometry region;
+               label = "Region")
+    private Geometry geometry;
 
-    @Parameter(alias = BindingConstants.ROI_TYPE, defaultValue = "2", valueSet = {"0", "1", "2"})
+    @Parameter(alias = BindingConstants.GEOMETRY_NODE,
+               description = "A polygon geometry from the selected product.",
+               label = "Region")
+    private VectorDataNode geometryNode;
+
+    @Parameter(alias = BindingConstants.ROI_TYPE, defaultValue = "0", valueSet = {"0", "1", "2"})
     private int roiType;
 
     @Parameter(alias = BindingConstants.TARGET_DIRECTORY,
@@ -64,20 +70,16 @@ public class ExportParameter {
                description = "The western bound of the region-of-interest. Used only if the ROI type selected is a latitude-longitude box.")
     private double westBound;
 
-    @Parameter(alias = BindingConstants.OVERWRITE_TARGET, defaultValue = "false",
-               description = "Overwrite the target product.", label = "Overwrite target")
-    private boolean overwriteTarget;
-
     @Parameter(alias = BindingConstants.CONTACT,
                description = "The contact address to be included in the global attributes of the target netCDF file.",
                label = "Contact")
-
     private String contact;
+
     @Parameter(alias = BindingConstants.INSTITUTION,
                description = "The institution to be included in the global attributes of the target netCDF file.",
                label = "Institution")
-
     private String institution;
+
     @Parameter(alias = BindingConstants.VARIABLES,
                description = "A comma-separated list of variables to be included in the target netCDF file. Variables have to be denoted by names as defined in the ESA SMOS product specification documents. By default all variables in the source file are included in the target file.",
                label = "Variables")
@@ -87,6 +89,10 @@ public class ExportParameter {
                valueSet = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"},
                description = "Target file compression level. 0 = no compression, 9 = highest compression.")
     private int compressionLevel;
+
+    @Parameter(alias = BindingConstants.OVERWRITE_TARGET, defaultValue = "false",
+               description = "Overwrite the target product(s).", label = "Overwrite target product(s)")
+    private boolean overwriteTarget;
 
     public ExportParameter() {
         variableNames = new String[0];
@@ -117,12 +123,16 @@ public class ExportParameter {
         return openFileDialog;
     }
 
-    public void setRegion(Geometry region) {
-        this.region = region;
+    public void setGeometry(Geometry geometry) {
+        this.geometry = geometry;
     }
 
-    public Geometry getRegion() {
-        return region;
+    public Geometry getGeometry() {
+        return geometry;
+    }
+
+    public VectorDataNode getGeometryNode() {
+        return geometryNode;
     }
 
     public void setRoiType(int roiType) {
@@ -141,7 +151,7 @@ public class ExportParameter {
         return targetDirectory;
     }
 
-    public String toAreaWKT() {
+    public String boundingBoxToWKT() {
         final StringBuilder wktBuilder = new StringBuilder(128);
         wktBuilder.append("POLYGON((");
         appendCoordinate(wktBuilder, westBound, northBound, true);

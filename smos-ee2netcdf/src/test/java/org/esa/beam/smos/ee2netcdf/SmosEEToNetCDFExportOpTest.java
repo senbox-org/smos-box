@@ -1,19 +1,12 @@
 package org.esa.beam.smos.ee2netcdf;
 
-import com.vividsolutions.jts.geom.Coordinate;
-import org.esa.beam.framework.dataio.ProductSubsetDef;
 import org.esa.beam.framework.gpf.Operator;
-import org.esa.beam.framework.gpf.annotations.OperatorMetadata;
 import org.esa.beam.framework.gpf.annotations.Parameter;
 import org.esa.beam.framework.gpf.annotations.SourceProducts;
 import org.esa.beam.util.converters.JtsGeometryConverter;
 import org.junit.Test;
 
-import java.awt.Rectangle;
-import java.io.File;
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
@@ -47,12 +40,12 @@ public class SmosEEToNetCDFExportOpTest {
 
     @Test
     public void testParameterAnnotations_Region() throws NoSuchFieldException {
-        final Field regionField = SmosEEToNetCDFExportOp.class.getDeclaredField("region");
-        final Parameter regionFieldAnnotation = regionField.getAnnotation(Parameter.class);
-        assertEquals("", regionFieldAnnotation.defaultValue());
-        assertEquals(JtsGeometryConverter.class, regionFieldAnnotation.converter());
-        assertFalse(regionFieldAnnotation.notEmpty());
-        assertFalse(regionFieldAnnotation.notNull());
+        final Field geometryField = SmosEEToNetCDFExportOp.class.getDeclaredField("geometry");
+        final Parameter geometryFieldAnnotation = geometryField.getAnnotation(Parameter.class);
+        assertEquals("", geometryFieldAnnotation.defaultValue());
+        assertEquals(JtsGeometryConverter.class, geometryFieldAnnotation.converter());
+        assertFalse(geometryFieldAnnotation.notEmpty());
+        assertFalse(geometryFieldAnnotation.notNull());
     }
 
     @Test

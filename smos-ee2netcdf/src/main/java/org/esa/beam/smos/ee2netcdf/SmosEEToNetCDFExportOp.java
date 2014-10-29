@@ -49,7 +49,7 @@ public class SmosEEToNetCDFExportOp extends Operator {
 
     @Parameter(description = "Target geographical region as a geometry in well-known text format (WKT). The output product will be tailored according to the region.",
             converter = JtsGeometryConverter.class)
-    protected Geometry region;
+    protected Geometry geometry;
 
     @Parameter(description = "Set institution field for file metadata. If left empty, no institution metadata is written to output file.")
     private String institution;
@@ -74,7 +74,7 @@ public class SmosEEToNetCDFExportOp extends Operator {
         exportParameter.setContact(contact);
         exportParameter.setOverwriteTarget(overwriteTarget);
         exportParameter.setCompressionLevel(compressionLevel);
-        exportParameter.setRegion(region);
+        exportParameter.setGeometry(geometry);
         if (StringUtils.isNotNullAndNotEmpty(variableNames)) {
             final String[] bandNames = StringUtils.csvToArray(variableNames);
             final ArrayList<String> bandNamesList = new ArrayList<>(bandNames.length);

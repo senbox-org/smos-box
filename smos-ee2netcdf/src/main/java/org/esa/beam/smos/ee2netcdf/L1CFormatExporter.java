@@ -71,8 +71,8 @@ class L1CFormatExporter extends AbstractFormatExporter {
 
     @Override
     public void prepareGeographicSubset(ExportParameter exportParameter) throws IOException {
-        if (exportParameter.getRegion() != null) {
-            final GeometryFilter geometryFilter = GeometryFilterFactory.create(exportParameter.getRegion());
+        if (exportParameter.getGeometry() != null) {
+            final GeometryFilter geometryFilter = GeometryFilterFactory.create(exportParameter.getGeometry());
             gpIndexList = new ArrayList<>(gridPointCount);
             for (int i = 0; i < gridPointCount; i++) {
                 final CompoundData gridPointData = explorerFile.getGridPointData(i);
@@ -197,7 +197,7 @@ class L1CFormatExporter extends AbstractFormatExporter {
     private VariableWriter[] createVariableWriters(NFileWriteable nFileWriteable, boolean gridPointData) {
         final Set<String> variableNameKeys = variableDescriptors.keySet();
 
-        final ArrayList<Object> variableWriterList = new ArrayList<>(variableNameKeys.size());
+        final ArrayList<VariableWriter> variableWriterList = new ArrayList<>(variableNameKeys.size());
         for (final String ncVariableName : variableNameKeys) {
             final NVariable nVariable = nFileWriteable.findVariable(ncVariableName);
             final VariableDescriptor variableDescriptor = variableDescriptors.get(ncVariableName);

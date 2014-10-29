@@ -113,7 +113,7 @@ class GridPointExportSwingWorker extends ProgressMonitorSwingWorker<List<Excepti
         switch (roiType) {
             case 0: {
                 final MultiFilter multiFilter = new MultiFilter();
-                final VectorDataNode geometry = gridPointExportParameter.getGeometry();
+                final VectorDataNode geometry = gridPointExportParameter.getGeometryNode();
                 if (geometry != null) {
                     final FeatureIterator<SimpleFeature> featureIterator = geometry.getFeatureCollection().features();
 

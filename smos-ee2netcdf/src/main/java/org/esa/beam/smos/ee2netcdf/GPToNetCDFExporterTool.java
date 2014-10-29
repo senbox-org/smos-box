@@ -40,7 +40,7 @@ public class GPToNetCDFExporterTool {
         PARAMETER_NAMES.put(BindingConstants.CONTACT, "contact");
         PARAMETER_NAMES.put(BindingConstants.INSTITUTION, "institution");
         PARAMETER_NAMES.put(BindingConstants.OVERWRITE_TARGET, "overwrite-target");
-        PARAMETER_NAMES.put(BindingConstants.REGION, "region");
+        PARAMETER_NAMES.put(BindingConstants.GEOMETRY, "region");
         PARAMETER_NAMES.put(BindingConstants.TARGET_DIRECTORY, "target-directory");
         PARAMETER_NAMES.put(BindingConstants.VARIABLES, "variables");
         PARAMETER_NAMES.put(BindingConstants.COMPRESSION_LEVEL, "compression-level");
@@ -58,8 +58,7 @@ public class GPToNetCDFExporterTool {
     private static final String LOG_LEVEL_OPTION_NAME = "log-level";
     private static final String ERROR_OPTION_NAME = "error";
     private static final String LOG_LEVEL_DESCRIPTION = "Set the logging level to <level> where <level> must be in "
-            + Arrays.toString(LOG_LEVELS).replace("[", "{").replaceAll("]",
-            "}")
+            + Arrays.toString(LOG_LEVELS).replace("[", "{").replaceAll("]","}")
             + ". The default logging level is '"
             + Level.INFO.toString()
             + "'.";
@@ -159,7 +158,7 @@ public class GPToNetCDFExporterTool {
         final ParameterDescriptorFactory descriptorFactory = new ParameterDescriptorFactory();
         final PropertyContainer container = PropertyContainer.createObjectBacked(exportParameter, descriptorFactory);
         container.setDefaultValues();
-        container.setValue(BindingConstants.ROI_TYPE, BindingConstants.ROI_TYPE_GEOMETRY);
+        container.setValue(BindingConstants.ROI_TYPE, BindingConstants.ROI_TYPE_REGION);
 
         for (final String parameterName : PARAMETER_NAMES.keySet()) {
             final String optionName = getOptionName(parameterName);

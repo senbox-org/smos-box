@@ -44,8 +44,8 @@ abstract class AbstractFormatExporter implements FormatExporter {
 
     @Override
     public void prepareGeographicSubset(ExportParameter exportParameter) throws IOException {
-        if (exportParameter.getRegion() != null) {
-            final GeometryFilter geometryFilter = GeometryFilterFactory.create(exportParameter.getRegion());
+        if (exportParameter.getGeometry() != null) {
+            final GeometryFilter geometryFilter = GeometryFilterFactory.create(exportParameter.getGeometry());
             gpIndexList = new ArrayList<>(gridPointCount);
             for (int i = 0; i < gridPointCount; i++) {
                 final CompoundData gridPointData = explorerFile.getGridPointData(i);

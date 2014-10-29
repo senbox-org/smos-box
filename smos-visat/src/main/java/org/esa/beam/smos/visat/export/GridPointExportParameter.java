@@ -23,8 +23,8 @@ public class GridPointExportParameter {
     @Parameter(alias = BindingConstants.ROI_TYPE, defaultValue = "2", valueSet = {"0", "1", "2"})
     private int roiType;
 
-    @Parameter(alias = BindingConstants.REGION)
-    private VectorDataNode geometry;    // @todo 4 tb/** rename - this is not a geometry tb 2014-05-28
+    @Parameter(alias = BindingConstants.GEOMETRY_NODE)
+    private VectorDataNode geometryNode;
 
     @Parameter(alias = BindingConstants.NORTH, defaultValue = "90.0", interval = "[-90.0, 90.0]")
     private double north;
@@ -85,12 +85,12 @@ public class GridPointExportParameter {
         return roiType;
     }
 
-    public VectorDataNode getGeometry() {
-        return geometry;
+    public VectorDataNode getGeometryNode() {
+        return geometryNode;
     }
 
-    public void setGeometry(VectorDataNode geometry) {
-        this.geometry = geometry;
+    public void setGeometryNode(VectorDataNode geometryNode) {
+        this.geometryNode = geometryNode;
     }
 
     public void setNorth(double north) {
@@ -148,7 +148,7 @@ public class GridPointExportParameter {
         clone.setOpenFileDialog(openFileDialog);
         clone.setRecursive(recursive);
         clone.setRoiType(roiType);
-        clone.setGeometry(geometry);
+        clone.setGeometryNode(geometryNode);
         clone.setNorth(north);
         clone.setSouth(south);
         clone.setEast(east);

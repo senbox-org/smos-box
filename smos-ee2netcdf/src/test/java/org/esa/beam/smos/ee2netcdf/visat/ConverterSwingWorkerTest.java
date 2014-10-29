@@ -61,7 +61,7 @@ public class ConverterSwingWorkerTest {
         exportParameter.setEastBound(100.6);
         exportParameter.setSouthBound(11.8);
         exportParameter.setWestBound(98.06);
-        exportParameter.setRoiType(BindingConstants.ROI_TYPE_AREA);
+        exportParameter.setRoiType(BindingConstants.ROI_TYPE_BOUNDING_BOX);
 
         final HashMap<String, Object> parameterMap = ConverterSwingWorker.createParameterMap(exportParameter);
         assertEquals("POLYGON((98.06 22.9,100.6 22.9,100.6 11.8,98.06 11.8,98.06 22.9))", parameterMap.get("region"));
@@ -69,7 +69,7 @@ public class ConverterSwingWorkerTest {
 
     @Test
     public void testCreateMap_wholeProduct() {
-        exportParameter.setRoiType(BindingConstants.ROI_TYPE_WHOLE_PRODUCT);
+        exportParameter.setRoiType(BindingConstants.ROI_TYPE_ALL);
 
         final HashMap<String, Object> parameterMap = ConverterSwingWorker.createParameterMap(exportParameter);
         assertNull(parameterMap.get("region"));

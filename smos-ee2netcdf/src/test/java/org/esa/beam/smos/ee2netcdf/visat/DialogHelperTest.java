@@ -43,7 +43,7 @@ public class DialogHelperTest {
         final DefaultAppContext appContext = new DefaultAppContext("test");
         assertNull(appContext.getSelectedProduct());
 
-        assertFalse(DialogHelper.canProductSelectionBeEnabled(appContext));
+        assertFalse(DialogHelper.isProductSelectionFeasible(appContext));
     }
 
     @Test
@@ -53,7 +53,7 @@ public class DialogHelperTest {
         appContext.setSelectedProduct(new Product("test", "MER_RR__1P", 2, 2));
         assertNotNull(appContext.getSelectedProduct());
 
-        assertFalse(DialogHelper.canProductSelectionBeEnabled(appContext));
+        assertFalse(DialogHelper.isProductSelectionFeasible(appContext));
     }
 
     @Test
@@ -63,7 +63,7 @@ public class DialogHelperTest {
         appContext.setSelectedProduct(new Product("test", "MIR_SCLF1C", 2, 2));
         assertNotNull(appContext.getSelectedProduct());
 
-        assertTrue(DialogHelper.canProductSelectionBeEnabled(appContext));
+        assertTrue(DialogHelper.isProductSelectionFeasible(appContext));
     }
 
     @Test

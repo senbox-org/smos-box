@@ -10,7 +10,7 @@ class DialogHelper {
         return productType.matches(ExportParameter.PRODUCT_TYPE_REGEX);
     }
 
-    static boolean canProductSelectionBeEnabled(AppContext appContext) {
+    static boolean isProductSelectionFeasible(AppContext appContext) {
         final Product selectedProduct = appContext.getSelectedProduct();
         if (selectedProduct != null) {
             return isSupportedType(selectedProduct.getProductType());
