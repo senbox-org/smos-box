@@ -148,6 +148,7 @@ public class SmosBufrReader extends SmosReader {
         final GridPointBtDataset btDataset = new GridPointBtDataset(datasetNameIndexMap, classes, data);
         btDataset.setFlagBandIndex(INFORMATION_FLAG_INDEX);
         btDataset.setIncidenceAngleBandIndex(INCIDENCE_ANGLE_INDEX);
+        btDataset.setRadiometricAccuracyBandIndex(RADIOMETIRC_ACCURACY_INDEX);
         return btDataset;
     }
 

@@ -67,7 +67,7 @@ public class GridPointBtDatasetTest {
     }
 
     @Test
-    public void testSetGetIncidenceAngleIndex() {
+    public void testSetGetIncidenceAngleBandIndex() {
         final GridPointBtDataset btDataset = createGridPointBtDataset();
 
         btDataset.setIncidenceAngleBandIndex(29);
@@ -75,9 +75,24 @@ public class GridPointBtDatasetTest {
     }
 
     @Test
-    public void testGetIncidenceAngleIndex_defaultValue() {
+    public void testGetIncidenceAngleBandIndex_defaultValue() {
         final GridPointBtDataset btDataset = createGridPointBtDataset();
 
         assertEquals(-1, btDataset.getIncidenceAngleBandIndex());
+    }
+
+    @Test
+    public void testSetGetRadiometricAccuracyBandIndex() {
+        final GridPointBtDataset btDataset = createGridPointBtDataset();
+
+        btDataset.setRadiometricAccuracyBandIndex(30);
+        assertEquals(30, btDataset.getRadiometricAccuracyBandIndex());
+    }
+
+    @Test
+    public void testGetRadiometricAccuracyBandIndex_defaultValue() {
+        final GridPointBtDataset btDataset = createGridPointBtDataset();
+
+        assertEquals(-1, btDataset.getRadiometricAccuracyBandIndex());
     }
 }

@@ -26,6 +26,7 @@ public class GridPointBtDataset {
     private final Number[][] data;
     private int flagBandIndex;
     private int incidenceAngleBandIndex;
+    private int radiometricAccuracyBandIndex;
 
     public GridPointBtDataset(HashMap<String, Integer> memberNamesMap, Class[] columnClasses, Number[][] data) {
         this.memberNamesMap = memberNamesMap;
@@ -33,6 +34,7 @@ public class GridPointBtDataset {
         this.data = data;
         flagBandIndex = -1;
         incidenceAngleBandIndex = -1;
+        radiometricAccuracyBandIndex = -1;
     }
 
     public int getColumnIndex(String name) {
@@ -65,5 +67,13 @@ public class GridPointBtDataset {
 
     public int getIncidenceAngleBandIndex() {
         return incidenceAngleBandIndex;
+    }
+
+    public void setRadiometricAccuracyBandIndex(int radiometricAccuracyBandIndex) {
+        this.radiometricAccuracyBandIndex = radiometricAccuracyBandIndex;
+    }
+
+    public int getRadiometricAccuracyBandIndex() {
+        return radiometricAccuracyBandIndex;
     }
 }

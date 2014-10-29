@@ -159,6 +159,7 @@ public class SmosProductReader extends SmosReader {
             }
         }
         btDataset.setIncidenceAngleBandIndex(memberNamesMap.get("Incidence_Angle"));
+        btDataset.setRadiometricAccuracyBandIndex(memberNamesMap.get("Pixel_Radiometric_Accuracy"));
         return btDataset;
     }
 
