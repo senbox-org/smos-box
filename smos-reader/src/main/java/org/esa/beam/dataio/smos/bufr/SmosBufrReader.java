@@ -145,7 +145,9 @@ public class SmosBufrReader extends SmosReader {
             data[i] = currentMeasures;
         }
 
-        return new GridPointBtDataset(datasetNameIndexMap, classes, data);
+        final GridPointBtDataset btDataset = new GridPointBtDataset(datasetNameIndexMap, classes, data);
+        btDataset.setFlagbandIndex(INFORMATION_FLAG_INDEX);
+        return btDataset;
     }
 
     @Override

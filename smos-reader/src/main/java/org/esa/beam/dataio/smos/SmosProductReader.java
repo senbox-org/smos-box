@@ -33,6 +33,7 @@ import org.esa.beam.smos.EEFilePair;
 import org.esa.beam.smos.SmosUtils;
 import org.esa.beam.smos.dgg.SmosDgg;
 import org.esa.beam.smos.lsmask.SmosLsMask;
+import org.esa.beam.util.StringUtils;
 import org.esa.beam.util.io.FileUtils;
 import ucar.nc2.NetcdfFile;
 import ucar.nc2.iosp.bufr.BufrIosp;
@@ -148,7 +149,17 @@ public class SmosProductReader extends SmosReader {
         }
 
         final HashMap<String, Integer> memberNamesMap = getRawDataMemberNamesMap(smosFile);
-        return new GridPointBtDataset(memberNamesMap, columnClasses, tableData);
+
+        final GridPointBtDataset btDataset = new GridPointBtDataset(memberNamesMap, columnClasses, tableData);
+
+        for (int i = 0; i < memberCount; i++) {
+            final String memberName = type.getMemberName(i);
+            final BandDescriptor descriptor = dddb.findBandDescriptorForMember(formatName, memberName);
+            if (StringUtils.isNotNullAndNotEmpty(descriptor.getFlagCodingName())) {
+                btDataset.setFlagbandIndex(i);
+            }
+        }
+        return btDataset;
     }
 
     @Override

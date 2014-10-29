@@ -50,4 +50,19 @@ public class GridPointBtDatasetTest {
 
         return new GridPointBtDataset(memberNamesMap, classes, data);
     }
+
+    @Test
+    public void testSetGetFlagBandIndex() {
+        final GridPointBtDataset btDataset = createGridPointBtDataset();
+
+        btDataset.setFlagbandIndex(28);
+        assertEquals(28, btDataset.getFlagbandIndex());
+    }
+
+    @Test
+    public void testSetGetFlagBandIndex_defaultValue() {
+        final GridPointBtDataset btDataset = createGridPointBtDataset();
+
+        assertEquals(-1, btDataset.getFlagbandIndex());
+    }
 }

@@ -24,11 +24,13 @@ public class GridPointBtDataset {
     private final HashMap<String, Integer> memberNamesMap;
     private final Class[] columnClasses;
     private final Number[][] data;
+    private int flagbandIndex;
 
     public GridPointBtDataset(HashMap<String, Integer> memberNamesMap, Class[] columnClasses, Number[][] data) {
         this.memberNamesMap = memberNamesMap;
         this.columnClasses = columnClasses;
         this.data = data;
+        flagbandIndex = -1;
     }
 
     public int getColumnIndex(String name) {
@@ -45,5 +47,13 @@ public class GridPointBtDataset {
 
     public Class[] getColumnClasses() {
         return columnClasses;
+    }
+
+    public void setFlagbandIndex(int flagbandIndex) {
+        this.flagbandIndex = flagbandIndex;
+    }
+
+    public int getFlagbandIndex() {
+        return flagbandIndex;
     }
 }

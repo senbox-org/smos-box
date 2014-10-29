@@ -17,7 +17,6 @@
 package org.esa.beam.smos.visat;
 
 import org.esa.beam.dataio.smos.GridPointBtDataset;
-import org.esa.beam.dataio.smos.SmosConstants;
 import org.esa.beam.dataio.smos.SmosReader;
 import org.esa.beam.dataio.smos.dddb.Dddb;
 import org.esa.beam.dataio.smos.dddb.FlagDescriptor;
@@ -35,8 +34,8 @@ import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYZDataset;
 import org.jfree.ui.RectangleInsets;
 
-import javax.swing.JComponent;
-import java.awt.Color;
+import javax.swing.*;
+import java.awt.*;
 import java.io.IOException;
 import java.util.List;
 
@@ -120,7 +119,7 @@ public class GridPointBtDataFlagmatrixToolView extends GridPointBtDataToolView {
     protected void updateGridPointBtDataComponent(GridPointBtDataset ds) {
         dataset.removeSeries(SERIES_KEY);
 
-        int iq = ds.getColumnIndex(SmosConstants.BT_FLAGS_NAME);
+        int iq = ds.getFlagbandIndex();
         if (iq != -1) {
             final Number[][] dsData = ds.getData();
             final int m = dsData.length;
