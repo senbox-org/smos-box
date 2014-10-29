@@ -95,4 +95,34 @@ public class GridPointBtDatasetTest {
 
         assertEquals(-1, btDataset.getRadiometricAccuracyBandIndex());
     }
+
+    @Test
+    public void testSetGetBTValueRealBandIndex() {
+        final GridPointBtDataset btDataset = createGridPointBtDataset();
+
+        btDataset.setBTValueRealBandIndex(31);
+        assertEquals(31, btDataset.getBTValueRealBandIndex());
+    }
+
+    @Test
+    public void testGetBTValueRealBandIndex_defaultValue() {
+        final GridPointBtDataset btDataset = createGridPointBtDataset();
+
+        assertEquals(-1, btDataset.getBTValueRealBandIndex());
+    }
+
+    @Test
+    public void testSetGetBTValueImaginaryBandIndex() {
+        final GridPointBtDataset btDataset = createGridPointBtDataset();
+
+        btDataset.setBTValueImaginaryBandIndex(32);
+        assertEquals(32, btDataset.getBTValueImaginaryBandIndex());
+    }
+
+    @Test
+    public void testGetBTValueImaginaryBandIndex_defaultValue() {
+        final GridPointBtDataset btDataset = createGridPointBtDataset();
+
+        assertEquals(-1, btDataset.getBTValueImaginaryBandIndex());
+    }
 }

@@ -145,8 +145,8 @@ public class GridPointBtDataChartToolView extends GridPointBtDataToolView {
                 coPolDataset.addSeries(series2);
             } else {
                 int iy2;
-                iy1 = ds.getColumnIndex("BT_Value_Real");
-                iy2 = ds.getColumnIndex("BT_Value_Imag");
+                iy1 = ds.getBTValueRealBandIndex();
+                iy2 = ds.getBTValueImaginaryBandIndex();
                 if (iy1 != -1 && iy2 != -1) {
                     YIntervalSeries series1 = new YIntervalSeries("X");
                     YIntervalSeries series2 = new YIntervalSeries("Y");

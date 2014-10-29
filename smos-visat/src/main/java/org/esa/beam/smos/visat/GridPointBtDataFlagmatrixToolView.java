@@ -128,6 +128,7 @@ public class GridPointBtDataFlagmatrixToolView extends GridPointBtDataToolView {
             for (int x = 0; x < m; x++) {
                 final int flags = dsData[x][iq].intValue();
                 for (int y = 0; y < n; y++) {
+                    // @todo 1 tb/tb check if this works with the Bufr INVALID flag and correct if necessary 2014-10-29
                     final int index = y * m + x;
                     data[0][index] = (1 + x);
                     data[1][index] = y;

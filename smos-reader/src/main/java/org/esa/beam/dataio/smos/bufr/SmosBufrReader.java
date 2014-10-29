@@ -53,7 +53,7 @@ public class SmosBufrReader extends SmosReader {
 
     private static final int BT_REAL_INDEX = 0;
     private static final int BT_IMAG_INDEX = 1;
-    private static final int RADIOMETIRC_ACCURACY_INDEX = 2;
+    private static final int RADIOMETRIC_ACCURACY_INDEX = 2;
     private static final int INCIDENCE_ANGLE_INDEX = 3;
     private static final int AZIMUTH_ANGLE_INDEX = 4;
     private static final int FARADAY_ANGLE_INDEX = 5;
@@ -82,7 +82,7 @@ public class SmosBufrReader extends SmosReader {
         datasetNameIndexMap = new HashMap<>();
         datasetNameIndexMap.put(rawDataNames[0], BT_REAL_INDEX);
         datasetNameIndexMap.put(rawDataNames[1], BT_IMAG_INDEX);
-        datasetNameIndexMap.put(rawDataNames[2], RADIOMETIRC_ACCURACY_INDEX);
+        datasetNameIndexMap.put(rawDataNames[2], RADIOMETRIC_ACCURACY_INDEX);
         datasetNameIndexMap.put(rawDataNames[3], INCIDENCE_ANGLE_INDEX);
         datasetNameIndexMap.put(rawDataNames[4], AZIMUTH_ANGLE_INDEX);
         datasetNameIndexMap.put(rawDataNames[5], FARADAY_ANGLE_INDEX);
@@ -148,7 +148,9 @@ public class SmosBufrReader extends SmosReader {
         final GridPointBtDataset btDataset = new GridPointBtDataset(datasetNameIndexMap, classes, data);
         btDataset.setFlagBandIndex(INFORMATION_FLAG_INDEX);
         btDataset.setIncidenceAngleBandIndex(INCIDENCE_ANGLE_INDEX);
-        btDataset.setRadiometricAccuracyBandIndex(RADIOMETIRC_ACCURACY_INDEX);
+        btDataset.setRadiometricAccuracyBandIndex(RADIOMETRIC_ACCURACY_INDEX);
+        btDataset.setBTValueRealBandIndex(BT_REAL_INDEX);
+        btDataset.setBTValueImaginaryBandIndex(BT_IMAG_INDEX);
         return btDataset;
     }
 
@@ -273,7 +275,7 @@ public class SmosBufrReader extends SmosReader {
             observation.data[FOOTPRINT_AXIS_2_INDEX] = next.getScalarShort("Footprint_axis_2");
             observation.data[GEOMETRIC_ANGLE_INDEX] = next.getScalarInt("Geometric_rotational_angle");
             observation.data[INCIDENCE_ANGLE_INDEX] = next.getScalarInt("Incidence_angle");
-            observation.data[RADIOMETIRC_ACCURACY_INDEX] = next.getScalarShort("Pixel_radiometric_accuracy");
+            observation.data[RADIOMETRIC_ACCURACY_INDEX] = next.getScalarShort("Pixel_radiometric_accuracy");
             observation.data[INFORMATION_FLAG_INDEX] = next.getScalarShort("SMOS_information_flag");
             observation.data[WATER_FRACTION_INDEX] = next.getScalarShort("Water_fraction");
             observation.data[POLARISATION_INDEX] = next.getScalarByte("Polarisation");

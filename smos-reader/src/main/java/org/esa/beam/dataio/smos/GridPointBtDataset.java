@@ -27,6 +27,8 @@ public class GridPointBtDataset {
     private int flagBandIndex;
     private int incidenceAngleBandIndex;
     private int radiometricAccuracyBandIndex;
+    private int btValueRealBandIndex;
+    private int btValueImaginaryBandIndex;
 
     public GridPointBtDataset(HashMap<String, Integer> memberNamesMap, Class[] columnClasses, Number[][] data) {
         this.memberNamesMap = memberNamesMap;
@@ -35,6 +37,8 @@ public class GridPointBtDataset {
         flagBandIndex = -1;
         incidenceAngleBandIndex = -1;
         radiometricAccuracyBandIndex = -1;
+        btValueRealBandIndex = -1;
+        btValueImaginaryBandIndex = -1;
     }
 
     public int getColumnIndex(String name) {
@@ -53,8 +57,8 @@ public class GridPointBtDataset {
         return columnClasses;
     }
 
-    public void setFlagBandIndex(int flagbandIndex) {
-        this.flagBandIndex = flagbandIndex;
+    public void setFlagBandIndex(int flagBandIndex) {
+        this.flagBandIndex = flagBandIndex;
     }
 
     public int getFlagBandIndex() {
@@ -75,5 +79,21 @@ public class GridPointBtDataset {
 
     public int getRadiometricAccuracyBandIndex() {
         return radiometricAccuracyBandIndex;
+    }
+
+    public void setBTValueRealBandIndex(int BTValueRealBandIndex) {
+        this.btValueRealBandIndex = BTValueRealBandIndex;
+    }
+
+    public int getBTValueRealBandIndex() {
+        return btValueRealBandIndex;
+    }
+
+    public void setBTValueImaginaryBandIndex(int BTValueImaginaryBandIndex) {
+        this.btValueImaginaryBandIndex = BTValueImaginaryBandIndex;
+    }
+
+    public int getBTValueImaginaryBandIndex() {
+        return btValueImaginaryBandIndex;
     }
 }
