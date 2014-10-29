@@ -21,4 +21,6 @@ abstract public class SmosReader extends AbstractProductReader{
     public abstract String[] getRawDataTableNames();
 
     public abstract FlagDescriptor[] getBtFlagDescriptors();
+
+    public abstract PolarisationModel getPolarisationModel();
 }

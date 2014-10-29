@@ -151,6 +151,7 @@ public class SmosBufrReader extends SmosReader {
         btDataset.setRadiometricAccuracyBandIndex(RADIOMETRIC_ACCURACY_INDEX);
         btDataset.setBTValueRealBandIndex(BT_REAL_INDEX);
         btDataset.setBTValueImaginaryBandIndex(BT_IMAG_INDEX);
+        btDataset.setPolarisationFlagBandIndex(POLARISATION_INDEX);
         return btDataset;
     }
 
@@ -190,6 +191,11 @@ public class SmosBufrReader extends SmosReader {
         final List<FlagDescriptor> flagDescriptorsList = flagDescriptors.asList();
 
         return flagDescriptorsList.toArray(new FlagDescriptor[flagDescriptorsList.size()]);
+    }
+
+    @Override
+    public PolarisationModel getPolarisationModel() {
+        return new BufrPolarisationModel();
     }
 
     @Override

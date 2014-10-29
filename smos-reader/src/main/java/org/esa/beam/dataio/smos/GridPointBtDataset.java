@@ -29,6 +29,7 @@ public class GridPointBtDataset {
     private int radiometricAccuracyBandIndex;
     private int btValueRealBandIndex;
     private int btValueImaginaryBandIndex;
+    private int polarisationFlagBandIndex;
 
     public GridPointBtDataset(HashMap<String, Integer> memberNamesMap, Class[] columnClasses, Number[][] data) {
         this.memberNamesMap = memberNamesMap;
@@ -39,6 +40,7 @@ public class GridPointBtDataset {
         radiometricAccuracyBandIndex = -1;
         btValueRealBandIndex = -1;
         btValueImaginaryBandIndex = -1;
+        polarisationFlagBandIndex = -1;
     }
 
     public int getColumnIndex(String name) {
@@ -95,5 +97,13 @@ public class GridPointBtDataset {
 
     public int getBTValueImaginaryBandIndex() {
         return btValueImaginaryBandIndex;
+    }
+
+    public void setPolarisationFlagBandIndex(int polarisationFlagBandIndex) {
+        this.polarisationFlagBandIndex = polarisationFlagBandIndex;
+    }
+
+    public int getPolarisationFlagBandIndex() {
+        return polarisationFlagBandIndex;
     }
 }

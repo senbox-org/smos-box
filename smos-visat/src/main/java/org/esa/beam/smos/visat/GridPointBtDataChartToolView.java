@@ -17,7 +17,7 @@
 package org.esa.beam.smos.visat;
 
 import org.esa.beam.dataio.smos.GridPointBtDataset;
-import org.esa.beam.dataio.smos.SmosConstants;
+import org.esa.beam.dataio.smos.PolarisationModel;
 import org.esa.beam.dataio.smos.SmosReader;
 import org.esa.beam.framework.ui.product.ProductSceneView;
 import org.jfree.chart.ChartFactory;
@@ -43,6 +43,7 @@ public class GridPointBtDataChartToolView extends GridPointBtDataToolView {
     private YIntervalSeriesCollection crossPolDataset;
     private XYPlot plot;
     private JCheckBox[] modeCheckers;
+    private PolarisationModel polarisationModel;
 
     @Override
     protected JComponent createGridPointComponent() {
@@ -95,6 +96,8 @@ public class GridPointBtDataChartToolView extends GridPointBtDataToolView {
             modeCheckers[0].setEnabled(true);
             modeCheckers[1].setEnabled(true);
             modeCheckers[2].setEnabled(smosReader.canSupplyFullPolData());
+
+            polarisationModel = smosReader.getPolarisationModel();
         }
     }
 
@@ -119,7 +122,7 @@ public class GridPointBtDataChartToolView extends GridPointBtDataToolView {
         crossPolDataset.removeAllSeries();
 
         int ix = ds.getIncidenceAngleBandIndex();
-        int iq = ds.getFlagBandIndex();
+        int iq = ds.getPolarisationFlagBandIndex();
         int id = ds.getRadiometricAccuracyBandIndex();
         // todo: calculate and display H/V/HV BT values instead of X/Y/XY (rq-200100121)
         if (ix != -1 && iq != -1 && id != -1) {
@@ -131,13 +134,13 @@ public class GridPointBtDataChartToolView extends GridPointBtDataToolView {
                 boolean m2 = modeCheckers[1].isSelected();
                 final Number[][] data = ds.getData();
                 for (final Number[] dataList : data) {
-                    int polMode = dataList[iq].intValue() & SmosConstants.L1C_POL_MODE_FLAGS_MASK;
+                    int polMode = polarisationModel.getPolarisationMode(dataList[iq].intValue());
                     double x = dataList[ix].doubleValue();
                     double y = dataList[iy1].doubleValue();
                     double dev = dataList[id].doubleValue();
-                    if (m1 && polMode == SmosConstants.L1C_POL_MODE_X) {
+                    if (m1 && polarisationModel.is_X_Polarised(polMode)) {
                         series1.add(x, y, y - dev, y + dev);
-                    } else if (m2 && polMode == SmosConstants.L1C_POL_MODE_Y) {
+                    } else if (m2 && polarisationModel.is_Y_Polarised(polMode)) {
                         series2.add(x, y, y - dev, y + dev);
                     }
                 }
@@ -148,24 +151,25 @@ public class GridPointBtDataChartToolView extends GridPointBtDataToolView {
                 iy1 = ds.getBTValueRealBandIndex();
                 iy2 = ds.getBTValueImaginaryBandIndex();
                 if (iy1 != -1 && iy2 != -1) {
-                    YIntervalSeries series1 = new YIntervalSeries("X");
-                    YIntervalSeries series2 = new YIntervalSeries("Y");
-                    YIntervalSeries series3 = new YIntervalSeries("XY_Real");
-                    YIntervalSeries series4 = new YIntervalSeries("XY_Imag");
-                    boolean m1 = modeCheckers[0].isSelected();
-                    boolean m2 = modeCheckers[1].isSelected();
-                    boolean m3 = modeCheckers[2].isSelected();
+                    final YIntervalSeries series1 = new YIntervalSeries("X");
+                    final YIntervalSeries series2 = new YIntervalSeries("Y");
+                    final YIntervalSeries series3 = new YIntervalSeries("XY_Real");
+                    final YIntervalSeries series4 = new YIntervalSeries("XY_Imag");
+                    final boolean m1 = modeCheckers[0].isSelected();
+                    final boolean m2 = modeCheckers[1].isSelected();
+                    final boolean m3 = modeCheckers[2].isSelected();
                     final Number[][] data = ds.getData();
+
                     for (final Number[] dataList : data) {
-                        int polMode = dataList[iq].intValue() & SmosConstants.L1C_POL_MODE_FLAGS_MASK;
+                        int polMode = polarisationModel.getPolarisationMode(dataList[iq].intValue());
                         double dev = dataList[id].doubleValue();
                         double x = dataList[ix].doubleValue();
                         double y1 = dataList[iy1].doubleValue();
-                        if (m1 && polMode == SmosConstants.L1C_POL_MODE_X) {
+                        if (m1 && polarisationModel.is_X_Polarised(polMode)) {
                             series1.add(x, y1, y1 - dev, y1 + dev);
-                        } else if (m2 && polMode == SmosConstants.L1C_POL_MODE_Y) {
+                        } else if (m2 && polarisationModel.is_Y_Polarised(polMode)) {
                             series2.add(x, y1, y1 - dev, y1 + dev);
-                        } else if (m3 && (polMode == SmosConstants.L1C_POL_MODE_XY1 || polMode == SmosConstants.L1C_POL_MODE_XY2)) {
+                        } else if (m3 && (polarisationModel.is_XY1_Polarised(polMode) || polarisationModel.is_XY2_Polarised(polMode))) {
                             double y2 = dataList[iy2].doubleValue();
                             series3.add(x, y1, y1 - dev, y1 + dev);
                             series4.add(x, y2, y2 - dev, y2 + dev);

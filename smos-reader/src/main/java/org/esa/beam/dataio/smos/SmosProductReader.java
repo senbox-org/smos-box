@@ -156,6 +156,8 @@ public class SmosProductReader extends SmosReader {
             final BandDescriptor descriptor = dddb.findBandDescriptorForMember(formatName, memberName);
             if (StringUtils.isNotNullAndNotEmpty(descriptor.getFlagCodingName())) {
                 btDataset.setFlagBandIndex(i);
+                btDataset.setPolarisationFlagBandIndex(i);
+                break;
             }
         }
         btDataset.setIncidenceAngleBandIndex(memberNamesMap.get("Incidence_Angle"));
@@ -200,6 +202,11 @@ public class SmosProductReader extends SmosReader {
         }
 
         return new FlagDescriptor[0];
+    }
+
+    @Override
+    public PolarisationModel getPolarisationModel() {
+        return new L1CPolarisationModel();
     }
 
     private HashMap<String, Integer> getRawDataMemberNamesMap(L1cSmosFile smosFile) {

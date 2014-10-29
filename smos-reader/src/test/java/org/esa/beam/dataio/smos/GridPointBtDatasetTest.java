@@ -67,6 +67,21 @@ public class GridPointBtDatasetTest {
     }
 
     @Test
+    public void testSetGetPolarisationFlagBandIndex() {
+        final GridPointBtDataset btDataset = createGridPointBtDataset();
+
+        btDataset.setPolarisationFlagBandIndex(104);
+        assertEquals(104, btDataset.getPolarisationFlagBandIndex());
+    }
+
+    @Test
+    public void testGetPolarisationFlagBandIndex_defaultValue() {
+        final GridPointBtDataset btDataset = createGridPointBtDataset();
+
+        assertEquals(-1, btDataset.getPolarisationFlagBandIndex());
+    }
+
+    @Test
     public void testSetGetIncidenceAngleBandIndex() {
         final GridPointBtDataset btDataset = createGridPointBtDataset();
 
