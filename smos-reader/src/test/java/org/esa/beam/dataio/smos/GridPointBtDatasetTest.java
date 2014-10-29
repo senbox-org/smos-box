@@ -55,14 +55,29 @@ public class GridPointBtDatasetTest {
     public void testSetGetFlagBandIndex() {
         final GridPointBtDataset btDataset = createGridPointBtDataset();
 
-        btDataset.setFlagbandIndex(28);
-        assertEquals(28, btDataset.getFlagbandIndex());
+        btDataset.setFlagBandIndex(28);
+        assertEquals(28, btDataset.getFlagBandIndex());
     }
 
     @Test
-    public void testSetGetFlagBandIndex_defaultValue() {
+    public void testGetFlagBandIndex_defaultValue() {
         final GridPointBtDataset btDataset = createGridPointBtDataset();
 
-        assertEquals(-1, btDataset.getFlagbandIndex());
+        assertEquals(-1, btDataset.getFlagBandIndex());
+    }
+
+    @Test
+    public void testSetGetIncidenceAngleIndex() {
+        final GridPointBtDataset btDataset = createGridPointBtDataset();
+
+        btDataset.setIncidenceAngleBandIndex(29);
+        assertEquals(29, btDataset.getIncidenceAngleBandIndex());
+    }
+
+    @Test
+    public void testGetIncidenceAngleIndex_defaultValue() {
+        final GridPointBtDataset btDataset = createGridPointBtDataset();
+
+        assertEquals(-1, btDataset.getIncidenceAngleBandIndex());
     }
 }

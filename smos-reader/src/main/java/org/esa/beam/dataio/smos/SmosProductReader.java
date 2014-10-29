@@ -151,14 +151,14 @@ public class SmosProductReader extends SmosReader {
         final HashMap<String, Integer> memberNamesMap = getRawDataMemberNamesMap(smosFile);
 
         final GridPointBtDataset btDataset = new GridPointBtDataset(memberNamesMap, columnClasses, tableData);
-
         for (int i = 0; i < memberCount; i++) {
             final String memberName = type.getMemberName(i);
             final BandDescriptor descriptor = dddb.findBandDescriptorForMember(formatName, memberName);
             if (StringUtils.isNotNullAndNotEmpty(descriptor.getFlagCodingName())) {
-                btDataset.setFlagbandIndex(i);
+                btDataset.setFlagBandIndex(i);
             }
         }
+        btDataset.setIncidenceAngleBandIndex(memberNamesMap.get("Incidence_Angle"));
         return btDataset;
     }
 

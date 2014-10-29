@@ -119,7 +119,7 @@ public class GridPointBtDataFlagmatrixToolView extends GridPointBtDataToolView {
     protected void updateGridPointBtDataComponent(GridPointBtDataset ds) {
         dataset.removeSeries(SERIES_KEY);
 
-        int iq = ds.getFlagbandIndex();
+        int iq = ds.getFlagBandIndex();
         if (iq != -1) {
             final Number[][] dsData = ds.getData();
             final int m = dsData.length;

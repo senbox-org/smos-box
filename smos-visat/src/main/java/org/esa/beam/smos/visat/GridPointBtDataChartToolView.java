@@ -118,8 +118,8 @@ public class GridPointBtDataChartToolView extends GridPointBtDataToolView {
         coPolDataset.removeAllSeries();
         crossPolDataset.removeAllSeries();
 
-        int ix = ds.getColumnIndex("Incidence_Angle");
-        int iq = ds.getColumnIndex("Flags");
+        int ix = ds.getIncidenceAngleBandIndex();
+        int iq = ds.getFlagBandIndex();
         int id = ds.getColumnIndex("Pixel_Radiometric_Accuracy");
         // todo: calculate and display H/V/HV BT values instead of X/Y/XY (rq-200100121)
         if (ix != -1 && iq != -1 && id != -1) {
