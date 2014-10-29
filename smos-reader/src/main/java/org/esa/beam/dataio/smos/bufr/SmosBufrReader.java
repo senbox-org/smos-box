@@ -243,7 +243,11 @@ public class SmosBufrReader extends SmosReader {
 
         final double scale = getAttributeValue(variable, ATTR_NAME_SCALE_FACTOR, 1.0);
         final double offset = getAttributeValue(variable, ATTR_NAME_ADD_OFFSET, 0.0);
-        final int missingValue = (int) getAttributeValue(variable, ATTR_NAME_MISSING_VALUE, Double.NaN);
+        final double missingValueDouble = getAttributeValue(variable, ATTR_NAME_MISSING_VALUE, Double.NaN);
+        int missingValue = -1;
+        if (!Double.isNaN(missingValueDouble)) {
+            missingValue = (int) missingValueDouble;
+        }
 
         return new ScaleFactor(scale, offset, missingValue);
     }
