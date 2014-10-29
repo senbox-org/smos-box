@@ -254,6 +254,7 @@ class SmosEEToNetCDFExportDialog extends ProductChangeAwareDialog {
         final Product selectedSmosProduct = DialogHelper.getSelectedSmosProduct(appContext);
         if (selectedSmosProduct == null) {
             setSelectedProductButtonEnabled(false);
+            bindingContext.getBinding(BindingConstants.SELECTED_PRODUCT).setPropertyValue(false);
         } else {
             setSelectedProductButtonEnabled(true);
         }
