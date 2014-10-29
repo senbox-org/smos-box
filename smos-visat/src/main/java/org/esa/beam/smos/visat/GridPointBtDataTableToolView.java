@@ -61,9 +61,9 @@ public class GridPointBtDataTableToolView extends GridPointBtDataToolView {
         columnsButton.setEnabled(enabled);
         exportButton.setEnabled(enabled);
         if (enabled) {
-            String[] names = smosReader.getRawDataTableNames();
-            TableColumnModel columnModel = new DefaultTableColumnModel();
+            final String[] names = smosReader.getRawDataTableNames();
             gridPointBtDataTableModel.setColumnNames(names);
+            final TableColumnModel columnModel = new DefaultTableColumnModel();
             table.setColumnModel(columnModel);
             table.createDefaultColumnsFromModel();
         }
