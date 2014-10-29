@@ -8,7 +8,6 @@ import com.vividsolutions.jts.io.WKTWriter;
 import org.esa.beam.framework.datamodel.Product;
 import org.esa.beam.framework.gpf.GPF;
 import org.esa.beam.framework.ui.AppContext;
-import org.esa.beam.smos.ee2netcdf.EEToNetCDFExporterOp;
 import org.esa.beam.smos.ee2netcdf.ExportParameter;
 import org.esa.beam.smos.ee2netcdf.SmosEEToNetCDFExportOp;
 import org.esa.beam.smos.gui.BindingConstants;
@@ -96,11 +95,11 @@ class ConverterSwingWorker extends ProgressMonitorSwingWorker<List<Exception>, F
         }
 
         final int roiType = exportParameter.getRoiType();
-        if (roiType == BindingConstants.ROI_TYPE_AREA) {
-            parameterMap.put("region", exportParameter.toAreaWKT());
+        if (roiType == BindingConstants.ROI_TYPE_BOUNDING_BOX) {
+            parameterMap.put("region", exportParameter.boundingBoxToWKT());
         } else if (roiType == BindingConstants.ROI_TYPE_GEOMETRY) {
-            addSelectedProductGeometry(exportParameter.getRegion(), parameterMap);
-        } else if (roiType == BindingConstants.ROI_TYPE_WHOLE_PRODUCT) {
+            addSelectedProductGeometry(exportParameter.getGeometry(), parameterMap);
+        } else if (roiType == BindingConstants.ROI_TYPE_ALL) {
             parameterMap.remove("region");
         }
 
@@ -130,8 +129,8 @@ class ConverterSwingWorker extends ProgressMonitorSwingWorker<List<Exception>, F
     static void addSelectedProductGeometry(Geometry geometry, HashMap<String, Object> parameterMap) {
         if (geometry instanceof Polygon) {
             final WKTWriter wktWriter = new WKTWriter();
-            final String multiPolygonWkt = wktWriter.write(geometry);
-            parameterMap.put("region", multiPolygonWkt);
+            final String wkt = wktWriter.write(geometry);
+            parameterMap.put(BindingConstants.GEOMETRY, wkt);
         }
     }
 }

@@ -16,27 +16,15 @@ import com.bc.ceres.swing.binding.internal.AbstractButtonAdapter;
 import com.bc.ceres.swing.binding.internal.SingleSelectionEditor;
 import com.bc.ceres.swing.binding.internal.TextComponentAdapter;
 import com.bc.ceres.swing.binding.internal.TextFieldEditor;
-import com.bc.ceres.swing.selection.Selection;
-import com.bc.ceres.swing.selection.SelectionContext;
-import com.bc.ceres.swing.selection.SelectionManager;
-import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.geom.Polygon;
 import org.esa.beam.framework.datamodel.PlainFeatureFactory;
 import org.esa.beam.framework.datamodel.Product;
 import org.esa.beam.framework.datamodel.ProductNodeGroup;
 import org.esa.beam.framework.datamodel.VectorDataNode;
 import org.esa.beam.framework.ui.AppContext;
-import org.esa.beam.framework.ui.application.ApplicationPage;
-import org.esa.beam.framework.ui.product.SimpleFeatureShapeFigure;
-import org.geotools.feature.FeatureCollection;
-import org.geotools.feature.FeatureIterator;
-import org.opengis.feature.simple.SimpleFeature;
-import org.opengis.feature.simple.SimpleFeatureType;
 
 import javax.swing.AbstractButton;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
-import javax.swing.DefaultListCellRenderer;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
@@ -167,28 +155,7 @@ public class GuiHelper {
         return new File(appContext.getPreferences().getPropertyString(lastSourceDirKey, def));
     }
 
-    // @todo 3 tb/tb write test 2013-04-08
-    public static Geometry getSelectedGeometry(AppContext appContext) {
-        final ApplicationPage applicationPage = appContext.getApplicationPage();
-        if (applicationPage != null) {
-            final SelectionManager selectionManager = applicationPage.getSelectionManager();
-            if (selectionManager != null) {
-                final SelectionContext selectionContext = selectionManager.getSelectionContext();
-                if (selectionContext != null) {
-                    final Selection selection = selectionContext.getSelection();
-                    final Object selectedValue = selection.getSelectedValue();
-                    if (selectedValue instanceof SimpleFeatureShapeFigure) {
-                        final SimpleFeatureShapeFigure shapeFigure = (SimpleFeatureShapeFigure) selectedValue;
-                        return shapeFigure.getGeometry();
-                    }
-                }
-            }
-        }
-
-        return null;
-    }
-
-    public static List<VectorDataNode> getPolygonGeometryNodes(Product selectedProduct) {
+    public static List<VectorDataNode> getGeometryNodes(Product selectedProduct) {
         final List<VectorDataNode> geometryNodeList = new ArrayList<>();
         final ProductNodeGroup<VectorDataNode> vectorDataGroup = selectedProduct.getVectorDataGroup();
         for (VectorDataNode node : vectorDataGroup.toArray(new VectorDataNode[vectorDataGroup.getNodeCount()])) {
@@ -201,58 +168,25 @@ public class GuiHelper {
         return geometryNodeList;
     }
 
-    public static List<Geometry> getPolygonGeometries(Product selectedProduct) {
-        final List<Geometry> geometryNodeList = new ArrayList<>();
-        final ProductNodeGroup<VectorDataNode> vectorDataGroup = selectedProduct.getVectorDataGroup();
-        for (VectorDataNode node : vectorDataGroup.toArray(new VectorDataNode[vectorDataGroup.getNodeCount()])) {
-            if (node.getFeatureType().getTypeName().equals(PlainFeatureFactory.DEFAULT_TYPE_NAME)) {
-                final FeatureCollection<SimpleFeatureType, SimpleFeature> featureCollection = node.getFeatureCollection();
-                if (!featureCollection.isEmpty()) {
-                    final FeatureIterator<SimpleFeature> features = featureCollection.features();
-                    while (features.hasNext()) {
-                        final SimpleFeature next = features.next();
-                        final Object defaultGeometry = next.getDefaultGeometry();
-                        if (defaultGeometry instanceof Geometry) {
-                            final Geometry geometry = (Geometry) defaultGeometry;
-                            if (geometry instanceof Polygon) {
-                                geometryNodeList.add(geometry);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        return geometryNodeList;
-    }
-
-    public static void bindGeometryNodes(List<VectorDataNode> geometryNodes, PropertySet propertySet) throws ValidationException {
-        final PropertyDescriptor descriptor = propertySet.getDescriptor(BindingConstants.GEOMETRY_NODE);
+    public static void bindGeometryNodes(List<VectorDataNode> geometryNodes, PropertySet propertySet) throws
+                                                                                                      ValidationException {
+        final PropertyDescriptor descriptor = propertySet.getDescriptor(BindingConstants.GEOMETRY);
         descriptor.setNotNull(false);
         descriptor.setNotEmpty(false);
         descriptor.setValueSet(new ValueSet(geometryNodes.toArray()));
 
-        propertySet.setValue(BindingConstants.ROI_TYPE, BindingConstants.ROI_TYPE_REGION);
-        propertySet.getProperty(BindingConstants.GEOMETRY_NODE).setValue(geometryNodes.get(0));
+        propertySet.setValue(BindingConstants.ROI_TYPE, BindingConstants.ROI_TYPE_GEOMETRY);
+        propertySet.getProperty(BindingConstants.GEOMETRY).setValue(geometryNodes.get(0));
     }
 
-    public static void bindGeometries(List<Geometry> geometryList, PropertySet propertySet) throws
-                                                                                                ValidationException {
-        final PropertyDescriptor descriptor = propertySet.getDescriptor(BindingConstants.GEOMETRY_NODE);
-        descriptor.setNotNull(false);
-        descriptor.setNotEmpty(false);
-        descriptor.setValueSet(new ValueSet(geometryList.toArray()));
-
-        propertySet.setValue(BindingConstants.ROI_TYPE, BindingConstants.ROI_TYPE_REGION);
-        propertySet.getProperty(BindingConstants.GEOMETRY_NODE).setValue(geometryList.get(0));
-    }
-
-    public static JComboBox createGeometryComboBox(PropertyDescriptor geometryDescriptor, BindingContext bindingContext) {
-        final PropertyEditor selectionEditor = PropertyEditorRegistry.getInstance().getPropertyEditor(SingleSelectionEditor.class.getName());
-        final JComboBox geometryComboBox = (JComboBox) selectionEditor.createEditorComponent(geometryDescriptor, bindingContext);
-
-        final DefaultListCellRenderer listCellRenderer = new ProductNodeRenderer();
-        geometryComboBox.setRenderer(listCellRenderer);
-        return geometryComboBox;
+    public static JComboBox createGeometryNodeComboBox(PropertyDescriptor geometryDescriptor,
+                                                       BindingContext bindingContext) {
+        final PropertyEditorRegistry registry = PropertyEditorRegistry.getInstance();
+        final PropertyEditor selectionEditor = registry.getPropertyEditor(SingleSelectionEditor.class.getName());
+        final JComboBox comboBox = (JComboBox) selectionEditor.createEditorComponent(geometryDescriptor,
+                                                                                     bindingContext);
+        comboBox.setRenderer(new ProductNodeRenderer());
+        return comboBox;
     }
 
     public static Component createLatLonCoordinatePanel(String name, String displayName, int numColumns,

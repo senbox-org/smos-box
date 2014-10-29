@@ -23,7 +23,7 @@ public class GridPointExportParameter {
     @Parameter(alias = BindingConstants.ROI_TYPE, defaultValue = "2", valueSet = {"0", "1", "2"})
     private int roiType;
 
-    @Parameter(alias = BindingConstants.GEOMETRY_NODE)
+    @Parameter(alias = BindingConstants.GEOMETRY)
     private VectorDataNode geometryNode;
 
     @Parameter(alias = BindingConstants.NORTH, defaultValue = "90.0", interval = "[-90.0, 90.0]")

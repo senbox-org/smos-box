@@ -1,20 +1,16 @@
 package org.esa.beam.smos.ee2netcdf.visat;
 
-import com.bc.ceres.binding.Property;
 import com.bc.ceres.binding.PropertyContainer;
 import com.bc.ceres.binding.PropertyDescriptor;
 import com.bc.ceres.binding.PropertySet;
 import com.bc.ceres.binding.ValidationException;
-import com.bc.ceres.binding.ValueSet;
 import com.bc.ceres.swing.TableLayout;
 import com.bc.ceres.swing.binding.Binding;
 import com.bc.ceres.swing.binding.BindingContext;
 import com.bc.ceres.swing.binding.PropertyPane;
 import com.bc.ceres.swing.selection.SelectionManager;
-import com.vividsolutions.jts.geom.Geometry;
 import org.esa.beam.framework.datamodel.Product;
 import org.esa.beam.framework.datamodel.ProductManager;
-import org.esa.beam.framework.datamodel.VectorDataNode;
 import org.esa.beam.framework.gpf.annotations.ParameterDescriptorFactory;
 import org.esa.beam.framework.ui.AppContext;
 import org.esa.beam.framework.ui.RegionBoundsInputUI;
@@ -30,7 +26,6 @@ import org.esa.beam.util.io.WildcardMatcher;
 import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
-import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -38,10 +33,9 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
+import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import java.awt.Insets;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.IOException;
 import java.text.MessageFormat;
@@ -61,14 +55,11 @@ class SmosEEToNetCDFExportDialog extends ProductChangeAwareDialog {
     private final ExportParameter exportParameter;
     private final PropertySet propertySet;
     private final BindingContext bindingContext;
-    private final GeometryListener geometryListener;
     private final ProductSelectionListener productSelectionListener;
 
-    private final JPanel ioParametersPanel;
-    private final JTabbedPane form;
-
     SmosEEToNetCDFExportDialog(AppContext appContext, String helpID) {
-        super(appContext.getApplicationWindow(), "Convert SMOS EE Files to NetCDF-4", ID_OK | ID_CLOSE | ID_HELP, helpID);
+        super(appContext.getApplicationWindow(), "Convert SMOS EE Files to NetCDF-4", ID_OK | ID_CLOSE | ID_HELP,
+              helpID);
         this.appContext = appContext;
 
         exportParameter = new ExportParameter();
@@ -77,24 +68,32 @@ class SmosEEToNetCDFExportDialog extends ProductChangeAwareDialog {
         propertySet.setDefaultValues();
         bindingContext = new BindingContext(propertySet);
 
-        ioParametersPanel = GuiHelper.createPanelWithBoxLayout();
-        ioParametersPanel.add(createSourceProductsSelector());
-        ioParametersPanel.add(createTargetDirSelector());
-        ioParametersPanel.add(createRegionSelector());
-        form = new JTabbedPane();
-        form.add("I/O Parameters", ioParametersPanel);
+        final JPanel ioPanel = GuiHelper.createPanelWithBoxLayout();
+        ioPanel.add(createSourceProductsSelector());
+        ioPanel.add(createTargetDirSelector());
+        ioPanel.add(createRoiSelector());
+        final JTabbedPane form = new JTabbedPane();
+        form.add("I/O Parameters", ioPanel);
 
-        if (bindingContext.getPropertySet().getProperties().length > 0) {
+        if (propertySet.getProperties().length > 0) {
+            propertySet.getDescriptor(BindingConstants.OPEN_FILE_DIALOG).setAttribute("visible", false);
+            propertySet.getDescriptor(BindingConstants.SELECTED_PRODUCT).setAttribute("visible", false);
+            propertySet.getDescriptor(BindingConstants.SOURCE_DIRECTORY).setAttribute("visible", false);
+            propertySet.getDescriptor(BindingConstants.TARGET_DIRECTORY).setAttribute("visible", false);
+
+            propertySet.getDescriptor(BindingConstants.ROI_TYPE).setAttribute("visible", false);
+            propertySet.getDescriptor(BindingConstants.GEOMETRY).setAttribute("visible", false);
+            propertySet.getDescriptor(BindingConstants.NORTH).setAttribute("visible", false);
+            propertySet.getDescriptor(BindingConstants.SOUTH).setAttribute("visible", false);
+            propertySet.getDescriptor(BindingConstants.EAST).setAttribute("visible", false);
+            propertySet.getDescriptor(BindingConstants.WEST).setAttribute("visible", false);
+
             final PropertyPane parametersPane = new PropertyPane(bindingContext);
             final JPanel parametersPanel = parametersPane.createPanel();
             parametersPanel.setBorder(new EmptyBorder(4, 4, 4, 4));
             form.add("Processing Parameters", new JScrollPane(parametersPanel));
-            //updateSourceProduct();
         }
         setContent(form);
-
-        bindingContext.bindEnabledState(BindingConstants.REGION, true, BindingConstants.ROI_TYPE,
-                                        BindingConstants.ROI_TYPE_GEOMETRY);
 
         try {
             init(propertySet);
@@ -104,8 +103,6 @@ class SmosEEToNetCDFExportDialog extends ProductChangeAwareDialog {
 
         final ProductManager productManager = appContext.getProductManager();
         productManager.addListener(new ProductManagerListener(this));
-
-        geometryListener = new GeometryListener(this);
 
         final SelectionManager selectionManager = appContext.getApplicationPage().getSelectionManager();
         productSelectionListener = new ProductSelectionListener(this, selectionManager);
@@ -124,21 +121,22 @@ class SmosEEToNetCDFExportDialog extends ProductChangeAwareDialog {
                         exportParameter.getSourceDirectory().getAbsolutePath() + File.separator + "*",
                         exportParameter.getTargetDirectory());
             }
-
-            final List<File> existingFiles = getExistingFiles(targetFiles);
-            if (!existingFiles.isEmpty()) {
-                final String files = listToString(existingFiles);
-                final String message = MessageFormat.format(
-                        "The selected target file(s) already exists.\n\nDo you want to overwrite the target file(s)?\n\n" +
-                        "{0}",
-                        files
-                );
-                final int answer = JOptionPane.showConfirmDialog(getJDialog(), message, getTitle(),
-                                                                 JOptionPane.YES_NO_OPTION);
-                if (answer == JOptionPane.NO_OPTION) {
-                    return;
+            if (!exportParameter.isOverwriteTarget()) {
+                final List<File> existingFiles = getExistingFiles(targetFiles);
+                if (!existingFiles.isEmpty()) {
+                    final String files = listToString(existingFiles);
+                    final String message = MessageFormat.format(
+                            "The selected target file(s) already exists.\n\nDo you want to overwrite the target file(s)?\n\n" +
+                            "{0}",
+                            files
+                    );
+                    final int answer = JOptionPane.showConfirmDialog(getJDialog(), message, getTitle(),
+                                                                     JOptionPane.YES_NO_OPTION);
+                    if (answer == JOptionPane.NO_OPTION) {
+                        return;
+                    }
+                    exportParameter.setOverwriteTarget(true);
                 }
-                exportParameter.setOverwriteTarget(true);
             }
         } catch (IOException e) {
             showErrorDialog(e.getMessage());
@@ -154,64 +152,83 @@ class SmosEEToNetCDFExportDialog extends ProductChangeAwareDialog {
     }
 
     private JComponent createSourceProductsSelector() {
-        final TableLayout layout = GuiHelper.createWeightedTablelayout(1);
-        final JPanel panel = new JPanel(layout);
-        panel.setBorder(BorderFactory.createTitledBorder("Source Products"));
-        final boolean canProductSelectionBeEnabled = DialogHelper.canProductSelectionBeEnabled(appContext);
-
-        GuiHelper.addSourceProductsButtons(panel, canProductSelectionBeEnabled, bindingContext);
-
-        final PropertyDescriptor sourceDirectoryDescriptor = propertySet.getDescriptor(
-                BindingConstants.SOURCE_DIRECTORY);
+        final PropertyDescriptor sourceDirectoryDescriptor =
+                propertySet.getDescriptor(BindingConstants.SOURCE_DIRECTORY);
         final JComponent fileEditor = GuiHelper.createFileEditorComponent(sourceDirectoryDescriptor,
                                                                           new DefaultChooserFactory(),
                                                                           bindingContext);
 
+        final TableLayout layout = GuiHelper.createWeightedTableLayout(1);
         layout.setCellPadding(2, 0, new Insets(0, 24, 3, 3));
+
+        final JPanel panel = new JPanel(layout);
+        panel.setBorder(BorderFactory.createTitledBorder("Source Products"));
+        GuiHelper.addSourceProductsButtons(panel, DialogHelper.isProductSelectionFeasible(appContext), bindingContext);
         panel.add(fileEditor);
 
         return panel;
     }
 
-    private JComponent createRegionSelector() {
-        final JRadioButton wholeProductButton = new JRadioButton("Whole Product");
+    private JComponent createTargetDirSelector() {
+        final JLabel label = new JLabel();
+        label.setText("Save files to directory:");
+
+        final PropertyDescriptor targetDirectoryDescriptor =
+                propertySet.getDescriptor(BindingConstants.TARGET_DIRECTORY);
+        final JComponent fileEditor = GuiHelper.createFileEditorComponent(targetDirectoryDescriptor,
+                                                                          new DirectoryChooserFactory(),
+                                                                          bindingContext,
+                                                                          false);
+
+        final JPanel panel = new JPanel(GuiHelper.createWeightedTableLayout(1));
+        panel.setBorder(BorderFactory.createTitledBorder("Target Directory"));
+        panel.add(label);
+        panel.add(fileEditor);
+
+        return panel;
+    }
+
+    private JComponent createRoiSelector() {
+        final JRadioButton allButton = new JRadioButton("All");
 
         final JRadioButton useGeometryButton = new JRadioButton("Geometry");
-        final PropertyDescriptor geometryDescriptor = propertySet.getDescriptor(BindingConstants.REGION);
-        if (geometryDescriptor.getValueSet() == null) {
-            useGeometryButton.setEnabled(false);
-        }
+        final PropertyDescriptor geometryDescriptor = propertySet.getDescriptor(BindingConstants.GEOMETRY);
 
-        final JRadioButton useAreaButton = new JRadioButton("Area");
+        final JRadioButton useBoundingBoxButton = new JRadioButton("Bounding box");
         final Map<AbstractButton, Object> buttonGroupValueSet = new HashMap<>();
-        buttonGroupValueSet.put(wholeProductButton, BindingConstants.ROI_TYPE_WHOLE_PRODUCT);
+        buttonGroupValueSet.put(allButton, BindingConstants.ROI_TYPE_ALL);
         buttonGroupValueSet.put(useGeometryButton, BindingConstants.ROI_TYPE_GEOMETRY);
-        buttonGroupValueSet.put(useAreaButton, BindingConstants.ROI_TYPE_AREA);
+        buttonGroupValueSet.put(useBoundingBoxButton, BindingConstants.ROI_TYPE_BOUNDING_BOX);
 
         final ButtonGroup buttonGroup = new ButtonGroup();
-        buttonGroup.add(wholeProductButton);
+        buttonGroup.add(allButton);
         buttonGroup.add(useGeometryButton);
-        buttonGroup.add(useAreaButton);
+        buttonGroup.add(useBoundingBoxButton);
         bindingContext.bind(BindingConstants.ROI_TYPE, buttonGroup, buttonGroupValueSet);
 
-        final TableLayout layout = GuiHelper.createWeightedTablelayout(1);
+        final TableLayout layout = GuiHelper.createWeightedTableLayout(1);
         layout.setCellPadding(2, 0, new Insets(0, 24, 3, 3));
         layout.setCellPadding(4, 0, new Insets(0, 24, 3, 3));
 
         final JPanel panel = new JPanel(layout);
         panel.setBorder(BorderFactory.createTitledBorder("Region of Interest"));
 
-        final JComboBox geometryComboBox = GuiHelper.createGeometryComboBox(geometryDescriptor, bindingContext);
+        final JTextField geometryTextField = new JTextField(geometryDescriptor.getDefaultValue().toString());
+        geometryTextField.setToolTipText(geometryDescriptor.getDescription());
+        bindingContext.bind(BindingConstants.GEOMETRY, geometryTextField);
+        bindingContext.bindEnabledState(BindingConstants.GEOMETRY, true,
+                                        BindingConstants.ROI_TYPE,
+                                        BindingConstants.ROI_TYPE_GEOMETRY);
 
-        panel.add(wholeProductButton);
+        panel.add(allButton);
         panel.add(useGeometryButton);
-        panel.add(geometryComboBox);
-        panel.add(useAreaButton);
+        panel.add(geometryTextField);
+        panel.add(useBoundingBoxButton);
 
         final RegionBoundsInputUI regionBoundsInputUI = new RegionBoundsInputUI(bindingContext);
-        bindingContext.addPropertyChangeListener(BindingConstants.ROI_TYPE, evt -> {
-            final int roiType = (Integer) evt.getNewValue();
-            if (roiType == BindingConstants.ROI_TYPE_AREA) {
+        bindingContext.addPropertyChangeListener(BindingConstants.ROI_TYPE, changeEvent -> {
+            final int roiType = (Integer) changeEvent.getNewValue();
+            if (roiType == BindingConstants.ROI_TYPE_BOUNDING_BOX) {
                 regionBoundsInputUI.setEnabled(true);
             } else {
                 regionBoundsInputUI.setEnabled(false);
@@ -223,28 +240,6 @@ class SmosEEToNetCDFExportDialog extends ProductChangeAwareDialog {
         return panel;
     }
 
-    private JComponent createTargetDirSelector() {
-        final TableLayout layout = GuiHelper.createWeightedTablelayout(1);
-
-        final JPanel panel = new JPanel(layout);
-        panel.setBorder(BorderFactory.createTitledBorder("Target Directory"));
-
-        final JLabel label = new JLabel();
-        label.setText("Save files to directory:");
-        panel.add(label);
-
-        final PropertyDescriptor targetDirectoryDescriptor = propertySet.getDescriptor(
-                BindingConstants.TARGET_DIRECTORY);
-        final JComponent fileEditor = GuiHelper.createFileEditorComponent(targetDirectoryDescriptor,
-                                                                          new DirectoryChooserFactory(),
-                                                                          bindingContext,
-                                                                          false);
-
-        panel.add(fileEditor);
-
-        return panel;
-    }
-
     private void init(PropertySet propertySet) throws ValidationException {
         final File defaultSourceDirectory = GuiHelper.getDefaultSourceDirectory(appContext);
         propertySet.setValue(BindingConstants.SOURCE_DIRECTORY, defaultSourceDirectory);
@@ -252,45 +247,15 @@ class SmosEEToNetCDFExportDialog extends ProductChangeAwareDialog {
         final File defaultTargetDirectory = GuiHelper.getDefaultTargetDirectory(appContext);
         propertySet.setValue(BindingConstants.TARGET_DIRECTORY, defaultTargetDirectory);
 
-        updateSelectedProductAndGeometries(propertySet);
+        updateSelectedProductButton();
     }
 
-    private void updateSelectedProductAndGeometries(PropertySet propertySet) throws ValidationException {
-        final Product selectedSmosProduct = DialogHelper.getSelectedSmosProduct(appContext);
-        if (selectedSmosProduct != null) {
-            propertySet.setValue(BindingConstants.SELECTED_PRODUCT, true);
-            final List<Geometry> geometries = GuiHelper.getPolygonGeometries(selectedSmosProduct);
-            if (!geometries.isEmpty()) {
-                GuiHelper.bindGeometries(geometries, propertySet);
-            } else {
-                removeGeometries();
-            }
-            setSelectedProductButtonEnabled(true);
-            propertySet.setValue(BindingConstants.SELECTED_PRODUCT, true);
-            setSelectionToSelectedGeometry(propertySet);
-            selectedSmosProduct.addProductNodeListener(geometryListener);
-        } else {
-            propertySet.setValue(BindingConstants.SELECTED_PRODUCT, false);
-            propertySet.setValue(BindingConstants.ROI_TYPE, BindingConstants.ROI_TYPE_WHOLE_PRODUCT);
-        }
-    }
-
-    private void removeGeometries() {
-        final Property geometryProperty = propertySet.getProperty(BindingConstants.REGION);
-        geometryProperty.getDescriptor().setValueSet(new ValueSet(new VectorDataNode[0]));
-        propertySet.setValue(BindingConstants.REGION, null);
-        propertySet.setValue(BindingConstants.ROI_TYPE, BindingConstants.ROI_TYPE_AREA);
-    }
-
-    private void removeProductAndGeometries(Product product) {
+    private void updateSelectedProductButton() {
         final Product selectedSmosProduct = DialogHelper.getSelectedSmosProduct(appContext);
         if (selectedSmosProduct == null) {
             setSelectedProductButtonEnabled(false);
-
-            final List<VectorDataNode> geometryNodeList = GuiHelper.getGeometries(product);
-            if (!geometryNodeList.isEmpty()) {
-                removeGeometries();
-            }
+        } else {
+            setSelectedProductButtonEnabled(true);
         }
     }
 
@@ -305,21 +270,6 @@ class SmosEEToNetCDFExportDialog extends ProductChangeAwareDialog {
                 }
             }
         }
-    }
-
-    private void setSelectionToSelectedGeometry(PropertySet propertySet) {
-        final Geometry selectedGeometry = GuiHelper.getSelectedGeometry(appContext);
-        if (selectedGeometry != null) {
-            propertySet.setValue(BindingConstants.REGION, selectedGeometry);
-        }
-    }
-
-    // package access for testing only tb 2014-08-04
-    static void setAreaToGlobe(PropertyContainer propertyContainer) {
-        propertyContainer.setValue(BindingConstants.NORTH, 90.0);
-        propertyContainer.setValue(BindingConstants.SOUTH, -90.0);
-        propertyContainer.setValue(BindingConstants.EAST, 180.0);
-        propertyContainer.setValue(BindingConstants.WEST, -180.0);
     }
 
     // package access for testing only tb 2013-05-27
@@ -371,44 +321,25 @@ class SmosEEToNetCDFExportDialog extends ProductChangeAwareDialog {
 
     @Override
     protected void productAdded() {
-        try {
-            updateSelectedProductAndGeometries(propertySet);
-        } catch (ValidationException e) {
-            showErrorDialog("Internal error: " + e.getMessage());
-        }
+        updateSelectedProductButton();
     }
 
     @Override
     protected void productRemoved(Product product) {
-        removeProductAndGeometries(product);
-        product.removeProductNodeListener(geometryListener);
+        updateSelectedProductButton();
     }
 
     @Override
     protected void geometryAdded() {
-        try {
-            updateSelectedProductAndGeometries(propertySet);
-        } catch (ValidationException e) {
-            showErrorDialog("Internal error: " + e.getMessage());
-        }
     }
 
     @Override
     protected void geometryRemoved() {
-        try {
-            updateSelectedProductAndGeometries(propertySet);
-        } catch (ValidationException e) {
-            showErrorDialog("Internal error: " + e.getMessage());
-        }
     }
 
     @Override
     protected void productSelectionChanged() {
-        try {
-            updateSelectedProductAndGeometries(propertySet);
-        } catch (ValidationException e) {
-            showErrorDialog("Internal error: " + e.getMessage());
-        }
+        updateSelectedProductButton();
     }
 
 }

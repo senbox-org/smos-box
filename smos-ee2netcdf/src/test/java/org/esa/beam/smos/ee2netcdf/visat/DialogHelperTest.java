@@ -47,7 +47,7 @@ public class DialogHelperTest {
     }
 
     @Test
-    public void testCanProductSelectionBeEnabled_wrongProductType() {
+    public void testIsProductSelectionFeasible_wrongProductType() {
         assumeTrue(isGuiAvailable);
         final DefaultAppContext appContext = new DefaultAppContext("test");
         appContext.setSelectedProduct(new Product("test", "MER_RR__1P", 2, 2));
@@ -57,7 +57,7 @@ public class DialogHelperTest {
     }
 
     @Test
-    public void testCanProductSelectionBeEnabled_validProductType() {
+    public void testIsProductSelectionFeasible_validProductType() {
         assumeTrue(isGuiAvailable);
         final DefaultAppContext appContext = new DefaultAppContext("test");
         appContext.setSelectedProduct(new Product("test", "MIR_SCLF1C", 2, 2));

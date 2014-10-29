@@ -158,7 +158,7 @@ public class GPToNetCDFExporterTool {
         final ParameterDescriptorFactory descriptorFactory = new ParameterDescriptorFactory();
         final PropertyContainer container = PropertyContainer.createObjectBacked(exportParameter, descriptorFactory);
         container.setDefaultValues();
-        container.setValue(BindingConstants.ROI_TYPE, BindingConstants.ROI_TYPE_REGION);
+        container.setValue(BindingConstants.ROI_TYPE, BindingConstants.ROI_TYPE_GEOMETRY);
 
         for (final String parameterName : PARAMETER_NAMES.keySet()) {
             final String optionName = getOptionName(parameterName);

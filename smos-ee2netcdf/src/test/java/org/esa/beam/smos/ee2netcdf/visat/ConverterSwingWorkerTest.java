@@ -105,7 +105,7 @@ public class ConverterSwingWorkerTest {
 
         ConverterSwingWorker.addSelectedProductGeometry(polygon, parameterMap);
 
-        final String region = (String) parameterMap.get("region");
+        final String region = (String) parameterMap.get(BindingConstants.GEOMETRY);
         assertEquals("POLYGON ((0 0, 1 0, 1 1, 0 1, 0 0))", region);
     }
 
@@ -117,6 +117,6 @@ public class ConverterSwingWorkerTest {
 
         ConverterSwingWorker.addSelectedProductGeometry(polygon, parameterMap);
 
-        assertFalse(parameterMap.containsKey("region"));
+        assertFalse(parameterMap.containsKey(BindingConstants.GEOMETRY));
     }
 }

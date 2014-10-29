@@ -36,14 +36,10 @@ public class ExportParameter {
     private boolean openFileDialog;
 
     @Parameter(alias = BindingConstants.GEOMETRY, converter = JtsGeometryConverter.class,
+               defaultValue = "POLYGON((-180.0 90.0, -180.0 -90.0, 180.0 -90.0, 180.0 90.0, -180.0 90.0))",
                description = "A region-of-interest specified in geographic coordinates using well-known-text (WKT) format. For example: 'POLYGON((<lon1> <lat1>, <lon2> <lat2>, ..., <lon1> <lat1>))'.",
                label = "Region")
     private Geometry geometry;
-
-    @Parameter(alias = BindingConstants.GEOMETRY_NODE,
-               description = "A polygon geometry from the selected product.",
-               label = "Region")
-    private VectorDataNode geometryNode;
 
     @Parameter(alias = BindingConstants.ROI_TYPE, defaultValue = "0", valueSet = {"0", "1", "2"})
     private int roiType;
@@ -91,7 +87,7 @@ public class ExportParameter {
     private int compressionLevel;
 
     @Parameter(alias = BindingConstants.OVERWRITE_TARGET, defaultValue = "false",
-               description = "Overwrite the target product(s).", label = "Overwrite target product(s)")
+               description = "Overwrite existing target products.", label = "Overwrite existing target products")
     private boolean overwriteTarget;
 
     public ExportParameter() {
@@ -129,10 +125,6 @@ public class ExportParameter {
 
     public Geometry getGeometry() {
         return geometry;
-    }
-
-    public VectorDataNode getGeometryNode() {
-        return geometryNode;
     }
 
     public void setRoiType(int roiType) {

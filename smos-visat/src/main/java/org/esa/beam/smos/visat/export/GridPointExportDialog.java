@@ -72,7 +72,7 @@ class GridPointExportDialog extends ProductChangeAwareDialog {
         }
 
         bindingContext = new BindingContext(propertyContainer);
-        bindingContext.bindEnabledState(BindingConstants.GEOMETRY_NODE, true, BindingConstants.ROI_TYPE, BindingConstants.ROI_TYPE_ALL);
+        bindingContext.bindEnabledState(BindingConstants.GEOMETRY, true, BindingConstants.ROI_TYPE, BindingConstants.ROI_TYPE_ALL);
         GuiHelper.bindLonLatPanelToRoiType(2, bindingContext);
 
         createUI();
@@ -104,7 +104,8 @@ class GridPointExportDialog extends ProductChangeAwareDialog {
             }
         }
 
-        final GridPointExportSwingWorker swingWorker = new GridPointExportSwingWorker(appContext, gridPointExportParameter.getClone());
+        final GridPointExportSwingWorker swingWorker =
+                new GridPointExportSwingWorker(appContext, gridPointExportParameter.getClone());
 
         GuiHelper.setDefaultSourceDirectory(gridPointExportParameter.getSourceDirectory(), appContext);
         final File exportedFile = gridPointExportParameter.getTargetFile();
@@ -168,14 +169,13 @@ class GridPointExportDialog extends ProductChangeAwareDialog {
     private void updateSelectedProductAndGeometries() throws ValidationException {
         final Product selectedProduct = getSelectedSmosProduct();
         if (selectedProduct != null) {
-            final List<VectorDataNode> geometryNodeList = GuiHelper.getPolygonGeometryNodes(selectedProduct);
+            final List<VectorDataNode> geometryNodeList = GuiHelper.getGeometryNodes(selectedProduct);
             if (!geometryNodeList.isEmpty()) {
                 GuiHelper.bindGeometryNodes(geometryNodeList, propertyContainer);
             } else {
                 removeGeometries();
-
                 if (selectedProduct.getPinGroup().getNodeCount() != 0) {
-                    propertyContainer.setValue(BindingConstants.ROI_TYPE, BindingConstants.ROI_TYPE_REGION);
+                    propertyContainer.setValue(BindingConstants.ROI_TYPE, BindingConstants.ROI_TYPE_GEOMETRY);
                 }
             }
         }
@@ -193,7 +193,7 @@ class GridPointExportDialog extends ProductChangeAwareDialog {
             propertyContainer.setValue(BindingConstants.SELECTED_PRODUCT, false);
             setSelectedProductButtonEnabled(false);
 
-            final List<VectorDataNode> geometryNodeList = GuiHelper.getPolygonGeometryNodes(product);
+            final List<VectorDataNode> geometryNodeList = GuiHelper.getGeometryNodes(product);
             if (!geometryNodeList.isEmpty()) {
                 removeGeometries();
             }
@@ -218,9 +218,9 @@ class GridPointExportDialog extends ProductChangeAwareDialog {
     }
 
     private void removeGeometries() throws ValidationException {
-        final Property geometryProperty = propertyContainer.getProperty(BindingConstants.GEOMETRY_NODE);
+        final Property geometryProperty = propertyContainer.getProperty(BindingConstants.GEOMETRY);
         geometryProperty.getDescriptor().setValueSet(new ValueSet(new VectorDataNode[0]));
-        propertyContainer.setValue(BindingConstants.GEOMETRY_NODE, null);
+        propertyContainer.setValue(BindingConstants.GEOMETRY, null);
         propertyContainer.setValue(BindingConstants.ROI_TYPE, BindingConstants.ROI_TYPE_BOUNDING_BOX);
     }
 
@@ -260,7 +260,7 @@ class GridPointExportDialog extends ProductChangeAwareDialog {
 
     private Component createRoiPanel() {
         final JRadioButton useGeometryButton = new JRadioButton("Geometry");
-        final PropertyDescriptor geometryDescriptor = propertyContainer.getDescriptor(BindingConstants.GEOMETRY_NODE);
+        final PropertyDescriptor geometryDescriptor = propertyContainer.getDescriptor(BindingConstants.GEOMETRY);
         if (geometryDescriptor != null && geometryDescriptor.getValueSet() == null) {
             useGeometryButton.setEnabled(false);
         }
@@ -283,7 +283,7 @@ class GridPointExportDialog extends ProductChangeAwareDialog {
         buttonGroup.add(useAreaButton);
         bindingContext.bind(BindingConstants.ROI_TYPE, buttonGroup, buttonGroupValueSet);
 
-        final JComboBox geometryComboBox = GuiHelper.createGeometryComboBox(geometryDescriptor, bindingContext);
+        final JComboBox geometryComboBox = GuiHelper.createGeometryNodeComboBox(geometryDescriptor, bindingContext);
 
         final TableLayout layout = GuiHelper.createWeightedTableLayout(1);
         final JPanel roiPanel = new JPanel(layout);
