@@ -140,7 +140,11 @@ public class SmosBufrReader extends SmosReader {
 
             final Observation observation = gridPointData.get(i);
             for (int k = 0; k < numData; k++) {
-                currentMeasures[k] = scaleFactors.bandScaleFactors[k].scale(observation.data[k]);
+                if (classes[k] == Double.class) {
+                    currentMeasures[k] = scaleFactors.bandScaleFactors[k].scale(observation.data[k]);
+                } else {
+                    currentMeasures[k] = observation.data[k];
+                }
             }
 
             data[i] = currentMeasures;
