@@ -23,7 +23,7 @@ import java.util.logging.Logger;
  *
  * @author Ralf Quast
  */
-public class GPToNetCDFExporterTool {
+public class NetcdfExportTool {
 
     private static final String TOOL_NAME = "smos-gp-to-nc";
     private static final String TOOL_VERSION = "1.0";
@@ -70,10 +70,10 @@ public class GPToNetCDFExporterTool {
     private boolean produceErrorMessages;
 
     public static void main(String[] args) {
-        new GPToNetCDFExporterTool().run(args);
+        new NetcdfExportTool().run(args);
     }
 
-    public GPToNetCDFExporterTool() {
+    public NetcdfExportTool() {
         defineOptions();
     }
 
@@ -120,7 +120,7 @@ public class GPToNetCDFExporterTool {
         final ExportParameter exportParameter = new ExportParameter();
         setExportParameters(commandLine, exportParameter);
 
-        final GPToNetCDFExporter exporter = new GPToNetCDFExporter(exportParameter);
+        final NetcdfExporter exporter = new NetcdfExporter(exportParameter);
         try {
             exporter.initialize();
         } catch (Exception e) {

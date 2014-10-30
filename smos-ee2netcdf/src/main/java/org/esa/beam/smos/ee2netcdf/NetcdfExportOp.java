@@ -11,21 +11,22 @@ import org.esa.beam.framework.gpf.annotations.Parameter;
 import org.esa.beam.framework.gpf.annotations.SourceProducts;
 import org.esa.beam.util.StringUtils;
 import org.esa.beam.util.converters.JtsGeometryConverter;
+import org.esa.beam.util.io.FileUtils;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.TreeSet;
 
 @OperatorMetadata(
-        alias = SmosEEToNetCDFExportOp.ALIAS,
+        alias = NetcdfExportOp.ALIAS,
         version = "0.1",
         authors = "Tom Block",
         copyright = "(c) 2014 by Brockmann Consult",
-        description = "Converts SMOS EE Products to NetCDF-GridPoint format.",
+        description = "Exports SMOS Earth Explorer products to NetCDF format.",
         autoWriteDisabled = true)
-public class SmosEEToNetCDFExportOp extends Operator {
+public class NetcdfExportOp extends Operator {
 
-    public static final String ALIAS = "SmosEEToNetCDFExport";
+    public static final String ALIAS = "NetcdfExport";
 
     @SourceProducts(type = ExportParameter.PRODUCT_TYPE_REGEX,
             description = "The source products to be converted. If not given, the parameter 'sourceProductPaths' must be provided.")
@@ -66,6 +67,12 @@ public class SmosEEToNetCDFExportOp extends Operator {
             description = "Output file compression level. 0 = no compression, 9 = highest compression.")
     private int compressionLevel;
 
+    public static File getOutputFile(File dblFile, File targetDirectory) {
+        File outFile = new File(targetDirectory, dblFile.getName());
+        outFile = FileUtils.exchangeExtension(outFile, ".nc");
+        return outFile;
+    }
+
     @Override
     public void initialize() throws OperatorException {
         final ExportParameter exportParameter = new ExportParameter();
@@ -86,7 +93,7 @@ public class SmosEEToNetCDFExportOp extends Operator {
 
         setDummyTargetProduct();
 
-        final GPToNetCDFExporter exporter = new GPToNetCDFExporter(exportParameter);
+        final NetcdfExporter exporter = new NetcdfExporter(exportParameter);
         exporter.initialize();
 
         if (sourceProducts != null) {
@@ -113,7 +120,7 @@ public class SmosEEToNetCDFExportOp extends Operator {
     public static class Spi extends OperatorSpi {
 
         public Spi() {
-            super(SmosEEToNetCDFExportOp.class);
+            super(NetcdfExportOp.class);
         }
     }
 }

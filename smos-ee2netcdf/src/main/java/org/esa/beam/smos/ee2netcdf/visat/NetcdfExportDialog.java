@@ -14,8 +14,8 @@ import org.esa.beam.framework.datamodel.ProductManager;
 import org.esa.beam.framework.gpf.annotations.ParameterDescriptorFactory;
 import org.esa.beam.framework.ui.AppContext;
 import org.esa.beam.framework.ui.RegionBoundsInputUI;
-import org.esa.beam.smos.ee2netcdf.EEToNetCDFExporterOp;
 import org.esa.beam.smos.ee2netcdf.ExportParameter;
+import org.esa.beam.smos.ee2netcdf.NetcdfExportOp;
 import org.esa.beam.smos.gui.BindingConstants;
 import org.esa.beam.smos.gui.DefaultChooserFactory;
 import org.esa.beam.smos.gui.DirectoryChooserFactory;
@@ -49,7 +49,7 @@ import java.util.stream.Collectors;
 /**
  * @author Ralf Quast
  */
-class SmosEEToNetCDFExportDialog extends ProductChangeAwareDialog {
+class NetcdfExportDialog extends ProductChangeAwareDialog {
 
     private final AppContext appContext;
     private final ExportParameter exportParameter;
@@ -57,8 +57,8 @@ class SmosEEToNetCDFExportDialog extends ProductChangeAwareDialog {
     private final BindingContext bindingContext;
     private final ProductSelectionListener productSelectionListener;
 
-    SmosEEToNetCDFExportDialog(AppContext appContext, String helpID) {
-        super(appContext.getApplicationWindow(), "Convert SMOS EE Files to NetCDF-4", ID_OK | ID_CLOSE | ID_HELP,
+    NetcdfExportDialog(AppContext appContext, String helpID) {
+        super(appContext.getApplicationWindow(), "Export SMOS Earth Explorer Files to NetCDF", ID_OK | ID_CLOSE | ID_HELP,
               helpID);
         this.appContext = appContext;
 
@@ -143,7 +143,7 @@ class SmosEEToNetCDFExportDialog extends ProductChangeAwareDialog {
             return;
         }
 
-        final ConverterSwingWorker worker = new ConverterSwingWorker(appContext, exportParameter);
+        final NetcdfExportSwingWorker worker = new NetcdfExportSwingWorker(appContext, exportParameter);
 
         GuiHelper.setDefaultSourceDirectory(exportParameter.getSourceDirectory(), appContext);
         GuiHelper.setDefaultTargetDirectory(exportParameter.getTargetDirectory(), appContext);
@@ -285,13 +285,13 @@ class SmosEEToNetCDFExportDialog extends ProductChangeAwareDialog {
 
         final File file = new File(filePath);
         if (file.isFile()) {
-            final File outputFile = EEToNetCDFExporterOp.getOutputFile(file, targetDir);
+            final File outputFile = NetcdfExportOp.getOutputFile(file, targetDir);
             targetFiles.add(outputFile);
         } else {
             final TreeSet<File> sourceFileSet = new TreeSet<>();
             WildcardMatcher.glob(filePath, sourceFileSet);
             for (File aSourceFile : sourceFileSet) {
-                final File outputFile = EEToNetCDFExporterOp.getOutputFile(aSourceFile, targetDir);
+                final File outputFile = NetcdfExportOp.getOutputFile(aSourceFile, targetDir);
                 targetFiles.add(outputFile);
             }
         }

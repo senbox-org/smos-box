@@ -9,7 +9,7 @@
     <mapID target="smosDataModel" url="smosbox/DataModel.html"/>
     <mapID target="smosTools" url="smosbox/Tools.html"/>
     <mapID target="smosGridPointExport" url="smosbox/GridPointExport.html"/>
-    <mapID target="smosEEToNetCDFExport" url="smosbox/NetCDFExport.html"/>
+    <mapID target="smosNetcdfExport" url="smosbox/NetCDFExport.html"/>
     <mapID target="smosFileFormatUpdates" url="smosbox/FileFormatUpdates.html"/>
 
 </map>

@@ -15,7 +15,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 
-public class ConverterSwingWorkerTest {
+public class NetcdfExportSwingWorkerTest {
 
     private ExportParameter exportParameter;
 
@@ -29,7 +29,7 @@ public class ConverterSwingWorkerTest {
         final File expectedSourceDir = new File("/home/tom");
         exportParameter.setSourceDirectory(expectedSourceDir);
 
-        final HashMap<String, Object> parameterMap = ConverterSwingWorker.createParameterMap(exportParameter);
+        final HashMap<String, Object> parameterMap = NetcdfExportSwingWorker.createParameterMap(exportParameter);
         final String sourceDirectory = (String) parameterMap.get("sourceProductPaths");
         final String absolutePath = expectedSourceDir.getAbsolutePath();
         assertEquals(absolutePath + File.separator + "*.zip," + absolutePath + File.separator + "*.dbl", sourceDirectory);
@@ -41,7 +41,7 @@ public class ConverterSwingWorkerTest {
         exportParameter.setSourceDirectory(expectedSourceDir);
         exportParameter.setUseSelectedProduct(true);
 
-        final HashMap<String, Object> parameterMap = ConverterSwingWorker.createParameterMap(exportParameter);
+        final HashMap<String, Object> parameterMap = NetcdfExportSwingWorker.createParameterMap(exportParameter);
         assertFalse(parameterMap.containsKey("sourceProductPaths"));
     }
 
@@ -50,7 +50,7 @@ public class ConverterSwingWorkerTest {
         final File expectedTargetDir = new File("/out/put");
         exportParameter.setTargetDirectory(expectedTargetDir);
 
-        final HashMap<String, Object> parameterMap = ConverterSwingWorker.createParameterMap(exportParameter);
+        final HashMap<String, Object> parameterMap = NetcdfExportSwingWorker.createParameterMap(exportParameter);
         final File targetDirectory = (File) parameterMap.get("targetDirectory");
         assertEquals(expectedTargetDir.getAbsolutePath(), targetDirectory.getAbsolutePath());
     }
@@ -63,7 +63,7 @@ public class ConverterSwingWorkerTest {
         exportParameter.setWestBound(98.06);
         exportParameter.setRoiType(BindingConstants.ROI_TYPE_BOUNDING_BOX);
 
-        final HashMap<String, Object> parameterMap = ConverterSwingWorker.createParameterMap(exportParameter);
+        final HashMap<String, Object> parameterMap = NetcdfExportSwingWorker.createParameterMap(exportParameter);
         assertEquals("POLYGON((98.06 22.9,100.6 22.9,100.6 11.8,98.06 11.8,98.06 22.9))", parameterMap.get(BindingConstants.GEOMETRY));
     }
 
@@ -71,7 +71,7 @@ public class ConverterSwingWorkerTest {
     public void testCreateMap_wholeProduct() {
         exportParameter.setRoiType(BindingConstants.ROI_TYPE_ALL);
 
-        final HashMap<String, Object> parameterMap = ConverterSwingWorker.createParameterMap(exportParameter);
+        final HashMap<String, Object> parameterMap = NetcdfExportSwingWorker.createParameterMap(exportParameter);
         assertNull(parameterMap.get("region"));
     }
 
@@ -79,19 +79,19 @@ public class ConverterSwingWorkerTest {
     public void testCreateMap_overwriteTarget() {
         exportParameter.setOverwriteTarget(true);
 
-        HashMap<String, Object> parameterMap = ConverterSwingWorker.createParameterMap(exportParameter);
+        HashMap<String, Object> parameterMap = NetcdfExportSwingWorker.createParameterMap(exportParameter);
         assertEquals("true", parameterMap.get("overwriteTarget"));
 
         exportParameter.setOverwriteTarget(false);
 
-        parameterMap = ConverterSwingWorker.createParameterMap(exportParameter);
+        parameterMap = NetcdfExportSwingWorker.createParameterMap(exportParameter);
         assertEquals("false", parameterMap.get("overwriteTarget"));
     }
 
     @Test
     public void testCreateInputPathWildcards() {
         final File inputDir = new File("data");
-        final String pathWildcards = ConverterSwingWorker.createInputPathWildcards(inputDir);
+        final String pathWildcards = NetcdfExportSwingWorker.createInputPathWildcards(inputDir);
 
         final String absolutePath = inputDir.getAbsolutePath();
         assertEquals(absolutePath + File.separator + "*.zip," + absolutePath + File.separator + "*.dbl", pathWildcards);
@@ -103,7 +103,7 @@ public class ConverterSwingWorkerTest {
         final Geometry polygon = converter.parse("POLYGON((0 0, 1 0, 1 1, 0 1, 0 0))");
         final HashMap<String, Object> parameterMap = new HashMap<>();
 
-        ConverterSwingWorker.addSelectedProductGeometry(polygon, parameterMap);
+        NetcdfExportSwingWorker.addSelectedProductGeometry(polygon, parameterMap);
 
         final String region = (String) parameterMap.get(BindingConstants.GEOMETRY);
         assertEquals("POLYGON ((0 0, 1 0, 1 1, 0 1, 0 0))", region);
@@ -115,7 +115,7 @@ public class ConverterSwingWorkerTest {
         final Geometry polygon = converter.parse("POINT(4 6))");
         final HashMap<String, Object> parameterMap = new HashMap<>();
 
-        ConverterSwingWorker.addSelectedProductGeometry(polygon, parameterMap);
+        NetcdfExportSwingWorker.addSelectedProductGeometry(polygon, parameterMap);
 
         assertFalse(parameterMap.containsKey(BindingConstants.GEOMETRY));
     }

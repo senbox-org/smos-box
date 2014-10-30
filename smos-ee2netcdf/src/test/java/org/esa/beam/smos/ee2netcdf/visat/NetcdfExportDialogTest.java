@@ -10,7 +10,7 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
-public class SmosEEToNetCDFExportDialogTest {
+public class NetcdfExportDialogTest {
 
     @Test
     public void testGetTargetFiles_singleProduct() throws IOException {
@@ -19,7 +19,7 @@ public class SmosEEToNetCDFExportDialogTest {
         final File targetDir = new File("/home/tom/target");
 
 
-        final List<File> targetFiles = SmosEEToNetCDFExportDialog.getTargetFiles(filePath, targetDir);
+        final List<File> targetFiles = NetcdfExportDialog.getTargetFiles(filePath, targetDir);
         assertNotNull(targetFiles);
         assertEquals(1, targetFiles.size());
         assertEquals(new File(targetDir, "SM_OPER_MIR_BWLF1C_20111026T143206_20111026T152520_503_001_1.nc").getAbsolutePath(),
@@ -32,7 +32,7 @@ public class SmosEEToNetCDFExportDialogTest {
         final File targetDir = new File("/home/tom/target");
 
         final String wildCardpath = resourceDirectory.getAbsolutePath() + File.separator + "*";
-        final List<File> targetFiles = SmosEEToNetCDFExportDialog.getTargetFiles(wildCardpath, targetDir);
+        final List<File> targetFiles = NetcdfExportDialog.getTargetFiles(wildCardpath, targetDir);
         assertNotNull(targetFiles);
         assertEquals(4, targetFiles.size());
         assertEquals(new File(targetDir, "SM_OPER_MIR_BWLF1C_20111026T143206_20111026T152520_503_001_1.nc").getAbsolutePath(),
@@ -51,7 +51,7 @@ public class SmosEEToNetCDFExportDialogTest {
         targetFiles.add(new File("/fantasy/location/target/file"));
         targetFiles.add(new File("/not/existing/file"));
 
-        final List<File> existingFiles = SmosEEToNetCDFExportDialog.getExistingFiles(targetFiles);
+        final List<File> existingFiles = NetcdfExportDialog.getExistingFiles(targetFiles);
         assertNotNull(existingFiles);
         assertEquals(0, existingFiles.size());
     }
@@ -62,7 +62,7 @@ public class SmosEEToNetCDFExportDialogTest {
         targetFiles.add(new File("/fantasy/location/target/file"));
         targetFiles.add(TestHelper.getResourceFile("SM_OPER_MIR_OSUDP2_20091204T001853_20091204T011255_310_001_1.zip"));
 
-        final List<File> existingFiles = SmosEEToNetCDFExportDialog.getExistingFiles(targetFiles);
+        final List<File> existingFiles = NetcdfExportDialog.getExistingFiles(targetFiles);
         assertNotNull(existingFiles);
         assertEquals(1, existingFiles.size());
     }
@@ -74,7 +74,7 @@ public class SmosEEToNetCDFExportDialogTest {
         targetFiles.add(new File("/fantasy/location/target/file"));
         targetFiles.add(TestHelper.getResourceFile("SM_OPER_MIR_OSUDP2_20091204T001853_20091204T011255_310_001_1.zip"));
 
-        final List<File> existingFiles = SmosEEToNetCDFExportDialog.getExistingFiles(targetFiles);
+        final List<File> existingFiles = NetcdfExportDialog.getExistingFiles(targetFiles);
         assertNotNull(existingFiles);
         assertEquals(2, existingFiles.size());
     }
@@ -88,7 +88,8 @@ public class SmosEEToNetCDFExportDialogTest {
         targetFiles.add(file_1);
         targetFiles.add(file_2);
 
-        assertEquals(file_1.getAbsolutePath() + "\n" + file_2.getAbsolutePath() + "\n", SmosEEToNetCDFExportDialog.listToString(targetFiles));
+        assertEquals(file_1.getAbsolutePath() + "\n" + file_2.getAbsolutePath() + "\n", NetcdfExportDialog.listToString(
+                targetFiles));
     }
 
     @Test
@@ -99,7 +100,7 @@ public class SmosEEToNetCDFExportDialogTest {
             targetFiles.add(new File("blabla_" + i));
         }
 
-        assertTrue(SmosEEToNetCDFExportDialog.listToString(targetFiles).contains("..."));
+        assertTrue(NetcdfExportDialog.listToString(targetFiles).contains("..."));
     }
 
 }

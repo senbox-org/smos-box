@@ -12,11 +12,11 @@ import java.io.File;
 import java.io.IOException;
 import java.util.logging.Logger;
 
-class GPToNetCDFExporter {
+class NetcdfExporter {
 
     private final ExportParameter parameter;
 
-    GPToNetCDFExporter(ExportParameter parameter) {
+    NetcdfExporter(ExportParameter parameter) {
         this.parameter = parameter;
     }
 

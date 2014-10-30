@@ -9,7 +9,7 @@ import org.esa.beam.framework.datamodel.Product;
 import org.esa.beam.framework.gpf.GPF;
 import org.esa.beam.framework.ui.AppContext;
 import org.esa.beam.smos.ee2netcdf.ExportParameter;
-import org.esa.beam.smos.ee2netcdf.SmosEEToNetCDFExportOp;
+import org.esa.beam.smos.ee2netcdf.NetcdfExportOp;
 import org.esa.beam.smos.gui.BindingConstants;
 
 import java.io.File;
@@ -19,13 +19,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-class ConverterSwingWorker extends ProgressMonitorSwingWorker<List<Exception>, File> {
+class NetcdfExportSwingWorker extends ProgressMonitorSwingWorker<List<Exception>, File> {
 
     private final AppContext appContext;
     private final ExportParameter exportParameter;
 
-    ConverterSwingWorker(AppContext appContext, ExportParameter exportParameter) {
-        super(appContext.getApplicationWindow(), "Converting EE to NetCDF");
+    NetcdfExportSwingWorker(AppContext appContext, ExportParameter exportParameter) {
+        super(appContext.getApplicationWindow(), "Exporting to NetCDF");
         this.appContext = appContext;
         this.exportParameter = exportParameter;
     }
@@ -41,9 +41,9 @@ class ConverterSwingWorker extends ProgressMonitorSwingWorker<List<Exception>, F
         try {
             if (exportParameter.isUseSelectedProduct()) {
                 final Product selectedProduct = appContext.getSelectedProduct();
-                GPF.createProduct(SmosEEToNetCDFExportOp.ALIAS, parameterMap, new Product[]{selectedProduct});
+                GPF.createProduct(NetcdfExportOp.ALIAS, parameterMap, new Product[]{selectedProduct});
             } else {
-                GPF.createProduct(SmosEEToNetCDFExportOp.ALIAS, parameterMap);
+                GPF.createProduct(NetcdfExportOp.ALIAS, parameterMap);
             }
         } catch (Exception e) {
             exceptions.add(e);

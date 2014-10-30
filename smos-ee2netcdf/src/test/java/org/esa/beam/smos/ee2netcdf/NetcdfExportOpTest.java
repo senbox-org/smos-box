@@ -11,11 +11,11 @@ import java.lang.reflect.Field;
 import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 
-public class SmosEEToNetCDFExportOpTest {
+public class NetcdfExportOpTest {
 
     @Test
     public void testParameterAnnotations_SourceProducts() throws NoSuchFieldException {
-        final Field sourceProductsField = SmosEEToNetCDFExportOp.class.getDeclaredField("sourceProducts");
+        final Field sourceProductsField = NetcdfExportOp.class.getDeclaredField("sourceProducts");
         final SourceProducts sourceProducts = sourceProductsField.getAnnotation(SourceProducts.class);
         assertEquals(0, sourceProducts.count());
         assertEquals("MIR_BW[LS][DF]1C|MIR_SC[LS][DF]1C|MIR_OSUDP2|MIR_SMUDP2", sourceProducts.type());
@@ -24,7 +24,7 @@ public class SmosEEToNetCDFExportOpTest {
 
     @Test
     public void testParameterAnnotation_targetDirectory() throws NoSuchFieldException {
-        final Field targetDirectoryField = SmosEEToNetCDFExportOp.class.getDeclaredField("targetDirectory");
+        final Field targetDirectoryField = NetcdfExportOp.class.getDeclaredField("targetDirectory");
         final Parameter targetDirectory = targetDirectoryField.getAnnotation(Parameter.class);
         assertEquals(".", targetDirectory.defaultValue());
         assertTrue(targetDirectory.notEmpty());
@@ -33,14 +33,14 @@ public class SmosEEToNetCDFExportOpTest {
 
     @Test
     public void testParameterAnnotations_OverwriteTarget() throws NoSuchFieldException {
-        final Field regionField = SmosEEToNetCDFExportOp.class.getDeclaredField("overwriteTarget");
+        final Field regionField = NetcdfExportOp.class.getDeclaredField("overwriteTarget");
         final Parameter overwriteTargetFieldAnnotation = regionField.getAnnotation(Parameter.class);
         assertEquals("false", overwriteTargetFieldAnnotation.defaultValue());
     }
 
     @Test
     public void testParameterAnnotations_Region() throws NoSuchFieldException {
-        final Field geometryField = SmosEEToNetCDFExportOp.class.getDeclaredField("geometry");
+        final Field geometryField = NetcdfExportOp.class.getDeclaredField("geometry");
         final Parameter geometryFieldAnnotation = geometryField.getAnnotation(Parameter.class);
         assertEquals("", geometryFieldAnnotation.defaultValue());
         assertEquals(JtsGeometryConverter.class, geometryFieldAnnotation.converter());
@@ -50,28 +50,28 @@ public class SmosEEToNetCDFExportOpTest {
 
     @Test
     public void testParameterAnnotations_Institution() throws NoSuchFieldException {
-        final Field institutionField = SmosEEToNetCDFExportOp.class.getDeclaredField("institution");
+        final Field institutionField = NetcdfExportOp.class.getDeclaredField("institution");
         final Parameter institutionFieldAnnotation = institutionField.getAnnotation(Parameter.class);
         assertEquals("", institutionFieldAnnotation.defaultValue());
     }
 
     @Test
     public void testParameterAnnotations_Contact() throws NoSuchFieldException {
-        final Field contactField = SmosEEToNetCDFExportOp.class.getDeclaredField("contact");
+        final Field contactField = NetcdfExportOp.class.getDeclaredField("contact");
         final Parameter contactFieldAnnotation = contactField.getAnnotation(Parameter.class);
         assertEquals("", contactFieldAnnotation.defaultValue());
     }
 
     @Test
     public void testParameterAnnotations_outputBandNames() throws NoSuchFieldException {
-        final Field bandNamesField = SmosEEToNetCDFExportOp.class.getDeclaredField("variableNames");
+        final Field bandNamesField = NetcdfExportOp.class.getDeclaredField("variableNames");
         final Parameter bandNamesFieldAnnotation = bandNamesField.getAnnotation(Parameter.class);
         assertEquals("", bandNamesFieldAnnotation.defaultValue());
     }
 
     @Test
     public void testParameterAnnotations_compressionLevel() throws NoSuchFieldException {
-        final Field compressionLevelField = SmosEEToNetCDFExportOp.class.getDeclaredField("compressionLevel");
+        final Field compressionLevelField = NetcdfExportOp.class.getDeclaredField("compressionLevel");
         final Parameter compressionLevelFieldAnnotation = compressionLevelField.getAnnotation(Parameter.class);
         assertEquals("6", compressionLevelFieldAnnotation.defaultValue());
         final String[] valueSet = compressionLevelFieldAnnotation.valueSet();
@@ -80,10 +80,10 @@ public class SmosEEToNetCDFExportOpTest {
 
     @Test
     public void testCreateOperator() {
-        final SmosEEToNetCDFExportOp.Spi spi = new SmosEEToNetCDFExportOp.Spi();
+        final NetcdfExportOp.Spi spi = new NetcdfExportOp.Spi();
 
         final Operator operator = spi.createOperator();
         assertNotNull(operator);
-        assertTrue(operator instanceof SmosEEToNetCDFExportOp);
+        assertTrue(operator instanceof NetcdfExportOp);
     }
 }
