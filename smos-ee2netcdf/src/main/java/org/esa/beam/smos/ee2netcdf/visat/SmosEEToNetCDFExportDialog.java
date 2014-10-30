@@ -190,11 +190,14 @@ class SmosEEToNetCDFExportDialog extends ProductChangeAwareDialog {
 
     private JComponent createRoiSelector() {
         final JRadioButton allButton = new JRadioButton("All");
+        allButton.setToolTipText("Check this button to select the whole globe");
 
         final JRadioButton useGeometryButton = new JRadioButton("Geometry");
+        useGeometryButton.setToolTipText("Check this button to specify a region-of-interest in form a polygon geometry.");
         final PropertyDescriptor geometryDescriptor = propertySet.getDescriptor(BindingConstants.GEOMETRY);
 
         final JRadioButton useBoundingBoxButton = new JRadioButton("Bounding box");
+        useBoundingBoxButton.setToolTipText("Check this button to specify a region-of-interest in form a bounding box.");
         final Map<AbstractButton, Object> buttonGroupValueSet = new HashMap<>();
         buttonGroupValueSet.put(allButton, BindingConstants.ROI_TYPE_ALL);
         buttonGroupValueSet.put(useGeometryButton, BindingConstants.ROI_TYPE_GEOMETRY);

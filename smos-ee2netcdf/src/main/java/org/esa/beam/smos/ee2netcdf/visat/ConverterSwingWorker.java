@@ -96,11 +96,11 @@ class ConverterSwingWorker extends ProgressMonitorSwingWorker<List<Exception>, F
 
         final int roiType = exportParameter.getRoiType();
         if (roiType == BindingConstants.ROI_TYPE_BOUNDING_BOX) {
-            parameterMap.put("region", exportParameter.boundingBoxToWKT());
+            parameterMap.put(BindingConstants.GEOMETRY, exportParameter.boundingBoxToWKT());
         } else if (roiType == BindingConstants.ROI_TYPE_GEOMETRY) {
             addSelectedProductGeometry(exportParameter.getGeometry(), parameterMap);
         } else if (roiType == BindingConstants.ROI_TYPE_ALL) {
-            parameterMap.remove("region");
+            parameterMap.remove(BindingConstants.GEOMETRY);
         }
 
         if (exportParameter.isOverwriteTarget()) {
