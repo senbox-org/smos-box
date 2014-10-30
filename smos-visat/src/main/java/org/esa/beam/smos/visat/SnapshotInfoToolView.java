@@ -16,10 +16,6 @@
 
 package org.esa.beam.smos.visat;
 
-import com.bc.ceres.binio.CompoundData;
-import com.bc.ceres.binio.CompoundType;
-import com.bc.ceres.binio.Type;
-import com.bc.ceres.binio.util.NumberUtils;
 import com.bc.ceres.core.ProgressMonitor;
 import com.bc.ceres.glayer.CollectionLayer;
 import com.bc.ceres.glayer.Layer;
@@ -39,7 +35,6 @@ import org.esa.beam.framework.datamodel.VirtualBand;
 import org.esa.beam.framework.help.HelpSys;
 import org.esa.beam.framework.ui.product.ProductSceneView;
 import org.esa.beam.glevel.TiledFileMultiLevelSource;
-import org.esa.beam.smos.DateTimeUtils;
 import org.esa.beam.smos.visat.swing.SnapshotSelectorCombo;
 import org.esa.beam.smos.visat.swing.SnapshotSelectorComboModel;
 import org.esa.beam.visat.VisatApp;
@@ -56,10 +51,8 @@ import java.awt.event.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.io.IOException;
 import java.text.MessageFormat;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -131,19 +124,16 @@ public class SnapshotInfoToolView extends SmosToolView {
     }
 
     private void updateTable(long snapshotId) {
-        final SmosFile selectedSmosFile = getSelectedSmosFile();
         final SmosReader smosReader = getSelectedSmosReader();
         if (smosReader != null && smosReader.canSupplySnapshotData()) {
-            final L1cScienceSmosFile l1cScienceSmosFile = (L1cScienceSmosFile) selectedSmosFile;
             final SnapshotInfo snapshotInfo = smosReader.getSnapshotInfo();
             final int snapshotIndex = snapshotInfo.getSnapshotIndex(snapshotId);
             if (snapshotIndex != -1) {
                 final SwingWorker<TableModel, Object> worker = new SwingWorker<TableModel, Object>() {
                     @Override
                     protected TableModel doInBackground() throws Exception {
-                        // @todo 1 tb/tb next method to add to SmosReader 2014-10-30
-                        final CompoundData data = l1cScienceSmosFile.getSnapshotData(snapshotIndex);
-                        return createSnapshotTableModel(data);
+                        final Object[][] snapshotData = smosReader.getSnapshotData(snapshotIndex);
+                        return new SnapshotTableModel(snapshotData);
                     }
 
                     @Override
@@ -161,42 +151,6 @@ public class SnapshotInfoToolView extends SmosToolView {
             }
         }
         snapshotTable.setModel(NULL_MODEL);
-    }
-
-    private TableModel createSnapshotTableModel(CompoundData data) {
-        final CompoundType compoundType = data.getType();
-        final int memberCount = data.getMemberCount();
-        final ArrayList<Object[]> list = new ArrayList<>(memberCount);
-
-        for (int i = 0; i < memberCount; i++) {
-            final Object[] entry = new Object[2];
-            entry[0] = compoundType.getMemberName(i);
-
-            final Type memberType = compoundType.getMemberType(i);
-            if (memberType.isSimpleType()) {
-                try {
-                    entry[1] = NumberUtils.getNumericMember(data, i);
-                } catch (IOException e) {
-                    entry[1] = "Failed reading data";
-                }
-                list.add(entry);
-            } else {
-                if ("Snapshot_Time".equals(compoundType.getMemberName(i))) {
-                    try {
-                        final Date date = DateTimeUtils.cfiDateToUtc(data);
-                        final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSz",
-                                Locale.ENGLISH);
-                        dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-                        entry[1] = dateFormat.format(date);
-                    } catch (IOException e) {
-                        entry[1] = "Failed reading data";
-                    }
-                    list.add(entry);
-                }
-            }
-        }
-
-        return new SnapshotTableModel(list.toArray(new Object[2][list.size()]));
     }
 
     private void updateSnapshotImage(RasterDataNode raster, long snapshotId) {

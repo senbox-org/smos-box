@@ -21,6 +21,7 @@ import org.esa.beam.jai.ResolutionLevel;
 import org.esa.beam.smos.dgg.SmosDgg;
 import org.esa.beam.util.StringUtils;
 import org.esa.beam.util.io.FileUtils;
+import ucar.ma2.Array;
 import ucar.ma2.DataType;
 import ucar.ma2.StructureData;
 import ucar.ma2.StructureDataIterator;
@@ -47,6 +48,7 @@ public class SmosBufrReader extends SmosReader {
     private static final String ATTR_NAME_MISSING_VALUE = "missing_value";
     private static final HashMap<String, Integer> datasetNameIndexMap;
     private static final String[] rawDataNames;
+    private static final String[] snapshotDataNames;
 
     private static final double CENTER_BROWSE_INCIDENCE_ANGLE = 42.5;
     private static final double MIN_BROWSE_INCIDENCE_ANGLE = 37.5;
@@ -80,6 +82,23 @@ public class SmosBufrReader extends SmosReader {
                 "SMOS_information_flag",
                 "Polarisation"
         };
+
+        snapshotDataNames = new String[]{
+                "Number_of_grid_points",
+                "Year",
+                "Month",
+                "Day",
+                "Hour",
+                "Minute",
+                "Second",
+                "Total_electron_count_per_square_metre",
+                "Direct_sun_brightness_temperature",
+                "Snapshot_accuracy",
+                "Radiometric_accuracy_pure_polarisation",
+                "Radiometric_accuracy_cross_polarisation",
+                "Snapshot_overall_quality"
+        };
+
         datasetNameIndexMap = new HashMap<>();
         datasetNameIndexMap.put(rawDataNames[0], BT_REAL_INDEX);
         datasetNameIndexMap.put(rawDataNames[1], BT_IMAG_INDEX);
@@ -96,7 +115,7 @@ public class SmosBufrReader extends SmosReader {
     }
 
     private NetcdfFile ncfile;
-    private HashMap<Integer, ArrayList<Observation>> snapshotMap;
+    private HashMap<Integer, SnapshotObservation> snapshotMap;
     private HashMap<Integer, ArrayList<Observation>> gridPointMap;
     private Grid grid;
     private Area area;
@@ -140,11 +159,8 @@ public class SmosBufrReader extends SmosReader {
 
             final Observation observation = gridPointData.get(i);
             for (int k = 0; k < numData; k++) {
-                if (classes[k] == Double.class) {
-                    currentMeasures[k] = scaleFactors.bandScaleFactors[k].scale(observation.data[k]);
-                } else {
-                    currentMeasures[k] = observation.data[k];
-                }
+                // @todo 1 tb/tb - the flags are integers - but after scaling them they are converted to double ..... check how to improve 2014.10.30
+                currentMeasures[k] = scaleFactors.bandScaleFactors[k].scale(observation.data[k]);
             }
 
             data[i] = currentMeasures;
@@ -238,9 +254,9 @@ public class SmosBufrReader extends SmosReader {
             boolean hasXPolData = false;
             boolean hasYPolData = false;
             boolean hasXYPolData = false;
-            final ArrayList<Observation> observations = snapshotMap.get(snapshotId);
+            final SnapshotObservation snapshotObservation = snapshotMap.get(snapshotId);
             Rectangle2D snapshotRect = null;
-            for (final Observation observation : observations) {
+            for (final Observation observation : snapshotObservation.observations) {
                 final Rectangle2D gridRect = grid.getGridRect(observation.lon, observation.lat);
                 if (snapshotRect == null) {
                     snapshotRect = gridRect;
@@ -273,6 +289,21 @@ public class SmosBufrReader extends SmosReader {
         }
 
         return new SnapshotInfo(snapshotIndexMap, all, x, y, xy, snapshotAreaMap);
+    }
+
+    @Override
+    public Object[][] getSnapshotData(int snapshotIndex) {
+        final SnapshotObservation snapshotObservation = snapshotMap.get(snapshotIndex);
+        if (snapshotObservation == null) {
+            return null;
+        }
+        final Object[][] snapshotData = new Object[2][snapshotDataNames.length];
+        for (int i = 0; i < snapshotDataNames.length; i++) {
+            snapshotData[0][i] = snapshotDataNames[i];
+            snapshotData[1][i] = snapshotObservation.data[i];
+        }
+
+        return snapshotData;
     }
 
     @Override
@@ -314,6 +345,11 @@ public class SmosBufrReader extends SmosReader {
         scaleFactors.lat = createFactor(sequence, "Latitude_high_accuracy");
         scaleFactors.incidenceAngle = createFactor(sequence, "Incidence_angle");
 
+        scaleFactors.tec = createFactor(sequence, "Total_electron_count_per_square_metre");
+        scaleFactors.accuracy = createFactor(sequence, "Snapshot_accuracy");
+        scaleFactors.ra_pp = createFactor(sequence, "Radiometric_accuracy_pure_polarisation");
+        scaleFactors.ra_cp = createFactor(sequence, "Radiometric_accuracy_cross_polarisation");
+
         scaleFactors.bandScaleFactors = new ScaleFactor[rawDataNames.length];
         for (int i = 0; i < rawDataNames.length; i++) {
             final ScaleFactor factor = createFactor(sequence, rawDataNames[i]);
@@ -340,7 +376,6 @@ public class SmosBufrReader extends SmosReader {
         gridPointMap = new HashMap<>();
         final Sequence observationSequence = getObservationSequence();
         final StructureDataIterator structureIterator = observationSequence.getStructureIterator();
-
 
         gridPointMinIndex = Integer.MAX_VALUE;
         gridPointMaxIndex = Integer.MIN_VALUE;
@@ -376,16 +411,40 @@ public class SmosBufrReader extends SmosReader {
             observation.lat = lat;
 
             final int snapshot_id = next.getScalarInt("Snapshot_identifier");
-            addObservationToSnapshots(observation, snapshot_id);
+            SnapshotObservation snapshotObservation = snapshotMap.get(snapshot_id);
+            if (snapshotObservation == null) {
+                snapshotObservation = new SnapshotObservation(new int[snapshotDataNames.length]);
+                snapshotObservation.data[0] = next.getScalarShort("Number_of_grid_points");
+                snapshotObservation.data[1] = next.getScalarShort("Year");
+                snapshotObservation.data[2] = next.getScalarByte("Month");
+                snapshotObservation.data[3] = next.getScalarByte("Day");
+                snapshotObservation.data[4] = next.getScalarByte("Hour");
+                snapshotObservation.data[5] = next.getScalarByte("Minute");
+                snapshotObservation.data[6] = next.getScalarByte("Second");
+                snapshotObservation.data[7] = next.getScalarByte("Total_electron_count_per_square_metre");  // @todo 1 tb/tb apply scaling
+                snapshotObservation.data[8] = next.getScalarInt("Direct_sun_brightness_temperature");
+                snapshotObservation.data[9] = next.getScalarShort("Snapshot_accuracy");     // @todo 1 tb/tb apply scaling
+                snapshotObservation.data[10] = next.getScalarShort("Radiometric_accuracy_pure_polarisation");     // @todo 1 tb/tb apply scaling
+                snapshotObservation.data[11] = next.getScalarShort("Radiometric_accuracy_cross_polarisation");     // @todo 1 tb/tb apply scaling
+                final Array snapshot_overall_quality = next.getArray("Snapshot_overall_quality");
+                snapshotObservation.data[12] = snapshot_overall_quality.getByte(0);
+                snapshotObservation.observations = new ArrayList<>();
+                snapshotMap.put(snapshot_id, snapshotObservation);
+            }
+            snapshotObservation.observations.add(observation);
 
             final int grid_point_index = grid.getCellIndex(lon, lat);
             addObservationToGridPoints(observation, grid_point_index);
-            if (grid_point_index < gridPointMinIndex) {
-                gridPointMinIndex = grid_point_index;
-            }
-            if (grid_point_index > gridPointMaxIndex) {
-                gridPointMaxIndex = grid_point_index;
-            }
+            traceGridPointIndexMinMax(grid_point_index);
+        }
+    }
+
+    private void traceGridPointIndexMinMax(int grid_point_index) {
+        if (grid_point_index < gridPointMinIndex) {
+            gridPointMinIndex = grid_point_index;
+        }
+        if (grid_point_index > gridPointMaxIndex) {
+            gridPointMaxIndex = grid_point_index;
         }
     }
 
@@ -396,15 +455,6 @@ public class SmosBufrReader extends SmosReader {
             gridPointMap.put(grid_point_index, gridPointObservations);
         }
         gridPointObservations.add(observation);
-    }
-
-    private void addObservationToSnapshots(Observation observation, int snapshot_id) {
-        ArrayList<Observation> snapshotObservations = snapshotMap.get(snapshot_id);
-        if (snapshotObservations == null) {
-            snapshotObservations = new ArrayList<>();
-            snapshotMap.put(snapshot_id, snapshotObservations);
-        }
-        snapshotObservations.add(observation);
     }
 
     @Override
@@ -558,32 +608,6 @@ public class SmosBufrReader extends SmosReader {
                 return new CellGridOpImage(valueProvider, band, getModel(), ResolutionLevel.create(getModel(), level));
             }
         };
-    }
-
-
-    // @todo 1 tb/tb implement class that is configured by DDDB tb 2014-09-12
-    private class Observation {
-
-        private Observation() {
-            data = new int[12];
-        }
-
-        float lon;
-        float lat;
-        int[] data;
-
-        // 0: bt_real
-        // 1: bt_imag
-        // 2: pixel_rad_acc;
-        // 3: incidence_angle;
-        // 4: azimuth_angle;
-        // 5: faraday_rot_angle;
-        // 6: geometric_rot_angle;
-        // 7: footprint_axis_1;
-        // 8: footprint_axis_2;
-        // 9: water_fraction;
-        // 10: smos_info_flag;
-        // 11: polarisation;
     }
 
     private class BufrCellValueProvider implements CellValueProvider {

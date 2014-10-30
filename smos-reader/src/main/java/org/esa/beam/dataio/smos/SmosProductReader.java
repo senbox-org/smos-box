@@ -29,6 +29,7 @@ import org.esa.beam.framework.dataio.ProductReaderPlugIn;
 import org.esa.beam.framework.datamodel.Band;
 import org.esa.beam.framework.datamodel.Product;
 import org.esa.beam.framework.datamodel.ProductData;
+import org.esa.beam.smos.DateTimeUtils;
 import org.esa.beam.smos.EEFilePair;
 import org.esa.beam.smos.SmosUtils;
 import org.esa.beam.smos.dgg.SmosDgg;
@@ -44,7 +45,8 @@ import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.IOException;
 import java.text.MessageFormat;
-import java.util.HashMap;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.List;
 
 public class SmosProductReader extends SmosReader {
@@ -228,6 +230,47 @@ public class SmosProductReader extends SmosReader {
             return ((L1cScienceSmosFile)productFile).getSnapshotInfo();
         }
         return null;
+    }
+
+    @Override
+    public Object[][] getSnapshotData(int snapshotIndex) throws IOException {
+        if (productFile instanceof L1cScienceSmosFile) {
+            final CompoundData data = ((L1cScienceSmosFile) productFile).getSnapshotData(snapshotIndex);
+            final CompoundType compoundType = data.getType();
+            final int memberCount = data.getMemberCount();
+            final ArrayList<Object[]> list = new ArrayList<>(memberCount);
+
+            for (int i = 0; i < memberCount; i++) {
+                final Object[] entry = new Object[2];
+                entry[0] = compoundType.getMemberName(i);
+
+                final Type memberType = compoundType.getMemberType(i);
+                if (memberType.isSimpleType()) {
+                    try {
+                        entry[1] = NumberUtils.getNumericMember(data, i);
+                    } catch (IOException e) {
+                        entry[1] = "Failed reading data";
+                    }
+                    list.add(entry);
+                } else {
+                    if ("Snapshot_Time".equals(compoundType.getMemberName(i))) {
+                        try {
+                            final Date date = DateTimeUtils.cfiDateToUtc(data);
+                            final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSz",
+                                    Locale.ENGLISH);
+                            dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+                            entry[1] = dateFormat.format(date);
+                        } catch (IOException e) {
+                            entry[1] = "Failed reading data";
+                        }
+                        list.add(entry);
+                    }
+                }
+            }
+
+            return list.toArray(new Object[2][list.size()]);
+        }
+        return new Object[0][];
     }
 
     private HashMap<String, Integer> getRawDataMemberNamesMap(L1cSmosFile smosFile) {
