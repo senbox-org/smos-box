@@ -33,7 +33,7 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
-import javax.swing.JTextField;
+import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
 import java.awt.Insets;
 import java.io.File;
@@ -193,11 +193,13 @@ class SmosEEToNetCDFExportDialog extends ProductChangeAwareDialog {
         allButton.setToolTipText("Check this button to select the whole globe");
 
         final JRadioButton useGeometryButton = new JRadioButton("Geometry");
-        useGeometryButton.setToolTipText("Check this button to specify a region-of-interest in form a polygon geometry.");
+        useGeometryButton.setToolTipText(
+                "Check this button to specify a region-of-interest in form a polygon geometry.");
         final PropertyDescriptor geometryDescriptor = propertySet.getDescriptor(BindingConstants.GEOMETRY);
 
         final JRadioButton useBoundingBoxButton = new JRadioButton("Bounding box");
-        useBoundingBoxButton.setToolTipText("Check this button to specify a region-of-interest in form a bounding box.");
+        useBoundingBoxButton.setToolTipText(
+                "Check this button to specify a region-of-interest in form a bounding box.");
         final Map<AbstractButton, Object> buttonGroupValueSet = new HashMap<>();
         buttonGroupValueSet.put(allButton, BindingConstants.ROI_TYPE_ALL);
         buttonGroupValueSet.put(useGeometryButton, BindingConstants.ROI_TYPE_GEOMETRY);
@@ -216,16 +218,17 @@ class SmosEEToNetCDFExportDialog extends ProductChangeAwareDialog {
         final JPanel panel = new JPanel(layout);
         panel.setBorder(BorderFactory.createTitledBorder("Region of Interest"));
 
-        final JTextField geometryTextField = new JTextField(geometryDescriptor.getDefaultValue().toString());
-        geometryTextField.setToolTipText(geometryDescriptor.getDescription());
-        bindingContext.bind(BindingConstants.GEOMETRY, geometryTextField);
+        final JTextArea geometryTextArea = new JTextArea(geometryDescriptor.getDefaultValue().toString(), 5, 20);
+        final JScrollPane geometryScrollPane = new JScrollPane(geometryTextArea);
+        geometryTextArea.setToolTipText(geometryDescriptor.getDescription());
+        bindingContext.bind(BindingConstants.GEOMETRY, geometryTextArea);
         bindingContext.bindEnabledState(BindingConstants.GEOMETRY, true,
                                         BindingConstants.ROI_TYPE,
                                         BindingConstants.ROI_TYPE_GEOMETRY);
 
         panel.add(allButton);
         panel.add(useGeometryButton);
-        panel.add(geometryTextField);
+        panel.add(geometryScrollPane);
         panel.add(useBoundingBoxButton);
 
         final RegionBoundsInputUI regionBoundsInputUI = new RegionBoundsInputUI(bindingContext);
