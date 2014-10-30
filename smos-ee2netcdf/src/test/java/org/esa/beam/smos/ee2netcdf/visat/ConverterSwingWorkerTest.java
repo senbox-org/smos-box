@@ -64,7 +64,7 @@ public class ConverterSwingWorkerTest {
         exportParameter.setRoiType(BindingConstants.ROI_TYPE_BOUNDING_BOX);
 
         final HashMap<String, Object> parameterMap = ConverterSwingWorker.createParameterMap(exportParameter);
-        assertEquals("POLYGON((98.06 22.9,100.6 22.9,100.6 11.8,98.06 11.8,98.06 22.9))", parameterMap.get("region"));
+        assertEquals("POLYGON((98.06 22.9,100.6 22.9,100.6 11.8,98.06 11.8,98.06 22.9))", parameterMap.get(BindingConstants.GEOMETRY));
     }
 
     @Test
