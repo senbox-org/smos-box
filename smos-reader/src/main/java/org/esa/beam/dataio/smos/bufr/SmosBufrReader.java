@@ -31,6 +31,7 @@ import ucar.nc2.Variable;
 
 import java.awt.*;
 import java.awt.geom.Area;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.Raster;
 import java.awt.image.RenderedImage;
 import java.io.File;
@@ -196,6 +197,78 @@ public class SmosBufrReader extends SmosReader {
     @Override
     public PolarisationModel getPolarisationModel() {
         return new BufrPolarisationModel();
+    }
+
+    @Override
+    public boolean canSupplySnapshotData() {
+        return true;
+    }
+
+    @Override
+    public boolean hasSnapshotInfo() {
+        return true;
+    }
+
+    @Override
+    public SnapshotInfo getSnapshotInfo() {
+        final Set<Integer> snapshotIds = snapshotMap.keySet();
+        final LinkedList<Integer> snapshotIdlist = new LinkedList<>(snapshotIds);
+
+        Collections.sort(snapshotIdlist);
+
+        final Set<Long> all = new TreeSet<>();
+        final Set<Long> x = new TreeSet<>();
+        final Set<Long> y = new TreeSet<>();
+        final Set<Long> xy = new TreeSet<>();
+        final Map<Long, Integer> snapshotIndexMap = new TreeMap<>();
+        final Map<Long, Rectangle2D> snapshotAreaMap = new TreeMap<>();
+
+        final PolarisationModel polarisationModel = getPolarisationModel();
+        int index = 0;
+        for (final Integer snapshotId : snapshotIdlist) {
+            final long snapshotIdLong = (long) snapshotId;
+            all.add(snapshotIdLong);
+            snapshotIndexMap.put(snapshotIdLong, index);
+            ++index;
+
+            boolean hasXPolData = false;
+            boolean hasYPolData = false;
+            boolean hasXYPolData = false;
+            final ArrayList<Observation> observations = snapshotMap.get(snapshotId);
+            Rectangle2D snapshotRect = null;
+            for (final Observation observation : observations) {
+                final Rectangle2D gridRect = grid.getGridRect(observation.lon, observation.lat);
+                if (snapshotRect == null) {
+                    snapshotRect = gridRect;
+                } else {
+                    snapshotRect.add(gridRect);
+                }
+
+                final int polarisationMode = observation.data[POLARISATION_INDEX];
+                if (polarisationModel.is_X_Polarised(polarisationMode)) {
+                    hasXPolData = true;
+                }
+                if (polarisationModel.is_Y_Polarised(polarisationMode)) {
+                    hasYPolData = true;
+                }
+
+                if (polarisationModel.is_XY1_Polarised(polarisationMode) || polarisationModel.is_XY2_Polarised(polarisationMode)) {
+                    hasXYPolData = true;
+                }
+            }
+            if (hasXPolData) {
+                x.add(snapshotIdLong);
+            }
+            if (hasYPolData) {
+                y.add(snapshotIdLong);
+            }
+            if (hasXYPolData) {
+                xy.add(snapshotIdLong);
+            }
+            snapshotAreaMap.put(snapshotIdLong, snapshotRect);
+        }
+
+        return new SnapshotInfo(snapshotIndexMap, all, x, y, xy, snapshotAreaMap);
     }
 
     @Override

@@ -27,6 +27,7 @@ import com.bc.ceres.glayer.support.LayerUtils;
 import org.esa.beam.dataio.smos.L1cScienceSmosFile;
 import org.esa.beam.dataio.smos.ProductFile;
 import org.esa.beam.dataio.smos.SmosProductReader;
+import org.esa.beam.dataio.smos.SmosReader;
 import org.esa.beam.framework.dataio.ProductReader;
 import org.esa.beam.framework.datamodel.RasterDataNode;
 import org.esa.beam.framework.ui.product.ProductSceneView;
@@ -69,7 +70,7 @@ public class SmosBox implements VisatPlugIn {
         return sceneViewSelectionService;
     }
 
-        @Override
+    @Override
     public final void start(VisatApp visatApp) {
         synchronized (this) {
             instance = this;
@@ -149,6 +150,25 @@ public class SmosBox implements VisatPlugIn {
                 return null;
             }
         }
+        return null;
+    }
+
+    static SmosReader getL1CScienceSmosReader(ProductSceneView smosView) {
+        if (smosView == null) {
+            return null;
+        }
+
+        final RasterDataNode raster = smosView.getRaster();
+        if (raster != null) {
+            final ProductReader productReader = raster.getProductReader();
+            if (productReader instanceof SmosReader) {
+                final SmosReader smosReader = (SmosReader) productReader;
+                if (smosReader.canSupplySnapshotData()) {
+                    return smosReader;
+                }
+            }
+        }
+
         return null;
     }
 

@@ -6,6 +6,7 @@ import org.esa.beam.smos.dgg.SmosDgg;
 
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 
 public class Grid {
 
@@ -29,5 +30,16 @@ public class Grid {
         i2m.transform(point, point);
 
         return (int) grid.getBinIndex(point.getY(), point.getX());
+    }
+
+    public Rectangle2D getGridRect(double lon, double lat) {
+        final long binIndex = grid.getBinIndex(lat, lon);
+        final int rowIndex = grid.getRowIndex(binIndex);
+        final int numCols = grid.getNumCols(rowIndex);
+
+        final double height = 180.0 / grid.getNumRows();
+        final double width = 360.0 / numCols;
+
+        return new Rectangle2D.Double(lon - 0.5 * width, lat - 0.5 * height, width, height);
     }
 }

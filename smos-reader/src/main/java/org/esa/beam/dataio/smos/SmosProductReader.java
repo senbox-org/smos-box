@@ -209,6 +209,27 @@ public class SmosProductReader extends SmosReader {
         return new L1CPolarisationModel();
     }
 
+    @Override
+    public boolean canSupplySnapshotData() {
+        return productFile instanceof L1cScienceSmosFile;
+    }
+
+    @Override
+    public boolean hasSnapshotInfo() {
+        if (productFile instanceof L1cScienceSmosFile) {
+            return ((L1cScienceSmosFile)productFile).hasSnapshotInfo();
+        }
+        return false;
+    }
+
+    @Override
+    public SnapshotInfo getSnapshotInfo() {
+        if (productFile instanceof L1cScienceSmosFile) {
+            return ((L1cScienceSmosFile)productFile).getSnapshotInfo();
+        }
+        return null;
+    }
+
     private HashMap<String, Integer> getRawDataMemberNamesMap(L1cSmosFile smosFile) {
         final CompoundType btDataType = smosFile.getBtDataType();
         final CompoundMember[] members = btDataType.getMembers();

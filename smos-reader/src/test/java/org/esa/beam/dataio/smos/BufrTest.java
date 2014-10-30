@@ -181,6 +181,8 @@ public class BufrTest {
         final SmosBufrReader bufrReader = (SmosBufrReader) readerPlugin.createReaderInstance();
         final Product product = bufrReader.readProductNodes(bufrProductFile, null);
 
+        bufrReader.getSnapshotInfo();
+
         try {
 
         } finally {
