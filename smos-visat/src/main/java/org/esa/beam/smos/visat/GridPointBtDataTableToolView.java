@@ -86,9 +86,7 @@ public class GridPointBtDataTableToolView extends GridPointBtDataToolView {
 
         exportButton = new JButton("Export...");
         exportButton.addActionListener(e -> {
-            final TableModelExportRunner modelExportRunner = new TableModelExportRunner(
-                    getPaneWindow(), getTitle(), table.getModel(), table.getColumnModel());
-            modelExportRunner.run();
+            new TableModelExportRunner(getPaneWindow(), getTitle(), table.getModel(), table.getColumnModel()).run();
         });
 
         final JPanel optionsPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 2, 2));
