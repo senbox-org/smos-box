@@ -32,7 +32,8 @@ public class NetcdfExportSwingWorkerTest {
         final HashMap<String, Object> parameterMap = NetcdfExportSwingWorker.createParameterMap(exportParameter);
         final String sourceDirectory = (String) parameterMap.get("sourceProductPaths");
         final String absolutePath = expectedSourceDir.getAbsolutePath();
-        assertEquals(absolutePath + File.separator + "*.zip," + absolutePath + File.separator + "*.dbl", sourceDirectory);
+        assertEquals(absolutePath + File.separator + "*.zip," + absolutePath + File.separator + "*.dbl",
+                     sourceDirectory);
     }
 
     @Test
@@ -64,7 +65,8 @@ public class NetcdfExportSwingWorkerTest {
         exportParameter.setRoiType(BindingConstants.ROI_TYPE_BOUNDING_BOX);
 
         final HashMap<String, Object> parameterMap = NetcdfExportSwingWorker.createParameterMap(exportParameter);
-        assertEquals("POLYGON((98.06 22.9,100.6 22.9,100.6 11.8,98.06 11.8,98.06 22.9))", parameterMap.get(BindingConstants.GEOMETRY));
+        assertEquals("POLYGON((98.06 22.9,100.6 22.9,100.6 11.8,98.06 11.8,98.06 22.9))",
+                     parameterMap.get(BindingConstants.GEOMETRY));
     }
 
     @Test
@@ -89,12 +91,15 @@ public class NetcdfExportSwingWorkerTest {
     }
 
     @Test
-    public void testCreateInputPathWildcards() {
+    public void testCreateSourcePathWildcards() {
         final File inputDir = new File("data");
-        final String pathWildcards = NetcdfExportSwingWorker.createInputPathWildcards(inputDir);
+        final String pathWildcards = NetcdfExportSwingWorker.createSourcePathWildcards(inputDir);
 
         final String absolutePath = inputDir.getAbsolutePath();
-        assertEquals(absolutePath + File.separator + "*.zip," + absolutePath + File.separator + "*.dbl", pathWildcards);
+        assertEquals(absolutePath + File.separator + "*.zip," +
+                     absolutePath + File.separator + "*.dbl," +
+                     absolutePath + File.separator + "*" + File.separator + "*.dbl",
+                     pathWildcards);
     }
 
     @Test

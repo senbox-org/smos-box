@@ -89,8 +89,8 @@ class NetcdfExportSwingWorker extends ProgressMonitorSwingWorker<List<Exception>
         }
 
         final File sourceDirectory = exportParameter.getSourceDirectory();
-        if (sourceDirectory != null && !exportParameter.isUseSelectedProduct()) {
-            final String sourcePath = createInputPathWildcards(sourceDirectory);
+        if (!exportParameter.isUseSelectedProduct() && sourceDirectory != null) {
+            final String sourcePath = createSourcePathWildcards(sourceDirectory);
             parameterMap.put("sourceProductPaths", sourcePath);
         }
 
@@ -113,13 +113,18 @@ class NetcdfExportSwingWorker extends ProgressMonitorSwingWorker<List<Exception>
     }
 
     // package access for testing only tb 2013-04-10
-    static String createInputPathWildcards(File sourceDirectory) {
+    static String createSourcePathWildcards(File sourceDirectory) {
         final StringBuilder sourcePath = new StringBuilder();
         final String absolutePath = sourceDirectory.getAbsolutePath();
         sourcePath.append(absolutePath);
         sourcePath.append(File.separator);
         sourcePath.append("*.zip,");
         sourcePath.append(absolutePath);
+        sourcePath.append(File.separator);
+        sourcePath.append("*.dbl,");
+        sourcePath.append(absolutePath);
+        sourcePath.append(File.separator);
+        sourcePath.append("*");
         sourcePath.append(File.separator);
         sourcePath.append("*.dbl");
         return sourcePath.toString();

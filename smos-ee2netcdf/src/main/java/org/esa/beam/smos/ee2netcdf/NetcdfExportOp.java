@@ -19,7 +19,7 @@ import java.util.TreeSet;
 
 @OperatorMetadata(
         alias = NetcdfExportOp.ALIAS,
-        version = "0.1",
+        version = "1.0",
         authors = "Tom Block",
         copyright = "(c) 2014 by Brockmann Consult",
         description = "Exports SMOS Earth Explorer products to NetCDF format.",
@@ -105,8 +105,8 @@ public class NetcdfExportOp extends Operator {
         if (sourceProductPaths != null) {
             final TreeSet<File> sourceFileSet = ExporterUtils.createInputFileSet(sourceProductPaths);
 
-            for (File inputFile : sourceFileSet) {
-                exporter.exportFile(inputFile, getLogger());
+            for (final File sourceFile : sourceFileSet) {
+                exporter.exportFile(sourceFile, getLogger());
             }
         }
     }
