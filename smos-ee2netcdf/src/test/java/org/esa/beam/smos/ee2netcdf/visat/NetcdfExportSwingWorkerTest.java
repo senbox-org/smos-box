@@ -32,7 +32,9 @@ public class NetcdfExportSwingWorkerTest {
         final HashMap<String, Object> parameterMap = NetcdfExportSwingWorker.createParameterMap(exportParameter);
         final String sourceDirectory = (String) parameterMap.get("sourceProductPaths");
         final String absolutePath = expectedSourceDir.getAbsolutePath();
-        assertEquals(absolutePath + File.separator + "*.zip," + absolutePath + File.separator + "*.dbl",
+        assertEquals(absolutePath + File.separator + "*.zip," +
+                     absolutePath + File.separator + "*.dbl," +
+                     absolutePath + File.separator + "*" + File.separator + "*.dbl",
                      sourceDirectory);
     }
 
