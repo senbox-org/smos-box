@@ -9,6 +9,7 @@ class Observation {
 
     float lon;
     float lat;
+    int cellIndex;
     int[] data;
 
     // 0: bt_real

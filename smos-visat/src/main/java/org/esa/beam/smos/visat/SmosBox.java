@@ -24,9 +24,6 @@ import com.bc.ceres.glayer.LayerType;
 import com.bc.ceres.glayer.LayerTypeRegistry;
 import com.bc.ceres.glayer.support.ImageLayer;
 import com.bc.ceres.glayer.support.LayerUtils;
-import org.esa.beam.dataio.smos.L1cScienceSmosFile;
-import org.esa.beam.dataio.smos.ProductFile;
-import org.esa.beam.dataio.smos.SmosProductReader;
 import org.esa.beam.dataio.smos.SmosReader;
 import org.esa.beam.framework.dataio.ProductReader;
 import org.esa.beam.framework.datamodel.RasterDataNode;
@@ -122,24 +119,11 @@ public class SmosBox implements VisatPlugIn {
     }
 
     static boolean isL1cScienceSmosRaster(RasterDataNode raster) {
-        return getL1cScienceSmosFile(raster) != null;
+        return getL1CScienceSmosReader(raster) != null;
     }
 
     static boolean isL1cScienceSmosView(ProductSceneView smosView) {
         return getL1CScienceSmosReader(smosView) != null;
-    }
-
-    static L1cScienceSmosFile getL1cScienceSmosFile(RasterDataNode raster) {
-        if (raster != null) {
-            final ProductReader productReader = raster.getProductReader();
-            if (productReader instanceof SmosProductReader) {
-                final ProductFile productFile = ((SmosProductReader) productReader).getProductFile();
-                if (productFile instanceof L1cScienceSmosFile) {
-                    return (L1cScienceSmosFile) productFile;
-                }
-            }
-        }
-        return null;
     }
 
     static SmosReader getL1CScienceSmosReader(ProductSceneView smosView) {
@@ -147,7 +131,10 @@ public class SmosBox implements VisatPlugIn {
             return null;
         }
 
-        final RasterDataNode raster = smosView.getRaster();
+        return getL1CScienceSmosReader(smosView.getRaster());
+    }
+
+    private static SmosReader getL1CScienceSmosReader(RasterDataNode raster) {
         if (raster != null) {
             final ProductReader productReader = raster.getProductReader();
             if (productReader instanceof SmosReader) {

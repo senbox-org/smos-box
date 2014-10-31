@@ -4,7 +4,6 @@ import com.bc.ceres.glevel.MultiLevelImage;
 import com.bc.ceres.glevel.MultiLevelSource;
 import com.bc.ceres.glevel.support.AbstractMultiLevelSource;
 import com.bc.ceres.glevel.support.DefaultMultiLevelImage;
-import org.esa.beam.binning.PlanetaryGrid;
 import org.esa.beam.binning.support.ReducedGaussianGrid;
 import org.esa.beam.dataio.netcdf.util.DataTypeUtils;
 import org.esa.beam.dataio.netcdf.util.MetadataUtils;
@@ -374,6 +373,16 @@ class LightBufrFile implements ProductFile {
                 }
             }
             return noDataValue;
+        }
+
+        @Override
+        public int getSnapshotId() {
+            return 0;
+        }
+
+        @Override
+        public void setSnapshotId(int snapshotId) {
+
         }
     }
 

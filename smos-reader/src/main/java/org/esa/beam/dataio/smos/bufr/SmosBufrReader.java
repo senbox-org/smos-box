@@ -2,8 +2,8 @@ package org.esa.beam.dataio.smos.bufr;
 
 import com.bc.ceres.core.ProgressMonitor;
 import com.bc.ceres.glevel.MultiLevelImage;
+import com.bc.ceres.glevel.MultiLevelModel;
 import com.bc.ceres.glevel.MultiLevelSource;
-import com.bc.ceres.glevel.support.AbstractMultiLevelSource;
 import com.bc.ceres.glevel.support.DefaultMultiLevelImage;
 import org.esa.beam.binning.support.ReducedGaussianGrid;
 import org.esa.beam.dataio.netcdf.util.DataTypeUtils;
@@ -17,7 +17,6 @@ import org.esa.beam.framework.datamodel.Band;
 import org.esa.beam.framework.datamodel.MetadataElement;
 import org.esa.beam.framework.datamodel.Product;
 import org.esa.beam.framework.datamodel.ProductData;
-import org.esa.beam.jai.ResolutionLevel;
 import org.esa.beam.smos.dgg.SmosDgg;
 import org.esa.beam.util.StringUtils;
 import org.esa.beam.util.io.FileUtils;
@@ -441,6 +440,10 @@ public class SmosBufrReader extends SmosReader {
             final float lat = (float) scaleFactors.lat.scale(latitude_high_accuracy);
             observation.lat = lat;
 
+            observation.cellIndex = grid.getCellIndex(lon, lat);
+            addObservationToGridPoints(observation);
+            traceGridPointIndexMinMax(grid.getCellIndex(lon, lat));
+
             final int snapshot_id = next.getScalarInt("Snapshot_identifier");
             SnapshotObservation snapshotObservation = snapshotMap.get(snapshot_id);
             if (snapshotObservation == null) {
@@ -452,11 +455,11 @@ public class SmosBufrReader extends SmosReader {
                 snapshotObservation.data[4] = next.getScalarByte("Hour");
                 snapshotObservation.data[5] = next.getScalarByte("Minute");
                 snapshotObservation.data[6] = next.getScalarByte("Second");
-                snapshotObservation.data[7] = next.getScalarByte("Total_electron_count_per_square_metre");  // @todo 1 tb/tb apply scaling
+                snapshotObservation.data[7] = next.getScalarByte("Total_electron_count_per_square_metre");
                 snapshotObservation.data[8] = next.getScalarInt("Direct_sun_brightness_temperature");
-                snapshotObservation.data[9] = next.getScalarShort("Snapshot_accuracy");     // @todo 1 tb/tb apply scaling
-                snapshotObservation.data[10] = next.getScalarShort("Radiometric_accuracy_pure_polarisation");     // @todo 1 tb/tb apply scaling
-                snapshotObservation.data[11] = next.getScalarShort("Radiometric_accuracy_cross_polarisation");     // @todo 1 tb/tb apply scaling
+                snapshotObservation.data[9] = next.getScalarShort("Snapshot_accuracy");
+                snapshotObservation.data[10] = next.getScalarShort("Radiometric_accuracy_pure_polarisation");
+                snapshotObservation.data[11] = next.getScalarShort("Radiometric_accuracy_cross_polarisation");
                 final Array snapshot_overall_quality = next.getArray("Snapshot_overall_quality");
                 snapshotObservation.data[12] = snapshot_overall_quality.getByte(0);
                 snapshotObservation.observations = new ArrayList<>();
@@ -464,9 +467,7 @@ public class SmosBufrReader extends SmosReader {
             }
             snapshotObservation.observations.add(observation);
 
-            final int grid_point_index = grid.getCellIndex(lon, lat);
-            addObservationToGridPoints(observation, grid_point_index);
-            traceGridPointIndexMinMax(grid_point_index);
+
         }
     }
 
@@ -479,11 +480,11 @@ public class SmosBufrReader extends SmosReader {
         }
     }
 
-    private void addObservationToGridPoints(Observation observation, int grid_point_index) {
-        ArrayList<Observation> gridPointObservations = gridPointMap.get(grid_point_index);
+    private void addObservationToGridPoints(Observation observation) {
+        ArrayList<Observation> gridPointObservations = gridPointMap.get(observation.cellIndex);
         if (gridPointObservations == null) {
             gridPointObservations = new ArrayList<>();
-            gridPointMap.put(grid_point_index, gridPointObservations);
+            gridPointMap.put(observation.cellIndex, gridPointObservations);
         }
         gridPointObservations.add(observation);
     }
@@ -503,7 +504,7 @@ public class SmosBufrReader extends SmosReader {
 
     @Override
     public void close() throws IOException {
-        // just to make sure the garbage collector is not confused by this multiple referenced maps
+        // just to make sure the garbage collector is not confused by these multiple referenced maps
         gridPointMap.clear();
         snapshotMap.clear();
         snapshotInfo = null;
@@ -634,12 +635,8 @@ public class SmosBufrReader extends SmosReader {
     }
 
     private MultiLevelSource createMultiLevelSource(final Band band, final CellValueProvider valueProvider) {
-        return new AbstractMultiLevelSource(SmosDgg.getInstance().getMultiLevelImage().getModel()) {
-            @Override
-            protected RenderedImage createImage(int level) {
-                return new CellGridOpImage(valueProvider, band, getModel(), ResolutionLevel.create(getModel(), level));
-            }
-        };
+        final MultiLevelModel multiLevelModel = SmosDgg.getInstance().getMultiLevelImage().getModel();
+        return new BufrMultiLevelSource(multiLevelModel, valueProvider, band);
     }
 
     private class BufrCellValueProvider implements CellValueProvider {
@@ -647,11 +644,13 @@ public class SmosBufrReader extends SmosReader {
         private final int dataindex;
         private final int polarisation;
         private final ScaleFactor scaleFactor;
+        private int snapshotId;
 
         private BufrCellValueProvider(int polarisation, int dataIndex, ScaleFactor scaleFactor) {
             this.dataindex = dataIndex;
             this.polarisation = polarisation;
             this.scaleFactor = scaleFactor;
+            snapshotId = -1;
         }
 
         @Override
@@ -685,6 +684,30 @@ public class SmosBufrReader extends SmosReader {
         }
 
         private int getData(int cellIndex, int noDataValue) {
+            if (snapshotId < 0) {
+                return getBrowseViewData(cellIndex, noDataValue);
+            } else {
+                return getSnapshotData(cellIndex, noDataValue);
+            }
+
+        }
+
+        private int getSnapshotData(int cellIndex, int noDataValue) {
+            final SnapshotObservation snapshotObservation = snapshotMap.get(snapshotId);
+            if (snapshotObservation != null) {
+                for (final Observation observation : snapshotObservation.observations) {
+                    if (observation.cellIndex == cellIndex) {
+                        if ((observation.data[POLARISATION_INDEX] & polarisation) == polarisation) {
+                            return observation.data[dataindex];
+                        }
+                    }
+                }
+            }
+
+            return noDataValue;
+        }
+
+        private int getBrowseViewData(int cellIndex, int noDataValue) {
             final ArrayList<Observation> cellObservations = gridPointMap.get(cellIndex);
             if (cellObservations != null) {
                 int count = 0;
@@ -733,6 +756,16 @@ public class SmosBufrReader extends SmosReader {
                 }
             }
             return noDataValue;
+        }
+
+        @Override
+        public int getSnapshotId() {
+            return snapshotId;
+        }
+
+        @Override
+        public void setSnapshotId(int snapshotId) {
+            this.snapshotId = snapshotId;
         }
     }
 
@@ -815,6 +848,16 @@ public class SmosBufrReader extends SmosReader {
             }
 
             return noDataValue;
+        }
+
+        @Override
+        public int getSnapshotId() {
+            return 0; // @todo 1 tb/tb implement this! 2014-10-31
+        }
+
+        @Override
+        public void setSnapshotId(int snapshotId) {
+            // @todo 1 tb/tb implement this! 2014-10-31
         }
     }
 

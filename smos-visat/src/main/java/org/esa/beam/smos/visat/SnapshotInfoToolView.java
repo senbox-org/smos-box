@@ -22,11 +22,13 @@ import com.bc.ceres.glayer.Layer;
 import com.bc.ceres.glayer.support.ImageLayer;
 import com.bc.ceres.glayer.swing.LayerCanvas;
 import com.bc.ceres.glevel.MultiLevelImage;
+import com.bc.ceres.glevel.MultiLevelSource;
 import com.bc.ceres.glevel.support.DefaultMultiLevelImage;
 import com.bc.ceres.glevel.support.FileMultiLevelSource;
 import com.bc.ceres.grender.Rendering;
 import com.bc.ceres.grender.Viewport;
 import org.esa.beam.dataio.smos.*;
+import org.esa.beam.dataio.smos.bufr.BufrMultiLevelSource;
 import org.esa.beam.dataio.smos.provider.ValueProvider;
 import org.esa.beam.framework.datamodel.Band;
 import org.esa.beam.framework.datamodel.Product;
@@ -153,12 +155,14 @@ public class SnapshotInfoToolView extends SmosToolView {
         snapshotTable.setModel(NULL_MODEL);
     }
 
+    // @todo 1 tb/tb refactor, this is ugly code 2014-10-31
     private void updateSnapshotImage(RasterDataNode raster, long snapshotId) {
         final MultiLevelImage sourceImage = raster.getSourceImage();
         if (sourceImage instanceof DefaultMultiLevelImage) {
             final DefaultMultiLevelImage multiLevelImage = (DefaultMultiLevelImage) sourceImage;
-            if (multiLevelImage.getSource() instanceof SmosMultiLevelSource) {
-                final SmosMultiLevelSource smosMultiLevelSource = (SmosMultiLevelSource) multiLevelImage.getSource();
+            final MultiLevelSource source = multiLevelImage.getSource();
+            if (source instanceof SmosMultiLevelSource) {
+                final SmosMultiLevelSource smosMultiLevelSource = (SmosMultiLevelSource) source;
                 final ValueProvider valueProvider = smosMultiLevelSource.getValueProvider();
                 if (valueProvider instanceof L1cScienceValueProvider) {
                     final L1cScienceValueProvider btDataValueProvider = (L1cScienceValueProvider) valueProvider;
@@ -166,6 +170,13 @@ public class SnapshotInfoToolView extends SmosToolView {
                         btDataValueProvider.setSnapshotId(snapshotId);
                         resetRasterImages(raster);
                     }
+                }
+            } else if (source instanceof BufrMultiLevelSource) {
+                final BufrMultiLevelSource bufrMultiLevelSource = (BufrMultiLevelSource) source;
+                final CellValueProvider valueProvider = bufrMultiLevelSource.getValueProvider();
+                if (valueProvider.getSnapshotId() != snapshotId) {
+                    valueProvider.setSnapshotId((int) snapshotId);
+                    resetRasterImages(raster);
                 }
             }
         }

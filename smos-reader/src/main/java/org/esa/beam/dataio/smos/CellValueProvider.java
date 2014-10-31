@@ -31,4 +31,8 @@ public interface CellValueProvider {
     int getValue(long cellIndex, int noDataValue);
 
     float getValue(long cellIndex, float noDataValue);
+
+    int getSnapshotId();
+
+    void setSnapshotId(int snapshotId);
 }
