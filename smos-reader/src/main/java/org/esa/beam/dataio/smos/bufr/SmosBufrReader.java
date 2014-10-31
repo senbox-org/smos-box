@@ -159,8 +159,11 @@ public class SmosBufrReader extends SmosReader {
 
             final Observation observation = gridPointData.get(i);
             for (int k = 0; k < numData; k++) {
-                // @todo 1 tb/tb - the flags are integers - but after scaling them they are converted to double ..... check how to improve 2014.10.30
-                currentMeasures[k] = scaleFactors.bandScaleFactors[k].scale(observation.data[k]);
+                if (classes[k] == Integer.class) {
+                    currentMeasures[k] = observation.data[k];
+                } else {
+                    currentMeasures[k] = scaleFactors.bandScaleFactors[k].scale(observation.data[k]);
+                }
             }
 
             data[i] = currentMeasures;
