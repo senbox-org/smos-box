@@ -25,7 +25,7 @@ import java.util.logging.Logger;
  */
 public class NetcdfExportTool {
 
-    private static final String TOOL_NAME = "smos-gp-to-nc";
+    private static final String TOOL_NAME = "smos-ee-to-nc";
     private static final String TOOL_VERSION = "1.0";
 
     private static final int ERROR = 1;
