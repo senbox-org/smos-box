@@ -54,6 +54,7 @@ public class SmosBufrReader extends SmosReader {
     private static final double MIN_BROWSE_INCIDENCE_ANGLE = 37.5;
     private static final double MAX_BROWSE_INCIDENCE_ANGLE = 52.5;
 
+    // Grid Point Indices
     private static final int BT_REAL_INDEX = 0;
     private static final int BT_IMAG_INDEX = 1;
     private static final int RADIOMETRIC_ACCURACY_INDEX = 2;
@@ -66,6 +67,12 @@ public class SmosBufrReader extends SmosReader {
     private static final int WATER_FRACTION_INDEX = 9;
     private static final int INFORMATION_FLAG_INDEX = 10;
     private static final int POLARISATION_INDEX = 11;
+
+    // Snapshot Indices
+    private static final int TEC_INDEX = 7;
+    private static final int ACCURACY_INDEX = 9;
+    private static final int RA_PP_INDEX = 10;
+    private static final int RA_CP_INDEX = 11;
 
     static {
         rawDataNames = new String[]{
@@ -122,6 +129,8 @@ public class SmosBufrReader extends SmosReader {
     private ScaleFactors scaleFactors;
     private int gridPointMinIndex;
     private int gridPointMaxIndex;
+    private LinkedList<Integer> snapshotIdlist;
+    private SnapshotInfo snapshotInfo;
 
     SmosBufrReader(SmosBufrReaderPlugIn smosBufrReaderPlugIn) {
         super(smosBufrReaderPlugIn);
@@ -234,8 +243,42 @@ public class SmosBufrReader extends SmosReader {
 
     @Override
     public SnapshotInfo getSnapshotInfo() {
+        if (snapshotInfo == null) {
+            snapshotInfo = createSnapshotInfo();
+        }
+        return snapshotInfo;
+    }
+
+    @Override
+    public Object[][] getSnapshotData(int snapshotIndex) {
+        final Integer snapshotId = snapshotIdlist.get(snapshotIndex);
+        final SnapshotObservation snapshotObservation = snapshotMap.get(snapshotId);
+        if (snapshotObservation == null) {
+            return new Object[0][];
+        }
+
+        final Object[][] snapshotData = new Object[snapshotDataNames.length][2];
+        for (int i = 0; i < snapshotDataNames.length; i++) {
+            snapshotData[i][0] = snapshotDataNames[i];
+            if (i == TEC_INDEX) {
+                snapshotData[i][1] = scaleFactors.tec.scale(snapshotObservation.data[i]);
+            } else if (i == ACCURACY_INDEX) {
+                snapshotData[i][1] = scaleFactors.accuracy.scale(snapshotObservation.data[i]);
+            } else if (i == RA_PP_INDEX) {
+                snapshotData[i][1] = scaleFactors.ra_pp.scale(snapshotObservation.data[i]);
+            } else if (i == RA_CP_INDEX) {
+                snapshotData[i][1] = scaleFactors.ra_cp.scale(snapshotObservation.data[i]);
+            } else {
+                snapshotData[i][1] = snapshotObservation.data[i];
+            }
+        }
+
+        return snapshotData;
+    }
+
+    private SnapshotInfo createSnapshotInfo() {
         final Set<Integer> snapshotIds = snapshotMap.keySet();
-        final LinkedList<Integer> snapshotIdlist = new LinkedList<>(snapshotIds);
+        snapshotIdlist = new LinkedList<>(snapshotIds);
 
         Collections.sort(snapshotIdlist);
 
@@ -292,21 +335,6 @@ public class SmosBufrReader extends SmosReader {
         }
 
         return new SnapshotInfo(snapshotIndexMap, all, x, y, xy, snapshotAreaMap);
-    }
-
-    @Override
-    public Object[][] getSnapshotData(int snapshotIndex) {
-        final SnapshotObservation snapshotObservation = snapshotMap.get(snapshotIndex);
-        if (snapshotObservation == null) {
-            return null;
-        }
-        final Object[][] snapshotData = new Object[2][snapshotDataNames.length];
-        for (int i = 0; i < snapshotDataNames.length; i++) {
-            snapshotData[0][i] = snapshotDataNames[i];
-            snapshotData[1][i] = snapshotObservation.data[i];
-        }
-
-        return snapshotData;
     }
 
     @Override
@@ -478,6 +506,7 @@ public class SmosBufrReader extends SmosReader {
         // just to make sure the garbage collector is not confused by this multiple referenced maps
         gridPointMap.clear();
         snapshotMap.clear();
+        snapshotInfo = null;
 
         if (ncfile != null) {
             ncfile.close();

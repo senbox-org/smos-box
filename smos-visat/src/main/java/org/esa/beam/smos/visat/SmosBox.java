@@ -126,7 +126,7 @@ public class SmosBox implements VisatPlugIn {
     }
 
     static boolean isL1cScienceSmosView(ProductSceneView smosView) {
-        return getL1cScienceSmosFile(smosView) != null;
+        return getL1CScienceSmosReader(smosView) != null;
     }
 
     static L1cScienceSmosFile getL1cScienceSmosFile(RasterDataNode raster) {
@@ -137,17 +137,6 @@ public class SmosBox implements VisatPlugIn {
                 if (productFile instanceof L1cScienceSmosFile) {
                     return (L1cScienceSmosFile) productFile;
                 }
-            }
-        }
-        return null;
-    }
-
-    static L1cScienceSmosFile getL1cScienceSmosFile(ProductSceneView smosView) {
-        if (smosView != null) {
-            try {
-                return getL1cScienceSmosFile(smosView.getRaster()); // can produce NullPointerException
-            } catch (NullPointerException e) {
-                return null;
             }
         }
         return null;

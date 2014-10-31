@@ -18,9 +18,6 @@ package org.esa.beam.smos.visat;
 
 import com.bc.ceres.core.Assert;
 import com.bc.ceres.glayer.support.ImageLayer;
-import org.esa.beam.dataio.smos.ProductFile;
-import org.esa.beam.dataio.smos.SmosFile;
-import org.esa.beam.dataio.smos.SmosProductReader;
 import org.esa.beam.dataio.smos.SmosReader;
 import org.esa.beam.framework.dataio.ProductReader;
 import org.esa.beam.framework.datamodel.Product;
@@ -80,21 +77,6 @@ public class SceneViewSelectionService {
     public Product getSelectedSmosProduct() {
         final ProductSceneView sceneView = getSelectedSceneView();
         return sceneView != null ? sceneView.getProduct() : null;
-    }
-
-    @SuppressWarnings("ConstantConditions")
-    public SmosFile getSelectedSmosFile() {
-        final Product product = getSelectedSmosProduct();
-        if (product != null) {
-            final ProductReader productReader = product.getProductReader();
-            Assert.state(productReader instanceof SmosReader, "productReader instanceof SmosProductReader");
-            final ProductFile productFile = ((SmosProductReader) productReader).getProductFile();
-            if (productFile instanceof SmosFile) {
-                return (SmosFile) productFile;
-            }
-        }
-
-        return null;
     }
 
     public SmosReader getSelectedSmosReader() {
