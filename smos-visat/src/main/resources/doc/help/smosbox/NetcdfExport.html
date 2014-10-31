@@ -228,10 +228,10 @@ first point, in order to close the polygon.
 
 The command:
 <br>
-<pre>    &lt;S3TBX_HOME&gt;/bin&gt;gpt.bat NetcdfExport &lt;file-path&gt;</pre>
+<pre>    &lt;S3TBX_HOME&gt;/bin&gt;gpt.bat SmosNetcdfExport &lt;file-path&gt;</pre>
 <br>
 converts a single file located at <i>&lt;file-path&gt;</i> to NetCDF.
-The target file will be located in the current working directory. i.e. <i>&lt;BEAM-HOME&gt;/bin</i>.
+The target file will be located in the current working directory. i.e. <i>&lt;S3TBX-HOME&gt;/bin</i>.
 
 <h5>Conversion of a single product with region-of-interest (ROI)</h5>
 
@@ -242,7 +242,7 @@ convert a single SMOS-EE file to a specific target directory using a ROI is disp
     &lt;graph id="SMOS test conversion"&gt;
         &lt;version&gt;1.0&lt;/version&gt;
         &lt;node id="smos-conversion"&gt;
-            &lt;operator&gt;NetcdfExport&lt;/operator&gt;
+            &lt;operator&gt;SmosNetcdfExport&lt;/operator&gt;
 
             &lt;parameters&gt;
                 &lt;targetDirectory&gt;C:/Data/results&lt;/targetDirectory&gt;
@@ -267,11 +267,11 @@ example.
 <b>Note:</b> The parameters for region and target directory can also be supplied by other means. Parameters can either
 be supplied on the command line:
 <pre>
-    &lt;S3TBX_HOME&gt;/bin&gt;gpt.bat NetcdfExport  "-PtargetDirectory=C:/Data/results"  "-Pgeometry=POLYGON((-80 20, -50 20,-50 -20,-80 -20, -80 20))"
+    &lt;S3TBX_HOME&gt;/bin&gt;gpt.bat SmosNetcdfExport  "-PtargetDirectory=C:/Data/results"  "-Pgeometry=POLYGON((-80 20, -50 20,-50 -20,-80 -20, -80 20))"
 </pre>
 or using a parameter file:
 <pre>
-    &lt;S3TBX_HOME&gt;/bin&gt;gpt.bat NetcdfExport -p convparam.txt
+    &lt;S3TBX_HOME&gt;/bin&gt;gpt.bat SmosNetcdfExport -p convparam.txt
 </pre>
 where the file <i>convparam.txt</i> contains key/value pairs of the parameters:
 <pre>
@@ -288,7 +288,7 @@ using a ROI, the following graph-xml file can save as template:
     &lt;graph id="SMOS test conversion"&gt;
         &lt;version&gt;1.0&lt;/version&gt;
         &lt;node id="smos-conversion"&gt;
-            &lt;operator&gt;NetcdfExport&lt;/operator&gt;
+            &lt;operator&gt;SmosNetcdfExport&lt;/operator&gt;
 
             &lt;parameters&gt;
                 &lt;sourceProductPaths&gt;C:/Data/SMOS/*SMUDP2*,E:/Data/SMOS/*SMUDP2*&lt;/sourceProductPaths&gt;

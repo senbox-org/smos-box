@@ -26,7 +26,7 @@ import java.util.TreeSet;
         autoWriteDisabled = true)
 public class NetcdfExportOp extends Operator {
 
-    public static final String ALIAS = "NetcdfExport";
+    public static final String ALIAS = "SmosNetcdfExport";
 
     @SourceProducts(type = ExportParameter.PRODUCT_TYPE_REGEX,
             description = "The source products to be converted. If not given, the parameter 'sourceProductPaths' must be provided.")
