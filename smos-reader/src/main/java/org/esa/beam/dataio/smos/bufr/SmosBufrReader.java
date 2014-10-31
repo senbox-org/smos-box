@@ -694,7 +694,6 @@ public class SmosBufrReader extends SmosReader {
             } else {
                 return getSnapshotData(cellIndex, noDataValue);
             }
-
         }
 
         private int getSnapshotData(int cellIndex, int noDataValue) {
