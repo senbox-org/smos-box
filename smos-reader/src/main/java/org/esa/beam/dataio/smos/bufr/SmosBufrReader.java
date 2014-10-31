@@ -773,10 +773,12 @@ public class SmosBufrReader extends SmosReader {
 
         private final int dataindex;
         private final int polarisation;
+        private int snapshotId;
 
         private FlagCellValueProvider(int polarisation, int dataIndex) {
             this.dataindex = dataIndex;
             this.polarisation = polarisation;
+            snapshotId = -1;
         }
 
         @Override
@@ -811,6 +813,14 @@ public class SmosBufrReader extends SmosReader {
         }
 
         private int getData(int cellIndex, int noDataValue) {
+            if (snapshotId < 0) {
+                return getBrowseViewData(cellIndex, noDataValue);
+            } else {
+                return getSnapshotData(cellIndex, noDataValue);
+            }
+        }
+
+        private int getBrowseViewData(int cellIndex, int noDataValue) {
             final ArrayList<Observation> cellObservations = gridPointMap.get(cellIndex);
             if (cellObservations != null) {
                 final ScaleFactor incidenceAngleScaleFactor = scaleFactors.incidenceAngle;
@@ -850,14 +860,27 @@ public class SmosBufrReader extends SmosReader {
             return noDataValue;
         }
 
+        private int getSnapshotData(int cellIndex, int noDataValue) {
+            final SnapshotObservation snapshotObservation = snapshotMap.get(snapshotId);
+            if (snapshotObservation != null) {
+                for (final Observation observation : snapshotObservation.observations) {
+                    if (observation.cellIndex == cellIndex) {
+                        return observation.data[dataindex];
+                    }
+                }
+            }
+
+            return noDataValue;
+        }
+
         @Override
         public int getSnapshotId() {
-            return 0; // @todo 1 tb/tb implement this! 2014-10-31
+            return snapshotId;
         }
 
         @Override
         public void setSnapshotId(int snapshotId) {
-            // @todo 1 tb/tb implement this! 2014-10-31
+            this.snapshotId = snapshotId;
         }
     }
 
