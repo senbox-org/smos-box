@@ -28,6 +28,7 @@ import ucar.nc2.Attribute;
 import ucar.nc2.NetcdfFile;
 import ucar.nc2.Sequence;
 import ucar.nc2.Variable;
+import ucar.nc2.iosp.bufr.BufrIosp;
 
 import java.awt.*;
 import java.awt.geom.Area;
@@ -119,6 +120,8 @@ public class SmosBufrReader extends SmosReader {
         datasetNameIndexMap.put(rawDataNames[10], INFORMATION_FLAG_INDEX);
         datasetNameIndexMap.put(rawDataNames[11], POLARISATION_INDEX);
     }
+
+    private static boolean isIOSPInjected = false;
 
     private NetcdfFile ncfile;
     private HashMap<Integer, SnapshotObservation> snapshotMap;
@@ -338,6 +341,8 @@ public class SmosBufrReader extends SmosReader {
 
     @Override
     protected Product readProductNodesImpl() throws IOException {
+        ensureNetcdfBufrSupport();
+
         final File inputFile = getInputFile();
         ncfile = NetcdfFile.open(inputFile.getPath());
         grid = new Grid(new ReducedGaussianGrid(512));
@@ -924,6 +929,17 @@ public class SmosBufrReader extends SmosReader {
 
         public double getLat() {
             return lat;
+        }
+    }
+
+    private static void ensureNetcdfBufrSupport() throws IOException {
+        if (!isIOSPInjected) {
+            try {
+                NetcdfFile.registerIOProvider(BufrIosp.class);
+            } catch (IllegalAccessException | InstantiationException e) {
+                throw new IOException(e.getMessage());
+            }
+            isIOSPInjected = true;
         }
     }
 }

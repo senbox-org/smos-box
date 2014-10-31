@@ -36,8 +36,6 @@ import org.esa.beam.smos.dgg.SmosDgg;
 import org.esa.beam.smos.lsmask.SmosLsMask;
 import org.esa.beam.util.StringUtils;
 import org.esa.beam.util.io.FileUtils;
-import ucar.nc2.NetcdfFile;
-import ucar.nc2.iosp.bufr.BufrIosp;
 
 import java.awt.*;
 import java.awt.image.Raster;
@@ -52,8 +50,6 @@ import java.util.List;
 public class SmosProductReader extends SmosReader {
 
     private static final String LSMASK_SCHEMA_NAME = "DBL_SM_XXXX_AUX_LSMASK_0200";
-
-    private static boolean isIOSPInjected = false;
 
     private ProductFile productFile;
     private VirtualDir virtualDir;
@@ -219,7 +215,7 @@ public class SmosProductReader extends SmosReader {
     @Override
     public boolean hasSnapshotInfo() {
         if (productFile instanceof L1cScienceSmosFile) {
-            return ((L1cScienceSmosFile)productFile).hasSnapshotInfo();
+            return ((L1cScienceSmosFile) productFile).hasSnapshotInfo();
         }
         return false;
     }
@@ -227,7 +223,7 @@ public class SmosProductReader extends SmosReader {
     @Override
     public SnapshotInfo getSnapshotInfo() {
         if (productFile instanceof L1cScienceSmosFile) {
-            return ((L1cScienceSmosFile)productFile).getSnapshotInfo();
+            return ((L1cScienceSmosFile) productFile).getSnapshotInfo();
         }
         return null;
     }
@@ -320,8 +316,7 @@ public class SmosProductReader extends SmosReader {
         synchronized (this) {
             final File inputFile = getInputFile();
             final String inputFileName = inputFile.getName();
-            if (SmosUtils.isDblFileName(inputFileName) ||
-                    (SmosUtils.isLightBufrTypeSupported() && SmosUtils.isLightBufrType(inputFileName))) {
+            if (SmosUtils.isDblFileName(inputFileName)) {
                 productFile = createProductFile(inputFile);
             } else {
                 productFile = createProductFile(getInputVirtualDir());
@@ -437,11 +432,6 @@ public class SmosProductReader extends SmosReader {
     }
 
     private static ProductFile createProductFileImplementation(File file) throws IOException {
-        if (SmosUtils.isLightBufrTypeSupported() && SmosUtils.isLightBufrType(file.getName())) {
-            ensureNetcdfBufrSupport();
-            return new LightBufrFile(file);
-        }
-
         final File hdrFile = FileUtils.exchangeExtension(file, ".HDR");
         final File dblFile = FileUtils.exchangeExtension(file, ".DBL");
 
@@ -483,16 +473,5 @@ public class SmosProductReader extends SmosReader {
         return null;
     }
 
-    private static void ensureNetcdfBufrSupport() throws IOException {
-        if (!isIOSPInjected) {
-            if (SmosUtils.isLightBufrTypeSupported()) {
-                try {
-                    NetcdfFile.registerIOProvider(BufrIosp.class);
-                } catch (IllegalAccessException | InstantiationException e) {
-                    throw new IOException(e.getMessage());
-                }
-            }
-            isIOSPInjected = true;
-        }
-    }
+
 }

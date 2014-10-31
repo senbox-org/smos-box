@@ -35,9 +35,7 @@ import java.util.zip.ZipFile;
  */
 public class SmosProductReaderPlugIn implements ProductReaderPlugIn {
 
-    private static final String[] EXTENSIONS_WITH_BUFR = new String[]{".HDR", ".DBL", ".zip", ".ZIP", ".bin"};
     private static final String[] EXTENSIONS = new String[]{".HDR", ".DBL", ".zip", ".ZIP"};
-    private static final String[] FORMAT_NAMES_WITH_BUFR = new String[]{"SMOS-EEF", "SMOS Light-BUFR"};
     private static final String[] FORMAT_NAMES = new String[]{"SMOS-EEF"};
     private static final String DESCRIPTION = "SMOS Data Products";
 
@@ -50,10 +48,6 @@ public class SmosProductReaderPlugIn implements ProductReaderPlugIn {
     public DecodeQualification getDecodeQualification(Object input) {
         final File file = input instanceof File ? (File) input : new File(input.toString());
         final String fileName = file.getName();
-
-        if (SmosUtils.isLightBufrTypeSupported() && SmosUtils.isLightBufrType(fileName)) {
-            return DecodeQualification.INTENDED;
-        }
 
         if (fileName.endsWith(".DBL") || fileName.endsWith(".HDR")) {
             final File hdrFile = FileUtils.exchangeExtension(file, ".HDR");
@@ -115,11 +109,7 @@ public class SmosProductReaderPlugIn implements ProductReaderPlugIn {
 
     @Override
     public String[] getDefaultFileExtensions() {
-        if (SmosUtils.isLightBufrTypeSupported()) {
-            return EXTENSIONS_WITH_BUFR;
-        } else {
-            return EXTENSIONS;
-        }
+        return EXTENSIONS;
     }
 
     @Override
@@ -129,11 +119,7 @@ public class SmosProductReaderPlugIn implements ProductReaderPlugIn {
 
     @Override
     public String[] getFormatNames() {
-        if (SmosUtils.isLightBufrTypeSupported()) {
-            return FORMAT_NAMES_WITH_BUFR;
-        } else {
-            return FORMAT_NAMES;
-        }
+        return FORMAT_NAMES;
     }
 
     @Override
