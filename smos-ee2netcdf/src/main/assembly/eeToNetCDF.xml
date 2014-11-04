@@ -13,7 +13,6 @@
             <source>${project.basedir}/src/main/bin/smos-ee-to-nc.bat</source>
             <outputDirectory>/</outputDirectory>
             <lineEnding>dos</lineEnding>
-            <fileMode>0755</fileMode>
             <filtered>false</filtered>
         </file>
 

@@ -4,7 +4,7 @@
 :: User configurable values
 :: -======================-
 
-SET EE_TO_NETCDF_DIR=%cd%
+SET EE_TO_NETCDF_DIR=%~dp0%
 
 ::------------------------------------------------------------------
 :: You can adjust the Java minimum and maximum heap space here.

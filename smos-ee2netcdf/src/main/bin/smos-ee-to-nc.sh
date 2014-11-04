@@ -4,7 +4,7 @@
 # User configurable values
 # -======================-
 
-export EE_TO_NETCDF_DIR="`pwd`"
+export EE_TO_NETCDF_DIR="$(dirname $0)"
 
 #------------------------------------------------------------------
 # You can adjust the Java minimum and maximum heap space here.
