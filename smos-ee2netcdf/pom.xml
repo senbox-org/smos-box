@@ -70,7 +70,7 @@
                 <version>2.4</version>
                 <configuration>
                     <descriptors>
-                        <descriptor>src/main/assembly/eeToNetCDF.xml</descriptor>
+                        <descriptor>src/main/assembly/standalone.xml</descriptor>
                     </descriptors>
                     <finalName>smos-ee-to-netcdf</finalName>
                 </configuration>
