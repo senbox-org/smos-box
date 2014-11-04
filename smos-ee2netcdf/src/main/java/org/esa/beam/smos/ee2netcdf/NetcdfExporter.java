@@ -33,19 +33,19 @@ class NetcdfExporter {
             final FormatExporter exporter = FormatExporterFactory.create(fileLocation.getName());
             exporter.initialize(product, parameter);
 
-            final File outputFile = getOutputFile(fileLocation, parameter.getTargetDirectory());
-            if (outputFile.isFile()) {
+            final File targetFile = getTargetFile(fileLocation, parameter.getTargetDirectory());
+            if (targetFile.isFile()) {
                 if (parameter.isOverwriteTarget()) {
-                    if (!outputFile.delete()) {
-                        throw new IOException("Unable to delete already existing product: " + outputFile.getAbsolutePath());
+                    if (!targetFile.delete()) {
+                        throw new IOException("Unable to delete already existing product: " + targetFile.getAbsolutePath());
                     }
                 } else {
-                    logger.warning("output file '" + outputFile.getPath() + "' exists. Output will not be overwritten.");
+                    logger.warning("output file '" + targetFile.getPath() + "' exists. Target file will not be overwritten.");
                     return;
                 }
             }
 
-            nFileWriteable = N4FileWriteable.create(outputFile.getPath());
+            nFileWriteable = N4FileWriteable.create(targetFile.getPath());
 
             exporter.prepareGeographicSubset(parameter);
             exporter.addGlobalAttributes(nFileWriteable, product.getMetadataRoot(), parameter);
@@ -55,7 +55,7 @@ class NetcdfExporter {
             nFileWriteable.create();
 
             exporter.writeData(nFileWriteable);
-            logger.info("Success. Wrote target product: " + outputFile.getPath());
+            logger.info("Success. Wrote target product: " + targetFile.getPath());
         } catch (Exception e) {
             logger.severe("Failed to convert file: " + fileLocation.getAbsolutePath());
             logger.severe(e.getMessage());
@@ -98,10 +98,7 @@ class NetcdfExporter {
         }
     }
 
-    // @todo 2 tb/tb duplicated code, extract exporter baseclass tb 2014-07-04
-    private static File getOutputFile(File dblFile, File targetDirectory) {
-        File outFile = new File(targetDirectory, dblFile.getName());
-        outFile = FileUtils.exchangeExtension(outFile, ".nc");
-        return outFile;
+    private static File getTargetFile(File dblFile, File targetDirectory) {
+        return FileUtils.exchangeExtension(new File(targetDirectory, dblFile.getName()), ".nc");
     }
 }

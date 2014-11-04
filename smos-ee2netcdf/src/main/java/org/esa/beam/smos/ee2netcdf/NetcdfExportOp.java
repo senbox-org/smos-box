@@ -83,12 +83,12 @@ public class NetcdfExportOp extends Operator {
         exportParameter.setCompressionLevel(compressionLevel);
         exportParameter.setGeometry(geometry);
         if (StringUtils.isNotNullAndNotEmpty(variableNames)) {
-            final String[] bandNames = StringUtils.csvToArray(variableNames);
-            final ArrayList<String> bandNamesList = new ArrayList<>(bandNames.length);
-            for (String bandName : bandNames) {
-                bandNamesList.add(bandName.trim());
+            final String[] variableNames = StringUtils.csvToArray(this.variableNames);
+            final ArrayList<String> variableNamesList = new ArrayList<>(variableNames.length);
+            for (String variableName : variableNames) {
+                variableNamesList.add(variableName.trim());
             }
-            exportParameter.setVariableNames(bandNamesList.toArray(new String[bandNamesList.size()]));
+            exportParameter.setVariableNames(variableNamesList.toArray(new String[variableNamesList.size()]));
         }
 
         setDummyTargetProduct();

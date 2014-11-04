@@ -102,12 +102,24 @@ class NetcdfExportSwingWorker extends ProgressMonitorSwingWorker<List<Exception>
         } else if (roiType == BindingConstants.ROI_TYPE_ALL) {
             parameterMap.remove(BindingConstants.GEOMETRY);
         }
-
         if (exportParameter.isOverwriteTarget()) {
             parameterMap.put("overwriteTarget", "true");
         } else {
             parameterMap.put("overwriteTarget", "false");
         }
+        final String contact = exportParameter.getContact();
+        if (contact != null) {
+            parameterMap.put("contact", contact);
+        }
+        final String institution = exportParameter.getInstitution();
+        if (institution != null) {
+            parameterMap.put("institution", institution);
+        }
+        final String[] variableNames = exportParameter.getVariableNames();
+        if (variableNames != null && variableNames.length != 0) {
+            parameterMap.put("variableNames", exportParameter.getVariableNames());
+        }
+        parameterMap.put("compressionLevel", exportParameter.getCompressionLevel());
 
         return parameterMap;
     }
