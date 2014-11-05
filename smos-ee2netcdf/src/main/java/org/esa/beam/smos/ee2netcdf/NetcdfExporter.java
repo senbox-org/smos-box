@@ -48,9 +48,9 @@ class NetcdfExporter {
             nFileWriteable = N4FileWriteable.create(targetFile.getPath());
 
             exporter.prepareGeographicSubset(parameter);
-            exporter.addGlobalAttributes(nFileWriteable, product.getMetadataRoot(), parameter);
             exporter.addDimensions(nFileWriteable);
             exporter.addVariables(nFileWriteable, parameter);
+            exporter.addGlobalAttributes(nFileWriteable, product.getMetadataRoot(), parameter);
 
             nFileWriteable.create();
 

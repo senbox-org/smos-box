@@ -263,6 +263,7 @@ class NetcdfExportDialog extends ProductChangeAwareDialog {
             bindingContext.getBinding(BindingConstants.SELECTED_PRODUCT).setPropertyValue(false);
         } else {
             setSelectedProductButtonEnabled(true);
+            bindingContext.getBinding(BindingConstants.SELECTED_PRODUCT).setPropertyValue(true);
         }
     }
 
