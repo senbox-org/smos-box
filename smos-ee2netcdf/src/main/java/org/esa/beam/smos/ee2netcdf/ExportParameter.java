@@ -36,7 +36,7 @@ public class ExportParameter {
     private boolean openFileDialog;
 
     @Parameter(alias = BindingConstants.GEOMETRY, converter = JtsGeometryConverter.class,
-               defaultValue = "POLYGON((-180.0 90.0, -180.0 -90.0, 180.0 -90.0, 180.0 90.0, -180.0 90.0))",
+               defaultValue = "",
                description = "A region-of-interest specified in geographic coordinates using well-known-text (WKT) format. For example: 'POLYGON((<lon1> <lat1>, <lon2> <lat2>, ..., <lon1> <lat1>))'. An empty text is interpreted as 'all', i.e. the Globe.",
                label = "Region")
     private Geometry geometry;

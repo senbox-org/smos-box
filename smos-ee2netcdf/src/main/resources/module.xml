@@ -45,7 +45,7 @@
             <class>org.esa.beam.smos.ee2netcdf.visat.NetcdfExportAction</class>
             <helpId>smosNetcdfExport</helpId>
             <parent>exportOther</parent>
-            <text>Convert SMOS EE Files to NetCDF...</text>
+            <text>Export SMOS EE Files to NetCDF...</text>
             <mnemonic>N</mnemonic>
         </action>
     </extension>
