@@ -242,6 +242,8 @@ class NetcdfExportDialog extends ProductChangeAwareDialog {
         });
         regionBoundsInputUI.setEnabled(false);
         panel.add(regionBoundsInputUI.getUI());
+        panel.revalidate();
+        panel.repaint();
 
         return panel;
     }
