@@ -192,7 +192,7 @@ class NetcdfExportDialog extends ProductChangeAwareDialog {
         final JRadioButton allButton = new JRadioButton("All");
         allButton.setToolTipText("Check this button to select the whole globe");
 
-        final JRadioButton useGeometryButton = new JRadioButton("Region");
+        final JRadioButton useGeometryButton = new JRadioButton("Polygon");
         useGeometryButton.setToolTipText(
                 "Check this button to specify a region-of-interest in form a polygon geometry.");
         final PropertyDescriptor geometryDescriptor = propertySet.getDescriptor(BindingConstants.GEOMETRY);
