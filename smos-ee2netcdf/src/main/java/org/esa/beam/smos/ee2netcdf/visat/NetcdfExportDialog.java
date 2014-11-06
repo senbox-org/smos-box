@@ -218,7 +218,7 @@ class NetcdfExportDialog extends ProductChangeAwareDialog {
         final JPanel panel = new JPanel(layout);
         panel.setBorder(BorderFactory.createTitledBorder("Region of Interest"));
 
-        final JTextArea geometryTextArea = new JTextArea(geometryDescriptor.getDefaultValue().toString(), 5, 20);
+        final JTextArea geometryTextArea = new JTextArea(5, 20);
         final JScrollPane geometryScrollPane = new JScrollPane(geometryTextArea);
         geometryTextArea.setToolTipText(geometryDescriptor.getDescription());
         bindingContext.bind(BindingConstants.GEOMETRY, geometryTextArea);
