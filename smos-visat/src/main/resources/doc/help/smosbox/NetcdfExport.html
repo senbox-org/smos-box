@@ -61,22 +61,26 @@ command line.
 
 <p>
     The target file format for the conversion process is NetCDF-4 (compressed). General information about the
-    NetCDF-4 format can be found at:
-</p>
-
-<p>
-    <a href="http://www.unidata.ucar.edu/software/netcdf/">UNIDATA NetCDF (Network Common Data Form)</a>
+    NetCDF-4 format can be found at <a href="http://www.unidata.ucar.edu/software/netcdf/">UNIDATA NetCDF (Network
+    Common Data Form)</a>
 </p>
 
 <h4>NetCDF Conversion in the S-3 Toolbox</h4>
 
-<!-- TODO - update screenshot -->
-<p><img src="images/NetcdfExportGui.png" alt=
-        "NetCDF Export GUI"/></p>
-
 <p>
     The NetCDF Export dialog can be invoked within S-3 Toolbox using the "Tools" menu.
 </p>
+
+<h5>
+    Input and output parameters
+</h5>
+
+<p>
+    The main parameters are available in the I/O Parameters tab shown below. Moving the mouse pointer over
+    parameter elements yields further information.
+</p>
+
+<p><img src="images/NetcdfExportGui1.png" alt="NetCDF Export GUI"/></p>
 
 <p><b>Source Products:</b> Either the SMOS product selected in the
     S-3 Toolbox, or all SMOS products residing in a specified directory of the file
@@ -97,12 +101,10 @@ command line.
 <ul>
     <li>All: All grid points in a source file are exported to the target file.
     </li>
-
-    <li>Geometry: Only grid points in a source file that fall into a specified geographic region (defined by a polygon)
+    <li>Polygon: Only grid points in a source file that fall into a specified geographic region (defined by a polygon)
         are exported to the target file. Polygons have to be specified in well-known-text (WKT) format. Only products
         intersecting with the polygon will be converted.
     </li>
-
     <li>Bounding box: Only grid points in a source file that fall into a specified longitude-latitude bax are exported
         to the target file. The bounding box can be defined by either entering the bounding coordinates into the text
         fields or by using the mouse to adjust the bounding rectangle on the world map.
@@ -110,6 +112,15 @@ command line.
     </li>
 </ul>
 
+<h5>Processing parameters</h5>
+
+<p>
+    Processing parameters are available in the Processing Parameters tab shown below. Moving the mouse pointer over
+    parameter elements yields further information.
+</p>
+
+<p><img src="images/NetcdfExportGui2.png" alt=
+        "NetCDF Export GUI"/></p>
 
 <h4>NetCDF Conversion as GPT operator</h4>
 
