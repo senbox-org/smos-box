@@ -19,7 +19,6 @@ package org.esa.beam.smos.visat;
 import com.bc.ceres.binding.PropertySet;
 import com.bc.ceres.core.ProgressMonitor;
 import com.bc.ceres.glayer.Layer;
-import com.bc.ceres.glayer.LayerFilter;
 import com.bc.ceres.glayer.LayerType;
 import com.bc.ceres.glayer.LayerTypeRegistry;
 import com.bc.ceres.glayer.support.ImageLayer;
@@ -75,18 +74,15 @@ public class SmosBox implements VisatPlugIn {
             snapshotSelectionService = new SnapshotSelectionService(sceneViewSelectionService);
             gridPointSelectionService = new GridPointSelectionService();
 
-            sceneViewSelectionService.addSceneViewSelectionListener(new SceneViewSelectionService.SelectionListener() {
-                @Override
-                public void handleSceneViewSelectionChanged(ProductSceneView oldView, ProductSceneView newView) {
-                    if (newView != null) {
-                        Layer worldMapLayer = findWorldMapLayer(newView);
-                        if (worldMapLayer == null) {
-                            worldMapLayer = createWorldMapLayer();
-                            final Layer rootLayer = newView.getRootLayer();
-                            rootLayer.getChildren().add(worldMapLayer);
-                        }
-                        worldMapLayer.setVisible(true);
+            sceneViewSelectionService.addSceneViewSelectionListener((oldView, newView) -> {
+                if (newView != null) {
+                    Layer worldMapLayer = findWorldMapLayer(newView);
+                    if (worldMapLayer == null) {
+                        worldMapLayer = createWorldMapLayer();
+                        final Layer rootLayer = newView.getRootLayer();
+                        rootLayer.getChildren().add(worldMapLayer);
                     }
+                    worldMapLayer.setVisible(true);
                 }
             });
         }
@@ -151,7 +147,7 @@ public class SmosBox implements VisatPlugIn {
     private LayerType getWorldMapLayerType() {
         final VisatApp visatApp = VisatApp.getApp();
         String layerTypeClassName = visatApp.getPreferences().getPropertyString(WORLDMAP_TYPE_PROPERTY_NAME,
-                BLUE_MARBLE_LAYER_TYPE);
+                                                                                BLUE_MARBLE_LAYER_TYPE);
         return LayerTypeRegistry.getLayerType(layerTypeClassName);
     }
 
@@ -163,18 +159,15 @@ public class SmosBox implements VisatPlugIn {
     }
 
     private Layer findWorldMapLayer(ProductSceneView view) {
-        return LayerUtils.getChildLayer(view.getRootLayer(), LayerUtils.SearchMode.DEEP, new LayerFilter() {
-            @Override
-            public boolean accept(Layer layer) {
-                return layer.getLayerType() instanceof WorldMapLayerType;
-            }
-        });
+        return LayerUtils.getChildLayer(view.getRootLayer(), LayerUtils.SearchMode.DEEP,
+                                        layer -> layer.getLayerType() instanceof WorldMapLayerType);
     }
 
     private void installColorPalettes() throws IOException {
         final URL codeSourceUrl = SmosBox.class.getProtectionDomain().getCodeSource().getLocation();
         final File auxdataDir = getSystemAuxdataDir();
-        final ResourceInstaller resourceInstaller = new ResourceInstaller(codeSourceUrl, "auxdata/color_palettes/", auxdataDir);
+        final ResourceInstaller resourceInstaller = new ResourceInstaller(codeSourceUrl, "auxdata/color_palettes/",
+                                                                          auxdataDir);
 
         resourceInstaller.install(".*.cpd", ProgressMonitor.NULL);
         colorPalettesInstalled = true;
@@ -182,6 +175,6 @@ public class SmosBox implements VisatPlugIn {
 
     private File getSystemAuxdataDir() {
         // @todo 3 tb/** code duplicated from ColormanipulationForm class. we should have central services classes that over such services. tb 2014-09-18
-        return new File(SystemUtils.getApplicationDataDir(), "beam-ui/auxdata/color-palettes");
+        return new File(SystemUtils.getApplicationDataDir(), "snap-ui/auxdata/color-palettes");
     }
 }
