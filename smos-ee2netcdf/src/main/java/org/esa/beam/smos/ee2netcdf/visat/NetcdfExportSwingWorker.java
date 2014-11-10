@@ -11,6 +11,7 @@ import org.esa.beam.framework.ui.AppContext;
 import org.esa.beam.smos.ee2netcdf.ExportParameter;
 import org.esa.beam.smos.ee2netcdf.NetcdfExportOp;
 import org.esa.beam.smos.gui.BindingConstants;
+import org.esa.beam.util.StringUtils;
 
 import java.io.File;
 import java.text.MessageFormat;
@@ -117,7 +118,7 @@ class NetcdfExportSwingWorker extends ProgressMonitorSwingWorker<List<Exception>
         }
         final String[] variableNames = exportParameter.getVariableNames();
         if (variableNames != null && variableNames.length != 0) {
-            parameterMap.put("variableNames", exportParameter.getVariableNames());
+            parameterMap.put("variableNames", StringUtils.arrayToString(exportParameter.getVariableNames(), "s"));
         }
         parameterMap.put("compressionLevel", exportParameter.getCompressionLevel());
 
