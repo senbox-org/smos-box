@@ -30,7 +30,6 @@
         <fileSet>
             <directory>${project.basedir}/src/main/doc/</directory>
             <outputDirectory>/</outputDirectory>
-            <fileMode>0755</fileMode>
             <filtered>false</filtered>
             <includes>
                 <include>SMOS-BOX-FormatConversionUserGuide-*.pdf</include>
