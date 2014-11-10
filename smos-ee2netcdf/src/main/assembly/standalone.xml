@@ -44,23 +44,6 @@
             <excludes>
                 <exclude>org.esa.smostbx:smos-dgg</exclude>
                 <exclude>org.esa.smostbx:smos-lsmask</exclude>
-                <!-- secondary/transient dependencies that we do not need here tb 2014-07-25 -->
-                <exclude>org.esa.s3tbx:s3tbx-alos-reader</exclude>
-                <exclude>org.esa.s3tbx:s3tbx-atsr-reader</exclude>
-                <exclude>org.esa.s3tbx:s3tbx-avhrr-reader</exclude>
-                <exclude>org.esa.snap:snap-binning</exclude>
-                <exclude>org.esa.s3tbx:s3tbx-chris-reader</exclude>
-                <exclude>org.esa.snap:snap-csv-dataio</exclude>
-                <exclude>org.esa.snap:snap-envisat-reader</exclude>
-                <exclude>org.esa.snap:snap-geotiff</exclude>
-                <exclude>org.esa.snap:snap-getasse30-reader</exclude>
-                <exclude>org.esa.s3tbx:s3tbx-landsat-reader</exclude>
-                <exclude>org.esa.s3tbx:s3tbx-merisl3-reader</exclude>
-                <exclude>org.esa.snap:snap-modis-reader</exclude>
-                <exclude>org.esa.snap:snap-reader-tests</exclude>
-                <exclude>org.esa.s3tbx:s3tbx-spot-vgt-reader</exclude>
-                <exclude>org.esa.snap:snap-statistics-op</exclude>
-                <exclude>gov.nasa.gsfc.seadas:seadas-reader</exclude>
             </excludes>
         </dependencySet>
 
