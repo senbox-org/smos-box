@@ -33,7 +33,7 @@
             <fileMode>0755</fileMode>
             <filtered>false</filtered>
             <includes>
-                <include>SMOS-BOX-FormatConversionUserGuide-*-forAcceptance.pdf</include>
+                <include>SMOS-BOX-FormatConversionUserGuide-*.pdf</include>
             </includes>
         </fileSet>
     </fileSets>
@@ -60,6 +60,7 @@
                 <exclude>org.esa.snap:snap-reader-tests</exclude>
                 <exclude>org.esa.s3tbx:s3tbx-spot-vgt-reader</exclude>
                 <exclude>org.esa.snap:snap-statistics-op</exclude>
+                <exclude>gov.nasa.gsfc.seadas:seadas-reader</exclude>
             </excludes>
         </dependencySet>
 

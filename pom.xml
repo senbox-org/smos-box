@@ -85,12 +85,6 @@
                 <groupId>org.esa.snap</groupId>
                 <artifactId>snap-core</artifactId>
                 <version>${snap.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.esa.s3tbx</groupId>
-                        <artifactId>s3tbx-avhrr-reader</artifactId>
-                    </exclusion>
-                </exclusions>
             </dependency>
             <dependency>
                 <groupId>org.esa.snap</groupId>
@@ -106,12 +100,6 @@
                 <groupId>org.esa.snap</groupId>
                 <artifactId>snap-gpf</artifactId>
                 <version>${snap.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.esa.s3tbx</groupId>
-                        <artifactId>s3tbx-avhrr-reader</artifactId>
-                    </exclusion>
-                </exclusions>
             </dependency>
             <dependency>
                 <groupId>org.esa.snap</groupId>
