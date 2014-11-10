@@ -4,6 +4,8 @@ import com.bc.ceres.binding.PropertyContainer;
 import com.bc.ceres.binding.PropertyDescriptor;
 import com.bc.ceres.binding.PropertySet;
 import com.bc.ceres.binding.ValidationException;
+import com.bc.ceres.binding.converters.ArrayConverter;
+import com.bc.ceres.binding.converters.StringConverter;
 import com.bc.ceres.swing.TableLayout;
 import com.bc.ceres.swing.binding.Binding;
 import com.bc.ceres.swing.binding.BindingContext;
@@ -87,6 +89,8 @@ class NetcdfExportDialog extends ProductChangeAwareDialog {
             propertySet.getDescriptor(BindingConstants.SOUTH).setAttribute("visible", false);
             propertySet.getDescriptor(BindingConstants.EAST).setAttribute("visible", false);
             propertySet.getDescriptor(BindingConstants.WEST).setAttribute("visible", false);
+            final ArrayConverter arrayConverter = new ArrayConverter(String[].class, new StringConverter());
+            propertySet.getDescriptor(BindingConstants.VARIABLES).setConverter(arrayConverter);
 
             final PropertyPane parametersPane = new PropertyPane(bindingContext);
             final JPanel parametersPanel = parametersPane.createPanel();
