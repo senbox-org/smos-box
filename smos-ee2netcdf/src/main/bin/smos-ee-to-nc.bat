@@ -19,9 +19,7 @@ SET JAVA_OPTS=-Xms64M -Xmx2048M
 :: Other values
 :: -======================-
 
-IF "%JAVA_HOME%" == "" goto error
-
-SET JAVAEXE=%JAVA_HOME%\bin\java.exe
+SET JAVAEXE=java.exe
 SET LIBDIR=%EE_TO_NETCDF_DIR%\lib
 SET OLD_CLASSPATH=%CLASSPATH%
 
@@ -37,14 +35,3 @@ SET CLASSPATH=%LIBDIR%\*;%LIBDIR%
 CALL "%JAVAEXE%" %JAVA_OPTS% -classpath "%CLASSPATH%" org.esa.beam.smos.ee2netcdf.NetcdfExportTool %*
 
 SET CLASSPATH=%OLD_CLASSPATH%
-goto end
-
-
-:error
-echo ---------------------------------------------------------------------
-echo No JDK found. Please be sure that JAVA_HOME points to valid JRE or JDK installation (where bin\java.exe is found)
-echo ---------------------------------------------------------------------
-echo JAVA_HOME = %JAVA_HOME%
-pause
-
-:end
