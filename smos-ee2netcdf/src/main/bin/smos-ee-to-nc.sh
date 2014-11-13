@@ -13,15 +13,12 @@ export EE_TO_NETCDF_DIR="$(dirname $0)"
 #    '-Xmx512M' sets the maximum heap space to 512 megabytes
 #------------------------------------------------------------------
 export JAVA_OPTS="-Xmx2048M"
-
-
-
+export JAVA_EXE=java
 
 # -======================-
 # Other values
 # -======================-
 
-export JAVAEXE="$JAVA_HOME"/bin/java
 export LIBDIR="$EE_TO_NETCDF_DIR"/lib
 export OLD_CLASSPATH="$CLASSPATH"
 CLASSPATH="$LIBDIR/*:$LIBDIR"
