@@ -50,8 +50,10 @@ public class SmosUtilsTest {
 
     @Test
     public void testGetSensingTimesFromFilename_InvalidDateFormat() {
-        assertNull(SmosUtils.getSensingStartTimeFromFilename("SM_OPER_MIR_SMUDP2_20101MART050111_20101019T055510_309_002_1.zip"));
-        assertNull(SmosUtils.getSensingStopTimeFromFilename("SM_OPER_MIR_SMUDP2_20101019T050111_20101SEPT055510_309_002_1.zip"));
+        assertNull(SmosUtils.getSensingStartTimeFromFilename(
+                "SM_OPER_MIR_SMUDP2_20101MART050111_20101019T055510_309_002_1.zip"));
+        assertNull(SmosUtils.getSensingStopTimeFromFilename(
+                "SM_OPER_MIR_SMUDP2_20101019T050111_20101SEPT055510_309_002_1.zip"));
     }
 
     @Test
@@ -87,15 +89,22 @@ public class SmosUtilsTest {
     @Test
     public void testGetProductType() {
         assertEquals("AUX_DATA", SmosUtils.getProductType("SM_TEST_AUX_LSMASK_20070101T000000_20781231T235959_00000001.EEF"));
-        assertEquals("AUX_DATA", SmosUtils.getProductType("SM_TEST_AUX_BFP____20070101T000000_20781231T235959_00000004.EEF"));
-        assertEquals("AUX_DATA", SmosUtils.getProductType("SM_TEST_AUX_SUNT___20070101T000000_20781231T235959_00000001.EEF"));
-        assertEquals("MIR_GMATD_", SmosUtils.getProductType("SM_TEST_MIR_GMATD__20121117T020130_20781231T235959_115_001_3.tgz"));
-        assertEquals("AUX_DATA", SmosUtils.getProductType("SM_TEST_AUX_CNFL1P_20120101T000000_20500101T000000_101_001_3.EEF"));
+        assertEquals("AUX_DATA",
+                     SmosUtils.getProductType("SM_TEST_AUX_BFP____20070101T000000_20781231T235959_00000004.EEF"));
+        assertEquals("AUX_DATA",
+                     SmosUtils.getProductType("SM_TEST_AUX_SUNT___20070101T000000_20781231T235959_00000001.EEF"));
+        assertEquals("MIR_GMATD_",
+                     SmosUtils.getProductType("SM_TEST_MIR_GMATD__20121117T020130_20781231T235959_115_001_3.tgz"));
+        assertEquals("AUX_DATA",
+                     SmosUtils.getProductType("SM_TEST_AUX_CNFL1P_20120101T000000_20500101T000000_101_001_3.EEF"));
 
-        assertEquals("MIR_CRSD1A", SmosUtils.getProductType("SM_OPER_MIR_CRSD1a_20121117T025249_20121117T043300_116_001_1.zip"));
+        assertEquals("MIR_CRSD1A",
+                     SmosUtils.getProductType("SM_OPER_MIR_CRSD1a_20121117T025249_20121117T043300_116_001_1.zip"));
 
-        assertEquals("RQC_RQD", SmosUtils.getProductType("SM_OPER_RQC_VTEC_C_20090512T230000_20090514T010000_311_001_1.EEF"));
-        assertEquals("RQC_RQD", SmosUtils.getProductType("SM_TEST_RQD_SCND1C_20121117T120515_20121117T122512_311_001_1.EEF"));
+        assertEquals("RQC_RQD",
+                     SmosUtils.getProductType("SM_OPER_RQC_VTEC_C_20090512T230000_20090514T010000_311_001_1.EEF"));
+        assertEquals("RQC_RQD",
+                     SmosUtils.getProductType("SM_TEST_RQD_SCND1C_20121117T120515_20121117T122512_311_001_1.EEF"));
     }
 
     @Test
@@ -216,6 +225,15 @@ public class SmosUtilsTest {
 
         assertFalse(SmosUtils.isLightBufrType(
                 "W_ES-ESA-ESAC,SMOS,N256_C_LEMN_20131028044206_20131028020942_20131028034943_bufr_v505.zip"));
+    }
+
+    @Test
+    public void testIsBufrSpecification() throws Exception {
+        assertTrue(SmosUtils.isBufrType(
+                "miras_20131028_002942_20131028_003302_smos_20947_t_20131028_033058_l1c.bufr"));
+
+        assertTrue(SmosUtils.isBufrType(
+                "miras_20131028_003256_20131028_020943_smos_20947_o_20131028_031005_l1c.bufr"));
     }
 
     @Test

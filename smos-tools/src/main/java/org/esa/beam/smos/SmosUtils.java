@@ -137,6 +137,10 @@ public class SmosUtils {
         return fileName.matches("W_ES-ESA-ESAC,SMOS,N256_C_LEMM_[0-9]{14}_[0-9]{14}_[0-9]{14}_bufr_v[0-9]{3}\\.bin");
     }
 
+    public static boolean isBufrType(String fileName) {
+        return fileName.matches("miras_[0-9]{8}_[0-9]{6}_[0-9]{8}_[0-9]{6}_smos_[0-9]{5}_._[0-9]{8}_[0-9]{6}_l1c\\.bufr");
+    }
+
     public static boolean isL2Type(String fileName) {
         return fileName.matches("SO_.{4}_MIR_TSM_2__.{45}") ||
                 fileName.matches("SO_.{4}_MIR_TOS_2__.{45}") ||
@@ -343,4 +347,5 @@ public class SmosUtils {
             return null;
         }
     }
+
 }
