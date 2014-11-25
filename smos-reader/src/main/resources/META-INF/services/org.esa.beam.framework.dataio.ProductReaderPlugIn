@@ -1,2 +1,2 @@
 org.esa.beam.dataio.smos.SmosProductReaderPlugIn
-org.esa.beam.dataio.smos.bufr.SmosBufrReaderPlugIn
+org.esa.beam.dataio.smos.bufr.SmosLightBufrReaderPlugIn

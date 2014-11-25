@@ -9,7 +9,7 @@ import org.esa.beam.util.io.BeamFileFilter;
 import java.io.File;
 import java.util.Locale;
 
-public class SmosBufrReaderPlugIn implements ProductReaderPlugIn {
+public class SmosLightBufrReaderPlugIn implements ProductReaderPlugIn {
 
     @Override
     public DecodeQualification getDecodeQualification(Object input) {
@@ -30,7 +30,7 @@ public class SmosBufrReaderPlugIn implements ProductReaderPlugIn {
 
     @Override
     public ProductReader createReaderInstance() {
-        return new SmosBufrReader(this);
+        return new SmosLightBufrReader(this);
     }
 
     @Override

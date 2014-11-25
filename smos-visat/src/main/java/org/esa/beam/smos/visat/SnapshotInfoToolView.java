@@ -28,7 +28,7 @@ import com.bc.ceres.glevel.support.FileMultiLevelSource;
 import com.bc.ceres.grender.Rendering;
 import com.bc.ceres.grender.Viewport;
 import org.esa.beam.dataio.smos.*;
-import org.esa.beam.dataio.smos.bufr.BufrMultiLevelSource;
+import org.esa.beam.dataio.smos.bufr.LightBufrMultiLevelSource;
 import org.esa.beam.dataio.smos.provider.ValueProvider;
 import org.esa.beam.framework.datamodel.Band;
 import org.esa.beam.framework.datamodel.Product;
@@ -171,9 +171,9 @@ public class SnapshotInfoToolView extends SmosToolView {
                         resetRasterImages(raster);
                     }
                 }
-            } else if (source instanceof BufrMultiLevelSource) {
-                final BufrMultiLevelSource bufrMultiLevelSource = (BufrMultiLevelSource) source;
-                final CellValueProvider valueProvider = bufrMultiLevelSource.getValueProvider();
+            } else if (source instanceof LightBufrMultiLevelSource) {
+                final LightBufrMultiLevelSource lightBufrMultiLevelSource = (LightBufrMultiLevelSource) source;
+                final CellValueProvider valueProvider = lightBufrMultiLevelSource.getValueProvider();
                 if (valueProvider.getSnapshotId() != snapshotId) {
                     valueProvider.setSnapshotId((int) snapshotId);
                     resetRasterImages(raster);

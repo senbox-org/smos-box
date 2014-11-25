@@ -9,12 +9,13 @@ import org.esa.beam.jai.ResolutionLevel;
 
 import java.awt.image.RenderedImage;
 
-public class BufrMultiLevelSource extends AbstractMultiLevelSource {
+public class LightBufrMultiLevelSource extends AbstractMultiLevelSource {
 
     private final CellValueProvider valueProvider;
     private final RasterDataNode rasterDataNode;
 
-    public BufrMultiLevelSource(MultiLevelModel multiLevelModel, CellValueProvider valueProvider, RasterDataNode rasterDataNode) {
+    public LightBufrMultiLevelSource(MultiLevelModel multiLevelModel, CellValueProvider valueProvider,
+                                     RasterDataNode rasterDataNode) {
         super(multiLevelModel);
         this.valueProvider = valueProvider;
         this.rasterDataNode = rasterDataNode;

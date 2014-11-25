@@ -12,13 +12,13 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-public class SmosBufrReaderPlugInTest {
+public class SmosLightBufrReaderPlugInTest {
 
-    private SmosBufrReaderPlugIn plugin;
+    private SmosLightBufrReaderPlugIn plugin;
 
     @Before
     public void setUp() {
-        plugin = new SmosBufrReaderPlugIn();
+        plugin = new SmosLightBufrReaderPlugIn();
     }
 
     @Test
@@ -74,6 +74,6 @@ public class SmosBufrReaderPlugInTest {
         final ProductReader reader = plugin.createReaderInstance();
 
         assertNotNull(reader);
-        assertTrue(reader instanceof SmosBufrReader);
+        assertTrue(reader instanceof SmosLightBufrReader);
     }
 }

@@ -41,7 +41,7 @@ import java.text.MessageFormat;
 import java.util.*;
 import java.util.List;
 
-public class SmosBufrReader extends SmosReader {
+public class SmosLightBufrReader extends SmosReader {
 
     private static final String ATTR_NAME_ADD_OFFSET = "add_offset";
     private static final String ATTR_NAME_SCALE_FACTOR = "scale_factor";
@@ -134,8 +134,8 @@ public class SmosBufrReader extends SmosReader {
     private LinkedList<Integer> snapshotIdlist;
     private SnapshotInfo snapshotInfo;
 
-    SmosBufrReader(SmosBufrReaderPlugIn smosBufrReaderPlugIn) {
-        super(smosBufrReaderPlugIn);
+    SmosLightBufrReader(SmosLightBufrReaderPlugIn smosLightBufrReaderPlugIn) {
+        super(smosLightBufrReaderPlugIn);
         ncfile = null;
         gridPointMinIndex = -1;
         gridPointMaxIndex = -1;
@@ -641,7 +641,7 @@ public class SmosBufrReader extends SmosReader {
 
     private MultiLevelSource createMultiLevelSource(final Band band, final CellValueProvider valueProvider) {
         final MultiLevelModel multiLevelModel = SmosDgg.getInstance().getMultiLevelImage().getModel();
-        return new BufrMultiLevelSource(multiLevelModel, valueProvider, band);
+        return new LightBufrMultiLevelSource(multiLevelModel, valueProvider, band);
     }
 
     private class BufrCellValueProvider implements CellValueProvider {
@@ -660,12 +660,12 @@ public class SmosBufrReader extends SmosReader {
 
         @Override
         public Area getArea() {
-            return SmosBufrReader.this.area;
+            return SmosLightBufrReader.this.area;
         }
 
         @Override
         public long getCellIndex(double lon, double lat) {
-            return SmosBufrReader.this.grid.getCellIndex(lon, lat);
+            return SmosLightBufrReader.this.grid.getCellIndex(lon, lat);
         }
 
         @Override
@@ -787,12 +787,12 @@ public class SmosBufrReader extends SmosReader {
 
         @Override
         public Area getArea() {
-            return SmosBufrReader.this.area;
+            return SmosLightBufrReader.this.area;
         }
 
         @Override
         public long getCellIndex(double lon, double lat) {
-            return SmosBufrReader.this.grid.getCellIndex(lon, lat);
+            return SmosLightBufrReader.this.grid.getCellIndex(lon, lat);
         }
 
         @Override

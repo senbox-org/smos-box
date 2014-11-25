@@ -16,8 +16,8 @@
 
 package org.esa.beam.dataio.smos;
 
-import org.esa.beam.dataio.smos.bufr.SmosBufrReader;
-import org.esa.beam.dataio.smos.bufr.SmosBufrReaderPlugIn;
+import org.esa.beam.dataio.smos.bufr.SmosLightBufrReader;
+import org.esa.beam.dataio.smos.bufr.SmosLightBufrReaderPlugIn;
 import org.esa.beam.framework.datamodel.Product;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -152,7 +152,7 @@ public class BufrTest {
     }
 
     @Test
-    public void testBufrLightReader() throws IOException {
+    public void testLightBufrReader() throws IOException {
         final String pathToFile = "/usr/local/data/SMOS/W_ES-ESA-ESAC,SMOS,N256_C_LEMM_20131028030552_20131028003256_20131028020943_bufr_v505.bin";
         final File bufrProductFile = new File(pathToFile);
         assertTrue(bufrProductFile.isFile());
@@ -172,13 +172,13 @@ public class BufrTest {
     }
 
     @Test
-    public void testBufrLightReader_newImplementation() throws IOException {
+    public void testLightBufrReader_newImplementation() throws IOException {
         final String pathToFile = "C:\\Data\\SMOS\\SMOS_BUFR_LIGHT\\W_ES-ESA-ESAC,SMOS,N256_C_LEMM_20131028044206_20131028020942_20131028034943_bufr_v505.bin";
         final File bufrProductFile = new File(pathToFile);
         assertTrue(bufrProductFile.isFile());
 
-        final SmosBufrReaderPlugIn readerPlugin = new SmosBufrReaderPlugIn();
-        final SmosBufrReader bufrReader = (SmosBufrReader) readerPlugin.createReaderInstance();
+        final SmosLightBufrReaderPlugIn readerPlugin = new SmosLightBufrReaderPlugIn();
+        final SmosLightBufrReader bufrReader = (SmosLightBufrReader) readerPlugin.createReaderInstance();
         final Product product = bufrReader.readProductNodes(bufrProductFile, null);
 
         bufrReader.getSnapshotInfo();
