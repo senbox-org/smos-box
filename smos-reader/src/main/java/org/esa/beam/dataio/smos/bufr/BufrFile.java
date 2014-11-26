@@ -17,7 +17,7 @@ public class BufrFile extends NetcdfFile implements Closeable {
 
     private final SmosBufrIosp instance;
 
-    public static BufrFile create(String location) throws IOException {
+    public static BufrFile open(String location) throws IOException {
         return new BufrFile(new SmosBufrIosp(), location);
     }
 
