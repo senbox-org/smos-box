@@ -26,6 +26,8 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
+ * An IO service provider for SMOS BUFR files.
+ *
  * @author Ralf Quast
  */
 public final class SmosBufrIosp extends AbstractIOServiceProvider {

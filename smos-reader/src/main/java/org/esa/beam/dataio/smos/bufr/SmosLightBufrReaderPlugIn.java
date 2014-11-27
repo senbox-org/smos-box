@@ -13,7 +13,14 @@ public class SmosLightBufrReaderPlugIn implements ProductReaderPlugIn {
 
     @Override
     public DecodeQualification getDecodeQualification(Object input) {
-        final File file = input instanceof File ? (File) input : new File(input.toString());
+        final File file;
+        if (input instanceof File) {
+            file = (File) input;
+        } else if (input instanceof String) {
+            file = new File((String) input);
+        } else {
+            return DecodeQualification.UNABLE;
+        }
         final String fileName = file.getName();
 
         if (SmosUtils.isLightBufrType(fileName)) {

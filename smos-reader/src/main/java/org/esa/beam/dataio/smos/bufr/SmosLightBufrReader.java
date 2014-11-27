@@ -8,7 +8,15 @@ import com.bc.ceres.glevel.support.DefaultMultiLevelImage;
 import org.esa.beam.binning.support.ReducedGaussianGrid;
 import org.esa.beam.dataio.netcdf.util.DataTypeUtils;
 import org.esa.beam.dataio.netcdf.util.MetadataUtils;
-import org.esa.beam.dataio.smos.*;
+import org.esa.beam.dataio.smos.CellValueProvider;
+import org.esa.beam.dataio.smos.DggUtils;
+import org.esa.beam.dataio.smos.Grid;
+import org.esa.beam.dataio.smos.GridPointBtDataset;
+import org.esa.beam.dataio.smos.PointList;
+import org.esa.beam.dataio.smos.PolarisationModel;
+import org.esa.beam.dataio.smos.ProductHelper;
+import org.esa.beam.dataio.smos.SmosReader;
+import org.esa.beam.dataio.smos.SnapshotInfo;
 import org.esa.beam.dataio.smos.dddb.BandDescriptor;
 import org.esa.beam.dataio.smos.dddb.Dddb;
 import org.esa.beam.dataio.smos.dddb.Family;
@@ -25,12 +33,11 @@ import ucar.ma2.DataType;
 import ucar.ma2.StructureData;
 import ucar.ma2.StructureDataIterator;
 import ucar.nc2.Attribute;
-import ucar.nc2.NetcdfFile;
 import ucar.nc2.Sequence;
 import ucar.nc2.Variable;
-import ucar.nc2.iosp.bufr.BufrIosp;
 
-import java.awt.*;
+import java.awt.Dimension;
+import java.awt.Rectangle;
 import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.Raster;
@@ -38,8 +45,15 @@ import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.IOException;
 import java.text.MessageFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
 public class SmosLightBufrReader extends SmosReader {
 
@@ -121,11 +135,9 @@ public class SmosLightBufrReader extends SmosReader {
         datasetNameIndexMap.put(rawDataNames[11], POLARISATION_INDEX);
     }
 
-    private static boolean isIOSPInjected = false;
-
-    private NetcdfFile ncfile;
+    private SmosBufrFile smosBufrFile;
     private HashMap<Integer, SnapshotObservation> snapshotMap;
-    private HashMap<Integer, ArrayList<Observation>> gridPointMap;
+    private HashMap<Integer, List<Observation>> gridPointMap;
     private Grid grid;
     private Area area;
     private ScaleFactors scaleFactors;
@@ -136,7 +148,7 @@ public class SmosLightBufrReader extends SmosReader {
 
     SmosLightBufrReader(SmosLightBufrReaderPlugIn smosLightBufrReaderPlugIn) {
         super(smosLightBufrReaderPlugIn);
-        ncfile = null;
+        smosBufrFile = null;
         gridPointMinIndex = -1;
         gridPointMaxIndex = -1;
     }
@@ -147,7 +159,7 @@ public class SmosLightBufrReader extends SmosReader {
             return null;
         }
 
-        final ArrayList<Observation> gridPointData = gridPointMap.get(gridPointIndex);
+        final List<Observation> gridPointData = gridPointMap.get(gridPointIndex);
         if (gridPointData == null) {
             return null;
         }
@@ -320,7 +332,8 @@ public class SmosLightBufrReader extends SmosReader {
                     hasYPolData = true;
                 }
 
-                if (polarisationModel.is_XY1_Polarised(polarisationMode) || polarisationModel.is_XY2_Polarised(polarisationMode)) {
+                if (polarisationModel.is_XY1_Polarised(polarisationMode) || polarisationModel.is_XY2_Polarised(
+                        polarisationMode)) {
                     hasXYPolData = true;
                 }
             }
@@ -341,10 +354,8 @@ public class SmosLightBufrReader extends SmosReader {
 
     @Override
     protected Product readProductNodesImpl() throws IOException {
-        ensureNetcdfBufrSupport();
-
         final File inputFile = getInputFile();
-        ncfile = NetcdfFile.open(inputFile.getPath());
+        smosBufrFile = SmosBufrFile.open(inputFile.getPath());
         grid = new Grid(new ReducedGaussianGrid(512));
 
         final Product product = createProduct(inputFile);
@@ -359,10 +370,10 @@ public class SmosLightBufrReader extends SmosReader {
     }
 
     private void calculateArea() throws IOException {
-        final ArrayList<Point> points = new ArrayList<>();
-        final Set<Map.Entry<Integer, ArrayList<Observation>>> entries = gridPointMap.entrySet();
-        for (Map.Entry<Integer, ArrayList<Observation>> next : entries) {
-            final ArrayList<Observation> value = next.getValue();
+        final List<Point> points = new ArrayList<>();
+        final Set<Map.Entry<Integer, List<Observation>>> entries = gridPointMap.entrySet();
+        for (Map.Entry<Integer, List<Observation>> next : entries) {
+            final List<Observation> value = next.getValue();
             final Observation observation = value.get(0);
 
             final Point point = new Point(observation.lon, observation.lat);
@@ -373,7 +384,7 @@ public class SmosLightBufrReader extends SmosReader {
     }
 
     private void extractScaleFactors() {
-        final Sequence sequence = getObservationSequence();
+        final Sequence sequence = smosBufrFile.getObservationStructure();
         scaleFactors = new ScaleFactors();
 
         scaleFactors.lon = createFactor(sequence, "Longitude_high_accuracy");
@@ -409,70 +420,72 @@ public class SmosLightBufrReader extends SmosReader {
     private void readObservations() throws IOException {
         snapshotMap = new HashMap<>();
         gridPointMap = new HashMap<>();
-        final Sequence observationSequence = getObservationSequence();
-        final StructureDataIterator structureIterator = observationSequence.getStructureIterator();
 
         gridPointMinIndex = Integer.MAX_VALUE;
         gridPointMaxIndex = Integer.MIN_VALUE;
-        while (structureIterator.hasNext()) {
-            structureIterator.hasNext();
-            final StructureData next = structureIterator.next();
 
-            final Observation observation = new Observation();
-            observation.data[AZIMUTH_ANGLE_INDEX] = next.getScalarInt("Azimuth_angle");
+        for (int i = 0, messageCount = smosBufrFile.getMessageCount(); i < messageCount; i++) {
+            final StructureDataIterator observationIterator = smosBufrFile.getStructureIterator(i);
 
-            final short bt_imag = next.getScalarShort("Brightness_temperature_imaginary_part");
-            observation.data[BT_IMAG_INDEX] = DataType.unsignedShortToInt(bt_imag);
+            while (observationIterator.hasNext()) {
+                final StructureData observationData = observationIterator.next();
+                final Observation observation = new Observation();
 
-            final short bt_real = next.getScalarShort("Brightness_temperature_real_part");
-            observation.data[BT_REAL_INDEX] = DataType.unsignedShortToInt(bt_real);
+                observation.data[AZIMUTH_ANGLE_INDEX] = observationData.getScalarInt("Azimuth_angle");
 
-            observation.data[FARADAY_ANGLE_INDEX] = next.getScalarInt("Faraday_rotational_angle");
-            observation.data[FOOTPRINT_AXIS_1_INDEX] = next.getScalarShort("Footprint_axis_1");
-            observation.data[FOOTPRINT_AXIS_2_INDEX] = next.getScalarShort("Footprint_axis_2");
-            observation.data[GEOMETRIC_ANGLE_INDEX] = next.getScalarInt("Geometric_rotational_angle");
-            observation.data[INCIDENCE_ANGLE_INDEX] = next.getScalarInt("Incidence_angle");
-            observation.data[RADIOMETRIC_ACCURACY_INDEX] = next.getScalarShort("Pixel_radiometric_accuracy");
-            observation.data[INFORMATION_FLAG_INDEX] = next.getScalarShort("SMOS_information_flag");
-            observation.data[WATER_FRACTION_INDEX] = next.getScalarShort("Water_fraction");
-            observation.data[POLARISATION_INDEX] = next.getScalarByte("Polarisation");
+                final short btImag = observationData.getScalarShort("Brightness_temperature_imaginary_part");
+                observation.data[BT_IMAG_INDEX] = DataType.unsignedShortToInt(btImag);
 
-            final int longitude_high_accuracy = next.getScalarInt("Longitude_high_accuracy");
-            final float lon = (float) scaleFactors.lon.scale(longitude_high_accuracy);
-            observation.lon = lon;
+                final short btReal = observationData.getScalarShort("Brightness_temperature_real_part");
+                observation.data[BT_REAL_INDEX] = DataType.unsignedShortToInt(btReal);
 
-            final int latitude_high_accuracy = next.getScalarInt("Latitude_high_accuracy");
-            final float lat = (float) scaleFactors.lat.scale(latitude_high_accuracy);
-            observation.lat = lat;
+                observation.data[FARADAY_ANGLE_INDEX] = observationData.getScalarInt("Faraday_rotational_angle");
+                observation.data[FOOTPRINT_AXIS_1_INDEX] = observationData.getScalarShort("Footprint_axis_1");
+                observation.data[FOOTPRINT_AXIS_2_INDEX] = observationData.getScalarShort("Footprint_axis_2");
+                observation.data[GEOMETRIC_ANGLE_INDEX] = observationData.getScalarInt("Geometric_rotational_angle");
+                observation.data[INCIDENCE_ANGLE_INDEX] = observationData.getScalarInt("Incidence_angle");
+                observation.data[RADIOMETRIC_ACCURACY_INDEX] = observationData.getScalarShort("Pixel_radiometric_accuracy");
+                observation.data[INFORMATION_FLAG_INDEX] = observationData.getScalarShort("SMOS_information_flag");
+                observation.data[WATER_FRACTION_INDEX] = observationData.getScalarShort("Water_fraction");
+                observation.data[POLARISATION_INDEX] = observationData.getScalarByte("Polarisation");
 
-            observation.cellIndex = grid.getCellIndex(lon, lat);
-            addObservationToGridPoints(observation);
-            traceGridPointIndexMinMax(grid.getCellIndex(lon, lat));
+                final int highAccuracyLon = observationData.getScalarInt("Longitude_high_accuracy");
+                final float lon = (float) scaleFactors.lon.scale(highAccuracyLon);
+                observation.lon = lon;
 
-            final int snapshot_id = next.getScalarInt("Snapshot_identifier");
-            SnapshotObservation snapshotObservation = snapshotMap.get(snapshot_id);
-            if (snapshotObservation == null) {
-                snapshotObservation = new SnapshotObservation(new int[snapshotDataNames.length]);
-                snapshotObservation.data[0] = next.getScalarShort("Number_of_grid_points");
-                snapshotObservation.data[1] = next.getScalarShort("Year");
-                snapshotObservation.data[2] = next.getScalarByte("Month");
-                snapshotObservation.data[3] = next.getScalarByte("Day");
-                snapshotObservation.data[4] = next.getScalarByte("Hour");
-                snapshotObservation.data[5] = next.getScalarByte("Minute");
-                snapshotObservation.data[6] = next.getScalarByte("Second");
-                snapshotObservation.data[7] = next.getScalarByte("Total_electron_count_per_square_metre");
-                snapshotObservation.data[8] = next.getScalarInt("Direct_sun_brightness_temperature");
-                snapshotObservation.data[9] = next.getScalarShort("Snapshot_accuracy");
-                snapshotObservation.data[10] = next.getScalarShort("Radiometric_accuracy_pure_polarisation");
-                snapshotObservation.data[11] = next.getScalarShort("Radiometric_accuracy_cross_polarisation");
-                final Array snapshot_overall_quality = next.getArray("Snapshot_overall_quality");
-                snapshotObservation.data[12] = snapshot_overall_quality.getByte(0);
-                snapshotObservation.observations = new ArrayList<>();
-                snapshotMap.put(snapshot_id, snapshotObservation);
+                final int highAccuracyLat = observationData.getScalarInt("Latitude_high_accuracy");
+                final float lat = (float) scaleFactors.lat.scale(highAccuracyLat);
+                observation.lat = lat;
+
+                observation.cellIndex = grid.getCellIndex(lon, lat);
+                addObservationToGridPoints(observation);
+                traceGridPointIndexMinMax(grid.getCellIndex(lon, lat));
+
+                final int snapshot_id = observationData.getScalarInt("Snapshot_identifier");
+                SnapshotObservation snapshotObservation = snapshotMap.get(snapshot_id);
+
+                if (snapshotObservation == null) {
+                    snapshotObservation = new SnapshotObservation(new int[snapshotDataNames.length]);
+                    snapshotObservation.data[0] = observationData.getScalarShort("Number_of_grid_points");
+                    snapshotObservation.data[1] = observationData.getScalarShort("Year");
+                    snapshotObservation.data[2] = observationData.getScalarByte("Month");
+                    snapshotObservation.data[3] = observationData.getScalarByte("Day");
+                    snapshotObservation.data[4] = observationData.getScalarByte("Hour");
+                    snapshotObservation.data[5] = observationData.getScalarByte("Minute");
+                    snapshotObservation.data[6] = observationData.getScalarByte("Second");
+                    snapshotObservation.data[7] = observationData.getScalarByte("Total_electron_count_per_square_metre");
+                    snapshotObservation.data[8] = observationData.getScalarInt("Direct_sun_brightness_temperature");
+                    snapshotObservation.data[9] = observationData.getScalarShort("Snapshot_accuracy");
+                    snapshotObservation.data[10] = observationData.getScalarShort("Radiometric_accuracy_pure_polarisation");
+                    snapshotObservation.data[11] = observationData.getScalarShort("Radiometric_accuracy_cross_polarisation");
+                    final Array snapshot_overall_quality = observationData.getArray("Snapshot_overall_quality");
+                    snapshotObservation.data[12] = snapshot_overall_quality.getByte(0);
+                    snapshotObservation.observations = new ArrayList<>();
+                    snapshotMap.put(snapshot_id, snapshotObservation);
+                }
+
+                snapshotObservation.observations.add(observation);
             }
-            snapshotObservation.observations.add(observation);
-
-
         }
     }
 
@@ -486,7 +499,7 @@ public class SmosLightBufrReader extends SmosReader {
     }
 
     private void addObservationToGridPoints(Observation observation) {
-        ArrayList<Observation> gridPointObservations = gridPointMap.get(observation.cellIndex);
+        List<Observation> gridPointObservations = gridPointMap.get(observation.cellIndex);
         if (gridPointObservations == null) {
             gridPointObservations = new ArrayList<>();
             gridPointMap.put(observation.cellIndex, gridPointObservations);
@@ -514,9 +527,9 @@ public class SmosLightBufrReader extends SmosReader {
         snapshotMap.clear();
         snapshotInfo = null;
 
-        if (ncfile != null) {
-            ncfile.close();
-            ncfile = null;
+        if (smosBufrFile != null) {
+            smosBufrFile.close();
+            smosBufrFile = null;
         }
     }
 
@@ -526,7 +539,7 @@ public class SmosLightBufrReader extends SmosReader {
         final Dimension dimension = ProductHelper.getSceneRasterDimension();
         final Product product = new Product(productName, productType, dimension.width, dimension.height);
 
-        product.setFileLocation(new File(ncfile.getLocation()));
+        product.setFileLocation(new File(smosBufrFile.getLocation()));
         product.setPreferredTileSize(512, 512);
 
         product.setGeoCoding(ProductHelper.createGeoCoding(dimension));
@@ -547,22 +560,18 @@ public class SmosLightBufrReader extends SmosReader {
         throw new IllegalArgumentException(MessageFormat.format("Illegal input: {0}", input));
     }
 
-    private Sequence getObservationSequence() {
-        return (Sequence) ncfile.findVariable("obs");
-    }
-
     // @todo 2 tb/tb duplicated code - is copied from old BUFR lightreader tb 2014-09-12
     private void extractMetaData(Product product) {
-        final List<Attribute> globalAttributes = ncfile.getGlobalAttributes();
+        final List<Attribute> globalAttributes = smosBufrFile.getGlobalAttributes();
         final MetadataElement metadataRoot = product.getMetadataRoot();
         metadataRoot.addElement(MetadataUtils.readAttributeList(globalAttributes, "Global_Attributes"));
-        final Sequence sequence = getObservationSequence();
+        final Sequence sequence = smosBufrFile.getObservationStructure();
         final List<Variable> variables = sequence.getVariables();
         metadataRoot.addElement(MetadataUtils.readVariableDescriptions(variables, "Variable_Attributes", 100));
     }
 
     private void addBands(Product product) throws IOException {
-        final Sequence sequence = getObservationSequence();
+        final Sequence sequence = smosBufrFile.getObservationStructure();
         final Family<BandDescriptor> descriptors = Dddb.getInstance().getBandDescriptors("BUFR");
         for (final BandDescriptor descriptor : descriptors.asList()) {
             final Variable variable = sequence.findVariable(descriptor.getMemberName());
@@ -579,7 +588,7 @@ public class SmosLightBufrReader extends SmosReader {
     }
 
     private void addBand(Product product, Variable variable, int dataType, BandDescriptor descriptor) throws
-            IOException {
+                                                                                                      IOException {
         if (!descriptor.isVisible()) {
             return;
         }
@@ -611,14 +620,14 @@ public class SmosLightBufrReader extends SmosReader {
         }
         if (descriptor.getFlagDescriptors() != null) {
             ProductHelper.addFlagsAndMasks(product, band, descriptor.getFlagCodingName(),
-                    descriptor.getFlagDescriptors());
+                                           descriptor.getFlagDescriptors());
         }
 
         final Integer index = datasetNameIndexMap.get(descriptor.getMemberName());
 
         final CellValueProvider valueProvider;
         if (descriptor.getFlagDescriptors() == null) {
-            final ScaleFactor scalingFactor = createFactor(getObservationSequence(), descriptor.getMemberName());
+            final ScaleFactor scalingFactor = createFactor(smosBufrFile.getObservationStructure(), descriptor.getMemberName());
             valueProvider = new BufrCellValueProvider(descriptor.getPolarization(), index, scalingFactor);
         } else {
             valueProvider = new FlagCellValueProvider(descriptor.getPolarization(), index);
@@ -712,7 +721,7 @@ public class SmosLightBufrReader extends SmosReader {
         }
 
         private int getBrowseViewData(int cellIndex, int noDataValue) {
-            final ArrayList<Observation> cellObservations = gridPointMap.get(cellIndex);
+            final List<Observation> cellObservations = gridPointMap.get(cellIndex);
             if (cellObservations != null) {
                 int count = 0;
                 double sx = 0;
@@ -730,8 +739,8 @@ public class SmosLightBufrReader extends SmosReader {
                         continue;
                     }
                     if (polarisation == 4 ||
-                            (observation.data[POLARISATION_INDEX] & 3) == polarisation ||
-                            (polarisation & observation.data[POLARISATION_INDEX] & 2) != 0) {
+                        (observation.data[POLARISATION_INDEX] & 3) == polarisation ||
+                        (polarisation & observation.data[POLARISATION_INDEX] & 2) != 0) {
 
                         final int incidenceAngleInt = observation.data[INCIDENCE_ANGLE_INDEX];
                         if (incidenceAngleScaleFactor.isValid(incidenceAngleInt)) {
@@ -825,7 +834,7 @@ public class SmosLightBufrReader extends SmosReader {
         }
 
         private int getBrowseViewData(int cellIndex, int noDataValue) {
-            final ArrayList<Observation> cellObservations = gridPointMap.get(cellIndex);
+            final List<Observation> cellObservations = gridPointMap.get(cellIndex);
             if (cellObservations != null) {
                 final ScaleFactor incidenceAngleScaleFactor = scaleFactors.incidenceAngle;
 
@@ -835,8 +844,8 @@ public class SmosLightBufrReader extends SmosReader {
 
                 for (final Observation observation : cellObservations) {
                     if (polarisation == 4 ||
-                            (observation.data[POLARISATION_INDEX] & 3) == polarisation ||
-                            (polarisation & observation.data[POLARISATION_INDEX] & 2) != 0) {
+                        (observation.data[POLARISATION_INDEX] & 3) == polarisation ||
+                        (polarisation & observation.data[POLARISATION_INDEX] & 2) != 0) {
 
                         final int incidenceAngleInt = observation.data[INCIDENCE_ANGLE_INDEX];
 
@@ -928,17 +937,6 @@ public class SmosLightBufrReader extends SmosReader {
 
         public double getLat() {
             return lat;
-        }
-    }
-
-    private static void ensureNetcdfBufrSupport() throws IOException {
-        if (!isIOSPInjected) {
-            try {
-                NetcdfFile.registerIOProvider(BufrIosp.class);
-            } catch (IllegalAccessException | InstantiationException e) {
-                throw new IOException(e.getMessage());
-            }
-            isIOSPInjected = true;
         }
     }
 }
