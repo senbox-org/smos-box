@@ -204,7 +204,7 @@ public class SmosProductReader extends SmosReader {
 
     @Override
     public PolarisationModel getPolarisationModel() {
-        return new L1CPolarisationModel();
+        return new L1bPolarisationModel();
     }
 
     @Override

@@ -8,13 +8,13 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 @SuppressWarnings("ConstantConditions")
-public class L1CPolarisationModelTest {
+public class L1BPolarisationModelTest {
 
-    private L1CPolarisationModel polarisationModel;
+    private L1bPolarisationModel polarisationModel;
 
     @Before
     public void setUp() {
-        polarisationModel = new L1CPolarisationModel();
+        polarisationModel = new L1bPolarisationModel();
     }
 
     @Test
