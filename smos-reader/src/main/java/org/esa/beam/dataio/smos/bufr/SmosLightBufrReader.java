@@ -381,28 +381,19 @@ public class SmosLightBufrReader extends SmosReader {
     }
 
     private void extractScaleFactors() {
-        final Sequence sequence = smosBufrFile.getObservationStructure();
         valueDecoders = new ValueDecoders();
 
-        valueDecoders.lonDecoder = SmosBufrFile.createValueDecoder(sequence.findVariable(
-                SmosBufrFile.LONGITUDE_HIGH_ACCURACY));
-        valueDecoders.latDecoder = SmosBufrFile.createValueDecoder(sequence.findVariable(
-                SmosBufrFile.LATITUDE_HIGH_ACCURACY));
-        valueDecoders.incidenceAngleDecoder = SmosBufrFile.createValueDecoder(sequence.findVariable(
-                SmosBufrFile.INCIDENCE_ANGLE));
-
-        valueDecoders.tecDecoder = SmosBufrFile.createValueDecoder(
-                sequence.findVariable(SmosBufrFile.TOTAL_ELECTRON_COUNT));
-        valueDecoders.snapshotAccuracyDecoder = SmosBufrFile.createValueDecoder(sequence.findVariable(
-                SmosBufrFile.SNAPSHOT_ACCURACY));
-        valueDecoders.raPpDecoder = SmosBufrFile.createValueDecoder(
-                sequence.findVariable(SmosBufrFile.RADIOMETRIC_ACCURACY_PP));
-        valueDecoders.raCpDecoder = SmosBufrFile.createValueDecoder(
-                sequence.findVariable(SmosBufrFile.RADIOMETRIC_ACCURACY_CP));
+        valueDecoders.lonDecoder = smosBufrFile.getValueDecoder(SmosBufrFile.LONGITUDE_HIGH_ACCURACY);
+        valueDecoders.latDecoder = smosBufrFile.getValueDecoder(SmosBufrFile.LATITUDE_HIGH_ACCURACY);
+        valueDecoders.incidenceAngleDecoder = smosBufrFile.getValueDecoder(SmosBufrFile.INCIDENCE_ANGLE);
+        valueDecoders.tecDecoder = smosBufrFile.getValueDecoder(SmosBufrFile.TOTAL_ELECTRON_COUNT);
+        valueDecoders.snapshotAccuracyDecoder = smosBufrFile.getValueDecoder(SmosBufrFile.SNAPSHOT_ACCURACY);
+        valueDecoders.raPpDecoder = smosBufrFile.getValueDecoder(SmosBufrFile.RADIOMETRIC_ACCURACY_PP);
+        valueDecoders.raCpDecoder = smosBufrFile.getValueDecoder(SmosBufrFile.RADIOMETRIC_ACCURACY_CP);
 
         valueDecoders.dataDecoders = new ValueDecoder[rawDataNames.length];
         for (int i = 0; i < rawDataNames.length; i++) {
-            final ValueDecoder factor = SmosBufrFile.createValueDecoder(sequence.findVariable(rawDataNames[i]));
+            final ValueDecoder factor = smosBufrFile.getValueDecoder(rawDataNames[i]);
             valueDecoders.dataDecoders[i] = factor;
         }
     }
@@ -595,7 +586,7 @@ public class SmosLightBufrReader extends SmosReader {
         if (units != null) {
             band.setUnit(units.getStringValue());
         }
-        final ValueDecoder valueDecoder = SmosBufrFile.createValueDecoder(variable);
+        final ValueDecoder valueDecoder = smosBufrFile.getValueDecoder(variable.getShortName());
         final double offset = valueDecoder.getOffset();
         if (offset != 0.0) {
             band.setScalingOffset(offset);
@@ -625,8 +616,7 @@ public class SmosLightBufrReader extends SmosReader {
 
         final CellValueProvider valueProvider;
         if (descriptor.getFlagDescriptors() == null) {
-            final ValueDecoder scalingFactor = SmosBufrFile.createValueDecoder(
-                    smosBufrFile.getObservationStructure().findVariable(descriptor.getMemberName()));
+            final ValueDecoder scalingFactor = smosBufrFile.getValueDecoder(descriptor.getMemberName());
             valueProvider = new BufrCellValueProvider(descriptor.getPolarization(), index, scalingFactor);
         } else {
             valueProvider = new FlagCellValueProvider(descriptor.getPolarization(), index);

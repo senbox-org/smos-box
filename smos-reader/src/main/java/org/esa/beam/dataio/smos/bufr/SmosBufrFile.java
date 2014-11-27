@@ -11,6 +11,8 @@ import ucar.unidata.io.RandomAccessFile;
 
 import java.io.Closeable;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Represents a SMOS BUFR or Light-BUFR file.
@@ -48,6 +50,7 @@ public class SmosBufrFile extends NetcdfFile implements Closeable {
     private static final String ATTR_NAME_MISSING_VALUE = "missing_value";
 
     private final SmosBufrIosp instance;
+    private final Map<String, ValueDecoder> valueDecoderMap;
 
     /**
      * Opens an existing BUFR file.
@@ -67,8 +70,35 @@ public class SmosBufrFile extends NetcdfFile implements Closeable {
         instance = iosp;
         final RandomAccessFile randomAccessFile = new RandomAccessFile(location, "r");
         instance.open(randomAccessFile, this, null);
+
+        valueDecoderMap = new HashMap<>();
+
+        addValueDecoder(AZIMUTH_ANGLE);
+        addValueDecoder(BRIGHTNESS_TEMPERATURE_IMAGINARY_PART);
+        addValueDecoder(BRIGHTNESS_TEMPERATURE_REAL_PART);
+        addValueDecoder(DIRECT_SUN_BRIGHTNESS_TEMPERATURE);
+        addValueDecoder(FARADAY_ROTATIONAL_ANGLE);
+        addValueDecoder(FOOTPRINT_AXIS_1);
+        addValueDecoder(FOOTPRINT_AXIS_2);
+        addValueDecoder(GEOMETRIC_ROTATIONAL_ANGLE);
+        addValueDecoder(GRID_POINT_IDENTIFIER);
+        addValueDecoder(INCIDENCE_ANGLE);
+        addValueDecoder(LATITUDE_HIGH_ACCURACY);
+        addValueDecoder(LONGITUDE_HIGH_ACCURACY);
+        addValueDecoder(NUMBER_OF_GRID_POINTS);
+        addValueDecoder(PIXEL_RADIOMETRIC_ACCURACY);
+        addValueDecoder(POLARISATION);
+        addValueDecoder(RADIOMETRIC_ACCURACY_CP);
+        addValueDecoder(RADIOMETRIC_ACCURACY_PP);
+        addValueDecoder(SMOS_INFORMATION_FLAG);
+        addValueDecoder(SNAPSHOT_ACCURACY);
+        addValueDecoder(SNAPSHOT_OVERALL_QUALITY);
+        addValueDecoder(SNAPSHOT_IDENTIFIER);
+        addValueDecoder(TOTAL_ELECTRON_COUNT);
+        addValueDecoder(WATER_FRACTION);
     }
 
+    // package public for testing only
     static double getAttributeValue(Variable variable, String attributeName, double defaultValue) {
         final Attribute attribute = variable.findAttribute(attributeName);
         if (attribute == null) {
@@ -77,6 +107,7 @@ public class SmosBufrFile extends NetcdfFile implements Closeable {
         return attribute.getNumericValue().doubleValue();
     }
 
+    // package public for testing only
     static Number getAttributeValue(Variable variable, String attributeName) {
         final Attribute attribute = variable.findAttribute(attributeName);
         if (attribute == null) {
@@ -85,12 +116,17 @@ public class SmosBufrFile extends NetcdfFile implements Closeable {
         return attribute.getNumericValue();
     }
 
+    // package public for testing only
     static ValueDecoder createValueDecoder(Variable variable) {
         final double scale = getAttributeValue(variable, ATTR_NAME_SCALE_FACTOR, 1.0);
         final double offset = getAttributeValue(variable, ATTR_NAME_ADD_OFFSET, 0.0);
         final Number missingValue = getAttributeValue(variable, ATTR_NAME_MISSING_VALUE);
 
         return new ValueDecoder(scale, offset, missingValue);
+    }
+
+    ValueDecoder getValueDecoder(String variableName) {
+        return valueDecoderMap.get(variableName);
     }
 
     /**
@@ -128,4 +164,13 @@ public class SmosBufrFile extends NetcdfFile implements Closeable {
             throw new RuntimeException("BUFR file does not contain an observation sequence.");
         }
     }
+
+    private ValueDecoder createValueDecoder(String variableName) {
+        return createValueDecoder(getObservationStructure().findVariable(variableName));
+    }
+
+    private void addValueDecoder(String variableName) {
+        valueDecoderMap.put(variableName, createValueDecoder(variableName));
+    }
+
 }
