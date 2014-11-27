@@ -23,7 +23,10 @@ import ucar.ma2.StructureData;
 import ucar.ma2.StructureDataIterator;
 import ucar.ma2.StructureMembers;
 
+import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -34,18 +37,18 @@ import static org.junit.Assert.assertNotNull;
  *
  * @author Ralf Quast
  */
-@Ignore
 public class SmosBufrFileTest {
 
     @Test
-    public void testOpenAndIterateMessages() throws IOException {
-        final String location = "/Users/ralf/Desktop/ideas-nas.eo.esa.int/miras_20131028_003256_20131028_020943_smos_20947_o_20131028_031005_l1c.bufr";
+    public void testOpenAndIterateMessages() throws IOException, URISyntaxException {
+        final URL resource = getClass().getResource(
+                "W_ES-ESA-ESAC,SMOS,N256_C_LEMM_20131028033037_20131028002942_20131028003302_bufr_v505.bin");
+        final File file = new File(resource.toURI());
 
-        try (final SmosBufrFile dataset = SmosBufrFile.open(location)) {
+        try (final SmosBufrFile dataset = SmosBufrFile.open(file.getPath())) {
             for (int i = 1, messageCount = dataset.getMessageCount(); i < messageCount; i += 100) {
                 final StructureDataIterator structureIterator = dataset.getStructureIterator(i);
 
-                int count = 0;
                 while (structureIterator.hasNext()) {
                     final StructureData structureData = structureIterator.next();
                     assertNotNull(structureData);
@@ -68,11 +71,7 @@ public class SmosBufrFileTest {
                             "Brightness_temperature_real_part");
                     assertNotNull(brightnessTemperatureRealPartData);
                     assertEquals(1, brightnessTemperatureRealPartData.getSize());
-                    count++;
                 }
-
-                System.out.println("i = " + i);
-                System.out.println("count = " + count);
             }
 
             //dataset.writeCDL(System.out, false);
