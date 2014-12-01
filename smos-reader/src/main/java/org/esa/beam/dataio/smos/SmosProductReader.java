@@ -373,19 +373,6 @@ public class SmosProductReader extends SmosReader {
         }
     }
 
-    private File getInputFile() {
-        final Object input = getInput();
-
-        if (input instanceof String) {
-            return new File((String) input);
-        }
-        if (input instanceof File) {
-            return (File) input;
-        }
-
-        throw new IllegalArgumentException(MessageFormat.format("Illegal input: {0}", input));
-    }
-
     private VirtualDir getInputVirtualDir() {
         File inputFile = getInputFile();
 

@@ -5,7 +5,9 @@ import org.esa.beam.dataio.smos.dddb.FlagDescriptor;
 import org.esa.beam.framework.dataio.AbstractProductReader;
 import org.esa.beam.framework.dataio.ProductReaderPlugIn;
 
+import java.io.File;
 import java.io.IOException;
+import java.text.MessageFormat;
 
 abstract public class SmosReader extends AbstractProductReader{
 
@@ -28,4 +30,17 @@ abstract public class SmosReader extends AbstractProductReader{
     public abstract boolean hasSnapshotInfo();
     public abstract SnapshotInfo getSnapshotInfo();
     public abstract Object[][] getSnapshotData(int snapshotIndex) throws IOException;
+
+    protected File getInputFile() {
+        final Object input = getInput();
+
+        if (input instanceof String) {
+            return new File((String) input);
+        }
+        if (input instanceof File) {
+            return (File) input;
+        }
+
+        throw new IllegalArgumentException(MessageFormat.format("Illegal input: {0}", input));
+    }
 }

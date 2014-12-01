@@ -8,15 +8,7 @@ import com.bc.ceres.glevel.support.DefaultMultiLevelImage;
 import org.esa.beam.binning.support.ReducedGaussianGrid;
 import org.esa.beam.dataio.netcdf.util.DataTypeUtils;
 import org.esa.beam.dataio.netcdf.util.MetadataUtils;
-import org.esa.beam.dataio.smos.CellValueProvider;
-import org.esa.beam.dataio.smos.DggUtils;
-import org.esa.beam.dataio.smos.Grid;
-import org.esa.beam.dataio.smos.GridPointBtDataset;
-import org.esa.beam.dataio.smos.PointList;
-import org.esa.beam.dataio.smos.PolarisationModel;
-import org.esa.beam.dataio.smos.ProductHelper;
-import org.esa.beam.dataio.smos.SmosReader;
-import org.esa.beam.dataio.smos.SnapshotInfo;
+import org.esa.beam.dataio.smos.*;
 import org.esa.beam.dataio.smos.dddb.BandDescriptor;
 import org.esa.beam.dataio.smos.dddb.Dddb;
 import org.esa.beam.dataio.smos.dddb.Family;
@@ -36,24 +28,15 @@ import ucar.nc2.Attribute;
 import ucar.nc2.Sequence;
 import ucar.nc2.Variable;
 
-import java.awt.Dimension;
-import java.awt.Rectangle;
+import java.awt.*;
 import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.Raster;
 import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.IOException;
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedList;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
-import java.util.TreeSet;
 
 public class SmosLightBufrReader extends SmosReader {
 
@@ -355,7 +338,7 @@ public class SmosLightBufrReader extends SmosReader {
         smosBufrFile = SmosBufrFile.open(inputFile.getPath());
         grid = new Grid(new ReducedGaussianGrid(512));
 
-        final Product product = createProduct(inputFile);
+        final Product product = createProduct(inputFile, "SMOS.MIRAS.NRT_BUFR_Light");
 
         extractMetaData(product);
         extractScaleFactors();
@@ -510,6 +493,8 @@ public class SmosLightBufrReader extends SmosReader {
 
     @Override
     public void close() throws IOException {
+        super.close();
+
         // just to make sure the garbage collector is not confused by these multiple referenced maps
         gridPointMap.clear();
         snapshotMap.clear();
@@ -521,9 +506,8 @@ public class SmosLightBufrReader extends SmosReader {
         }
     }
 
-    private Product createProduct(File inputFile) {
+    private Product createProduct(File inputFile, String productType) {
         final String productName = FileUtils.getFilenameWithoutExtension(inputFile);
-        final String productType = "SMOS.MIRAS.NRT_BUFR_Light";
         final Dimension dimension = ProductHelper.getSceneRasterDimension();
         final Product product = new Product(productName, productType, dimension.width, dimension.height);
 
@@ -533,19 +517,6 @@ public class SmosLightBufrReader extends SmosReader {
         product.setGeoCoding(ProductHelper.createGeoCoding(dimension));
 
         return product;
-    }
-
-    private File getInputFile() {
-        final Object input = getInput();
-
-        if (input instanceof String) {
-            return new File((String) input);
-        }
-        if (input instanceof File) {
-            return (File) input;
-        }
-
-        throw new IllegalArgumentException(MessageFormat.format("Illegal input: {0}", input));
     }
 
     // @todo 2 tb/tb duplicated code - is copied from old BUFR lightreader tb 2014-09-12
@@ -576,7 +547,7 @@ public class SmosLightBufrReader extends SmosReader {
     }
 
     private void addBand(Product product, Variable variable, int dataType, BandDescriptor descriptor) throws
-                                                                                                      IOException {
+            IOException {
         if (!descriptor.isVisible()) {
             return;
         }
@@ -609,7 +580,7 @@ public class SmosLightBufrReader extends SmosReader {
         }
         if (descriptor.getFlagDescriptors() != null) {
             ProductHelper.addFlagsAndMasks(product, band, descriptor.getFlagCodingName(),
-                                           descriptor.getFlagDescriptors());
+                    descriptor.getFlagDescriptors());
         }
 
         final Integer index = datasetNameIndexMap.get(descriptor.getMemberName());
@@ -720,8 +691,8 @@ public class SmosLightBufrReader extends SmosReader {
                         continue;
                     }
                     if (polarisation == 4 ||
-                        (observation.data[POLARISATION_INDEX] & 3) == polarisation ||
-                        (polarisation & observation.data[POLARISATION_INDEX] & 2) != 0) {
+                            (observation.data[POLARISATION_INDEX] & 3) == polarisation ||
+                            (polarisation & observation.data[POLARISATION_INDEX] & 2) != 0) {
 
                         final int incidenceAngleInt = observation.data[INCIDENCE_ANGLE_INDEX];
                         if (incidenceAngleValueDecoder.isValid(incidenceAngleInt)) {
@@ -825,8 +796,8 @@ public class SmosLightBufrReader extends SmosReader {
 
                 for (final Observation observation : cellObservations) {
                     if (polarisation == 4 ||
-                        (observation.data[POLARISATION_INDEX] & 3) == polarisation ||
-                        (polarisation & observation.data[POLARISATION_INDEX] & 2) != 0) {
+                            (observation.data[POLARISATION_INDEX] & 3) == polarisation ||
+                            (polarisation & observation.data[POLARISATION_INDEX] & 2) != 0) {
 
                         final int incidenceAngleInt = observation.data[INCIDENCE_ANGLE_INDEX];
 

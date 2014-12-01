@@ -2,26 +2,26 @@ package org.esa.beam.dataio.smos.bufr;
 
 import com.bc.ceres.core.ProgressMonitor;
 import com.bc.ceres.glevel.MultiLevelImage;
-import org.esa.beam.dataio.smos.GridPointBtDataset;
-import org.esa.beam.dataio.smos.PolarisationModel;
-import org.esa.beam.dataio.smos.SmosReader;
-import org.esa.beam.dataio.smos.SnapshotInfo;
+import org.esa.beam.dataio.smos.*;
 import org.esa.beam.dataio.smos.dddb.FlagDescriptor;
-import org.esa.beam.framework.dataio.ProductReader;
 import org.esa.beam.framework.datamodel.Band;
 import org.esa.beam.framework.datamodel.Product;
 import org.esa.beam.framework.datamodel.ProductData;
 import org.esa.beam.smos.dgg.SmosDgg;
+import org.esa.beam.util.io.FileUtils;
 
-import java.awt.Rectangle;
+import java.awt.*;
 import java.awt.image.Raster;
 import java.awt.image.RenderedImage;
+import java.io.File;
 import java.io.IOException;
 
 /**
  * @author Ralf Quast
  */
 public class SmosBufrReader extends SmosReader {
+
+    private SmosBufrFile smosBufrFile;
 
     public SmosBufrReader(SmosBufrReaderPlugIn smosBufrReaderPlugIn) {
         super(smosBufrReaderPlugIn);
@@ -95,21 +95,48 @@ public class SmosBufrReader extends SmosReader {
 
     @Override
     protected Product readProductNodesImpl() throws IOException {
-        // TODO - implement
-        return null;
+        final File inputFile = getInputFile();
+        smosBufrFile = SmosBufrFile.open(inputFile.getPath());
+
+        final Product product = createProduct(inputFile, "SMOS.MIRAS.NRT_BUFR");
+
+        return product;
+    }
+
+    @Override
+    public void close() throws IOException {
+        super.close();
+
+        if (smosBufrFile != null) {
+            smosBufrFile.close();
+            smosBufrFile = null;
+        }
     }
 
     @Override
     protected final void readBandRasterDataImpl(int sourceOffsetX, int sourceOffsetY, int sourceWidth, int sourceHeight,
-                                          int sourceStepX, int sourceStepY, Band destBand, int destOffsetX,
-                                          int destOffsetY, int destWidth, int destHeight, ProductData destBuffer,
-                                          ProgressMonitor pm) throws IOException {
+                                                int sourceStepX, int sourceStepY, Band destBand, int destOffsetX,
+                                                int destOffsetY, int destWidth, int destHeight, ProductData destBuffer,
+                                                ProgressMonitor pm) throws IOException {
         synchronized (this) {
             final RenderedImage image = destBand.getSourceImage();
             final Raster data = image.getData(new Rectangle(destOffsetX, destOffsetY, destWidth, destHeight));
 
             data.getDataElements(destOffsetX, destOffsetY, destWidth, destHeight, destBuffer.getElems());
         }
+    }
+
+    private Product createProduct(File inputFile, String productType) {
+        final String productName = FileUtils.getFilenameWithoutExtension(inputFile);
+        final Dimension dimension = ProductHelper.getSceneRasterDimension();
+        final Product product = new Product(productName, productType, dimension.width, dimension.height);
+
+        product.setFileLocation(new File(smosBufrFile.getLocation()));
+        product.setPreferredTileSize(512, 512);
+
+        product.setGeoCoding(ProductHelper.createGeoCoding(dimension));
+
+        return product;
     }
 
 }

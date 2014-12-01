@@ -47,6 +47,9 @@
     <dependency>
         <module>smos-tools</module>
     </dependency>
+    <dependency>
+        <module>snap-netcdf</module>
+    </dependency>
 
     <categories>Reader,SMOS</categories>
 
