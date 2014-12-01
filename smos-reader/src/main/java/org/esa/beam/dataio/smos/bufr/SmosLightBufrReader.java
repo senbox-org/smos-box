@@ -7,19 +7,16 @@ import com.bc.ceres.glevel.MultiLevelSource;
 import com.bc.ceres.glevel.support.DefaultMultiLevelImage;
 import org.esa.beam.binning.support.ReducedGaussianGrid;
 import org.esa.beam.dataio.netcdf.util.DataTypeUtils;
-import org.esa.beam.dataio.netcdf.util.MetadataUtils;
 import org.esa.beam.dataio.smos.*;
 import org.esa.beam.dataio.smos.dddb.BandDescriptor;
 import org.esa.beam.dataio.smos.dddb.Dddb;
 import org.esa.beam.dataio.smos.dddb.Family;
 import org.esa.beam.dataio.smos.dddb.FlagDescriptor;
 import org.esa.beam.framework.datamodel.Band;
-import org.esa.beam.framework.datamodel.MetadataElement;
 import org.esa.beam.framework.datamodel.Product;
 import org.esa.beam.framework.datamodel.ProductData;
 import org.esa.beam.smos.dgg.SmosDgg;
 import org.esa.beam.util.StringUtils;
-import org.esa.beam.util.io.FileUtils;
 import ucar.ma2.Array;
 import ucar.ma2.DataType;
 import ucar.ma2.StructureData;
@@ -115,7 +112,6 @@ public class SmosLightBufrReader extends SmosReader {
         datasetNameIndexMap.put(rawDataNames[11], POLARISATION_INDEX);
     }
 
-    private SmosBufrFile smosBufrFile;
     private HashMap<Integer, SnapshotObservation> snapshotMap;
     private HashMap<Integer, List<Observation>> gridPointMap;
     private Grid grid;
@@ -125,10 +121,11 @@ public class SmosLightBufrReader extends SmosReader {
     private int gridPointMaxIndex;
     private LinkedList<Integer> snapshotIdList;
     private SnapshotInfo snapshotInfo;
+    private BufrSupport bufrSupport;
 
     SmosLightBufrReader(SmosLightBufrReaderPlugIn smosLightBufrReaderPlugIn) {
         super(smosLightBufrReaderPlugIn);
-        smosBufrFile = null;
+        bufrSupport = null;
         gridPointMinIndex = -1;
         gridPointMaxIndex = -1;
     }
@@ -335,12 +332,15 @@ public class SmosLightBufrReader extends SmosReader {
     @Override
     protected Product readProductNodesImpl() throws IOException {
         final File inputFile = getInputFile();
-        smosBufrFile = SmosBufrFile.open(inputFile.getPath());
+
+        bufrSupport = new BufrSupport();
+        bufrSupport.open(inputFile.getPath());
+
         grid = new Grid(new ReducedGaussianGrid(512));
 
-        final Product product = createProduct(inputFile, "SMOS.MIRAS.NRT_BUFR_Light");
+        final Product product = bufrSupport.createProduct(inputFile, "SMOS.MIRAS.NRT_BUFR_Light");
 
-        extractMetaData(product);
+        bufrSupport.extractMetaData(product);
         extractScaleFactors();
         readObservations();
         calculateArea();
@@ -366,6 +366,7 @@ public class SmosLightBufrReader extends SmosReader {
     private void extractScaleFactors() {
         valueDecoders = new ValueDecoders();
 
+        final SmosBufrFile smosBufrFile = bufrSupport.getSmosBufrFile();
         valueDecoders.lonDecoder = smosBufrFile.getValueDecoder(SmosBufrFile.LONGITUDE_HIGH_ACCURACY);
         valueDecoders.latDecoder = smosBufrFile.getValueDecoder(SmosBufrFile.LATITUDE_HIGH_ACCURACY);
         valueDecoders.incidenceAngleDecoder = smosBufrFile.getValueDecoder(SmosBufrFile.INCIDENCE_ANGLE);
@@ -388,6 +389,7 @@ public class SmosLightBufrReader extends SmosReader {
         gridPointMinIndex = Integer.MAX_VALUE;
         gridPointMaxIndex = Integer.MIN_VALUE;
 
+        final SmosBufrFile smosBufrFile = bufrSupport.getSmosBufrFile();
         for (int i = 0, messageCount = smosBufrFile.getMessageCount(); i < messageCount; i++) {
             final StructureDataIterator observationIterator = smosBufrFile.getStructureIterator(i);
 
@@ -500,36 +502,15 @@ public class SmosLightBufrReader extends SmosReader {
         snapshotMap.clear();
         snapshotInfo = null;
 
-        if (smosBufrFile != null) {
-            smosBufrFile.close();
-            smosBufrFile = null;
+
+        if (bufrSupport != null) {
+            bufrSupport.close();
+            bufrSupport = null;
         }
     }
 
-    private Product createProduct(File inputFile, String productType) {
-        final String productName = FileUtils.getFilenameWithoutExtension(inputFile);
-        final Dimension dimension = ProductHelper.getSceneRasterDimension();
-        final Product product = new Product(productName, productType, dimension.width, dimension.height);
-
-        product.setFileLocation(new File(smosBufrFile.getLocation()));
-        product.setPreferredTileSize(512, 512);
-
-        product.setGeoCoding(ProductHelper.createGeoCoding(dimension));
-
-        return product;
-    }
-
-    // @todo 2 tb/tb duplicated code - is copied from old BUFR lightreader tb 2014-09-12
-    private void extractMetaData(Product product) {
-        final List<Attribute> globalAttributes = smosBufrFile.getGlobalAttributes();
-        final MetadataElement metadataRoot = product.getMetadataRoot();
-        metadataRoot.addElement(MetadataUtils.readAttributeList(globalAttributes, "Global_Attributes"));
-        final Sequence sequence = smosBufrFile.getObservationStructure();
-        final List<Variable> variables = sequence.getVariables();
-        metadataRoot.addElement(MetadataUtils.readVariableDescriptions(variables, "Variable_Attributes", 100));
-    }
-
     private void addBands(Product product) throws IOException {
+        final SmosBufrFile smosBufrFile = bufrSupport.getSmosBufrFile();
         final Sequence sequence = smosBufrFile.getObservationStructure();
         final Family<BandDescriptor> descriptors = Dddb.getInstance().getBandDescriptors("BUFR");
         for (final BandDescriptor descriptor : descriptors.asList()) {
@@ -557,6 +538,7 @@ public class SmosLightBufrReader extends SmosReader {
         if (units != null) {
             band.setUnit(units.getStringValue());
         }
+        final SmosBufrFile smosBufrFile = bufrSupport.getSmosBufrFile();
         final ValueDecoder valueDecoder = smosBufrFile.getValueDecoder(variable.getShortName());
         final double offset = valueDecoder.getOffset();
         if (offset != 0.0) {
