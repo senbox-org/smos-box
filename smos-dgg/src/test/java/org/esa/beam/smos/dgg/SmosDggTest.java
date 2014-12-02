@@ -231,4 +231,12 @@ public class SmosDggTest {
         assertEquals(-180.0, m.getX(), 0.0);
         assertEquals(90.0 - 0.02197265625 * 64, m.getY(), 0.0);
     }
+
+    @Test
+    public void testGetSeqnum() throws Exception {
+        assertEquals(-1, SmosDgg.getInstance().getSeqnum(0.0, 90.0));
+        assertEquals(-1, SmosDgg.getInstance().getSeqnum(0.0, -90.0));
+
+        assertEquals(609961, SmosDgg.getInstance().getSeqnum(0.0, 0.0));
+    }
 }
