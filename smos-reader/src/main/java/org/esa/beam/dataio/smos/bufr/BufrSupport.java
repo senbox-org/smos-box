@@ -5,6 +5,7 @@ import org.esa.beam.dataio.smos.ProductHelper;
 import org.esa.beam.framework.datamodel.MetadataElement;
 import org.esa.beam.framework.datamodel.Product;
 import org.esa.beam.util.io.FileUtils;
+import ucar.ma2.StructureDataIterator;
 import ucar.nc2.Attribute;
 import ucar.nc2.Sequence;
 import ucar.nc2.Variable;
@@ -102,6 +103,14 @@ class BufrSupport {
         return smosBufrFile;
     }
 
+    int getMessageCount() {
+        return smosBufrFile.getMessageCount();
+    }
+
+    StructureDataIterator getStructureIterator(int index) throws IOException {
+        return smosBufrFile.getStructureIterator(index);
+    }
+
     Product createProduct(File inputFile, String productType) {
         final String productName = FileUtils.getFilenameWithoutExtension(inputFile);
         final Dimension dimension = ProductHelper.getSceneRasterDimension();
@@ -124,7 +133,7 @@ class BufrSupport {
         metadataRoot.addElement(MetadataUtils.readVariableDescriptions(variables, "Variable_Attributes", 100));
     }
 
-    ValueDecoders extractValueDecoders(String[] rawDataNames) {
+    ValueDecoders extractValueDecoders() {
         final ValueDecoders valueDecoders = new ValueDecoders();
 
         valueDecoders.lonDecoder = smosBufrFile.getValueDecoder(SmosBufrFile.LONGITUDE_HIGH_ACCURACY);
@@ -135,9 +144,9 @@ class BufrSupport {
         valueDecoders.raPpDecoder = smosBufrFile.getValueDecoder(SmosBufrFile.RADIOMETRIC_ACCURACY_PP);
         valueDecoders.raCpDecoder = smosBufrFile.getValueDecoder(SmosBufrFile.RADIOMETRIC_ACCURACY_CP);
 
-        valueDecoders.dataDecoders = new ValueDecoder[rawDataNames.length];
-        for (int i = 0; i < rawDataNames.length; i++) {
-            final ValueDecoder factor = smosBufrFile.getValueDecoder(rawDataNames[i]);
+        valueDecoders.dataDecoders = new ValueDecoder[RAW_DATA_NAMES.length];
+        for (int i = 0; i < RAW_DATA_NAMES.length; i++) {
+            final ValueDecoder factor = smosBufrFile.getValueDecoder(RAW_DATA_NAMES[i]);
             valueDecoders.dataDecoders[i] = factor;
         }
 

@@ -2,21 +2,23 @@ package org.esa.beam.dataio.smos.bufr;
 
 import com.bc.ceres.core.ProgressMonitor;
 import com.bc.ceres.glevel.MultiLevelImage;
-import org.esa.beam.dataio.smos.GridPointBtDataset;
-import org.esa.beam.dataio.smos.PolarisationModel;
-import org.esa.beam.dataio.smos.SmosReader;
-import org.esa.beam.dataio.smos.SnapshotInfo;
+import org.esa.beam.dataio.smos.*;
 import org.esa.beam.dataio.smos.dddb.FlagDescriptor;
 import org.esa.beam.framework.datamodel.Band;
 import org.esa.beam.framework.datamodel.Product;
 import org.esa.beam.framework.datamodel.ProductData;
 import org.esa.beam.smos.dgg.SmosDgg;
+import ucar.ma2.StructureData;
+import ucar.ma2.StructureDataIterator;
 
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.Raster;
 import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Ralf Quast
@@ -24,9 +26,14 @@ import java.io.IOException;
 public class SmosBufrReader extends SmosReader {
 
     private BufrSupport bufrSupport;
+    private ValueDecoders valueDecoders;
+
+    private final Map<Integer, IndexArea> snapshotMessageIndexMap;
 
     public SmosBufrReader(SmosBufrReaderPlugIn smosBufrReaderPlugIn) {
         super(smosBufrReaderPlugIn);
+
+        snapshotMessageIndexMap = new HashMap<>();
     }
 
     @Override
@@ -104,6 +111,9 @@ public class SmosBufrReader extends SmosReader {
         final Product product = bufrSupport.createProduct(inputFile, "SMOS.MIRAS.NRT_BUFR");
 
         bufrSupport.extractMetaData(product);
+        valueDecoders = bufrSupport.extractValueDecoders();
+
+        scanFile();
 
         return product;
     }
@@ -128,6 +138,42 @@ public class SmosBufrReader extends SmosReader {
             final Raster data = image.getData(new Rectangle(destOffsetX, destOffsetY, destWidth, destHeight));
 
             data.getDataElements(destOffsetX, destOffsetY, destWidth, destHeight, destBuffer.getElems());
+        }
+    }
+
+    private void scanFile() throws IOException {
+
+        for (int i = 0, messageCount = bufrSupport.getMessageCount(); i < messageCount; i++) {
+            final IndexArea current = new IndexArea(i);
+            int snapshotId = -1;
+
+            final StructureDataIterator observationIterator = bufrSupport.getStructureIterator(i);
+            boolean firstIteration = true;
+            Rectangle2D snapshotArea = null;
+            while (observationIterator.hasNext()) {
+                final StructureData structureData = observationIterator.next();
+
+                if (firstIteration) {
+                    snapshotId = structureData.getScalarInt(SmosBufrFile.SNAPSHOT_IDENTIFIER);
+                    firstIteration = false;
+                }
+
+                final int highAccuracyLon = structureData.getScalarInt(SmosBufrFile.LONGITUDE_HIGH_ACCURACY);
+                final float lon = (float) valueDecoders.lonDecoder.decode(highAccuracyLon);
+
+                final int highAccuracyLat = structureData.getScalarInt(SmosBufrFile.LATITUDE_HIGH_ACCURACY);
+                final float lat = (float) valueDecoders.latDecoder.decode(highAccuracyLat);
+
+                if (snapshotArea == null) {
+                    snapshotArea = DggUtils.createGridPointRectangle(lon, lat);
+                } else {
+                    final Rectangle2D gridPointRectangle = DggUtils.createGridPointRectangle(lon, lat);
+                    snapshotArea.add(gridPointRectangle);
+                }
+            }
+
+            current.setArea(snapshotArea);
+            snapshotMessageIndexMap.put(snapshotId, current);
         }
     }
 }

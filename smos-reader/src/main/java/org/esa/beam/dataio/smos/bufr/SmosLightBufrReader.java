@@ -277,8 +277,7 @@ public class SmosLightBufrReader extends SmosReader {
         final Product product = bufrSupport.createProduct(inputFile, "SMOS.MIRAS.NRT_BUFR_Light");
 
         bufrSupport.extractMetaData(product);
-        // @todo 2tb/tb maybe we can remove the parameter 2014-12-04
-        valueDecoders = bufrSupport.extractValueDecoders(BufrSupport.RAW_DATA_NAMES);
+        valueDecoders = bufrSupport.extractValueDecoders();
         readObservations();
         calculateArea();
         addBands(product);
@@ -307,37 +306,36 @@ public class SmosLightBufrReader extends SmosReader {
         gridPointMinIndex = Integer.MAX_VALUE;
         gridPointMaxIndex = Integer.MIN_VALUE;
 
-        final SmosBufrFile smosBufrFile = bufrSupport.getSmosBufrFile();
-        for (int i = 0, messageCount = smosBufrFile.getMessageCount(); i < messageCount; i++) {
-            final StructureDataIterator observationIterator = smosBufrFile.getStructureIterator(i);
+        for (int i = 0, messageCount = bufrSupport.getMessageCount(); i < messageCount; i++) {
+            final StructureDataIterator structureIterator = bufrSupport.getStructureIterator(i);
 
-            while (observationIterator.hasNext()) {
-                final StructureData observationData = observationIterator.next();
+            while (structureIterator.hasNext()) {
+                final StructureData structureData = structureIterator.next();
                 final Observation observation = new Observation();
 
-                observation.data[BufrSupport.AZIMUTH_ANGLE_INDEX] = observationData.getScalarInt(SmosBufrFile.AZIMUTH_ANGLE);
+                observation.data[BufrSupport.AZIMUTH_ANGLE_INDEX] = structureData.getScalarInt(SmosBufrFile.AZIMUTH_ANGLE);
 
-                final short btReal = observationData.getScalarShort(SmosBufrFile.BRIGHTNESS_TEMPERATURE_REAL_PART);
+                final short btReal = structureData.getScalarShort(SmosBufrFile.BRIGHTNESS_TEMPERATURE_REAL_PART);
                 observation.data[BufrSupport.BT_REAL_INDEX] = DataType.unsignedShortToInt(btReal);
 
-                final short btImag = observationData.getScalarShort(SmosBufrFile.BRIGHTNESS_TEMPERATURE_IMAGINARY_PART);
+                final short btImag = structureData.getScalarShort(SmosBufrFile.BRIGHTNESS_TEMPERATURE_IMAGINARY_PART);
                 observation.data[BufrSupport.BT_IMAG_INDEX] = DataType.unsignedShortToInt(btImag);
 
-                observation.data[BufrSupport.FARADAY_ANGLE_INDEX] = observationData.getScalarInt(SmosBufrFile.FARADAY_ROTATIONAL_ANGLE);
-                observation.data[BufrSupport.FOOTPRINT_AXIS_1_INDEX] = observationData.getScalarShort(SmosBufrFile.FOOTPRINT_AXIS_1);
-                observation.data[BufrSupport.FOOTPRINT_AXIS_2_INDEX] = observationData.getScalarShort(SmosBufrFile.FOOTPRINT_AXIS_2);
-                observation.data[BufrSupport.GEOMETRIC_ANGLE_INDEX] = observationData.getScalarInt(SmosBufrFile.GEOMETRIC_ROTATIONAL_ANGLE);
-                observation.data[BufrSupport.INCIDENCE_ANGLE_INDEX] = observationData.getScalarInt(SmosBufrFile.INCIDENCE_ANGLE);
-                observation.data[BufrSupport.RADIOMETRIC_ACCURACY_INDEX] = observationData.getScalarShort(SmosBufrFile.PIXEL_RADIOMETRIC_ACCURACY);
-                observation.data[BufrSupport.INFORMATION_FLAG_INDEX] = observationData.getScalarShort(SmosBufrFile.SMOS_INFORMATION_FLAG);
-                observation.data[BufrSupport.WATER_FRACTION_INDEX] = observationData.getScalarShort(SmosBufrFile.WATER_FRACTION);
-                observation.data[BufrSupport.POLARISATION_INDEX] = observationData.getScalarByte(SmosBufrFile.POLARISATION);
+                observation.data[BufrSupport.FARADAY_ANGLE_INDEX] = structureData.getScalarInt(SmosBufrFile.FARADAY_ROTATIONAL_ANGLE);
+                observation.data[BufrSupport.FOOTPRINT_AXIS_1_INDEX] = structureData.getScalarShort(SmosBufrFile.FOOTPRINT_AXIS_1);
+                observation.data[BufrSupport.FOOTPRINT_AXIS_2_INDEX] = structureData.getScalarShort(SmosBufrFile.FOOTPRINT_AXIS_2);
+                observation.data[BufrSupport.GEOMETRIC_ANGLE_INDEX] = structureData.getScalarInt(SmosBufrFile.GEOMETRIC_ROTATIONAL_ANGLE);
+                observation.data[BufrSupport.INCIDENCE_ANGLE_INDEX] = structureData.getScalarInt(SmosBufrFile.INCIDENCE_ANGLE);
+                observation.data[BufrSupport.RADIOMETRIC_ACCURACY_INDEX] = structureData.getScalarShort(SmosBufrFile.PIXEL_RADIOMETRIC_ACCURACY);
+                observation.data[BufrSupport.INFORMATION_FLAG_INDEX] = structureData.getScalarShort(SmosBufrFile.SMOS_INFORMATION_FLAG);
+                observation.data[BufrSupport.WATER_FRACTION_INDEX] = structureData.getScalarShort(SmosBufrFile.WATER_FRACTION);
+                observation.data[BufrSupport.POLARISATION_INDEX] = structureData.getScalarByte(SmosBufrFile.POLARISATION);
 
-                final int highAccuracyLon = observationData.getScalarInt(SmosBufrFile.LONGITUDE_HIGH_ACCURACY);
+                final int highAccuracyLon = structureData.getScalarInt(SmosBufrFile.LONGITUDE_HIGH_ACCURACY);
                 final float lon = (float) valueDecoders.lonDecoder.decode(highAccuracyLon);
                 observation.lon = lon;
 
-                final int highAccuracyLat = observationData.getScalarInt(SmosBufrFile.LATITUDE_HIGH_ACCURACY);
+                final int highAccuracyLat = structureData.getScalarInt(SmosBufrFile.LATITUDE_HIGH_ACCURACY);
                 final float lat = (float) valueDecoders.latDecoder.decode(highAccuracyLat);
                 observation.lat = lat;
 
@@ -345,24 +343,23 @@ public class SmosLightBufrReader extends SmosReader {
                 addObservationToGridPoints(observation);
                 traceGridPointIndexMinMax(grid.getCellIndex(lon, lat));
 
-                final int snapshot_id = observationData.getScalarInt(SmosBufrFile.SNAPSHOT_IDENTIFIER);
+                final int snapshot_id = structureData.getScalarInt(SmosBufrFile.SNAPSHOT_IDENTIFIER);
                 SnapshotObservation snapshotObservation = snapshotMap.get(snapshot_id);
-
                 if (snapshotObservation == null) {
                     snapshotObservation = new SnapshotObservation(new int[BufrSupport.SNAPSHOT_DATA_NAMES.length]);
-                    snapshotObservation.data[0] = observationData.getScalarShort(SmosBufrFile.NUMBER_OF_GRID_POINTS);
-                    snapshotObservation.data[1] = observationData.getScalarShort("Year");
-                    snapshotObservation.data[2] = observationData.getScalarByte("Month");
-                    snapshotObservation.data[3] = observationData.getScalarByte("Day");
-                    snapshotObservation.data[4] = observationData.getScalarByte("Hour");
-                    snapshotObservation.data[5] = observationData.getScalarByte("Minute");
-                    snapshotObservation.data[6] = observationData.getScalarByte("Second");
-                    snapshotObservation.data[7] = observationData.getScalarByte(SmosBufrFile.TOTAL_ELECTRON_COUNT);
-                    snapshotObservation.data[8] = observationData.getScalarInt(SmosBufrFile.DIRECT_SUN_BRIGHTNESS_TEMPERATURE);
-                    snapshotObservation.data[9] = observationData.getScalarShort(SmosBufrFile.SNAPSHOT_ACCURACY);
-                    snapshotObservation.data[10] = observationData.getScalarShort(SmosBufrFile.RADIOMETRIC_ACCURACY_PP);
-                    snapshotObservation.data[11] = observationData.getScalarShort(SmosBufrFile.RADIOMETRIC_ACCURACY_CP);
-                    final Array snapshot_overall_quality = observationData.getArray(SmosBufrFile.SNAPSHOT_OVERALL_QUALITY);
+                    snapshotObservation.data[0] = structureData.getScalarShort(SmosBufrFile.NUMBER_OF_GRID_POINTS);
+                    snapshotObservation.data[1] = structureData.getScalarShort("Year");
+                    snapshotObservation.data[2] = structureData.getScalarByte("Month");
+                    snapshotObservation.data[3] = structureData.getScalarByte("Day");
+                    snapshotObservation.data[4] = structureData.getScalarByte("Hour");
+                    snapshotObservation.data[5] = structureData.getScalarByte("Minute");
+                    snapshotObservation.data[6] = structureData.getScalarByte("Second");
+                    snapshotObservation.data[7] = structureData.getScalarByte(SmosBufrFile.TOTAL_ELECTRON_COUNT);
+                    snapshotObservation.data[8] = structureData.getScalarInt(SmosBufrFile.DIRECT_SUN_BRIGHTNESS_TEMPERATURE);
+                    snapshotObservation.data[9] = structureData.getScalarShort(SmosBufrFile.SNAPSHOT_ACCURACY);
+                    snapshotObservation.data[10] = structureData.getScalarShort(SmosBufrFile.RADIOMETRIC_ACCURACY_PP);
+                    snapshotObservation.data[11] = structureData.getScalarShort(SmosBufrFile.RADIOMETRIC_ACCURACY_CP);
+                    final Array snapshot_overall_quality = structureData.getArray(SmosBufrFile.SNAPSHOT_OVERALL_QUALITY);
                     snapshotObservation.data[12] = snapshot_overall_quality.getByte(0);
                     snapshotObservation.observations = new ArrayList<>();
                     snapshotMap.put(snapshot_id, snapshotObservation);

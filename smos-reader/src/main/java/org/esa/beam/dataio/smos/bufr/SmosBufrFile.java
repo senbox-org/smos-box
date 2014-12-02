@@ -172,5 +172,4 @@ public class SmosBufrFile extends NetcdfFile implements Closeable {
     private void addValueDecoder(String variableName) {
         valueDecoderMap.put(variableName, createValueDecoder(variableName));
     }
-
 }
