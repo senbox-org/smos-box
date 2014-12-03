@@ -254,7 +254,7 @@ public class SmosBufrReader extends SmosReader {
         final String memberName = descriptor.getMemberName();
 
         final ValueAccessor valueAccessor = ValueAccessors.get(memberName);
-        final CellValueProvider valueProvider = new BufrCellValueProvider(valueAccessor, firstSnapshotId);
+        final CellValueProvider valueProvider = new BufrCellValueProvider(valueAccessor, firstSnapshotId, descriptor.getPolarization());
         band.setSourceImage(createSourceImage(band, valueProvider));
         band.setImageInfo(ProductHelper.createImageInfo(band, descriptor));
     }
@@ -273,13 +273,15 @@ public class SmosBufrReader extends SmosReader {
     private class BufrCellValueProvider implements CellValueProvider {
 
         private final ValueAccessor valueAccessor;
+        private final int polarisation;
         private int snapshotId;
         private int snapshotMessageIndex;
         private Area area;
         private HashMap<Integer, Integer> dataMap;
         private boolean dataLoaded;
 
-        private BufrCellValueProvider(ValueAccessor valueAccessor, int firstSnapshotId) {
+        private BufrCellValueProvider(ValueAccessor valueAccessor, int firstSnapshotId, int polarisation) {
+            this.polarisation = polarisation;
             this.valueAccessor = valueAccessor;
             snapshotId = firstSnapshotId;
             findSnapshotAreaAndIndex();
@@ -340,6 +342,12 @@ public class SmosBufrReader extends SmosReader {
                 final StructureDataIterator observationIterator = bufrSupport.getStructureIterator(snapshotMessageIndex);
                 while (observationIterator.hasNext()) {
                     final StructureData snapshotData = observationIterator.next();
+                    final byte snapshotPolarisation = snapshotData.getScalarByte(SmosBufrFile.POLARISATION);
+                    if (polarisation != 4 &&
+                            (snapshotPolarisation & 3) != polarisation &&
+                            (polarisation & snapshotPolarisation & 2) == 0) {
+                        break;
+                    }
                     valueAccessor.read(snapshotData);
 
                     dataMap.put(valueAccessor.getGridPointId(), valueAccessor.getRawValue());
