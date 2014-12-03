@@ -1,0 +1,9 @@
+{
+    "testProducts": [
+        {
+            "id": "miras_20131028_002942_20131028_003302_smos_20947_t_20131028_033058_l1c",
+            "relativePath": "sensors_platforms/SMOS/BUFR/miras_20131028_002942_20131028_003302_smos_20947_t_20131028_033058_l1c.bufr",
+            "description": "BUFR"
+        }
+    ]
+}
