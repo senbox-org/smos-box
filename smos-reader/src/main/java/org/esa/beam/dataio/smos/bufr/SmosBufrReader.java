@@ -29,8 +29,7 @@ import java.awt.image.Raster;
 import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author Ralf Quast
@@ -40,6 +39,7 @@ public class SmosBufrReader extends SmosReader {
     private BufrSupport bufrSupport;
     private ValueDecoders valueDecoders;
     private int firstSnapshotId;
+    private SnapshotInfo snapshotInfo;
 
     private final Map<Integer, IndexArea> snapshotMessageIndexMap;
 
@@ -48,6 +48,8 @@ public class SmosBufrReader extends SmosReader {
 
         snapshotMessageIndexMap = new HashMap<>();
         firstSnapshotId = -1;
+
+        snapshotInfo = null;
     }
 
     @Override
@@ -72,7 +74,6 @@ public class SmosBufrReader extends SmosReader {
 
     @Override
     public int getGridPointId(int levelPixelX, int levelPixelY, int currentLevel) {
-        // TODO - check
         final MultiLevelImage levelImage = SmosDgg.getInstance().getMultiLevelImage();
         final RenderedImage image = levelImage.getImage(currentLevel);
         final Raster data = image.getData(new Rectangle(levelPixelX, levelPixelY, 1, 1));
@@ -106,8 +107,10 @@ public class SmosBufrReader extends SmosReader {
 
     @Override
     public SnapshotInfo getSnapshotInfo() {
-        // TODO - implement
-        return null;
+        if (snapshotInfo == null) {
+            createSnapshotInfo();
+        }
+        return snapshotInfo;
     }
 
     @Override
@@ -270,6 +273,52 @@ public class SmosBufrReader extends SmosReader {
         return new LightBufrMultiLevelSource(multiLevelModel, valueProvider, band);
     }
 
+    private void createSnapshotInfo() {
+        try {
+            final Set<Long> all = new TreeSet<>();
+            final Set<Long> x = new TreeSet<>();
+            final Set<Long> y = new TreeSet<>();
+            final Set<Long> xy = new TreeSet<>();
+            final Map<Long, Integer> snapshotIndexMap = new TreeMap<>();
+            final Map<Long, Rectangle2D> snapshotAreaMap = new TreeMap<>();
+
+            final PolarisationModel polarisationModel = getPolarisationModel();
+
+            for (int i = 0, messageCount = bufrSupport.getMessageCount(); i < messageCount; i++) {
+                final StructureDataIterator observationIterator = bufrSupport.getStructureIterator(i);
+                final StructureData snapshotData = observationIterator.next();
+
+                final long longSnapshotId = snapshotData.getScalarInt(SmosBufrFile.SNAPSHOT_IDENTIFIER);
+                final byte snapshotPolarisation = snapshotData.getScalarByte(SmosBufrFile.POLARISATION);
+
+                all.add(longSnapshotId);
+
+                if (polarisationModel.is_X_Polarised(snapshotPolarisation)) {
+                    x.add(longSnapshotId);
+                }
+                if (polarisationModel.is_Y_Polarised(snapshotPolarisation)) {
+                    y.add(longSnapshotId);
+                }
+                if (polarisationModel.is_XY1_Polarised(snapshotPolarisation) || polarisationModel.is_XY2_Polarised(snapshotPolarisation)) {
+                    xy.add(longSnapshotId);
+                }
+            }
+            final Set<Integer> snapshotIds = snapshotMessageIndexMap.keySet();
+            for (final int snapShotId : snapshotIds) {
+                final IndexArea indexArea = snapshotMessageIndexMap.get(snapShotId);
+                final Long longSnapshotId = (long) snapShotId;
+                snapshotIndexMap.put(longSnapshotId, indexArea.getMessageIndex());
+                snapshotAreaMap.put(longSnapshotId, indexArea.getArea());
+            }
+
+            snapshotInfo = new SnapshotInfo(snapshotIndexMap, all, x, y, xy, snapshotAreaMap);
+        } catch (IOException e) {
+            // @todo 2 tb/tb logging here 2014-12-02
+            e.printStackTrace();
+            snapshotInfo = null;
+        }
+    }
+
     private class BufrCellValueProvider implements CellValueProvider {
 
         private final ValueAccessor valueAccessor;
@@ -342,12 +391,14 @@ public class SmosBufrReader extends SmosReader {
                 final StructureDataIterator observationIterator = bufrSupport.getStructureIterator(snapshotMessageIndex);
                 while (observationIterator.hasNext()) {
                     final StructureData snapshotData = observationIterator.next();
+
                     final byte snapshotPolarisation = snapshotData.getScalarByte(SmosBufrFile.POLARISATION);
                     if (polarisation != 4 &&
                             (snapshotPolarisation & 3) != polarisation &&
                             (polarisation & snapshotPolarisation & 2) == 0) {
                         break;
                     }
+
                     valueAccessor.read(snapshotData);
 
                     dataMap.put(valueAccessor.getGridPointId(), valueAccessor.getRawValue());
