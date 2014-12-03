@@ -253,7 +253,7 @@ public class SmosBufrReader extends SmosReader {
 
         final String memberName = descriptor.getMemberName();
 
-        final ValueAccessor valueAccessor = ValueAccessors.get(memberName, valueDecoder);
+        final ValueAccessor valueAccessor = ValueAccessors.get(memberName);
         final CellValueProvider valueProvider = new BufrCellValueProvider(valueAccessor, firstSnapshotId);
         band.setSourceImage(createSourceImage(band, valueProvider));
         band.setImageInfo(ProductHelper.createImageInfo(band, descriptor));
