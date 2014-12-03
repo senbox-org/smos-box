@@ -251,15 +251,10 @@ public class SmosBufrReader extends SmosReader {
                     descriptor.getFlagDescriptors());
         }
 
-        final Integer index = BufrSupport.getDatasetNameIndexMap().get(descriptor.getMemberName());
+        final String memberName = descriptor.getMemberName();
 
-        final CellValueProvider valueProvider;
-        if (descriptor.getFlagDescriptors() == null) {
-            final ValueDecoder scalingFactor = smosBufrFile.getValueDecoder(descriptor.getMemberName());
-            valueProvider = new BufrCellValueProvider(descriptor.getPolarization(), index, scalingFactor, firstSnapshotId);
-        } else {
-            valueProvider = new FlagCellValueProvider(descriptor.getPolarization(), index, firstSnapshotId);
-        }
+        final ValueAccessor valueAccessor = ValueAccessors.get(memberName, valueDecoder);
+        final CellValueProvider valueProvider = new BufrCellValueProvider(valueAccessor, firstSnapshotId);
         band.setSourceImage(createSourceImage(band, valueProvider));
         band.setImageInfo(ProductHelper.createImageInfo(band, descriptor));
     }
@@ -277,28 +272,28 @@ public class SmosBufrReader extends SmosReader {
 
     private class BufrCellValueProvider implements CellValueProvider {
 
-        private final int dataindex;
-        private final int polarisation;
-        private final ValueDecoder valueDecoder;
+        private final ValueAccessor valueAccessor;
         private int snapshotId;
+        private int snapshotMessageIndex;
+        private Area area;
+        private HashMap<Integer, Integer> dataMap;
+        private boolean dataLoaded;
 
-        private BufrCellValueProvider(int polarisation, int dataIndex, ValueDecoder valueDecoder, int firstSnapshotId) {
-            this.dataindex = dataIndex;
-            this.polarisation = polarisation;
-            this.valueDecoder = valueDecoder;
+        private BufrCellValueProvider(ValueAccessor valueAccessor, int firstSnapshotId) {
+            this.valueAccessor = valueAccessor;
             snapshotId = firstSnapshotId;
+            findSnapshotAreaAndIndex();
         }
 
         @Override
         public Area getArea() {
-            final IndexArea indexArea = SmosBufrReader.this.snapshotMessageIndexMap.get(snapshotId);
-            return new Area(indexArea.getArea());
+            return area;
         }
 
         @Override
         public long getCellIndex(double lon, double lat) {
-            // @todo 1 tb/tb implement 2014-12-02
-            return -1;
+            final int seqnum = SmosDgg.getInstance().getSeqnum(lon, lat);
+            return SmosDgg.seqnumToGridPointId(seqnum);
         }
 
         @Override
@@ -321,17 +316,6 @@ public class SmosBufrReader extends SmosReader {
             throw new IllegalStateException("not implemented");
         }
 
-        private int getData(int cellIndex, int noDataValue) {
-            return getSnapshotData(cellIndex, noDataValue);
-        }
-
-        private int getSnapshotData(int cellIndex, int noDataValue) {
-            // @todo 1 tb/tb implement 2014-12-02
-            return 13;
-
-            //return noDataValue;
-        }
-
         @Override
         public int getSnapshotId() {
             return snapshotId;
@@ -340,52 +324,31 @@ public class SmosBufrReader extends SmosReader {
         @Override
         public void setSnapshotId(int snapshotId) {
             this.snapshotId = snapshotId;
-        }
-    }
-
-    private class FlagCellValueProvider implements CellValueProvider {
-
-        private final int dataindex;
-        private final int polarisation;
-        private int snapshotId;
-
-        private FlagCellValueProvider(int polarisation, int dataIndex, int firstSnapshotId) {
-            this.dataindex = dataIndex;
-            this.polarisation = polarisation;
-            snapshotId = firstSnapshotId;
+            findSnapshotAreaAndIndex();
+            readSnapshotData();
         }
 
-        @Override
-        public Area getArea() {
+        private void findSnapshotAreaAndIndex() {
             final IndexArea indexArea = SmosBufrReader.this.snapshotMessageIndexMap.get(snapshotId);
-            return new Area(indexArea.getArea());
+            area = new Area(indexArea.getArea());
+            snapshotMessageIndex = indexArea.getMessageIndex();
         }
 
-        @Override
-        public long getCellIndex(double lon, double lat) {
-            // @todo 1 tb/tb implement 2014-12-02
-            return -1;
-        }
+        private void readSnapshotData() {
+            try {
+                dataMap = new HashMap<>();
+                final StructureDataIterator observationIterator = bufrSupport.getStructureIterator(snapshotMessageIndex);
+                while (observationIterator.hasNext()) {
+                    final StructureData snapshotData = observationIterator.next();
+                    valueAccessor.read(snapshotData);
 
-        @Override
-        public byte getValue(long cellIndex, byte noDataValue) {
-            return (byte) getData((int) cellIndex, noDataValue);
-        }
-
-
-        @Override
-        public int getValue(long cellIndex, int noDataValue) {
-            return getData((int) cellIndex, noDataValue);
-        }
-
-        @Override
-        public short getValue(long cellIndex, short noDataValue) {
-            return (short) getData((int) cellIndex, noDataValue);
-        }
-
-        @Override
-        public float getValue(long cellIndex, float noDataValue) {
-            throw new IllegalStateException("not implemented");
+                    dataMap.put(valueAccessor.getGridPointId(), valueAccessor.getRawValue());
+                }
+                dataLoaded = true;
+            } catch (IOException e) {
+                // @todo 3 tb/tb log message 2014-12-03
+                e.printStackTrace();
+            }
         }
 
         private int getData(int cellIndex, int noDataValue) {
@@ -393,20 +356,16 @@ public class SmosBufrReader extends SmosReader {
         }
 
         private int getSnapshotData(int cellIndex, int noDataValue) {
-            // @todo 1 tb/tb implement 2014-12-02
-            return 13;
+            if (!dataLoaded) {
+                readSnapshotData();
+            }
 
-            //return noDataValue;
-        }
+            final Integer rawValue = dataMap.get(cellIndex);
+            if (rawValue == null) {
+                return noDataValue;
+            }
 
-        @Override
-        public int getSnapshotId() {
-            return snapshotId;
-        }
-
-        @Override
-        public void setSnapshotId(int snapshotId) {
-            this.snapshotId = snapshotId;
+            return rawValue;
         }
     }
 }

@@ -75,7 +75,7 @@ public class SmosDgg {
         return gridPointId / A + 1;
     }
 
-    static int seqnumToGridPointId(int seqnum) {
+    public static int seqnumToGridPointId(int seqnum) {
         return seqnum <= C ? seqnum : seqnum == MAX_SEQNUM ? MAX_GRID_POINT_ID : seqnum - 1 + ((seqnum - 2) / B) * D;
     }
 
