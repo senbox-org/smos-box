@@ -9,10 +9,14 @@
     
 + SM_xxxx_MIR_SCLD1C_ Measurement Mode, Science Data, Land, Dual-Pol
 + SM_xxxx_MIR_SCLF1C_ Measurement Mode, Science Data, Land, Full-Pol
++ SM_xxxx_MIR_SCND1C_ Measurement Mode, Science Data, NRT, Dual-Pol
++ SM_xxxx_MIR_SCNF1C_ Measurement Mode, Science Data, NRT, Full-Pol
 + SM_xxxx_MIR_SCSD1C_ Measurement Mode, Science Data, Sea, Dual-Pol
 + SM_xxxx_MIR_SCSF1C_ Measurement Mode, Science Data, Sea, Full-Pol
 + SM_xxxx_MIR_BWLD1C_ Measurement Mode, Browse Data, Land, Dual-Pol
 + SM_xxxx_MIR_BWLF1C_ Measurement Mode, Browse Data, Land, Full-Pol
++ SM_xxxx_MIR_BWND1C_ Measurement Mode, Browse Data, NRT, Dual-Pol
++ SM_xxxx_MIR_BWNF1C_ Measurement Mode, Browse Data, NRT, Full-Pol
 + SM_xxxx_MIR_BWSD1C_ Measurement Mode, Browse Data, Sea, Dual-Pol
 + SM_xxxx_MIR_BWSF1C_ Measurement Mode, Browse Data, Sea, Full-Pol
 
