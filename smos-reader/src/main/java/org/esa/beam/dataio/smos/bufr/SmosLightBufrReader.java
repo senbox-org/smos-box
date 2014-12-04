@@ -37,13 +37,9 @@ import java.util.List;
 
 public class SmosLightBufrReader extends SmosReader {
 
-
     private static final double CENTER_BROWSE_INCIDENCE_ANGLE = 42.5;
     private static final double MIN_BROWSE_INCIDENCE_ANGLE = 37.5;
     private static final double MAX_BROWSE_INCIDENCE_ANGLE = 52.5;
-
-
-
 
     private HashMap<Integer, SnapshotObservation> snapshotMap;
     private HashMap<Integer, List<Observation>> gridPointMap;

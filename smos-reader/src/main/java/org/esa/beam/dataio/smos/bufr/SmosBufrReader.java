@@ -116,40 +116,40 @@ public class SmosBufrReader extends SmosReader {
 
     @Override
     public Object[][] getSnapshotData(int snapshotIndex) throws IOException {
-        final StructureDataIterator observationIterator = bufrSupport.getStructureIterator(snapshotIndex);
-        final StructureData snapshotStructure = observationIterator.next();
-        if (snapshotStructure == null) {
-            return new Object[0][];
-        }
-
-        final Object[][] snapshotData = new Object[BufrSupport.SNAPSHOT_DATA_NAMES.length][2];
-        for (int i = 0; i < BufrSupport.SNAPSHOT_DATA_NAMES.length; i++) {
-            final String variableName = BufrSupport.SNAPSHOT_DATA_NAMES[i];
-            snapshotData[i][0] = variableName;
-            if (variableName.equals(SmosBufrFile.SNAPSHOT_OVERALL_QUALITY)) {
-                final Array snapshot_overall_quality = snapshotStructure.getArray(SmosBufrFile.SNAPSHOT_OVERALL_QUALITY);
-                snapshotData[i][1] = snapshot_overall_quality.getByte(0);
-                continue;
+        synchronized (this) {
+            final StructureDataIterator observationIterator = bufrSupport.getStructureIterator(snapshotIndex);
+            final StructureData snapshotStructure = observationIterator.next();
+            if (snapshotStructure == null) {
+                return new Object[0][];
             }
 
-            final ValueAccessor valueAccessor = ValueAccessors.get(variableName);
-            valueAccessor.read(snapshotStructure);
-            final int rawValue = valueAccessor.getRawValue();
-            if (i == BufrSupport.TEC_INDEX) {
-                snapshotData[i][1] = valueDecoders.tecDecoder.decode(rawValue);
-            } else if (i == BufrSupport.ACCURACY_INDEX) {
-                snapshotData[i][1] = valueDecoders.snapshotAccuracyDecoder.decode(rawValue);
-            } else if (i == BufrSupport.RA_PP_INDEX) {
-                snapshotData[i][1] = valueDecoders.raPpDecoder.decode(rawValue);
-            } else if (i == BufrSupport.RA_CP_INDEX) {
-                snapshotData[i][1] = valueDecoders.raCpDecoder.decode(rawValue);
-            } else {
-                snapshotData[i][1] = rawValue;
+            final Object[][] snapshotData = new Object[BufrSupport.SNAPSHOT_DATA_NAMES.length][2];
+            for (int i = 0; i < BufrSupport.SNAPSHOT_DATA_NAMES.length; i++) {
+                final String variableName = BufrSupport.SNAPSHOT_DATA_NAMES[i];
+                snapshotData[i][0] = variableName;
+                if (variableName.equals(SmosBufrFile.SNAPSHOT_OVERALL_QUALITY)) {
+                    final Array snapshot_overall_quality = snapshotStructure.getArray(SmosBufrFile.SNAPSHOT_OVERALL_QUALITY);
+                    snapshotData[i][1] = snapshot_overall_quality.getByte(0);
+                    continue;
+                }
+
+                final ValueAccessor valueAccessor = ValueAccessors.get(variableName);
+                valueAccessor.read(snapshotStructure);
+                final int rawValue = valueAccessor.getRawValue();
+                if (i == BufrSupport.TEC_INDEX) {
+                    snapshotData[i][1] = valueDecoders.tecDecoder.decode(rawValue);
+                } else if (i == BufrSupport.ACCURACY_INDEX) {
+                    snapshotData[i][1] = valueDecoders.snapshotAccuracyDecoder.decode(rawValue);
+                } else if (i == BufrSupport.RA_PP_INDEX) {
+                    snapshotData[i][1] = valueDecoders.raPpDecoder.decode(rawValue);
+                } else if (i == BufrSupport.RA_CP_INDEX) {
+                    snapshotData[i][1] = valueDecoders.raCpDecoder.decode(rawValue);
+                } else {
+                    snapshotData[i][1] = rawValue;
+                }
             }
-
+            return snapshotData;
         }
-
-        return snapshotData;
     }
 
     @Override
@@ -193,40 +193,42 @@ public class SmosBufrReader extends SmosReader {
     }
 
     private void scanFile() throws IOException {
-        for (int i = 0, messageCount = bufrSupport.getMessageCount(); i < messageCount; i++) {
-            final IndexArea current = new IndexArea(i);
-            int snapshotId = -1;
+        synchronized (this) {
+            for (int i = 0, messageCount = bufrSupport.getMessageCount(); i < messageCount; i++) {
+                final IndexArea current = new IndexArea(i);
+                int snapshotId = -1;
 
-            final StructureDataIterator observationIterator = bufrSupport.getStructureIterator(i);
-            boolean firstIteration = true;
-            Rectangle2D snapshotArea = null;
-            while (observationIterator.hasNext()) {
-                final StructureData structureData = observationIterator.next();
+                final StructureDataIterator observationIterator = bufrSupport.getStructureIterator(i);
+                boolean firstIteration = true;
+                Rectangle2D snapshotArea = null;
+                while (observationIterator.hasNext()) {
+                    final StructureData structureData = observationIterator.next();
 
-                if (firstIteration) {
-                    snapshotId = structureData.getScalarInt(SmosBufrFile.SNAPSHOT_IDENTIFIER);
-                    firstIteration = false;
-                    if (firstSnapshotId == -1) {
-                        firstSnapshotId = snapshotId;
+                    if (firstIteration) {
+                        snapshotId = structureData.getScalarInt(SmosBufrFile.SNAPSHOT_IDENTIFIER);
+                        firstIteration = false;
+                        if (firstSnapshotId == -1) {
+                            firstSnapshotId = snapshotId;
+                        }
+                    }
+
+                    final int highAccuracyLon = structureData.getScalarInt(SmosBufrFile.LONGITUDE_HIGH_ACCURACY);
+                    final float lon = (float) valueDecoders.lonDecoder.decode(highAccuracyLon);
+
+                    final int highAccuracyLat = structureData.getScalarInt(SmosBufrFile.LATITUDE_HIGH_ACCURACY);
+                    final float lat = (float) valueDecoders.latDecoder.decode(highAccuracyLat);
+
+                    if (snapshotArea == null) {
+                        snapshotArea = DggUtils.createGridPointRectangle(lon, lat);
+                    } else {
+                        final Rectangle2D gridPointRectangle = DggUtils.createGridPointRectangle(lon, lat);
+                        snapshotArea.add(gridPointRectangle);
                     }
                 }
 
-                final int highAccuracyLon = structureData.getScalarInt(SmosBufrFile.LONGITUDE_HIGH_ACCURACY);
-                final float lon = (float) valueDecoders.lonDecoder.decode(highAccuracyLon);
-
-                final int highAccuracyLat = structureData.getScalarInt(SmosBufrFile.LATITUDE_HIGH_ACCURACY);
-                final float lat = (float) valueDecoders.latDecoder.decode(highAccuracyLat);
-
-                if (snapshotArea == null) {
-                    snapshotArea = DggUtils.createGridPointRectangle(lon, lat);
-                } else {
-                    final Rectangle2D gridPointRectangle = DggUtils.createGridPointRectangle(lon, lat);
-                    snapshotArea.add(gridPointRectangle);
-                }
+                current.setArea(snapshotArea);
+                snapshotMessageIndexMap.put(snapshotId, current);
             }
-
-            current.setArea(snapshotArea);
-            snapshotMessageIndexMap.put(snapshotId, current);
         }
     }
 
@@ -317,23 +319,27 @@ public class SmosBufrReader extends SmosReader {
 
             final PolarisationModel polarisationModel = getPolarisationModel();
 
-            for (int i = 0, messageCount = bufrSupport.getMessageCount(); i < messageCount; i++) {
-                final StructureDataIterator observationIterator = bufrSupport.getStructureIterator(i);
-                final StructureData snapshotData = observationIterator.next();
+            synchronized (this) {
+                for (int i = 0, messageCount = bufrSupport.getMessageCount(); i < messageCount; i++) {
+                    final StructureDataIterator observationIterator = bufrSupport.getStructureIterator(i);
+                    while (observationIterator.hasNext()) {
+                        final StructureData snapshotData = observationIterator.next();
 
-                final long longSnapshotId = snapshotData.getScalarInt(SmosBufrFile.SNAPSHOT_IDENTIFIER);
-                final byte snapshotPolarisation = snapshotData.getScalarByte(SmosBufrFile.POLARISATION);
+                        final long longSnapshotId = snapshotData.getScalarInt(SmosBufrFile.SNAPSHOT_IDENTIFIER);
+                        final byte snapshotPolarisation = snapshotData.getScalarByte(SmosBufrFile.POLARISATION);
 
-                all.add(longSnapshotId);
+                        all.add(longSnapshotId);
 
-                if (polarisationModel.is_X_Polarised(snapshotPolarisation)) {
-                    x.add(longSnapshotId);
-                }
-                if (polarisationModel.is_Y_Polarised(snapshotPolarisation)) {
-                    y.add(longSnapshotId);
-                }
-                if (polarisationModel.is_XY1_Polarised(snapshotPolarisation) || polarisationModel.is_XY2_Polarised(snapshotPolarisation)) {
-                    xy.add(longSnapshotId);
+                        if (polarisationModel.is_X_Polarised(snapshotPolarisation)) {
+                            x.add(longSnapshotId);
+                        }
+                        if (polarisationModel.is_Y_Polarised(snapshotPolarisation)) {
+                            y.add(longSnapshotId);
+                        }
+                        if (polarisationModel.is_XY1_Polarised(snapshotPolarisation) || polarisationModel.is_XY2_Polarised(snapshotPolarisation)) {
+                            xy.add(longSnapshotId);
+                        }
+                    }
                 }
             }
             final Set<Integer> snapshotIds = snapshotMessageIndexMap.keySet();
@@ -420,19 +426,21 @@ public class SmosBufrReader extends SmosReader {
 
         private void readSnapshotData() {
             try {
-                dataMap = new HashMap<>();
-                final StructureDataIterator observationIterator = bufrSupport.getStructureIterator(snapshotMessageIndex);
-                while (observationIterator.hasNext()) {
-                    final StructureData snapshotData = observationIterator.next();
+                synchronized (SmosBufrReader.this) {
+                    dataMap = new HashMap<>();
+                    final StructureDataIterator observationIterator = bufrSupport.getStructureIterator(snapshotMessageIndex);
+                    while (observationIterator.hasNext()) {
+                        final StructureData snapshotData = observationIterator.next();
 
-                    final byte snapshotPolarisation = snapshotData.getScalarByte(SmosBufrFile.POLARISATION);
-                    if (polarisation == 4 ||
-                            (snapshotPolarisation & 3) == polarisation ||
-                            (polarisation & snapshotPolarisation & 2) != 0) {
+                        final byte snapshotPolarisation = snapshotData.getScalarByte(SmosBufrFile.POLARISATION);
+                        if (polarisation == 4 ||
+                                (snapshotPolarisation & 3) == polarisation ||
+                                (polarisation & snapshotPolarisation & 2) != 0) {
 
-                        valueAccessor.read(snapshotData);
+                            valueAccessor.read(snapshotData);
 
-                        dataMap.put(valueAccessor.getGridPointId(), valueAccessor.getRawValue());
+                            dataMap.put(valueAccessor.getGridPointId(), valueAccessor.getRawValue());
+                        }
                     }
                 }
                 dataLoaded = true;
