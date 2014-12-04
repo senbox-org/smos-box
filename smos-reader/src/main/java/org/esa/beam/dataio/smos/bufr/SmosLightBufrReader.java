@@ -43,11 +43,7 @@ public class SmosLightBufrReader extends SmosReader {
     private static final double MAX_BROWSE_INCIDENCE_ANGLE = 52.5;
 
 
-    // Snapshot Indices
-    private static final int TEC_INDEX = 7;
-    private static final int ACCURACY_INDEX = 9;
-    private static final int RA_PP_INDEX = 10;
-    private static final int RA_CP_INDEX = 11;
+
 
     private HashMap<Integer, SnapshotObservation> snapshotMap;
     private HashMap<Integer, List<Observation>> gridPointMap;
@@ -188,13 +184,13 @@ public class SmosLightBufrReader extends SmosReader {
         final Object[][] snapshotData = new Object[BufrSupport.SNAPSHOT_DATA_NAMES.length][2];
         for (int i = 0; i < BufrSupport.SNAPSHOT_DATA_NAMES.length; i++) {
             snapshotData[i][0] = BufrSupport.SNAPSHOT_DATA_NAMES[i];
-            if (i == TEC_INDEX) {
+            if (i == BufrSupport.TEC_INDEX) {
                 snapshotData[i][1] = valueDecoders.tecDecoder.decode(snapshotObservation.data[i]);
-            } else if (i == ACCURACY_INDEX) {
+            } else if (i == BufrSupport.ACCURACY_INDEX) {
                 snapshotData[i][1] = valueDecoders.snapshotAccuracyDecoder.decode(snapshotObservation.data[i]);
-            } else if (i == RA_PP_INDEX) {
+            } else if (i == BufrSupport.RA_PP_INDEX) {
                 snapshotData[i][1] = valueDecoders.raPpDecoder.decode(snapshotObservation.data[i]);
-            } else if (i == RA_CP_INDEX) {
+            } else if (i == BufrSupport.RA_CP_INDEX) {
                 snapshotData[i][1] = valueDecoders.raCpDecoder.decode(snapshotObservation.data[i]);
             } else {
                 snapshotData[i][1] = snapshotObservation.data[i];

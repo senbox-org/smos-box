@@ -16,6 +16,7 @@ import org.esa.beam.framework.datamodel.Product;
 import org.esa.beam.framework.datamodel.ProductData;
 import org.esa.beam.smos.dgg.SmosDgg;
 import org.esa.beam.util.StringUtils;
+import ucar.ma2.Array;
 import ucar.ma2.StructureData;
 import ucar.ma2.StructureDataIterator;
 import ucar.nc2.Attribute;
@@ -115,8 +116,40 @@ public class SmosBufrReader extends SmosReader {
 
     @Override
     public Object[][] getSnapshotData(int snapshotIndex) throws IOException {
-        // TODO - implement
-        return new Object[0][];
+        final StructureDataIterator observationIterator = bufrSupport.getStructureIterator(snapshotIndex);
+        final StructureData snapshotStructure = observationIterator.next();
+        if (snapshotStructure == null) {
+            return new Object[0][];
+        }
+
+        final Object[][] snapshotData = new Object[BufrSupport.SNAPSHOT_DATA_NAMES.length][2];
+        for (int i = 0; i < BufrSupport.SNAPSHOT_DATA_NAMES.length; i++) {
+            final String variableName = BufrSupport.SNAPSHOT_DATA_NAMES[i];
+            snapshotData[i][0] = variableName;
+            if (variableName.equals(SmosBufrFile.SNAPSHOT_OVERALL_QUALITY)) {
+                final Array snapshot_overall_quality = snapshotStructure.getArray(SmosBufrFile.SNAPSHOT_OVERALL_QUALITY);
+                snapshotData[i][1] = snapshot_overall_quality.getByte(0);
+                continue;
+            }
+
+            final ValueAccessor valueAccessor = ValueAccessors.get(variableName);
+            valueAccessor.read(snapshotStructure);
+            final int rawValue = valueAccessor.getRawValue();
+            if (i == BufrSupport.TEC_INDEX) {
+                snapshotData[i][1] = valueDecoders.tecDecoder.decode(rawValue);
+            } else if (i == BufrSupport.ACCURACY_INDEX) {
+                snapshotData[i][1] = valueDecoders.snapshotAccuracyDecoder.decode(rawValue);
+            } else if (i == BufrSupport.RA_PP_INDEX) {
+                snapshotData[i][1] = valueDecoders.raPpDecoder.decode(rawValue);
+            } else if (i == BufrSupport.RA_CP_INDEX) {
+                snapshotData[i][1] = valueDecoders.raCpDecoder.decode(rawValue);
+            } else {
+                snapshotData[i][1] = rawValue;
+            }
+
+        }
+
+        return snapshotData;
     }
 
     @Override
@@ -393,15 +426,14 @@ public class SmosBufrReader extends SmosReader {
                     final StructureData snapshotData = observationIterator.next();
 
                     final byte snapshotPolarisation = snapshotData.getScalarByte(SmosBufrFile.POLARISATION);
-                    if (polarisation != 4 &&
-                            (snapshotPolarisation & 3) != polarisation &&
-                            (polarisation & snapshotPolarisation & 2) == 0) {
-                        break;
+                    if (polarisation == 4 ||
+                            (snapshotPolarisation & 3) == polarisation ||
+                            (polarisation & snapshotPolarisation & 2) != 0) {
+
+                        valueAccessor.read(snapshotData);
+
+                        dataMap.put(valueAccessor.getGridPointId(), valueAccessor.getRawValue());
                     }
-
-                    valueAccessor.read(snapshotData);
-
-                    dataMap.put(valueAccessor.getGridPointId(), valueAccessor.getRawValue());
                 }
                 dataLoaded = true;
             } catch (IOException e) {

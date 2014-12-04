@@ -9,7 +9,8 @@ class ValueAccessors {
         if (datasetName.equalsIgnoreCase(SmosBufrFile.AZIMUTH_ANGLE) ||
                 datasetName.equalsIgnoreCase(SmosBufrFile.FARADAY_ROTATIONAL_ANGLE) ||
                 datasetName.equalsIgnoreCase(SmosBufrFile.GEOMETRIC_ROTATIONAL_ANGLE) ||
-                datasetName.equalsIgnoreCase(SmosBufrFile.INCIDENCE_ANGLE)) {
+                datasetName.equalsIgnoreCase(SmosBufrFile.INCIDENCE_ANGLE) ||
+                datasetName.equalsIgnoreCase(SmosBufrFile.DIRECT_SUN_BRIGHTNESS_TEMPERATURE)) {
             return new IntValueAccessor(datasetName);
         } else if (datasetName.equalsIgnoreCase(SmosBufrFile.BRIGHTNESS_TEMPERATURE_REAL_PART) ||
                 datasetName.equalsIgnoreCase(SmosBufrFile.BRIGHTNESS_TEMPERATURE_IMAGINARY_PART)) {
@@ -18,9 +19,22 @@ class ValueAccessors {
                 datasetName.equalsIgnoreCase(SmosBufrFile.FOOTPRINT_AXIS_2) ||
                 datasetName.equalsIgnoreCase(SmosBufrFile.PIXEL_RADIOMETRIC_ACCURACY) ||
                 datasetName.equalsIgnoreCase(SmosBufrFile.WATER_FRACTION) ||
-                datasetName.equalsIgnoreCase(SmosBufrFile.SMOS_INFORMATION_FLAG)) {
+                datasetName.equalsIgnoreCase(SmosBufrFile.SMOS_INFORMATION_FLAG) ||
+                datasetName.equalsIgnoreCase(SmosBufrFile.NUMBER_OF_GRID_POINTS) ||
+                datasetName.equalsIgnoreCase("Year") ||
+                datasetName.equalsIgnoreCase(SmosBufrFile.SNAPSHOT_ACCURACY) ||
+                datasetName.equalsIgnoreCase(SmosBufrFile.RADIOMETRIC_ACCURACY_PP) ||
+                datasetName.equalsIgnoreCase(SmosBufrFile.RADIOMETRIC_ACCURACY_CP)
+                ) {
             return new ShortValueAccessor(datasetName);
-        } else if (datasetName.equalsIgnoreCase(SmosBufrFile.POLARISATION)) {
+        } else if (datasetName.equalsIgnoreCase(SmosBufrFile.POLARISATION) ||
+                datasetName.equalsIgnoreCase("Month") ||
+                datasetName.equalsIgnoreCase("Day") ||
+                datasetName.equalsIgnoreCase("Hour") ||
+                datasetName.equalsIgnoreCase("Minute") ||
+                datasetName.equalsIgnoreCase("Second") ||
+                datasetName.equalsIgnoreCase(SmosBufrFile.TOTAL_ELECTRON_COUNT)
+                ){
             return new ByteValueAccessor(datasetName);
         }
 

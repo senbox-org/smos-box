@@ -32,6 +32,11 @@ class BufrSupport {
     static final int INFORMATION_FLAG_INDEX = 10;
     static final int POLARISATION_INDEX = 11;
 
+    // Snapshot Indices
+    static final int TEC_INDEX = 7;
+    static final int ACCURACY_INDEX = 9;
+    static final int RA_PP_INDEX = 10;
+    static final int RA_CP_INDEX = 11;
 
     private static final HashMap<String, Integer> datasetNameIndexMap;
     static final String[] RAW_DATA_NAMES;
