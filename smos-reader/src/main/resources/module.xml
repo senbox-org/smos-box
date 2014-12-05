@@ -3,7 +3,6 @@
     <symbolicName>smos-reader</symbolicName>
     <version>4.1.0</version>
     <name>SMOS Product Reader</name>
-    <packaging>dir</packaging>
     <description>
         The SMOS Product Reader provides the capability of reading data
         products acquired by ESA's SMOS mission; supported products are:
@@ -50,9 +49,6 @@
     </dependency>
     <dependency>
         <module>snap-netcdf</module>
-    </dependency>
-    <dependency>
-        <lib>lib/bufr-4.3.22.jar</lib>
     </dependency>
 
     <categories>Reader,SMOS</categories>
