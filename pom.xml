@@ -179,13 +179,6 @@
                 <version>${project.version}</version>
             </dependency>
 
-            <!-- NetCDF BUFR support ######################################### -->
-            <dependency>
-                <groupId>edu.ucar</groupId>
-                <artifactId>bufr</artifactId>
-                <version>4.3.22</version>
-            </dependency>
-
             <!-- JUnit Libraries ############################################# -->
 
             <dependency>
