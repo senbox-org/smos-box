@@ -415,7 +415,7 @@ public class SmosBufrReader extends SmosReader {
         public void setSnapshotId(int snapshotId) {
             this.snapshotId = snapshotId;
             findSnapshotAreaAndIndex();
-            readSnapshotData();
+            dataLoaded = false;
         }
 
         private void findSnapshotAreaAndIndex() {
