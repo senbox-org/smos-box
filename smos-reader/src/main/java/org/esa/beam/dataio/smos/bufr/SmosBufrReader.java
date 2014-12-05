@@ -16,6 +16,7 @@ import org.esa.beam.framework.datamodel.Product;
 import org.esa.beam.framework.datamodel.ProductData;
 import org.esa.beam.smos.dgg.SmosDgg;
 import org.esa.beam.util.StringUtils;
+import org.esa.beam.util.logging.BeamLogManager;
 import ucar.ma2.Array;
 import ucar.ma2.StructureData;
 import ucar.ma2.StructureDataIterator;
@@ -31,6 +32,7 @@ import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
+import java.util.logging.Logger;
 
 /**
  * @author Ralf Quast
@@ -352,8 +354,8 @@ public class SmosBufrReader extends SmosReader {
 
             snapshotInfo = new SnapshotInfo(snapshotIndexMap, all, x, y, xy, snapshotAreaMap);
         } catch (IOException e) {
-            // @todo 2 tb/tb logging here 2014-12-02
-            e.printStackTrace();
+            final Logger systemLogger = BeamLogManager.getSystemLogger();
+            systemLogger.warning("Failed to read snpshot data: " + e.getMessage());
             snapshotInfo = null;
         }
     }
@@ -445,8 +447,8 @@ public class SmosBufrReader extends SmosReader {
                 }
                 dataLoaded = true;
             } catch (IOException e) {
-                // @todo 3 tb/tb log message 2014-12-03
-                e.printStackTrace();
+                final Logger systemLogger = BeamLogManager.getSystemLogger();
+                systemLogger.warning("Failed to read snpshot data: " + e.getMessage());
             }
         }
 
