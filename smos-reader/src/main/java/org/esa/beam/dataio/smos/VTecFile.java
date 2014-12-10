@@ -121,7 +121,7 @@ class VTecFile extends ExplorerFile {
         for (int i = 0; i < mapData.getElementCount(); i++) {
             final CompoundData mapCompoundData = mapData.getCompound(i);
             final SequenceData mapSequenceData = mapCompoundData.getSequence(VTEC_RECORD_NAME);
-            final float[] tiePoints = new float[rowCount * colCount];
+            final double[] tiePoints = new double[rowCount * colCount];
 
             for (int j = 0; j < mapSequenceData.getElementCount(); j++) {
                 final CompoundData compoundData = mapSequenceData.getCompound(j);
@@ -140,7 +140,7 @@ class VTecFile extends ExplorerFile {
         return product;
     }
 
-    private void addTiePointGrid(Product product, String name, String description, float[] tiePoints) {
+    private void addTiePointGrid(Product product, String name, String description, double[] tiePoints) {
         final int w = product.getSceneRasterWidth();
         final int h = product.getSceneRasterHeight();
 
@@ -151,10 +151,10 @@ class VTecFile extends ExplorerFile {
 
         final double scaleX = w / lonRange;
         final double scaleY = h / latRange;
-        final float samplingX = (float) Math.abs(lonDelta * scaleX);
-        final float samplingY = (float) Math.abs(latDelta * scaleY);
-        final float offsetX = (float) ((maxLon + lon1) * scaleX);
-        final float offsetY = (float) ((maxLat - lat1) * scaleY);
+        final double samplingX = Math.abs(lonDelta * scaleX);
+        final double samplingY = Math.abs(latDelta * scaleY);
+        final double offsetX = (maxLon + lon1) * scaleX;
+        final double offsetY = (maxLat - lat1) * scaleY;
 
         final TiePointGrid tiePointGrid = new TiePointGrid(name, colCount, rowCount, offsetX, offsetY, samplingX,
                 samplingY, tiePoints);
