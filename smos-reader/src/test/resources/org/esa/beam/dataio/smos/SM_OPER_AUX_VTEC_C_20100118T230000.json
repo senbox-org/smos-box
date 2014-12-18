@@ -10,7 +10,7 @@
                     "x": 7066.659,
                     "y": 4403.7256,
                     "lat": -8.16779899597168,
-                    "lon": -24.726727
+                    "lon": -24.726730957031265
                 }
             ],
             "reverseAccuracy": 0.01
@@ -21,7 +21,7 @@
                 "description": "Vertical total electron content (TECU) for epoch Tue Jan 19 01:00:00 CET 2010",
                 "offsetX": "0.0",
                 "offsetY": "112.0",
-                "subSamplingX": "227.55556",
+                "subSamplingX": "227.555556",
                 "subSamplingY": "112.0",
                 "expectedPixels": [
                     {
@@ -41,7 +41,7 @@
                 "description": "Vertical total electron content (TECU) for epoch Tue Jan 19 03:00:00 CET 2010",
                 "offsetX": "0.0",
                 "offsetY": "112.0",
-                "subSamplingX": "227.55556",
+                "subSamplingX": "227.555556",
                 "subSamplingY": "112.0",
                 "expectedPixels": [
                     {
@@ -61,7 +61,7 @@
                 "description": "Vertical total electron content (TECU) for epoch Tue Jan 19 05:00:00 CET 2010",
                 "offsetX": "0.0",
                 "offsetY": "112.0",
-                "subSamplingX": "227.55556",
+                "subSamplingX": "227.555556",
                 "subSamplingY": "112.0",
                 "expectedPixels": [
                     {
@@ -81,7 +81,7 @@
                 "description": "Vertical total electron content (TECU) for epoch Tue Jan 19 07:00:00 CET 2010",
                 "offsetX": "0.0",
                 "offsetY": "112.0",
-                "subSamplingX": "227.55556",
+                "subSamplingX": "227.555556",
                 "subSamplingY": "112.0",
                 "expectedPixels": [
                     {
@@ -101,7 +101,7 @@
                 "description": "Vertical total electron content (TECU) for epoch Tue Jan 19 09:00:00 CET 2010",
                 "offsetX": "0.0",
                 "offsetY": "112.0",
-                "subSamplingX": "227.55556",
+                "subSamplingX": "227.555556",
                 "subSamplingY": "112.0",
                 "expectedPixels": [
                     {
@@ -121,7 +121,7 @@
                 "description": "Vertical total electron content (TECU) for epoch Tue Jan 19 11:00:00 CET 2010",
                 "offsetX": "0.0",
                 "offsetY": "112.0",
-                "subSamplingX": "227.55556",
+                "subSamplingX": "227.555556",
                 "subSamplingY": "112.0",
                 "expectedPixels": [
                     {
@@ -141,7 +141,7 @@
                 "description": "Vertical total electron content (TECU) for epoch Tue Jan 19 13:00:00 CET 2010",
                 "offsetX": "0.0",
                 "offsetY": "112.0",
-                "subSamplingX": "227.55556",
+                "subSamplingX": "227.555556",
                 "subSamplingY": "112.0",
                 "expectedPixels": [
                     {
@@ -161,7 +161,7 @@
                 "description": "Vertical total electron content (TECU) for epoch Tue Jan 19 15:00:00 CET 2010",
                 "offsetX": "0.0",
                 "offsetY": "112.0",
-                "subSamplingX": "227.55556",
+                "subSamplingX": "227.555556",
                 "subSamplingY": "112.0",
                 "expectedPixels": [
                     {
@@ -181,7 +181,7 @@
                 "description": "Vertical total electron content (TECU) for epoch Tue Jan 19 17:00:00 CET 2010",
                 "offsetX": "0.0",
                 "offsetY": "112.0",
-                "subSamplingX": "227.55556",
+                "subSamplingX": "227.555556",
                 "subSamplingY": "112.0",
                 "expectedPixels": [
                     {
@@ -201,18 +201,18 @@
                 "description": "Vertical total electron content (TECU) for epoch Tue Jan 19 19:00:00 CET 2010",
                 "offsetX": "0.0",
                 "offsetY": "112.0",
-                "subSamplingX": "227.55556",
+                "subSamplingX": "227.555556",
                 "subSamplingY": "112.0",
                 "expectedPixels": [
                     {
                         "x": 5260,
                         "y": 5919,
-                        "value": 21.7144832611084
+                        "value": 21.7144889831542
                     },
                     {
                         "x": 5867,
                         "y": 4081,
-                        "value": 27.0017147064209
+                        "value": 27.0017127990722
                     }
                 ]
             },
@@ -221,7 +221,7 @@
                 "description": "Vertical total electron content (TECU) for epoch Tue Jan 19 21:00:00 CET 2010",
                 "offsetX": "0.0",
                 "offsetY": "112.0",
-                "subSamplingX": "227.55556",
+                "subSamplingX": "227.555556",
                 "subSamplingY": "112.0",
                 "expectedPixels": [
                     {
@@ -241,7 +241,7 @@
                 "description": "Vertical total electron content (TECU) for epoch Tue Jan 19 23:00:00 CET 2010",
                 "offsetX": "0.0",
                 "offsetY": "112.0",
-                "subSamplingX": "227.55556",
+                "subSamplingX": "227.555556",
                 "subSamplingY": "112.0",
                 "expectedPixels": [
                     {
@@ -261,7 +261,7 @@
                 "description": "Vertical total electron content (TECU) for epoch Wed Jan 20 01:00:00 CET 2010",
                 "offsetX": "0.0",
                 "offsetY": "112.0",
-                "subSamplingX": "227.55556",
+                "subSamplingX": "227.555556",
                 "subSamplingY": "112.0",
                 "expectedPixels": [
                     {

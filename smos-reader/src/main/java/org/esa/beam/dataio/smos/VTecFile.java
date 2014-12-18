@@ -151,13 +151,13 @@ class VTecFile extends ExplorerFile {
 
         final double scaleX = w / lonRange;
         final double scaleY = h / latRange;
-        final float samplingX = (float) Math.abs(lonDelta * scaleX);
-        final float samplingY = (float) Math.abs(latDelta * scaleY);
-        final float offsetX = (float) ((maxLon + lon1) * scaleX);
-        final float offsetY = (float) ((maxLat - lat1) * scaleY);
+        final double samplingX = Math.abs(lonDelta * scaleX);
+        final double samplingY = Math.abs(latDelta * scaleY);
+        final double offsetX = (maxLon + lon1) * scaleX;
+        final double offsetY = (maxLat - lat1) * scaleY;
 
-        final TiePointGrid tiePointGrid = new TiePointGrid(name, colCount, rowCount, offsetX, offsetY, samplingX,
-                samplingY, tiePoints);
+        final TiePointGrid tiePointGrid = new TiePointGrid(name, colCount, rowCount, offsetX, offsetY,
+                                                           samplingX, samplingY, tiePoints);
         tiePointGrid.setScalingFactor(scalingFactor);
         tiePointGrid.setDescription(description);
         tiePointGrid.setUnit("TECU");

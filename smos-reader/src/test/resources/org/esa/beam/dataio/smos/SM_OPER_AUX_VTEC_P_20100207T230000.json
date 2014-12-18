@@ -10,7 +10,7 @@
                     "x": 7066.659,
                     "y": 4403.7256,
                     "lat": -8.16779899597168,
-                    "lon": -24.726727
+                    "lon": -24.726730957031265
                 }
             ],
             "reverseAccuracy": 0.01
@@ -21,7 +21,7 @@
                 "description": "Vertical total electron content (TECU) for epoch Mon Feb 08 01:00:00 CET 2010",
                 "offsetX": "0.0",
                 "offsetY": "112.0",
-                "subSamplingX": "227.55556",
+                "subSamplingX": "227.555556",
                 "subSamplingY": "112.0",
                 "expectedPixels": [
                     {
@@ -41,7 +41,7 @@
                 "description": "Vertical total electron content (TECU) for epoch Mon Feb 08 03:00:00 CET 2010",
                 "offsetX": "0.0",
                 "offsetY": "112.0",
-                "subSamplingX": "227.55556",
+                "subSamplingX": "227.555556",
                 "subSamplingY": "112.0",
                 "expectedPixels": [
                     {
@@ -61,7 +61,7 @@
                 "description": "Vertical total electron content (TECU) for epoch Mon Feb 08 05:00:00 CET 2010",
                 "offsetX": "0.0",
                 "offsetY": "112.0",
-                "subSamplingX": "227.55556",
+                "subSamplingX": "227.555556",
                 "subSamplingY": "112.0",
                 "expectedPixels": [
                     {
@@ -81,7 +81,7 @@
                 "description": "Vertical total electron content (TECU) for epoch Mon Feb 08 07:00:00 CET 2010",
                 "offsetX": "0.0",
                 "offsetY": "112.0",
-                "subSamplingX": "227.55556",
+                "subSamplingX": "227.555556",
                 "subSamplingY": "112.0",
                 "expectedPixels": [
                     {
@@ -101,7 +101,7 @@
                 "description": "Vertical total electron content (TECU) for epoch Mon Feb 08 09:00:00 CET 2010",
                 "offsetX": "0.0",
                 "offsetY": "112.0",
-                "subSamplingX": "227.55556",
+                "subSamplingX": "227.555556",
                 "subSamplingY": "112.0",
                 "expectedPixels": [
                     {
@@ -112,7 +112,7 @@
                     {
                         "x": 12388,
                         "y": 3969,
-                        "value": 25.009864807128906
+                        "value": 25.00986671447754
                     }
                 ]
             },
@@ -121,7 +121,7 @@
                 "description": "Vertical total electron content (TECU) for epoch Mon Feb 08 11:00:00 CET 2010",
                 "offsetX": "0.0",
                 "offsetY": "112.0",
-                "subSamplingX": "227.55556",
+                "subSamplingX": "227.555556",
                 "subSamplingY": "112.0",
                 "expectedPixels": [
                     {
@@ -141,7 +141,7 @@
                 "description": "Vertical total electron content (TECU) for epoch Mon Feb 08 13:00:00 CET 2010",
                 "offsetX": "0.0",
                 "offsetY": "112.0",
-                "subSamplingX": "227.55556",
+                "subSamplingX": "227.555556",
                 "subSamplingY": "112.0",
                 "expectedPixels": [
                     {
@@ -161,7 +161,7 @@
                 "description": "Vertical total electron content (TECU) for epoch Mon Feb 08 15:00:00 CET 2010",
                 "offsetX": "0.0",
                 "offsetY": "112.0",
-                "subSamplingX": "227.55556",
+                "subSamplingX": "227.555556",
                 "subSamplingY": "112.0",
                 "expectedPixels": [
                     {
@@ -181,7 +181,7 @@
                 "description": "Vertical total electron content (TECU) for epoch Mon Feb 08 17:00:00 CET 2010",
                 "offsetX": "0.0",
                 "offsetY": "112.0",
-                "subSamplingX": "227.55556",
+                "subSamplingX": "227.555556",
                 "subSamplingY": "112.0",
                 "expectedPixels": [
                     {
@@ -201,18 +201,18 @@
                 "description": "Vertical total electron content (TECU) for epoch Mon Feb 08 19:00:00 CET 2010",
                 "offsetX": "0.0",
                 "offsetY": "112.0",
-                "subSamplingX": "227.55556",
+                "subSamplingX": "227.555556",
                 "subSamplingY": "112.0",
                 "expectedPixels": [
                     {
                         "x": 5260,
                         "y": 5919,
-                        "value": 14.095110893249512
+                        "value": 14.095113754
                     },
                     {
                         "x": 5867,
                         "y": 4081,
-                        "value": 24.04170036315918
+                        "value": 24.041698455
                     }
                 ]
             },
@@ -221,7 +221,7 @@
                 "description": "Vertical total electron content (TECU) for epoch Mon Feb 08 21:00:00 CET 2010",
                 "offsetX": "0.0",
                 "offsetY": "112.0",
-                "subSamplingX": "227.55556",
+                "subSamplingX": "227.555556",
                 "subSamplingY": "112.0",
                 "expectedPixels": [
                     {
@@ -241,7 +241,7 @@
                 "description": "Vertical total electron content (TECU) for epoch Mon Feb 08 23:00:00 CET 2010",
                 "offsetX": "0.0",
                 "offsetY": "112.0",
-                "subSamplingX": "227.55556",
+                "subSamplingX": "227.555556",
                 "subSamplingY": "112.0",
                 "expectedPixels": [
                     {
@@ -261,7 +261,7 @@
                 "description": "Vertical total electron content (TECU) for epoch Tue Feb 09 01:00:00 CET 2010",
                 "offsetX": "0.0",
                 "offsetY": "112.0",
-                "subSamplingX": "227.55556",
+                "subSamplingX": "227.555556",
                 "subSamplingY": "112.0",
                 "expectedPixels": [
                     {
