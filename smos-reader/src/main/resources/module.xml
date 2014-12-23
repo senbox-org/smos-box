@@ -19,7 +19,7 @@
     <licenseUrl>http://www.gnu.org/licenses/gpl.html</licenseUrl>
 
     <changelog>
-        Initial release for Sentinel-3 Toolbox.
+        Maintenance update for Sentinel-3 Toolbox.
     </changelog>
 
     <dependency>
@@ -46,6 +46,9 @@
     </dependency>
     <dependency>
         <module>smos-tools</module>
+    </dependency>
+    <dependency>
+        <module>snap-netcdf</module>
     </dependency>
 
     <categories>Reader,SMOS</categories>

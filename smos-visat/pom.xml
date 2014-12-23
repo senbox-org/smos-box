@@ -7,7 +7,6 @@
         <artifactId>smos-box</artifactId>
         <groupId>org.esa.smostbx</groupId>
         <version>5.0.0-SNAPSHOT</version>
-
     </parent>
 
     <packaging>jar</packaging>
@@ -45,6 +44,12 @@
         <dependency>
             <groupId>org.esa.snap</groupId>
             <artifactId>snap-binio</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 

@@ -28,8 +28,6 @@
         <module>smos-gui</module>
     </modules>
 
-
-
     <dependencyManagement>
         <dependencies>
             <!-- Ceres System Level Module ############################################# -->
@@ -87,12 +85,6 @@
                 <groupId>org.esa.snap</groupId>
                 <artifactId>snap-core</artifactId>
                 <version>${snap.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.esa.s3tbx</groupId>
-                        <artifactId>s3tbx-avhrr-reader</artifactId>
-                    </exclusion>
-                </exclusions>
             </dependency>
             <dependency>
                 <groupId>org.esa.snap</groupId>
@@ -108,12 +100,6 @@
                 <groupId>org.esa.snap</groupId>
                 <artifactId>snap-gpf</artifactId>
                 <version>${snap.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.esa.s3tbx</groupId>
-                        <artifactId>s3tbx-avhrr-reader</artifactId>
-                    </exclusion>
-                </exclusions>
             </dependency>
             <dependency>
                 <groupId>org.esa.snap</groupId>
@@ -191,13 +177,6 @@
                 <groupId>org.esa.smostbx</groupId>
                 <artifactId>smos-ee2netcdf</artifactId>
                 <version>${project.version}</version>
-            </dependency>
-
-            <!-- NetCDF BUFR support ######################################### -->
-            <dependency>
-                <groupId>edu.ucar</groupId>
-                <artifactId>bufr</artifactId>
-                <version>4.3.22</version>
             </dependency>
 
             <!-- JUnit Libraries ############################################# -->

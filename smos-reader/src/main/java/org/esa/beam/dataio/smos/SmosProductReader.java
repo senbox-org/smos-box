@@ -16,36 +16,40 @@
 
 package org.esa.beam.dataio.smos;
 
-import com.bc.ceres.binio.DataContext;
-import com.bc.ceres.binio.DataFormat;
+import com.bc.ceres.binio.*;
+import com.bc.ceres.binio.util.NumberUtils;
 import com.bc.ceres.core.ProgressMonitor;
 import com.bc.ceres.core.VirtualDir;
+import com.bc.ceres.glevel.MultiLevelImage;
 import org.esa.beam.dataio.smos.dddb.BandDescriptor;
 import org.esa.beam.dataio.smos.dddb.Dddb;
-import org.esa.beam.framework.dataio.AbstractProductReader;
+import org.esa.beam.dataio.smos.dddb.Family;
+import org.esa.beam.dataio.smos.dddb.FlagDescriptor;
 import org.esa.beam.framework.dataio.ProductReaderPlugIn;
 import org.esa.beam.framework.datamodel.Band;
 import org.esa.beam.framework.datamodel.Product;
 import org.esa.beam.framework.datamodel.ProductData;
+import org.esa.beam.smos.DateTimeUtils;
 import org.esa.beam.smos.EEFilePair;
 import org.esa.beam.smos.SmosUtils;
+import org.esa.beam.smos.dgg.SmosDgg;
 import org.esa.beam.smos.lsmask.SmosLsMask;
+import org.esa.beam.util.StringUtils;
 import org.esa.beam.util.io.FileUtils;
-import ucar.nc2.NetcdfFile;
-import ucar.nc2.iosp.bufr.BufrIosp;
 
-import java.awt.Rectangle;
+import java.awt.*;
 import java.awt.image.Raster;
 import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.IOException;
 import java.text.MessageFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.List;
 
-public class SmosProductReader extends AbstractProductReader {
+public class SmosProductReader extends SmosReader {
 
     private static final String LSMASK_SCHEMA_NAME = "DBL_SM_XXXX_AUX_LSMASK_0200";
-
-    private static boolean isIOSPInjected = false;
 
     private ProductFile productFile;
     private VirtualDir virtualDir;
@@ -67,6 +71,213 @@ public class SmosProductReader extends AbstractProductReader {
             throw new IOException(MessageFormat.format("File ''{0}'': unknown/unsupported SMOS data format.", file));
         }
         return productFile;
+    }
+
+    @Override
+    public GridPointBtDataset getBtData(int gridPointIndex) throws IOException {
+        if (productFile instanceof L1cSmosFile) {
+            return readBtData(gridPointIndex);
+        }
+        return null;
+    }
+
+    @Override
+    public boolean canSupplyGridPointBtData() {
+        return productFile instanceof L1cSmosFile;
+    }
+
+    @Override
+    public boolean canSupplyFullPolData() {
+        return SmosUtils.isFullPolScienceFormat(productFile.getDataFile().getName());
+    }
+
+    @Override
+    public int getGridPointIndex(int gridPointId) {
+        if (productFile instanceof L1cSmosFile) {
+            return ((L1cSmosFile) productFile).getGridPointIndex(gridPointId);
+        }
+        return -1;
+    }
+
+    @Override
+    public int getGridPointId(int levelPixelX, int levelPixelY, int currentLevel) {
+        final MultiLevelImage levelImage = SmosDgg.getInstance().getMultiLevelImage();
+        final RenderedImage image = levelImage.getImage(currentLevel);
+        final Raster data = image.getData(new Rectangle(levelPixelX, levelPixelY, 1, 1));
+        return data.getSample(levelPixelX, levelPixelY, 0);
+    }
+
+    private GridPointBtDataset readBtData(int gridPointIndex) throws IOException {
+        final L1cSmosFile smosFile = (L1cSmosFile) productFile;
+        final SequenceData btDataList = smosFile.getBtDataList(gridPointIndex);
+
+        final CompoundType type = (CompoundType) btDataList.getType().getElementType();
+        final int memberCount = type.getMemberCount();
+
+        final int btDataListCount = btDataList.getElementCount();
+
+        final Class[] columnClasses = new Class[memberCount];
+        final BandDescriptor[] descriptors = new BandDescriptor[memberCount];
+
+        final Dddb dddb = Dddb.getInstance();
+        final String formatName = smosFile.getDataFormat().getName();
+        for (int j = 0; j < memberCount; j++) {
+            final String memberName = type.getMemberName(j);
+            final BandDescriptor descriptor = dddb.findBandDescriptorForMember(formatName, memberName);
+            if (descriptor == null || descriptor.getScalingFactor() == 1.0 && descriptor.getScalingOffset() == 0.0) {
+                columnClasses[j] = NumberUtils.getNumericMemberType(type, j);
+            } else {
+                columnClasses[j] = Double.class;
+            }
+            descriptors[j] = descriptor;
+        }
+
+        final Number[][] tableData = new Number[btDataListCount][memberCount];
+        for (int i = 0; i < btDataListCount; i++) {
+            CompoundData btData = btDataList.getCompound(i);
+            for (int j = 0; j < memberCount; j++) {
+                final Number member = NumberUtils.getNumericMember(btData, j);
+                final BandDescriptor descriptor = descriptors[j];
+                if (descriptor == null || descriptor.getScalingFactor() == 1.0 && descriptor.getScalingOffset() == 0.0) {
+                    tableData[i][j] = member;
+                } else {
+                    tableData[i][j] = member.doubleValue() * descriptor.getScalingFactor() + descriptor.getScalingOffset();
+                }
+            }
+        }
+
+        final HashMap<String, Integer> memberNamesMap = getRawDataMemberNamesMap(smosFile);
+
+        final GridPointBtDataset btDataset = new GridPointBtDataset(memberNamesMap, columnClasses, tableData);
+        for (int i = 0; i < memberCount; i++) {
+            final String memberName = type.getMemberName(i);
+            final BandDescriptor descriptor = dddb.findBandDescriptorForMember(formatName, memberName);
+            if (StringUtils.isNotNullAndNotEmpty(descriptor.getFlagCodingName())) {
+                btDataset.setFlagBandIndex(i);
+                btDataset.setPolarisationFlagBandIndex(i);
+                break;
+            }
+        }
+        btDataset.setIncidenceAngleBandIndex(memberNamesMap.get("Incidence_Angle"));
+        btDataset.setRadiometricAccuracyBandIndex(memberNamesMap.get("Pixel_Radiometric_Accuracy"));
+        final Integer bt_value_real = memberNamesMap.get("BT_Value_Real");
+        if (bt_value_real != null) {
+            btDataset.setBTValueRealBandIndex(bt_value_real);
+        }
+        final Integer bt_value_imag = memberNamesMap.get("BT_Value_Imag");
+        if (bt_value_imag != null) {
+            btDataset.setBTValueImaginaryBandIndex(bt_value_imag);
+        }
+        return btDataset;
+    }
+
+    @Override
+    public String[] getRawDataTableNames() {
+        if (productFile instanceof L1cSmosFile) {
+            final L1cSmosFile smosFile = (L1cSmosFile) productFile;
+            final CompoundType btDataType = smosFile.getBtDataType();
+            final CompoundMember[] members = btDataType.getMembers();
+            final String[] names = new String[members.length];
+            for (int i = 0; i < names.length; i++) {
+                CompoundMember member = members[i];
+                names[i] = member.getName();
+            }
+            return names;
+        }
+
+        return new String[0];
+    }
+
+    @Override
+    public FlagDescriptor[] getBtFlagDescriptors() {
+        if (productFile instanceof L1cSmosFile) {
+            final L1cSmosFile smosFile = (L1cSmosFile) productFile;
+            final String dataFormatName = smosFile.getDataFormat().getName();
+            final Family<BandDescriptor> bandDescriptors = Dddb.getInstance().getBandDescriptors(dataFormatName);
+            final BandDescriptor flagBandDescriptor = bandDescriptors.getMember(SmosConstants.BT_FLAGS_NAME);
+            final List<FlagDescriptor> flagDescriptorList = flagBandDescriptor.getFlagDescriptors().asList();
+            return flagDescriptorList.toArray(new FlagDescriptor[flagDescriptorList.size()]);
+        }
+
+        return new FlagDescriptor[0];
+    }
+
+    @Override
+    public PolarisationModel getPolarisationModel() {
+        return new L1cPolarisationModel();
+    }
+
+    @Override
+    public boolean canSupplySnapshotData() {
+        return productFile instanceof L1cScienceSmosFile;
+    }
+
+    @Override
+    public boolean hasSnapshotInfo() {
+        if (productFile instanceof L1cScienceSmosFile) {
+            return ((L1cScienceSmosFile) productFile).hasSnapshotInfo();
+        }
+        return false;
+    }
+
+    @Override
+    public SnapshotInfo getSnapshotInfo() {
+        if (productFile instanceof L1cScienceSmosFile) {
+            return ((L1cScienceSmosFile) productFile).getSnapshotInfo();
+        }
+        return null;
+    }
+
+    @Override
+    public Object[][] getSnapshotData(int snapshotIndex) throws IOException {
+        if (productFile instanceof L1cScienceSmosFile) {
+            final CompoundData data = ((L1cScienceSmosFile) productFile).getSnapshotData(snapshotIndex);
+            final CompoundType compoundType = data.getType();
+            final int memberCount = data.getMemberCount();
+            final ArrayList<Object[]> list = new ArrayList<>(memberCount);
+
+            for (int i = 0; i < memberCount; i++) {
+                final Object[] entry = new Object[2];
+                entry[0] = compoundType.getMemberName(i);
+
+                final Type memberType = compoundType.getMemberType(i);
+                if (memberType.isSimpleType()) {
+                    try {
+                        entry[1] = NumberUtils.getNumericMember(data, i);
+                    } catch (IOException e) {
+                        entry[1] = "Failed reading data";
+                    }
+                    list.add(entry);
+                } else {
+                    if ("Snapshot_Time".equals(compoundType.getMemberName(i))) {
+                        try {
+                            final Date date = DateTimeUtils.cfiDateToUtc(data);
+                            final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSz",
+                                    Locale.ENGLISH);
+                            dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+                            entry[1] = dateFormat.format(date);
+                        } catch (IOException e) {
+                            entry[1] = "Failed reading data";
+                        }
+                        list.add(entry);
+                    }
+                }
+            }
+
+            return list.toArray(new Object[2][list.size()]);
+        }
+        return new Object[0][];
+    }
+
+    private HashMap<String, Integer> getRawDataMemberNamesMap(L1cSmosFile smosFile) {
+        final CompoundType btDataType = smosFile.getBtDataType();
+        final CompoundMember[] members = btDataType.getMembers();
+        final HashMap<String, Integer> memberNamesMap = new HashMap<>();
+        for (int i = 0; i < members.length; i++) {
+            CompoundMember member = members[i];
+            memberNamesMap.put(member.getName(), i);
+        }
+        return memberNamesMap;
     }
 
     private static ProductFile createProductFile(VirtualDir virtualDir) throws IOException {
@@ -105,8 +316,7 @@ public class SmosProductReader extends AbstractProductReader {
         synchronized (this) {
             final File inputFile = getInputFile();
             final String inputFileName = inputFile.getName();
-            if (SmosUtils.isDblFileName(inputFileName) ||
-                    (SmosUtils.isLightBufrTypeSupported() && SmosUtils.isLightBufrType(inputFileName))) {
+            if (SmosUtils.isDblFileName(inputFileName)) {
                 productFile = createProductFile(inputFile);
             } else {
                 productFile = createProductFile(getInputVirtualDir());
@@ -163,19 +373,6 @@ public class SmosProductReader extends AbstractProductReader {
         }
     }
 
-    private File getInputFile() {
-        final Object input = getInput();
-
-        if (input instanceof String) {
-            return new File((String) input);
-        }
-        if (input instanceof File) {
-            return (File) input;
-        }
-
-        throw new IllegalArgumentException(MessageFormat.format("Illegal input: {0}", input));
-    }
-
     private VirtualDir getInputVirtualDir() {
         File inputFile = getInputFile();
 
@@ -214,7 +411,7 @@ public class SmosProductReader extends AbstractProductReader {
         }
         if (descriptor.getFlagDescriptors() != null) {
             ProductHelper.addFlagsAndMasks(product, band, descriptor.getFlagCodingName(),
-                                           descriptor.getFlagDescriptors());
+                    descriptor.getFlagDescriptors());
         }
 
         band.setSourceImage(SmosLsMask.getInstance().getMultiLevelImage());
@@ -222,11 +419,6 @@ public class SmosProductReader extends AbstractProductReader {
     }
 
     private static ProductFile createProductFileImplementation(File file) throws IOException {
-        if (SmosUtils.isLightBufrTypeSupported() && SmosUtils.isLightBufrType(file.getName())) {
-            ensureNetcdfBufrSupport();
-            return new LightBufrFile(file);
-        }
-
         final File hdrFile = FileUtils.exchangeExtension(file, ".HDR");
         final File dblFile = FileUtils.exchangeExtension(file, ".DBL");
 
@@ -242,14 +434,14 @@ public class SmosProductReader extends AbstractProductReader {
         if (SmosUtils.isBrowseFormat(formatName)) {
             return new L1cBrowseSmosFile(eeFilePair, context);
         } else if (SmosUtils.isDualPolScienceFormat(formatName) ||
-                   SmosUtils.isFullPolScienceFormat(formatName)) {
+                SmosUtils.isFullPolScienceFormat(formatName)) {
             return new L1cScienceSmosFile(eeFilePair, context);
         } else if (SmosUtils.isSmUserFormat(formatName)) {
             return new SmUserSmosFile(eeFilePair, context);
         } else if (SmosUtils.isOsUserFormat(formatName) ||
-                   SmosUtils.isOsAnalysisFormat(formatName) ||
-                   SmosUtils.isSmAnalysisFormat(formatName) ||
-                   SmosUtils.isAuxECMWFType(formatName)) {
+                SmosUtils.isOsAnalysisFormat(formatName) ||
+                SmosUtils.isSmAnalysisFormat(formatName) ||
+                SmosUtils.isAuxECMWFType(formatName)) {
             return new SmosFile(eeFilePair, context);
         } else if (SmosUtils.isDffLaiFormat(formatName)) {
             return new LaiFile(eeFilePair, context);
@@ -258,26 +450,15 @@ public class SmosProductReader extends AbstractProductReader {
         } else if (SmosUtils.isLsMaskFormat(formatName)) {
             return new GlobalSmosFile(eeFilePair, context);
         } else if (SmosUtils.isDggFloFormat(formatName) ||
-                   SmosUtils.isDggRfiFormat(formatName) ||
-                   SmosUtils.isDggRouFormat(formatName) ||
-                   SmosUtils.isDggTfoFormat(formatName) ||
-                   SmosUtils.isDggTlvFormat(formatName)) {
+                SmosUtils.isDggRfiFormat(formatName) ||
+                SmosUtils.isDggRouFormat(formatName) ||
+                SmosUtils.isDggTfoFormat(formatName) ||
+                SmosUtils.isDggTlvFormat(formatName)) {
             return new AuxiliaryFile(eeFilePair, context);
         }
 
         return null;
     }
 
-    private static void ensureNetcdfBufrSupport() throws IOException {
-        if (!isIOSPInjected) {
-            if (SmosUtils.isLightBufrTypeSupported()) {
-                try {
-                    NetcdfFile.registerIOProvider(BufrIosp.class);
-                } catch (IllegalAccessException | InstantiationException e) {
-                    throw new IOException(e.getMessage());
-                }
-            }
-            isIOSPInjected = true;
-        }
-    }
+
 }

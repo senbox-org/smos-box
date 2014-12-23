@@ -16,6 +16,8 @@
 
 package org.esa.beam.smos.visat;
 
+import org.esa.beam.dataio.smos.GridPointBtDataset;
+
 import javax.swing.table.AbstractTableModel;
 
 
@@ -25,7 +27,7 @@ class GridPointBtDataTableModel extends AbstractTableModel {
 
     @Override
     public int getRowCount() {
-        return ds == null ? 0 :ds.getData().length;
+        return ds == null ? 0 : ds.getData().length;
     }
 
     @Override
@@ -38,6 +40,9 @@ class GridPointBtDataTableModel extends AbstractTableModel {
         if (columnIndex == 0) {
             return 1 + rowIndex;
         } else {
+            if (ds == null) {
+                return null;
+            }
             return ds.getData()[rowIndex][columnIndex - 1];
         }
     }
@@ -68,7 +73,7 @@ class GridPointBtDataTableModel extends AbstractTableModel {
         this.ds = ds;
         fireTableDataChanged();
     }
-    
+
     public void setColumnNames(String[] columnNames) {
         this.columnNames = columnNames;
     }

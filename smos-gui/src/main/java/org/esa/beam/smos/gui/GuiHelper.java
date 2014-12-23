@@ -3,39 +3,45 @@ package org.esa.beam.smos.gui;
 
 import com.bc.ceres.binding.PropertyContainer;
 import com.bc.ceres.binding.PropertyDescriptor;
+import com.bc.ceres.binding.PropertySet;
 import com.bc.ceres.binding.ValidationException;
 import com.bc.ceres.binding.ValueSet;
 import com.bc.ceres.swing.TableLayout;
-import com.bc.ceres.swing.binding.*;
+import com.bc.ceres.swing.binding.Binding;
+import com.bc.ceres.swing.binding.BindingContext;
+import com.bc.ceres.swing.binding.ComponentAdapter;
+import com.bc.ceres.swing.binding.PropertyEditor;
+import com.bc.ceres.swing.binding.PropertyEditorRegistry;
 import com.bc.ceres.swing.binding.internal.AbstractButtonAdapter;
 import com.bc.ceres.swing.binding.internal.SingleSelectionEditor;
 import com.bc.ceres.swing.binding.internal.TextComponentAdapter;
 import com.bc.ceres.swing.binding.internal.TextFieldEditor;
-import com.bc.ceres.swing.selection.Selection;
-import com.bc.ceres.swing.selection.SelectionContext;
-import com.bc.ceres.swing.selection.SelectionManager;
-import com.vividsolutions.jts.geom.Geometry;
 import org.esa.beam.framework.datamodel.PlainFeatureFactory;
 import org.esa.beam.framework.datamodel.Product;
 import org.esa.beam.framework.datamodel.ProductNodeGroup;
 import org.esa.beam.framework.datamodel.VectorDataNode;
 import org.esa.beam.framework.ui.AppContext;
-import org.esa.beam.framework.ui.application.ApplicationPage;
-import org.esa.beam.framework.ui.product.SimpleFeatureShapeFigure;
-import org.geotools.feature.FeatureCollection;
-import org.geotools.feature.FeatureIterator;
-import org.opengis.feature.simple.SimpleFeature;
-import org.opengis.feature.simple.SimpleFeatureType;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
+import javax.swing.AbstractButton;
+import javax.swing.BoxLayout;
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JComponent;
+import javax.swing.JFileChooser;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JTextField;
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class GuiHelper {
@@ -60,14 +66,16 @@ public class GuiHelper {
         return layout;
     }
 
-    public static TableLayout createWeightedTablelayout(int columnCount) {
+    public static TableLayout createWeightedTableLayout(int columnCount) {
         final TableLayout layout = createTableLayout(columnCount);
         layout.setTableWeightX(1.0);
         return layout;
     }
 
-    public static void addSourceProductsButtons(JPanel sourceProductPanel, boolean canProductSelectionBeEnabled, BindingContext bindingContext) {
-        final JRadioButton useSelectedProductButton = new JRadioButton(BindingConstants.USE_SELECTED_PRODUCT_BUTTON_NAME);
+    public static void addSourceProductsButtons(JPanel sourceProductPanel, boolean productSelectionFeasible,
+                                                BindingContext bindingContext) {
+        final JRadioButton useSelectedProductButton = new JRadioButton(
+                BindingConstants.USE_SELECTED_PRODUCT_BUTTON_NAME);
         final JRadioButton useAllProductsInDirectoryButton = new JRadioButton("Use all SMOS products in directory:");
 
         final ButtonGroup buttonGroup = new ButtonGroup();
@@ -79,20 +87,24 @@ public class GuiHelper {
         buttonGroupValueSet.put(useAllProductsInDirectoryButton, false);
 
         bindingContext.bind(BindingConstants.SELECTED_PRODUCT, buttonGroup, buttonGroupValueSet);
-        bindingContext.bindEnabledState(BindingConstants.SOURCE_DIRECTORY, true, BindingConstants.SELECTED_PRODUCT, false);
-        bindingContext.bindEnabledState(BindingConstants.OPEN_FILE_DIALOG, true, BindingConstants.SELECTED_PRODUCT, false);
+        bindingContext.bindEnabledState(BindingConstants.SOURCE_DIRECTORY, true, BindingConstants.SELECTED_PRODUCT,
+                                        false);
+        bindingContext.bindEnabledState(BindingConstants.OPEN_FILE_DIALOG, true, BindingConstants.SELECTED_PRODUCT,
+                                        false);
 
-        useSelectedProductButton.setEnabled(canProductSelectionBeEnabled);
+        useSelectedProductButton.setEnabled(productSelectionFeasible);
 
         sourceProductPanel.add(useSelectedProductButton);
         sourceProductPanel.add(useAllProductsInDirectoryButton);
     }
 
-    public static JComponent createFileEditorComponent(PropertyDescriptor descriptor, final ChooserFactory cf, BindingContext bindingContext) {
+    public static JComponent createFileEditorComponent(PropertyDescriptor descriptor, final ChooserFactory cf,
+                                                       BindingContext bindingContext) {
         return createFileEditorComponent(descriptor, cf, bindingContext, true);
     }
 
-    public static JComponent createFileEditorComponent(PropertyDescriptor descriptor, final ChooserFactory cf, BindingContext bindingContext, boolean bindEtcButton) {
+    public static JComponent createFileEditorComponent(PropertyDescriptor descriptor, final ChooserFactory cf,
+                                                       BindingContext bindingContext, boolean bindEtcButton) {
         final JTextField textField = new JTextField();
         textField.setColumns(30);
         final ComponentAdapter adapter = new TextComponentAdapter(textField);
@@ -110,17 +122,14 @@ public class GuiHelper {
         panel.add(textField, BorderLayout.CENTER);
         panel.add(etcButton, BorderLayout.EAST);
 
-        etcButton.addActionListener(new ActionListener() {
-                                        @Override
-                                        public void actionPerformed(ActionEvent e) {
-                                            final JFileChooser fileChooser = cf.createChooser((File) binding.getPropertyValue());
-                                            final int state = fileChooser.showDialog(panel, "Select");
-                                            if (state == JFileChooser.APPROVE_OPTION && fileChooser.getSelectedFile() != null) {
-                                                binding.setPropertyValue(fileChooser.getSelectedFile());
-                                            }
-                                        }
-                                    }
-        );
+        final ActionListener actionListener = actionEvent -> {
+            final JFileChooser chooser = cf.createChooser((File) binding.getPropertyValue());
+            final int state = chooser.showDialog(panel, "Select");
+            if (state == JFileChooser.APPROVE_OPTION && chooser.getSelectedFile() != null) {
+                binding.setPropertyValue(chooser.getSelectedFile());
+            }
+        };
+        etcButton.addActionListener(actionListener);
 
         return panel;
     }
@@ -146,29 +155,8 @@ public class GuiHelper {
         return new File(appContext.getPreferences().getPropertyString(lastSourceDirKey, def));
     }
 
-    // @todo 3 tb/tb write test 2013-04-08
-    public static Geometry getSelectedGeometry(AppContext appContext) {
-        final ApplicationPage applicationPage = appContext.getApplicationPage();
-        if (applicationPage != null) {
-            final SelectionManager selectionManager = applicationPage.getSelectionManager();
-            if (selectionManager != null) {
-                final SelectionContext selectionContext = selectionManager.getSelectionContext();
-                if (selectionContext != null) {
-                    final Selection selection = selectionContext.getSelection();
-                    final Object selectedValue = selection.getSelectedValue();
-                    if (selectedValue instanceof SimpleFeatureShapeFigure) {
-                        final SimpleFeatureShapeFigure shapeFigure = (SimpleFeatureShapeFigure) selectedValue;
-                        return shapeFigure.getGeometry();
-                    }
-                }
-            }
-        }
-
-        return null;
-    }
-
-    public static java.util.List<VectorDataNode> getGeometries(Product selectedProduct) {
-        final java.util.List<VectorDataNode> geometryNodeList = new ArrayList<>();
+    public static List<VectorDataNode> getGeometryNodes(Product selectedProduct) {
+        final List<VectorDataNode> geometryNodeList = new ArrayList<>();
         final ProductNodeGroup<VectorDataNode> vectorDataGroup = selectedProduct.getVectorDataGroup();
         for (VectorDataNode node : vectorDataGroup.toArray(new VectorDataNode[vectorDataGroup.getNodeCount()])) {
             if (node.getFeatureType().getTypeName().equals(PlainFeatureFactory.DEFAULT_TYPE_NAME)) {
@@ -180,62 +168,34 @@ public class GuiHelper {
         return geometryNodeList;
     }
 
-    public static java.util.List<Geometry> getPolygonGeometries(Product selectedProduct) {
-        final java.util.List<Geometry> geometryNodeList = new ArrayList<>();
-        final ProductNodeGroup<VectorDataNode> vectorDataGroup = selectedProduct.getVectorDataGroup();
-        for (VectorDataNode node : vectorDataGroup.toArray(new VectorDataNode[vectorDataGroup.getNodeCount()])) {
-            if (node.getFeatureType().getTypeName().equals(PlainFeatureFactory.DEFAULT_TYPE_NAME)) {
-                final FeatureCollection<SimpleFeatureType, SimpleFeature> featureCollection = node.getFeatureCollection();
-                if (!featureCollection.isEmpty()) {
-                    final FeatureIterator<SimpleFeature> features = featureCollection.features();
-                    while (features.hasNext()) {
-                        final SimpleFeature next = features.next();
-                        final Object defaultGeometry = next.getDefaultGeometry();
-                        if (defaultGeometry instanceof Geometry) {
-                            final Geometry geometry = (Geometry) defaultGeometry;
-                            if (geometry instanceof com.vividsolutions.jts.geom.Polygon) {
-                                geometryNodeList.add(geometry);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        return geometryNodeList;
-    }
-
-    public static void bindGeometryVectorDataNodes(java.util.List<VectorDataNode> geometryNodeList, PropertyContainer propertyContainer) throws ValidationException {
-        final PropertyDescriptor descriptor = propertyContainer.getDescriptor(BindingConstants.REGION);
+    public static void bindGeometryNodes(List<VectorDataNode> geometryNodes, PropertySet propertySet) throws
+                                                                                                      ValidationException {
+        final PropertyDescriptor descriptor = propertySet.getDescriptor(BindingConstants.GEOMETRY);
         descriptor.setNotNull(false);
         descriptor.setNotEmpty(false);
-        descriptor.setValueSet(new ValueSet(geometryNodeList.toArray()));
+        descriptor.setValueSet(new ValueSet(geometryNodes.toArray()));
 
-        propertyContainer.setValue(BindingConstants.ROI_TYPE, BindingConstants.ROI_TYPE_GEOMETRY);
-        propertyContainer.getProperty(BindingConstants.REGION).setValue(geometryNodeList.get(0));
+        propertySet.setValue(BindingConstants.ROI_TYPE, BindingConstants.ROI_TYPE_GEOMETRY);
+        propertySet.getProperty(BindingConstants.GEOMETRY).setValue(geometryNodes.get(0));
     }
 
-    public static void bindGeometries(java.util.List<Geometry> geometryNodeList, PropertyContainer propertyContainer) throws ValidationException {
-        final PropertyDescriptor descriptor = propertyContainer.getDescriptor(BindingConstants.REGION);
-        descriptor.setNotNull(false);
-        descriptor.setNotEmpty(false);
-        descriptor.setValueSet(new ValueSet(geometryNodeList.toArray()));
-
-        propertyContainer.setValue(BindingConstants.ROI_TYPE, BindingConstants.ROI_TYPE_GEOMETRY);
-        propertyContainer.getProperty(BindingConstants.REGION).setValue(geometryNodeList.get(0));
+    public static JComboBox createGeometryNodeComboBox(PropertyDescriptor geometryDescriptor,
+                                                       BindingContext bindingContext) {
+        final PropertyEditorRegistry registry = PropertyEditorRegistry.getInstance();
+        final PropertyEditor selectionEditor = registry.getPropertyEditor(SingleSelectionEditor.class.getName());
+        final JComboBox comboBox = (JComboBox) selectionEditor.createEditorComponent(geometryDescriptor,
+                                                                                     bindingContext);
+        comboBox.setRenderer(new ProductNodeRenderer());
+        return comboBox;
     }
 
-    public static JComboBox createGeometryComboBox(PropertyDescriptor geometryDescriptor, BindingContext bindingContext) {
-        final PropertyEditor selectionEditor = PropertyEditorRegistry.getInstance().getPropertyEditor(SingleSelectionEditor.class.getName());
-        final JComboBox geometryComboBox = (JComboBox) selectionEditor.createEditorComponent(geometryDescriptor, bindingContext);
-
-        final DefaultListCellRenderer listCellRenderer = new ProductNodeRenderer();
-        geometryComboBox.setRenderer(listCellRenderer);
-        return geometryComboBox;
-    }
-
-    public static Component createLatLonCoordinatePanel(String name, String displayName, int numColumns, PropertyContainer propertyContainer, BindingContext bindingContext) {
-        final PropertyEditor editor = PropertyEditorRegistry.getInstance().getPropertyEditor(TextFieldEditor.class.getName());
-        final JTextField textField = (JTextField) editor.createEditorComponent(propertyContainer.getDescriptor(name), bindingContext);
+    public static Component createLatLonCoordinatePanel(String name, String displayName, int numColumns,
+                                                        PropertyContainer propertyContainer,
+                                                        BindingContext bindingContext) {
+        final PropertyEditor editor = PropertyEditorRegistry.getInstance().getPropertyEditor(
+                TextFieldEditor.class.getName());
+        final JTextField textField = (JTextField) editor.createEditorComponent(propertyContainer.getDescriptor(name),
+                                                                               bindingContext);
 
         final JLabel nameLabel = new JLabel(displayName);
         final JLabel unitLabel = new JLabel("\u00b0");
@@ -243,13 +203,10 @@ public class GuiHelper {
         unitLabel.setEnabled(textField.isEnabled());
 
         textField.setColumns(numColumns);
-        textField.addPropertyChangeListener("enabled", new PropertyChangeListener() {
-            @Override
-            public void propertyChange(PropertyChangeEvent evt) {
-                final Boolean enabled = (Boolean) evt.getNewValue();
-                nameLabel.setEnabled(enabled);
-                unitLabel.setEnabled(enabled);
-            }
+        textField.addPropertyChangeListener("enabled", evt -> {
+            final Boolean enabled = (Boolean) evt.getNewValue();
+            nameLabel.setEnabled(enabled);
+            unitLabel.setEnabled(enabled);
         });
 
         final JPanel panel = new JPanel(new FlowLayout());
@@ -266,18 +223,22 @@ public class GuiHelper {
         final JPanel areaPanel = new JPanel(layout);
         final JLabel emptyLabel = new JLabel(" ");
         areaPanel.add(emptyLabel);
-        final Component northPanel = createLatLonCoordinatePanel(BindingConstants.NORTH, "North:", 4, propertyContainer, bindingContext);
+        final Component northPanel = createLatLonCoordinatePanel(BindingConstants.NORTH, "North:", 4, propertyContainer,
+                                                                 bindingContext);
         areaPanel.add(northPanel);
         areaPanel.add(emptyLabel);
 
-        final Component westPanel = createLatLonCoordinatePanel(BindingConstants.WEST, "West:", 5, propertyContainer, bindingContext);
+        final Component westPanel = createLatLonCoordinatePanel(BindingConstants.WEST, "West:", 5, propertyContainer,
+                                                                bindingContext);
         areaPanel.add(westPanel);
         areaPanel.add(emptyLabel);
-        final Component eastPanel = createLatLonCoordinatePanel(BindingConstants.EAST, "East:", 5, propertyContainer, bindingContext);
+        final Component eastPanel = createLatLonCoordinatePanel(BindingConstants.EAST, "East:", 5, propertyContainer,
+                                                                bindingContext);
         areaPanel.add(eastPanel);
 
         areaPanel.add(emptyLabel);
-        final Component southPanel = createLatLonCoordinatePanel(BindingConstants.SOUTH, "South:", 4, propertyContainer, bindingContext);
+        final Component southPanel = createLatLonCoordinatePanel(BindingConstants.SOUTH, "South:", 4, propertyContainer,
+                                                                 bindingContext);
         areaPanel.add(southPanel);
         areaPanel.add(emptyLabel);
 

@@ -81,7 +81,15 @@ public class DddbTest {
     @Test
     public void testGetFlagDescriptors_BUFR() throws Exception {
         final Family<FlagDescriptor> descriptors = dddb.getFlagDescriptors("BUFR_flags");
-        assertEquals(13, descriptors.asList().size());
+        assertEquals(14, descriptors.asList().size());
+
+        final FlagDescriptor descriptor = descriptors.getMember("MISSING_VALUE");
+        assertNotNull(descriptor);
+        assertEquals("MISSING_VALUE", descriptor.getFlagName());
+        assertEquals(0x00003FFF, descriptor.getMask());
+        assertNull(descriptor.getColor());
+        assertEquals(0.5, descriptor.getTransparency(), 0.0);
+        assertFalse(descriptor.getDescription().isEmpty());
     }
 
     @Test

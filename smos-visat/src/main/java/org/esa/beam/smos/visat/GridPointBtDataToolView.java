@@ -16,15 +16,11 @@
 
 package org.esa.beam.smos.visat;
 
-import org.esa.beam.dataio.smos.L1cSmosFile;
-import org.esa.beam.dataio.smos.ProductFile;
-import org.esa.beam.dataio.smos.SmosFile;
-import org.esa.beam.dataio.smos.SmosProductReader;
-import org.esa.beam.framework.dataio.ProductReader;
+import org.esa.beam.dataio.smos.GridPointBtDataset;
+import org.esa.beam.dataio.smos.SmosReader;
 import org.esa.beam.framework.datamodel.*;
 import org.esa.beam.framework.help.HelpSys;
 import org.esa.beam.framework.ui.product.ProductSceneView;
-import org.esa.beam.visat.VisatApp;
 
 import javax.swing.*;
 import java.awt.*;
@@ -39,9 +35,7 @@ public abstract class GridPointBtDataToolView extends SmosToolView {
 
     public static final String ID = GridPointBtDataToolView.class.getName();
 
-    private static final String TAG_DS_NAME = "DS_Name";
-    private static final String TAG_LIST_OF_DATA_SETS = "List_of_Data_Sets";
-    private static final String TAG_REF_FILENAME = "Ref_Filename";
+    private SmosBox smosBox;
 
     private JLabel infoLabel;
     private JCheckBox snapToSelectedPinCheckBox;
@@ -85,41 +79,25 @@ public abstract class GridPointBtDataToolView extends SmosToolView {
     public void componentOpened() {
         super.componentOpened();
         gpsl = new GPSL();
-        SmosBox.getInstance().getGridPointSelectionService().addGridPointSelectionListener(gpsl);
-        updateGridPointBtDataComponent(SmosBox.getInstance().getGridPointSelectionService().getSelectedGridPointId());
+
+        smosBox = SmosBox.getInstance();
+        final GridPointSelectionService gpSelectionService = smosBox.getGridPointSelectionService();
+
+        gpSelectionService.addGridPointSelectionListener(gpsl);
+        updateGridPointBtDataComponent(gpSelectionService.getSelectedGridPointId());
     }
 
     @Override
     public void componentClosed() {
         super.componentClosed();
-        SmosBox.getInstance().getGridPointSelectionService().removeGridPointSelectionListener(gpsl);
+        smosBox.getGridPointSelectionService().removeGridPointSelectionListener(gpsl);
         updateGridPointBtDataComponent(-1);
-    }
-
-    protected L1cSmosFile getL1cSmosFile() {
-        final SmosFile smosFile = getSelectedSmosFile();
-        if (smosFile instanceof L1cSmosFile) {
-            return (L1cSmosFile) smosFile;
-        } else if (smosFile != null) {
-            // find the L1c SMOS file corresponding to the selected SMOS file
-            final Product selectedProduct = getSelectedSmosProduct();
-            if (selectedProduct != null) {
-                final MetadataElement element = findElement(selectedProduct.getMetadataRoot(), TAG_LIST_OF_DATA_SETS);
-                if (element != null) {
-                    final String referredFileName = getReferredFileName(element);
-                    if (referredFileName != null) {
-                        return findL1cSmosFile(referredFileName);
-                    }
-                }
-            }
-        }
-        return null;
     }
 
     final void updateGridPointBtDataComponent() {
         int id = -1;
         if (!isSnappedToPin()) {
-            id = SmosBox.getInstance().getGridPointSelectionService().getSelectedGridPointId();
+            id = smosBox.getGridPointSelectionService().getSelectedGridPointId();
         } else {
             final ProductSceneView view = getSelectedSmosView();
             if (view != null) {
@@ -128,7 +106,7 @@ public abstract class GridPointBtDataToolView extends SmosToolView {
                     final PixelPos pixelPos = selectedPin.getPixelPos();
                     final int x = (int) Math.floor(pixelPos.getX());
                     final int y = (int) Math.floor(pixelPos.getY());
-                    id = SmosBox.getInstance().getSmosViewSelectionService().getGridPointId(x, y);
+                    id = smosBox.getSmosViewSelectionService().getGridPointId(x, y);
                 }
             }
         }
@@ -141,8 +119,15 @@ public abstract class GridPointBtDataToolView extends SmosToolView {
             clearGridPointBtDataComponent();
             return;
         }
-        final L1cSmosFile l1cSmosFile = getL1cSmosFile();
-        final int gridPointIndex = l1cSmosFile != null ? l1cSmosFile.getGridPointIndex(selectedGridPointId) : -1;
+
+        final SmosReader smosReader = getSelectedSmosReader();
+        if (!smosReader.canSupplyGridPointBtData()) {
+            setInfoText("No data");
+            clearGridPointBtDataComponent();
+            return;
+        }
+
+        final int gridPointIndex = smosReader.getGridPointIndex(selectedGridPointId);
         if (gridPointIndex >= 0) {
             setInfoText("" +
                     "<html>" +
@@ -155,7 +140,7 @@ public abstract class GridPointBtDataToolView extends SmosToolView {
                 @Override
                 protected GridPointBtDataset doInBackground() throws ExecutionException {
                     try {
-                        return GridPointBtDataset.read(l1cSmosFile, gridPointIndex);
+                        return smosReader.getBtData(gridPointIndex);
                     } catch (IOException e) {
                         throw new ExecutionException(e);
                     }
@@ -191,55 +176,6 @@ public abstract class GridPointBtDataToolView extends SmosToolView {
 
     protected abstract void clearGridPointBtDataComponent();
 
-    private static MetadataElement findElement(MetadataElement element, String elementName) {
-        if (element.getName().equals(elementName)) {
-            return element;
-        } else {
-            for (final MetadataElement childElement : element.getElements()) {
-                MetadataElement metadataElement = findElement(childElement, elementName);
-                if (metadataElement != null) {
-                    return metadataElement;
-                }
-            }
-        }
-        return null;
-    }
-
-    private static String getReferredFileName(MetadataElement element) {
-        for (final MetadataElement metadataElement : element.getElements()) {
-            if ("L1C_SM_FILE".equals(metadataElement.getAttributeString(TAG_DS_NAME, ""))
-                    || "L1C_OS_FILE".equals(metadataElement.getAttributeString(TAG_DS_NAME, ""))) {
-                final String name = metadataElement.getAttributeString(TAG_REF_FILENAME, "");
-                return trimVersionNumber(name);
-            }
-        }
-        return null;
-    }
-
-    private static String trimVersionNumber(String productName) {
-        if (productName.length() > 10) {
-            return productName.substring(0, productName.length() - 10);
-        }
-        return null;
-    }
-
-    private static L1cSmosFile findL1cSmosFile(String referredFileName) {
-        final Product[] products = VisatApp.getApp().getProductManager().getProducts();
-
-        for (final Product product : products) {
-            final ProductReader productReader = product.getProductReader();
-            if (productReader instanceof SmosProductReader) {
-                final ProductFile productFile = ((SmosProductReader) productReader).getProductFile();
-                if (productFile instanceof L1cSmosFile) {
-                    if (referredFileName.equalsIgnoreCase(trimVersionNumber(product.getName()))) {
-                        return (L1cSmosFile) productFile;
-                    }
-                }
-            }
-        }
-        return null;
-    }
-
     private class GPSL implements GridPointSelectionService.SelectionListener {
 
         @Override
@@ -266,13 +202,13 @@ public abstract class GridPointBtDataToolView extends SmosToolView {
         public void itemStateChanged(ItemEvent e) {
             if (e.getStateChange() == ItemEvent.SELECTED) {
                 updateGridPointBtDataComponent();
-                SmosBox.getInstance().getSmosViewSelectionService().addSceneViewSelectionListener(vsl);
+                smosBox.getSmosViewSelectionService().addSceneViewSelectionListener(vsl);
                 getSelectedSmosView().addPropertyChangeListener(ProductSceneView.PROPERTY_NAME_SELECTED_PIN, pcl);
                 getSelectedSmosProduct().addProductNodeListener(pnl);
             } else {
                 getSelectedSmosProduct().removeProductNodeListener(pnl);
                 getSelectedSmosView().removePropertyChangeListener(ProductSceneView.PROPERTY_NAME_SELECTED_PIN, pcl);
-                SmosBox.getInstance().getSmosViewSelectionService().removeSceneViewSelectionListener(vsl);
+                smosBox.getSmosViewSelectionService().removeSceneViewSelectionListener(vsl);
             }
         }
 

@@ -1,0 +1,740 @@
+{
+    "id": "W_ES-ESA-ESAC,SMOS,N256_C_LEMM_20131028030552",
+    "decodeQualification": "INTENDED",
+    "expectedContent": {
+        "sceneWidth": 16384,
+        "sceneHeight": 8064,
+        "geoCoding": {
+            "coordinates": [
+                {
+                    "x": 7066.0,
+                    "y": 4334.0,
+                    "lat": -6.635742,
+                    "lon": -24.74121
+                },
+                {
+                    "x": 12164.0,
+                    "y": 5232.0,
+                    "lat": -26.367188,
+                    "lon": 87.27539
+                }
+            ],
+            "reverseAccuracy": 0.0
+        },
+        "flagCodings": [
+            {
+                "name": "Flags",
+                "samples": [
+                    {
+                        "name": "RFI",
+                        "value": 1,
+                        "description": "Pixel is affected by RFI effects as identified in the AUX_RFILST or it has exceeded the BT thresholds."
+                    },
+                    {
+                        "name": "SUN_TAILS",
+                        "value": 2,
+                        "description": "Pixel is located in the hexagonal alias directions centred on a Sun alias (if Sun is not removed, measurement may be degraded in these directions)."
+                    },
+                    {
+                        "name": "BORDER_FOV",
+                        "value": 4,
+                        "description": "Pixel is close to the border delimiting the Extended Alias free zone or to the unit circle replicas borders."
+                    },
+                    {
+                        "name": "RFI_TAIL",
+                        "value": 8,
+                        "description": "Measurement is affected by the tails of a point source RFI as identified in the AUX RFI list (tail width is dependant on the RFI expected BT defined in the AUX RFILST)."
+                    },
+                    {
+                        "name": "AF_FOV",
+                        "value": 16,
+                        "description": "Pixel is inside the exclusive zone of Alias free."
+                    },
+                    {
+                        "name": "MOON_POINT",
+                        "value": 32,
+                        "description": "Pixel is located in a zone where a Moon alias was reconstructed."
+                    },
+                    {
+                        "name": "SUN_GLINT_AREA",
+                        "value": 64,
+                        "description": "Pixel is located in a zone where Sun reflection has been detected."
+                    },
+                    {
+                        "name": "SUN_POINT",
+                        "value": 128,
+                        "description": "Pixel is located in a zone where a Sun alias was reconstructed."
+                    },
+                    {
+                        "name": "RFI_MITIGATION",
+                        "value": 256,
+                        "description": "RFI mitigation has been performed during image reconstruction of this pixel."
+                    },
+                    {
+                        "name": "SINGLE_SNAPSHOT",
+                        "value": 512,
+                        "description": "Scene has not been combined with an adjacent scene in opposite polarisation during image reconstruction."
+                    },
+                    {
+                        "name": "MOON_FV",
+                        "value": 1024,
+                        "description": "Direct Moon correction has been performed during image reconstruction of this pixel."
+                    },
+                    {
+                        "name": "SUN_GLINT_FOV",
+                        "value": 2048,
+                        "description": "Reflected Sun correction has been performed during image reconstruction of this pixel."
+                    },
+                    {
+                        "name": "SUN_FOV",
+                        "value": 4096,
+                        "description": "Direct Sun correction has been performed during image reconstruction of this pixel."
+                    },
+                    {
+                        "name": "MISSING_VALUE",
+                        "value": 16383,
+                        "description": "Missing value."
+                    }
+                ]
+            }
+        ],
+        "bands": [
+            {
+                "name": "BT_Value_X",
+                "geophysicalUnit": "K",
+                "noDataValue": "555.349985351786",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 264,
+                        "y": 7746,
+                        "value": 205.11
+                    },
+                    {
+                        "x": 11224,
+                        "y": 6859,
+                        "value": "NaN"
+                    }
+                ]
+            },
+            {
+                "name": "BT_Value_Y",
+                "geophysicalUnit": "K",
+                "noDataValue": "555.349985351786",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 2345,
+                        "y": 7462,
+                        "value": 233.25
+                    },
+                    {
+                        "x": 10002,
+                        "y": 2945,
+                        "value": "NaN"
+                    }
+                ]
+            },
+            {
+                "name": "BT_Value_XY_Real",
+                "geophysicalUnit": "K",
+                "noDataValue": "555.349985351786",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 3660,
+                        "y": 2923,
+                        "value": -0.6900022
+                    },
+                    {
+                        "x": 9966,
+                        "y": 7487,
+                        "value": "NaN"
+                    }
+                ]
+            },
+            {
+                "name": "BT_Value_XY_Imag",
+                "geophysicalUnit": "K",
+                "noDataValue": "555.349985351786",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 3599,
+                        "y": 2428,
+                        "value": -0.15000223
+                    },
+                    {
+                        "x": 8505,
+                        "y": 7366,
+                        "value": "NaN"
+                    }
+                ]
+            },
+            {
+                "name": "Pixel_Radiometric_Accuracy_X",
+                "geophysicalUnit": "K",
+                "noDataValue": "40.949999084696174",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 3690,
+                        "y": 1806,
+                        "value": 3.86
+                    },
+                    {
+                        "x": 15577,
+                        "y": 3917,
+                        "value": "NaN"
+                    }
+                ]
+            },
+            {
+                "name": "Pixel_Radiometric_Accuracy_Y",
+                "geophysicalUnit": "K",
+                "noDataValue": "40.949999084696174",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 4046,
+                        "y": 1010,
+                        "value": 3.4099998
+                    },
+                    {
+                        "x": 163,
+                        "y": 3796,
+                        "value": "NaN"
+                    }
+                ]
+            },
+            {
+                "name": "Pixel_Radiometric_Accuracy_XY",
+                "geophysicalUnit": "K",
+                "noDataValue": "40.949999084696174",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 5935,
+                        "y": 585,
+                        "value": 3.47
+                    },
+                    {
+                        "x": 4475,
+                        "y": 348,
+                        "value": "NaN"
+                    }
+                ]
+            },
+            {
+                "name": "Incidence_Angle_X",
+                "geophysicalUnit": "degree",
+                "noDataValue": "131.07100622553844",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 7023,
+                        "y": 453,
+                        "value": 42.499
+                    },
+                    {
+                        "x": 9377,
+                        "y": 5780,
+                        "value": "NaN"
+                    }
+                ]
+            },
+            {
+                "name": "Incidence_Angle_Y",
+                "geophysicalUnit": "degree",
+                "noDataValue": "131.07100622553844",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 10673,
+                        "y": 710,
+                        "value": 42.499
+                    },
+                    {
+                        "x": 5260,
+                        "y": 5826,
+                        "value": "NaN"
+                    }
+                ]
+            },
+            {
+                "name": "Incidence_Angle_XY",
+                "geophysicalUnit": "degree",
+                "noDataValue": "131.07100622553844",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 11504,
+                        "y": 1129,
+                        "value": 42.499
+                    },
+                    {
+                        "x": 6600,
+                        "y": 3566,
+                        "value": "NaN"
+                    }
+                ]
+            },
+            {
+                "name": "Azimuth_Angle_X",
+                "geophysicalUnit": "degree",
+                "noDataValue": "524.2870249022963",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 10353,
+                        "y": 1865,
+                        "value": 159.412
+                    },
+                    {
+                        "x": 10571,
+                        "y": 127,
+                        "value": "NaN"
+                    }
+                ]
+            },
+            {
+                "name": "Azimuth_Angle_Y",
+                "geophysicalUnit": "degree",
+                "noDataValue": "524.2870249022963",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 10296,
+                        "y": 2087,
+                        "value": 134.022
+                    },
+                    {
+                        "x": 15566,
+                        "y": 7631,
+                        "value": 111.496
+                    }
+                ]
+            },
+            {
+                "name": "Azimuth_Angle_XY",
+                "geophysicalUnit": "degree",
+                "noDataValue": "524.2870249022963",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 10775,
+                        "y": 2475,
+                        "value": 207.56702
+                    },
+                    {
+                        "x": 9353,
+                        "y": 4535,
+                        "value": "NaN"
+                    }
+                ]
+            },
+            {
+                "name": "Faraday_Rotation_Angle_X",
+                "geophysicalUnit": "degree",
+                "noDataValue": "524.2870249022963",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 10725,
+                        "y": 3035,
+                        "value": 357.29102
+                    },
+                    {
+                        "x": 7384,
+                        "y": 4685,
+                        "value": "NaN"
+                    }
+                ]
+            },
+            {
+                "name": "Faraday_Rotation_Angle_Y",
+                "geophysicalUnit": "degree",
+                "noDataValue": "524.2870249022963",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 12044,
+                        "y": 7100,
+                        "value": 5.2130003
+                    },
+                    {
+                        "x": 1149,
+                        "y": 8006,
+                        "value": "NaN"
+                    }
+                ]
+            },
+            {
+                "name": "Faraday_Rotation_Angle_XY",
+                "geophysicalUnit": "degree",
+                "noDataValue": "524.2870249022963",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 13296,
+                        "y": 7613,
+                        "value": 6.571
+                    },
+                    {
+                        "x": 13165,
+                        "y": 5938,
+                        "value": "NaN"
+                    }
+                ]
+            },
+            {
+                "name": "Geometric_Rotation_Angle_X",
+                "geophysicalUnit": "degree",
+                "noDataValue": "671.0886130468753",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 14849,
+                        "y": 7769,
+                        "value": 4.7814097
+                    },
+                    {
+                        "x": 4073,
+                        "y": 4288,
+                        "value": "NaN"
+                    }
+                ]
+            },
+            {
+                "name": "Geometric_Rotation_Angle_Y",
+                "geophysicalUnit": "degree",
+                "noDataValue": "671.0886130468753",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 15999,
+                        "y": 7757,
+                        "value": 5.56833
+                    },
+                    {
+                        "x": 9058,
+                        "y": 1217,
+                        "value": "NaN"
+                    }
+                ]
+            },
+            {
+                "name": "Geometric_Rotation_Angle_XY",
+                "geophysicalUnit": "degree",
+                "noDataValue": "671.0886130468753",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 543,
+                        "y": 7805,
+                        "value": 23.99734
+                    },
+                    {
+                        "x": 1563,
+                        "y": 6852,
+                        "value": "NaN"
+                    }
+                ]
+            },
+            {
+                "name": "Footprint_Axis1_X",
+                "geophysicalUnit": "m",
+                "noDataValue": "163830.0",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 778,
+                        "y": 7798,
+                        "value": 30.0
+                    },
+                    {
+                        "x": 7455,
+                        "y": 5453,
+                        "value": "NaN"
+                    }
+                ]
+            },
+            {
+                "name": "Footprint_Axis1_Y",
+                "geophysicalUnit": "m",
+                "noDataValue": "163830.0",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 1983,
+                        "y": 7476,
+                        "value": 20.0
+                    },
+                    {
+                        "x": 14212,
+                        "y": 4838,
+                        "value": "NaN"
+                    }
+                ]
+            },
+            {
+                "name": "Footprint_Axis1_XY",
+                "geophysicalUnit": "m",
+                "noDataValue": "163830.0",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 3400,
+                        "y": 2940,
+                        "value": 30.0
+                    },
+                    {
+                        "x": 1439,
+                        "y": 4295,
+                        "value": "NaN"
+                    }
+                ]
+            },
+            {
+                "name": "Footprint_Axis2_X",
+                "geophysicalUnit": "m",
+                "noDataValue": "163830.0",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 3956,
+                        "y": 1557,
+                        "value": 20.0
+                    },
+                    {
+                        "x": 15993,
+                        "y": 1500,
+                        "value": "NaN"
+                    }
+                ]
+            },
+            {
+                "name": "Footprint_Axis2_Y",
+                "geophysicalUnit": "m",
+                "noDataValue": "163830.0",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 3979,
+                        "y": 1070,
+                        "value": 20.0
+                    },
+                    {
+                        "x": 3753,
+                        "y": 5223,
+                        "value": "NaN"
+                    }
+                ]
+            },
+            {
+                "name": "Footprint_Axis2_XY",
+                "geophysicalUnit": "m",
+                "noDataValue": "163830.0",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 10619,
+                        "y": 2555,
+                        "value": 20.0
+                    },
+                    {
+                        "x": 8708,
+                        "y": 4573,
+                        "value": "NaN"
+                    }
+                ]
+            },
+            {
+                "name": "Water_Fraction",
+                "geophysicalUnit": "%",
+                "noDataValue": "102.30000152438879",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 10908,
+                        "y": 2869,
+                        "value": 39.5
+                    },
+                    {
+                        "x": 4571,
+                        "y": 7167,
+                        "value": "NaN"
+                    }
+                ]
+            },
+            {
+                "name": "Flags",
+                "geophysicalUnit": "FlagTable 0-25-174",
+                "noDataValue": "16383.0",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 10649,
+                        "y": 3065,
+                        "value": 5136
+                    },
+                    {
+                        "x": 12420,
+                        "y": 2646,
+                        "value": "NaN"
+                    }
+                ]
+            }
+        ],
+        "masks": [
+            {
+                "name": "Flags_RFI",
+                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "color": "246,182,21",
+                "description": "Pixel is affected by RFI effects as identified in the AUX_RFILST or it has exceeded the BT thresholds."
+            },
+            {
+                "name": "Flags_SUN_TAILS",
+                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "color": "95,92,204",
+                "description": "Pixel is located in the hexagonal alias directions centred on a Sun alias (if Sun is not removed, measurement may be degraded in these directions)."
+            },
+            {
+                "name": "Flags_BORDER_FOV",
+                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "color": "49,82,133",
+                "description": "Pixel is close to the border delimiting the Extended Alias free zone or to the unit circle replicas borders."
+            },
+            {
+                "name": "Flags_RFI_TAIL",
+                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "color": "169,175,146",
+                "description": "Measurement is affected by the tails of a point source RFI as identified in the AUX RFI list (tail width is dependant on the RFI expected BT defined in the AUX RFILST)."
+            },
+            {
+                "name": "Flags_AF_FOV",
+                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "color": "156,188,14",
+                "description": "Pixel is inside the exclusive zone of Alias free."
+            },
+            {
+                "name": "Flags_MOON_POINT",
+                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "color": "39,91,126",
+                "description": "Pixel is located in a zone where a Moon alias was reconstructed."
+            },
+            {
+                "name": "Flags_SUN_GLINT_AREA",
+                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "color": "214,25,160",
+                "description": "Pixel is located in a zone where Sun reflection has been detected."
+            },
+            {
+                "name": "Flags_SUN_POINT",
+                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "color": "178,13,207",
+                "description": "Pixel is located in a zone where a Sun alias was reconstructed."
+            },
+            {
+                "name": "Flags_RFI_MITIGATION",
+                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "color": "208,249,67",
+                "description": "RFI mitigation has been performed during image reconstruction of this pixel."
+            },
+            {
+                "name": "Flags_SINGLE_SNAPSHOT",
+                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "color": "106,109,115",
+                "description": "Scene has not been combined with an adjacent scene in opposite polarisation during image reconstruction."
+            },
+            {
+                "name": "Flags_MOON_FV",
+                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "color": "16,81,105",
+                "description": "Direct Moon correction has been performed during image reconstruction of this pixel."
+            },
+            {
+                "name": "Flags_SUN_GLINT_FOV",
+                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "color": "171,1,243",
+                "description": "Reflected Sun correction has been performed during image reconstruction of this pixel."
+            },
+            {
+                "name": "Flags_SUN_FOV",
+                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "color": "238,203,217",
+                "description": "Direct Sun correction has been performed during image reconstruction of this pixel."
+            },
+            {
+                "name": "Flags_MISSING_VALUE",
+                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "color": "250,231,95",
+                "description": "Missing value."
+            }
+        ],
+        "metadata": [
+            {
+                "path": "Variable_Attributes/obs.Hour/BUFR:bitWidth",
+                "value": "5"
+            },
+            {
+                "path": "Variable_Attributes/obs.Snapshot_identifier/BUFR:bitWidth",
+                "value": "31"
+            }
+        ]
+    }
+}

@@ -20,11 +20,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GridPointSelectionService {
+
     private final List<SelectionListener> selectionListeners;
     private int selectedPointId;
 
     public GridPointSelectionService() {
-        this.selectionListeners = new ArrayList<SelectionListener>();
+        this.selectionListeners = new ArrayList<>();
         this.selectedPointId = -1;
     }
 

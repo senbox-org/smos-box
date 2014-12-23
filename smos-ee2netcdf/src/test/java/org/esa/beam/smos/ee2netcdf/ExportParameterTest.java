@@ -98,7 +98,7 @@ public class ExportParameterTest {
         final Field selectedProductField = ExportParameter.class.getDeclaredField(BindingConstants.ROI_TYPE);
         final Parameter parameter = selectedProductField.getAnnotation(Parameter.class);
         assertEquals(BindingConstants.ROI_TYPE, parameter.alias());
-        assertEquals("2", parameter.defaultValue());
+        assertEquals("0", parameter.defaultValue());
         assertArrayEquals(new String[]{"0", "1", "2"}, parameter.valueSet());
     }
 
@@ -180,7 +180,7 @@ public class ExportParameterTest {
         parameter.setSouthBound(1.0);
         parameter.setWestBound(24.0);
 
-        assertEquals("POLYGON((24.0 2.0,25.0 2.0,25.0 1.0,24.0 1.0,24.0 2.0))", parameter.toAreaWKT());
+        assertEquals("POLYGON((24.0 2.0,25.0 2.0,25.0 1.0,24.0 1.0,24.0 2.0))", parameter.boundingBoxToWKT());
     }
 
     @Test

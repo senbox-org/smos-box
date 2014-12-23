@@ -12,3 +12,4 @@
   *       | MOON_FV               | 00000400 | *     | *            | Direct Moon correction has been performed during image reconstruction of this pixel.
   *       | SUN_GLINT_FOV         | 00000800 | *     | *            | Reflected Sun correction has been performed during image reconstruction of this pixel.
   *       | SUN_FOV               | 00001000 | *     | *            | Direct Sun correction has been performed during image reconstruction of this pixel.
+  *       | MISSING_VALUE         | 00003FFF | *     | *            | Missing value.

@@ -33,6 +33,24 @@ abstract class AbstractFormatExporter implements FormatExporter {
     protected Map<String, VariableDescriptor> variableDescriptors;
     protected ArrayList<Integer> gpIndexList;
 
+    static class AttributeEntry {
+        String name;
+        String value;
+
+        AttributeEntry(String name, String value) {
+            this.name = name;
+            this.value = value;
+        }
+
+        String getName() {
+            return name;
+        }
+
+        String getValue() {
+            return value;
+        }
+    }
+
     @Override
     public void initialize(Product product, ExportParameter exportParameter) throws IOException {
         explorerFile = getSmosFile(product);
@@ -44,8 +62,8 @@ abstract class AbstractFormatExporter implements FormatExporter {
 
     @Override
     public void prepareGeographicSubset(ExportParameter exportParameter) throws IOException {
-        if (exportParameter.getRegion() != null) {
-            final GeometryFilter geometryFilter = GeometryFilterFactory.create(exportParameter.getRegion());
+        if (exportParameter.getGeometry() != null) {
+            final GeometryFilter geometryFilter = GeometryFilterFactory.create(exportParameter.getGeometry());
             gpIndexList = new ArrayList<>(gridPointCount);
             for (int i = 0; i < gridPointCount; i++) {
                 final CompoundData gridPointData = explorerFile.getGridPointData(i);
@@ -59,12 +77,12 @@ abstract class AbstractFormatExporter implements FormatExporter {
     }
 
     @Override
-    public void addGlobalAttributes(NFileWriteable nFileWriteable, MetadataElement metadataRoot, ExportParameter exportParameter) throws IOException {
+    public void addGlobalAttributes(NFileWriteable nFileWriteable, MetadataElement metadataRoot,
+                                    ExportParameter exportParameter) throws IOException {
         final String institution = exportParameter.getInstitution();
         if (StringUtils.isNotBlank(institution)) {
             nFileWriteable.addGlobalAttribute("institution", institution);
         }
-
         final String contact = exportParameter.getContact();
         if (StringUtils.isNotBlank(contact)) {
             nFileWriteable.addGlobalAttribute("contact", contact);
@@ -72,11 +90,9 @@ abstract class AbstractFormatExporter implements FormatExporter {
         nFileWriteable.addGlobalAttribute("creation_date", DateTimeUtils.toFixedHeaderFormat(new Date()));
         nFileWriteable.addGlobalAttribute("total_number_of_grid_points", Integer.toString(gridPointCount));
 
-        final Properties fileMetadata = extractMetadata(metadataRoot);
-        final Set<String> metaKeys = fileMetadata.stringPropertyNames();
-        for (final String key : metaKeys) {
-            final String value = fileMetadata.getProperty(key);
-            nFileWriteable.addGlobalAttribute(key, value);
+        final List<AttributeEntry> attributeList = extractMetadata(metadataRoot);
+        for (final AttributeEntry entry : attributeList) {
+            nFileWriteable.addGlobalAttribute(entry.getName(), entry.getValue());
         }
     }
 
@@ -180,8 +196,8 @@ abstract class AbstractFormatExporter implements FormatExporter {
     }
 
     // package access for testing only tb 2014-07-01
-    static Properties extractMetadata(MetadataElement root) {
-        final Properties properties = new Properties();
+    static List<AttributeEntry> extractMetadata(MetadataElement root) {
+        final List<AttributeEntry> properties = new ArrayList<>();
         extractAttributes(root, properties, "");
 
         return properties;
@@ -206,7 +222,7 @@ abstract class AbstractFormatExporter implements FormatExporter {
         return (SmosFile) smosReader.getProductFile();
     }
 
-    private static void extractAttributes(MetadataElement root, Properties properties, String prefix) {
+    private static void extractAttributes(MetadataElement root, List<AttributeEntry> properties, String prefix) {
         final MetadataAttribute[] attributes = root.getAttributes();
         for (MetadataAttribute attribute : attributes) {
             addAttributeTo(properties, prefix, attribute);
@@ -233,10 +249,8 @@ abstract class AbstractFormatExporter implements FormatExporter {
         }
     }
 
-    private static void addAttributeTo(Properties properties, String prefix, MetadataAttribute attribute) {
-        final String attributeName = prefix + attribute.getName();
-        final ProductData data = attribute.getData();
-        properties.setProperty(attributeName, data.getElemString());
+    private static void addAttributeTo(List<AttributeEntry> properties, String prefix, MetadataAttribute attribute) {
+        properties.add(new AttributeEntry(prefix + attribute.getName(), attribute.getData().getElemString()));
     }
 
     private static HashMap<String, List<MetadataElement>> getListWithUniqueNamedElements(MetadataElement[] elements) {

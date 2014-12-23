@@ -1,0 +1,9 @@
+The source tree contains a copy of the entire source code of the 'edu.ucar:bufr'
+Maven artifact version 4.3.22, including BUFR table resources.
+
+For updating to a newer version, replace the contents of the 'ucar.nc2' package
+and the BUFR tables in 'resources.bufrTables' with the corresponding contents of
+the newer version.
+
+Be sure to keep and adapt the 'ucar.nc2.iosp.bufr.SmosBufrIosp' class, which has
+been added to the 'ucar.nc2.iosp.bufr' package by Brockmann Consult GmbH.

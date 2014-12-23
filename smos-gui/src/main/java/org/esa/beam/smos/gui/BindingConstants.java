@@ -1,6 +1,8 @@
 package org.esa.beam.smos.gui;
 
 
+import org.esa.beam.framework.ui.RegionBoundsInputUI;
+
 public class BindingConstants {
 
     public static final String SELECTED_PRODUCT = "useSelectedProduct";
@@ -9,17 +11,17 @@ public class BindingConstants {
     public static final String OVERWRITE_TARGET = "overwriteTarget";
 
     public static final String OPEN_FILE_DIALOG = "openFileDialog";
-    public static final String REGION = "region";
+    public static final String GEOMETRY = "geometry";
     public static final String ROI_TYPE = "roiType";
 
-    public static final String NORTH = "north";
-    public static final String SOUTH = "south";
-    public static final String EAST = "east";
-    public static final String WEST = "west";
+    public static final String NORTH = RegionBoundsInputUI.PROPERTY_NORTH_BOUND;
+    public static final String SOUTH = RegionBoundsInputUI.PROPERTY_SOUTH_BOUND;
+    public static final String EAST = RegionBoundsInputUI.PROPERTY_EAST_BOUND;
+    public static final String WEST = RegionBoundsInputUI.PROPERTY_WEST_BOUND;
 
+    public static final int ROI_TYPE_ALL = 0;
     public static final int ROI_TYPE_GEOMETRY = 1;
-    public static final int ROI_TYPE_PRODUCT = 0;
-    public static final int ROI_TYPE_AREA = 2;
+    public static final int ROI_TYPE_BOUNDING_BOX = 2;
 
     public static final String USE_SELECTED_PRODUCT_BUTTON_NAME = "Use selected SMOS product";
 

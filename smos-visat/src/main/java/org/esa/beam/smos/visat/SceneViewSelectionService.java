@@ -18,24 +18,17 @@ package org.esa.beam.smos.visat;
 
 import com.bc.ceres.core.Assert;
 import com.bc.ceres.glayer.support.ImageLayer;
-import com.bc.ceres.glevel.MultiLevelImage;
-import org.esa.beam.dataio.smos.ProductFile;
-import org.esa.beam.dataio.smos.SmosFile;
-import org.esa.beam.dataio.smos.SmosProductReader;
+import org.esa.beam.dataio.smos.SmosReader;
 import org.esa.beam.framework.dataio.ProductReader;
 import org.esa.beam.framework.datamodel.Product;
 import org.esa.beam.framework.ui.PixelPositionListener;
 import org.esa.beam.framework.ui.product.ProductSceneView;
 import org.esa.beam.visat.VisatApp;
-import org.esa.beam.smos.dgg.SmosDgg;
 
 import javax.swing.event.InternalFrameAdapter;
 import javax.swing.event.InternalFrameEvent;
-import java.awt.Container;
-import java.awt.Rectangle;
+import java.awt.*;
 import java.awt.event.MouseEvent;
-import java.awt.image.Raster;
-import java.awt.image.RenderedImage;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -71,7 +64,7 @@ public class SceneViewSelectionService {
                 oldView.removePixelPositionListener(ppl);
             }
             if (newView != null) {
-                Assert.argument(newView.getProduct().getProductReader() instanceof SmosProductReader, "view");
+                Assert.argument(newView.getProduct().getProductReader() instanceof SmosReader, "view");
             }
             selectedSceneView = newView;
             fireSelectionChange(oldView, newView);
@@ -86,18 +79,14 @@ public class SceneViewSelectionService {
         return sceneView != null ? sceneView.getProduct() : null;
     }
 
-    @SuppressWarnings("ConstantConditions")
-    public SmosFile getSelectedSmosFile() {
+    public SmosReader getSelectedSmosReader() {
         final Product product = getSelectedSmosProduct();
         if (product != null) {
             final ProductReader productReader = product.getProductReader();
-            Assert.state(productReader instanceof SmosProductReader, "productReader instanceof SmosProductReader");
-            final ProductFile productFile = ((SmosProductReader) productReader).getProductFile();
-            if (productFile instanceof SmosFile) {
-                return (SmosFile) productFile;
+            if (productReader instanceof SmosReader) {
+                return (SmosReader) productReader;
             }
         }
-        
         return null;
     }
 
@@ -106,10 +95,11 @@ public class SceneViewSelectionService {
     }
 
     public int getGridPointId(int pixelX, int pixelY, int currentLevel) {
-        final MultiLevelImage levelImage = SmosDgg.getInstance().getMultiLevelImage();
-        RenderedImage image = levelImage.getImage(currentLevel);
-        Raster data = image.getData(new Rectangle(pixelX, pixelY, 1, 1));
-        return data.getSample(pixelX, pixelY, 0);
+        final SmosReader smosReader = getSelectedSmosReader();
+        if (smosReader != null) {
+            return smosReader.getGridPointId(pixelX, pixelY, currentLevel);
+        }
+        return -1;
     }
 
     public synchronized void addSceneViewSelectionListener(SelectionListener selectionListener) {
@@ -135,7 +125,7 @@ public class SceneViewSelectionService {
         public void internalFrameActivated(final InternalFrameEvent e) {
             final ProductSceneView view = getProductSceneViewByFrame(e);
             if (view != null) {
-                if (view.getProduct().getProductReader() instanceof SmosProductReader) {
+                if (view.getProduct().getProductReader() instanceof SmosReader) {
                     setSelectedSceneView(view);
                 } else {
                     setSelectedSceneView(null);

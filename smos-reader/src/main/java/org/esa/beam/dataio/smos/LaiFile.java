@@ -321,5 +321,15 @@ class LaiFile extends ExplorerFile {
                 return noDataValue;
             }
         }
+
+        @Override
+        public int getSnapshotId() {
+            return -1;
+        }
+
+        @Override
+        public void setSnapshotId(int snapshotId) {
+
+        }
     }
 }

@@ -57,14 +57,14 @@ class GridPointExportDialog extends ProductChangeAwareDialog {
     private final BindingContext bindingContext;
     private final ProductSelectionListener productSelectionListener;
     private GeometryListener geometryListener;
-    private final ExportParameter exportParameter;
+    private final GridPointExportParameter gridPointExportParameter;
 
     GridPointExportDialog(final AppContext appContext, String helpId) {
         super(appContext.getApplicationWindow(), "Export SMOS Grid Points", ID_OK | ID_CLOSE | ID_HELP, helpId); /* I18N */
-        exportParameter = new ExportParameter();
+        gridPointExportParameter = new GridPointExportParameter();
         this.appContext = appContext;
 
-        propertyContainer = PropertyContainer.createObjectBacked(exportParameter, new ParameterDescriptorFactory());
+        propertyContainer = PropertyContainer.createObjectBacked(gridPointExportParameter, new ParameterDescriptorFactory());
         try {
             initPropertyContainer();
         } catch (ValidationException e) {
@@ -72,7 +72,7 @@ class GridPointExportDialog extends ProductChangeAwareDialog {
         }
 
         bindingContext = new BindingContext(propertyContainer);
-        bindingContext.bindEnabledState(BindingConstants.REGION, true, BindingConstants.ROI_TYPE, BindingConstants.ROI_TYPE_PRODUCT);
+        bindingContext.bindEnabledState(BindingConstants.GEOMETRY, true, BindingConstants.ROI_TYPE, BindingConstants.ROI_TYPE_ALL);
         GuiHelper.bindLonLatPanelToRoiType(2, bindingContext);
 
         createUI();
@@ -104,10 +104,11 @@ class GridPointExportDialog extends ProductChangeAwareDialog {
             }
         }
 
-        final GridPointExportSwingWorker swingWorker = new GridPointExportSwingWorker(appContext, exportParameter.getClone());
+        final GridPointExportSwingWorker swingWorker =
+                new GridPointExportSwingWorker(appContext, gridPointExportParameter.getClone());
 
-        GuiHelper.setDefaultSourceDirectory(exportParameter.getSourceDirectory(), appContext);
-        final File exportedFile = exportParameter.getTargetFile();
+        GuiHelper.setDefaultSourceDirectory(gridPointExportParameter.getSourceDirectory(), appContext);
+        final File exportedFile = gridPointExportParameter.getTargetFile();
         if (exportedFile != null) {
             GuiHelper.setDefaultTargetDirectory(exportedFile.getParentFile(), appContext);
         }
@@ -168,12 +169,11 @@ class GridPointExportDialog extends ProductChangeAwareDialog {
     private void updateSelectedProductAndGeometries() throws ValidationException {
         final Product selectedProduct = getSelectedSmosProduct();
         if (selectedProduct != null) {
-            final List<VectorDataNode> geometryNodeList = GuiHelper.getGeometries(selectedProduct);
+            final List<VectorDataNode> geometryNodeList = GuiHelper.getGeometryNodes(selectedProduct);
             if (!geometryNodeList.isEmpty()) {
-                GuiHelper.bindGeometryVectorDataNodes(geometryNodeList, propertyContainer);
+                GuiHelper.bindGeometryNodes(geometryNodeList, propertyContainer);
             } else {
                 removeGeometries();
-
                 if (selectedProduct.getPinGroup().getNodeCount() != 0) {
                     propertyContainer.setValue(BindingConstants.ROI_TYPE, BindingConstants.ROI_TYPE_GEOMETRY);
                 }
@@ -193,7 +193,7 @@ class GridPointExportDialog extends ProductChangeAwareDialog {
             propertyContainer.setValue(BindingConstants.SELECTED_PRODUCT, false);
             setSelectedProductButtonEnabled(false);
 
-            final List<VectorDataNode> geometryNodeList = GuiHelper.getGeometries(product);
+            final List<VectorDataNode> geometryNodeList = GuiHelper.getGeometryNodes(product);
             if (!geometryNodeList.isEmpty()) {
                 removeGeometries();
             }
@@ -218,10 +218,10 @@ class GridPointExportDialog extends ProductChangeAwareDialog {
     }
 
     private void removeGeometries() throws ValidationException {
-        final Property geometryProperty = propertyContainer.getProperty(BindingConstants.REGION);
+        final Property geometryProperty = propertyContainer.getProperty(BindingConstants.GEOMETRY);
         geometryProperty.getDescriptor().setValueSet(new ValueSet(new VectorDataNode[0]));
-        propertyContainer.setValue(BindingConstants.REGION, null);
-        propertyContainer.setValue(BindingConstants.ROI_TYPE, BindingConstants.ROI_TYPE_AREA);
+        propertyContainer.setValue(BindingConstants.GEOMETRY, null);
+        propertyContainer.setValue(BindingConstants.ROI_TYPE, BindingConstants.ROI_TYPE_BOUNDING_BOX);
     }
 
     private void createUI() {
@@ -237,7 +237,7 @@ class GridPointExportDialog extends ProductChangeAwareDialog {
     private JComponent createSourceProductPanel() {
         final boolean useSelectProductEnabled = getSelectedSmosProduct() != null;
 
-        final TableLayout layout = GuiHelper.createWeightedTablelayout(1);
+        final TableLayout layout = GuiHelper.createWeightedTableLayout(1);
         final JPanel sourceProductPanel = new JPanel(layout);
         sourceProductPanel.setBorder(BorderFactory.createTitledBorder("Source Products"));
 
@@ -260,7 +260,7 @@ class GridPointExportDialog extends ProductChangeAwareDialog {
 
     private Component createRoiPanel() {
         final JRadioButton useGeometryButton = new JRadioButton("Geometry");
-        final PropertyDescriptor geometryDescriptor = propertyContainer.getDescriptor(BindingConstants.REGION);
+        final PropertyDescriptor geometryDescriptor = propertyContainer.getDescriptor(BindingConstants.GEOMETRY);
         if (geometryDescriptor != null && geometryDescriptor.getValueSet() == null) {
             useGeometryButton.setEnabled(false);
         }
@@ -283,9 +283,9 @@ class GridPointExportDialog extends ProductChangeAwareDialog {
         buttonGroup.add(useAreaButton);
         bindingContext.bind(BindingConstants.ROI_TYPE, buttonGroup, buttonGroupValueSet);
 
-        final JComboBox geometryComboBox = GuiHelper.createGeometryComboBox(geometryDescriptor, bindingContext);
+        final JComboBox geometryComboBox = GuiHelper.createGeometryNodeComboBox(geometryDescriptor, bindingContext);
 
-        final TableLayout layout = GuiHelper.createWeightedTablelayout(1);
+        final TableLayout layout = GuiHelper.createWeightedTableLayout(1);
         final JPanel roiPanel = new JPanel(layout);
         roiPanel.setBorder(BorderFactory.createTitledBorder("Region of Interest"));
 
@@ -303,7 +303,7 @@ class GridPointExportDialog extends ProductChangeAwareDialog {
     }
 
     private JComponent createTargetFilePanel() {
-        final TableLayout layout = GuiHelper.createWeightedTablelayout(1);
+        final TableLayout layout = GuiHelper.createWeightedTableLayout(1);
 
         final JPanel targetFilePanel = new JPanel(layout);
         targetFilePanel.setBorder(BorderFactory.createTitledBorder("Target File"));
@@ -323,34 +323,28 @@ class GridPointExportDialog extends ProductChangeAwareDialog {
             label.setText("Save subset files to directory:");
         }
         final PropertyDescriptor targetFileDescriptor = propertyContainer.getDescriptor(ALIAS_TARGET_FILE);
-        final ChooserFactory chooserFactory = new ChooserFactory() {
-            @Override
-            public JFileChooser createChooser(File file) {
-                final FileChooserFactory chooserFactory = FileChooserFactory.getInstance();
-                final JFileChooser fileChooser;
-                if (NAME_CSV.equals(bindingContext.getBinding(ALIAS_EXPORT_FORMAT).getPropertyValue())) {
-                    fileChooser = chooserFactory.createFileChooser(file);
-                    fileChooser.setAcceptAllFileFilterUsed(true);
-                    fileChooser.setFileFilter(new FileNameExtensionFilter("CSV", "CSV"));
-                } else {
-                    fileChooser = chooserFactory.createDirChooser(file);
-                }
-                return fileChooser;
+        final ChooserFactory chooserFactory = file -> {
+            final FileChooserFactory fileChooserFactory = FileChooserFactory.getInstance();
+            final JFileChooser fileChooser;
+            if (NAME_CSV.equals(bindingContext.getBinding(ALIAS_EXPORT_FORMAT).getPropertyValue())) {
+                fileChooser = fileChooserFactory.createFileChooser(file);
+                fileChooser.setAcceptAllFileFilterUsed(true);
+                fileChooser.setFileFilter(new FileNameExtensionFilter("CSV", "CSV"));
+            } else {
+                fileChooser = fileChooserFactory.createDirChooser(file);
             }
+            return fileChooser;
         };
         final JComponent fileEditor = GuiHelper.createFileEditorComponent(targetFileDescriptor, chooserFactory, bindingContext);
         targetFilePanel.add(formatPanel);
         targetFilePanel.add(label);
         targetFilePanel.add(fileEditor);
 
-        bindingContext.addPropertyChangeListener(ALIAS_EXPORT_FORMAT, new PropertyChangeListener() {
-            @Override
-            public void propertyChange(PropertyChangeEvent evt) {
-                if (NAME_CSV.equals(evt.getNewValue())) {
-                    label.setText("Save to file:");
-                } else {
-                    label.setText("Save subset files to directory:");
-                }
+        bindingContext.addPropertyChangeListener(ALIAS_EXPORT_FORMAT, propertyChangeEvent -> {
+            if (NAME_CSV.equals(propertyChangeEvent.getNewValue())) {
+                label.setText("Save to file:");
+            } else {
+                label.setText("Save subset files to directory:");
             }
         });
         return targetFilePanel;
@@ -383,6 +377,7 @@ class GridPointExportDialog extends ProductChangeAwareDialog {
         return null;
     }
 
+    @Override
     protected void productAdded() {
         try {
             updateSelectedProductAndGeometries();
@@ -391,6 +386,7 @@ class GridPointExportDialog extends ProductChangeAwareDialog {
         }
     }
 
+    @Override
     protected void productRemoved(Product product) {
         try {
             removeProductAndGeometries(product);

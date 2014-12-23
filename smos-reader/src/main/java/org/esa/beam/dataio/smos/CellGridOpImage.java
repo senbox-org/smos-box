@@ -72,7 +72,9 @@ public class CellGridOpImage extends SingleBandedOpImage {
 
     @Override
     public Raster computeTile(int tileX, int tileY) {
-        if (getArea().intersects(getTileRect(tileX, tileY))) {
+        final Rectangle tileRect = getTileRect(tileX, tileY);
+        final Area area_local = getArea();
+        if (area_local.intersects(tileRect)) {
             return super.computeTile(tileX, tileY);
         }
 

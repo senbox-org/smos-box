@@ -21,7 +21,11 @@ import com.bc.ceres.glevel.MultiLevelSource;
 import com.bc.ceres.glevel.support.DefaultMultiLevelImage;
 import org.esa.beam.glevel.TiledFileMultiLevelSource;
 
+import javax.media.jai.PlanarImage;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.NoninvertibleTransformException;
+import java.awt.geom.Point2D;
+import java.awt.image.Raster;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
@@ -71,7 +75,7 @@ public class SmosDgg {
         return gridPointId / A + 1;
     }
 
-    static int seqnumToGridPointId(int seqnum) {
+    public static int seqnumToGridPointId(int seqnum) {
         return seqnum <= C ? seqnum : seqnum == MAX_SEQNUM ? MAX_GRID_POINT_ID : seqnum - 1 + ((seqnum - 2) / B) * D;
     }
 
@@ -89,6 +93,25 @@ public class SmosDgg {
 
     public MultiLevelImage getMultiLevelImage() {
         return dggMultiLevelImage;
+    }
+
+    public int getSeqnum(double lon, double lat) {
+        final Point2D p = new Point2D.Double(lon, lat);
+        try {
+            getImageToMapTransform().inverseTransform(p, p);
+        } catch (NoninvertibleTransformException ignored) {
+            // cannot happen
+        }
+        final int pixelX = (int) p.getX();
+        final int pixelY = (int) p.getY();
+        final PlanarImage image = getMultiLevelImage();
+        final int tileX = image.XToTileX(pixelX);
+        final int tileY = image.YToTileY(pixelY);
+        final Raster data = image.getTile(tileX, tileY);
+        if (data == null) {
+            return -1;
+        }
+        return data.getSample(pixelX, pixelY, 0);
     }
 
     private SmosDgg() {

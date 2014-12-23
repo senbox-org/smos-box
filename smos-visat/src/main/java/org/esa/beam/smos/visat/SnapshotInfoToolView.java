@@ -16,25 +16,19 @@
 
 package org.esa.beam.smos.visat;
 
-import com.bc.ceres.binio.CompoundData;
-import com.bc.ceres.binio.CompoundType;
-import com.bc.ceres.binio.Type;
-import com.bc.ceres.binio.util.NumberUtils;
 import com.bc.ceres.core.ProgressMonitor;
 import com.bc.ceres.glayer.CollectionLayer;
 import com.bc.ceres.glayer.Layer;
 import com.bc.ceres.glayer.support.ImageLayer;
 import com.bc.ceres.glayer.swing.LayerCanvas;
 import com.bc.ceres.glevel.MultiLevelImage;
+import com.bc.ceres.glevel.MultiLevelSource;
 import com.bc.ceres.glevel.support.DefaultMultiLevelImage;
 import com.bc.ceres.glevel.support.FileMultiLevelSource;
 import com.bc.ceres.grender.Rendering;
 import com.bc.ceres.grender.Viewport;
-import org.esa.beam.dataio.smos.L1cScienceSmosFile;
-import org.esa.beam.dataio.smos.L1cScienceValueProvider;
-import org.esa.beam.dataio.smos.SmosConstants;
-import org.esa.beam.dataio.smos.SmosFile;
-import org.esa.beam.dataio.smos.SmosMultiLevelSource;
+import org.esa.beam.dataio.smos.*;
+import org.esa.beam.dataio.smos.bufr.LightBufrMultiLevelSource;
 import org.esa.beam.dataio.smos.provider.ValueProvider;
 import org.esa.beam.framework.datamodel.Band;
 import org.esa.beam.framework.datamodel.Product;
@@ -43,61 +37,25 @@ import org.esa.beam.framework.datamodel.VirtualBand;
 import org.esa.beam.framework.help.HelpSys;
 import org.esa.beam.framework.ui.product.ProductSceneView;
 import org.esa.beam.glevel.TiledFileMultiLevelSource;
-import org.esa.beam.smos.DateTimeUtils;
 import org.esa.beam.smos.visat.swing.SnapshotSelectorCombo;
 import org.esa.beam.smos.visat.swing.SnapshotSelectorComboModel;
 import org.esa.beam.visat.VisatApp;
 import org.jfree.layout.CenterLayout;
 
-import javax.swing.AbstractButton;
-import javax.swing.BorderFactory;
-import javax.swing.ButtonGroup;
-import javax.swing.ButtonModel;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JComponent;
-import javax.swing.JInternalFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
-import javax.swing.JProgressBar;
-import javax.swing.JRadioButton;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.SwingWorker;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableModel;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.ComponentOrientation;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
-import java.awt.Shape;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.*;
+import java.awt.event.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.io.IOException;
 import java.text.MessageFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
-import java.util.TimeZone;
 import java.util.concurrent.ExecutionException;
 
 public class SnapshotInfoToolView extends SmosToolView {
@@ -127,12 +85,7 @@ public class SnapshotInfoToolView extends SmosToolView {
 
         snapshotSelectorCombo = new SnapshotSelectorCombo();
         snapshotSelectorCombo.addSliderChangeListener(snapshotIdListener);
-        snapshotSelectorCombo.addComboBoxActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                updateTable(snapshotSelectorCombo.getSnapshotId());
-            }
-        });
+        snapshotSelectorCombo.addComboBoxActionListener(e -> updateTable(snapshotSelectorCombo.getSnapshotId()));
 
         JComponent comboComponent = SnapshotSelectorCombo.createComponent(snapshotSelectorCombo, false);
         mainPanel.add(comboComponent, BorderLayout.NORTH);
@@ -159,10 +112,10 @@ public class SnapshotInfoToolView extends SmosToolView {
 
     @Override
     protected void updateClientComponent(ProductSceneView smosView) {
-        final L1cScienceSmosFile smosFile = SmosBox.getL1cScienceSmosFile(smosView);
-        if (smosFile != null) {
-            if (!smosFile.hasSnapshotInfo()) {
-                startPolModeInitWaiting(smosView, smosFile);
+        final SmosReader l1CScienceSmosReader = SmosBox.getL1CScienceSmosReader(smosView);
+        if (l1CScienceSmosReader != null) {
+            if (!l1CScienceSmosReader.hasSnapshotInfo()) {
+                startPolModeInitWaiting(smosView, l1CScienceSmosReader);
                 return;
             }
             final long snapshotId = getSelectedSnapshotId(smosView.getRaster());
@@ -173,16 +126,16 @@ public class SnapshotInfoToolView extends SmosToolView {
     }
 
     private void updateTable(long snapshotId) {
-        final SmosFile selectedSmosFile = getSelectedSmosFile();
-        if (selectedSmosFile != null && selectedSmosFile instanceof L1cScienceSmosFile) {
-            final L1cScienceSmosFile l1cScienceSmosFile = (L1cScienceSmosFile) selectedSmosFile;
-            final int snapshotIndex = l1cScienceSmosFile.getSnapshotInfo().getSnapshotIndex(snapshotId);
+        final SmosReader smosReader = getSelectedSmosReader();
+        if (smosReader != null && smosReader.canSupplySnapshotData()) {
+            final SnapshotInfo snapshotInfo = smosReader.getSnapshotInfo();
+            final int snapshotIndex = snapshotInfo.getSnapshotIndex(snapshotId);
             if (snapshotIndex != -1) {
                 final SwingWorker<TableModel, Object> worker = new SwingWorker<TableModel, Object>() {
                     @Override
                     protected TableModel doInBackground() throws Exception {
-                        final CompoundData data = l1cScienceSmosFile.getSnapshotData(snapshotIndex);
-                        return createSnapshotTableModel(data);
+                        final Object[][] snapshotData = smosReader.getSnapshotData(snapshotIndex);
+                        return new SnapshotTableModel(snapshotData);
                     }
 
                     @Override
@@ -202,48 +155,14 @@ public class SnapshotInfoToolView extends SmosToolView {
         snapshotTable.setModel(NULL_MODEL);
     }
 
-    private TableModel createSnapshotTableModel(CompoundData data) {
-        final CompoundType compoundType = data.getType();
-        final int memberCount = data.getMemberCount();
-        final ArrayList<Object[]> list = new ArrayList<>(memberCount);
-
-        for (int i = 0; i < memberCount; i++) {
-            final Object[] entry = new Object[2];
-            entry[0] = compoundType.getMemberName(i);
-
-            final Type memberType = compoundType.getMemberType(i);
-            if (memberType.isSimpleType()) {
-                try {
-                    entry[1] = NumberUtils.getNumericMember(data, i);
-                } catch (IOException e) {
-                    entry[1] = "Failed reading data";
-                }
-                list.add(entry);
-            } else {
-                if ("Snapshot_Time".equals(compoundType.getMemberName(i))) {
-                    try {
-                        final Date date = DateTimeUtils.cfiDateToUtc(data);
-                        final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSz",
-                                                                                 Locale.ENGLISH);
-                        dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-                        entry[1] = dateFormat.format(date);
-                    } catch (IOException e) {
-                        entry[1] = "Failed reading data";
-                    }
-                    list.add(entry);
-                }
-            }
-        }
-
-        return new SnapshotTableModel(list.toArray(new Object[2][list.size()]));
-    }
-
+    // @todo 1 tb/tb refactor, this is ugly code 2014-10-31
     private void updateSnapshotImage(RasterDataNode raster, long snapshotId) {
         final MultiLevelImage sourceImage = raster.getSourceImage();
         if (sourceImage instanceof DefaultMultiLevelImage) {
             final DefaultMultiLevelImage multiLevelImage = (DefaultMultiLevelImage) sourceImage;
-            if (multiLevelImage.getSource() instanceof SmosMultiLevelSource) {
-                final SmosMultiLevelSource smosMultiLevelSource = (SmosMultiLevelSource) multiLevelImage.getSource();
+            final MultiLevelSource source = multiLevelImage.getSource();
+            if (source instanceof SmosMultiLevelSource) {
+                final SmosMultiLevelSource smosMultiLevelSource = (SmosMultiLevelSource) source;
                 final ValueProvider valueProvider = smosMultiLevelSource.getValueProvider();
                 if (valueProvider instanceof L1cScienceValueProvider) {
                     final L1cScienceValueProvider btDataValueProvider = (L1cScienceValueProvider) valueProvider;
@@ -252,27 +171,34 @@ public class SnapshotInfoToolView extends SmosToolView {
                         resetRasterImages(raster);
                     }
                 }
+            } else if (source instanceof LightBufrMultiLevelSource) {
+                final LightBufrMultiLevelSource lightBufrMultiLevelSource = (LightBufrMultiLevelSource) source;
+                final CellValueProvider valueProvider = lightBufrMultiLevelSource.getValueProvider();
+                if (valueProvider.getSnapshotId() != snapshotId) {
+                    valueProvider.setSnapshotId((int) snapshotId);
+                    resetRasterImages(raster);
+                }
             }
         }
     }
 
     private void locateSnapshotId(final ProductSceneView smosView, final long id) {
-        final L1cScienceSmosFile smosFile = SmosBox.getL1cScienceSmosFile(smosView);
-        if (smosFile != null) {
-            final Rectangle2D snapshotRegion = smosFile.getSnapshotInfo().getArea(id).getBounds2D();
+        final SmosReader smosReader = SmosBox.getL1CScienceSmosReader(smosView);
+        if (smosReader != null) {
+            final SnapshotInfo snapshotInfo = smosReader.getSnapshotInfo();
+            final Rectangle2D snapshotRegion = snapshotInfo.getArea(id).getBounds2D();
             if (snapshotRegion != null) {
                 final Viewport vp = smosView.getLayerCanvas().getViewport();
                 final AffineTransform m2v = vp.getModelToViewTransform();
-                final Point2D.Double center = new Point2D.Double(snapshotRegion.getCenterX(),
-                                                                 snapshotRegion.getCenterY());
+                final Point2D.Double center = new Point2D.Double(snapshotRegion.getCenterX(), snapshotRegion.getCenterY());
                 m2v.transform(center, center);
                 final Rectangle viewBounds = vp.getViewBounds();
                 final double vx = viewBounds.getCenterX();
                 final double vy = viewBounds.getCenterY();
                 vp.moveViewDelta(vx - center.getX(), vy - center.getY());
             } else {
-                JOptionPane.showMessageDialog(getPaneControl(), MessageFormat.format(
-                        "No snapshot found with ID = {0}", id));
+                final String message = MessageFormat.format("No snapshot found with ID = {0}", id);
+                JOptionPane.showMessageDialog(getPaneControl(), message);
             }
         }
     }
@@ -333,16 +259,17 @@ public class SnapshotInfoToolView extends SmosToolView {
 
         @Override
         public void paintOverlay(LayerCanvas canvas, Rendering rendering) {
-            ProductSceneView view = getSelectedSmosView();
-            Graphics2D graphics = rendering.getGraphics();
-            L1cScienceSmosFile scienceSmosFile = SmosBox.getL1cScienceSmosFile(view);
-            if (scienceSmosFile != null) {
-                final Rectangle2D snapshotRegion = scienceSmosFile.getSnapshotInfo().getArea(snapshotId).getBounds2D();
+            final ProductSceneView view = getSelectedSmosView();
+
+            final SmosReader smosReader = SmosBox.getL1CScienceSmosReader(view);
+            if (smosReader != null) {
+                final Rectangle2D snapshotRegion = smosReader.getSnapshotInfo().getArea(snapshotId).getBounds2D();
                 if (snapshotRegion != null) {
+                    final Graphics2D graphics = rendering.getGraphics();
                     final Viewport vp = view.getLayerCanvas().getViewport();
                     final AffineTransform m2v = vp.getModelToViewTransform();
-                    Shape transformedShape = m2v.createTransformedShape(snapshotRegion);
-                    Color color = graphics.getColor();
+                    final Shape transformedShape = m2v.createTransformedShape(snapshotRegion);
+                    final Color color = graphics.getColor();
                     graphics.setColor(Color.WHITE);
                     graphics.draw(transformedShape);
                     graphics.setColor(color);
@@ -381,10 +308,11 @@ public class SnapshotInfoToolView extends SmosToolView {
         final long crossPolId;
 
         if (snapshotId != -1) {
-            final L1cScienceSmosFile smosFile = (L1cScienceSmosFile) getSelectedSmosFile();
-            xPolId = findSnapshotId(smosFile.getSnapshotInfo().getSnapshotIdsX(), snapshotId);
-            yPolId = findSnapshotId(smosFile.getSnapshotInfo().getSnapshotIdsY(), snapshotId);
-            crossPolId = findSnapshotId(smosFile.getSnapshotInfo().getSnapshotIdsXY(), snapshotId);
+            final SmosReader smosReader = getSelectedSmosReader();
+            final SnapshotInfo snapshotInfo = smosReader.getSnapshotInfo();
+            xPolId = findSnapshotId(snapshotInfo.getSnapshotIdsX(), snapshotId);
+            yPolId = findSnapshotId(snapshotInfo.getSnapshotIdsY(), snapshotId);
+            crossPolId = findSnapshotId(snapshotInfo.getSnapshotIdsXY(), snapshotId);
         } else {
             xPolId = -1;
             yPolId = -1;
@@ -512,8 +440,8 @@ public class SnapshotInfoToolView extends SmosToolView {
 
     private void updateUI(ProductSceneView smosView, long snapshotId, boolean resetSelectorComboModel) {
         if (resetSelectorComboModel) {
-            final L1cScienceSmosFile smosFile = SmosBox.getL1cScienceSmosFile(smosView);
-            snapshotSelectorCombo.setModel(new SnapshotSelectorComboModel(smosFile.getSnapshotInfo()));
+            final SmosReader smosReader = SmosBox.getL1CScienceSmosReader(smosView);
+            snapshotSelectorCombo.setModel(new SnapshotSelectorComboModel(smosReader.getSnapshotInfo()));
         }
         final boolean sync = synchronizeButtonModel.isSelected();
         if (sync) {
@@ -564,9 +492,9 @@ public class SnapshotInfoToolView extends SmosToolView {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new TableModelExportRunner(getPaneWindow(),
-                                           getTitle(),
-                                           snapshotTable.getModel(),
-                                           snapshotTable.getColumnModel()).run();
+                        getTitle(),
+                        snapshotTable.getModel(),
+                        snapshotTable.getColumnModel()).run();
             }
         });
         tablePopup.add(exportItem);
@@ -583,7 +511,7 @@ public class SnapshotInfoToolView extends SmosToolView {
         return snapshotTablePanel;
     }
 
-    private void startPolModeInitWaiting(ProductSceneView smosView, L1cScienceSmosFile smosFile) {
+    private void startPolModeInitWaiting(ProductSceneView smosView, SmosReader l1CScienceSmosReader) {
         final JPanel centerPanel = new JPanel(new CenterLayout());
         centerPanel.setPreferredSize(new Dimension(300, 200));
         final JPanel panel = new JPanel(new BorderLayout());
@@ -594,8 +522,9 @@ public class SnapshotInfoToolView extends SmosToolView {
         panel.add(progressBar, BorderLayout.CENTER);
         centerPanel.add(panel);
         setToolViewComponent(centerPanel);
+
         final ProgressMonitor progressMonitor = new ProgressBarProgressMonitor(progressBar, message);
-        final SwingWorker worker = new PolModeWaiter(smosView, smosFile, progressMonitor);
+        final SwingWorker worker = new PolModeWaiter(smosView, l1CScienceSmosReader, progressMonitor);
         progressMonitor.beginTask("Indexing snapshots and polarisation modes...", 100);
         worker.execute();
     }
@@ -603,19 +532,19 @@ public class SnapshotInfoToolView extends SmosToolView {
     private class PolModeWaiter extends SwingWorker {
 
         private final ProductSceneView smosView;
-        private final L1cScienceSmosFile smosFile;
         private final ProgressMonitor pm;
+        private final SmosReader l1CScienceSmosReader;
 
-        private PolModeWaiter(ProductSceneView smosView, L1cScienceSmosFile smosFile, ProgressMonitor pm) {
+        private PolModeWaiter(ProductSceneView smosView, SmosReader l1CScienceSmosReader, ProgressMonitor pm) {
             this.smosView = smosView;
-            this.smosFile = smosFile;
             this.pm = pm;
+            this.l1CScienceSmosReader = l1CScienceSmosReader;
         }
 
         @Override
         protected Object doInBackground() throws InterruptedException {
             try {
-                while (!smosFile.hasSnapshotInfo()) {
+                while (!l1CScienceSmosReader.hasSnapshotInfo()) {
                     Thread.sleep(100);
                 }
             } finally {

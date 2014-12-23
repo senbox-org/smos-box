@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 import ucar.ma2.DataType;
 
+import java.util.List;
 import java.util.Properties;
 
 import static org.junit.Assert.*;
@@ -24,7 +25,8 @@ public class AbstractFormatExporterTest {
 
     @Test
     public void testExtractMetadata_noMetadata() {
-        final Properties metaProperties = AbstractFormatExporter.extractMetadata(metadataRoot);
+        final List<AbstractFormatExporter.AttributeEntry> metaProperties = AbstractFormatExporter.extractMetadata(
+                metadataRoot);
 
         assertNotNull(metaProperties);
         assertEquals(0, metaProperties.size());
@@ -35,9 +37,10 @@ public class AbstractFormatExporterTest {
         metadataRoot.addAttribute(new MetadataAttribute("attribute_1", ProductData.ASCII.createInstance("hoppla_1"), true));
         metadataRoot.addAttribute(new MetadataAttribute("attribute_2", ProductData.ASCII.createInstance("hoppla_2"), true));
 
-        final Properties properties = AbstractFormatExporter.extractMetadata(metadataRoot);
+        final List<AbstractFormatExporter.AttributeEntry> properties = AbstractFormatExporter.extractMetadata(
+                metadataRoot);
         assertEquals(2, properties.size());
-        assertEquals("hoppla_1", properties.getProperty("attribute_1"));
+        assertEquals("hoppla_1", properties.get(0).getValue());
     }
 
     @Test
@@ -47,9 +50,10 @@ public class AbstractFormatExporterTest {
         secondary.addAttribute(new MetadataAttribute("attribute_2", ProductData.ASCII.createInstance("hoppla_2"), true));
         metadataRoot.addElement(secondary);
 
-        final Properties properties = AbstractFormatExporter.extractMetadata(metadataRoot);
+        final List<AbstractFormatExporter.AttributeEntry> properties = AbstractFormatExporter.extractMetadata(
+                metadataRoot);
         assertEquals(2, properties.size());
-        assertEquals("hoppla_2", properties.getProperty("secondary:attribute_2"));
+        assertEquals("hoppla_2", properties.get(1).getValue());
     }
 
     @Test
@@ -61,9 +65,10 @@ public class AbstractFormatExporterTest {
         secondary.addElement(third);
         metadataRoot.addElement(secondary);
 
-        final Properties properties = AbstractFormatExporter.extractMetadata(metadataRoot);
+        final List<AbstractFormatExporter.AttributeEntry> properties = AbstractFormatExporter.extractMetadata(
+                metadataRoot);
         assertEquals(2, properties.size());
-        assertEquals("hoppla_1", properties.getProperty("secondary:third:attribute_1"));
+        assertEquals("hoppla_1", properties.get(0).getValue());
     }
 
     @Test
@@ -78,13 +83,14 @@ public class AbstractFormatExporterTest {
         metadataRoot.addAttribute(new MetadataAttribute("root_1", ProductData.ASCII.createInstance("yeah_6"), true));
         metadataRoot.addAttribute(new MetadataAttribute("root_2", ProductData.ASCII.createInstance("yeah_7"), true));
 
-        final Properties properties = AbstractFormatExporter.extractMetadata(metadataRoot);
+        final List<AbstractFormatExporter.AttributeEntry> properties = AbstractFormatExporter.extractMetadata(
+                metadataRoot);
         assertEquals(5, properties.size());
-        assertEquals("yeah_3", properties.getProperty("secondary:third:att_3_1"));
-        assertEquals("yeah_4", properties.getProperty("secondary:third:att_3_2"));
-        assertEquals("yeah_5", properties.getProperty("secondary:att_2"));
-        assertEquals("yeah_6", properties.getProperty("root_1"));
-        assertEquals("yeah_7", properties.getProperty("root_2"));
+        assertEquals("yeah_6", properties.get(0).getValue());
+        assertEquals("yeah_7", properties.get(1).getValue());
+        assertEquals("yeah_5", properties.get(2).getValue());
+        assertEquals("yeah_3", properties.get(3).getValue());
+        assertEquals("yeah_4", properties.get(4).getValue());
     }
 
     @Test
@@ -98,10 +104,11 @@ public class AbstractFormatExporterTest {
         secondary.addElement(third_2);
         metadataRoot.addElement(secondary);
 
-        final Properties properties = AbstractFormatExporter.extractMetadata(metadataRoot);
+        final List<AbstractFormatExporter.AttributeEntry> properties = AbstractFormatExporter.extractMetadata(
+                metadataRoot);
         assertEquals(2, properties.size());
-        assertEquals("Wilhelm", properties.getProperty("secondary:third_0:att_3_1"));
-        assertEquals("Busch", properties.getProperty("secondary:third_1:att_3_1"));
+        assertEquals("Wilhelm", properties.get(0).getValue());
+        assertEquals("Busch", properties.get(1).getValue());
     }
 
     @Test

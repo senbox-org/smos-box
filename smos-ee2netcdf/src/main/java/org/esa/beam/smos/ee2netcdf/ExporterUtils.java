@@ -25,9 +25,9 @@ class ExporterUtils {
     static TreeSet<File> createInputFileSet(String[] sourceProductPaths) {
         final TreeSet<File> globbedFileSet = new TreeSet<>();
         try {
-            for (String sourceProductPath : sourceProductPaths) {
-                sourceProductPath = sourceProductPath.trim();
-                WildcardMatcher.glob(sourceProductPath, globbedFileSet);
+            for (String path : sourceProductPaths) {
+                path = path.trim();
+                WildcardMatcher.glob(path, globbedFileSet);
             }
         } catch (IOException e) {
             throw new OperatorException(e.getMessage());
