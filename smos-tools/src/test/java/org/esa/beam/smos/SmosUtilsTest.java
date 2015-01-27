@@ -209,10 +209,19 @@ public class SmosUtilsTest {
                 "W_ES-ESA-ESAC,SMOS,N256_C_LEMM_20131028030552_20131028003256_20131028020943_bufr_v505.bin"));
 
         assertTrue(SmosUtils.isLightBufrType(
+                "W_ES-ESA-ESAC,SMOS,N256_C_LEMM_20131028030552_20131028003256_20131028020943_bufr_v505.bin.bz2"));
+
+        assertTrue(SmosUtils.isLightBufrType(
                 "W_ES-ESA-ESAC,SMOS,N256_C_LEMM_20131028033037_20131028002942_20131028003302_bufr_v505.bin"));
 
         assertTrue(SmosUtils.isLightBufrType(
+                "W_ES-ESA-ESAC,SMOS,N256_C_LEMM_20131028033037_20131028002942_20131028003302_bufr_v505.bin.bz2"));
+
+        assertTrue(SmosUtils.isLightBufrType(
                 "W_ES-ESA-ESAC,SMOS,N256_C_LEMM_20131028044206_20131028020942_20131028034943_bufr_v505.bin"));
+
+        assertTrue(SmosUtils.isLightBufrType(
+                "W_ES-ESA-ESAC,SMOS,N256_C_LEMM_20131028044206_20131028020942_20131028034943_bufr_v505.bin.bz2"));
 
         assertTrue(SmosUtils.isLightBufrType(
                 "W_ES-ESA-ESAC,SMOS,N256_C_LEMM_20131028044206_20131028020942_20131028034943_bufr_v647.bin"));
@@ -225,6 +234,9 @@ public class SmosUtilsTest {
 
         assertFalse(SmosUtils.isLightBufrType(
                 "W_ES-ESA-ESAC,SMOS,N256_C_LEMN_20131028044206_20131028020942_20131028034943_bufr_v505.zip"));
+
+        assertFalse(SmosUtils.isLightBufrType(
+                "W_ES-ESA-ESAC,SMOS,N256_C_LEMN_20131028044206_20131028020942_20131028034943_bufr_v505.bz2"));
     }
 
     @Test
