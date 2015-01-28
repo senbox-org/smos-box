@@ -7,10 +7,20 @@ import ucar.nc2.Sequence;
 import ucar.nc2.Variable;
 import ucar.nc2.iosp.bufr.BufrIosp;
 import ucar.nc2.iosp.bufr.SmosBufrIosp;
+import ucar.unidata.io.InMemoryRandomAccessFile;
 import ucar.unidata.io.RandomAccessFile;
+import ucar.unidata.io.bzip2.CBZip2InputStream;
 
+import javax.imageio.stream.FileCacheImageInputStream;
+import javax.imageio.stream.ImageInputStream;
+import java.io.BufferedInputStream;
 import java.io.Closeable;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
+import java.nio.channels.WritableByteChannel;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -65,10 +75,51 @@ public class SmosBufrFile extends NetcdfFile implements Closeable {
         return new SmosBufrFile(new SmosBufrIosp(), location);
     }
 
+    private static RandomAccessFile createRandomAccessFile(String location) throws IOException {
+        final File file = new File(location);
+        final String fileName = file.getName().toLowerCase();
+
+        if (fileName.endsWith(".bz2")) {
+            final InputStream inputStream = createInputStream(file);
+            final ImageInputStream imageInputStream = createImageInputStream(inputStream);
+            final long imageInputStreamSize = getLength(imageInputStream);
+
+            return new ImageInputStreamRandomAccessFile(imageInputStream, imageInputStreamSize);
+        }
+
+        return new RandomAccessFile(location, "r");
+    }
+
+    // not private for purpose of testing only
+    static ImageInputStream createImageInputStream(InputStream inputStream) throws IOException {
+        return new FileCacheImageInputStream(inputStream, null);
+    }
+
+    // not private for purpose of testing only
+    static InputStream createInputStream(File file) throws IOException {
+        return new CBZip2InputStream(new BufferedInputStream(new FileInputStream(file)), true);
+    }
+
+    // not private for purpose of testing only
+    static long getLength(ImageInputStream imageInputStream) throws IOException {
+        final byte[] b = new byte[16384];
+
+        long length = 0;
+        while (true) {
+            final int count = imageInputStream.read(b, 0, b.length);
+            if (count == -1) {
+                break;
+            }
+            length += count;
+        }
+
+        return length;
+    }
+
     private SmosBufrFile(SmosBufrIosp iosp, String location) throws IOException {
         super(iosp, location);
         instance = iosp;
-        final RandomAccessFile randomAccessFile = new RandomAccessFile(location, "r");
+        final RandomAccessFile randomAccessFile = createRandomAccessFile(location);
         instance.open(randomAccessFile, this, null);
 
         valueDecoderMap = new HashMap<>();
@@ -98,7 +149,7 @@ public class SmosBufrFile extends NetcdfFile implements Closeable {
         addValueDecoder(WATER_FRACTION);
     }
 
-    // package public for testing only
+    // not private for purpose of testing only
     static double getAttributeValue(Variable variable, String attributeName, double defaultValue) {
         final Attribute attribute = variable.findAttribute(attributeName);
         if (attribute == null) {
@@ -107,7 +158,7 @@ public class SmosBufrFile extends NetcdfFile implements Closeable {
         return attribute.getNumericValue().doubleValue();
     }
 
-    // package public for testing only
+    // not private for purpose of testing only
     static Number getAttributeValue(Variable variable, String attributeName) {
         final Attribute attribute = variable.findAttribute(attributeName);
         if (attribute == null) {
@@ -116,7 +167,7 @@ public class SmosBufrFile extends NetcdfFile implements Closeable {
         return attribute.getNumericValue();
     }
 
-    // package public for testing only
+    // not private for purpose of testing only
     static ValueDecoder createValueDecoder(Variable variable) {
         final double scale = getAttributeValue(variable, ATTR_NAME_SCALE_FACTOR, 1.0);
         final double offset = getAttributeValue(variable, ATTR_NAME_ADD_OFFSET, 0.0);
@@ -172,4 +223,61 @@ public class SmosBufrFile extends NetcdfFile implements Closeable {
     private void addValueDecoder(String variableName) {
         valueDecoderMap.put(variableName, createValueDecoder(variableName));
     }
+
+    private final static class ImageInputStreamRandomAccessFile extends RandomAccessFile {
+
+        private final ImageInputStream imageInputStream;
+        private final long length;
+
+        static RandomAccessFile create(ImageInputStream imageInputStream, long length) throws IOException {
+            final byte[] b = new byte[(int) length];
+            imageInputStream.readFully(b);
+
+            return new InMemoryRandomAccessFile("BUFR", b);
+        }
+
+        private ImageInputStreamRandomAccessFile(ImageInputStream imageInputStream, long length) {
+            super(8192);
+            this.imageInputStream = imageInputStream;
+            this.length = length;
+        }
+
+        @Override
+        public void setBufferSize(int bufferSize) {
+            // do nothing
+        }
+
+        @Override
+        public String getLocation() {
+            return "ImageInputStream";
+        }
+
+        @Override
+        public long length() throws IOException {
+            return length;
+        }
+
+        @Override
+        protected int read_(long pos, byte[] b, int offset, int len) throws IOException {
+            imageInputStream.seek(pos);
+            return imageInputStream.read(b, offset, len);
+        }
+
+        @Override
+        public long readToByteChannel(WritableByteChannel dest, long offset, long nbytes) throws IOException {
+            final int n = (int) nbytes;
+            final byte[] buffer = new byte[n];
+            final int done = read_(offset, buffer, 0, n);
+
+            dest.write(ByteBuffer.wrap(buffer));
+
+            return done;
+        }
+
+        @Override
+        public void close() throws IOException {
+            imageInputStream.close();
+        }
+    }
+
 }

@@ -47,7 +47,7 @@ public class SmosLightBufrReaderPlugIn implements ProductReaderPlugIn {
 
     @Override
     public String[] getDefaultFileExtensions() {
-        return new String[] {".bin"};
+        return new String[] {".bin", ".bin.bz2"};
     }
 
     @Override

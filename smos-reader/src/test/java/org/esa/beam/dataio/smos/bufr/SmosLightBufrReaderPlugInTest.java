@@ -51,8 +51,9 @@ public class SmosLightBufrReaderPlugInTest {
     public void testGetDefaultFileExtensions() {
         final String[] extensions = plugin.getDefaultFileExtensions();
 
-        assertEquals(1, extensions.length);
+        assertEquals(2, extensions.length);
         assertEquals(".bin", extensions[0]);
+        assertEquals(".bin.bz2", extensions[1]);
     }
 
     @Test

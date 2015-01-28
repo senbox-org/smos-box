@@ -16,7 +16,13 @@
 
 package org.esa.beam.dataio.smos;
 
-import com.bc.ceres.binio.*;
+import com.bc.ceres.binio.CompoundData;
+import com.bc.ceres.binio.CompoundMember;
+import com.bc.ceres.binio.CompoundType;
+import com.bc.ceres.binio.DataContext;
+import com.bc.ceres.binio.DataFormat;
+import com.bc.ceres.binio.SequenceData;
+import com.bc.ceres.binio.Type;
 import com.bc.ceres.binio.util.NumberUtils;
 import com.bc.ceres.core.ProgressMonitor;
 import com.bc.ceres.core.VirtualDir;
@@ -37,15 +43,19 @@ import org.esa.beam.smos.lsmask.SmosLsMask;
 import org.esa.beam.util.StringUtils;
 import org.esa.beam.util.io.FileUtils;
 
-import java.awt.*;
+import java.awt.Rectangle;
 import java.awt.image.Raster;
 import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
 
 public class SmosProductReader extends SmosReader {
 
@@ -253,7 +263,7 @@ public class SmosProductReader extends SmosReader {
                         try {
                             final Date date = DateTimeUtils.cfiDateToUtc(data);
                             final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSz",
-                                    Locale.ENGLISH);
+                                                                                     Locale.ENGLISH);
                             dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
                             entry[1] = dateFormat.format(date);
                         } catch (IOException e) {
@@ -411,7 +421,7 @@ public class SmosProductReader extends SmosReader {
         }
         if (descriptor.getFlagDescriptors() != null) {
             ProductHelper.addFlagsAndMasks(product, band, descriptor.getFlagCodingName(),
-                    descriptor.getFlagDescriptors());
+                                           descriptor.getFlagDescriptors());
         }
 
         band.setSourceImage(SmosLsMask.getInstance().getMultiLevelImage());
@@ -434,14 +444,14 @@ public class SmosProductReader extends SmosReader {
         if (SmosUtils.isBrowseFormat(formatName)) {
             return new L1cBrowseSmosFile(eeFilePair, context);
         } else if (SmosUtils.isDualPolScienceFormat(formatName) ||
-                SmosUtils.isFullPolScienceFormat(formatName)) {
+                   SmosUtils.isFullPolScienceFormat(formatName)) {
             return new L1cScienceSmosFile(eeFilePair, context);
         } else if (SmosUtils.isSmUserFormat(formatName)) {
             return new SmUserSmosFile(eeFilePair, context);
         } else if (SmosUtils.isOsUserFormat(formatName) ||
-                SmosUtils.isOsAnalysisFormat(formatName) ||
-                SmosUtils.isSmAnalysisFormat(formatName) ||
-                SmosUtils.isAuxECMWFType(formatName)) {
+                   SmosUtils.isOsAnalysisFormat(formatName) ||
+                   SmosUtils.isSmAnalysisFormat(formatName) ||
+                   SmosUtils.isAuxECMWFType(formatName)) {
             return new SmosFile(eeFilePair, context);
         } else if (SmosUtils.isDffLaiFormat(formatName)) {
             return new LaiFile(eeFilePair, context);
@@ -450,10 +460,10 @@ public class SmosProductReader extends SmosReader {
         } else if (SmosUtils.isLsMaskFormat(formatName)) {
             return new GlobalSmosFile(eeFilePair, context);
         } else if (SmosUtils.isDggFloFormat(formatName) ||
-                SmosUtils.isDggRfiFormat(formatName) ||
-                SmosUtils.isDggRouFormat(formatName) ||
-                SmosUtils.isDggTfoFormat(formatName) ||
-                SmosUtils.isDggTlvFormat(formatName)) {
+                   SmosUtils.isDggRfiFormat(formatName) ||
+                   SmosUtils.isDggRouFormat(formatName) ||
+                   SmosUtils.isDggTfoFormat(formatName) ||
+                   SmosUtils.isDggTlvFormat(formatName)) {
             return new AuxiliaryFile(eeFilePair, context);
         }
 
