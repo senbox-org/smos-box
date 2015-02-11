@@ -56,6 +56,12 @@
             <artifactId>smos-lsmask</artifactId>
         </dependency>
 
+        <!--todo (mp) - added javahelp temporarily, can be removed after full migration to NetBeans-->
+        <dependency>
+            <groupId>javax.help</groupId>
+            <artifactId>javahelp</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-all</artifactId>
