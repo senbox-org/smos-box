@@ -18,7 +18,8 @@
     </properties>
 
     <modules>
-        <module>smos-bootstrap</module>
+        <!-- (mp) no need any more for the bootstrap module, but only disabled it now can be deleted later-->
+        <!--<module>smos-bootstrap</module>-->
         <module>smos-reader</module>
         <module>smos-visat</module>
         <module>smos-ee2netcdf</module>
@@ -178,6 +179,13 @@
                 <artifactId>smos-ee2netcdf</artifactId>
                 <version>${project.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>javax.help</groupId>
+                <artifactId>javahelp</artifactId>
+                <version>2.0.05</version>
+            </dependency>
+
 
             <!-- JUnit Libraries ############################################# -->
 
