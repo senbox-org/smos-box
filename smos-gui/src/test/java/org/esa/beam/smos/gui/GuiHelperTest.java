@@ -1,13 +1,13 @@
 package org.esa.beam.smos.gui;
 
-import org.esa.beam.framework.gpf.ui.DefaultAppContext;
+import org.esa.beam.framework.ui.DefaultAppContext;
 import org.junit.Test;
 
-import java.awt.*;
+import java.awt.GraphicsEnvironment;
 import java.io.File;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assume.assumeTrue;
+import static org.junit.Assert.*;
+import static org.junit.Assume.*;
 
 public class GuiHelperTest {
 
