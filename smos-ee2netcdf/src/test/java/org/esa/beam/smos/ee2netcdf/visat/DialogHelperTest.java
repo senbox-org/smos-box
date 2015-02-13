@@ -1,13 +1,13 @@
 package org.esa.beam.smos.ee2netcdf.visat;
 
 import org.esa.beam.framework.datamodel.Product;
-import org.esa.beam.framework.gpf.ui.DefaultAppContext;
+import org.esa.beam.framework.ui.DefaultAppContext;
 import org.junit.Test;
 
-import java.awt.*;
+import java.awt.GraphicsEnvironment;
 
 import static org.junit.Assert.*;
-import static org.junit.Assume.assumeTrue;
+import static org.junit.Assume.*;
 
 public class DialogHelperTest {
 
