@@ -43,7 +43,7 @@
         </dependency>
         <dependency>
             <groupId>org.esa.snap</groupId>
-            <artifactId>snap-binio</artifactId>
+            <artifactId>ceres-binio</artifactId>
         </dependency>
 
         <dependency>
