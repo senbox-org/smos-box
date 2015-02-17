@@ -13,7 +13,6 @@
 
     <properties>
         <snap.version>[2.0.0-SNAPSHOT,2.1.0-SNAPSHOT)</snap.version>
-        <outputdir>../../output</outputdir>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -253,7 +252,6 @@
     </distributionManagement>
 
     <build>
-        <outputDirectory>${outputdir}/modules/${project.artifactId}-${project.version}</outputDirectory>
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
