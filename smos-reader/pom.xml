@@ -9,7 +9,7 @@
         <version>5.0.0-SNAPSHOT</version>
     </parent>
 
-    <packaging>jar</packaging>
+    <packaging>nbm</packaging>
 
     <artifactId>smos-reader</artifactId>
     <name>SMOS Product Reader</name>
@@ -18,16 +18,44 @@
     <dependencies>
         <dependency>
             <groupId>org.esa.snap</groupId>
+            <artifactId>ceres-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.esa.snap</groupId>
             <artifactId>ceres-binio</artifactId>
         </dependency>
         <dependency>
             <groupId>org.esa.snap</groupId>
-            <artifactId>ceres-core</artifactId>
+            <artifactId>ceres-glayer</artifactId>
         </dependency>
         <dependency>
             <groupId>org.esa.snap</groupId>
             <artifactId>ceres-jai</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>org.esa.snap</groupId>
+            <artifactId>snap-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.esa.snap</groupId>
+            <artifactId>snap-binning</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.esa.snap</groupId>
+                    <artifactId>snap-ui</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.esa.snap</groupId>
+                    <artifactId>snap-gpf</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.esa.snap</groupId>
+                    <artifactId>snap-visat-rcp</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
 
         <dependency>
             <groupId>org.esa.smostbx</groupId>
@@ -53,24 +81,6 @@
             <artifactId>mockito-all</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>org.esa.snap</groupId>
-            <artifactId>snap-binning</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.esa.snap</groupId>
-                    <artifactId>snap-ui</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.esa.snap</groupId>
-                    <artifactId>snap-gpf</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.esa.snap</groupId>
-                    <artifactId>snap-visat-rcp</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
         <dependency>
             <groupId>org.esa.snap</groupId>
             <artifactId>snap-netcdf</artifactId>
@@ -115,6 +125,21 @@
         </dependency>
 
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>nbm-maven-plugin</artifactId>
+                <configuration>
+                    <publicPackages>
+                        <package>org.esa.beam.dataio.smos</package>
+                        <package>org.esa.beam.dataio.smos.dddb</package>
+                    </publicPackages>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
 

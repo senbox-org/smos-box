@@ -1,11 +1,10 @@
 package org.esa.beam.dataio.smos;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.awt.geom.Rectangle2D;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 public class DggUtilsTest {
 
