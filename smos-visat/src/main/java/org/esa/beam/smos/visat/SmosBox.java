@@ -14,7 +14,7 @@ import org.esa.beam.framework.ui.product.ProductSceneView;
 import org.esa.beam.glayer.WorldMapLayerType;
 import org.esa.beam.util.ResourceInstaller;
 import org.esa.beam.util.SystemUtils;
-import org.esa.beam.visat.VisatApp;
+import org.esa.snap.rcp.SnapApp;
 import org.openide.modules.OnStart;
 import org.openide.modules.OnStop;
 import org.openide.windows.OnShowing;
@@ -146,9 +146,7 @@ public class SmosBox {
     }
 
     private LayerType getWorldMapLayerType() {
-        final VisatApp visatApp = VisatApp.getApp();
-        String layerTypeClassName = visatApp.getPreferences().getPropertyString(WORLDMAP_TYPE_PROPERTY_NAME,
-                                                                                BLUE_MARBLE_LAYER_TYPE);
+        String layerTypeClassName = SnapApp.getDefault().getPreferences().get(WORLDMAP_TYPE_PROPERTY_NAME, BLUE_MARBLE_LAYER_TYPE);
         return LayerTypeRegistry.getLayerType(layerTypeClassName);
     }
 
@@ -167,8 +165,7 @@ public class SmosBox {
     private void installColorPalettes() throws IOException {
         final URL codeSourceUrl = SmosBox.class.getProtectionDomain().getCodeSource().getLocation();
         final File auxdataDir = getSystemAuxdataDir();
-        final ResourceInstaller resourceInstaller = new ResourceInstaller(codeSourceUrl, "auxdata/color_palettes/",
-                                                                          auxdataDir);
+        final ResourceInstaller resourceInstaller = new ResourceInstaller(codeSourceUrl, "auxdata/color_palettes/", auxdataDir);
 
         resourceInstaller.install(".*.cpd", ProgressMonitor.NULL);
         colorPalettesInstalled = true;
