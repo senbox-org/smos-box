@@ -23,34 +23,47 @@ import org.esa.beam.framework.dataio.ProductReader;
 import org.esa.beam.framework.datamodel.Product;
 import org.esa.beam.framework.ui.PixelPositionListener;
 import org.esa.beam.framework.ui.product.ProductSceneView;
-import org.esa.beam.visat.VisatApp;
+import org.openide.util.Lookup;
+import org.openide.util.LookupEvent;
+import org.openide.util.LookupListener;
+import org.openide.util.Utilities;
+import org.openide.util.WeakListeners;
 
-import javax.swing.event.InternalFrameAdapter;
-import javax.swing.event.InternalFrameEvent;
-import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SceneViewSelectionService {
-    private final VisatApp visatApp;
+public class SceneViewSelectionService implements LookupListener{
     private final List<SelectionListener> selectionListeners;
-    private final IFL ifl;
     private final PPL ppl;
 
     private ProductSceneView selectedSceneView;
 
-    public SceneViewSelectionService(VisatApp visatApp) {
-        ifl = new IFL();
+    public SceneViewSelectionService() {
         ppl = new PPL();
         this.selectionListeners = new ArrayList<>();
-        this.visatApp = visatApp;
-        this.visatApp.addInternalFrameListener(ifl);
+
+        // todo (mp) - is this working? Did this during restructuring phase without testing it.
+        Lookup.Result<ProductSceneView> productSceneViewResult = Utilities.actionsGlobalContext().lookupResult(ProductSceneView.class);
+        productSceneViewResult.addLookupListener(WeakListeners.create(LookupListener.class, this, productSceneViewResult));
+    }
+
+    @Override
+    public void resultChanged(LookupEvent ev) {
+        final ProductSceneView view = Utilities.actionsGlobalContext().lookup(ProductSceneView.class);
+        if (view != null) {
+            if (view.getProduct().getProductReader() instanceof SmosReader) {
+                setSelectedSceneView(view);
+            } else {
+                setSelectedSceneView(null);
+            }
+        } else {
+            setSelectedSceneView(null);
+        }
     }
 
     public void stop() {
         selectionListeners.clear();
-        visatApp.removeInternalFrameListener(ifl);
     }
 
     public ProductSceneView getSelectedSceneView() {
@@ -118,42 +131,6 @@ public class SceneViewSelectionService {
 
     public interface SelectionListener {
         void handleSceneViewSelectionChanged(ProductSceneView oldView, ProductSceneView newView);
-    }
-
-    private class IFL extends InternalFrameAdapter {
-        @Override
-        public void internalFrameActivated(final InternalFrameEvent e) {
-            final ProductSceneView view = getProductSceneViewByFrame(e);
-            if (view != null) {
-                if (view.getProduct().getProductReader() instanceof SmosReader) {
-                    setSelectedSceneView(view);
-                } else {
-                    setSelectedSceneView(null);
-                }
-            } else {
-                setSelectedSceneView(null);
-            }
-        }
-
-        @Override
-        public void internalFrameDeactivated(final InternalFrameEvent e) {
-            if (getSelectedSceneView() == getProductSceneViewByFrame(e)) {
-                setSelectedSceneView(null);
-            }
-        }
-
-        private ProductSceneView getProductSceneViewByFrame(final InternalFrameEvent e) {
-            final Container content = getContent(e);
-            if (content instanceof ProductSceneView) {
-                return (ProductSceneView) content;
-            } else {
-                return null;
-            }
-        }
-
-        private Container getContent(InternalFrameEvent e) {
-            return e.getInternalFrame().getContentPane();
-        }
     }
 
     private class PPL implements PixelPositionListener {

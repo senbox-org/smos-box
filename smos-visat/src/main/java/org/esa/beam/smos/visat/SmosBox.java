@@ -1,19 +1,3 @@
-/*
- * Copyright (C) 2010 Brockmann Consult GmbH (info@brockmann-consult.de)
- *
- * This program is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License as published by the Free
- * Software Foundation; either version 3 of the License, or (at your option)
- * any later version.
- * This program is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
- * more details.
- *
- * You should have received a copy of the GNU General Public License along
- * with this program; if not, see http://www.gnu.org/licenses/
- */
-
 package org.esa.beam.smos.visat;
 
 import com.bc.ceres.binding.PropertySet;
@@ -31,14 +15,18 @@ import org.esa.beam.glayer.WorldMapLayerType;
 import org.esa.beam.util.ResourceInstaller;
 import org.esa.beam.util.SystemUtils;
 import org.esa.beam.visat.VisatApp;
-import org.esa.beam.visat.VisatPlugIn;
+import org.openide.modules.OnStart;
+import org.openide.modules.OnStop;
+import org.openide.windows.OnShowing;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.logging.Logger;
 
-public class SmosBox implements VisatPlugIn {
+public class SmosBox {
 
+    private static final Logger LOGGER = Logger.getLogger(SmosBox.class.getName());
     private static final String WORLDMAP_TYPE_PROPERTY_NAME = "worldmap.type";
     private static final String BLUE_MARBLE_LAYER_TYPE = "BlueMarbleLayerType";
 
@@ -66,11 +54,25 @@ public class SmosBox implements VisatPlugIn {
         return sceneViewSelectionService;
     }
 
-    @Override
-    public final void start(VisatApp visatApp) {
-        synchronized (this) {
-            instance = this;
-            sceneViewSelectionService = new SceneViewSelectionService(visatApp);
+
+    private SmosBox() {
+    }
+
+    @OnStart
+    public class StartOp implements Runnable {
+
+        @Override
+        public void run() {
+            instance = SmosBox.this;
+        }
+    }
+
+    @OnShowing()
+    public class ShowingOp implements Runnable {
+
+        @Override
+        public void run() {
+            sceneViewSelectionService = new SceneViewSelectionService();
             snapshotSelectionService = new SnapshotSelectionService(sceneViewSelectionService);
             gridPointSelectionService = new GridPointSelectionService();
 
@@ -85,21 +87,23 @@ public class SmosBox implements VisatPlugIn {
                     worldMapLayer.setVisible(true);
                 }
             });
-        }
 
-        if (!colorPalettesInstalled) {
-            try {
-                installColorPalettes();
-            } catch (IOException e) {
-                visatApp.getLogger().warning("Unable to install SMOS color palettes" + e.getMessage());
+            if (!colorPalettesInstalled) {
+                try {
+                    installColorPalettes();
+                } catch (IOException e) {
+                    LOGGER.warning("Unable to install SMOS color palettes" + e.getMessage());
+                }
             }
+
         }
     }
 
+    @OnStop
+    public class StopOp implements Runnable {
 
-    @Override
-    public final void stop(VisatApp visatApp) {
-        synchronized (this) {
+        @Override
+        public void run() {
             sceneViewSelectionService.stop();
             sceneViewSelectionService = null;
             snapshotSelectionService.stop();
@@ -107,11 +111,8 @@ public class SmosBox implements VisatPlugIn {
             gridPointSelectionService.stop();
             gridPointSelectionService = null;
             instance = null;
-        }
-    }
 
-    @Override
-    public final void updateComponentTreeUI() {
+        }
     }
 
     static boolean isL1cScienceSmosRaster(RasterDataNode raster) {
@@ -177,4 +178,5 @@ public class SmosBox implements VisatPlugIn {
         // @todo 3 tb/** code duplicated from ColormanipulationForm class. we should have central services classes that over such services. tb 2014-09-18
         return new File(SystemUtils.getApplicationDataDir(), "snap-ui/auxdata/color-palettes");
     }
+
 }
