@@ -32,11 +32,11 @@ public class SmosBox {
 
     private static volatile SmosBox instance;
 
-    private volatile SnapshotSelectionService snapshotSelectionService;
-    private volatile GridPointSelectionService gridPointSelectionService;
-    private volatile SceneViewSelectionService sceneViewSelectionService;
+    private static volatile SnapshotSelectionService snapshotSelectionService;
+    private static volatile GridPointSelectionService gridPointSelectionService;
+    private static volatile SceneViewSelectionService sceneViewSelectionService;
 
-    private boolean colorPalettesInstalled = false;
+    private static boolean colorPalettesInstalled = false;
 
     public static SmosBox getInstance() {
         return instance;
@@ -59,16 +59,16 @@ public class SmosBox {
     }
 
     @OnStart
-    public class StartOp implements Runnable {
+    public static class StartOp implements Runnable {
 
         @Override
         public void run() {
-            instance = SmosBox.this;
+            instance = new SmosBox();
         }
     }
 
     @OnShowing()
-    public class ShowingOp implements Runnable {
+    public static class ShowingOp implements Runnable {
 
         @Override
         public void run() {
@@ -100,7 +100,7 @@ public class SmosBox {
     }
 
     @OnStop
-    public class StopOp implements Runnable {
+    public static class StopOp implements Runnable {
 
         @Override
         public void run() {
@@ -145,24 +145,24 @@ public class SmosBox {
         return null;
     }
 
-    private LayerType getWorldMapLayerType() {
+    private static LayerType getWorldMapLayerType() {
         String layerTypeClassName = SnapApp.getDefault().getPreferences().get(WORLDMAP_TYPE_PROPERTY_NAME, BLUE_MARBLE_LAYER_TYPE);
         return LayerTypeRegistry.getLayerType(layerTypeClassName);
     }
 
-    private Layer createWorldMapLayer() {
+    private static Layer createWorldMapLayer() {
         final LayerType layerType = getWorldMapLayerType();
         final PropertySet template = layerType.createLayerConfig(null);
         template.setValue(ImageLayer.PROPERTY_NAME_PIXEL_BORDER_SHOWN, false);
         return layerType.createLayer(null, template);
     }
 
-    private Layer findWorldMapLayer(ProductSceneView view) {
+    private static Layer findWorldMapLayer(ProductSceneView view) {
         return LayerUtils.getChildLayer(view.getRootLayer(), LayerUtils.SearchMode.DEEP,
                                         layer -> layer.getLayerType() instanceof WorldMapLayerType);
     }
 
-    private void installColorPalettes() throws IOException {
+    private static void installColorPalettes() throws IOException {
         final URL codeSourceUrl = SmosBox.class.getProtectionDomain().getCodeSource().getLocation();
         final File auxdataDir = getSystemAuxdataDir();
         final ResourceInstaller resourceInstaller = new ResourceInstaller(codeSourceUrl, "auxdata/color_palettes/", auxdataDir);
@@ -171,7 +171,7 @@ public class SmosBox {
         colorPalettesInstalled = true;
     }
 
-    private File getSystemAuxdataDir() {
+    private static File getSystemAuxdataDir() {
         // @todo 3 tb/** code duplicated from ColormanipulationForm class. we should have central services classes that over such services. tb 2014-09-18
         return new File(SystemUtils.getApplicationDataDir(), "snap-ui/auxdata/color-palettes");
     }
