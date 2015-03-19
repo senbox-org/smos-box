@@ -127,12 +127,7 @@ public class DggFile extends ExplorerFile {
         return product;
     }
 
-    private void addAncilliaryBands(Product product) {
-        final Band soil_moisture = product.getBand("Soil_Moisture");
-        if (soil_moisture != null) {
-            soil_moisture.setAncillaryBand("error", product.getBand("Soil_Moisture_DQX"));
-        }
-    }
+
 
     protected void addBands(Product product) {
         final String formatName = getDataFormat().getName();
