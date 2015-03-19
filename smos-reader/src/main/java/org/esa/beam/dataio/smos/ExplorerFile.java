@@ -19,8 +19,13 @@ package org.esa.beam.dataio.smos;
 import com.bc.ceres.binio.CompoundData;
 import com.bc.ceres.binio.DataContext;
 import com.bc.ceres.binio.DataFormat;
+import org.esa.beam.dataio.smos.dddb.BandDescriptor;
 import org.esa.beam.dataio.smos.dddb.Dddb;
+import org.esa.beam.dataio.smos.dddb.Family;
+import org.esa.beam.framework.datamodel.Band;
+import org.esa.beam.framework.datamodel.Product;
 import org.esa.beam.smos.EEFilePair;
+import org.esa.beam.util.StringUtils;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.JDOMException;
@@ -101,5 +106,36 @@ public abstract class ExplorerFile implements ProductFile {
         } else {
             throw new IOException(MessageFormat.format("File ''{0}'': Missing element ''{1}''.", getHeaderFile().getPath(), name));
         }
+    }
+
+    protected void addAncilliaryBands(Product product) {
+        final String formatName = getDataFormat().getName();
+        final Family<BandDescriptor> descriptors = Dddb.getInstance().getBandDescriptors(formatName);
+
+        if (descriptors == null) {
+            return;
+        }
+
+        for (final BandDescriptor descriptor : descriptors.asList()) {
+            final String ancilliaryBandName = descriptor.getAncilliaryBandName();
+            if (StringUtils.isNotNullAndNotEmpty(ancilliaryBandName)) {
+                final Band dataBand = product.getBand(descriptor.getBandName());
+                final Band ancilliaryBand = product.getBand(ancilliaryBandName);
+
+                final String bandRole = getAcilliaryBandRole(ancilliaryBandName);
+                dataBand.setAncillaryBand(bandRole, ancilliaryBand);
+            }
+        }
+    }
+
+    static String getAcilliaryBandRole(String ancilliaryBandName) {
+        if (ancilliaryBandName.contains("DQX")) {
+            return "DQX";
+        }
+        if (ancilliaryBandName.contains("Accuracy")) {
+            return "Accuracy";
+        }
+
+        return "error";
     }
 }
