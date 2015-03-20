@@ -119,7 +119,7 @@ public class SmosDgg {
         try {
             Path dirPath = getDirPathFromProperty();
             if (dirPath == null) {
-                dirPath = getDirPathFromModule();
+                dirPath = getDirPathFromModule().getParent();
             }
             final MultiLevelSource dggMultiLevelSource = TiledFileMultiLevelSource.create(dirPath);
 

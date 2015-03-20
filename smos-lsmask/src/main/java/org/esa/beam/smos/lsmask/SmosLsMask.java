@@ -48,7 +48,7 @@ public class SmosLsMask {
         try {
             Path dirPath = getDirPathFromProperty();
             if (dirPath == null) {
-                dirPath = getDirPathFromModule();
+                dirPath = getDirPathFromModule().getParent();
             }
             final MultiLevelSource multiLevelSource = TiledFileMultiLevelSource.create(dirPath);
 
