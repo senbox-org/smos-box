@@ -21,7 +21,8 @@ import org.openide.windows.OnShowing;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
+import java.net.URISyntaxException;
+import java.nio.file.Path;
 import java.util.logging.Logger;
 
 public class SmosBox {
@@ -163,17 +164,22 @@ public class SmosBox {
     }
 
     private static void installColorPalettes() throws IOException {
-        final URL codeSourceUrl = SmosBox.class.getProtectionDomain().getCodeSource().getLocation();
-        final File auxdataDir = getSystemAuxdataDir();
-        final ResourceInstaller resourceInstaller = new ResourceInstaller(codeSourceUrl, "auxdata/color_palettes/", auxdataDir);
+        final Path codeSourceUrl;
+        try {
+            codeSourceUrl = SystemUtils.getPathFromURI(SmosBox.class.getProtectionDomain().getCodeSource().getLocation().toURI());
+            final File auxdataDir = getSystemAuxdataDir();
+            final ResourceInstaller resourceInstaller = new ResourceInstaller(codeSourceUrl, "auxdata/color_palettes/", auxdataDir.toPath());
 
-        resourceInstaller.install(".*.cpd", ProgressMonitor.NULL);
-        colorPalettesInstalled = true;
+            resourceInstaller.install(".*.cpd", ProgressMonitor.NULL);
+            colorPalettesInstalled = true;
+        } catch (URISyntaxException e) {
+            throw new IOException("Could not install colour palettes.", e);
+        }
     }
 
     private static File getSystemAuxdataDir() {
         // @todo 3 tb/** code duplicated from ColormanipulationForm class. we should have central services classes that over such services. tb 2014-09-18
-        return new File(SystemUtils.getApplicationDataDir(), "snap-ui/auxdata/color-palettes");
+        return new File(SystemUtils.getApplicationDataDir(), "snap-rcp/auxdata/color-palettes");
     }
 
 }

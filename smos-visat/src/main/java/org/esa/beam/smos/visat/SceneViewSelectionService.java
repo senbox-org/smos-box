@@ -23,17 +23,13 @@ import org.esa.beam.framework.dataio.ProductReader;
 import org.esa.beam.framework.datamodel.Product;
 import org.esa.beam.framework.ui.PixelPositionListener;
 import org.esa.beam.framework.ui.product.ProductSceneView;
-import org.openide.util.Lookup;
-import org.openide.util.LookupEvent;
-import org.openide.util.LookupListener;
-import org.openide.util.Utilities;
-import org.openide.util.WeakListeners;
+import org.esa.snap.rcp.SnapApp;
 
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SceneViewSelectionService implements LookupListener{
+public class SceneViewSelectionService implements org.esa.snap.rcp.util.SelectionChangeSupport.Listener<ProductSceneView>{
     private final List<SelectionListener> selectionListeners;
     private final PPL ppl;
 
@@ -43,24 +39,24 @@ public class SceneViewSelectionService implements LookupListener{
         ppl = new PPL();
         this.selectionListeners = new ArrayList<>();
 
-        // todo (mp) - is this working? Did this during restructuring phase without testing it.
-        Lookup.Result<ProductSceneView> productSceneViewResult = Utilities.actionsGlobalContext().lookupResult(ProductSceneView.class);
-        productSceneViewResult.addLookupListener(WeakListeners.create(LookupListener.class, this, productSceneViewResult));
+        SnapApp.getDefault().addProductSceneViewSelectionChangeListener(this);
     }
 
     @Override
-    public void resultChanged(LookupEvent ev) {
-        final ProductSceneView view = Utilities.actionsGlobalContext().lookup(ProductSceneView.class);
-        if (view != null) {
-            if (view.getProduct().getProductReader() instanceof SmosReader) {
-                setSelectedSceneView(view);
-            } else {
-                setSelectedSceneView(null);
-            }
-        } else {
-            setSelectedSceneView(null);
-        }
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
+
+    @Override
+    public void deselected(ProductSceneView first, ProductSceneView[] more) {
+           setSelectedSceneView(null);
+    }
+
+    @Override
+    public void selected(ProductSceneView first, ProductSceneView[] more) {
+        setSelectedSceneView(first);
+    }
+
 
     public void stop() {
         selectionListeners.clear();

@@ -20,17 +20,18 @@ import com.bc.ceres.glevel.MultiLevelImage;
 import com.bc.ceres.glevel.MultiLevelSource;
 import com.bc.ceres.glevel.support.DefaultMultiLevelImage;
 import org.esa.beam.glevel.TiledFileMultiLevelSource;
+import org.esa.beam.util.SystemUtils;
 
 import javax.media.jai.PlanarImage;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
 import java.awt.image.Raster;
-import java.io.File;
 import java.io.IOException;
-import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.MessageFormat;
 
 /**
@@ -116,12 +117,11 @@ public class SmosDgg {
 
     private SmosDgg() {
         try {
-            String dirPath = getDirPathFromProperty();
+            Path dirPath = getDirPathFromProperty();
             if (dirPath == null) {
                 dirPath = getDirPathFromModule();
             }
-            final File dir = new File(dirPath);
-            final MultiLevelSource dggMultiLevelSource = TiledFileMultiLevelSource.create(dir);
+            final MultiLevelSource dggMultiLevelSource = TiledFileMultiLevelSource.create(dirPath);
 
             dggMultiLevelImage = new DefaultMultiLevelImage(dggMultiLevelSource);
         } catch (Exception e) {
@@ -130,26 +130,23 @@ public class SmosDgg {
         }
     }
 
-    private static String getDirPathFromModule() throws URISyntaxException {
-        final URL url = SmosDgg.class.getResource("image.properties");
-        final URI uri = url.toURI();
-
-        return new File(uri).getParent();
+    private static Path getDirPathFromModule() throws URISyntaxException, IOException {
+        return SystemUtils.getPathFromURI(SmosDgg.class.getResource("image.properties").toURI());
     }
 
-    private static String getDirPathFromProperty() throws IOException {
+    private static Path getDirPathFromProperty() throws IOException {
         final String dirPath = System.getProperty(SMOS_DGG_DIR_PROPERTY_NAME);
 
         if (dirPath != null) {
-            final File dir = new File(dirPath);
-            if (!dir.canRead()) {
+            final Path dir = Paths.get(dirPath);
+            if (!Files.isReadable(dir)) {
                 throw new IOException(MessageFormat.format(
                         "Cannot read directory ''{0}''. System property ''{0}'' must point to a readable directory.",
-                        dir.getPath(), SMOS_DGG_DIR_PROPERTY_NAME));
+                        dir, SMOS_DGG_DIR_PROPERTY_NAME));
             }
+            return dir;
         }
-
-        return dirPath;
+        return null;
     }
 
     // Initialization on demand holder idiom
