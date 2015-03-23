@@ -16,10 +16,12 @@
 
 package org.esa.beam.smos.dgg;
 
+import com.bc.ceres.core.ProgressMonitor;
 import com.bc.ceres.glevel.MultiLevelImage;
 import com.bc.ceres.glevel.MultiLevelSource;
 import com.bc.ceres.glevel.support.DefaultMultiLevelImage;
 import org.esa.beam.glevel.TiledFileMultiLevelSource;
+import org.esa.beam.util.ResourceInstaller;
 import org.esa.beam.util.SystemUtils;
 
 import javax.media.jai.PlanarImage;
@@ -115,14 +117,16 @@ public class SmosDgg {
         return data.getSample(pixelX, pixelY, 0);
     }
 
+    // todo (mp-23.03.15) - installation of auxiliary data should be done in an activator (still needs to be developed)
     private SmosDgg() {
         try {
             Path dirPath = getDirPathFromProperty();
             if (dirPath == null) {
-                dirPath = getDirPathFromModule().getParent();
+                dirPath = getDggAuxdataPath();
             }
-            final MultiLevelSource dggMultiLevelSource = TiledFileMultiLevelSource.create(dirPath);
+            installDggFiles(dirPath);
 
+            final MultiLevelSource dggMultiLevelSource = TiledFileMultiLevelSource.create(dirPath);
             dggMultiLevelImage = new DefaultMultiLevelImage(dggMultiLevelSource);
         } catch (Exception e) {
             throw new IllegalStateException(MessageFormat.format(
@@ -130,8 +134,16 @@ public class SmosDgg {
         }
     }
 
-    private static Path getDirPathFromModule() throws URISyntaxException, IOException {
-        return SystemUtils.getPathFromURI(SmosDgg.class.getResource("image.properties").toURI());
+    private void installDggFiles(Path dggAuxdataPath) throws IOException, URISyntaxException {
+        new ResourceInstaller(getPathFromModule(), "org/esa/beam/smos/dgg", dggAuxdataPath).install(".*(zip|properties)", ProgressMonitor.NULL);
+    }
+
+    private static Path getDggAuxdataPath() {
+        return SystemUtils.getApplicationDataDir().toPath().resolve("smos-dgg/grid-tiles");
+    }
+
+    private static Path getPathFromModule() throws URISyntaxException, IOException {
+          return SystemUtils.getPathFromURI(SmosDgg.class.getProtectionDomain().getCodeSource().getLocation().toURI());
     }
 
     private static Path getDirPathFromProperty() throws IOException {

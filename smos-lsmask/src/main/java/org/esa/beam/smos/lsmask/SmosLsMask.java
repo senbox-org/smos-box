@@ -17,10 +17,12 @@
 package org.esa.beam.smos.lsmask;
 
 
+import com.bc.ceres.core.ProgressMonitor;
 import com.bc.ceres.glevel.MultiLevelImage;
 import com.bc.ceres.glevel.MultiLevelSource;
 import com.bc.ceres.glevel.support.DefaultMultiLevelImage;
 import org.esa.beam.glevel.TiledFileMultiLevelSource;
+import org.esa.beam.util.ResourceInstaller;
 import org.esa.beam.util.SystemUtils;
 
 import java.io.IOException;
@@ -44,14 +46,16 @@ public class SmosLsMask {
         return multiLevelImage;
     }
 
+    // todo (mp-23.03.15) - installation of auxiliary data should be done in an activator (still needs to be developed)
     private SmosLsMask() {
         try {
             Path dirPath = getDirPathFromProperty();
             if (dirPath == null) {
-                dirPath = getDirPathFromModule().getParent();
+                dirPath = getLsMaskAuxdataPath();
             }
-            final MultiLevelSource multiLevelSource = TiledFileMultiLevelSource.create(dirPath);
+            installDggFiles(dirPath);
 
+            final MultiLevelSource multiLevelSource = TiledFileMultiLevelSource.create(dirPath);
             multiLevelImage = new DefaultMultiLevelImage(multiLevelSource);
         } catch (Exception e) {
             throw new IllegalStateException(MessageFormat.format(
@@ -59,8 +63,16 @@ public class SmosLsMask {
         }
     }
 
-    private static Path getDirPathFromModule() throws URISyntaxException, IOException {
-        return SystemUtils.getPathFromURI(SmosLsMask.class.getResource("image.properties").toURI());
+    private static Path getPathFromModule() throws URISyntaxException, IOException {
+        return SystemUtils.getPathFromURI(SmosLsMask.class.getProtectionDomain().getCodeSource().getLocation().toURI());
+    }
+
+    private void installDggFiles(Path auxdataPath) throws IOException, URISyntaxException {
+        new ResourceInstaller(getPathFromModule(), "org/esa/beam/smos/lsmask", auxdataPath).install(".*(zip|properties)", ProgressMonitor.NULL);
+    }
+
+    private static Path getLsMaskAuxdataPath() {
+        return SystemUtils.getApplicationDataDir().toPath().resolve("smos-lsmask/mask-tiles");
     }
 
     private static Path getDirPathFromProperty() throws IOException {
