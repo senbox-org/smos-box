@@ -128,12 +128,13 @@ public abstract class ExplorerFile implements ProductFile {
         }
     }
 
+    // @todo 2 tb/tb write test 2015-03-22
     static String getAcilliaryBandRole(String ancilliaryBandName) {
         if (ancilliaryBandName.contains("DQX")) {
-            return "DQX";
+            return "standard_deviation";
         }
         if (ancilliaryBandName.contains("Accuracy")) {
-            return "Accuracy";
+            return "uncertainty";
         }
 
         return "error";
