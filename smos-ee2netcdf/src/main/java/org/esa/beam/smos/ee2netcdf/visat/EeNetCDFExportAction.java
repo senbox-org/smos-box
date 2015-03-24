@@ -6,7 +6,6 @@ import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.awt.ActionReferences;
 import org.openide.awt.ActionRegistration;
-import org.openide.util.HelpCtx;
 import org.openide.util.NbBundle;
 
 import java.awt.event.ActionEvent;
@@ -24,20 +23,15 @@ import java.awt.event.ActionEvent;
 
 @ActionReferences({
         @ActionReference(
-                path = "File/Export",
-                position = 110
-        ),
-        @ActionReference(
-                path = "Shortcuts",
-                name = "D-N"
-        ),
+                path = "File/Export"
+        )
 })
 
 @NbBundle.Messages({
         "CTL_Ee2NetCDFExport_MenuText=Export SMOS EE Files to NetCDF...",
-        "CTL_Ee2NetCDFExport_ShortDescription=Export SMOS EE Files to linear NetCDF format, preserving the Snapshot/Gridpoint structures"
+        "CTL_Ee2NetCDFExport_ShortDescription=Export SMOS EE Files to linear NetCDF format"
 })
-public class EeNetCDFExportAction extends AbstractSnapAction implements HelpCtx.Provider {
+public class EeNetCDFExportAction extends AbstractSnapAction {
 
     private static final String HELP_ID = "smosNetcdfExport";
     private NetcdfExportDialog dialog;
