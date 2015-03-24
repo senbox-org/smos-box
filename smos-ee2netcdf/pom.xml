@@ -84,7 +84,6 @@
             <artifactId>smos-lsmask</artifactId>
         </dependency>
 
-        <!--todo (mp) - added javahelp temporarily, can be removed after full migration to NetBeans-->
         <dependency>
             <groupId>org.netbeans.api</groupId>
             <artifactId>org-openide-util</artifactId>

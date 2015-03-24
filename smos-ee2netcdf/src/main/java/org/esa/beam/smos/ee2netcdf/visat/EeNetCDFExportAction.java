@@ -9,9 +9,7 @@ import org.openide.awt.ActionRegistration;
 import org.openide.util.HelpCtx;
 import org.openide.util.NbBundle;
 
-import javax.swing.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 @ActionID(
         category = "File",
@@ -41,14 +39,20 @@ import java.awt.event.ActionListener;
 })
 public class EeNetCDFExportAction extends AbstractSnapAction implements HelpCtx.Provider {
 
+    private static final String HELP_ID = "smosNetcdfExport";
+    private NetcdfExportDialog dialog;
+
     public EeNetCDFExportAction() {
         putValue(NAME, Bundle.CTL_Ee2NetCDFExport_MenuText());
         putValue(SHORT_DESCRIPTION, Bundle.CTL_Ee2NetCDFExport_ShortDescription());
-        setHelpId("smosNetcdfExport");
+        setHelpId(HELP_ID);
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {
-
+    public void actionPerformed(ActionEvent event) {
+        if (dialog != null) {
+            dialog = new NetcdfExportDialog(getAppContext(), HELP_ID);
+        }
+        dialog.show();
     }
 }
