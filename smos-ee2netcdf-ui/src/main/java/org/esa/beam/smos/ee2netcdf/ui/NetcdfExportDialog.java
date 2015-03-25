@@ -1,4 +1,4 @@
-package org.esa.beam.smos.ee2netcdf.visat;
+package org.esa.beam.smos.ee2netcdf.ui;
 
 import com.bc.ceres.binding.PropertyContainer;
 import com.bc.ceres.binding.PropertyDescriptor;
@@ -14,6 +14,7 @@ import com.bc.ceres.swing.selection.SelectionManager;
 import org.esa.beam.framework.datamodel.Product;
 import org.esa.beam.framework.datamodel.ProductManager;
 import org.esa.beam.framework.gpf.annotations.ParameterDescriptorFactory;
+import org.esa.beam.framework.ui.AbstractDialog;
 import org.esa.beam.framework.ui.AppContext;
 import org.esa.beam.framework.ui.RegionBoundsInputUI;
 import org.esa.beam.smos.ee2netcdf.ExportParameter;
@@ -60,7 +61,7 @@ class NetcdfExportDialog extends ProductChangeAwareDialog {
     private final ProductSelectionListener productSelectionListener;
 
     NetcdfExportDialog(AppContext appContext, String helpID) {
-        super(appContext.getApplicationWindow(), "Export SMOS Earth Explorer Files to NetCDF", ID_OK | ID_CLOSE | ID_HELP,
+        super(appContext.getApplicationWindow(), "Export SMOS Earth Explorer Files to NetCDF", AbstractDialog.ID_OK | AbstractDialog.ID_CLOSE | AbstractDialog.ID_HELP,
               helpID);
         this.appContext = appContext;
 

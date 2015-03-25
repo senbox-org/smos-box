@@ -1,4 +1,4 @@
-package org.esa.beam.smos.ee2netcdf.visat;
+package org.esa.beam.smos.ee2netcdf.ui;
 
 import org.esa.beam.framework.datamodel.Product;
 import org.esa.beam.framework.ui.AppContext;
@@ -10,6 +10,7 @@ class DialogHelper {
         return productType.matches(ExportParameter.PRODUCT_TYPE_REGEX);
     }
 
+    @SuppressWarnings("SimplifiableIfStatement")
     static boolean isProductSelectionFeasible(AppContext appContext) {
         final Product selectedProduct = appContext.getSelectedProduct();
         if (selectedProduct != null) {

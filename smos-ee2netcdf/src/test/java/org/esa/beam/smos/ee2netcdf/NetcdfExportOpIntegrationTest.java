@@ -80,7 +80,7 @@ public class NetcdfExportOpIntegrationTest {
 
             final File outputFile = new File(targetDirectory, "SM_OPER_MIR_BWLF1C_20111026T143206_20111026T152520_503_001_1.nc");
             assertTrue(outputFile.isFile());
-            assertEquals(4342778, outputFile.length());
+            assertEquals(4342782, outputFile.length());
 
             targetFile = NetcdfFileOpener.open(outputFile);
             final ExportParameter exportParameter = new ExportParameter();
@@ -273,14 +273,14 @@ public class NetcdfExportOpIntegrationTest {
             product = ProductIO.readProduct(file);
 
             final HashMap<String, Object> parameterMap = createDefaultParameterMap();
-            parameterMap.put("outputBandNames", "Grid_Point_Latitude,Grid_Point_Longitude,BT_Value,Azimuth_Angle");
+            parameterMap.put("variableNames", "Grid_Point_Latitude,Grid_Point_Longitude,BT_Value,Azimuth_Angle");
             GPF.createProduct(NetcdfExportOp.ALIAS,
                     parameterMap,
                     new Product[]{product});
 
             final File outputFile = new File(targetDirectory, "SM_OPER_MIR_BWLF1C_20111026T143206_20111026T152520_503_001_1.nc");
             assertTrue(outputFile.isFile());
-            assertEquals(2519783, outputFile.length());
+            assertEquals(2519779, outputFile.length());
 
             targetFile = NetcdfFileOpener.open(outputFile);
             getVariableVerified("Grid_Point_Latitude", targetFile);
@@ -315,14 +315,14 @@ public class NetcdfExportOpIntegrationTest {
             product = ProductIO.readProduct(file);
 
             final HashMap<String, Object> parameterMap = createDefaultParameterMap();
-            parameterMap.put("region", "POLYGON((42 5, 42 9, 44 9, 44 5, 42 5))");
+            parameterMap.put("geometry", "POLYGON((42 5, 42 9, 44 9, 44 5, 42 5))");
             GPF.createProduct(NetcdfExportOp.ALIAS,
                     parameterMap,
                     new Product[]{product});
 
             final File outputFile = new File(targetDirectory, "SM_OPER_MIR_BWLF1C_20111026T143206_20111026T152520_503_001_1.nc");
             assertTrue(outputFile.isFile());
-            assertEquals(172222, outputFile.length());
+            assertEquals(172217, outputFile.length());
 
             targetFile = NetcdfFileOpener.open(outputFile);
             final Variable grid_point_latitude = getVariableVerified("Grid_Point_Latitude", targetFile);
@@ -508,7 +508,7 @@ public class NetcdfExportOpIntegrationTest {
         try {
             final HashMap<String, Object> parameterMap = createDefaultParameterMap();
             parameterMap.put("sourceProductPaths", file.getParent() + File.separator + "*SCLF1C*");
-            parameterMap.put("region", "POLYGON((-3.5 -75.5,-3.5 -75, 0 -75, 0 -75.5, -3.5 -75.5))");
+            parameterMap.put("geometry", "POLYGON((-3.5 -75.5,-3.5 -75, 0 -75, 0 -75.5, -3.5 -75.5))");
             GPF.createProduct(NetcdfExportOp.ALIAS,
                     parameterMap);
 
@@ -557,7 +557,7 @@ public class NetcdfExportOpIntegrationTest {
 
             final File outputFile = new File(targetDirectory, "SM_OPER_MIR_OSUDP2_20091204T001853_20091204T011255_310_001_1.nc");
             assertTrue(outputFile.isFile());
-            assertEquals(7245774, outputFile.length());
+            assertEquals(7245773, outputFile.length());
 
             targetFile = NetcdfFileOpener.open(outputFile);
 
@@ -645,14 +645,14 @@ public class NetcdfExportOpIntegrationTest {
             product = ProductIO.readProduct(file);
 
             final HashMap<String, Object> parameterMap = createDefaultParameterMap();
-            parameterMap.put("region", "POLYGON((80 -25, 80 -23, 83 -23, 83 -25, 80 -25))");
+            parameterMap.put("geometry", "POLYGON((80 -25, 80 -23, 83 -23, 83 -25, 80 -25))");
             GPF.createProduct(NetcdfExportOp.ALIAS,
                     parameterMap,
                     new Product[]{product});
 
             final File outputFile = new File(targetDirectory, "SM_OPER_MIR_OSUDP2_20091204T001853_20091204T011255_310_001_1.nc");
             assertTrue(outputFile.isFile());
-            assertEquals(1032932, outputFile.length());
+            assertEquals(1032929, outputFile.length());
 
             targetFile = NetcdfFileOpener.open(outputFile);
 
@@ -693,7 +693,7 @@ public class NetcdfExportOpIntegrationTest {
 
             final File outputFile = new File(targetDirectory, "SM_OPER_MIR_SMUDP2_20120514T163815_20120514T173133_551_001_1.nc");
             assertTrue(outputFile.isFile());
-            assertEquals(3257075, outputFile.length());
+            assertEquals(3257080, outputFile.length());
 
             targetFile = NetcdfFileOpener.open(outputFile);
 

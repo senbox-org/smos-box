@@ -1,4 +1,4 @@
-package org.esa.beam.smos.ee2netcdf.visat;
+package org.esa.beam.smos.ee2netcdf.ui;
 
 import com.bc.ceres.core.ProgressMonitor;
 import com.bc.ceres.swing.progress.ProgressMonitorSwingWorker;

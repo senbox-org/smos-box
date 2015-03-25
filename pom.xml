@@ -29,6 +29,7 @@
         <module>smos-lsmask</module>
         <module>smos-tools</module>
         <module>smos-gui</module>
+        <module>smos-ee2netcdf-ui</module>
     </modules>
 
     <dependencyManagement>
@@ -169,6 +170,26 @@
                 <version>${project.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>org.esa.smostbx</groupId>
+                <artifactId>smos-ee2netcdf</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.esa.smostbx</groupId>
+                <artifactId>smos-ee2netcdf</artifactId>
+                <type>test-jar</type>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.esa.smostbx</groupId>
+                <artifactId>smos-gui</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+
+
             <!-- NetBeans Modules -->
 
             <dependency>
@@ -205,19 +226,6 @@
                 <groupId>org.netbeans.api</groupId>
                 <artifactId>org-netbeans-modules-javahelp</artifactId>
                 <version>${netbeans.version}</version>
-            </dependency>
-
-
-            <dependency>
-                <groupId>org.esa.smostbx</groupId>
-                <artifactId>smos-gui</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.esa.smostbx</groupId>
-                <artifactId>smos-ee2netcdf</artifactId>
-                <version>${project.version}</version>
             </dependency>
 
             <dependency>

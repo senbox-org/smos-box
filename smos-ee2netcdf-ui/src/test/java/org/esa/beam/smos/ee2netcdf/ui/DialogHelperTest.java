@@ -1,4 +1,4 @@
-package org.esa.beam.smos.ee2netcdf.visat;
+package org.esa.beam.smos.ee2netcdf.ui;
 
 import org.esa.beam.framework.datamodel.Product;
 import org.esa.beam.framework.ui.DefaultAppContext;

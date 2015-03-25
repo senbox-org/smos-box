@@ -1,4 +1,4 @@
-package org.esa.beam.smos.ee2netcdf.visat;
+package org.esa.beam.smos.ee2netcdf.ui;
 
 
 import org.esa.snap.rcp.actions.AbstractSnapAction;

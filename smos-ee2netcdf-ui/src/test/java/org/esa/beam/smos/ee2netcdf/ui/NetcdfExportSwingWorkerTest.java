@@ -1,4 +1,4 @@
-package org.esa.beam.smos.ee2netcdf.visat;
+package org.esa.beam.smos.ee2netcdf.ui;
 
 import com.bc.ceres.binding.ConversionException;
 import com.vividsolutions.jts.geom.Geometry;
