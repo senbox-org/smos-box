@@ -4,7 +4,6 @@ package org.esa.beam.smos.ee2netcdf.visat;
 import org.esa.snap.rcp.actions.AbstractSnapAction;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
-import org.openide.awt.ActionReferences;
 import org.openide.awt.ActionRegistration;
 
 import java.awt.event.ActionEvent;
@@ -16,19 +15,17 @@ import java.awt.event.ActionEvent;
 
 @ActionRegistration(
         displayName = "FakeAction",
-        popupText = "FakeAction_description",
-        lazy = false
+        popupText = "FakeAction_description"
 )
 
-@ActionReferences({
-        @ActionReference(
-                path = "File/Export"
-        )
-})
+@ActionReference(
+        path = "Menu/File/Export"
+)
 
 public class FakeAction extends AbstractSnapAction {
 
     public FakeAction() {
+        System.out.println("================================================" + enabled);
         putValue(NAME, "FakeName");
         putValue(SHORT_DESCRIPTION, "FakeDescription");
     }
