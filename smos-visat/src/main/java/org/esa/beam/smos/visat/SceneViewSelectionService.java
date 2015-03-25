@@ -23,13 +23,14 @@ import org.esa.beam.framework.dataio.ProductReader;
 import org.esa.beam.framework.datamodel.Product;
 import org.esa.beam.framework.ui.PixelPositionListener;
 import org.esa.beam.framework.ui.product.ProductSceneView;
-import org.esa.snap.rcp.SnapApp;
+import org.esa.snap.rcp.windows.ToolTopComponent;
+import org.netbeans.api.annotations.common.NonNull;
 
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SceneViewSelectionService implements org.esa.snap.rcp.util.SelectionChangeSupport.Listener<ProductSceneView>{
+public class SceneViewSelectionService extends ToolTopComponent {
     private final List<SelectionListener> selectionListeners;
     private final PPL ppl;
 
@@ -38,8 +39,6 @@ public class SceneViewSelectionService implements org.esa.snap.rcp.util.Selectio
     public SceneViewSelectionService() {
         ppl = new PPL();
         this.selectionListeners = new ArrayList<>();
-
-        SnapApp.getDefault().addProductSceneViewSelectionChangeListener(this);
     }
 
     @Override
@@ -48,15 +47,14 @@ public class SceneViewSelectionService implements org.esa.snap.rcp.util.Selectio
     }
 
     @Override
-    public void deselected(ProductSceneView first, ProductSceneView[] more) {
-           setSelectedSceneView(null);
+    protected void productSceneViewSelected(@NonNull ProductSceneView view) {
+        setSelectedSceneView(view);
     }
 
     @Override
-    public void selected(ProductSceneView first, ProductSceneView[] more) {
-        setSelectedSceneView(first);
+    protected void productSceneViewDeselected(@NonNull ProductSceneView view) {
+        setSelectedSceneView(null);
     }
-
 
     public void stop() {
         selectionListeners.clear();

@@ -10,6 +10,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>smos-ee2netcdf-ui</artifactId>
+    <name>SMOS EE to NetCDF Converter User Interface</name>
+    <description>SMOS Earth Explorer to NetCDF Converter User Interface</description>
 
     <dependencies>
         <dependency>
@@ -50,5 +52,21 @@
             <artifactId>org-netbeans-modules-javahelp</artifactId>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>nbm-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <useDefaultManifestFile>true</useDefaultManifestFile>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
