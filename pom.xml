@@ -20,8 +20,6 @@
     </properties>
 
     <modules>
-        <!-- (mp) no need any more for the bootstrap module, but only disabled it now can be deleted later-->
-        <!--<module>smos-bootstrap</module>-->
         <module>smos-reader</module>
         <module>smos-visat</module>
         <module>smos-ee2netcdf</module>
