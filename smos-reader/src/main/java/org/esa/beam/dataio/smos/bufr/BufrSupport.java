@@ -166,7 +166,6 @@ class BufrSupport {
         return datasetNameIndexMap;
     }
 
-    // @todo 2 tb/tb write test 2014-12-02
     static boolean isIntegerBandIndex(int index) {
         return index == INFORMATION_FLAG_INDEX || index == POLARISATION_INDEX;
     }
