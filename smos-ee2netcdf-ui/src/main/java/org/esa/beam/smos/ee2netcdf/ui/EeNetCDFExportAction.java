@@ -17,7 +17,7 @@ import java.awt.event.ActionEvent;
         lazy = true
 )
 
-@ActionReference(path = "File/Export")
+@ActionReference(path = "Menu/File/Export")
 
 @NbBundle.Messages({
         "CTL_Ee2NetCDFExport_MenuText=Export SMOS EE Files to NetCDF...",
