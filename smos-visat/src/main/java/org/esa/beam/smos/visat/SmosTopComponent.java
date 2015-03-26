@@ -22,21 +22,26 @@ import org.esa.beam.framework.datamodel.RasterDataNode;
 import org.esa.beam.framework.help.HelpSys;
 import org.esa.beam.framework.ui.UIUtils;
 import org.esa.beam.framework.ui.application.PageComponent;
-import org.esa.beam.framework.ui.application.support.AbstractToolView;
 import org.esa.beam.framework.ui.application.support.PageComponentListenerAdapter;
 import org.esa.beam.framework.ui.product.ProductSceneView;
 import org.esa.beam.framework.ui.tool.ToolButtonFactory;
+import org.openide.windows.TopComponent;
 
 import javax.swing.*;
 import java.awt.*;
 import java.net.URL;
 
-public abstract class SmosToolView extends AbstractToolView {
+public abstract class SmosTopComponent extends TopComponent {
 
     private JPanel panel;
     private JLabel defaultComponent;
     private JComponent clientComponent;
-    private SmosToolView.SVSL svsl;
+    private SmosTopComponent.SVSL svsl;
+
+    public SmosTopComponent() {
+        final JComponent component = initUi();
+        add(component);
+    }
 
     protected final SceneViewSelectionService getSmosViewSelectionService() {
         return SmosBox.getInstance().getSmosViewSelectionService();
@@ -76,10 +81,9 @@ public abstract class SmosToolView extends AbstractToolView {
         getSnapshotSelectionService().setSelectedSnapshotId(raster, id);
     }
 
-    @Override
-    protected JComponent createControl() {
+    protected JComponent initUi() {
         panel = new JPanel(new BorderLayout());
-        URL resource = SmosToolView.class.getResource("SmosIcon.png");
+        URL resource = SmosTopComponent.class.getResource("SmosIcon.png");
         if (resource != null) {
             defaultComponent = new JLabel(new ImageIcon(resource));
         } else {
@@ -89,29 +93,30 @@ public abstract class SmosToolView extends AbstractToolView {
         defaultComponent.setText("No SMOS image selected.");
         panel.add(defaultComponent);
 
-        HelpSys.enableHelpKey(getPaneControl(), getDescriptor().getHelpId());
-
-        super.getContext().getPage().addPageComponentListener(new PageComponentListenerAdapter() {
-            @Override
-            public void componentOpened(PageComponent component) {
-                super.componentOpened(component);
-            }
-
-            @Override
-            public void componentClosed(PageComponent component) {
-                super.componentClosed(component);
-            }
-
-            @Override
-            public void componentShown(PageComponent component) {
-                super.componentShown(component);
-            }
-
-            @Override
-            public void componentHidden(PageComponent component) {
-                super.componentHidden(component);
-            }
-        });
+        // @todo 1 tb/tb enable the following 2015-03-26
+//        HelpSys.enableHelpKey(getPaneControl(), getDescriptor().getHelpId());
+//
+//        super.getContext().getPage().addPageComponentListener(new PageComponentListenerAdapter() {
+//            @Override
+//            public void componentOpened(PageComponent component) {
+//                super.componentOpened(component);
+//            }
+//
+//            @Override
+//            public void componentClosed(PageComponent component) {
+//                super.componentClosed(component);
+//            }
+//
+//            @Override
+//            public void componentShown(PageComponent component) {
+//                super.componentShown(component);
+//            }
+//
+//            @Override
+//            public void componentHidden(PageComponent component) {
+//                super.componentHidden(component);
+//            }
+//        });
 
         return panel;
     }
@@ -130,7 +135,7 @@ public abstract class SmosToolView extends AbstractToolView {
     }
 
     @Override
-    public void componentShown() {
+    public void componentShowing() {
         realizeSmosView(getSelectedSmosView());
     }
 

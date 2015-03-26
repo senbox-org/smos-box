@@ -35,8 +35,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 
-public class GridPointBtDataChartToolView extends GridPointBtDataToolView {
-    public static final String ID = GridPointBtDataChartToolView.class.getName();
+public class GridPointBtDataChartTopComponent extends GridPointBtDataTopComponent {
+    public static final String ID = GridPointBtDataChartTopComponent.class.getName();
 
     private JFreeChart chart;
     private YIntervalSeriesCollection coPolDataset;

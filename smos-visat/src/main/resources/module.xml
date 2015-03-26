@@ -51,8 +51,8 @@
 
     <extension point="snap-ui:toolViews">
         <toolView>
-            <id>org.esa.beam.smos.visat.GridPointBtDataTableToolView</id>
-            <class>org.esa.beam.smos.visat.GridPointBtDataTableToolView</class>
+            <id>org.esa.beam.smos.visat.GridPointBtDataTableTopComponent</id>
+            <class>org.esa.beam.smos.visat.GridPointBtDataTableTopComponent</class>
             <title>SMOS L1C Table</title>
             <tabTitle>SMOS L1C Table</tabTitle>
             <initState>HIDDEN</initState>
@@ -66,8 +66,8 @@
         </toolView>
 
         <toolView>
-            <id>org.esa.beam.smos.visat.GridPointBtDataChartToolView</id>
-            <class>org.esa.beam.smos.visat.GridPointBtDataChartToolView</class>
+            <id>org.esa.beam.smos.visat.GridPointBtDataChartTopComponent</id>
+            <class>org.esa.beam.smos.visat.GridPointBtDataChartTopComponent</class>
             <title>SMOS L1C Chart</title>
             <tabTitle>SMOS L1C Chart</tabTitle>
             <initState>HIDDEN</initState>
@@ -81,8 +81,8 @@
         </toolView>
 
         <toolView>
-            <id>org.esa.beam.smos.visat.GridPointBtDataFlagmatrixToolView</id>
-            <class>org.esa.beam.smos.visat.GridPointBtDataFlagmatrixToolView</class>
+            <id>org.esa.beam.smos.visat.GridPointBtDataFlagmatrixTopComponent</id>
+            <class>org.esa.beam.smos.visat.GridPointBtDataFlagmatrixTopComponent</class>
             <title>SMOS L1C Flag-Matrix</title>
             <tabTitle>SMOS L1C Flags</tabTitle>
             <initState>HIDDEN</initState>
@@ -96,8 +96,8 @@
         </toolView>
 
         <toolView>
-            <id>org.esa.beam.smos.visat.SnapshotInfoToolView</id>
-            <class>org.esa.beam.smos.visat.SnapshotInfoToolView</class>
+            <id>org.esa.beam.smos.visat.SnapshotInfoTopComponent</id>
+            <class>org.esa.beam.smos.visat.SnapshotInfoTopComponent</class>
             <title>SMOS L1C Snapshot</title>
             <tabTitle>SMOS L1C Snapshot</tabTitle>
             <initState>HIDDEN</initState>

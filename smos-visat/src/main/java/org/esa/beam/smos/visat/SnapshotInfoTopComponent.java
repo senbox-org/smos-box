@@ -27,14 +27,18 @@ import com.bc.ceres.glevel.support.DefaultMultiLevelImage;
 import com.bc.ceres.glevel.support.FileMultiLevelSource;
 import com.bc.ceres.grender.Rendering;
 import com.bc.ceres.grender.Viewport;
-import org.esa.beam.dataio.smos.*;
+import org.esa.beam.dataio.smos.CellValueProvider;
+import org.esa.beam.dataio.smos.L1cScienceValueProvider;
+import org.esa.beam.dataio.smos.SmosConstants;
+import org.esa.beam.dataio.smos.SmosMultiLevelSource;
+import org.esa.beam.dataio.smos.SmosReader;
+import org.esa.beam.dataio.smos.SnapshotInfo;
 import org.esa.beam.dataio.smos.bufr.LightBufrMultiLevelSource;
 import org.esa.beam.dataio.smos.provider.ValueProvider;
 import org.esa.beam.framework.datamodel.Band;
 import org.esa.beam.framework.datamodel.Product;
 import org.esa.beam.framework.datamodel.RasterDataNode;
 import org.esa.beam.framework.datamodel.VirtualBand;
-import org.esa.beam.framework.help.HelpSys;
 import org.esa.beam.framework.ui.product.ProductSceneView;
 import org.esa.beam.glevel.TiledFileMultiLevelSource;
 import org.esa.beam.smos.visat.swing.SnapshotSelectorCombo;
@@ -49,7 +53,11 @@ import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableModel;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -58,10 +66,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-public class SnapshotInfoToolView extends SmosToolView {
+public class SnapshotInfoTopComponent extends SmosTopComponent {
 
     @SuppressWarnings({"UnusedDeclaration"})
-    public static final String ID = SnapshotInfoToolView.class.getName();
+    public static final String ID = SnapshotInfoTopComponent.class.getName();
 
     private static final SnapshotTableModel NULL_MODEL = new SnapshotTableModel(new Object[0][0]);
 
@@ -102,13 +110,10 @@ public class SnapshotInfoToolView extends SmosToolView {
 
         mainPanel.add(southPanel, BorderLayout.SOUTH);
 
-        if (getDescriptor().getHelpId() != null) {
-            HelpSys.enableHelpOnButton(helpButton, getDescriptor().getHelpId());
-            HelpSys.enableHelpKey(mainPanel, getDescriptor().getHelpId());
-        }
-
         return mainPanel;
     }
+
+    // @todo 1 tb/tb override getHelpCtx 2014-03-16
 
     @Override
     protected void updateClientComponent(ProductSceneView smosView) {
@@ -198,7 +203,7 @@ public class SnapshotInfoToolView extends SmosToolView {
                 vp.moveViewDelta(vx - center.getX(), vy - center.getY());
             } else {
                 final String message = MessageFormat.format("No snapshot found with ID = {0}", id);
-                JOptionPane.showMessageDialog(getPaneControl(), message);
+                JOptionPane.showMessageDialog(getParent(), message);
             }
         }
     }
@@ -396,13 +401,10 @@ public class SnapshotInfoToolView extends SmosToolView {
     private JPanel createViewSettingsPanel() {
         final JCheckBox synchroniseCheckBox = new JCheckBox("Synchronise with view", false);
         synchronizeButtonModel = synchroniseCheckBox.getModel();
-        synchronizeButtonModel.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                final ProductSceneView smosView = getSelectedSmosView();
-                final long snapshotId = getSelectedSnapshotId(smosView);
-                updateUI(smosView, snapshotId, false);
-            }
+        synchronizeButtonModel.addActionListener(e -> {
+            final ProductSceneView smosView = getSelectedSmosView();
+            final long snapshotId = getSelectedSnapshotId(smosView);
+            updateUI(smosView, snapshotId, false);
         });
 
         final ToggleSnapshotModeAction toggleSnapshotModeAction = new ToggleSnapshotModeAction();
@@ -488,15 +490,14 @@ public class SnapshotInfoToolView extends SmosToolView {
 
         final JPopupMenu tablePopup = new JPopupMenu();
         final JMenuItem exportItem = new JMenuItem("Export...");
-        exportItem.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new TableModelExportRunner(getPaneWindow(),
-                        getTitle(),
-                        snapshotTable.getModel(),
-                        snapshotTable.getColumnModel()).run();
-            }
-        });
+
+        final Container parent = getParent();
+        final Window window = SwingUtilities.getWindowAncestor(parent);
+
+        exportItem.addActionListener(e -> new TableModelExportRunner(window,
+                getDisplayName(),
+                snapshotTable.getModel(),
+                snapshotTable.getColumnModel()).run());
         tablePopup.add(exportItem);
         snapshotTable.add(tablePopup);
 

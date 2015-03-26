@@ -30,9 +30,9 @@ import javax.swing.table.TableColumnModel;
 import java.awt.*;
 import java.io.IOException;
 
-public class GridPointBtDataTableToolView extends GridPointBtDataToolView {
+public class GridPointBtDataTableTopComponent extends GridPointBtDataTopComponent {
 
-    public static final String ID = GridPointBtDataTableToolView.class.getName();
+    public static final String ID = GridPointBtDataTableTopComponent.class.getName();
 
     private JTable table;
     private JButton columnsButton;
@@ -40,7 +40,7 @@ public class GridPointBtDataTableToolView extends GridPointBtDataToolView {
 
     private GridPointBtDataTableModel gridPointBtDataTableModel;
 
-    public GridPointBtDataTableToolView() {
+    public GridPointBtDataTableTopComponent() {
         gridPointBtDataTableModel = new GridPointBtDataTableModel();
         table = new JTable(gridPointBtDataTableModel);
         table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
@@ -85,9 +85,7 @@ public class GridPointBtDataTableToolView extends GridPointBtDataToolView {
         columnsButton = new JButton(action);
 
         exportButton = new JButton("Export...");
-        exportButton.addActionListener(e -> {
-            new TableModelExportRunner(getPaneWindow(), getTitle(), table.getModel(), table.getColumnModel()).run();
-        });
+        exportButton.addActionListener(e -> new TableModelExportRunner(getParent(), getShortName(), table.getModel(), table.getColumnModel()).run());
 
         final JPanel optionsPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 2, 2));
         optionsPanel.add(columnsButton);

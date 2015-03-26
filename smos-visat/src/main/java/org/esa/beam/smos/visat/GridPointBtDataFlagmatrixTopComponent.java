@@ -39,9 +39,9 @@ import java.awt.*;
 import java.io.IOException;
 import java.util.List;
 
-public class GridPointBtDataFlagmatrixToolView extends GridPointBtDataToolView {
+public class GridPointBtDataFlagmatrixTopComponent extends GridPointBtDataTopComponent {
 
-    public static final String ID = GridPointBtDataFlagmatrixToolView.class.getName();
+    public static final String ID = GridPointBtDataFlagmatrixTopComponent.class.getName();
     private static final String SERIES_KEY = "Flags";
 
     private static final String DEFAULT_FLAG_DESCRIPTOR_IDENTIFIER = "DBL_SM_XXXX_MIR_XXXF1C_0400_flags";

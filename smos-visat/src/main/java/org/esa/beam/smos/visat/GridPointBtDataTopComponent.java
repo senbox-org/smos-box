@@ -21,6 +21,9 @@ import org.esa.beam.dataio.smos.SmosReader;
 import org.esa.beam.framework.datamodel.*;
 import org.esa.beam.framework.help.HelpSys;
 import org.esa.beam.framework.ui.product.ProductSceneView;
+import org.esa.beam.framework.ui.tool.ToolButtonFactory;
+import org.esa.snap.rcp.actions.help.HelpAction;
+import org.openide.util.HelpCtx;
 
 import javax.swing.*;
 import java.awt.*;
@@ -31,9 +34,9 @@ import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
-public abstract class GridPointBtDataToolView extends SmosToolView {
+public abstract class GridPointBtDataTopComponent extends SmosTopComponent {
 
-    public static final String ID = GridPointBtDataToolView.class.getName();
+    public static final String ID = GridPointBtDataTopComponent.class.getName();
 
     private SmosBox smosBox;
 
@@ -56,13 +59,10 @@ public abstract class GridPointBtDataToolView extends SmosToolView {
         mainPanel.add(createGridPointComponent(), BorderLayout.CENTER);
         mainPanel.add(optionsPanel, BorderLayout.SOUTH);
 
-        final AbstractButton helpButton = createHelpButton();
-        optionsPanel.add(helpButton, BorderLayout.EAST);
+        AbstractButton helpButton = ToolButtonFactory.createButton(new HelpAction(this), false);
+        helpButton.setName("helpButton");
 
-        if (getDescriptor().getHelpId() != null) {
-            HelpSys.enableHelpOnButton(helpButton, getDescriptor().getHelpId());
-            HelpSys.enableHelpKey(mainPanel, getDescriptor().getHelpId());
-        }
+        optionsPanel.add(helpButton, BorderLayout.EAST);
 
         return mainPanel;
     }
@@ -166,6 +166,12 @@ public abstract class GridPointBtDataToolView extends SmosToolView {
         if (infoLabel != null) {
             infoLabel.setText(text);
         }
+    }
+
+    @Override
+    public HelpCtx getHelpCtx() {
+        // @todo 1 tb/tb refer to window specific help context
+        return super.getHelpCtx();
     }
 
     protected abstract JComponent createGridPointComponent();
