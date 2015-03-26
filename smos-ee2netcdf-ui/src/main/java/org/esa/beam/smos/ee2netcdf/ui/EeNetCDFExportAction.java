@@ -4,16 +4,12 @@ package org.esa.beam.smos.ee2netcdf.ui;
 import org.esa.snap.rcp.actions.AbstractSnapAction;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
-import org.openide.awt.ActionReferences;
 import org.openide.awt.ActionRegistration;
 import org.openide.util.NbBundle;
 
 import java.awt.event.ActionEvent;
 
-@ActionID(
-        category = "File",
-        id = "Ee2NetCDFExportAction"
-)
+@ActionID(category = "File", id = "Ee2NetCDFExportAction")
 
 @ActionRegistration(
         displayName = "#CTL_Ee2NetCDFExport_MenuText",
@@ -21,11 +17,7 @@ import java.awt.event.ActionEvent;
         lazy = true
 )
 
-@ActionReferences({
-        @ActionReference(
-                path = "File/Export"
-        )
-})
+@ActionReference(path = "File/Export")
 
 @NbBundle.Messages({
         "CTL_Ee2NetCDFExport_MenuText=Export SMOS EE Files to NetCDF...",
@@ -44,7 +36,7 @@ public class EeNetCDFExportAction extends AbstractSnapAction {
 
     @Override
     public void actionPerformed(ActionEvent event) {
-        if (dialog != null) {
+        if (dialog == null) {
             dialog = new NetcdfExportDialog(getAppContext(), HELP_ID);
         }
         dialog.show();
