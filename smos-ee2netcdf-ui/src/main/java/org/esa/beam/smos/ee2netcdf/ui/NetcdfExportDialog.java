@@ -10,7 +10,6 @@ import com.bc.ceres.swing.TableLayout;
 import com.bc.ceres.swing.binding.Binding;
 import com.bc.ceres.swing.binding.BindingContext;
 import com.bc.ceres.swing.binding.PropertyPane;
-import com.bc.ceres.swing.selection.SelectionManager;
 import org.esa.beam.framework.datamodel.Product;
 import org.esa.beam.framework.datamodel.ProductManager;
 import org.esa.beam.framework.gpf.annotations.ParameterDescriptorFactory;
@@ -25,20 +24,12 @@ import org.esa.beam.smos.gui.DirectoryChooserFactory;
 import org.esa.beam.smos.gui.GuiHelper;
 import org.esa.beam.smos.gui.ProductChangeAwareDialog;
 import org.esa.beam.util.io.WildcardMatcher;
+import org.esa.snap.rcp.SnapApp;
+import org.esa.snap.rcp.util.SelectionSupport;
 
-import javax.swing.AbstractButton;
-import javax.swing.BorderFactory;
-import javax.swing.ButtonGroup;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-import javax.swing.JScrollPane;
-import javax.swing.JTabbedPane;
-import javax.swing.JTextArea;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import java.awt.Insets;
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.text.MessageFormat;
@@ -58,11 +49,10 @@ class NetcdfExportDialog extends ProductChangeAwareDialog {
     private final ExportParameter exportParameter;
     private final PropertySet propertySet;
     private final BindingContext bindingContext;
-    private final ProductSelectionListener productSelectionListener;
 
     NetcdfExportDialog(AppContext appContext, String helpID) {
         super(appContext.getApplicationWindow(), "Export SMOS Earth Explorer Files to NetCDF", AbstractDialog.ID_OK | AbstractDialog.ID_CLOSE | AbstractDialog.ID_HELP,
-              helpID);
+                helpID);
         this.appContext = appContext;
 
         exportParameter = new ExportParameter();
@@ -98,6 +88,7 @@ class NetcdfExportDialog extends ProductChangeAwareDialog {
             parametersPanel.setBorder(new EmptyBorder(4, 4, 4, 4));
             form.add("Processing Parameters", new JScrollPane(parametersPanel));
         }
+
         setContent(form);
 
         try {
@@ -109,9 +100,8 @@ class NetcdfExportDialog extends ProductChangeAwareDialog {
         final ProductManager productManager = appContext.getProductManager();
         productManager.addListener(new ProductManagerListener(this));
 
-        final SelectionManager selectionManager = appContext.getApplicationPage().getSelectionManager();
-        productSelectionListener = new ProductSelectionListener(this, selectionManager);
-        selectionManager.addSelectionChangeListener(productSelectionListener);
+        final SelectionSupport<Product> selectionSupport = SnapApp.getDefault().getSelectionSupport(Product.class);
+        selectionSupport.addHandler(this);
     }
 
     @Override
@@ -120,7 +110,7 @@ class NetcdfExportDialog extends ProductChangeAwareDialog {
             final List<File> targetFiles;
             if (exportParameter.isUseSelectedProduct()) {
                 targetFiles = getTargetFiles(appContext.getSelectedProduct().getFileLocation().getAbsolutePath(),
-                                             exportParameter.getTargetDirectory());
+                        exportParameter.getTargetDirectory());
             } else {
                 targetFiles = getTargetFiles(
                         exportParameter.getSourceDirectory().getAbsolutePath() + File.separator + "*",
@@ -132,11 +122,11 @@ class NetcdfExportDialog extends ProductChangeAwareDialog {
                     final String files = listToString(existingFiles);
                     final String message = MessageFormat.format(
                             "The selected target file(s) already exists.\n\nDo you want to overwrite the target file(s)?\n\n" +
-                            "{0}",
+                                    "{0}",
                             files
                     );
                     final int answer = JOptionPane.showConfirmDialog(getJDialog(), message, getTitle(),
-                                                                     JOptionPane.YES_NO_OPTION);
+                            JOptionPane.YES_NO_OPTION);
                     if (answer == JOptionPane.NO_OPTION) {
                         return;
                     }
@@ -160,8 +150,8 @@ class NetcdfExportDialog extends ProductChangeAwareDialog {
         final PropertyDescriptor sourceDirectoryDescriptor =
                 propertySet.getDescriptor(BindingConstants.SOURCE_DIRECTORY);
         final JComponent fileEditor = GuiHelper.createFileEditorComponent(sourceDirectoryDescriptor,
-                                                                          new DefaultChooserFactory(),
-                                                                          bindingContext);
+                new DefaultChooserFactory(),
+                bindingContext);
 
         final TableLayout layout = GuiHelper.createWeightedTableLayout(1);
         layout.setCellPadding(2, 0, new Insets(0, 24, 3, 3));
@@ -181,9 +171,9 @@ class NetcdfExportDialog extends ProductChangeAwareDialog {
         final PropertyDescriptor targetDirectoryDescriptor =
                 propertySet.getDescriptor(BindingConstants.TARGET_DIRECTORY);
         final JComponent fileEditor = GuiHelper.createFileEditorComponent(targetDirectoryDescriptor,
-                                                                          new DirectoryChooserFactory(),
-                                                                          bindingContext,
-                                                                          false);
+                new DirectoryChooserFactory(),
+                bindingContext,
+                false);
 
         final JPanel panel = new JPanel(GuiHelper.createWeightedTableLayout(1));
         panel.setBorder(BorderFactory.createTitledBorder("Target Directory"));
@@ -228,8 +218,8 @@ class NetcdfExportDialog extends ProductChangeAwareDialog {
         geometryTextArea.setToolTipText(geometryDescriptor.getDescription());
         bindingContext.bind(BindingConstants.GEOMETRY, geometryTextArea);
         bindingContext.bindEnabledState(BindingConstants.GEOMETRY, true,
-                                        BindingConstants.ROI_TYPE,
-                                        BindingConstants.ROI_TYPE_GEOMETRY);
+                BindingConstants.ROI_TYPE,
+                BindingConstants.ROI_TYPE_GEOMETRY);
 
         panel.add(allButton);
         panel.add(useGeometryButton);
@@ -330,7 +320,8 @@ class NetcdfExportDialog extends ProductChangeAwareDialog {
 
     @Override
     protected void onClose() {
-        productSelectionListener.dispose();
+        final SelectionSupport<Product> selectionSupport = SnapApp.getDefault().getSelectionSupport(Product.class);
+        selectionSupport.removeHandler(this);
         super.onClose();
     }
 

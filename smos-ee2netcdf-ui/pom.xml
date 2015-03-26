@@ -26,6 +26,11 @@
         </dependency>
         <dependency>
             <groupId>org.esa.snap</groupId>
+            <artifactId>ceres-binding</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.esa.snap</groupId>
             <artifactId>snap-core</artifactId>
         </dependency>
         <dependency>
@@ -37,13 +42,17 @@
             <artifactId>snap-ui</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.esa.smostbx</groupId>
-            <artifactId>smos-ee2netcdf</artifactId>
+            <groupId>org.esa.snap</groupId>
+            <artifactId>snap-rcp</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>org.esa.snap</groupId>
-            <artifactId>snap-rcp</artifactId>
+            <groupId>org.esa.smostbx</groupId>
+            <artifactId>smos-ee2netcdf</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.esa.smostbx</groupId>
+            <artifactId>smos-gui</artifactId>
         </dependency>
 
         <dependency>

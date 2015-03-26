@@ -16,11 +16,14 @@
 
 package org.esa.beam.smos.visat.export;
 
-import com.bc.ceres.binding.*;
+import com.bc.ceres.binding.Property;
+import com.bc.ceres.binding.PropertyContainer;
+import com.bc.ceres.binding.PropertyDescriptor;
+import com.bc.ceres.binding.ValidationException;
+import com.bc.ceres.binding.ValueSet;
 import com.bc.ceres.swing.TableLayout;
 import com.bc.ceres.swing.binding.Binding;
 import com.bc.ceres.swing.binding.BindingContext;
-import com.bc.ceres.swing.selection.SelectionManager;
 import org.esa.beam.dataio.smos.ProductFile;
 import org.esa.beam.dataio.smos.SmosFile;
 import org.esa.beam.dataio.smos.SmosProductReader;
@@ -30,8 +33,14 @@ import org.esa.beam.framework.datamodel.ProductManager;
 import org.esa.beam.framework.datamodel.VectorDataNode;
 import org.esa.beam.framework.gpf.annotations.ParameterDescriptorFactory;
 import org.esa.beam.framework.ui.AppContext;
-import org.esa.beam.smos.gui.*;
+import org.esa.beam.smos.gui.BindingConstants;
+import org.esa.beam.smos.gui.ChooserFactory;
+import org.esa.beam.smos.gui.DefaultChooserFactory;
+import org.esa.beam.smos.gui.GuiHelper;
+import org.esa.beam.smos.gui.ProductChangeAwareDialog;
 import org.esa.beam.util.io.FileChooserFactory;
+import org.esa.snap.rcp.SnapApp;
+import org.esa.snap.rcp.util.SelectionSupport;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -55,7 +64,6 @@ class GridPointExportDialog extends ProductChangeAwareDialog {
     private final AppContext appContext;
     private final PropertyContainer propertyContainer;
     private final BindingContext bindingContext;
-    private final ProductSelectionListener productSelectionListener;
     private GeometryListener geometryListener;
     private final GridPointExportParameter gridPointExportParameter;
 
@@ -82,9 +90,8 @@ class GridPointExportDialog extends ProductChangeAwareDialog {
 
         geometryListener = new GeometryListener(this);
 
-        final SelectionManager selectionManager = appContext.getApplicationPage().getSelectionManager();
-        productSelectionListener = new ProductSelectionListener(this, selectionManager);
-        selectionManager.addSelectionChangeListener(productSelectionListener);
+        final SelectionSupport<Product> selectionSupport = SnapApp.getDefault().getSelectionSupport(Product.class);
+        selectionSupport.addHandler(this);
     }
 
     @Override
@@ -425,7 +432,8 @@ class GridPointExportDialog extends ProductChangeAwareDialog {
 
     @Override
     protected void onClose() {
-        productSelectionListener.dispose();
+        final SelectionSupport<Product> selectionSupport = SnapApp.getDefault().getSelectionSupport(Product.class);
+        selectionSupport.removeHandler(this);
         super.onClose();
     }
 

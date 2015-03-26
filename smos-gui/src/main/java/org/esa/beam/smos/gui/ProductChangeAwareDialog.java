@@ -1,20 +1,16 @@
 package org.esa.beam.smos.gui;
 
-import com.bc.ceres.swing.selection.Selection;
-import com.bc.ceres.swing.selection.SelectionChangeEvent;
-import com.bc.ceres.swing.selection.SelectionChangeListener;
-import com.bc.ceres.swing.selection.SelectionManager;
 import org.esa.beam.framework.datamodel.Product;
 import org.esa.beam.framework.datamodel.ProductManager;
 import org.esa.beam.framework.datamodel.ProductNodeEvent;
 import org.esa.beam.framework.datamodel.ProductNodeListener;
 import org.esa.beam.framework.ui.ModelessDialog;
-import org.esa.beam.framework.ui.product.tree.AbstractTN;
+import org.esa.snap.rcp.util.SelectionSupport;
+import org.netbeans.api.annotations.common.NullAllowed;
 
-import javax.swing.tree.TreePath;
 import java.awt.*;
 
-abstract public class ProductChangeAwareDialog extends ModelessDialog {
+abstract public class ProductChangeAwareDialog extends ModelessDialog implements SelectionSupport.Handler<Product> {
 
 
     protected ProductChangeAwareDialog(Window parent, String title, int buttonMask, String helpID) {
@@ -31,6 +27,7 @@ abstract public class ProductChangeAwareDialog extends ModelessDialog {
     }
 
     protected void geometryRemoved() {
+
     }
 
     protected void productSelectionChanged() {
@@ -84,43 +81,10 @@ abstract public class ProductChangeAwareDialog extends ModelessDialog {
         }
     }
 
-    public static class ProductSelectionListener implements SelectionChangeListener {
-
-        private final ProductChangeAwareDialog dialog;
-        private final SelectionManager selectionManager;
-
-        public ProductSelectionListener(ProductChangeAwareDialog dialog, SelectionManager selectionManager) {
-            this.dialog = dialog;
-            this.selectionManager = selectionManager;
-        }
-
-        @Override
-        public void selectionChanged(SelectionChangeEvent selectionChangeEvent) {
-            final Selection selection = selectionChangeEvent.getSelection();
-            if (selection != null) {
-                final Object selectedValue = selection.getSelectedValue();
-                if (selectedValue != null && selectedValue instanceof TreePath) {
-                    final TreePath treePath = (TreePath) selectedValue;
-                    final Object lastPathComponent = treePath.getLastPathComponent();
-                    if (lastPathComponent instanceof AbstractTN) {
-                        final AbstractTN treeNode = (AbstractTN) lastPathComponent;
-                        final Object content = treeNode.getContent();
-                        if (content instanceof Product) {
-                            dialog.productSelectionChanged();
-                        }
-                    }
-
-                }
-            }
-        }
-
-        @Override
-        public void selectionContextChanged(SelectionChangeEvent selectionChangeEvent) {
-
-        }
-
-        public void dispose() {
-            selectionManager.removeSelectionChangeListener(this);
+    @Override
+    public void selectionChange(@NullAllowed Product oldValue, @NullAllowed Product newValue) {
+        if (oldValue != newValue) {
+            productSelectionChanged();
         }
     }
 }
