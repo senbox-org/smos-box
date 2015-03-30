@@ -1,9 +1,11 @@
 package org.esa.beam.smos.ee2netcdf;
 
+import org.esa.beam.util.SystemUtils;
+
 import java.io.File;
+import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 
 public class TestHelper {
 
@@ -15,9 +17,9 @@ public class TestHelper {
     public static Path getResourceDirectory() {
         String resourceName = "SM_OPER_MIR_BWLF1C_20111026T143206_20111026T152520_503_001_1.zip";
         try {
-            return Paths.get(TestHelper.class.getResource(resourceName).toURI()).getParent();
-        } catch (URISyntaxException e) {
-            throw new IllegalStateException(String.format("not able to locate resource '%s'", resourceName));
+            return SystemUtils.getPathFromURI(TestHelper.class.getResource(resourceName).toURI()).getParent();
+        } catch (URISyntaxException | IOException e) {
+            throw new IllegalStateException(String.format("not able to locate resource '%s'", resourceName), e);
         }
     }
 }
