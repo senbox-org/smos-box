@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,9 +15,9 @@ public class NetcdfExportDialogTest {
 
     @Test
     public void testGetTargetFiles_singleProduct() throws IOException {
-        final File resourceFile = TestHelper.getResourceFile("ui/SM_OPER_MIR_BWLF1C_20111026T143206_20111026T152520_503_001_1.zip");
+        final File resourceFile = TestHelper.getResourceFile("SM_OPER_MIR_BWLF1C_20111026T143206_20111026T152520_503_001_1.zip");
         final String filePath = resourceFile.getAbsolutePath();
-        final File targetDir = new File("/home/tom/target");
+        final File targetDir = new File("/some/not/existing/dir");
 
 
         final List<File> targetFiles = NetcdfExportDialog.getTargetFiles(filePath, targetDir);
@@ -28,10 +29,10 @@ public class NetcdfExportDialogTest {
 
     @Test
     public void testGetTargetFiles_directory() throws IOException {
-        final File resourceDirectory = TestHelper.getResourceDirectory();
-        final File targetDir = new File("/home/tom/target");
+        final Path resourceDirectory = TestHelper.getResourceDirectory();
+        final File targetDir = new File("/some/not/existing/dir");
 
-        final String wildCardpath = resourceDirectory.getAbsolutePath() + File.separator +"ui" + File.separator + "*";
+        final String wildCardpath = resourceDirectory.toAbsolutePath().toString() + File.separator + "*.zip";
         final List<File> targetFiles = NetcdfExportDialog.getTargetFiles(wildCardpath, targetDir);
         assertNotNull(targetFiles);
         assertEquals(4, targetFiles.size());
@@ -60,7 +61,7 @@ public class NetcdfExportDialogTest {
     public void testGetExistingFiles_oneExists() {
         final ArrayList<File> targetFiles = new ArrayList<>();
         targetFiles.add(new File("/fantasy/location/target/file"));
-        targetFiles.add(TestHelper.getResourceFile("ui/SM_OPER_MIR_OSUDP2_20091204T001853_20091204T011255_310_001_1.zip"));
+        targetFiles.add(TestHelper.getResourceFile("SM_OPER_MIR_OSUDP2_20091204T001853_20091204T011255_310_001_1.zip"));
 
         final List<File> existingFiles = NetcdfExportDialog.getExistingFiles(targetFiles);
         assertNotNull(existingFiles);
@@ -70,9 +71,9 @@ public class NetcdfExportDialogTest {
     @Test
     public void testGetExistingFiles_twoExists() {
         final ArrayList<File> targetFiles = new ArrayList<>();
-        targetFiles.add(TestHelper.getResourceFile("ui/SM_OPER_MIR_BWLF1C_20111026T143206_20111026T152520_503_001_1.zip"));
+        targetFiles.add(TestHelper.getResourceFile("SM_OPER_MIR_BWLF1C_20111026T143206_20111026T152520_503_001_1.zip"));
         targetFiles.add(new File("/fantasy/location/target/file"));
-        targetFiles.add(TestHelper.getResourceFile("ui/SM_OPER_MIR_OSUDP2_20091204T001853_20091204T011255_310_001_1.zip"));
+        targetFiles.add(TestHelper.getResourceFile("SM_OPER_MIR_OSUDP2_20091204T001853_20091204T011255_310_001_1.zip"));
 
         final List<File> existingFiles = NetcdfExportDialog.getExistingFiles(targetFiles);
         assertNotNull(existingFiles);
