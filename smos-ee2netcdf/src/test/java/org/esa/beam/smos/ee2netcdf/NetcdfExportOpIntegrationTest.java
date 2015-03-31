@@ -1,15 +1,19 @@
 package org.esa.beam.smos.ee2netcdf;
 
+import com.bc.ceres.core.ProgressMonitor;
 import org.esa.beam.dataio.netcdf.util.NetcdfFileOpener;
 import org.esa.beam.framework.dataio.ProductIO;
 import org.esa.beam.framework.datamodel.Product;
 import org.esa.beam.framework.gpf.GPF;
 import org.esa.beam.smos.AcceptanceTestRunner;
 import org.esa.beam.smos.DateTimeUtils;
+import org.esa.beam.util.ResourceInstaller;
 import org.esa.beam.util.StringUtils;
 import org.esa.beam.util.io.FileUtils;
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import ucar.ma2.Array;
@@ -23,6 +27,8 @@ import ucar.nc2.util.DiskCache;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.HashMap;
@@ -33,12 +39,24 @@ import static org.junit.Assert.*;
 @RunWith(AcceptanceTestRunner.class)
 public class NetcdfExportOpIntegrationTest {
 
-    private final NetcdfExportOp.Spi spi;
+    private static File tempDir;
+    private static NetcdfExportOp.Spi spi;
+
     private final File targetDirectory;
 
     public NetcdfExportOpIntegrationTest() {
-        spi = new NetcdfExportOp.Spi();
         targetDirectory = new File("test_out");
+    }
+
+    @BeforeClass
+    public static void setUpClass() throws IOException {
+        spi = new NetcdfExportOp.Spi();
+        GPF.getDefaultInstance().getOperatorSpiRegistry().addOperatorSpi(spi);
+
+        tempDir = Files.createTempDirectory("NetcdfExportOpIntegrationTest").toFile();
+        Path sourceBasePath = ResourceInstaller.findModuleCodeBasePath(NetcdfExportOpIntegrationTest.class);
+        ResourceInstaller installer = new ResourceInstaller(sourceBasePath, "org/esa/beam/smos/ee2netcdf", tempDir.toPath());
+        installer.install(".*.zip", ProgressMonitor.NULL);
     }
 
     @Before
@@ -56,8 +74,6 @@ public class NetcdfExportOpIntegrationTest {
 
     @After
     public void tearDown() {
-        GPF.getDefaultInstance().getOperatorSpiRegistry().removeOperatorSpi(spi);
-
         if (targetDirectory.isDirectory()) {
             if (!FileUtils.deleteTree(targetDirectory)) {
                 fail("Unable to delete test directory");
@@ -65,9 +81,17 @@ public class NetcdfExportOpIntegrationTest {
         }
     }
 
+    @AfterClass
+    public static void tearDownClass() {
+        GPF.getDefaultInstance().getOperatorSpiRegistry().removeOperatorSpi(spi);
+            if (!FileUtils.deleteTree(tempDir)) {
+                fail("Unable to delete temporary directory");
+            }
+    }
+
     @Test
     public void testConvert_BWSD1C() throws IOException, InvalidRangeException, ParseException {
-        final File file = TestHelper.getResourceFile("SM_OPER_MIR_BWLF1C_20111026T143206_20111026T152520_503_001_1.zip");
+        final File file = new File(tempDir, "SM_OPER_MIR_BWLF1C_20111026T143206_20111026T152520_503_001_1.zip");
 
         Product product = null;
         NetcdfFile targetFile = null;
@@ -265,7 +289,7 @@ public class NetcdfExportOpIntegrationTest {
 
     @Test
     public void testConvert_BWSD1C_withBandSubset() throws IOException, InvalidRangeException, ParseException {
-        final File file = TestHelper.getResourceFile("SM_OPER_MIR_BWLF1C_20111026T143206_20111026T152520_503_001_1.zip");
+        final File file = new File(tempDir, "SM_OPER_MIR_BWLF1C_20111026T143206_20111026T152520_503_001_1.zip");
 
         Product product = null;
         NetcdfFile targetFile = null;
@@ -307,7 +331,7 @@ public class NetcdfExportOpIntegrationTest {
 
     @Test
     public void testConvert_BWSD1C_withGeographicSubset() throws IOException, InvalidRangeException, ParseException {
-        final File file = TestHelper.getResourceFile("SM_OPER_MIR_BWLF1C_20111026T143206_20111026T152520_503_001_1.zip");
+        final File file = new File(tempDir, "SM_OPER_MIR_BWLF1C_20111026T143206_20111026T152520_503_001_1.zip");
 
         Product product = null;
         NetcdfFile targetFile = null;
@@ -343,7 +367,7 @@ public class NetcdfExportOpIntegrationTest {
 
     @Test
     public void testExportSCLF1C_withSourceProductPaths() throws IOException, ParseException, InvalidRangeException {
-        final File file = TestHelper.getResourceFile("SM_REPB_MIR_SCLF1C_20110201T151254_20110201T151308_505_152_1.zip");
+        final File file = new File(tempDir, "SM_REPB_MIR_SCLF1C_20110201T151254_20110201T151308_505_152_1.zip");
 
         NetcdfFile targetFile = null;
         try {
@@ -464,7 +488,7 @@ public class NetcdfExportOpIntegrationTest {
 
     @Test
     public void testExportSCLF1C_notOverwriteTarget() throws IOException {
-        final File file = TestHelper.getResourceFile("SM_REPB_MIR_SCLF1C_20110201T151254_20110201T151308_505_152_1.zip");
+        final File file = new File(tempDir, "SM_REPB_MIR_SCLF1C_20110201T151254_20110201T151308_505_152_1.zip");
 
         final File outputFile = new File(targetDirectory, "SM_REPB_MIR_SCLF1C_20110201T151254_20110201T151308_505_152_1.nc");
         if (!outputFile.createNewFile()) {
@@ -483,7 +507,7 @@ public class NetcdfExportOpIntegrationTest {
 
     @Test
     public void testExportSCLF1C_overwriteTarget() throws IOException {
-        final File file = TestHelper.getResourceFile("SM_REPB_MIR_SCLF1C_20110201T151254_20110201T151308_505_152_1.zip");
+        final File file = new File(tempDir, "SM_REPB_MIR_SCLF1C_20110201T151254_20110201T151308_505_152_1.zip");
 
         final File outputFile = new File(targetDirectory, "SM_REPB_MIR_SCLF1C_20110201T151254_20110201T151308_505_152_1.nc");
         if (!outputFile.createNewFile()) {
@@ -502,7 +526,7 @@ public class NetcdfExportOpIntegrationTest {
 
     @Test
     public void testExportSCLF1C_withGeographicSubset() throws IOException, ParseException, InvalidRangeException {
-        final File file = TestHelper.getResourceFile("SM_REPB_MIR_SCLF1C_20110201T151254_20110201T151308_505_152_1.zip");
+        final File file = new File(tempDir, "SM_REPB_MIR_SCLF1C_20110201T151254_20110201T151308_505_152_1.zip");
 
         NetcdfFile targetFile = null;
         try {
@@ -541,7 +565,7 @@ public class NetcdfExportOpIntegrationTest {
 
     @Test
     public void testExportOSUDP2_withAdditionalMetadata() throws IOException, ParseException, InvalidRangeException {
-        final File file = TestHelper.getResourceFile("SM_OPER_MIR_OSUDP2_20091204T001853_20091204T011255_310_001_1.zip");
+        final File file = new File(tempDir, "SM_OPER_MIR_OSUDP2_20091204T001853_20091204T011255_310_001_1.zip");
 
         Product product = null;
         NetcdfFile targetFile = null;
@@ -637,7 +661,7 @@ public class NetcdfExportOpIntegrationTest {
 
     @Test
     public void testExportOSUDP2_withGeographicSubset() throws IOException, ParseException, InvalidRangeException {
-        final File file = TestHelper.getResourceFile("SM_OPER_MIR_OSUDP2_20091204T001853_20091204T011255_310_001_1.zip");
+        final File file = new File(tempDir, "SM_OPER_MIR_OSUDP2_20091204T001853_20091204T011255_310_001_1.zip");
 
         Product product = null;
         NetcdfFile targetFile = null;
@@ -679,7 +703,7 @@ public class NetcdfExportOpIntegrationTest {
 
     @Test
     public void testExportSMUDP2() throws IOException, ParseException, InvalidRangeException {
-        final File file = TestHelper.getResourceFile("SM_OPER_MIR_SMUDP2_20120514T163815_20120514T173133_551_001_1.zip");
+        final File file = new File(tempDir, "SM_OPER_MIR_SMUDP2_20120514T163815_20120514T173133_551_001_1.zip");
 
         Product product = null;
         NetcdfFile targetFile = null;

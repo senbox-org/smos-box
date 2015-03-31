@@ -14,6 +14,8 @@ import org.esa.beam.util.converters.JtsGeometryConverter;
 import org.esa.beam.util.io.FileUtils;
 
 import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.TreeSet;
 
@@ -67,10 +69,9 @@ public class NetcdfExportOp extends Operator {
             description = "Output file compression level. 0 = no compression, 9 = highest compression.")
     private int compressionLevel;
 
-    public static File getOutputFile(File dblFile, File targetDirectory) {
-        File outFile = new File(targetDirectory, dblFile.getName());
-        outFile = FileUtils.exchangeExtension(outFile, ".nc");
-        return outFile;
+    public static Path getOutputFile(Path dblFile, Path targetDirectory) {
+        Path outFile = targetDirectory.resolve(dblFile.getFileName().toString());
+        return Paths.get(FileUtils.exchangeExtension(outFile.toAbsolutePath().toString(), ".nc"));
     }
 
     @Override

@@ -2,16 +2,15 @@ package org.esa.beam.smos.ee2netcdf;
 
 import org.esa.beam.util.SystemUtils;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
 
 public class TestHelper {
 
-    public static File getResourceFile(String filename) {
+    public static Path getResourcePath(String filename) {
         final Path resourceDirectory = getResourceDirectory();
-        return resourceDirectory.resolve(filename).toFile();
+        return resourceDirectory.resolve(filename);
     }
 
     public static Path getResourceDirectory() {

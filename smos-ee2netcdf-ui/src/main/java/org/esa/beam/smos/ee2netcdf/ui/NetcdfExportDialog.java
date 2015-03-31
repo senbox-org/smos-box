@@ -23,21 +23,33 @@ import org.esa.beam.smos.gui.DefaultChooserFactory;
 import org.esa.beam.smos.gui.DirectoryChooserFactory;
 import org.esa.beam.smos.gui.GuiHelper;
 import org.esa.beam.smos.gui.ProductChangeAwareDialog;
-import org.esa.beam.util.io.WildcardMatcher;
 import org.esa.snap.rcp.SnapApp;
 import org.esa.snap.rcp.util.SelectionSupport;
 
-import javax.swing.*;
+import javax.swing.AbstractButton;
+import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
+import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
-import java.awt.*;
+import java.awt.Insets;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 /**
@@ -51,8 +63,9 @@ class NetcdfExportDialog extends ProductChangeAwareDialog {
     private final BindingContext bindingContext;
 
     NetcdfExportDialog(AppContext appContext, String helpID) {
-        super(appContext.getApplicationWindow(), "Export SMOS Earth Explorer Files to NetCDF", AbstractDialog.ID_OK | AbstractDialog.ID_CLOSE | AbstractDialog.ID_HELP,
-                helpID);
+        super(appContext.getApplicationWindow(), "Export SMOS Earth Explorer Files to NetCDF",
+              AbstractDialog.ID_OK | AbstractDialog.ID_CLOSE | AbstractDialog.ID_HELP,
+              helpID);
         this.appContext = appContext;
 
         exportParameter = new ExportParameter();
@@ -107,26 +120,25 @@ class NetcdfExportDialog extends ProductChangeAwareDialog {
     @Override
     protected final void onOK() {
         try {
-            final List<File> targetFiles;
+            final List<Path> targetFiles;
             if (exportParameter.isUseSelectedProduct()) {
-                targetFiles = getTargetFiles(appContext.getSelectedProduct().getFileLocation().getAbsolutePath(),
-                        exportParameter.getTargetDirectory());
+                targetFiles = getTargetFiles(appContext.getSelectedProduct().getFileLocation().toPath(),
+                                             exportParameter.getTargetDirectory().toPath());
             } else {
-                targetFiles = getTargetFiles(
-                        exportParameter.getSourceDirectory().getAbsolutePath() + File.separator + "*",
-                        exportParameter.getTargetDirectory());
+                targetFiles = getTargetFiles(exportParameter.getSourceDirectory().toPath(), "*",
+                                             exportParameter.getTargetDirectory().toPath());
             }
             if (!exportParameter.isOverwriteTarget()) {
-                final List<File> existingFiles = getExistingFiles(targetFiles);
+                final List<Path> existingFiles = getExistingPaths(targetFiles);
                 if (!existingFiles.isEmpty()) {
                     final String files = listToString(existingFiles);
                     final String message = MessageFormat.format(
                             "The selected target file(s) already exists.\n\nDo you want to overwrite the target file(s)?\n\n" +
-                                    "{0}",
+                            "{0}",
                             files
                     );
                     final int answer = JOptionPane.showConfirmDialog(getJDialog(), message, getTitle(),
-                            JOptionPane.YES_NO_OPTION);
+                                                                     JOptionPane.YES_NO_OPTION);
                     if (answer == JOptionPane.NO_OPTION) {
                         return;
                     }
@@ -150,8 +162,8 @@ class NetcdfExportDialog extends ProductChangeAwareDialog {
         final PropertyDescriptor sourceDirectoryDescriptor =
                 propertySet.getDescriptor(BindingConstants.SOURCE_DIRECTORY);
         final JComponent fileEditor = GuiHelper.createFileEditorComponent(sourceDirectoryDescriptor,
-                new DefaultChooserFactory(),
-                bindingContext);
+                                                                          new DefaultChooserFactory(),
+                                                                          bindingContext);
 
         final TableLayout layout = GuiHelper.createWeightedTableLayout(1);
         layout.setCellPadding(2, 0, new Insets(0, 24, 3, 3));
@@ -171,9 +183,9 @@ class NetcdfExportDialog extends ProductChangeAwareDialog {
         final PropertyDescriptor targetDirectoryDescriptor =
                 propertySet.getDescriptor(BindingConstants.TARGET_DIRECTORY);
         final JComponent fileEditor = GuiHelper.createFileEditorComponent(targetDirectoryDescriptor,
-                new DirectoryChooserFactory(),
-                bindingContext,
-                false);
+                                                                          new DirectoryChooserFactory(),
+                                                                          bindingContext,
+                                                                          false);
 
         final JPanel panel = new JPanel(GuiHelper.createWeightedTableLayout(1));
         panel.setBorder(BorderFactory.createTitledBorder("Target Directory"));
@@ -218,8 +230,8 @@ class NetcdfExportDialog extends ProductChangeAwareDialog {
         geometryTextArea.setToolTipText(geometryDescriptor.getDescription());
         bindingContext.bind(BindingConstants.GEOMETRY, geometryTextArea);
         bindingContext.bindEnabledState(BindingConstants.GEOMETRY, true,
-                BindingConstants.ROI_TYPE,
-                BindingConstants.ROI_TYPE_GEOMETRY);
+                                        BindingConstants.ROI_TYPE,
+                                        BindingConstants.ROI_TYPE_GEOMETRY);
 
         panel.add(allButton);
         panel.add(useGeometryButton);
@@ -278,36 +290,38 @@ class NetcdfExportDialog extends ProductChangeAwareDialog {
     }
 
     // package access for testing only tb 2013-05-27
-    static List<File> getTargetFiles(String filePath, File targetDir) throws IOException {
-        final ArrayList<File> targetFiles = new ArrayList<>();
+    static List<Path> getTargetFiles(Path sourceDir, String globPattern, Path targetDir) throws IOException {
+        final ArrayList<Path> targetFiles = new ArrayList<>();
 
-        final File file = new File(filePath);
-        if (file.isFile()) {
-            final File outputFile = NetcdfExportOp.getOutputFile(file, targetDir);
+        DirectoryStream<Path> paths = Files.newDirectoryStream(sourceDir, globPattern);
+        paths.forEach(path -> {
+            final Path outputFile = NetcdfExportOp.getOutputFile(path, targetDir);
             targetFiles.add(outputFile);
-        } else {
-            final TreeSet<File> sourceFileSet = new TreeSet<>();
-            WildcardMatcher.glob(filePath, sourceFileSet);
-            for (File aSourceFile : sourceFileSet) {
-                final File outputFile = NetcdfExportOp.getOutputFile(aSourceFile, targetDir);
-                targetFiles.add(outputFile);
-            }
-        }
+        });
+        Collections.sort(targetFiles);
+        return targetFiles;
+    }
+
+    static List<Path> getTargetFiles(Path filePath, Path targetDir) throws IOException {
+        final ArrayList<Path> targetFiles = new ArrayList<>();
+
+        final Path outputFile = NetcdfExportOp.getOutputFile(filePath, targetDir);
+        targetFiles.add(outputFile);
 
         return targetFiles;
     }
 
     // package access for testing only tb 2013-05-27
-    static List<File> getExistingFiles(List<File> targetFiles) {
-        return targetFiles.stream().filter(File::isFile).collect(Collectors.toList());
+    static List<Path> getExistingPaths(List<Path> targetFiles) {
+        return targetFiles.stream().filter(Files::exists).collect(Collectors.toList());
     }
 
     // package access for testing only tb 2013-05-27
-    static String listToString(List<File> targetFiles) {
+    static String listToString(List<Path> targetFiles) {
         final StringBuilder builder = new StringBuilder();
         int fileCount = 0;
-        for (final File targetFile : targetFiles) {
-            builder.append(targetFile.getAbsolutePath());
+        for (final Path targetFile : targetFiles) {
+            builder.append(targetFile.toAbsolutePath());
             builder.append("\n");
             fileCount++;
             if (fileCount >= 10) {
