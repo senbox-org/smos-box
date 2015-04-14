@@ -45,7 +45,7 @@
                 <artifactId>nbm-maven-plugin</artifactId>
                 <configuration>
                     <publicPackages>
-                        <package>org.esa.beam.smos.dgg</package>
+                        <package>org.esa.smos.dgg</package>
                     </publicPackages>
                 </configuration>
             </plugin>

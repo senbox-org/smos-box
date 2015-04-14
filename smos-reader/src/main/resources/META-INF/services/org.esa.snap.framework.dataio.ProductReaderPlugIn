@@ -1,0 +1,3 @@
+org.esa.smos.dataio.smos.SmosProductReaderPlugIn
+org.esa.smos.dataio.smos.bufr.SmosBufrReaderPlugIn
+org.esa.smos.dataio.smos.bufr.SmosLightBufrReaderPlugIn

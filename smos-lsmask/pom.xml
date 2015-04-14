@@ -41,7 +41,7 @@
                 <artifactId>nbm-maven-plugin</artifactId>
                 <configuration>
                     <publicPackages>
-                        <package>org.esa.beam.smos.lsmask</package>
+                        <package>org.esa.smos.lsmask</package>
                     </publicPackages>
                 </configuration>
             </plugin>

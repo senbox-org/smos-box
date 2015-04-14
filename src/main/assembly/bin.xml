@@ -58,7 +58,7 @@
     <moduleSets>
         <moduleSet>
             <excludes>
-                <exclude>org.esa.beam.smos:smos-bootstrap</exclude>
+                <exclude>org.esa.smos:smos-bootstrap</exclude>
             </excludes>
 
             <binaries>

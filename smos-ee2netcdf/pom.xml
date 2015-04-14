@@ -122,7 +122,7 @@
                 <artifactId>nbm-maven-plugin</artifactId>
                 <configuration>
                     <publicPackages>
-                        <package>org.esa.beam.smos.ee2netcdf.*</package>
+                        <package>org.esa.smos.ee2netcdf.*</package>
                     </publicPackages>
                 </configuration>
             </plugin>

@@ -23,6 +23,6 @@ export LIBDIR="$EE_TO_NETCDF_DIR"/lib
 export OLD_CLASSPATH="$CLASSPATH"
 CLASSPATH="$LIBDIR/*:$LIBDIR"
 
-"$JAVA_EXE" "$JAVA_OPTS" -classpath "$CLASSPATH" org.esa.beam.smos.ee2netcdf.NetcdfExportTool "$@"
+"$JAVA_EXE" "$JAVA_OPTS" -classpath "$CLASSPATH" org.esa.smos.ee2netcdf.NetcdfExportTool "$@"
 
 export CLASSPATH="$OLD_CLASSPATH"

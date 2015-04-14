@@ -41,7 +41,7 @@
     <extension point="snap-ui:actions">
         <action>
             <id>smosGridPointExport</id>
-            <class>org.esa.beam.smos.visat.export.GridPointExportAction</class>
+            <class>org.esa.smos.visat.export.GridPointExportAction</class>
             <helpId>smosGridPointExport</helpId>
             <parent>exportOther</parent>
             <text>Export SMOS Grid Points...</text>
@@ -51,8 +51,8 @@
 
     <extension point="snap-ui:toolViews">
         <toolView>
-            <id>org.esa.beam.smos.visat.GridPointBtDataTableTopComponent</id>
-            <class>org.esa.beam.smos.visat.GridPointBtDataTableTopComponent</class>
+            <id>org.esa.smos.visat.GridPointBtDataTableTopComponent</id>
+            <class>org.esa.smos.visat.GridPointBtDataTableTopComponent</class>
             <title>SMOS L1C Table</title>
             <tabTitle>SMOS L1C Table</tabTitle>
             <initState>HIDDEN</initState>
@@ -60,14 +60,14 @@
             <initIndex>0</initIndex>
             <toolBarId>SMOS_Box</toolBarId>
             <helpId>smosTools</helpId>
-            <smallIcon>/org/esa/beam/smos/visat/SmosGridPoint16.png</smallIcon>
-            <largeIcon>/org/esa/beam/smos/visat/SmosGridPoint24.png</largeIcon>
+            <smallIcon>/org/esa/snap/smos/visat/SmosGridPoint16.png</smallIcon>
+            <largeIcon>/org/esa/snap/smos/visat/SmosGridPoint24.png</largeIcon>
             <description>Shows the SMOS grid point brightness temperature data table</description>
         </toolView>
 
         <toolView>
-            <id>org.esa.beam.smos.visat.GridPointBtDataChartTopComponent</id>
-            <class>org.esa.beam.smos.visat.GridPointBtDataChartTopComponent</class>
+            <id>org.esa.smos.visat.GridPointBtDataChartTopComponent</id>
+            <class>org.esa.smos.visat.GridPointBtDataChartTopComponent</class>
             <title>SMOS L1C Chart</title>
             <tabTitle>SMOS L1C Chart</tabTitle>
             <initState>HIDDEN</initState>
@@ -75,14 +75,14 @@
             <initIndex>0</initIndex>
             <toolBarId>SMOS_Box</toolBarId>
             <helpId>smosTools</helpId>
-            <smallIcon>/org/esa/beam/smos/visat/SmosBtGraph16.png</smallIcon>
-            <largeIcon>/org/esa/beam/smos/visat/SmosBtGraph24.png</largeIcon>
+            <smallIcon>/org/esa/snap/smos/visat/SmosBtGraph16.png</smallIcon>
+            <largeIcon>/org/esa/snap/smos/visat/SmosBtGraph24.png</largeIcon>
             <description>Shows the SMOS grid point brightness temperature chart</description>
         </toolView>
 
         <toolView>
-            <id>org.esa.beam.smos.visat.GridPointBtDataFlagmatrixTopComponent</id>
-            <class>org.esa.beam.smos.visat.GridPointBtDataFlagmatrixTopComponent</class>
+            <id>org.esa.smos.visat.GridPointBtDataFlagmatrixTopComponent</id>
+            <class>org.esa.smos.visat.GridPointBtDataFlagmatrixTopComponent</class>
             <title>SMOS L1C Flag-Matrix</title>
             <tabTitle>SMOS L1C Flags</tabTitle>
             <initState>HIDDEN</initState>
@@ -90,14 +90,14 @@
             <initIndex>0</initIndex>
             <toolBarId>SMOS_Box</toolBarId>
             <helpId>smosTools</helpId>
-            <smallIcon>/org/esa/beam/smos/visat/SmosFlags16.png</smallIcon>
-            <largeIcon>/org/esa/beam/smos/visat/SmosFlags24.png</largeIcon>
+            <smallIcon>/org/esa/snap/smos/visat/SmosFlags16.png</smallIcon>
+            <largeIcon>/org/esa/snap/smos/visat/SmosFlags24.png</largeIcon>
             <description>Shows the SMOS grid point brightness temperature flag matrix</description>
         </toolView>
 
         <toolView>
-            <id>org.esa.beam.smos.visat.SnapshotInfoTopComponent</id>
-            <class>org.esa.beam.smos.visat.SnapshotInfoTopComponent</class>
+            <id>org.esa.smos.visat.SnapshotInfoTopComponent</id>
+            <class>org.esa.smos.visat.SnapshotInfoTopComponent</class>
             <title>SMOS L1C Snapshot</title>
             <tabTitle>SMOS L1C Snapshot</tabTitle>
             <initState>HIDDEN</initState>
@@ -105,8 +105,8 @@
             <initIndex>0</initIndex>
             <toolBarId>SMOS_Box</toolBarId>
             <helpId>smosTools</helpId>
-            <smallIcon>/org/esa/beam/smos/visat/SmosSnapshot16.png</smallIcon>
-            <largeIcon>/org/esa/beam/smos/visat/SmosSnapshot24.png</largeIcon>
+            <smallIcon>/org/esa/snap/smos/visat/SmosSnapshot16.png</smallIcon>
+            <largeIcon>/org/esa/snap/smos/visat/SmosSnapshot24.png</largeIcon>
             <description>Invokes the SMOS snapshot information tool</description>
         </toolView>
     </extension>

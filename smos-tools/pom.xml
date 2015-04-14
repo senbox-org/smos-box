@@ -43,7 +43,7 @@
                 <artifactId>nbm-maven-plugin</artifactId>
                 <configuration>
                     <publicPackages>
-                        <package>org.esa.beam.smos</package>
+                        <package>org.esa.smos</package>
                     </publicPackages>
                 </configuration>
             </plugin>
