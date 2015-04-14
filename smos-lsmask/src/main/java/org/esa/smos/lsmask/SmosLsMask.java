@@ -68,7 +68,7 @@ public class SmosLsMask {
     }
 
     private void installDggFiles(Path auxdataPath) throws IOException, URISyntaxException {
-        new ResourceInstaller(getPathFromModule(), "org/esa/snap/smos/lsmask", auxdataPath).install(".*(zip|properties)", ProgressMonitor.NULL);
+        new ResourceInstaller(getPathFromModule(), "org/esa/smos/lsmask", auxdataPath).install(".*(zip|properties)", ProgressMonitor.NULL);
     }
 
     private static Path getLsMaskAuxdataPath() {
