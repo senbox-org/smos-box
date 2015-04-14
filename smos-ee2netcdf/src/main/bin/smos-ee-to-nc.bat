@@ -32,6 +32,6 @@ SET CLASSPATH=%LIBDIR%\*;%LIBDIR%
 ::    '-Xmx512M' sets the maximum heap space to 512 megabytes
 ::------------------------------------------------------------------
 
-CALL "%JAVAEXE%" %JAVA_OPTS% -classpath "%CLASSPATH%" org.esa.beam.smos.ee2netcdf.NetcdfExportTool %*
+CALL "%JAVAEXE%" %JAVA_OPTS% -classpath "%CLASSPATH%" org.esa.smos.ee2netcdf.NetcdfExportTool %*
 
 SET CLASSPATH=%OLD_CLASSPATH%

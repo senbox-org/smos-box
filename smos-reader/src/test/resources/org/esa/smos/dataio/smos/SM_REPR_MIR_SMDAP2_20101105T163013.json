@@ -1438,205 +1438,205 @@
         "masks": [
             {
                 "name": "DAP_Flags_FL_DATA_MISS",
-                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
                 "color": "246,182,21",
                 "description": "Check fall back options"
             },
             {
                 "name": "DAP_Flags_FL_MVAL0",
-                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
                 "color": "95,92,204",
                 "description": "Flag to indicate no more retrieval to be done. True if MVAL0< TH_Mmin0"
             },
             {
                 "name": "DAP_Flags_FL_MVAL",
-                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
                 "color": "49,82,133",
                 "description": "Flag to indicate no more retrieval to be done. True if MVAL < TH_Mmin1"
             },
             {
                 "name": "DAP_Flags_FL_R4_NITM",
-                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
                 "color": "169,175,146",
                 "description": "Flag indicating that R4 was attempted, but failed with NITM"
             },
             {
                 "name": "DAP_Flags_FL_R4_KDIA",
-                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
                 "color": "156,188,14",
                 "description": "Flag indicating R4 was attempted, but failed with KDIA"
             },
             {
                 "name": "DAP_Flags_FL_R4_COND",
-                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
                 "color": "39,91,126",
                 "description": "Flag to indicate R4 attempted, but failed COND"
             },
             {
                 "name": "DAP_Flags_FL_R3_NITM",
-                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
                 "color": "214,25,160",
                 "description": "Flag to indicate R37 attempted, failed NITM"
             },
             {
                 "name": "DAP_Flags_FL_R3_KDIA",
-                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
                 "color": "178,13,207",
                 "description": "Flag to indicate failed KDIA"
             },
             {
                 "name": "DAP_Flags_FL_R3_COND",
-                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
                 "color": "208,249,67",
                 "description": "Flag to indicate R3 attempted, but failed COND"
             },
             {
                 "name": "DAP_Flags_FL_R2_NITM",
-                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
                 "color": "106,109,115",
                 "description": "Flag to indicate R2 attempted, but failed NITM"
             },
             {
                 "name": "DAP_Flags_FL_R2_KDIA",
-                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
                 "color": "16,81,105",
                 "description": "Flag to indicate failed KDIA"
             },
             {
                 "name": "DAP_Flags_FL_R2_COND",
-                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
                 "color": "171,1,243",
                 "description": "Flag to indicate R2 attempted, but failed COND"
             },
             {
                 "name": "DAP_Flags_FL_MD_NITM",
-                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
                 "color": "238,203,217",
                 "description": "Flag to indicate additional MD retrieval failed NITM"
             },
             {
                 "name": "DAP_Flags_FL_MD_KDIA",
-                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
                 "color": "250,231,95",
                 "description": "Flag to indicate failed KDIA"
             },
             {
                 "name": "DAP_Flags_FL_MD_COND",
-                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
                 "color": "240,108,99",
                 "description": "Flag to indicate Mda failed COND"
             },
             {
                 "name": "DAP_Flags_FL_CE",
-                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
                 "color": "115,141,245",
                 "description": "Computational exceptions"
             },
             {
                 "name": "DAP_Flags_FL_SUN_POINT_C",
-                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
                 "color": "134,147,45",
                 "description": "Used to exclude view"
             },
             {
                 "name": "DAP_Flags_FL_SUN_GLINT_FOV_C",
-                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
                 "color": "128,201,42",
                 "description": "Indicator of possible sun glint effects. Not relevant for SM computations"
             },
             {
                 "name": "DAP_Flags_FL_R4_RANGE",
-                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
                 "color": "168,104,12",
                 "description": "Set to ON if a retrieved value is outside the extended valid range in R4 retrieval"
             },
             {
                 "name": "DAP_Flags_FL_R4_RSTD",
-                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
                 "color": "143,245,6",
                 "description": "Set to ON if a retrieved value DQX is greater than the threshold in R4 retrieval"
             },
             {
                 "name": "DAP_Flags_FL_R3_RANGE",
-                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
                 "color": "36,87,190",
                 "description": "Set to ON if a retrieved value is outside the extended valid range in R3 retrieval"
             },
             {
                 "name": "DAP_Flags_FL_R3_RSTD",
-                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
                 "color": "114,207,90",
                 "description": "Set to ON if a retrieved value DQX is greater than the threshold in R3 retrieval"
             },
             {
                 "name": "DAP_Flags_FL_R2_RANGE",
-                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
                 "color": "145,13,33",
                 "description": "Set to ON if a retrieved value is outside the extended valid range in R2 retrieval"
             },
             {
                 "name": "DAP_Flags_FL_R2_RSTD",
-                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
                 "color": "52,182,192",
                 "description": "Set to ON if a retrieved value DQX is greater than the threshold in R2 retrieval"
             },
             {
                 "name": "DAP_Flags_FL_MDA_RANGE",
-                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
                 "color": "46,90,194",
                 "description": "Set to ON if a retrieved value is outside the extended valid range"
             },
             {
                 "name": "DAP_Flags_FL_MDA_RSTD",
-                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
                 "color": "0,15,39",
                 "description": "Set to ON if a retrieved value DQX is greater than the threshold in Mda retrieval"
             },
             {
                 "name": "Land_Sea_Mask_USGS_SEA_FLAG",
-                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
                 "color": "0,0,255",
                 "description": "Water fraction is above 95 percent (1); below 95 percent (0)"
             },
             {
                 "name": "Land_Sea_Mask_USGS_LAND_FLAG",
-                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
                 "color": "0,255,0",
                 "description": "Water fraction is below 10 percent (1); above 10 percent (0)"
             },
             {
                 "name": "Land_Sea_Mask_USGS_MIXED_FLAG",
-                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
                 "color": "0,255,255",
                 "description": "Water fraction is above 10 and below 95 percent (1); below 10 or above 95 percent (0)"
             },
             {
                 "name": "Land_Sea_Mask_200_KM_COASTAL_FLAG",
-                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
                 "color": "178,140,0",
                 "description": "Distance to coastline is less than 200 km (1); greater than 200 km (0)"
             },
             {
                 "name": "Land_Sea_Mask_100_KM_COASTAL_FLAG",
-                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
                 "color": "255,200,0",
                 "description": "Distance to coastline is less than 100 km (1); greater than 100 km (0)"
             },
             {
                 "name": "Land_Sea_Mask_40_KM_COASTAL_FLAG",
-                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
                 "color": "255,255,0",
                 "description": "Distance to coastline is less than 40 km (1); greater than 40 km (0)"
             },
             {
                 "name": "Land_Sea_Mask_MIN_SEA_ICE_FLAG",
-                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
                 "color": "255,255,255",
                 "description": "Sea ice is present for all months (1); is not present for all months (0)"
             },
             {
                 "name": "Land_Sea_Mask_MAX_SEA_ICE_FLAG",
-                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
                 "color": "240,240,240",
                 "description": "Sea ice is present for any months (1); is not present for any months (0)"
             }

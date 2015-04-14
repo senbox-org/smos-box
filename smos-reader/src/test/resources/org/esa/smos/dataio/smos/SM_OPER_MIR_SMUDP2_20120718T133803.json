@@ -1813,325 +1813,325 @@
         "masks": [
             {
                 "name": "Confidence_Flags_FL_RFI_PRONE_H",
-                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
                 "color": "246,182,21",
                 "description": "DGG Current RFI for H pol above threshold"
             },
             {
                 "name": "Confidence_Flags_FL_RFI_PRONE_V",
-                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
                 "color": "95,92,204",
                 "description": "DGG Current RFI for V pol above threshold"
             },
             {
                 "name": "Confidence_Flags_FL_NO_PROD",
-                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
                 "color": "49,82,133",
                 "description": "No products are generated"
             },
             {
                 "name": "Confidence_Flags_FL_RANGE",
-                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
                 "color": "169,175,146",
                 "description": "Retrieval values out off range"
             },
             {
                 "name": "Confidence_Flags_FL_DQX",
-                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
                 "color": "156,188,14",
                 "description": "High retrieval DQX"
             },
             {
                 "name": "Confidence_Flags_FL_CHI2_P",
-                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
                 "color": "39,91,126",
                 "description": "Poor fit quality"
             },
             {
                 "name": "Confidence_Flags_FL_FARADAY_ROTATION_ANGLE",
-                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
                 "color": "214,25,160",
                 "description": "Indicates the source of the Faraday rotation angles. (0) means the Faraday rotation angles in the L1c product are used. 1 means the Faraday rotation angles in the AUX_FARA_x product are used"
             },
             {
                 "name": "Science_Flags_FL_NON_NOM",
-                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
                 "color": "246,182,21",
                 "description": "Presence of other than nominal soil"
             },
             {
                 "name": "Science_Flags_FL_SCENE_T",
-                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
                 "color": "95,92,204",
                 "description": "True (1) if any of scene flags is set (1)"
             },
             {
                 "name": "Science_Flags_FL_BARREN",
-                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
                 "color": "49,82,133",
                 "description": "Scene flag indicating presence of rocks"
             },
             {
                 "name": "Science_Flags_FL_TOPO_S",
-                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
                 "color": "169,175,146",
                 "description": "Scene flag indicating presence of strong topography"
             },
             {
                 "name": "Science_Flags_FL_TOPO_M",
-                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
                 "color": "156,188,14",
                 "description": "Scene flag indicating presence of moderate topography"
             },
             {
                 "name": "Science_Flags_FL_OW",
-                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
                 "color": "39,91,126",
                 "description": "Scene flag indicating presence of open water"
             },
             {
                 "name": "Science_Flags_FL_SNOW_MIX",
-                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
                 "color": "214,25,160",
                 "description": "Scene flag indicating presence of mixed snow"
             },
             {
                 "name": "Science_Flags_FL_SNOW_WET",
-                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
                 "color": "178,13,207",
                 "description": "Scene flag indicating presence of wet snow"
             },
             {
                 "name": "Science_Flags_FL_SNOW_DRY",
-                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
                 "color": "208,249,67",
                 "description": "Scene flag indicating presence of significant dry snow"
             },
             {
                 "name": "Science_Flags_FL_FOREST",
-                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
                 "color": "106,109,115",
                 "description": "Scene flag indicating presence of forest"
             },
             {
                 "name": "Science_Flags_FL_NOMINAL",
-                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
                 "color": "16,81,105",
                 "description": "Scene flag indicating presence of nominal soil"
             },
             {
                 "name": "Science_Flags_FL_FROST",
-                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
                 "color": "171,1,243",
                 "description": "Scene flag indicating presence of frost"
             },
             {
                 "name": "Science_Flags_FL_ICE",
-                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
                 "color": "238,203,217",
                 "description": "Scene flag indicating presence of permanent ice/snow"
             },
             {
                 "name": "Science_Flags_FL_WETLANDS",
-                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
                 "color": "250,231,95",
                 "description": "Scene flag indicating presence of wetlands"
             },
             {
                 "name": "Science_Flags_FL_FLOOD_PROB",
-                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
                 "color": "240,108,99",
                 "description": "Scene flag indicating probable flooding risk"
             },
             {
                 "name": "Science_Flags_FL_URBAN_LOW",
-                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
                 "color": "115,141,245",
                 "description": "Scene flag indicating presence of limited urban area"
             },
             {
                 "name": "Science_Flags_FL_URBAN_HIGH",
-                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
                 "color": "134,147,45",
                 "description": "Scene flag indicating presence of large urban area"
             },
             {
                 "name": "Science_Flags_FL_SAND",
-                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
                 "color": "128,201,42",
                 "description": "Scene flag indicating presence of high sand fraction"
             },
             {
                 "name": "Science_Flags_FL_SEA_ICE",
-                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
                 "color": "168,104,12",
                 "description": "Scene flag indicating presence of sea ice"
             },
             {
                 "name": "Science_Flags_FL_COAST",
-                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
                 "color": "143,245,6",
                 "description": "Scene flag indicating presence of large tidal flag"
             },
             {
                 "name": "Science_Flags_FL_OCCUR_T",
-                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
                 "color": "36,87,190",
                 "description": "True (1) if any of occur flags is set (1)"
             },
             {
                 "name": "Science_Flags_FL_LITTER",
-                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
                 "color": "114,207,90",
                 "description": "Occur flag indicating litter suspected"
             },
             {
                 "name": "Science_Flags_FL_PR",
-                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
                 "color": "145,13,33",
                 "description": "Occur flag indicating interception suspected (polarisation ratio)"
             },
             {
                 "name": "Science_Flags_FL_INTERCEP",
-                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
                 "color": "52,182,192",
                 "description": "Occur flag - ECMWF indicates interception)"
             },
             {
                 "name": "Science_Flags_FL_EXTERNAL",
-                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
                 "color": "46,90,194",
                 "description": "Any of the external flags on, or N_SKY counter not equal to zero"
             },
             {
                 "name": "Science_Flags_FL_RAIN",
-                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
                 "color": "0,15,39",
                 "description": "External flag indicating heavy rain suspected"
             },
             {
                 "name": "Science_Flags_FL_TEC",
-                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
                 "color": "160,208,135",
                 "description": "External flag indicating high ionospheric contributions"
             },
             {
                 "name": "Science_Flags_FL_TAU_FO",
-                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
                 "color": "55,46,12",
                 "description": "Scene flag indicating presence of thick forest"
             },
             {
                 "name": "Science_Flags_FL_WINTER_FOREST",
-                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
                 "color": "214,207,170",
                 "description": "Flag indicating that the winter forest case has been selected by the decision tree"
             },
             {
                 "name": "Science_Flags_FL_DUAL_RETR_FNO_FFO",
-                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
                 "color": "47,83,139",
                 "description": "Flag indicating dual retrieval is performed on the FNO and FFO fractions"
             },
             {
                 "name": "Processing_Flags_FL_R4",
-                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
                 "color": "246,182,21",
                 "description": "True (1) if attempted, regardless of success"
             },
             {
                 "name": "Processing_Flags_FL_R3",
-                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
                 "color": "95,92,204",
                 "description": "True (1) if attempted, regardless of success"
             },
             {
                 "name": "Processing_Flags_FL_R2",
-                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
                 "color": "49,82,133",
                 "description": "True (1) if attempted, regardless of success"
             },
             {
                 "name": "Processing_Flags_FL_MD_A",
-                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
                 "color": "169,175,146",
                 "description": "True (1) if MDa failed"
             },
             {
                 "name": "DGG_Current_Flags_FL_CURRENT_TAU_NADIR_LV",
-                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
                 "color": "246,182,21",
                 "description": "Flag driving request for updating the DGG_Current_Tau_Nadir_LV map after processing"
             },
             {
                 "name": "DGG_Current_Flags_FL_CURRENT_TAU_NADIR_FO",
-                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
                 "color": "95,92,204",
                 "description": "Flag driving request for updating the DGG_Current_Tau_Nadir_FO map after processing"
             },
             {
                 "name": "DGG_Current_Flags_FL_CURRENT_HR",
-                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
                 "color": "49,82,133",
                 "description": "Flag driving request for updating the DGG_Current_HR map after processing"
             },
             {
                 "name": "DGG_Current_Flags_FL_CURRENT_RFI",
-                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
                 "color": "169,175,146",
                 "description": "Flag driving request for updating the DGG_Current_RFI map after processing"
             },
             {
                 "name": "DGG_Current_Flags_FL_CURRENT_FLOOD",
-                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
                 "color": "156,188,14",
                 "description": "Flag driving request for updating the DGG_Current_Flood map after processing"
             },
             {
                 "name": "Land_Sea_Mask_USGS_SEA_FLAG",
-                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
                 "color": "0,0,255",
                 "description": "Water fraction is above 95 percent (1); below 95 percent (0)"
             },
             {
                 "name": "Land_Sea_Mask_USGS_LAND_FLAG",
-                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
                 "color": "0,255,0",
                 "description": "Water fraction is below 10 percent (1); above 10 percent (0)"
             },
             {
                 "name": "Land_Sea_Mask_USGS_MIXED_FLAG",
-                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
                 "color": "0,255,255",
                 "description": "Water fraction is above 10 and below 95 percent (1); below 10 or above 95 percent (0)"
             },
             {
                 "name": "Land_Sea_Mask_200_KM_COASTAL_FLAG",
-                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
                 "color": "178,140,0",
                 "description": "Distance to coastline is less than 200 km (1); greater than 200 km (0)"
             },
             {
                 "name": "Land_Sea_Mask_100_KM_COASTAL_FLAG",
-                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
                 "color": "255,200,0",
                 "description": "Distance to coastline is less than 100 km (1); greater than 100 km (0)"
             },
             {
                 "name": "Land_Sea_Mask_40_KM_COASTAL_FLAG",
-                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
                 "color": "255,255,0",
                 "description": "Distance to coastline is less than 40 km (1); greater than 40 km (0)"
             },
             {
                 "name": "Land_Sea_Mask_MIN_SEA_ICE_FLAG",
-                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
                 "color": "255,255,255",
                 "description": "Sea ice is present for all months (1); is not present for all months (0)"
             },
             {
                 "name": "Land_Sea_Mask_MAX_SEA_ICE_FLAG",
-                "type": "org.esa.beam.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
                 "color": "240,240,240",
                 "description": "Sea ice is present for any months (1); is not present for any months (0)"
             }

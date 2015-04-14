@@ -55,7 +55,7 @@
 
     <extension point="snap-ui:actions">
         <action>
-            <class>org.esa.beam.visat.actions.ProductImportAction</class>
+            <class>org.esa.snap.visat.actions.ProductImportAction</class>
             <id>importSmosProductDataBlockFile</id>
             <helpId/>
             <formatName>SMOS-EEF</formatName>
