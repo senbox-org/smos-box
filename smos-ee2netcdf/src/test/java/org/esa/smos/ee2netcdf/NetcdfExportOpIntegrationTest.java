@@ -55,7 +55,7 @@ public class NetcdfExportOpIntegrationTest {
 
         tempDir = Files.createTempDirectory("NetcdfExportOpIntegrationTest").toFile();
         Path sourceBasePath = ResourceInstaller.findModuleCodeBasePath(NetcdfExportOpIntegrationTest.class);
-        ResourceInstaller installer = new ResourceInstaller(sourceBasePath, "org/esa/snap/smos/ee2netcdf", tempDir.toPath());
+        ResourceInstaller installer = new ResourceInstaller(sourceBasePath.resolve("org/esa/snap/smos/ee2netcdf"), tempDir.toPath());
         installer.install(".*.zip", ProgressMonitor.NULL);
     }
 

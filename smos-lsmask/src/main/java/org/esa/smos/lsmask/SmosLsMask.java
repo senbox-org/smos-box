@@ -53,7 +53,7 @@ public class SmosLsMask {
             if (dirPath == null) {
                 dirPath = getLsMaskAuxdataPath();
             }
-            installDggFiles(dirPath);
+            installLsMaskFiles(dirPath);
 
             final MultiLevelSource multiLevelSource = TiledFileMultiLevelSource.create(dirPath);
             multiLevelImage = new DefaultMultiLevelImage(multiLevelSource);
@@ -67,8 +67,9 @@ public class SmosLsMask {
         return SystemUtils.getPathFromURI(SmosLsMask.class.getProtectionDomain().getCodeSource().getLocation().toURI());
     }
 
-    private void installDggFiles(Path auxdataPath) throws IOException, URISyntaxException {
-        new ResourceInstaller(getPathFromModule(), "org/esa/smos/lsmask", auxdataPath).install(".*(zip|properties)", ProgressMonitor.NULL);
+    private void installLsMaskFiles(Path auxdataPath) throws IOException, URISyntaxException {
+        Path resolve = getPathFromModule().resolve("org/esa/smos/lsmask");
+        new ResourceInstaller(resolve, auxdataPath).install(".*(zip|properties)", ProgressMonitor.NULL);
     }
 
     private static Path getLsMaskAuxdataPath() {

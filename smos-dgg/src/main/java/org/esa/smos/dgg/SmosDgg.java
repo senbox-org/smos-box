@@ -135,7 +135,8 @@ public class SmosDgg {
     }
 
     private void installDggFiles(Path dggAuxdataPath) throws IOException, URISyntaxException {
-        new ResourceInstaller(getPathFromModule(), "org/esa/smos/dgg", dggAuxdataPath).install(".*(zip|properties)", ProgressMonitor.NULL);
+        Path sourceDirPath = getPathFromModule().resolve("org/esa/smos/dgg");
+        new ResourceInstaller(sourceDirPath, dggAuxdataPath).install(".*(zip|properties)", ProgressMonitor.NULL);
     }
 
     private static Path getDggAuxdataPath() {
