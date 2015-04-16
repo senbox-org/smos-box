@@ -327,8 +327,8 @@
 
                     <!-- IMPORTANT: make sure all jvm-options are written in a single line. tb 2013-03-22-->
                     <argLine>
-                        -Dorg.esa.smos.dggDir=${project.basedir}/../smos-dgg/src/main/resources/org/esa/snap/smos/dgg
-                        -Dorg.esa.smos.lsMaskDir=${project.basedir}/../smos-lsmask/src/main/resources/org/esa/snap/smos/lsmask
+                        -Dorg.esa.smos.dggDir=${project.basedir}/../smos-dgg/src/main/resources/org/esa/smos/dgg
+                        -Dorg.esa.smos.lsMaskDir=${project.basedir}/../smos-lsmask/src/main/resources/org/esa/smos/lsmask
                     </argLine>
                     <excludes>
                         <exclude>**/AcceptanceTestRunner.java</exclude>
