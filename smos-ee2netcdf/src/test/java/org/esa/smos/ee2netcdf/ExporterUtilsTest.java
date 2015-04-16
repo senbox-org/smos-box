@@ -119,9 +119,9 @@ public class ExporterUtilsTest {
     }
 
     private String getResourcePath() {
-        File testDir = new File("./smos-ee2netcdf/src/test/resources/org/esa/snap/smos/ee2netcdf/");
+        File testDir = new File("./smos-ee2netcdf/src/test/resources/org/esa/smos/ee2netcdf/");
         if (!testDir.exists()) {
-            testDir = new File("./src/test/resources/org/esa/snap/smos/ee2netcdf/");
+            testDir = new File("./src/test/resources/org/esa/smos/ee2netcdf/");
         }
         return testDir.getPath();
     }
