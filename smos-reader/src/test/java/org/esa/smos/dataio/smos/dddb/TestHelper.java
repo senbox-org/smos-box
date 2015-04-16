@@ -10,9 +10,9 @@ public class TestHelper {
     }
 
     public static File getResourceDirectory() {
-        File resourceDir = new File("./smos-box/smos-reader/src/test/resources/org/esa/snap/dataio/smos/dddb/");
+        File resourceDir = new File("./smos-box/smos-reader/src/test/resources/org/esa/smos/dataio/smos/dddb/");
         if (!resourceDir.isDirectory()) {
-            resourceDir = new File("./src/test/resources/org/esa/snap/dataio/smos/dddb/");
+            resourceDir = new File("./src/test/resources/org/esa/smos/dataio/smos/dddb/");
         }
         return resourceDir;
     }
