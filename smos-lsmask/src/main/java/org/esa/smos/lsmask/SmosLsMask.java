@@ -24,6 +24,7 @@ import com.bc.ceres.glevel.support.DefaultMultiLevelImage;
 import org.esa.snap.glevel.TiledFileMultiLevelSource;
 import org.esa.snap.util.ResourceInstaller;
 import org.esa.snap.util.SystemUtils;
+import org.esa.snap.util.io.FileUtils;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -64,7 +65,7 @@ public class SmosLsMask {
     }
 
     private static Path getPathFromModule() throws URISyntaxException, IOException {
-        return SystemUtils.getPathFromURI(SmosLsMask.class.getProtectionDomain().getCodeSource().getLocation().toURI());
+        return FileUtils.getPathFromURI(SmosLsMask.class.getProtectionDomain().getCodeSource().getLocation().toURI());
     }
 
     private void installLsMaskFiles(Path auxdataPath) throws IOException, URISyntaxException {

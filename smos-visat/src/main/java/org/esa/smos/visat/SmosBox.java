@@ -15,6 +15,7 @@ import org.esa.snap.glayer.WorldMapLayerType;
 import org.esa.snap.rcp.SnapApp;
 import org.esa.snap.util.ResourceInstaller;
 import org.esa.snap.util.SystemUtils;
+import org.esa.snap.util.io.FileUtils;
 import org.openide.modules.OnStart;
 import org.openide.modules.OnStop;
 import org.openide.windows.OnShowing;
@@ -166,7 +167,7 @@ public class SmosBox {
     private static void installColorPalettes() throws IOException {
         final Path codeSourceUrl;
         try {
-            codeSourceUrl = SystemUtils.getPathFromURI(SmosBox.class.getProtectionDomain().getCodeSource().getLocation().toURI());
+            codeSourceUrl = FileUtils.getPathFromURI(SmosBox.class.getProtectionDomain().getCodeSource().getLocation().toURI());
             final File auxdataDir = getSystemAuxdataDir();
             Path sourceDirPath = codeSourceUrl.resolve("auxdata/color_palettes/");
             final ResourceInstaller resourceInstaller = new ResourceInstaller(sourceDirPath, auxdataDir.toPath());

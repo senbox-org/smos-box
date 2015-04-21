@@ -23,6 +23,7 @@ import com.bc.ceres.glevel.support.DefaultMultiLevelImage;
 import org.esa.snap.glevel.TiledFileMultiLevelSource;
 import org.esa.snap.util.ResourceInstaller;
 import org.esa.snap.util.SystemUtils;
+import org.esa.snap.util.io.FileUtils;
 
 import javax.media.jai.PlanarImage;
 import java.awt.geom.AffineTransform;
@@ -144,7 +145,7 @@ public class SmosDgg {
     }
 
     private static Path getPathFromModule() throws URISyntaxException, IOException {
-          return SystemUtils.getPathFromURI(SmosDgg.class.getProtectionDomain().getCodeSource().getLocation().toURI());
+          return FileUtils.getPathFromURI(SmosDgg.class.getProtectionDomain().getCodeSource().getLocation().toURI());
     }
 
     private static Path getDirPathFromProperty() throws IOException {
