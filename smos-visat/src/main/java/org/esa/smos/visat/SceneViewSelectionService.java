@@ -16,7 +16,6 @@
 
 package org.esa.smos.visat;
 
-import com.bc.ceres.core.Assert;
 import com.bc.ceres.glayer.support.ImageLayer;
 import org.esa.smos.dataio.smos.SmosReader;
 import org.esa.snap.framework.dataio.ProductReader;
@@ -70,8 +69,8 @@ public class SceneViewSelectionService extends ToolTopComponent {
             if (oldView != null) {
                 oldView.removePixelPositionListener(ppl);
             }
-            if (newView != null) {
-                Assert.argument(newView.getProduct().getProductReader() instanceof SmosReader, "view");
+            if (newView != null && !(newView.getProduct().getProductReader() instanceof SmosReader)) {
+                return;
             }
             selectedSceneView = newView;
             fireSelectionChange(oldView, newView);
