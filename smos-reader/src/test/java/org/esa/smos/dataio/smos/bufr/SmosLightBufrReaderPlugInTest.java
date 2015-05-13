@@ -2,6 +2,7 @@ package org.esa.smos.dataio.smos.bufr;
 
 import org.esa.snap.framework.dataio.DecodeQualification;
 import org.esa.snap.framework.dataio.ProductReader;
+import org.esa.snap.util.io.SnapFileFilter;
 import org.junit.Before;
 import org.junit.Test;
 
