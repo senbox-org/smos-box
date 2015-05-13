@@ -2,7 +2,6 @@ package org.esa.smos.dataio.smos.bufr;
 
 import org.esa.snap.framework.dataio.DecodeQualification;
 import org.esa.snap.framework.dataio.ProductReader;
-import org.esa.snap.util.io.BeamFileFilter;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -63,7 +62,7 @@ public class SmosBufrReaderPlugInTest {
 
     @Test
     public void testGetProductFileFilter() {
-        final BeamFileFilter productFileFilter = plugin.getProductFileFilter();
+        final SnapFileFilter productFileFilter = plugin.getProductFileFilter();
 
         assertNotNull(productFileFilter);
         assertEquals(".bufr", productFileFilter.getDefaultExtension());

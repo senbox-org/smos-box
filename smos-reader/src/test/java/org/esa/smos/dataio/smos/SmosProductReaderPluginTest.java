@@ -1,6 +1,6 @@
 package org.esa.smos.dataio.smos;
 
-import org.esa.snap.util.io.BeamFileFilter;
+import org.esa.snap.util.io.SnapFileFilter;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -52,7 +52,7 @@ public class SmosProductReaderPluginTest {
 
     @Test
     public void testGetProductFileFilter() {
-        final BeamFileFilter productFileFilter = plugIn.getProductFileFilter();
+        final SnapFileFilter productFileFilter = plugIn.getProductFileFilter();
         assertArrayEquals(plugIn.getDefaultFileExtensions(), productFileFilter.getExtensions());
         assertEquals(plugIn.getFormatNames()[0], productFileFilter.getFormatName());
 
