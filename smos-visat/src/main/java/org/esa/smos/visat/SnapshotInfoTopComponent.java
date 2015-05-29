@@ -27,12 +27,7 @@ import com.bc.ceres.glevel.support.DefaultMultiLevelImage;
 import com.bc.ceres.glevel.support.FileMultiLevelSource;
 import com.bc.ceres.grender.Rendering;
 import com.bc.ceres.grender.Viewport;
-import org.esa.smos.dataio.smos.CellValueProvider;
-import org.esa.smos.dataio.smos.L1cScienceValueProvider;
-import org.esa.smos.dataio.smos.SmosConstants;
-import org.esa.smos.dataio.smos.SmosMultiLevelSource;
-import org.esa.smos.dataio.smos.SmosReader;
-import org.esa.smos.dataio.smos.SnapshotInfo;
+import org.esa.smos.dataio.smos.*;
 import org.esa.smos.dataio.smos.bufr.LightBufrMultiLevelSource;
 import org.esa.smos.dataio.smos.provider.ValueProvider;
 import org.esa.smos.visat.swing.SnapshotSelectorCombo;
@@ -43,49 +38,18 @@ import org.esa.snap.framework.datamodel.RasterDataNode;
 import org.esa.snap.framework.datamodel.VirtualBand;
 import org.esa.snap.framework.ui.product.ProductSceneView;
 import org.esa.snap.glevel.TiledFileMultiLevelSource;
-import org.esa.snap.visat.VisatApp;
+import org.esa.snap.netbeans.docwin.WindowUtilities;
+import org.esa.snap.rcp.windows.ProductSceneViewTopComponent;
 import org.jfree.layout.CenterLayout;
 
-import javax.swing.AbstractButton;
-import javax.swing.BorderFactory;
-import javax.swing.ButtonGroup;
-import javax.swing.ButtonModel;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JComponent;
-import javax.swing.JInternalFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
-import javax.swing.JProgressBar;
-import javax.swing.JRadioButton;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.SwingUtilities;
-import javax.swing.SwingWorker;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableModel;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.ComponentOrientation;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
-import java.awt.Shape;
-import java.awt.Window;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.*;
+import java.awt.event.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -405,16 +369,20 @@ public class SnapshotInfoTopComponent extends SmosTopComponent {
     }
 
     private void updateViews(RasterDataNode raster, long snapshotId) {
-        for (final JInternalFrame internalFrame : VisatApp.getApp().findInternalFrames(raster)) {
-            if (internalFrame != null) {
-                if (internalFrame.getContentPane() instanceof ProductSceneView) {
-                    final ProductSceneView view = (ProductSceneView) internalFrame.getContentPane();
-                    if (getSelectedSnapshotId(view.getRaster()) != snapshotId) {
-                        regenerateImageLayers(view.getRootLayer());
-                    }
-                }
+        final ProductSceneViewTopComponent sceneViewTopComponent = getProductSceneViewTopComponent(raster);
+        if (sceneViewTopComponent != null) {
+            final ProductSceneView view = sceneViewTopComponent.getView();
+            if (getSelectedSnapshotId(view.getRaster()) != snapshotId) {
+                regenerateImageLayers(view.getRootLayer());
             }
         }
+    }
+
+    private ProductSceneViewTopComponent getProductSceneViewTopComponent(RasterDataNode raster) {
+        return WindowUtilities.getOpened(ProductSceneViewTopComponent.class)
+                .filter(topComponent -> raster == topComponent.getView().getRaster())
+                .findFirst()
+                .orElse(null);
     }
 
     private class LocateSnapshotAction implements ActionListener {

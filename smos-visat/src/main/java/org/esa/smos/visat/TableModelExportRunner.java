@@ -21,18 +21,14 @@ import com.bc.ceres.swing.progress.ProgressMonitorSwingWorker;
 import com.jidesoft.grid.TableColumnChooser;
 import org.esa.smos.visat.TableModelExporter.ColumnFilter;
 import org.esa.snap.framework.ui.SelectExportMethodDialog;
+import org.esa.snap.rcp.SnapDialogs;
 import org.esa.snap.util.SystemUtils;
-import org.esa.snap.visat.VisatApp;
 
-import javax.swing.JOptionPane;
+import javax.swing.*;
 import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
-import java.awt.Component;
-import java.io.BufferedOutputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
+import java.awt.*;
+import java.io.*;
 import java.text.MessageFormat;
 import java.util.concurrent.ExecutionException;
 
@@ -54,8 +50,8 @@ class TableModelExportRunner {
      * Creates an instance of this class to export a table model.
      *
      * @param parentComponent The parent component to align displayed dialogs.
-     * @param title The title of displayed dialogs.
-     * @param model the model to export.
+     * @param title           The title of displayed dialogs.
+     * @param model           the model to export.
      */
     TableModelExportRunner(Component parentComponent, String title, TableModel model, TableColumnModel columnModel) {
         this.parentComponent = parentComponent;
@@ -69,14 +65,12 @@ class TableModelExportRunner {
      */
     public void run() {
         if (model.getRowCount() == 0) {
-            JOptionPane.showMessageDialog(parentComponent,
-                                  "The table is empty!",
-                                  title,
-                                  JOptionPane.INFORMATION_MESSAGE);
+            SnapDialogs.showMessage(title, "The table is empty!", JOptionPane.INFORMATION_MESSAGE, null);
         }
+
         // Get export method from user
         final int method = SelectExportMethodDialog.run(parentComponent, title,
-                                                        "How do you want to export the table?", "");
+                "How do you want to export the table?", "");
         if (method == SelectExportMethodDialog.EXPORT_CANCELED) {
             return;
         }
@@ -98,7 +92,7 @@ class TableModelExportRunner {
 
     private void exportToFile(final File outFile, final TableModelExporter exporter) {
         final ProgressMonitorSwingWorker worker = new ProgressMonitorSwingWorker(parentComponent,
-                                                                                 "Table Model Export") {
+                "Table Model Export") {
             @Override
             protected Object doInBackground(ProgressMonitor pm) throws Exception {
                 pm.beginTask("Exporting table model...", 1);
@@ -117,15 +111,9 @@ class TableModelExportRunner {
                 } catch (InterruptedException ignore) {
                 } catch (ExecutionException e) {
                     e.getCause().printStackTrace();
-                        final String message = MessageFormat.format(
-                                "The table could not be exported!\nReason: {0}",
-                                e.getCause().getMessage());
-                    JOptionPane.showMessageDialog(parentComponent,
-                                          message,
-                                          title,
-                                          JOptionPane.ERROR_MESSAGE);
+                    final String message = MessageFormat.format("The table could not be exported!\nReason: {0}", e.getCause().getMessage());
+                    SnapDialogs.showMessage(title, message, JOptionPane.ERROR_MESSAGE, null);
                 }
-
             }
         };
         worker.execute();
@@ -133,7 +121,7 @@ class TableModelExportRunner {
 
     private void exportToClipboard(final TableModelExporter exporter) {
         final ProgressMonitorSwingWorker worker = new ProgressMonitorSwingWorker(parentComponent,
-                                                                                 "Table Model Export") {
+                "Table Model Export") {
             @Override
             protected Object doInBackground(ProgressMonitor pm) throws Exception {
                 pm.beginTask("Exporting table model...", 1);
@@ -158,11 +146,8 @@ class TableModelExportRunner {
                     final Throwable cause = exex.getCause();
                     cause.printStackTrace();
                     final String message = MessageFormat.format("The table could not be exported!\nReason: {0}",
-                                                                cause.getMessage());
-                    JOptionPane.showMessageDialog(parentComponent,
-                                          message,
-                                          title,
-                                          JOptionPane.ERROR_MESSAGE);
+                            cause.getMessage());
+                    SnapDialogs.showMessage(title, message, JOptionPane.ERROR_MESSAGE, null);
                 }
             }
         };
@@ -173,7 +158,6 @@ class TableModelExportRunner {
      * Opens a modal file chooser dialog that prompts the user to select the output file name.
      *
      * @param defaultFileName The default file name.
-     *
      * @return The selected file, <code>null</code> means "Cancel".
      */
     private static File promptForFile(String defaultFileName) {
@@ -183,28 +167,16 @@ class TableModelExportRunner {
         final String dlgTitle = "Export Table";
         File file = null;
         while (file == null) {
-            final VisatApp app = VisatApp.getApp();
-            file = app.showFileSaveDialog(dlgTitle,
-                                               false,
-                                               null,
-                                               ".txt",
-                                               defaultFileName,
-                                               "exportSmosTable.lastDir");
+            file = SnapDialogs.requestFileForSave(dlgTitle,
+                    false,
+                    null,
+                    ".txt",
+                    defaultFileName,
+                    null,
+                    "exportSmosTable.lastDir");
+
             if (file == null) {
                 return null; // Cancel
-            } else if (file.exists()) {
-                final String message = MessageFormat.format("The file ''{0}'' already exists.\nOverwrite it?", file);
-                int status = JOptionPane.showConfirmDialog(app.getMainFrame(),
-                                                           message,
-                                                           MessageFormat.format("{0} - {1}", app.getAppName(),
-                                                                                dlgTitle),
-                                                           JOptionPane.YES_NO_CANCEL_OPTION,
-                                                           JOptionPane.WARNING_MESSAGE);
-                if (status == JOptionPane.CANCEL_OPTION) {
-                    return null; // Cancel
-                } else if (status == JOptionPane.NO_OPTION) {
-                    file = null; // No, do not overwrite, let user select other file
-                }
             }
         }
         return file;
