@@ -51,8 +51,8 @@
 
     <extension point="snap-ui:toolViews">
         <toolView>
-            <id>org.esa.smos.visat.GridPointBtDataTableTopComponent</id>
-            <class>org.esa.smos.visat.GridPointBtDataTableTopComponent</class>
+            <id>org.esa.smos.gui.gridpoint.GridPointBtDataTableTopComponent</id>
+            <class>org.esa.smos.gui.gridpoint.GridPointBtDataTableTopComponent</class>
             <title>SMOS L1C Table</title>
             <tabTitle>SMOS L1C Table</tabTitle>
             <initState>HIDDEN</initState>
@@ -66,8 +66,8 @@
         </toolView>
 
         <toolView>
-            <id>org.esa.smos.visat.GridPointBtDataChartTopComponent</id>
-            <class>org.esa.smos.visat.GridPointBtDataChartTopComponent</class>
+            <id>org.esa.smos.gui.gridpoint.GridPointBtDataChartTopComponent</id>
+            <class>org.esa.smos.gui.gridpoint.GridPointBtDataChartTopComponent</class>
             <title>SMOS L1C Chart</title>
             <tabTitle>SMOS L1C Chart</tabTitle>
             <initState>HIDDEN</initState>
@@ -96,8 +96,8 @@
         </toolView>
 
         <toolView>
-            <id>org.esa.smos.visat.SnapshotInfoTopComponent</id>
-            <class>org.esa.smos.visat.SnapshotInfoTopComponent</class>
+            <id>org.esa.smos.gui.snapshot.SnapshotInfoTopComponent</id>
+            <class>org.esa.smos.gui.snapshot.SnapshotInfoTopComponent</class>
             <title>SMOS L1C Snapshot</title>
             <tabTitle>SMOS L1C Snapshot</tabTitle>
             <initState>HIDDEN</initState>

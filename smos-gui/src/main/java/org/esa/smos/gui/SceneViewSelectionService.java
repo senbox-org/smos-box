@@ -14,7 +14,7 @@
  * with this program; if not, see http://www.gnu.org/licenses/
  */
 
-package org.esa.smos.visat;
+package org.esa.smos.gui;
 
 import com.bc.ceres.glayer.support.ImageLayer;
 import org.esa.smos.dataio.smos.SmosReader;

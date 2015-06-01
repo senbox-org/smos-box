@@ -1,4 +1,4 @@
-package org.esa.smos.visat;
+package org.esa.smos.gui;
 
 import com.bc.ceres.binding.PropertySet;
 import com.bc.ceres.core.ProgressMonitor;
@@ -8,6 +8,7 @@ import com.bc.ceres.glayer.LayerTypeRegistry;
 import com.bc.ceres.glayer.support.ImageLayer;
 import com.bc.ceres.glayer.support.LayerUtils;
 import org.esa.smos.dataio.smos.SmosReader;
+import org.esa.smos.gui.gridpoint.GridPointSelectionService;
 import org.esa.snap.framework.dataio.ProductReader;
 import org.esa.snap.framework.datamodel.RasterDataNode;
 import org.esa.snap.framework.ui.product.ProductSceneView;
@@ -125,7 +126,7 @@ public class SmosBox {
         return getL1CScienceSmosReader(smosView) != null;
     }
 
-    static SmosReader getL1CScienceSmosReader(ProductSceneView smosView) {
+    public static SmosReader getL1CScienceSmosReader(ProductSceneView smosView) {
         if (smosView == null) {
             return null;
         }

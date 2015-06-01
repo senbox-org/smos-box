@@ -1,5 +1,6 @@
-package org.esa.smos.visat;
+package org.esa.smos.gui.snapshot;
 
+import org.esa.smos.gui.snapshot.SnapshotTableModel;
 import org.junit.Before;
 import org.junit.Test;
 

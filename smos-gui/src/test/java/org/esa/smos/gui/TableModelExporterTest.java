@@ -14,8 +14,9 @@
  * with this program; if not, see http://www.gnu.org/licenses/
  */
 
-package org.esa.smos.visat;
+package org.esa.smos.gui;
 
+import org.esa.smos.gui.TableModelExporter;
 import org.junit.Before;
 import org.junit.Test;
 

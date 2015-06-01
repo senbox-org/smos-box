@@ -14,7 +14,7 @@
  * with this program; if not, see http://www.gnu.org/licenses/
  */
 
-package org.esa.smos.visat;
+package org.esa.smos.gui.snapshot;
 
 import com.bc.ceres.core.ProgressMonitor;
 import com.bc.ceres.glayer.CollectionLayer;
@@ -30,8 +30,12 @@ import com.bc.ceres.grender.Viewport;
 import org.esa.smos.dataio.smos.*;
 import org.esa.smos.dataio.smos.bufr.LightBufrMultiLevelSource;
 import org.esa.smos.dataio.smos.provider.ValueProvider;
-import org.esa.smos.visat.swing.SnapshotSelectorCombo;
-import org.esa.smos.visat.swing.SnapshotSelectorComboModel;
+import org.esa.smos.gui.SmosBox;
+import org.esa.smos.gui.SmosTopComponent;
+import org.esa.smos.gui.TableModelExportRunner;
+import org.esa.smos.gui.ProgressBarProgressMonitor;
+import org.esa.smos.gui.swing.SnapshotSelectorCombo;
+import org.esa.smos.gui.swing.SnapshotSelectorComboModel;
 import org.esa.snap.framework.datamodel.Band;
 import org.esa.snap.framework.datamodel.Product;
 import org.esa.snap.framework.datamodel.RasterDataNode;

@@ -20,6 +20,7 @@ import org.esa.smos.dataio.smos.GridPointBtDataset;
 import org.esa.smos.dataio.smos.SmosReader;
 import org.esa.smos.dataio.smos.dddb.Dddb;
 import org.esa.smos.dataio.smos.dddb.FlagDescriptor;
+import org.esa.smos.gui.gridpoint.GridPointBtDataTopComponent;
 import org.esa.snap.framework.ui.product.ProductSceneView;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;

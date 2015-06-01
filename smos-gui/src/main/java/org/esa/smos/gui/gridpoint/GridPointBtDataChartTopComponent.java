@@ -14,7 +14,7 @@
  * with this program; if not, see http://www.gnu.org/licenses/
  */
 
-package org.esa.smos.visat;
+package org.esa.smos.gui.gridpoint;
 
 import org.esa.smos.dataio.smos.GridPointBtDataset;
 import org.esa.smos.dataio.smos.PolarisationModel;
@@ -30,6 +30,10 @@ import org.jfree.chart.renderer.xy.DeviationRenderer;
 import org.jfree.data.xy.YIntervalSeries;
 import org.jfree.data.xy.YIntervalSeriesCollection;
 import org.jfree.ui.RectangleInsets;
+import org.openide.awt.ActionID;
+import org.openide.awt.ActionReference;
+import org.openide.awt.ActionReferences;
+import org.openide.windows.TopComponent;
 
 import javax.swing.JCheckBox;
 import javax.swing.JComponent;
@@ -37,6 +41,25 @@ import javax.swing.JPanel;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.io.IOException;
+
+@TopComponent.Description(
+        preferredID = "GridPointBtDataChartTopComponent",
+        iconBase = "org/esa/smos/visat/SmosGridPoint24.png",
+        persistenceType = TopComponent.PERSISTENCE_ALWAYS
+)
+@TopComponent.Registration(
+        mode = "navigator",
+        openAtStartup = false,
+        position = 1
+)
+@ActionID(category = "Window", id = "org.esa.smos.visat.GridPointBtDataChartTopComponent")
+@ActionReferences({
+        @ActionReference(path = "Menu/Window/Tool Windows"),
+})
+@TopComponent.OpenActionRegistration(
+        displayName = "GridPointBTDataChart",
+        preferredID = "LayerEditorTopComponent"
+)
 
 public class GridPointBtDataChartTopComponent extends GridPointBtDataTopComponent {
     public static final String ID = GridPointBtDataChartTopComponent.class.getName();

@@ -14,10 +14,13 @@
  * with this program; if not, see http://www.gnu.org/licenses/
  */
 
-package org.esa.smos.visat;
+package org.esa.smos.gui.gridpoint;
 
 import org.esa.smos.dataio.smos.GridPointBtDataset;
 import org.esa.smos.dataio.smos.SmosReader;
+import org.esa.smos.gui.SceneViewSelectionService;
+import org.esa.smos.gui.SmosBox;
+import org.esa.smos.gui.SmosTopComponent;
 import org.esa.snap.framework.datamodel.PixelPos;
 import org.esa.snap.framework.datamodel.Placemark;
 import org.esa.snap.framework.datamodel.ProductNode;

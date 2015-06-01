@@ -1,6 +1,7 @@
-package org.esa.smos.visat;
+package org.esa.smos.gui.gridpoint;
 
 import org.esa.smos.dataio.smos.GridPointBtDataset;
+import org.esa.smos.gui.gridpoint.GridPointBtDataTableModel;
 import org.junit.Before;
 import org.junit.Test;
 

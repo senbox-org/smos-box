@@ -14,7 +14,7 @@
  * with this program; if not, see http://www.gnu.org/licenses/
  */
 
-package org.esa.smos.visat;
+package org.esa.smos.gui;
 
 import com.bc.ceres.core.Assert;
 import com.bc.ceres.core.ProgressMonitor;
@@ -23,7 +23,7 @@ import javax.swing.JLabel;
 import javax.swing.JProgressBar;
 import javax.swing.SwingUtilities;
 
-class ProgressBarProgressMonitor implements ProgressMonitor {
+public class ProgressBarProgressMonitor implements ProgressMonitor {
 
         private JProgressBar progressBar;
         private JLabel messageLabel;

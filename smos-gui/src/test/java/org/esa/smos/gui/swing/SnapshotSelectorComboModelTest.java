@@ -13,9 +13,11 @@
  * You should have received a copy of the GNU General Public License along
  * with this program; if not, see http://www.gnu.org/licenses/
  */
-package org.esa.smos.visat.swing;
+package org.esa.smos.gui.swing;
 
 import org.esa.smos.dataio.smos.SnapshotInfo;
+import org.esa.smos.gui.swing.SnapshotSelectorComboModel;
+import org.esa.smos.gui.swing.SnapshotSelectorModel;
 import org.junit.Before;
 import org.junit.Test;
 

@@ -14,8 +14,10 @@
  * with this program; if not, see http://www.gnu.org/licenses/
  */
 
-package org.esa.smos.visat;
+package org.esa.smos.gui;
 
+import org.esa.smos.gui.SceneViewSelectionService;
+import org.esa.smos.gui.SmosBox;
 import org.esa.snap.framework.datamodel.RasterDataNode;
 import org.esa.snap.framework.ui.product.ProductSceneView;
 

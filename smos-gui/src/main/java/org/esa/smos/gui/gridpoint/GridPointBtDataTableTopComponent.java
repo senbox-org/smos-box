@@ -14,17 +14,13 @@
  * with this program; if not, see http://www.gnu.org/licenses/
  */
 
-package org.esa.smos.visat;
+package org.esa.smos.gui.gridpoint;
 
-import com.jidesoft.grid.AutoResizePopupMenuCustomizer;
-import com.jidesoft.grid.TableColumnChooser;
-import com.jidesoft.grid.TableColumnChooserPopupMenuCustomizer;
-import com.jidesoft.grid.TableHeaderPopupMenuInstaller;
 import org.esa.smos.dataio.smos.GridPointBtDataset;
 import org.esa.smos.dataio.smos.SmosReader;
+import org.esa.smos.gui.TableModelExportRunner;
 import org.esa.snap.framework.ui.product.ProductSceneView;
 
-import javax.swing.Action;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
@@ -76,18 +72,20 @@ public class GridPointBtDataTableTopComponent extends GridPointBtDataTopComponen
 
     @Override
     protected JComponent createGridPointComponent() {
-        final TableHeaderPopupMenuInstaller installer = new TableHeaderPopupMenuInstaller(table);
-        installer.addTableHeaderPopupMenuCustomizer(new AutoResizePopupMenuCustomizer());
-        installer.addTableHeaderPopupMenuCustomizer(new TableColumnChooserPopupMenuCustomizer());
+        // @TODO 1 tb/tb find replacement for that code 2015-06-01
+//        final TableHeaderPopupMenuInstaller installer = new TableHeaderPopupMenuInstaller(table);
+//        installer.addTableHeaderPopupMenuCustomizer(new AutoResizePopupMenuCustomizer());
+//        installer.addTableHeaderPopupMenuCustomizer(new TableColumnChooserPopupMenuCustomizer());
 
         return new JScrollPane(table);
     }
 
     @Override
     protected JComponent createGridPointComponentOptionsComponent() {
-        Action action = TableColumnChooser.getTableColumnChooserButton(table).getAction();
-        action.putValue(Action.NAME, "Columns...");
-        columnsButton = new JButton(action);
+        // @TODO 1 tb/tb find replacement for that code 2015-06-01
+//        Action action = TableColumnChooser.getTableColumnChooserButton(table).getAction();
+//        action.putValue(Action.NAME, "Columns...");
+//        columnsButton = new JButton(action);
 
         exportButton = new JButton("Export...");
         exportButton.addActionListener(e -> new TableModelExportRunner(getParent(), getShortName(), table.getModel(), table.getColumnModel()).run());

@@ -1,9 +1,10 @@
 package org.esa.smos.visat;
 
+import org.esa.smos.gui.gridpoint.GridPointSelectionService;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.esa.smos.visat.GridPointSelectionService.*;
+import static org.esa.smos.gui.gridpoint.GridPointSelectionService.*;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 

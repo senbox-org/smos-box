@@ -15,8 +15,11 @@
  */
 package org.esa.smos.visat.export;
 
-import org.esa.snap.framework.ui.command.CommandEvent;
-import org.esa.snap.visat.actions.AbstractVisatAction;
+
+import org.esa.snap.rcp.actions.AbstractSnapAction;
+import org.openide.util.HelpCtx;
+
+import java.awt.event.ActionEvent;
 
 /**
  * @author Ralf Quast
@@ -24,10 +27,15 @@ import org.esa.snap.visat.actions.AbstractVisatAction;
  * @version $Revision$ $Date$
  * @since SMOS 2.0
  */
-public class GridPointExportAction extends AbstractVisatAction {
+public class GridPointExportAction extends AbstractSnapAction {
 
     @Override
-    public void actionPerformed(CommandEvent event) {
-        new GridPointExportDialog(getAppContext(), event.getCommand().getHelpId()).show();
+    public void actionPerformed(ActionEvent event) {
+        new GridPointExportDialog(getAppContext(), null).show();
+    }
+
+    @Override
+    public HelpCtx getHelpCtx() {
+        return new HelpCtx("smosGridPointExport");
     }
 }

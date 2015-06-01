@@ -14,21 +14,24 @@
  * with this program; if not, see http://www.gnu.org/licenses/
  */
 
-package org.esa.smos.visat;
+package org.esa.smos.gui;
 
 import com.bc.ceres.core.ProgressMonitor;
 import com.bc.ceres.swing.progress.ProgressMonitorSwingWorker;
-import com.jidesoft.grid.TableColumnChooser;
-import org.esa.smos.visat.TableModelExporter.ColumnFilter;
 import org.esa.snap.framework.ui.SelectExportMethodDialog;
 import org.esa.snap.rcp.SnapDialogs;
 import org.esa.snap.util.SystemUtils;
 
 import javax.swing.*;
+import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 import java.awt.*;
-import java.io.*;
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.text.MessageFormat;
 import java.util.concurrent.ExecutionException;
 
@@ -39,7 +42,7 @@ import java.util.concurrent.ExecutionException;
  * @version $Revision: $ $Date: $
  * @since BEAM 4.6
  */
-class TableModelExportRunner {
+public class TableModelExportRunner {
 
     private final Component parentComponent;
     private String title;
@@ -53,7 +56,7 @@ class TableModelExportRunner {
      * @param title           The title of displayed dialogs.
      * @param model           the model to export.
      */
-    TableModelExportRunner(Component parentComponent, String title, TableModel model, TableColumnModel columnModel) {
+    public TableModelExportRunner(Component parentComponent, String title, TableModel model, TableColumnModel columnModel) {
         this.parentComponent = parentComponent;
         this.title = title;
         this.model = model;
@@ -182,11 +185,16 @@ class TableModelExportRunner {
         return file;
     }
 
-    private class TableColumnFilter implements ColumnFilter {
+    private class TableColumnFilter implements TableModelExporter.ColumnFilter {
 
         @Override
         public boolean exportColumn(int columnIndex) {
-            return TableColumnChooser.isVisibleColumn(columnModel, columnIndex);
+
+            final TableColumn column = columnModel.getColumn(columnIndex);
+            // @TODO 1 tb/tb implement this 2015-06-01
+//            column.
+//            return TableColumnChooser.isVisibleColumn(columnModel, columnIndex);
+            return true;
         }
     }
 }
