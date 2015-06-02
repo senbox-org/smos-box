@@ -44,7 +44,7 @@ import java.io.IOException;
 
 @TopComponent.Description(
         preferredID = "GridPointBtDataChartTopComponent",
-        iconBase = "org/esa/smos/visat/SmosGridPoint24.png",
+        iconBase = "org/esa/smos/icons/SmosGridPoint.png",
         persistenceType = TopComponent.PERSISTENCE_ALWAYS
 )
 @TopComponent.Registration(
@@ -54,15 +54,16 @@ import java.io.IOException;
 )
 @ActionID(category = "Window", id = "org.esa.smos.visat.GridPointBtDataChartTopComponent")
 @ActionReferences({
-        @ActionReference(path = "Menu/Window/Tool Windows"),
+        @ActionReference(path = "Menu/Window/Tool Windows/SMOS")
 })
 @TopComponent.OpenActionRegistration(
-        displayName = "GridPointBTDataChart",
-        preferredID = "LayerEditorTopComponent"
+        displayName = GridPointBtDataChartTopComponent.DISPLAY_NAME,
+        preferredID = "GridPointBtDataChartTopComponent"
 )
 
 public class GridPointBtDataChartTopComponent extends GridPointBtDataTopComponent {
-    public static final String ID = GridPointBtDataChartTopComponent.class.getName();
+
+    static final String DISPLAY_NAME = "GridPoint BT Data Chart";
 
     private JFreeChart chart;
     private YIntervalSeriesCollection coPolDataset;
@@ -70,6 +71,11 @@ public class GridPointBtDataChartTopComponent extends GridPointBtDataTopComponen
     private XYPlot plot;
     private JCheckBox[] modeCheckers;
     private PolarisationModel polarisationModel;
+
+    public GridPointBtDataChartTopComponent() {
+        super();
+        setDisplayName(DISPLAY_NAME);
+    }
 
     @Override
     protected JComponent createGridPointComponent() {

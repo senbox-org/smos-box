@@ -66,7 +66,12 @@ public class SmosBox {
 
         @Override
         public void run() {
+            LOGGER.info("Starting SmosBox Desktop");
             instance = new SmosBox();
+
+            sceneViewSelectionService = new SceneViewSelectionService();
+            snapshotSelectionService = new SnapshotSelectionService(sceneViewSelectionService);
+            gridPointSelectionService = new GridPointSelectionService();
         }
     }
 
@@ -75,10 +80,7 @@ public class SmosBox {
 
         @Override
         public void run() {
-            sceneViewSelectionService = new SceneViewSelectionService();
-            snapshotSelectionService = new SnapshotSelectionService(sceneViewSelectionService);
-            gridPointSelectionService = new GridPointSelectionService();
-
+            LOGGER.info("Showing SmosBox Desktop");
             sceneViewSelectionService.addSceneViewSelectionListener((oldView, newView) -> {
                 if (newView != null) {
                     Layer worldMapLayer = findWorldMapLayer(newView);
@@ -98,7 +100,6 @@ public class SmosBox {
                     LOGGER.warning("Unable to install SMOS color palettes" + e.getMessage());
                 }
             }
-
         }
     }
 
@@ -107,6 +108,7 @@ public class SmosBox {
 
         @Override
         public void run() {
+            LOGGER.info("Stopping SmosBox Desktop");
             sceneViewSelectionService.stop();
             sceneViewSelectionService = null;
             snapshotSelectionService.stop();
@@ -114,7 +116,6 @@ public class SmosBox {
             gridPointSelectionService.stop();
             gridPointSelectionService = null;
             instance = null;
-
         }
     }
 
