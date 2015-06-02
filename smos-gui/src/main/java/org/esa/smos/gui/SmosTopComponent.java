@@ -22,15 +22,11 @@ import org.esa.snap.framework.datamodel.RasterDataNode;
 import org.esa.snap.framework.ui.UIUtils;
 import org.esa.snap.framework.ui.product.ProductSceneView;
 import org.esa.snap.framework.ui.tool.ToolButtonFactory;
+import org.openide.util.ImageUtilities;
 import org.openide.windows.TopComponent;
 
-import javax.swing.AbstractButton;
-import javax.swing.ImageIcon;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import java.awt.BorderLayout;
-import java.net.URL;
+import javax.swing.*;
+import java.awt.*;
 
 public abstract class SmosTopComponent extends TopComponent {
 
@@ -41,7 +37,8 @@ public abstract class SmosTopComponent extends TopComponent {
 
     public SmosTopComponent() {
         final JComponent component = initUi();
-        add(component);
+        setLayout(new BorderLayout());
+        add(component, BorderLayout.CENTER);
     }
 
     protected final SceneViewSelectionService getSmosViewSelectionService() {
@@ -84,15 +81,17 @@ public abstract class SmosTopComponent extends TopComponent {
 
     protected JComponent initUi() {
         panel = new JPanel(new BorderLayout());
-        URL resource = SmosTopComponent.class.getResource("SmosIcon.png");
-        if (resource != null) {
-            defaultComponent = new JLabel(new ImageIcon(resource));
+
+        final Image image = ImageUtilities.loadImage("org/esa/smos/icons/SmosIcon.png", false);
+        if (image != null) {
+            defaultComponent = new JLabel(new ImageIcon(image));
         } else {
             defaultComponent = new JLabel();
         }
         defaultComponent.setIconTextGap(10);
         defaultComponent.setText("No SMOS image selected.");
-        panel.add(defaultComponent);
+
+        panel.add(defaultComponent, BorderLayout.CENTER);
 
         // @todo 1 tb/tb enable the following 2015-03-26
 //        HelpSys.enableHelpKey(getPaneControl(), getDescriptor().getHelpId());
