@@ -153,6 +153,7 @@ public abstract class GridPointBtDataTopComponent extends SmosTopComponent {
                     try {
                         return smosReader.getBtData(gridPointIndex);
                     } catch (IOException e) {
+                        e.printStackTrace();
                         throw new ExecutionException(e);
                     }
                 }
@@ -162,6 +163,7 @@ public abstract class GridPointBtDataTopComponent extends SmosTopComponent {
                     try {
                         updateGridPointBtDataComponent(get());
                     } catch (InterruptedException | ExecutionException e) {
+                        e.printStackTrace();
                         updateGridPointBtDataComponent(new IOException(e));
                     }
                 }

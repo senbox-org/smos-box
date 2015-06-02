@@ -43,7 +43,7 @@ import org.esa.snap.framework.datamodel.ProductData;
 import org.esa.snap.util.StringUtils;
 import org.esa.snap.util.io.FileUtils;
 
-import java.awt.Rectangle;
+import java.awt.*;
 import java.awt.image.Raster;
 import java.awt.image.RenderedImage;
 import java.io.File;
@@ -168,8 +168,15 @@ public class SmosProductReader extends SmosReader {
                 break;
             }
         }
-        btDataset.setIncidenceAngleBandIndex(memberNamesMap.get("Incidence_Angle"));
-        btDataset.setRadiometricAccuracyBandIndex(memberNamesMap.get("Pixel_Radiometric_Accuracy"));
+        final Integer incidence_angle = memberNamesMap.get("Incidence_Angle");
+        if (incidence_angle != null) {
+            btDataset.setIncidenceAngleBandIndex(incidence_angle);
+        }
+        final Integer pixel_radiometric_accuracy = memberNamesMap.get("Pixel_Radiometric_Accuracy");
+        if (pixel_radiometric_accuracy != null) {
+            btDataset.setRadiometricAccuracyBandIndex(pixel_radiometric_accuracy);
+        }
+
         final Integer bt_value_real = memberNamesMap.get("BT_Value_Real");
         if (bt_value_real != null) {
             btDataset.setBTValueRealBandIndex(bt_value_real);
@@ -263,7 +270,7 @@ public class SmosProductReader extends SmosReader {
                         try {
                             final Date date = DateTimeUtils.cfiDateToUtc(data);
                             final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSz",
-                                                                                     Locale.ENGLISH);
+                                    Locale.ENGLISH);
                             dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
                             entry[1] = dateFormat.format(date);
                         } catch (IOException e) {
@@ -421,7 +428,7 @@ public class SmosProductReader extends SmosReader {
         }
         if (descriptor.getFlagDescriptors() != null) {
             ProductHelper.addFlagsAndMasks(product, band, descriptor.getFlagCodingName(),
-                                           descriptor.getFlagDescriptors());
+                    descriptor.getFlagDescriptors());
         }
 
         band.setSourceImage(SmosLsMask.getInstance().getMultiLevelImage());
@@ -444,14 +451,14 @@ public class SmosProductReader extends SmosReader {
         if (SmosUtils.isBrowseFormat(formatName)) {
             return new L1cBrowseSmosFile(eeFilePair, context);
         } else if (SmosUtils.isDualPolScienceFormat(formatName) ||
-                   SmosUtils.isFullPolScienceFormat(formatName)) {
+                SmosUtils.isFullPolScienceFormat(formatName)) {
             return new L1cScienceSmosFile(eeFilePair, context);
         } else if (SmosUtils.isSmUserFormat(formatName)) {
             return new SmUserSmosFile(eeFilePair, context);
         } else if (SmosUtils.isOsUserFormat(formatName) ||
-                   SmosUtils.isOsAnalysisFormat(formatName) ||
-                   SmosUtils.isSmAnalysisFormat(formatName) ||
-                   SmosUtils.isAuxECMWFType(formatName)) {
+                SmosUtils.isOsAnalysisFormat(formatName) ||
+                SmosUtils.isSmAnalysisFormat(formatName) ||
+                SmosUtils.isAuxECMWFType(formatName)) {
             return new SmosFile(eeFilePair, context);
         } else if (SmosUtils.isDffLaiFormat(formatName)) {
             return new LaiFile(eeFilePair, context);
@@ -460,10 +467,10 @@ public class SmosProductReader extends SmosReader {
         } else if (SmosUtils.isLsMaskFormat(formatName)) {
             return new GlobalSmosFile(eeFilePair, context);
         } else if (SmosUtils.isDggFloFormat(formatName) ||
-                   SmosUtils.isDggRfiFormat(formatName) ||
-                   SmosUtils.isDggRouFormat(formatName) ||
-                   SmosUtils.isDggTfoFormat(formatName) ||
-                   SmosUtils.isDggTlvFormat(formatName)) {
+                SmosUtils.isDggRfiFormat(formatName) ||
+                SmosUtils.isDggRouFormat(formatName) ||
+                SmosUtils.isDggTfoFormat(formatName) ||
+                SmosUtils.isDggTlvFormat(formatName)) {
             return new AuxiliaryFile(eeFilePair, context);
         }
 
