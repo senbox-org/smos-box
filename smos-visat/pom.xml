@@ -76,10 +76,7 @@
             <groupId>org.esa.snap</groupId>
             <artifactId>snap-rcp</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.esa.snap</groupId>
-            <artifactId>snap-visat-rcp</artifactId>
-        </dependency>
+
         <dependency>
             <groupId>org.esa.snap</groupId>
             <artifactId>blue-marble-worldmap</artifactId>
