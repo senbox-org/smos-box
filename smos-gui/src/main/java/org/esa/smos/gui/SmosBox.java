@@ -9,6 +9,7 @@ import com.bc.ceres.glayer.support.ImageLayer;
 import com.bc.ceres.glayer.support.LayerUtils;
 import org.esa.smos.dataio.smos.SmosReader;
 import org.esa.smos.gui.gridpoint.GridPointSelectionService;
+import org.esa.smos.gui.snapshot.SnapshotSelectionService;
 import org.esa.snap.framework.dataio.ProductReader;
 import org.esa.snap.framework.datamodel.RasterDataNode;
 import org.esa.snap.framework.ui.product.ProductSceneView;
@@ -119,11 +120,11 @@ public class SmosBox {
         }
     }
 
-    static boolean isL1cScienceSmosRaster(RasterDataNode raster) {
+    public static boolean isL1cScienceSmosRaster(RasterDataNode raster) {
         return getL1CScienceSmosReader(raster) != null;
     }
 
-    static boolean isL1cScienceSmosView(ProductSceneView smosView) {
+    public static boolean isL1cScienceSmosView(ProductSceneView smosView) {
         return getL1CScienceSmosReader(smosView) != null;
     }
 

@@ -14,7 +14,7 @@
  * with this program; if not, see http://www.gnu.org/licenses/
  */
 
-package org.esa.smos.gui;
+package org.esa.smos.gui.snapshot;
 
 import org.esa.smos.gui.SceneViewSelectionService;
 import org.esa.smos.gui.SmosBox;
@@ -37,17 +37,14 @@ public class SnapshotSelectionService {
         this.smosViewSelectionService = smosViewSelectionService;
         this.selectionListenerList = new ArrayList<>();
         this.snapshotIdMap = new WeakHashMap<>();
-        this.smosViewSelectionListener = new SceneViewSelectionService.SelectionListener() {
-            @Override
-            public void handleSceneViewSelectionChanged(ProductSceneView oldView, ProductSceneView newView) {
-                if (SmosBox.isL1cScienceSmosView(newView)) {
-                    synchronized (snapshotIdMap) {
-                        final Long newId = snapshotIdMap.get(newView.getRaster());
-                        if (newId != null) {
-                            fireSelectionChange(newView, newId);
-                        } else {
-                            fireSelectionChange(newView, -1);
-                        }
+        this.smosViewSelectionListener = (oldView, newView) -> {
+            if (SmosBox.isL1cScienceSmosView(newView)) {
+                synchronized (snapshotIdMap) {
+                    final Long newId = snapshotIdMap.get(newView.getRaster());
+                    if (newId != null) {
+                        fireSelectionChange(newView, newId);
+                    } else {
+                        fireSelectionChange(newView, -1);
                     }
                 }
             }
