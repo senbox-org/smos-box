@@ -44,7 +44,7 @@ import java.io.IOException;
 
 @TopComponent.Description(
         preferredID = "GridPointBtDataChartTopComponent",
-        iconBase = "org/esa/smos/icons/SmosGridPoint.png",
+        iconBase = "org/esa/smos/icons/SmosBtGraph.png",
         persistenceType = TopComponent.PERSISTENCE_ALWAYS
 )
 @TopComponent.Registration(
@@ -214,7 +214,7 @@ public class GridPointBtDataChartTopComponent extends GridPointBtDataTopComponen
                 }
             }
         } else {
-            plot.setNoDataMessage("Not a SMOS D1C/F1C pixel.");
+            plot.setNoDataMessage("Not a SMOS SCxD1C/SCxF1C pixel.");
         }
         chart.fireChartChanged();
     }
