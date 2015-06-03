@@ -47,8 +47,6 @@ import java.util.concurrent.ExecutionException;
 
 public abstract class GridPointBtDataTopComponent extends SmosTopComponent {
 
-    public static final String ID = GridPointBtDataTopComponent.class.getName();
-
     private SmosBox smosBox;
 
     private JLabel infoLabel;

@@ -81,8 +81,8 @@
         </toolView>
 
         <toolView>
-            <id>org.esa.smos.visat.GridPointBtDataFlagmatrixTopComponent</id>
-            <class>org.esa.smos.visat.GridPointBtDataFlagmatrixTopComponent</class>
+            <id>org.esa.smos.gui.gridpoint.GridPointBtDataFlagmatrixTopComponent</id>
+            <class>org.esa.smos.gui.gridpoint.GridPointBtDataFlagmatrixTopComponent</class>
             <title>SMOS L1C Flag-Matrix</title>
             <tabTitle>SMOS L1C Flags</tabTitle>
             <initState>HIDDEN</initState>

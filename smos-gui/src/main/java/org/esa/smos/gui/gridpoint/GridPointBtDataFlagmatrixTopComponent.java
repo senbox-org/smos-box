@@ -14,13 +14,12 @@
  * with this program; if not, see http://www.gnu.org/licenses/
  */
 
-package org.esa.smos.visat;
+package org.esa.smos.gui.gridpoint;
 
 import org.esa.smos.dataio.smos.GridPointBtDataset;
 import org.esa.smos.dataio.smos.SmosReader;
 import org.esa.smos.dataio.smos.dddb.Dddb;
 import org.esa.smos.dataio.smos.dddb.FlagDescriptor;
-import org.esa.smos.gui.gridpoint.GridPointBtDataTopComponent;
 import org.esa.snap.framework.ui.product.ProductSceneView;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -34,17 +33,40 @@ import org.jfree.data.xy.DefaultXYZDataset;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYZDataset;
 import org.jfree.ui.RectangleInsets;
+import org.openide.awt.ActionID;
+import org.openide.awt.ActionReference;
+import org.openide.awt.ActionReferences;
+import org.openide.windows.TopComponent;
 
 import javax.swing.JComponent;
 import java.awt.Color;
 import java.io.IOException;
 import java.util.List;
 
+@TopComponent.Description(
+        preferredID = "GridPointBtDataFlagmatrixTopComponent",
+        iconBase = "org/esa/smos/icons/SmosFlags.png",
+        persistenceType = TopComponent.PERSISTENCE_ALWAYS
+)
+@TopComponent.Registration(
+        mode = "navigator",
+        openAtStartup = false,
+        position = 3
+)
+@ActionID(category = "Window", id = "org.esa.smos.gui.gridpoint.GridPointBtDataFlagmatrixTopComponent")
+@ActionReferences({
+        @ActionReference(path = "Menu/Window/Tool Windows/SMOS")
+})
+@TopComponent.OpenActionRegistration(
+        displayName = GridPointBtDataFlagmatrixTopComponent.DISPLAY_NAME,
+        preferredID = "GridPointBtDataFlagmatrixTopComponent"
+)
+
 public class GridPointBtDataFlagmatrixTopComponent extends GridPointBtDataTopComponent {
 
-    public static final String ID = GridPointBtDataFlagmatrixTopComponent.class.getName();
-    private static final String SERIES_KEY = "Flags";
+    static final String DISPLAY_NAME = "GridPoint BT Flag Matrix";
 
+    private static final String SERIES_KEY = "Flags";
     private static final String DEFAULT_FLAG_DESCRIPTOR_IDENTIFIER = "DBL_SM_XXXX_MIR_XXXF1C_0400_flags";
 
     private JFreeChart chart;
@@ -53,6 +75,11 @@ public class GridPointBtDataFlagmatrixTopComponent extends GridPointBtDataTopCom
     private ChartPanel chartPanel;
     private FlagDescriptor[] flagDescriptors;
     private XYBlockRenderer renderer;
+
+    public GridPointBtDataFlagmatrixTopComponent() {
+        super();
+        setDisplayName(DISPLAY_NAME);
+    }
 
     @Override
     protected JComponent createGridPointComponent() {
