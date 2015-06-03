@@ -52,7 +52,7 @@ import java.io.IOException;
         openAtStartup = false,
         position = 1
 )
-@ActionID(category = "Window", id = "org.esa.smos.visat.GridPointBtDataChartTopComponent")
+@ActionID(category = "Window", id = "org.esa.smos.gui.gridpoint.GridPointBtDataChartTopComponent")
 @ActionReferences({
         @ActionReference(path = "Menu/Window/Tool Windows/SMOS")
 })

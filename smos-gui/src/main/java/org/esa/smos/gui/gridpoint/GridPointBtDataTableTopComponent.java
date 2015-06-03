@@ -20,20 +20,41 @@ import org.esa.smos.dataio.smos.GridPointBtDataset;
 import org.esa.smos.dataio.smos.SmosReader;
 import org.esa.smos.gui.TableModelExportRunner;
 import org.esa.snap.framework.ui.product.ProductSceneView;
+import org.openide.awt.ActionID;
+import org.openide.awt.ActionReference;
+import org.openide.awt.ActionReferences;
+import org.openide.windows.TopComponent;
 
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
+import javax.swing.*;
 import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.TableColumnModel;
-import java.awt.FlowLayout;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
+
+@TopComponent.Description(
+        preferredID = "GridPointBtDataTableTopComponent",
+        iconBase = "org/esa/smos/icons/SmosGridPoint.png",
+        persistenceType = TopComponent.PERSISTENCE_ALWAYS
+)
+@TopComponent.Registration(
+        mode = "navigator",
+        openAtStartup = false,
+        position = 2
+)
+@ActionID(category = "Window", id = "org.esa.smos.gui.gridpoint.GridPointBtDataTableTopComponent")
+@ActionReferences({
+        @ActionReference(path = "Menu/Window/Tool Windows/SMOS")
+})
+@TopComponent.OpenActionRegistration(
+        displayName = GridPointBtDataTableTopComponent.DISPLAY_NAME,
+        preferredID = "GridPointBtDataTableTopComponent"
+)
 
 public class GridPointBtDataTableTopComponent extends GridPointBtDataTopComponent {
 
-    public static final String ID = GridPointBtDataTableTopComponent.class.getName();
+    static final String DISPLAY_NAME = "GridPoint BT Data Table";
 
     private JTable table;
     private JButton columnsButton;
@@ -42,9 +63,13 @@ public class GridPointBtDataTableTopComponent extends GridPointBtDataTopComponen
     private GridPointBtDataTableModel gridPointBtDataTableModel;
 
     public GridPointBtDataTableTopComponent() {
+        super();
+
         gridPointBtDataTableModel = new GridPointBtDataTableModel();
         table = new JTable(gridPointBtDataTableModel);
         table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+
+        setDisplayName(DISPLAY_NAME);
     }
 
     @Override
@@ -87,6 +112,9 @@ public class GridPointBtDataTableTopComponent extends GridPointBtDataTopComponen
 //        action.putValue(Action.NAME, "Columns...");
 //        columnsButton = new JButton(action);
 
+        columnsButton = new JButton("Select Columns ...");
+        columnsButton.addActionListener(new SelectColumnActionListener());
+
         exportButton = new JButton("Export...");
         exportButton.addActionListener(e -> new TableModelExportRunner(getParent(), getShortName(), table.getModel(), table.getColumnModel()).run());
 
@@ -110,5 +138,13 @@ public class GridPointBtDataTableTopComponent extends GridPointBtDataTopComponen
     @Override
     protected void clearGridPointBtDataComponent() {
         gridPointBtDataTableModel.setGridPointBtDataset(null);
+    }
+
+    private class SelectColumnActionListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+        }
     }
 }
