@@ -45,6 +45,10 @@ import org.esa.snap.glevel.TiledFileMultiLevelSource;
 import org.esa.snap.netbeans.docwin.WindowUtilities;
 import org.esa.snap.rcp.windows.ProductSceneViewTopComponent;
 import org.jfree.layout.CenterLayout;
+import org.openide.awt.ActionID;
+import org.openide.awt.ActionReference;
+import org.openide.awt.ActionReferences;
+import org.openide.windows.TopComponent;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -62,10 +66,28 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+@TopComponent.Description(
+        preferredID = "SnapshotInfoTopComponent",
+        iconBase = "org/esa/smos/icons/SmosSnapshot.png",
+        persistenceType = TopComponent.PERSISTENCE_ALWAYS
+)
+@TopComponent.Registration(
+        mode = "navigator",
+        openAtStartup = false,
+        position = 4
+)
+@ActionID(category = "Window", id = "org.esa.smos.gui.snapshot.SnapshotInfoTopComponent")
+@ActionReferences({
+        @ActionReference(path = "Menu/Window/Tool Windows/SMOS")
+})
+@TopComponent.OpenActionRegistration(
+        displayName = SnapshotInfoTopComponent.DISPLAY_NAME,
+        preferredID = "SnapshotInfoTopComponent"
+)
+
 public class SnapshotInfoTopComponent extends SmosTopComponent {
 
-    @SuppressWarnings({"UnusedDeclaration"})
-    public static final String ID = SnapshotInfoTopComponent.class.getName();
+    static final String DISPLAY_NAME = "Snapshot Information";
 
     private static final SnapshotTableModel NULL_MODEL = new SnapshotTableModel(new Object[0][0]);
 
@@ -79,6 +101,11 @@ public class SnapshotInfoTopComponent extends SmosTopComponent {
 
     @SuppressWarnings({"FieldCanBeLocal"})
     private SnapshotIdListener snapshotIdListener;
+
+    public SnapshotInfoTopComponent() {
+        super();
+        setDisplayName(DISPLAY_NAME);
+    }
 
     @Override
     protected JComponent createClientComponent() {
