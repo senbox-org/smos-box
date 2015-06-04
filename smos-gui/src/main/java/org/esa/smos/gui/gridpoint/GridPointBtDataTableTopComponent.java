@@ -19,7 +19,9 @@ package org.esa.smos.gui.gridpoint;
 import org.esa.smos.dataio.smos.GridPointBtDataset;
 import org.esa.smos.dataio.smos.SmosReader;
 import org.esa.smos.gui.TableModelExportRunner;
+import org.esa.snap.framework.ui.UIUtils;
 import org.esa.snap.framework.ui.product.ProductSceneView;
+import org.esa.snap.rcp.SnapApp;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.awt.ActionReferences;
@@ -54,7 +56,7 @@ import java.io.IOException;
 
 public class GridPointBtDataTableTopComponent extends GridPointBtDataTopComponent {
 
-    static final String DISPLAY_NAME = "GridPoint BT Data Table";
+    static final String DISPLAY_NAME = "SMOS L1C Table";
 
     private JTable table;
     private JButton columnsButton;
@@ -144,7 +146,11 @@ public class GridPointBtDataTableTopComponent extends GridPointBtDataTopComponen
 
         @Override
         public void actionPerformed(ActionEvent e) {
+            final Frame mainFrame = SnapApp.getDefault().getMainFrame();
+            JFrame rootJFrame = UIUtils.getRootJFrame(GridPointBtDataTableTopComponent.this);
+            final JDialog jDialog = GridPointTableSelectionDialog.create(rootJFrame);
 
+            jDialog.setVisible(true);
         }
     }
 }
