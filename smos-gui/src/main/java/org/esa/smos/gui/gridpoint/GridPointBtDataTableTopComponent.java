@@ -22,6 +22,8 @@ import org.esa.smos.gui.TableModelExportRunner;
 import org.esa.snap.framework.ui.UIUtils;
 import org.esa.snap.framework.ui.product.ProductSceneView;
 import org.esa.snap.rcp.SnapApp;
+import org.jdesktop.swingx.JXTable;
+import org.jdesktop.swingx.table.TableColumnModelExt;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.awt.ActionReferences;
@@ -29,11 +31,13 @@ import org.openide.windows.TopComponent;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableColumnModel;
+import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.Enumeration;
 
 @TopComponent.Description(
         preferredID = "GridPointBtDataTableTopComponent",
@@ -58,7 +62,7 @@ public class GridPointBtDataTableTopComponent extends GridPointBtDataTopComponen
 
     static final String DISPLAY_NAME = "SMOS L1C Table";
 
-    private JTable table;
+    private JXTable table;
     private JButton columnsButton;
     private JButton exportButton;
 
@@ -68,8 +72,10 @@ public class GridPointBtDataTableTopComponent extends GridPointBtDataTopComponen
         super();
 
         gridPointBtDataTableModel = new GridPointBtDataTableModel();
-        table = new JTable(gridPointBtDataTableModel);
+        table = new JXTable(gridPointBtDataTableModel);
         table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        table.setSortable(false);
+        table.setEditable(false);
 
         setDisplayName(DISPLAY_NAME);
     }
@@ -118,7 +124,7 @@ public class GridPointBtDataTableTopComponent extends GridPointBtDataTopComponen
         columnsButton.addActionListener(new SelectColumnActionListener());
 
         exportButton = new JButton("Export...");
-        exportButton.addActionListener(e -> new TableModelExportRunner(getParent(), getShortName(), table.getModel(), table.getColumnModel()).run());
+        exportButton.addActionListener(e -> new TableModelExportRunner(getParent(), getShortName(), table.getModel(), (TableColumnModelExt) table.getColumnModel()).run());
 
         final JPanel optionsPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 2, 2));
         optionsPanel.add(columnsButton);
@@ -146,8 +152,7 @@ public class GridPointBtDataTableTopComponent extends GridPointBtDataTopComponen
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            final Frame mainFrame = SnapApp.getDefault().getMainFrame();
-            JFrame rootJFrame = UIUtils.getRootJFrame(GridPointBtDataTableTopComponent.this);
+            final JFrame rootJFrame = UIUtils.getRootJFrame(GridPointBtDataTableTopComponent.this);
             final JDialog jDialog = GridPointTableSelectionDialog.create(rootJFrame);
 
             jDialog.setVisible(true);

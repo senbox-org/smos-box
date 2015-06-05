@@ -44,6 +44,8 @@ import org.esa.snap.framework.ui.product.ProductSceneView;
 import org.esa.snap.glevel.TiledFileMultiLevelSource;
 import org.esa.snap.netbeans.docwin.WindowUtilities;
 import org.esa.snap.rcp.windows.ProductSceneViewTopComponent;
+import org.jdesktop.swingx.JXTable;
+import org.jdesktop.swingx.table.TableColumnModelExt;
 import org.jfree.layout.CenterLayout;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
@@ -92,7 +94,7 @@ public class SnapshotInfoTopComponent extends SmosTopComponent {
     private static final SnapshotTableModel NULL_MODEL = new SnapshotTableModel(new Object[0][0]);
 
     private SnapshotSelectorCombo snapshotSelectorCombo;
-    private JTable snapshotTable;
+    private JXTable snapshotTable;
     private ButtonModel locateSnapshotButtonModel;
     private ButtonModel browseButtonModel;
     private ButtonModel snapshotButtonModel;
@@ -502,7 +504,10 @@ public class SnapshotInfoTopComponent extends SmosTopComponent {
     }
 
     private JPanel createSnapshotTablePanel() {
-        snapshotTable = new JTable(NULL_MODEL);
+        snapshotTable = new JXTable(NULL_MODEL);
+        snapshotTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        snapshotTable.setSortable(false);
+        snapshotTable.setEditable(false);
         snapshotTable.getColumnModel().getColumn(1).setCellRenderer(new DefaultTableCellRenderer() {
             @Override
             public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
@@ -524,7 +529,7 @@ public class SnapshotInfoTopComponent extends SmosTopComponent {
         exportItem.addActionListener(e -> new TableModelExportRunner(window,
                 getDisplayName(),
                 snapshotTable.getModel(),
-                snapshotTable.getColumnModel()).run());
+                (TableColumnModelExt) snapshotTable.getColumnModel()).run());
         tablePopup.add(exportItem);
         snapshotTable.add(tablePopup);
 

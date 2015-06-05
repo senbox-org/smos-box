@@ -21,10 +21,10 @@ import com.bc.ceres.swing.progress.ProgressMonitorSwingWorker;
 import org.esa.snap.framework.ui.SelectExportMethodDialog;
 import org.esa.snap.rcp.SnapDialogs;
 import org.esa.snap.util.SystemUtils;
+import org.jdesktop.swingx.table.TableColumnExt;
+import org.jdesktop.swingx.table.TableColumnModelExt;
 
 import javax.swing.*;
-import javax.swing.table.TableColumn;
-import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 import java.awt.*;
 import java.io.BufferedOutputStream;
@@ -47,7 +47,7 @@ public class TableModelExportRunner {
     private final Component parentComponent;
     private String title;
     private final TableModel model;
-    private final TableColumnModel columnModel;
+    private final TableColumnModelExt columnModel;
 
     /**
      * Creates an instance of this class to export a table model.
@@ -56,7 +56,7 @@ public class TableModelExportRunner {
      * @param title           The title of displayed dialogs.
      * @param model           the model to export.
      */
-    public TableModelExportRunner(Component parentComponent, String title, TableModel model, TableColumnModel columnModel) {
+    public TableModelExportRunner(Component parentComponent, String title, TableModel model, TableColumnModelExt columnModel) {
         this.parentComponent = parentComponent;
         this.title = title;
         this.model = model;
@@ -190,11 +190,8 @@ public class TableModelExportRunner {
         @Override
         public boolean exportColumn(int columnIndex) {
 
-            final TableColumn column = columnModel.getColumn(columnIndex);
-            // @TODO 1 tb/tb implement this 2015-06-01
-//            column.
-//            return TableColumnChooser.isVisibleColumn(columnModel, columnIndex);
-            return true;
+            final TableColumnExt columnExt = columnModel.getColumnExt(columnIndex);
+            return columnExt.isVisible();
         }
     }
 }
