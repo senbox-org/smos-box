@@ -7,14 +7,15 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.HashMap;
+import java.util.Set;
 
-public class GridPointTableSelectionDialog extends JDialog {
+class GridPointTableSelectionDialog extends JDialog {
 
     private final HashMap<String, Boolean> columnSelectionMap;
     private boolean isCanceled;
 
-    static GridPointTableSelectionDialog create(Frame frame, String[] columnNames) {
-        final GridPointTableSelectionDialog dialog = new GridPointTableSelectionDialog(frame, columnNames);
+    static GridPointTableSelectionDialog create(Frame frame, ColumnProperty[] columnProperties) {
+        final GridPointTableSelectionDialog dialog = new GridPointTableSelectionDialog(frame, columnProperties);
 
         UIUtils.centerComponent(dialog, frame);
 
@@ -29,19 +30,19 @@ public class GridPointTableSelectionDialog extends JDialog {
         return isCanceled;
     }
 
-    private GridPointTableSelectionDialog(Frame owner, String[] columnNames) {
+    private GridPointTableSelectionDialog(Frame owner, ColumnProperty[] columnProperties) {
         super(owner, "Choose Colums to Display", true);
         setResizable(false);
 
-        columnSelectionMap = new HashMap<>();
-        for (String columnName : columnNames) {
-            columnSelectionMap.put(columnName, true);
+        columnSelectionMap = new HashMap<>(columnProperties.length);
+        for (ColumnProperty columnProperty : columnProperties) {
+            columnSelectionMap.put(columnProperty.getColumnName(), columnProperty.isVisible());
         }
 
-        createGui(columnNames);
+        createGui(columnProperties);
     }
 
-    private void createGui(String[] columnNames) {
+    private void createGui(ColumnProperty[] columnProperties) {
         final JPanel panel = new JPanel(new GridBagLayout());
         final GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 20, 5, 20);
@@ -52,7 +53,7 @@ public class GridPointTableSelectionDialog extends JDialog {
 
         gbc.gridy = 1;
         gbc.anchor = GridBagConstraints.CENTER;
-        panel.add(createColumnNamesPane(columnNames), gbc);
+        panel.add(createColumnNamesPane(columnProperties), gbc);
 
         gbc.gridy = 2;
         gbc.anchor = GridBagConstraints.LINE_END;
@@ -63,15 +64,15 @@ public class GridPointTableSelectionDialog extends JDialog {
         pack();
     }
 
-    private ScrollPane createColumnNamesPane(String[] columnNames) {
+    private ScrollPane createColumnNamesPane(ColumnProperty[] columnProperties) {
         final ScrollPane scrollPane = new ScrollPane();
         final JPanel panel = new JPanel(new GridBagLayout());
         final GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.anchor = GridBagConstraints.FIRST_LINE_START;
-        for (final String columnName : columnNames) {
-            final JCheckBox checkBox = new JCheckBox(columnName, true);
+        for (final ColumnProperty columnProperty : columnProperties) {
+            final JCheckBox checkBox = new JCheckBox(columnProperty.getColumnName(), columnProperty.isVisible());
             checkBox.addActionListener(e -> toggleColumnState(e));
             panel.add(checkBox, gbc);
             gbc.gridy++;

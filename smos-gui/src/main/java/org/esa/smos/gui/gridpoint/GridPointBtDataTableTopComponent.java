@@ -21,7 +21,6 @@ import org.esa.smos.dataio.smos.SmosReader;
 import org.esa.smos.gui.TableModelExportRunner;
 import org.esa.snap.framework.ui.UIUtils;
 import org.esa.snap.framework.ui.product.ProductSceneView;
-import org.esa.snap.rcp.SnapApp;
 import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.table.DefaultTableColumnModelExt;
 import org.jdesktop.swingx.table.TableColumnExt;
@@ -32,16 +31,12 @@ import org.openide.awt.ActionReferences;
 import org.openide.windows.TopComponent;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableColumnModel;
-import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -158,7 +153,19 @@ public class GridPointBtDataTableTopComponent extends GridPointBtDataTopComponen
         @Override
         public void actionPerformed(ActionEvent e) {
             final JFrame rootJFrame = UIUtils.getRootJFrame(GridPointBtDataTableTopComponent.this);
-            final GridPointTableSelectionDialog dialog = GridPointTableSelectionDialog.create(rootJFrame, gridPointBtDataTableModel.getColumnNames());
+            final String[] columnNames = gridPointBtDataTableModel.getColumnNames();
+            final ColumnProperty[] columnProperties = new ColumnProperty[columnNames.length];
+            int index = 0;
+            for (String columnName : columnNames) {
+                final TableColumnExt columnExt = table.getColumnExt(columnName);
+                if (columnExt == null) {
+                    columnProperties[index] = new ColumnProperty(columnName, false);
+                } else {
+                    columnProperties[index] = new ColumnProperty(columnName, columnExt.isVisible());
+                }
+                ++index;
+            }
+            final GridPointTableSelectionDialog dialog = GridPointTableSelectionDialog.create(rootJFrame, columnProperties);
 
             dialog.setVisible(true);
 
