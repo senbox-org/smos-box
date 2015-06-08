@@ -23,6 +23,8 @@ import org.esa.snap.framework.ui.UIUtils;
 import org.esa.snap.framework.ui.product.ProductSceneView;
 import org.esa.snap.rcp.SnapApp;
 import org.jdesktop.swingx.JXTable;
+import org.jdesktop.swingx.table.DefaultTableColumnModelExt;
+import org.jdesktop.swingx.table.TableColumnExt;
 import org.jdesktop.swingx.table.TableColumnModelExt;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
@@ -38,6 +40,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 
 @TopComponent.Description(
         preferredID = "GridPointBtDataTableTopComponent",
@@ -97,7 +103,7 @@ public class GridPointBtDataTableTopComponent extends GridPointBtDataTopComponen
         if (enabled) {
             final String[] names = smosReader.getRawDataTableNames();
             gridPointBtDataTableModel.setColumnNames(names);
-            final TableColumnModel columnModel = new DefaultTableColumnModel();
+            final TableColumnModel columnModel = new DefaultTableColumnModelExt();
             table.setColumnModel(columnModel);
             table.createDefaultColumnsFromModel();
         }
@@ -105,21 +111,11 @@ public class GridPointBtDataTableTopComponent extends GridPointBtDataTopComponen
 
     @Override
     protected JComponent createGridPointComponent() {
-        // @TODO 1 tb/tb find replacement for that code 2015-06-01
-//        final TableHeaderPopupMenuInstaller installer = new TableHeaderPopupMenuInstaller(table);
-//        installer.addTableHeaderPopupMenuCustomizer(new AutoResizePopupMenuCustomizer());
-//        installer.addTableHeaderPopupMenuCustomizer(new TableColumnChooserPopupMenuCustomizer());
-
         return new JScrollPane(table);
     }
 
     @Override
     protected JComponent createGridPointComponentOptionsComponent() {
-        // @TODO 1 tb/tb find replacement for that code 2015-06-01
-//        Action action = TableColumnChooser.getTableColumnChooserButton(table).getAction();
-//        action.putValue(Action.NAME, "Columns...");
-//        columnsButton = new JButton(action);
-
         columnsButton = new JButton("Select Columns ...");
         columnsButton.addActionListener(new SelectColumnActionListener());
 
@@ -148,14 +144,29 @@ public class GridPointBtDataTableTopComponent extends GridPointBtDataTopComponen
         gridPointBtDataTableModel.setGridPointBtDataset(null);
     }
 
+    private void updateVisibility(HashMap<String, Boolean> columnVisibilityMap) {
+        final Set<Map.Entry<String, Boolean>> entries = columnVisibilityMap.entrySet();
+        for (Map.Entry<String, Boolean> entry : entries) {
+            final TableColumnExt columnExt = table.getColumnExt(entry.getKey());
+            columnExt.setVisible(entry.getValue());
+        }
+        table.updateUI();
+    }
+
     private class SelectColumnActionListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
             final JFrame rootJFrame = UIUtils.getRootJFrame(GridPointBtDataTableTopComponent.this);
-            final JDialog jDialog = GridPointTableSelectionDialog.create(rootJFrame);
+            final GridPointTableSelectionDialog dialog = GridPointTableSelectionDialog.create(rootJFrame, gridPointBtDataTableModel.getColumnNames());
 
-            jDialog.setVisible(true);
+            dialog.setVisible(true);
+
+            if (dialog.isCanceled()) {
+                return;
+            }
+
+            updateVisibility(dialog.getSelection());
         }
     }
 }

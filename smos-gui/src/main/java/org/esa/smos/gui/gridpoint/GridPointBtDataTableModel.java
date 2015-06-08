@@ -69,12 +69,16 @@ class GridPointBtDataTableModel extends AbstractTableModel {
         }
     }
 
-    public void setGridPointBtDataset(GridPointBtDataset ds) {
+    void setGridPointBtDataset(GridPointBtDataset ds) {
         this.ds = ds;
         fireTableDataChanged();
     }
 
-    public void setColumnNames(String[] columnNames) {
+    void setColumnNames(String[] columnNames) {
         this.columnNames = columnNames;
+    }
+
+    String[] getColumnNames() {
+        return columnNames;
     }
 }

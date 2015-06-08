@@ -1,7 +1,6 @@
 package org.esa.smos.gui.gridpoint;
 
 import org.esa.smos.dataio.smos.GridPointBtDataset;
-import org.esa.smos.gui.gridpoint.GridPointBtDataTableModel;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -58,6 +57,8 @@ public class GridPointBtDataTableModelTest {
 
         assertEquals(5, model.getColumnCount());
         assertEquals("three", model.getColumnName(3));
+
+        assertArrayEquals(columnNames, model.getColumnNames());
     }
 
     @Test
