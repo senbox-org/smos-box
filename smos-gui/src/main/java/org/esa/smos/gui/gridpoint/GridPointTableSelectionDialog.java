@@ -72,7 +72,7 @@ class GridPointTableSelectionDialog extends JDialog {
         gbc.anchor = GridBagConstraints.FIRST_LINE_START;
         for (final ColumnProperty columnProperty : columnProperties) {
             final JCheckBox checkBox = new JCheckBox(columnProperty.getColumnName(), columnProperty.isVisible());
-            checkBox.addActionListener(e -> toggleColumnState(e));
+            checkBox.addActionListener(this::toggleColumnState);
             panel.add(checkBox, gbc);
             gbc.gridy++;
         }

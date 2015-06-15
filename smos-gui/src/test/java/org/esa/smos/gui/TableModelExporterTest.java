@@ -22,7 +22,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 import java.io.ByteArrayOutputStream;
 
