@@ -41,7 +41,7 @@
     <extension point="snap-ui:actions">
         <action>
             <id>smosGridPointExport</id>
-            <class>org.esa.smos.visat.export.GridPointExportAction</class>
+            <class>org.esa.smos.gui.export.GridPointExportAction</class>
             <helpId>smosGridPointExport</helpId>
             <parent>exportOther</parent>
             <text>Export SMOS Grid Points...</text>
