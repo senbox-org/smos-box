@@ -1,4 +1,4 @@
-package org.esa.smos.gui;
+package org.esa.smos.gui.swing;
 
 import com.vividsolutions.jts.geom.Geometry;
 import org.esa.snap.framework.datamodel.ProductNode;
@@ -8,7 +8,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import java.awt.Component;
 
-public class ProductNodeRenderer extends DefaultListCellRenderer {
+class ProductNodeRenderer extends DefaultListCellRenderer {
 
     @Override
     public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected,

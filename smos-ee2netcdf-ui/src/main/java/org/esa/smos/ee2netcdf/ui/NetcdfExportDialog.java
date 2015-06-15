@@ -15,7 +15,7 @@ import org.esa.smos.ee2netcdf.NetcdfExportOp;
 import org.esa.smos.gui.BindingConstants;
 import org.esa.smos.gui.DefaultChooserFactory;
 import org.esa.smos.gui.DirectoryChooserFactory;
-import org.esa.smos.gui.GuiHelper;
+import org.esa.smos.gui.swing.GuiHelper;
 import org.esa.smos.gui.ProductChangeAwareDialog;
 import org.esa.snap.framework.datamodel.Product;
 import org.esa.snap.framework.datamodel.ProductManager;

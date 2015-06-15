@@ -30,7 +30,7 @@ import org.esa.smos.dataio.smos.SmosProductReader;
 import org.esa.smos.gui.BindingConstants;
 import org.esa.smos.gui.ChooserFactory;
 import org.esa.smos.gui.DefaultChooserFactory;
-import org.esa.smos.gui.GuiHelper;
+import org.esa.smos.gui.swing.GuiHelper;
 import org.esa.smos.gui.ProductChangeAwareDialog;
 import org.esa.snap.framework.dataio.ProductReader;
 import org.esa.snap.framework.datamodel.Product;

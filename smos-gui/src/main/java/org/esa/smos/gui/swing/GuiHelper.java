@@ -1,4 +1,4 @@
-package org.esa.smos.gui;
+package org.esa.smos.gui.swing;
 
 
 import com.bc.ceres.binding.PropertyContainer;
@@ -16,6 +16,8 @@ import com.bc.ceres.swing.binding.internal.AbstractButtonAdapter;
 import com.bc.ceres.swing.binding.internal.SingleSelectionEditor;
 import com.bc.ceres.swing.binding.internal.TextComponentAdapter;
 import com.bc.ceres.swing.binding.internal.TextFieldEditor;
+import org.esa.smos.gui.BindingConstants;
+import org.esa.smos.gui.ChooserFactory;
 import org.esa.snap.framework.datamodel.PlainFeatureFactory;
 import org.esa.snap.framework.datamodel.Product;
 import org.esa.snap.framework.datamodel.ProductNodeGroup;
