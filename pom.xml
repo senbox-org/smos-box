@@ -21,7 +21,6 @@
 
     <modules>
         <module>smos-reader</module>
-        <module>smos-visat</module>
         <module>smos-ee2netcdf</module>
         <module>smos-ee2netcdf-ui</module>
         <module>smos-dgg</module>
