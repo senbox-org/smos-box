@@ -21,17 +21,12 @@ import com.bc.ceres.swing.progress.ProgressMonitorSwingWorker;
 import org.esa.snap.framework.ui.SelectExportMethodDialog;
 import org.esa.snap.rcp.SnapDialogs;
 import org.esa.snap.util.SystemUtils;
-import org.jdesktop.swingx.table.TableColumnExt;
 import org.jdesktop.swingx.table.TableColumnModelExt;
 
 import javax.swing.*;
 import javax.swing.table.TableModel;
 import java.awt.*;
-import java.io.BufferedOutputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.text.MessageFormat;
 import java.util.concurrent.ExecutionException;
 
@@ -78,18 +73,14 @@ public class TableModelExportRunner {
             return;
         }
 
+        final TableModelExporter exporter = new TableModelExporter(model, columnModel);
         if (method == SelectExportMethodDialog.EXPORT_TO_FILE) {
             final File outFile = promptForFile(title);
             if (outFile != null) {
-                final TableModelExporter exporter = new TableModelExporter(model);
-                exporter.setColumnFilter(new TableColumnFilter());
                 exportToFile(outFile, exporter);
             }
         } else if (method == SelectExportMethodDialog.EXPORT_TO_CLIPBOARD) {
-            final TableModelExporter exporter = new TableModelExporter(model);
-            exporter.setColumnFilter(new TableColumnFilter());
             exportToClipboard(exporter);
-
         }
     }
 
@@ -183,15 +174,5 @@ public class TableModelExportRunner {
             }
         }
         return file;
-    }
-
-    private class TableColumnFilter implements TableModelExporter.ColumnFilter {
-
-        @Override
-        public boolean exportColumn(int columnIndex) {
-
-            final TableColumnExt columnExt = columnModel.getColumnExt(columnIndex);
-            return columnExt.isVisible();
-        }
     }
 }

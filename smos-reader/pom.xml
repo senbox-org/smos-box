@@ -75,14 +75,6 @@
             <artifactId>snap-netcdf</artifactId>
         </dependency>
 
-        <!-- All dependencies below are required by
-        <dependency>
-            <groupId>edu.ucar</groupId>
-            <artifactId>bufr</artifactId>
-            <version>4.3.22</version>
-        </dependency>
-        -->
-
         <!-- TODO (mp) - check if this dependency can be replaced with the java.time api of Java8 -->
         <dependency>
             <groupId>joda-time</groupId>

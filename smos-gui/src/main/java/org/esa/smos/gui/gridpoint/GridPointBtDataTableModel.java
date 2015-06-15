@@ -81,4 +81,8 @@ class GridPointBtDataTableModel extends AbstractTableModel {
     String[] getColumnNames() {
         return columnNames;
     }
+
+    public int getIndex(String columnName) {
+        return ds.getColumnIndex(columnName);
+    }
 }

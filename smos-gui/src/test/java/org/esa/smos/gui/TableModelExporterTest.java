@@ -16,42 +16,35 @@
 
 package org.esa.smos.gui;
 
-import org.esa.smos.gui.TableModelExporter;
+import org.jdesktop.swingx.table.TableColumnExt;
+import org.jdesktop.swingx.table.TableColumnModelExt;
 import org.junit.Before;
 import org.junit.Test;
 
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 import java.io.ByteArrayOutputStream;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class TableModelExporterTest {
 
     private ByteArrayOutputStream stream;
+    private TableColumnModelExt columnModel;
 
     @Before
     public void setUp() {
         stream = new ByteArrayOutputStream();
-    }
-
-    @Test
-    public void testUninitializedModel() {
-        final DefaultTableModel tableModel = new DefaultTableModel(2, 3);
-        final TableModelExporter exporter = new TableModelExporter(tableModel);
-        exporter.setSeparator('\t');
-
-        exporter.export(stream);
-
-        final String actual = stream.toString();
-        assertTrue(actual.contains("A\tB\tC"));
-        assertTrue(actual.contains("null\tnull\tnull"));
+        columnModel = createColumnModel();
     }
 
     @Test
     public void testSimpleModel() {
         final TableModel tableModel = createTableModel();
-        final TableModelExporter exporter = new TableModelExporter(tableModel);
+        final TableModelExporter exporter = new TableModelExporter(tableModel, columnModel);
         exporter.setSeparator('\t');
 
         exporter.export(stream);
@@ -63,13 +56,8 @@ public class TableModelExporterTest {
     @Test
     public void testSimpleModelWithDifferentColumnVisibility() {
         final TableModel tableModel = createTableModel();
-        final TableModelExporter exporter = new TableModelExporter(tableModel);
+        final TableModelExporter exporter = new TableModelExporter(tableModel, createColumnModelWithoutTiffy());
         exporter.setSeparator('\t');
-        exporter.setColumnFilter(new TableModelExporter.ColumnFilter() {
-            public boolean exportColumn(int columnIndex) {
-                return columnIndex != 1;
-            }
-        });
 
         exporter.export(stream);
 
@@ -83,13 +71,8 @@ public class TableModelExporterTest {
     @Test
     public void testSimpleModelNoColumnVisibility() {
         final TableModel tableModel = createTableModel();
-        final TableModelExporter exporter = new TableModelExporter(tableModel);
+        final TableModelExporter exporter = new TableModelExporter(tableModel, createEmptyColumnModel());
         exporter.setSeparator('\t');
-        exporter.setColumnFilter(new TableModelExporter.ColumnFilter() {
-            public boolean exportColumn(int columnIndex) {
-                return false;
-            }
-        });
 
         exporter.export(stream);
 
@@ -113,5 +96,53 @@ public class TableModelExporterTest {
         final DefaultTableModel tableModel = new DefaultTableModel();
         tableModel.setDataVector(tableData, columnNames);
         return tableModel;
+    }
+
+    private TableColumnModelExt createColumnModel() {
+        final TableColumnModelExt columnModel = mock(TableColumnModelExt.class);
+        when(columnModel.getColumnCount(false)).thenReturn(3);
+
+        final TableColumnExt biboMock = mock(TableColumnExt.class);
+        when(biboMock.getHeaderValue()).thenReturn("Bibo");
+        when(biboMock.getModelIndex()).thenReturn(0);
+
+        final TableColumnExt tiffyMock = mock(TableColumnExt.class);
+        when(tiffyMock.getHeaderValue()).thenReturn("Tiffy");
+        when(tiffyMock.getModelIndex()).thenReturn(1);
+
+        final TableColumnExt samsonMock = mock(TableColumnExt.class);
+        when(samsonMock.getHeaderValue()).thenReturn("Samson");
+        when(samsonMock.getModelIndex()).thenReturn(2);
+
+        when(columnModel.getColumn(0)).thenReturn(biboMock);
+        when(columnModel.getColumn(1)).thenReturn(tiffyMock);
+        when(columnModel.getColumn(2)).thenReturn(samsonMock);
+
+        return columnModel;
+    }
+
+    private TableColumnModelExt createColumnModelWithoutTiffy() {
+        final TableColumnModelExt columnModel = mock(TableColumnModelExt.class);
+        when(columnModel.getColumnCount(false)).thenReturn(2);
+
+        final TableColumnExt biboMock = mock(TableColumnExt.class);
+        when(biboMock.getHeaderValue()).thenReturn("Bibo");
+        when(biboMock.getModelIndex()).thenReturn(0);
+
+        final TableColumnExt samsonMock = mock(TableColumnExt.class);
+        when(samsonMock.getHeaderValue()).thenReturn("Samson");
+        when(samsonMock.getModelIndex()).thenReturn(2);
+
+        when(columnModel.getColumn(0)).thenReturn(biboMock);
+        when(columnModel.getColumn(1)).thenReturn(samsonMock);
+
+        return columnModel;
+    }
+
+    private TableColumnModelExt createEmptyColumnModel() {
+        final TableColumnModelExt columnModel = mock(TableColumnModelExt.class);
+        when(columnModel.getColumnCount(false)).thenReturn(0);
+
+        return columnModel;
     }
 }

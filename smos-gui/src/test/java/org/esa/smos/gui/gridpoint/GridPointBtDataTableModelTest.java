@@ -62,6 +62,15 @@ public class GridPointBtDataTableModelTest {
     }
 
     @Test
+    public void testGetIndex() {
+        final GridPointBtDataset btDataset = createGridPointBtDataset();
+        model.setGridPointBtDataset(btDataset);
+
+        assertEquals(3, model.getIndex("Fritz"));
+        assertEquals(1, model.getIndex("Heini"));
+    }
+
+    @Test
     public void testColumnAccess_specialZeroColumnTreatment() {
         assertEquals("Rec#", model.getColumnName(0));
     }
