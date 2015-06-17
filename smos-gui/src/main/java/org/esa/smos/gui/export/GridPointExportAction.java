@@ -17,25 +17,51 @@ package org.esa.smos.gui.export;
 
 
 import org.esa.snap.rcp.actions.AbstractSnapAction;
+import org.openide.awt.ActionID;
+import org.openide.awt.ActionReference;
+import org.openide.awt.ActionRegistration;
 import org.openide.util.HelpCtx;
+import org.openide.util.NbBundle;
 
 import java.awt.event.ActionEvent;
 
-/**
- * @author Ralf Quast
- * @author Marco Zuehlke
- * @version $Revision$ $Date$
- * @since SMOS 2.0
- */
+@ActionID(category = "File", id = "SmosGridPointExportAction")
+
+@ActionRegistration(
+        displayName = "#CTL_SmosGridPointExport_MenuText",
+        popupText = "#CTL_SmosGridPointExport_ShortDescription",
+        lazy = true
+)
+
+@ActionReference(path = "Menu/File/Export")
+
+@NbBundle.Messages({
+        "CTL_SmosGridPointExport_MenuText=Export SMOS Grid Points ...",
+        "CTL_SmosGridPointExport_ShortDescription=Export SMOS Grid Points to Clipboard or ASCII File"
+})
+
 public class GridPointExportAction extends AbstractSnapAction {
+
+    private static final String HELP_ID = "smosGridPointExport";
+    private GridPointExportDialog dialog;
+
+    public GridPointExportAction() {
+        putValue(NAME, Bundle.CTL_SmosGridPointExport_MenuText());
+        putValue(SHORT_DESCRIPTION, Bundle.CTL_SmosGridPointExport_ShortDescription());
+        setHelpId(HELP_ID);
+    }
 
     @Override
     public void actionPerformed(ActionEvent event) {
-        new GridPointExportDialog(getAppContext(), null).show();
+        if (dialog == null) {
+            dialog = new GridPointExportDialog(getAppContext(), HELP_ID);
+        }
+
+        dialog.show();
     }
 
     @Override
     public HelpCtx getHelpCtx() {
-        return new HelpCtx("smosGridPointExport");
+        return new HelpCtx(HELP_ID);
     }
 }
