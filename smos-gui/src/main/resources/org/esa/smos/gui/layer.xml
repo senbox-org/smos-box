@@ -3,7 +3,7 @@
 <filesystem>
     <folder name="Services">
         <folder name="JavaHelp">
-            <file name="org-esa-smostbx-smos-gui-helpset.xml" url="helpset.xml">
+            <file name="org-esa-smostbx-smos-gui-helpset.xml" url="org-esa-smostbx-smos-gui-helpset.xml">
                 <attr name="position" intvalue="3818"/>
             </file>
         </folder>
