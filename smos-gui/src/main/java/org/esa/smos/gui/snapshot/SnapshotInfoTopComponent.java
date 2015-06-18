@@ -138,8 +138,6 @@ public class SnapshotInfoTopComponent extends SmosTopComponent {
         return mainPanel;
     }
 
-    // @todo 1 tb/tb override getHelpCtx 2014-03-16
-
     @Override
     protected void updateClientComponent(ProductSceneView smosView) {
         final SmosReader l1CScienceSmosReader = SmosBox.getL1CScienceSmosReader(smosView);
