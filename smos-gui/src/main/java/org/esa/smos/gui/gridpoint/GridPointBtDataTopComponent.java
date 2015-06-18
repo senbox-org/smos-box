@@ -68,9 +68,7 @@ public abstract class GridPointBtDataTopComponent extends SmosTopComponent {
         mainPanel.add(createGridPointComponent(), BorderLayout.CENTER);
         mainPanel.add(optionsPanel, BorderLayout.SOUTH);
 
-        AbstractButton helpButton = ToolButtonFactory.createButton(new HelpAction(this), false);
-        helpButton.setName("helpButton");
-
+        final AbstractButton helpButton = createHelpButton();
         optionsPanel.add(helpButton, BorderLayout.EAST);
 
         return mainPanel;

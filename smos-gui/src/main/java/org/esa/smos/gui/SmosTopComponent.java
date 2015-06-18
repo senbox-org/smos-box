@@ -20,9 +20,10 @@ import org.esa.smos.dataio.smos.SmosReader;
 import org.esa.smos.gui.snapshot.SnapshotSelectionService;
 import org.esa.snap.framework.datamodel.Product;
 import org.esa.snap.framework.datamodel.RasterDataNode;
-import org.esa.snap.framework.ui.UIUtils;
 import org.esa.snap.framework.ui.product.ProductSceneView;
 import org.esa.snap.framework.ui.tool.ToolButtonFactory;
+import org.esa.snap.rcp.actions.help.HelpAction;
+import org.openide.util.HelpCtx;
 import org.openide.util.ImageUtilities;
 import org.openide.windows.TopComponent;
 
@@ -30,6 +31,8 @@ import javax.swing.*;
 import java.awt.*;
 
 public abstract class SmosTopComponent extends TopComponent {
+
+    private static final String HELP_ID = "smosIntroduction";
 
     private JPanel panel;
     private JLabel defaultComponent;
@@ -94,32 +97,12 @@ public abstract class SmosTopComponent extends TopComponent {
 
         panel.add(defaultComponent, BorderLayout.CENTER);
 
-        // @todo 1 tb/tb enable the following 2015-03-26
-//        HelpSys.enableHelpKey(getPaneControl(), getDescriptor().getHelpId());
-//
-//        super.getContext().getPage().addPageComponentListener(new PageComponentListenerAdapter() {
-//            @Override
-//            public void componentOpened(PageComponent component) {
-//                super.componentOpened(component);
-//            }
-//
-//            @Override
-//            public void componentClosed(PageComponent component) {
-//                super.componentClosed(component);
-//            }
-//
-//            @Override
-//            public void componentShown(PageComponent component) {
-//                super.componentShown(component);
-//            }
-//
-//            @Override
-//            public void componentHidden(PageComponent component) {
-//                super.componentHidden(component);
-//            }
-//        });
-
         return panel;
+    }
+
+    @Override
+    public HelpCtx getHelpCtx() {
+        return new HelpCtx(HELP_ID);
     }
 
     @Override
@@ -181,12 +164,10 @@ public abstract class SmosTopComponent extends TopComponent {
         }
     }
 
-    protected static AbstractButton createHelpButton() {
-        final ImageIcon icon = UIUtils.loadImageIcon("icons/Help24.gif");
-        final AbstractButton button = ToolButtonFactory.createButton(icon, false);
-        button.setToolTipText("Help."); /*I18N*/
-        button.setName("helpButton");
+    protected AbstractButton createHelpButton() {
+        final AbstractButton helpButton = ToolButtonFactory.createButton(new HelpAction(this), false);
+        helpButton.setName("helpButton");
 
-        return button;
+        return helpButton;
     }
 }
