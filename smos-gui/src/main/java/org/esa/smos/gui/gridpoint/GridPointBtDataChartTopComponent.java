@@ -63,7 +63,7 @@ import java.io.IOException;
 
 public class GridPointBtDataChartTopComponent extends GridPointBtDataTopComponent {
 
-    static final String DISPLAY_NAME = "GridPoint BT Data Chart";
+    static final String DISPLAY_NAME = "SMOS L1C Chart";
 
     private JFreeChart chart;
     private YIntervalSeriesCollection coPolDataset;

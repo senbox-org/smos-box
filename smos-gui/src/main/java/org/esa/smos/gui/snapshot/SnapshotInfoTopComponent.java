@@ -89,7 +89,7 @@ import java.util.concurrent.ExecutionException;
 
 public class SnapshotInfoTopComponent extends SmosTopComponent {
 
-    static final String DISPLAY_NAME = "Snapshot Information";
+    static final String DISPLAY_NAME = "SMOS L1C Snapshot";
 
     private static final SnapshotTableModel NULL_MODEL = new SnapshotTableModel(new Object[0][0]);
 

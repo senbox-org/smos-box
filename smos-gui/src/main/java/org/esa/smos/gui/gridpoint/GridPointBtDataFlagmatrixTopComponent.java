@@ -64,7 +64,7 @@ import java.util.List;
 
 public class GridPointBtDataFlagmatrixTopComponent extends GridPointBtDataTopComponent {
 
-    static final String DISPLAY_NAME = "GridPoint BT Flag Matrix";
+    static final String DISPLAY_NAME = "SMOS L1C Flag-Matrix";
 
     private static final String SERIES_KEY = "Flags";
     private static final String DEFAULT_FLAG_DESCRIPTOR_IDENTIFIER = "DBL_SM_XXXX_MIR_XXXF1C_0400_flags";
