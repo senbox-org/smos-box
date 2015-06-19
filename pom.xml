@@ -27,6 +27,7 @@
         <module>smos-lsmask</module>
         <module>smos-tools</module>
         <module>smos-gui</module>
+        <module>smos-kit</module>
     </modules>
 
     <dependencyManagement>
@@ -151,15 +152,10 @@
 
             <dependency>
                 <groupId>org.esa.smostbx</groupId>
-                <artifactId>smos-visat</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.esa.smostbx</groupId>
                 <artifactId>smos-tools</artifactId>
                 <version>${project.version}</version>
             </dependency>
+
             <dependency>
                 <groupId>org.esa.smostbx</groupId>
                 <artifactId>smos-tools</artifactId>
