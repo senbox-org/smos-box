@@ -174,4 +174,47 @@ public class MetadataUtilsTest {
         assertEquals("value 2", attributeEntry.getValue());
     }
 
+    @Test
+    public void testParseMetadata_emptyList() {
+        final List<AttributeEntry> metaDataElements = new ArrayList<>();
+
+        MetadataUtils.parseMetadata(metaDataElements, metadataRoot);
+
+        assertEquals(0, metadataRoot.getNumAttributes());
+        assertEquals(0, metadataRoot.getNumElements());
+    }
+
+    @Test
+    public void testParseMetadata_singleTopLevelAttribute() {
+        final List<AttributeEntry> metaDataElements = new ArrayList<>();
+        final AttributeEntry entry = new AttributeEntry("top_level", "the value");
+        metaDataElements.add(entry);
+
+        MetadataUtils.parseMetadata(metaDataElements, metadataRoot);
+
+        assertEquals(1, metadataRoot.getNumAttributes());
+        final MetadataAttribute attribute = metadataRoot.getAttribute("top_level");
+        assertNotNull(attribute);
+        assertEquals("the value", attribute.getData().getElemString());
+
+        assertEquals(0, metadataRoot.getNumElements());
+    }
+
+    // @todo 1 tb/tb continue with this one 2015-06-19
+
+//    @Test
+//    public void testParseMetadata_oneElementWithOneAttribute() {
+//        final List<AttributeEntry> metaDataElements = new ArrayList<>();
+//        final AttributeEntry entry = new AttributeEntry("an_element:second_level", "the value");
+//        metaDataElements.add(entry);
+//
+//        MetadataUtils.parseMetadata(metaDataElements, metadataRoot);
+//
+//        assertEquals(1, metadataRoot.getNumAttributes());
+//        final MetadataAttribute attribute = metadataRoot.getAttribute("top_level");
+//        assertNotNull(attribute);
+//        assertEquals("the value", attribute.getData().getElemString());
+//
+//        assertEquals(0, metadataRoot.getNumElements());
+//    }
 }

@@ -2,6 +2,7 @@ package org.esa.smos.ee2netcdf;
 
 import org.esa.snap.framework.datamodel.MetadataAttribute;
 import org.esa.snap.framework.datamodel.MetadataElement;
+import org.esa.snap.framework.datamodel.ProductData;
 import ucar.nc2.Attribute;
 
 import java.util.ArrayList;
@@ -68,5 +69,14 @@ public class MetadataUtils {
             attributeList.add(attributeEntry);
         }
         return attributeList;
+    }
+
+    public static void parseMetadata(List<AttributeEntry> metaDataElements, MetadataElement metadataRoot) {
+        for (final AttributeEntry attribute : metaDataElements) {
+            final String name = attribute.getName();
+            final String value = attribute.getValue();
+            final MetadataAttribute metadataAttribute = new MetadataAttribute(name, ProductData.createInstance(value), false);
+            metadataRoot.addAttribute(metadataAttribute);
+        }
     }
 }
