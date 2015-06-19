@@ -37,6 +37,7 @@ import org.esa.snap.framework.datamodel.Product;
 import org.esa.snap.framework.datamodel.ProductData;
 import org.esa.snap.framework.datamodel.VirtualBand;
 import org.esa.snap.framework.dataop.barithm.BandArithmetic;
+import org.esa.snap.util.io.FileUtils;
 import org.geotools.referencing.crs.DefaultGeographicCRS;
 import org.jdom.Document;
 import org.jdom.Element;
@@ -50,6 +51,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.awt.geom.AffineTransform;
+import java.io.File;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.Random;
@@ -157,6 +159,19 @@ public class ProductHelper {
         final int h = dggMultiLevelImage.getHeight();
 
         return new Dimension(w, h);
+    }
+
+    public static Product createProduct(File inputFile, String productType) {
+        final String productName = FileUtils.getFilenameWithoutExtension(inputFile);
+        final Dimension dimension = ProductHelper.getSceneRasterDimension();
+        final Product product = new Product(productName, productType, dimension.width, dimension.height);
+
+        product.setFileLocation(inputFile);
+        product.setPreferredTileSize(512, 512);
+
+        product.setGeoCoding(ProductHelper.createGeoCoding(dimension));
+
+        return product;
     }
 
     static int getDataType(Type memberType) {

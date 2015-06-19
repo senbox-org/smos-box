@@ -283,7 +283,7 @@ public class SmosLightBufrReader extends SmosReader {
 
         grid = new Grid(new ReducedGaussianGrid(512));
 
-        final Product product = bufrSupport.createProduct(inputFile, "SMOS.MIRAS.NRT_BUFR_Light");
+        final Product product = ProductHelper.createProduct(inputFile, "SMOS.MIRAS.NRT_BUFR_Light");
 
         bufrSupport.extractMetaData(product);
         valueDecoders = bufrSupport.extractValueDecoders();

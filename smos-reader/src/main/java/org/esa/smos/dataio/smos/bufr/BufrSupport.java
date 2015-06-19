@@ -116,19 +116,6 @@ class BufrSupport {
         return smosBufrFile.getStructureIterator(index);
     }
 
-    Product createProduct(File inputFile, String productType) {
-        final String productName = FileUtils.getFilenameWithoutExtension(inputFile);
-        final Dimension dimension = ProductHelper.getSceneRasterDimension();
-        final Product product = new Product(productName, productType, dimension.width, dimension.height);
-
-        product.setFileLocation(new File(smosBufrFile.getLocation()));
-        product.setPreferredTileSize(512, 512);
-
-        product.setGeoCoding(ProductHelper.createGeoCoding(dimension));
-
-        return product;
-    }
-
     void extractMetaData(Product product) {
         final List<Attribute> globalAttributes = smosBufrFile.getGlobalAttributes();
         final MetadataElement metadataRoot = product.getMetadataRoot();

@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
-public class NetcdfReaderPlugin implements ProductReaderPlugIn {
+public class NetcdfProductReaderPlugin implements ProductReaderPlugIn {
 
     private static final String EXTENSION = ".nc";
 
@@ -50,7 +50,7 @@ public class NetcdfReaderPlugin implements ProductReaderPlugIn {
 
     @Override
     public ProductReader createReaderInstance() {
-        return null;
+        return new NetcdfProductReader(this);
     }
 
     @Override

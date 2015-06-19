@@ -170,7 +170,7 @@ public class SmosBufrReader extends SmosReader {
         bufrSupport = new BufrSupport();
         bufrSupport.open(inputFile.getPath());
 
-        final Product product = bufrSupport.createProduct(inputFile, "SMOS.MIRAS.NRT_BUFR");
+        final Product product = ProductHelper.createProduct(inputFile, "SMOS.MIRAS.NRT_BUFR");
 
         bufrSupport.extractMetaData(product);
         valueDecoders = bufrSupport.extractValueDecoders();

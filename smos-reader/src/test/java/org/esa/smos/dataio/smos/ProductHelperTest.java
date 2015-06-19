@@ -3,12 +3,14 @@ package org.esa.smos.dataio.smos;
 import org.esa.smos.dataio.smos.dddb.BandDescriptor;
 import org.esa.snap.framework.datamodel.Band;
 import org.esa.snap.framework.datamodel.ColorPaletteDef;
+import org.esa.snap.framework.datamodel.GeoCoding;
 import org.esa.snap.framework.datamodel.ImageInfo;
 import org.esa.snap.framework.datamodel.Product;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.awt.Color;
+import java.awt.*;
+import java.io.File;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
@@ -106,6 +108,43 @@ public class ProductHelperTest {
         imageInfo = ProductHelper.createImageInfo(null, bandDescriptor);
         assertNotNull(imageInfo);
         assertTauNadColourPalette(imageInfo);
+    }
+
+    @Test
+    public void testCreateProduct() {
+        final File file = new File("nasenmann-file.zip");
+        final String productType = "NAS_MAN";
+
+        final Product product = ProductHelper.createProduct(file, productType);
+        assertNotNull(product);
+        assertEquals("nasenmann-file", product.getName());
+        assertEquals(productType, product.getProductType());
+
+        final Dimension rasterDimension = ProductHelper.getSceneRasterDimension();
+        assertEquals(rasterDimension.width, product.getSceneRasterWidth());
+        assertEquals(rasterDimension.height, product.getSceneRasterHeight());
+
+        final File productFile = product.getFileLocation();
+        assertEquals(file.getAbsolutePath(), productFile.getAbsolutePath());
+
+        final Dimension preferredTileSize = product.getPreferredTileSize();
+        assertNotNull(preferredTileSize);
+        assertEquals(512, preferredTileSize.width);
+        assertEquals(512, preferredTileSize.height);
+
+        final GeoCoding geoCoding = product.getGeoCoding();
+        assertNotNull(geoCoding);
+        final String geoCodingDescription = "Map CRS:\n" +
+                "GEOGCS[\"WGS84(DD)\", \n" +
+                "  DATUM[\"WGS84\", \n" +
+                "    SPHEROID[\"WGS84\", 6378137.0, 298.257223563]], \n" +
+                "  PRIMEM[\"Greenwich\", 0.0], \n" +
+                "  UNIT[\"degree\", 0.017453292519943295], \n" +
+                "  AXIS[\"Geodetic longitude\", EAST], \n" +
+                "  AXIS[\"Geodetic latitude\", NORTH]]\n" +
+                "Image To Map:\n" +
+                "AffineTransform[[0.02197265625, 0.0, -180.0], [0.0, -0.02197265625, 88.59375]]";
+        assertTrue(geoCoding.toString().contains(geoCodingDescription));
     }
 
     private void assertTauNadColourPalette(ImageInfo imageInfo) {

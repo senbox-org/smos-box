@@ -2,6 +2,7 @@ package org.esa.smos.ee2netcdf.reader;
 
 
 import org.esa.snap.framework.dataio.DecodeQualification;
+import org.esa.snap.framework.dataio.ProductReader;
 import org.esa.snap.util.io.SnapFileFilter;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,14 +13,15 @@ import java.net.URL;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
-public class NetcdfReaderPluginTest {
+public class NetcdfProductReaderPluginTest {
 
-    private NetcdfReaderPlugin plugIn;
+    private NetcdfProductReaderPlugin plugIn;
 
     @Before
     public void setUp() {
-        plugIn = new NetcdfReaderPlugin();
+        plugIn = new NetcdfProductReaderPlugin();
     }
 
     @Test
@@ -79,9 +81,17 @@ public class NetcdfReaderPluginTest {
 
     @Test
     public void testGetDecodeQualification_correctFileWrongName() {
-        final URL resource = NetcdfReaderPluginTest.class.getResource("../TEST_SM_OPER_MIR_SMUDP2_20120514T163815_20120514T173133_551_001_1.nc");
+        final URL resource = NetcdfProductReaderPluginTest.class.getResource("../TEST_SM_OPER_MIR_SMUDP2_20120514T163815_20120514T173133_551_001_1.nc");
         assertNotNull(resource);
 
         assertEquals(DecodeQualification.INTENDED, plugIn.getDecodeQualification(resource.getFile()));
+    }
+
+    @Test
+    public void testCreateReaderInstance() {
+        final ProductReader readerInstance = plugIn.createReaderInstance();
+
+        assertNotNull(readerInstance);
+        assertTrue(readerInstance instanceof NetcdfProductReader);
     }
 }
