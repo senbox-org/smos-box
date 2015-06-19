@@ -19,6 +19,7 @@ import ucar.nc2.NetcdfFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 public class NetcdfProductReader extends SmosReader {
 
@@ -105,6 +106,8 @@ public class NetcdfProductReader extends SmosReader {
             if (netcdfFile == null) {
                 throw new IOException("Unable to read file");
             }
+
+            final List<Attribute> globalAttributes = netcdfFile.getGlobalAttributes();
             final Attribute fileTypeAttrbute = netcdfFile.findGlobalAttribute("Fixed_Header:File_Type");
 
             product = ProductHelper.createProduct(inputFile, fileTypeAttrbute.getStringValue());

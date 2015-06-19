@@ -5,12 +5,15 @@ import org.esa.snap.framework.datamodel.MetadataElement;
 import org.esa.snap.framework.datamodel.ProductData;
 import org.junit.Before;
 import org.junit.Test;
+import ucar.nc2.Attribute;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class MetadataUtilsTest {
 
@@ -134,6 +137,41 @@ public class MetadataUtilsTest {
         assertEquals(2, properties.size());
         assertEquals("Wilhelm", properties.get(0).getValue());
         assertEquals("Busch", properties.get(1).getValue());
+    }
+
+    @Test
+    public void testConvertNetcdfAttriutes_emptyList() {
+        final List<Attribute> ncAttributes = new ArrayList<>();
+
+        final List<AttributeEntry> convertedAttributes = MetadataUtils.convertNetcdfAttributes(ncAttributes);
+        assertNotNull(convertedAttributes);
+        assertEquals(0, convertedAttributes.size());
+    }
+
+    @Test
+    public void testConvertNetcdfAttriutes() {
+        final List<Attribute> ncAttributes = new ArrayList<>();
+        final Attribute attribute_1 = mock(Attribute.class);
+        when(attribute_1.getFullName()).thenReturn("attribute_1");
+        when(attribute_1.getStringValue()).thenReturn("value 1");
+        ncAttributes.add(attribute_1);
+
+        final Attribute attribute_2 = mock(Attribute.class);
+        when(attribute_2.getFullName()).thenReturn("attribute_2");
+        when(attribute_2.getStringValue()).thenReturn("value 2");
+        ncAttributes.add(attribute_2);
+
+        final List<AttributeEntry> convertedAttributes = MetadataUtils.convertNetcdfAttributes(ncAttributes);
+        assertNotNull(convertedAttributes);
+        assertEquals(2, convertedAttributes.size());
+
+        AttributeEntry attributeEntry = convertedAttributes.get(0);
+        assertEquals("attribute_1", attributeEntry.getName());
+        assertEquals("value 1", attributeEntry.getValue());
+
+        attributeEntry = convertedAttributes.get(1);
+        assertEquals("attribute_2", attributeEntry.getName());
+        assertEquals("value 2", attributeEntry.getValue());
     }
 
 }

@@ -2,6 +2,7 @@ package org.esa.smos.ee2netcdf;
 
 import org.esa.snap.framework.datamodel.MetadataAttribute;
 import org.esa.snap.framework.datamodel.MetadataElement;
+import ucar.nc2.Attribute;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -55,5 +56,17 @@ public class MetadataUtils {
             }
         }
         return uniqueNamedElements;
+    }
+
+    static List<AttributeEntry> convertNetcdfAttributes(List<Attribute> ncAttributes) {
+        final ArrayList<AttributeEntry> attributeList = new ArrayList<>(ncAttributes.size());
+
+        for (final Attribute attribute : ncAttributes) {
+            final String name = attribute.getFullName();
+            final String value = attribute.getStringValue();
+            final AttributeEntry attributeEntry = new AttributeEntry(name, value);
+            attributeList.add(attributeEntry);
+        }
+        return attributeList;
     }
 }
