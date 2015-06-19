@@ -2,13 +2,18 @@ package org.esa.smos.ee2netcdf.reader;
 
 
 import org.esa.smos.SmosUtils;
+import org.esa.snap.dataio.netcdf.util.NetcdfFileOpener;
 import org.esa.snap.framework.dataio.DecodeQualification;
 import org.esa.snap.framework.dataio.ProductReader;
 import org.esa.snap.framework.dataio.ProductReaderPlugIn;
 import org.esa.snap.util.io.FileUtils;
 import org.esa.snap.util.io.SnapFileFilter;
+import ucar.nc2.Attribute;
+import ucar.nc2.NetcdfFile;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.List;
 import java.util.Locale;
 
 public class NetcdfReaderPlugin implements ProductReaderPlugIn {
@@ -29,6 +34,10 @@ public class NetcdfReaderPlugin implements ProductReaderPlugIn {
         if (SmosUtils.isL1cType(fileNameWithHDRExtension) ||
                 SmosUtils.isL2Type(fileNameWithHDRExtension)) {
             return DecodeQualification.INTENDED;
+        } else {
+            if (isValidSmosNetCDF(file)) {
+                return DecodeQualification.INTENDED;
+            }
         }
 
         return DecodeQualification.UNABLE;
@@ -62,5 +71,34 @@ public class NetcdfReaderPlugin implements ProductReaderPlugIn {
     @Override
     public SnapFileFilter getProductFileFilter() {
         return new SnapFileFilter(getFormatNames()[0], getDefaultFileExtensions(), getDescription(null));
+    }
+
+    private boolean isValidSmosNetCDF(File file) {
+        NetcdfFile netcdfFile = null;
+        try {
+            netcdfFile = NetcdfFileOpener.open(file.getAbsolutePath());
+            if (netcdfFile == null) {
+                return false;
+            }
+
+            final List<Attribute> globalAttributes = netcdfFile.getGlobalAttributes();
+            for (final Attribute attribute : globalAttributes) {
+                final String fullName = attribute.getFullName();
+                if ("total_number_of_grid_points".equalsIgnoreCase(fullName)) {
+                    return true;
+                }
+            }
+        } catch (IOException e) {
+            return false;
+        } finally {
+            if (netcdfFile != null) {
+                try {
+                    netcdfFile.close();
+                } catch (IOException e) {
+                    // ignore
+                }
+            }
+        }
+        return true;
     }
 }
