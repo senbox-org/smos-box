@@ -200,21 +200,79 @@ public class MetadataUtilsTest {
         assertEquals(0, metadataRoot.getNumElements());
     }
 
-    // @todo 1 tb/tb continue with this one 2015-06-19
+    @Test
+    public void testParseMetadata_oneElementWithOneAttribute() {
+        final List<AttributeEntry> metaDataElements = new ArrayList<>();
+        final AttributeEntry entry = new AttributeEntry("an_element:second_level", "the value");
+        metaDataElements.add(entry);
 
-//    @Test
-//    public void testParseMetadata_oneElementWithOneAttribute() {
-//        final List<AttributeEntry> metaDataElements = new ArrayList<>();
-//        final AttributeEntry entry = new AttributeEntry("an_element:second_level", "the value");
-//        metaDataElements.add(entry);
-//
-//        MetadataUtils.parseMetadata(metaDataElements, metadataRoot);
-//
-//        assertEquals(1, metadataRoot.getNumAttributes());
-//        final MetadataAttribute attribute = metadataRoot.getAttribute("top_level");
-//        assertNotNull(attribute);
-//        assertEquals("the value", attribute.getData().getElemString());
-//
-//        assertEquals(0, metadataRoot.getNumElements());
-//    }
+        MetadataUtils.parseMetadata(metaDataElements, metadataRoot);
+
+        assertEquals(0, metadataRoot.getNumAttributes());
+
+        assertEquals(1, metadataRoot.getNumElements());
+        final MetadataElement element = metadataRoot.getElement("an_element");
+        assertNotNull(element);
+        final MetadataAttribute attribute = element.getAttribute("second_level");
+        assertNotNull(attribute);
+        assertEquals("the value", attribute.getData().getElemString());
+    }
+
+    @Test
+    public void testParseMetadata_secondLevelElementWithTwoAttributes() {
+        final List<AttributeEntry> metaDataElements = new ArrayList<>();
+        AttributeEntry entry = new AttributeEntry("an_element:second_level:third_level_I", "the value");
+        metaDataElements.add(entry);
+        entry = new AttributeEntry("an_element:second_level:third_level_II", "second_value");
+        metaDataElements.add(entry);
+
+        MetadataUtils.parseMetadata(metaDataElements, metadataRoot);
+
+        assertEquals(0, metadataRoot.getNumAttributes());
+
+        assertEquals(1, metadataRoot.getNumElements());
+        final MetadataElement element = metadataRoot.getElement("an_element");
+        assertNotNull(element);
+        final MetadataElement secondElement = element.getElement("second_level");
+        assertNotNull(secondElement);
+        final MetadataAttribute third_level_one = secondElement.getAttribute("third_level_I");
+        assertNotNull(third_level_one);
+        assertEquals("the value", third_level_one.getData().getElemString());
+        final MetadataAttribute third_level_two = secondElement.getAttribute("third_level_II");
+        assertNotNull(third_level_two);
+        assertEquals("second_value", third_level_two.getData().getElemString());
+    }
+
+    @Test
+    public void testParseMetadata_mixed() {
+        final List<AttributeEntry> metaDataElements = new ArrayList<>();
+        AttributeEntry entry = new AttributeEntry("an_attribute", "attribute_value");
+        metaDataElements.add(entry);
+
+        entry = new AttributeEntry("an_entry:entry_attribute", "e_a_value");
+        metaDataElements.add(entry);
+
+        entry = new AttributeEntry("an_entry:entry_element:e_e_attribute", "e_e_a_value");
+        metaDataElements.add(entry);
+
+        MetadataUtils.parseMetadata(metaDataElements, metadataRoot);
+
+        assertEquals(1, metadataRoot.getNumAttributes());
+        final MetadataAttribute attribute = metadataRoot.getAttribute("an_attribute");
+        assertNotNull(attribute);
+        assertEquals("attribute_value", attribute.getData().getElemString());
+
+        assertEquals(1, metadataRoot.getNumElements());
+        final MetadataElement element = metadataRoot.getElement("an_entry");
+        assertNotNull(element);
+        final MetadataAttribute entry_attribute = element.getAttribute("entry_attribute");
+        assertNotNull(entry_attribute);
+        assertEquals("e_a_value", entry_attribute.getData().getElemString());
+
+        final MetadataElement nestedElement = element.getElement("entry_element");
+        assertNotNull(nestedElement);
+        final MetadataAttribute nestedAttribute = nestedElement.getAttribute("e_e_attribute");
+        assertNotNull(nestedAttribute);
+        assertEquals("e_e_a_value", nestedAttribute.getData().getElemString());
+    }
 }

@@ -3,6 +3,7 @@ package org.esa.smos.ee2netcdf;
 import org.esa.snap.framework.datamodel.MetadataAttribute;
 import org.esa.snap.framework.datamodel.MetadataElement;
 import org.esa.snap.framework.datamodel.ProductData;
+import org.esa.snap.util.StringUtils;
 import ucar.nc2.Attribute;
 
 import java.util.ArrayList;
@@ -11,6 +12,8 @@ import java.util.List;
 import java.util.Set;
 
 public class MetadataUtils {
+
+    private final static char SEPARATOR = ':';
 
     public static void extractAttributes(MetadataElement root, List<AttributeEntry> properties, String prefix) {
         final MetadataAttribute[] attributes = root.getAttributes();
@@ -26,12 +29,12 @@ public class MetadataUtils {
             final List<MetadataElement> elementsWithSameName = uniqueNamedElements.get(elementName);
             if (elementsWithSameName.size() == 1) {
                 final MetadataElement metadataElement = elementsWithSameName.get(0);
-                final String nextRecursionPrefix = prefix + metadataElement.getName() + ":";
+                final String nextRecursionPrefix = prefix + metadataElement.getName() + SEPARATOR;
                 extractAttributes(metadataElement, properties, nextRecursionPrefix);
             } else {
                 int index = 0;
                 for (final MetadataElement metadataElement : elementsWithSameName) {
-                    final String nextRecursionPrefix = prefix + metadataElement.getName() + "_" + Integer.toString(index) + ":";
+                    final String nextRecursionPrefix = prefix + metadataElement.getName() + "_" + Integer.toString(index) + SEPARATOR;
                     extractAttributes(metadataElement, properties, nextRecursionPrefix);
                     ++index;
                 }
@@ -75,8 +78,32 @@ public class MetadataUtils {
         for (final AttributeEntry attribute : metaDataElements) {
             final String name = attribute.getName();
             final String value = attribute.getValue();
-            final MetadataAttribute metadataAttribute = new MetadataAttribute(name, ProductData.createInstance(value), false);
-            metadataRoot.addAttribute(metadataAttribute);
+
+
+            final String[] tokens = StringUtils.split(name, new char[]{SEPARATOR}, true);
+            if (tokens.length == 1) {
+                final MetadataAttribute metadataAttribute = new MetadataAttribute(name, ProductData.createInstance(value), false);
+                metadataRoot.addAttribute(metadataAttribute);
+            } else {
+                MetadataElement element = metadataRoot;
+                final int elementCount = tokens.length - 1;
+                for (int i = 0; i < elementCount; i++ ) {
+                    element = ensureElement(element, tokens[i]);
+                }
+
+                final MetadataAttribute metadataAttribute = new MetadataAttribute(tokens[(elementCount)], ProductData.createInstance(value), false);
+                element.addAttribute(metadataAttribute);
+            }
         }
+    }
+
+    private static MetadataElement ensureElement(MetadataElement metadataElement, String token) {
+        MetadataElement element = metadataElement.getElement(token);
+        if (element == null) {
+            element = new MetadataElement(token);
+            metadataElement.addElement(element);
+        }
+
+        return element;
     }
 }
