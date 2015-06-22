@@ -134,17 +134,6 @@ public class ProductHelperTest {
 
         final GeoCoding geoCoding = product.getGeoCoding();
         assertNotNull(geoCoding);
-        final String geoCodingDescription = "Map CRS:\n" +
-                "GEOGCS[\"WGS84(DD)\", \n" +
-                "  DATUM[\"WGS84\", \n" +
-                "    SPHEROID[\"WGS84\", 6378137.0, 298.257223563]], \n" +
-                "  PRIMEM[\"Greenwich\", 0.0], \n" +
-                "  UNIT[\"degree\", 0.017453292519943295], \n" +
-                "  AXIS[\"Geodetic longitude\", EAST], \n" +
-                "  AXIS[\"Geodetic latitude\", NORTH]]\n" +
-                "Image To Map:\n" +
-                "AffineTransform[[0.02197265625, 0.0, -180.0], [0.0, -0.02197265625, 88.59375]]";
-        assertTrue(geoCoding.toString().contains(geoCodingDescription));
     }
 
     private void assertTauNadColourPalette(ImageInfo imageInfo) {
