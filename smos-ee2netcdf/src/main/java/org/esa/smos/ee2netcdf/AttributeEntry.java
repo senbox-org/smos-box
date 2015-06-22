@@ -1,20 +1,20 @@
 package org.esa.smos.ee2netcdf;
 
-class AttributeEntry {
+public class AttributeEntry {
 
     private String name;
     private String value;
 
-    AttributeEntry(String name, String value) {
+    public AttributeEntry(String name, String value) {
         this.name = name;
         this.value = value;
     }
 
-    String getName() {
+    public String getName() {
         return name;
     }
 
-    String getValue() {
+    public String getValue() {
         return value;
     }
 }

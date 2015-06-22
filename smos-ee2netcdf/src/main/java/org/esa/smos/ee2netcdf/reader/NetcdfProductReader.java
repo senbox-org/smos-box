@@ -7,6 +7,8 @@ import org.esa.smos.dataio.smos.ProductHelper;
 import org.esa.smos.dataio.smos.SmosReader;
 import org.esa.smos.dataio.smos.SnapshotInfo;
 import org.esa.smos.dataio.smos.dddb.FlagDescriptor;
+import org.esa.smos.ee2netcdf.AttributeEntry;
+import org.esa.smos.ee2netcdf.MetadataUtils;
 import org.esa.snap.dataio.netcdf.util.NetcdfFileOpener;
 import org.esa.snap.framework.dataio.AbstractProductReader;
 import org.esa.snap.framework.dataio.ProductReader;
@@ -107,10 +109,12 @@ public class NetcdfProductReader extends SmosReader {
                 throw new IOException("Unable to read file");
             }
 
-            final List<Attribute> globalAttributes = netcdfFile.getGlobalAttributes();
             final Attribute fileTypeAttrbute = netcdfFile.findGlobalAttribute("Fixed_Header:File_Type");
-
             product = ProductHelper.createProduct(inputFile, fileTypeAttrbute.getStringValue());
+
+            final List<Attribute> globalAttributes = netcdfFile.getGlobalAttributes();
+            final List<AttributeEntry> attributeEntries = MetadataUtils.convertNetcdfAttributes(globalAttributes);
+            MetadataUtils.parseMetadata(attributeEntries, product.getMetadataRoot());
         }
 
         return product;

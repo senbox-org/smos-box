@@ -13,6 +13,7 @@ import java.util.Set;
 
 public class MetadataUtils {
 
+    private static final String GLOBAL_ATTRIBUTES = "Global_Attributes";
     private final static char SEPARATOR = ':';
 
     public static void extractAttributes(MetadataElement root, List<AttributeEntry> properties, String prefix) {
@@ -62,7 +63,7 @@ public class MetadataUtils {
         return uniqueNamedElements;
     }
 
-    static List<AttributeEntry> convertNetcdfAttributes(List<Attribute> ncAttributes) {
+    public static List<AttributeEntry> convertNetcdfAttributes(List<Attribute> ncAttributes) {
         final ArrayList<AttributeEntry> attributeList = new ArrayList<>(ncAttributes.size());
 
         for (final Attribute attribute : ncAttributes) {
@@ -82,8 +83,9 @@ public class MetadataUtils {
 
             final String[] tokens = StringUtils.split(name, new char[]{SEPARATOR}, true);
             if (tokens.length == 1) {
+                final MetadataElement globalAttributesElement = ensureElement(metadataRoot, GLOBAL_ATTRIBUTES);
                 final MetadataAttribute metadataAttribute = new MetadataAttribute(name, ProductData.createInstance(value), false);
-                metadataRoot.addAttribute(metadataAttribute);
+                globalAttributesElement.addAttribute(metadataAttribute);
             } else {
                 MetadataElement element = metadataRoot;
                 final int elementCount = tokens.length - 1;

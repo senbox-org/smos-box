@@ -34,7 +34,7 @@ public class MetadataUtilsTest {
     }
 
     @Test
-    public void testExtractMetadata_simleMetadata() {
+    public void testExtractMetadata_simpleMetadata() {
         metadataRoot.addAttribute(new MetadataAttribute("attribute_1", ProductData.ASCII.createInstance("hoppla_1"), true));
         metadataRoot.addAttribute(new MetadataAttribute("attribute_2", ProductData.ASCII.createInstance("hoppla_2"), true));
 
@@ -45,7 +45,7 @@ public class MetadataUtilsTest {
     }
 
     @Test
-    public void testExtractMetadata_simleMetadata_withPrefix() {
+    public void testExtractMetadata_simpleMetadata_withPrefix() {
         metadataRoot.addAttribute(new MetadataAttribute("attribute_1", ProductData.ASCII.createInstance("hoppla_1"), true));
         metadataRoot.addAttribute(new MetadataAttribute("attribute_2", ProductData.ASCII.createInstance("hoppla_2"), true));
 
@@ -192,12 +192,12 @@ public class MetadataUtilsTest {
 
         MetadataUtils.parseMetadata(metaDataElements, metadataRoot);
 
-        assertEquals(1, metadataRoot.getNumAttributes());
-        final MetadataAttribute attribute = metadataRoot.getAttribute("top_level");
+        assertEquals(1, metadataRoot.getNumElements());
+        final MetadataElement global_attributes = metadataRoot.getElement("Global_Attributes");
+        final MetadataAttribute attribute = global_attributes.getAttribute("top_level");
         assertNotNull(attribute);
         assertEquals("the value", attribute.getData().getElemString());
 
-        assertEquals(0, metadataRoot.getNumElements());
     }
 
     @Test
@@ -257,12 +257,12 @@ public class MetadataUtilsTest {
 
         MetadataUtils.parseMetadata(metaDataElements, metadataRoot);
 
-        assertEquals(1, metadataRoot.getNumAttributes());
-        final MetadataAttribute attribute = metadataRoot.getAttribute("an_attribute");
+        assertEquals(2, metadataRoot.getNumElements());
+        final MetadataElement global_attributes = metadataRoot.getElement("Global_Attributes");
+        final MetadataAttribute attribute = global_attributes.getAttribute("an_attribute");
         assertNotNull(attribute);
         assertEquals("attribute_value", attribute.getData().getElemString());
 
-        assertEquals(1, metadataRoot.getNumElements());
         final MetadataElement element = metadataRoot.getElement("an_entry");
         assertNotNull(element);
         final MetadataAttribute entry_attribute = element.getAttribute("entry_attribute");
