@@ -94,7 +94,7 @@ public class NetCDFProductReaderIntegrationTest {
             assertNotNull(ncProduct);
 
             assertGlobalMetadataFields(ncProduct);
-            // compare smos specific metadata
+            assertSmosMetaDataFields(product, ncProduct);
 
 
         } finally {
@@ -105,7 +105,29 @@ public class NetCDFProductReaderIntegrationTest {
                 ncProduct.dispose();
             }
         }
+    }
 
+    private void assertSmosMetaDataFields(Product product, Product ncProduct) {
+        final MetadataElement metadataRoot = product.getMetadataRoot();
+        final MetadataElement ncMetadataRoot = ncProduct.getMetadataRoot();
+
+        MetadataElement sourceElement = metadataRoot.getElement("Fixed_Header").getElement("Source");
+        MetadataElement ncSourceElement = ncMetadataRoot.getElement("Fixed_Header").getElement("Source");
+        assertSameAttributes(sourceElement, ncSourceElement);
+
+        sourceElement = metadataRoot.getElement("Variable_Header").getElement("Specific_Product_Header").getElement("Main_Info");
+        ncSourceElement = ncMetadataRoot.getElement("Variable_Header").getElement("Specific_Product_Header").getElement("Main_Info");
+        assertSameAttributes(sourceElement, ncSourceElement);
+
+    }
+
+    private void assertSameAttributes(MetadataElement sourceElement, MetadataElement ncSourceElement) {
+        for(int i = 0; i < sourceElement.getNumAttributes(); i++ ) {
+            final MetadataAttribute attribute = sourceElement.getAttributeAt(i);
+            final MetadataAttribute ncAttribute = ncSourceElement.getAttribute(attribute.getName());
+            assertNotNull(ncAttribute);
+            assertEquals(attribute.getData().getElemString(), ncAttribute.getData().getElemString());
+        }
     }
 
     private void assertGlobalMetadataFields(Product ncProduct) {
