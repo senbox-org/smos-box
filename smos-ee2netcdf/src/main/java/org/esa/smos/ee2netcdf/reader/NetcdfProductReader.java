@@ -1,18 +1,17 @@
 package org.esa.smos.ee2netcdf.reader;
 
 import com.bc.ceres.core.ProgressMonitor;
-import org.esa.smos.dataio.smos.GridPointBtDataset;
-import org.esa.smos.dataio.smos.PolarisationModel;
-import org.esa.smos.dataio.smos.ProductHelper;
-import org.esa.smos.dataio.smos.SmosReader;
-import org.esa.smos.dataio.smos.SnapshotInfo;
+import com.bc.ceres.glevel.support.DefaultMultiLevelImage;
+import org.esa.smos.dataio.smos.*;
+import org.esa.smos.dataio.smos.dddb.BandDescriptor;
+import org.esa.smos.dataio.smos.dddb.Dddb;
+import org.esa.smos.dataio.smos.dddb.Family;
 import org.esa.smos.dataio.smos.dddb.FlagDescriptor;
 import org.esa.smos.ee2netcdf.AttributeEntry;
 import org.esa.smos.ee2netcdf.MetadataUtils;
+import org.esa.smos.lsmask.SmosLsMask;
 import org.esa.snap.dataio.netcdf.util.DataTypeUtils;
 import org.esa.snap.dataio.netcdf.util.NetcdfFileOpener;
-import org.esa.snap.framework.dataio.AbstractProductReader;
-import org.esa.snap.framework.dataio.ProductReader;
 import org.esa.snap.framework.dataio.ProductReaderPlugIn;
 import org.esa.snap.framework.datamodel.Band;
 import org.esa.snap.framework.datamodel.Product;
@@ -21,12 +20,16 @@ import ucar.nc2.Attribute;
 import ucar.nc2.NetcdfFile;
 import ucar.nc2.Variable;
 
+import java.awt.*;
+import java.awt.image.Raster;
+import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
 public class NetcdfProductReader extends SmosReader {
 
+    private static final String LSMASK_SCHEMA_NAME = "DBL_SM_XXXX_AUX_LSMASK_0200";
 
     private NetcdfFile netcdfFile;
 
@@ -112,25 +115,89 @@ public class NetcdfProductReader extends SmosReader {
             }
 
             final Attribute fileTypeAttrbute = netcdfFile.findGlobalAttribute("Fixed_Header:File_Type");
+            if (fileTypeAttrbute == null) {
+                throw new IOException("Required attribute `Fixed_Header:File_Type` not found");
+            }
             product = ProductHelper.createProduct(inputFile, fileTypeAttrbute.getStringValue());
 
-            final List<Attribute> globalAttributes = netcdfFile.getGlobalAttributes();
-            final List<AttributeEntry> attributeEntries = MetadataUtils.convertNetcdfAttributes(globalAttributes);
-            MetadataUtils.parseMetadata(attributeEntries, product.getMetadataRoot());
+            addMetadata(product);
 
-            final List<Variable> variables = netcdfFile.getVariables();
-            for (final Variable variable: variables) {
-                final int rasterDataType = DataTypeUtils.getRasterDataType(variable);
-                //new Band()
+            final String schemaDescription = getSchemaDescription();
+            final Family<BandDescriptor> bandDescriptors = Dddb.getInstance().getBandDescriptors(schemaDescription);
+            if (bandDescriptors == null) {
+                throw new IOException("Unsupported file schema: '" + schemaDescription + "`");
             }
+
+            for (final BandDescriptor descriptor : bandDescriptors.asList()) {
+                if (!descriptor.isVisible()) {
+                    continue;
+                }
+                final Variable variable = netcdfFile.findVariable(null, descriptor.getMemberName());
+                if (variable == null) {
+                    continue;
+                }
+                final int rasterDataType = DataTypeUtils.getRasterDataType(variable);
+                final Band band = product.addBand(variable.getFullName(), rasterDataType);
+                band.setScalingOffset(descriptor.getScalingOffset());
+                band.setScalingFactor(descriptor.getScalingFactor());
+                if (descriptor.hasFillValue()) {
+                    band.setNoDataValueUsed(true);
+                    band.setNoDataValue(descriptor.getFillValue());
+                }
+                if (!descriptor.getValidPixelExpression().isEmpty()) {
+                    band.setValidPixelExpression(descriptor.getValidPixelExpression());
+                }
+                if (!descriptor.getUnit().isEmpty()) {
+                    band.setUnit(descriptor.getUnit());
+                }
+                if (!descriptor.getDescription().isEmpty()) {
+                    band.setDescription(descriptor.getDescription());
+                }
+                if (descriptor.getFlagDescriptors() != null) {
+                    ProductHelper.addFlagsAndMasks(product, band,
+                            descriptor.getFlagCodingName(),
+                            descriptor.getFlagDescriptors());
+                }
+
+                final VariableValueProvider variableValueProvider = new VariableValueProvider(variable);
+                SmosMultiLevelSource smosMultiLevelSource = new SmosMultiLevelSource(band, variableValueProvider);
+                DefaultMultiLevelImage defaultMultiLevelImage = new DefaultMultiLevelImage(smosMultiLevelSource);
+                band.setSourceImage(defaultMultiLevelImage);
+                band.setImageInfo(ProductHelper.createImageInfo(band, descriptor));
+            }
+
+            addLandSeaMask(product);
         }
 
         return product;
     }
 
-    @Override
-    protected void readBandRasterDataImpl(int sourceOffsetX, int sourceOffsetY, int sourceWidth, int sourceHeight, int sourceStepX, int sourceStepY, Band destBand, int destOffsetX, int destOffsetY, int destWidth, int destHeight, ProductData destBuffer, ProgressMonitor pm) throws IOException {
+    private void addMetadata(Product product) {
+        final List<Attribute> globalAttributes = netcdfFile.getGlobalAttributes();
+        final List<AttributeEntry> attributeEntries = MetadataUtils.convertNetcdfAttributes(globalAttributes);
+        MetadataUtils.parseMetadata(attributeEntries, product.getMetadataRoot());
+    }
 
+    @Override
+    protected final void readBandRasterDataImpl(int sourceOffsetX,
+                                                int sourceOffsetY,
+                                                int sourceWidth,
+                                                int sourceHeight,
+                                                int sourceStepX,
+                                                int sourceStepY,
+                                                Band targetBand,
+                                                int targetOffsetX,
+                                                int targetOffsetY,
+                                                int targetWidth,
+                                                int targetHeight,
+                                                ProductData targetBuffer,
+                                                ProgressMonitor pm) {
+        synchronized (this) {
+            final RenderedImage image = targetBand.getSourceImage();
+            final Raster data = image.getData(new Rectangle(targetOffsetX, targetOffsetY, targetWidth, targetHeight));
+
+            data.getDataElements(targetOffsetX, targetOffsetY, targetWidth, targetHeight, targetBuffer.getElems());
+        }
     }
 
     @Override
@@ -139,5 +206,43 @@ public class NetcdfProductReader extends SmosReader {
             netcdfFile.close();
             netcdfFile = null;
         }
+    }
+
+    private void addLandSeaMask(Product product) {
+        final BandDescriptor descriptor = Dddb.getInstance().getBandDescriptors(LSMASK_SCHEMA_NAME).getMember(SmosConstants.LAND_SEA_MASK_NAME);
+
+        final Band band = product.addBand(descriptor.getBandName(), ProductData.TYPE_UINT8);
+
+        band.setScalingOffset(descriptor.getScalingOffset());
+        band.setScalingFactor(descriptor.getScalingFactor());
+        if (descriptor.hasFillValue()) {
+            band.setNoDataValueUsed(true);
+            band.setNoDataValue(descriptor.getFillValue());
+        }
+        if (!descriptor.getValidPixelExpression().isEmpty()) {
+            band.setValidPixelExpression(descriptor.getValidPixelExpression());
+        }
+        if (!descriptor.getUnit().isEmpty()) {
+            band.setUnit(descriptor.getUnit());
+        }
+        if (!descriptor.getDescription().isEmpty()) {
+            band.setDescription(descriptor.getDescription());
+        }
+        if (descriptor.getFlagDescriptors() != null) {
+            ProductHelper.addFlagsAndMasks(product, band, descriptor.getFlagCodingName(),
+                    descriptor.getFlagDescriptors());
+        }
+
+        band.setSourceImage(SmosLsMask.getInstance().getMultiLevelImage());
+        band.setImageInfo(ProductHelper.createImageInfo(band, descriptor));
+    }
+
+    private String getSchemaDescription() throws IOException {
+        final Attribute schemaAttribute = netcdfFile.findGlobalAttribute("Variable_Header:Specific_Product_Header:Main_Info:Datablock_Schema");
+        if (schemaAttribute == null) {
+            throw new IOException("Schema attribuite not found.");
+        }
+
+        return schemaAttribute.getStringValue().substring(0, 27);
     }
 }

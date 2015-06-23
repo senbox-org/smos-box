@@ -1,5 +1,6 @@
 package org.esa.smos.ee2netcdf.reader;
 
+import jdk.nashorn.internal.ir.annotations.Ignore;
 import org.esa.smos.AcceptanceTestRunner;
 import org.esa.smos.ee2netcdf.NetcdfExportOp;
 import org.esa.snap.framework.dataio.ProductIO;
@@ -69,6 +70,7 @@ public class NetCDFProductReaderIntegrationTest {
     }
 
     @Test
+    @Ignore
     public void testConvertAndReImportSMUDP2() throws IOException {
         final URL resource = NetcdfProductReaderPluginTest.class.getResource("../SM_OPER_MIR_SMUDP2_20120514T163815_20120514T173133_551_001_1.zip");
         assertNotNull(resource);
@@ -88,7 +90,6 @@ public class NetCDFProductReaderIntegrationTest {
 
             final File ncFile = new File(targetDirectory, "SM_OPER_MIR_SMUDP2_20120514T163815_20120514T173133_551_001_1.nc");
             assertTrue(ncFile.isFile());
-
 
             ncProduct = ProductIO.readProduct(ncFile);
             assertNotNull(ncProduct);

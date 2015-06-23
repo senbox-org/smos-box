@@ -51,8 +51,7 @@ public class L1cSmosFile extends SmosFile {
         final Namespace namespace = document.getRootElement().getNamespace();
         final Element specificProductHeader = getElement(document.getRootElement(), TAG_SPECIFIC_PRODUCT_HEADER);
 
-        radiometricAccuracyScale = Double.valueOf(
-                specificProductHeader.getChildText("Radiometric_Accuracy_Scale", namespace));
+        radiometricAccuracyScale = Double.valueOf(specificProductHeader.getChildText("Radiometric_Accuracy_Scale", namespace));
         pixelFootprintScale = Double.valueOf(specificProductHeader.getChildText("Pixel_Footprint_Scale", namespace));
 
         btDataListIndex = getGridPointType().getMemberIndex(SmosConstants.BT_DATA_LIST_NAME);
