@@ -7,6 +7,9 @@ import org.esa.smos.dataio.smos.ProductHelper;
 import org.esa.smos.dataio.smos.SmosReader;
 import org.esa.smos.dataio.smos.SnapshotInfo;
 import org.esa.smos.dataio.smos.dddb.FlagDescriptor;
+import org.esa.smos.ee2netcdf.AttributeEntry;
+import org.esa.smos.ee2netcdf.MetadataUtils;
+import org.esa.snap.dataio.netcdf.util.DataTypeUtils;
 import org.esa.snap.dataio.netcdf.util.NetcdfFileOpener;
 import org.esa.snap.framework.dataio.AbstractProductReader;
 import org.esa.snap.framework.dataio.ProductReader;
@@ -16,9 +19,11 @@ import org.esa.snap.framework.datamodel.Product;
 import org.esa.snap.framework.datamodel.ProductData;
 import ucar.nc2.Attribute;
 import ucar.nc2.NetcdfFile;
+import ucar.nc2.Variable;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 public class NetcdfProductReader extends SmosReader {
 
@@ -105,9 +110,19 @@ public class NetcdfProductReader extends SmosReader {
             if (netcdfFile == null) {
                 throw new IOException("Unable to read file");
             }
-            final Attribute fileTypeAttrbute = netcdfFile.findGlobalAttribute("Fixed_Header:File_Type");
 
+            final Attribute fileTypeAttrbute = netcdfFile.findGlobalAttribute("Fixed_Header:File_Type");
             product = ProductHelper.createProduct(inputFile, fileTypeAttrbute.getStringValue());
+
+            final List<Attribute> globalAttributes = netcdfFile.getGlobalAttributes();
+            final List<AttributeEntry> attributeEntries = MetadataUtils.convertNetcdfAttributes(globalAttributes);
+            MetadataUtils.parseMetadata(attributeEntries, product.getMetadataRoot());
+
+            final List<Variable> variables = netcdfFile.getVariables();
+            for (final Variable variable: variables) {
+                final int rasterDataType = DataTypeUtils.getRasterDataType(variable);
+                //new Band()
+            }
         }
 
         return product;
