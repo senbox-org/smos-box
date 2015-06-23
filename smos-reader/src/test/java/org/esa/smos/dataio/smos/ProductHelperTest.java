@@ -1,11 +1,7 @@
 package org.esa.smos.dataio.smos;
 
 import org.esa.smos.dataio.smos.dddb.BandDescriptor;
-import org.esa.snap.framework.datamodel.Band;
-import org.esa.snap.framework.datamodel.ColorPaletteDef;
-import org.esa.snap.framework.datamodel.GeoCoding;
-import org.esa.snap.framework.datamodel.ImageInfo;
-import org.esa.snap.framework.datamodel.Product;
+import org.esa.snap.framework.datamodel.*;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -13,7 +9,8 @@ import java.awt.*;
 import java.io.File;
 
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class ProductHelperTest {
 
@@ -88,10 +85,10 @@ public class ProductHelperTest {
         final ColorPaletteDef.Point[] points = colorPaletteDef.getPoints();
         assertEquals(5, points.length);
 
-        assertEquals(new Color(255,136,0), points[0].getColor());
+        assertEquals(new Color(255, 136, 0), points[0].getColor());
         assertEquals(0.0, points[0].getSample(), 1e-8);
 
-        assertEquals(new Color(225,221,0), points[2].getColor());
+        assertEquals(new Color(225, 221, 0), points[2].getColor());
         assertEquals(0.1, points[2].getSample(), 1e-8);
     }
 
@@ -134,13 +131,14 @@ public class ProductHelperTest {
 
         final GeoCoding geoCoding = product.getGeoCoding();
         assertNotNull(geoCoding);
+        final String lineSep = System.getProperty("line.separator");
         final String geoCodingDescription = "Map CRS:\n" +
-                "GEOGCS[\"WGS84(DD)\", \n" +
-                "  DATUM[\"WGS84\", \n" +
-                "    SPHEROID[\"WGS84\", 6378137.0, 298.257223563]], \n" +
-                "  PRIMEM[\"Greenwich\", 0.0], \n" +
-                "  UNIT[\"degree\", 0.017453292519943295], \n" +
-                "  AXIS[\"Geodetic longitude\", EAST], \n" +
+                "GEOGCS[\"WGS84(DD)\", " + lineSep +
+                "  DATUM[\"WGS84\", " + lineSep +
+                "    SPHEROID[\"WGS84\", 6378137.0, 298.257223563]], " + lineSep +
+                "  PRIMEM[\"Greenwich\", 0.0], " + lineSep +
+                "  UNIT[\"degree\", 0.017453292519943295], " + lineSep +
+                "  AXIS[\"Geodetic longitude\", EAST], " + lineSep +
                 "  AXIS[\"Geodetic latitude\", NORTH]]\n" +
                 "Image To Map:\n" +
                 "AffineTransform[[0.02197265625, 0.0, -180.0], [0.0, -0.02197265625, 88.59375]]";
@@ -152,10 +150,10 @@ public class ProductHelperTest {
         final ColorPaletteDef.Point[] points = colorPaletteDef.getPoints();
         assertEquals(3, points.length);
 
-        assertEquals(new Color(213,255,135), points[0].getColor());
+        assertEquals(new Color(213, 255, 135), points[0].getColor());
         assertEquals(0.0, points[0].getSample(), 1e-8);
 
-        assertEquals(new Color(0,45,0), points[2].getColor());
+        assertEquals(new Color(0, 45, 0), points[2].getColor());
         assertEquals(1.2, points[2].getSample(), 1e-8);
     }
 }
