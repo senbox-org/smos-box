@@ -1,4 +1,4 @@
-package org.esa.smos.dataio.smos;
+package org.esa.smos;
 
 import java.io.IOException;
 

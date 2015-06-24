@@ -2,29 +2,35 @@ package org.esa.smos.ee2netcdf.reader;
 
 import com.bc.ceres.core.ProgressMonitor;
 import com.bc.ceres.glevel.support.DefaultMultiLevelImage;
+import org.esa.smos.ObservationPointList;
 import org.esa.smos.dataio.smos.*;
 import org.esa.smos.dataio.smos.dddb.BandDescriptor;
 import org.esa.smos.dataio.smos.dddb.Dddb;
 import org.esa.smos.dataio.smos.dddb.Family;
 import org.esa.smos.dataio.smos.dddb.FlagDescriptor;
+import org.esa.smos.dgg.SmosDgg;
 import org.esa.smos.ee2netcdf.AttributeEntry;
 import org.esa.smos.ee2netcdf.MetadataUtils;
 import org.esa.smos.lsmask.SmosLsMask;
+import org.esa.smos.Point;
 import org.esa.snap.dataio.netcdf.util.DataTypeUtils;
 import org.esa.snap.dataio.netcdf.util.NetcdfFileOpener;
 import org.esa.snap.framework.dataio.ProductReaderPlugIn;
 import org.esa.snap.framework.datamodel.Band;
 import org.esa.snap.framework.datamodel.Product;
 import org.esa.snap.framework.datamodel.ProductData;
+import ucar.ma2.Array;
 import ucar.nc2.Attribute;
 import ucar.nc2.NetcdfFile;
 import ucar.nc2.Variable;
 
 import java.awt.*;
+import java.awt.geom.Area;
 import java.awt.image.Raster;
 import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 
 public class NetcdfProductReader extends SmosReader {
@@ -32,6 +38,8 @@ public class NetcdfProductReader extends SmosReader {
     private static final String LSMASK_SCHEMA_NAME = "DBL_SM_XXXX_AUX_LSMASK_0200";
 
     private NetcdfFile netcdfFile;
+    private Area area;
+    private HashMap<Integer, Integer> seqNumToIndexMap;
 
     /**
      * Constructs a new abstract product reader.
@@ -122,6 +130,10 @@ public class NetcdfProductReader extends SmosReader {
 
             addMetadata(product);
 
+            area = calculateArea();
+
+            seqNumToIndexMap = calculateSeqNumToIndexmap();
+
             final String schemaDescription = getSchemaDescription();
             final Family<BandDescriptor> bandDescriptors = Dddb.getInstance().getBandDescriptors(schemaDescription);
             if (bandDescriptors == null) {
@@ -159,7 +171,7 @@ public class NetcdfProductReader extends SmosReader {
                             descriptor.getFlagDescriptors());
                 }
 
-                final VariableValueProvider variableValueProvider = new VariableValueProvider(variable);
+                final VariableValueProvider variableValueProvider = new VariableValueProvider(variable, area);
                 SmosMultiLevelSource smosMultiLevelSource = new SmosMultiLevelSource(band, variableValueProvider);
                 DefaultMultiLevelImage defaultMultiLevelImage = new DefaultMultiLevelImage(smosMultiLevelSource);
                 band.setSourceImage(defaultMultiLevelImage);
@@ -170,6 +182,44 @@ public class NetcdfProductReader extends SmosReader {
         }
 
         return product;
+    }
+
+    private HashMap<Integer, Integer> calculateSeqNumToIndexmap() throws IOException {
+        final Variable gridPointIdVariable = netcdfFile.findVariable(null, "Grid_Point_ID");
+        final Array gridPointIdArray = gridPointIdVariable.read();
+        final int[] shape = gridPointIdArray.getShape();
+        final HashMap<Integer, Integer> seqNumToIndexMap = new HashMap<>(shape[0]);
+
+        for (int i = 0; i < shape[0]; i++) {
+            final int gridPointId = gridPointIdArray.getInt(i);
+            final int seqnum = SmosDgg.gridPointIdToSeqnum(gridPointId);
+            seqNumToIndexMap.put(seqnum, i);
+        }
+        return seqNumToIndexMap;
+    }
+
+    private Area calculateArea() throws IOException {
+        // @todo 1 tb/tb extract class for L1C , L2 and Browse access
+
+//        final Variable latitude = netcdfFile.findVariable(null, "Grid_Point_Latitude");
+//        final Variable longitude = netcdfFile.findVariable(null, "Grid_Point_Longitude");
+
+        final Variable latitude = netcdfFile.findVariable(null, "Latitude");
+        final Variable longitude = netcdfFile.findVariable(null, "Longitude");
+        if (latitude == null || longitude == null) {
+            throw new IOException("Missing geo location variables");
+        }
+
+        final Array latitudeArray = latitude.read();
+        final Array longitudeArray = longitude.read();
+
+        final int[] shape = longitudeArray.getShape();
+        final Point[] pointArray = new Point[shape[0]];
+        for (int i = 0; i < shape[0]; i++) {
+            pointArray[i] = new Point(longitudeArray.getDouble(i), latitudeArray.getDouble(i));
+        }
+
+        return DggUtils.computeArea(new ObservationPointList(pointArray));
     }
 
     private void addMetadata(Product product) {

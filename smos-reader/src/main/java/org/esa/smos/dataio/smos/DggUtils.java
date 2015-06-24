@@ -1,5 +1,7 @@
 package org.esa.smos.dataio.smos;
 
+import org.esa.smos.PointList;
+
 import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
 import java.io.IOException;

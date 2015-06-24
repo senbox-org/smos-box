@@ -70,7 +70,6 @@ public class NetCDFProductReaderIntegrationTest {
     }
 
     @Test
-    @Ignore
     public void testConvertAndReImportSMUDP2() throws IOException {
         final URL resource = NetcdfProductReaderPluginTest.class.getResource("../SM_OPER_MIR_SMUDP2_20120514T163815_20120514T173133_551_001_1.zip");
         assertNotNull(resource);

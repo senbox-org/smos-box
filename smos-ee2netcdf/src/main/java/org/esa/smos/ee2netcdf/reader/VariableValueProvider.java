@@ -9,35 +9,34 @@ import java.awt.geom.Area;
 
 public class VariableValueProvider implements ValueProvider {
 
-    public VariableValueProvider(Variable variable) {
+    private final Area area;
+
+    public VariableValueProvider(Variable variable, Area area) {
+        this.area = area;
     }
 
     @Override
     public Area getArea() {
-        throw new NotImplementedException();
+        return area;
     }
 
     @Override
     public byte getValue(int seqnum, byte noDataValue) {
-        System.out.println(seqnum);
         return 0;
     }
 
     @Override
     public short getValue(int seqnum, short noDataValue) {
-        System.out.println(seqnum);
         return 0;
     }
 
     @Override
     public int getValue(int seqnum, int noDataValue) {
-        System.out.println(seqnum);
         return 0;
     }
 
     @Override
     public float getValue(int seqnum, float noDataValue) {
-        System.out.println(seqnum);
         return 0;
     }
 }
