@@ -38,8 +38,6 @@ public class NetcdfProductReader extends SmosReader {
     private static final String LSMASK_SCHEMA_NAME = "DBL_SM_XXXX_AUX_LSMASK_0200";
 
     private NetcdfFile netcdfFile;
-    private Area area;
-    private HashMap<Integer, Integer> seqNumToIndexMap;
 
     /**
      * Constructs a new abstract product reader.
@@ -130,9 +128,8 @@ public class NetcdfProductReader extends SmosReader {
 
             addMetadata(product);
 
-            area = calculateArea();
-
-            seqNumToIndexMap = calculateSeqNumToIndexmap();
+            final Area area = calculateArea();
+            final GridPointInfo gridPointInfo = calculateGridPointInfo();
 
             final String schemaDescription = getSchemaDescription();
             final Family<BandDescriptor> bandDescriptors = Dddb.getInstance().getBandDescriptors(schemaDescription);
@@ -171,7 +168,7 @@ public class NetcdfProductReader extends SmosReader {
                             descriptor.getFlagDescriptors());
                 }
 
-                final VariableValueProvider variableValueProvider = new VariableValueProvider(variable, area);
+                final VariableValueProvider variableValueProvider = new VariableValueProvider(variable, area, gridPointInfo);
                 SmosMultiLevelSource smosMultiLevelSource = new SmosMultiLevelSource(band, variableValueProvider);
                 DefaultMultiLevelImage defaultMultiLevelImage = new DefaultMultiLevelImage(smosMultiLevelSource);
                 band.setSourceImage(defaultMultiLevelImage);
@@ -184,18 +181,28 @@ public class NetcdfProductReader extends SmosReader {
         return product;
     }
 
-    private HashMap<Integer, Integer> calculateSeqNumToIndexmap() throws IOException {
+    private GridPointInfo calculateGridPointInfo() throws IOException {
         final Variable gridPointIdVariable = netcdfFile.findVariable(null, "Grid_Point_ID");
         final Array gridPointIdArray = gridPointIdVariable.read();
         final int[] shape = gridPointIdArray.getShape();
-        final HashMap<Integer, Integer> seqNumToIndexMap = new HashMap<>(shape[0]);
 
+        int minSeqNum = Integer.MAX_VALUE;
+        int maxSeqNum = Integer.MIN_VALUE;
+        final int[] seqNumbers = new int[shape[0]];
         for (int i = 0; i < shape[0]; i++) {
             final int gridPointId = gridPointIdArray.getInt(i);
             final int seqnum = SmosDgg.gridPointIdToSeqnum(gridPointId);
-            seqNumToIndexMap.put(seqnum, i);
+            seqNumbers[i] = seqnum;
+            if (seqnum < minSeqNum){
+                minSeqNum = seqnum;
+            } else if (seqnum > maxSeqNum) {
+                maxSeqNum = seqnum;
+            }
         }
-        return seqNumToIndexMap;
+
+        final GridPointInfo gridPointInfo = new GridPointInfo(minSeqNum, maxSeqNum);
+        gridPointInfo.setSequenceNumbers(seqNumbers);
+        return gridPointInfo;
     }
 
     private Area calculateArea() throws IOException {
