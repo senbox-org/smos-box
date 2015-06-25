@@ -4,7 +4,6 @@ package org.esa.smos.ee2netcdf.reader;
 import org.esa.smos.dataio.smos.GridPointInfo;
 import org.esa.smos.dataio.smos.provider.ValueProvider;
 import ucar.ma2.Array;
-import ucar.ma2.InvalidRangeException;
 import ucar.nc2.Variable;
 
 import java.awt.geom.Area;
@@ -53,7 +52,7 @@ public class VariableValueProvider implements ValueProvider {
         try {
             final Array array = getArray();
             return array.getShort(gridPointIndex);
-        } catch (IOException  e) {
+        } catch (IOException e) {
             return noDataValue;
         }
     }

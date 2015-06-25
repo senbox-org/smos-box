@@ -1,19 +1,15 @@
 package org.esa.smos.ee2netcdf.reader;
 
-import jdk.nashorn.internal.ir.annotations.Ignore;
 import org.esa.smos.AcceptanceTestRunner;
 import org.esa.smos.ee2netcdf.NetcdfExportOp;
 import org.esa.snap.framework.dataio.ProductIO;
+import org.esa.snap.framework.datamodel.Band;
 import org.esa.snap.framework.datamodel.MetadataAttribute;
 import org.esa.snap.framework.datamodel.MetadataElement;
 import org.esa.snap.framework.datamodel.Product;
 import org.esa.snap.framework.gpf.GPF;
 import org.esa.snap.util.io.FileUtils;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.runner.RunWith;
 import ucar.nc2.util.DiskCache;
 
@@ -22,10 +18,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 @RunWith(AcceptanceTestRunner.class)
 public class NetCDFProductReaderIntegrationTest {
@@ -96,6 +89,12 @@ public class NetCDFProductReaderIntegrationTest {
             assertGlobalMetadataFields(ncProduct);
             assertSmosMetaDataFields(product, ncProduct);
 
+            assertEquals(product.getNumBands(), ncProduct.getNumBands());
+
+            compareBand(product, ncProduct, "AFP", 2296, 7640);
+            compareBand(product, ncProduct, "Dielect_Const_Non_MD_RE", 15869, 1594);
+            compareBand(product, ncProduct, "N_RFI_X", 16167, 909);
+            compareBand(product, ncProduct, "Surface_Temperature", 4205, 7141);
 
         } finally {
             if (product != null) {
@@ -105,6 +104,24 @@ public class NetCDFProductReaderIntegrationTest {
                 ncProduct.dispose();
             }
         }
+    }
+
+    private void compareBand(Product product, Product ncProduct, String bandName, int pixelX, int pixelY) throws IOException {
+        final Band afpBand = product.getBand(bandName);
+        assertNotNull(afpBand);
+        final Band afpNcBand = ncProduct.getBand(bandName);
+        assertNotNull(afpNcBand);
+
+        assertEquals(afpBand.getDescription(), afpNcBand.getDescription());
+        assertEquals(afpBand.getUnit(), afpNcBand.getUnit());
+
+        final double[] afp = new double[1];
+        afpBand.readPixels(pixelX, pixelY, 1, 1, afp);
+
+        final double[] afpNc = new double[1];
+        afpNcBand.readPixels(pixelX, pixelY, 1, 1, afpNc);
+
+        assertEquals(afp[0], afpNc[0], 1e-8);
     }
 
     private void assertSmosMetaDataFields(Product product, Product ncProduct) {
@@ -122,7 +139,7 @@ public class NetCDFProductReaderIntegrationTest {
     }
 
     private void assertSameAttributes(MetadataElement sourceElement, MetadataElement ncSourceElement) {
-        for(int i = 0; i < sourceElement.getNumAttributes(); i++ ) {
+        for (int i = 0; i < sourceElement.getNumAttributes(); i++) {
             final MetadataAttribute attribute = sourceElement.getAttributeAt(i);
             final MetadataAttribute ncAttribute = ncSourceElement.getAttribute(attribute.getName());
             assertNotNull(ncAttribute);
