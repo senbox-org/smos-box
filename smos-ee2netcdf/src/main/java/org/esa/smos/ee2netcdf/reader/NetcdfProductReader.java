@@ -3,7 +3,16 @@ package org.esa.smos.ee2netcdf.reader;
 import com.bc.ceres.core.ProgressMonitor;
 import com.bc.ceres.glevel.support.DefaultMultiLevelImage;
 import org.esa.smos.ObservationPointList;
-import org.esa.smos.dataio.smos.*;
+import org.esa.smos.Point;
+import org.esa.smos.dataio.smos.DggUtils;
+import org.esa.smos.dataio.smos.GridPointBtDataset;
+import org.esa.smos.dataio.smos.GridPointInfo;
+import org.esa.smos.dataio.smos.PolarisationModel;
+import org.esa.smos.dataio.smos.ProductHelper;
+import org.esa.smos.dataio.smos.SmosConstants;
+import org.esa.smos.dataio.smos.SmosMultiLevelSource;
+import org.esa.smos.dataio.smos.SmosReader;
+import org.esa.smos.dataio.smos.SnapshotInfo;
 import org.esa.smos.dataio.smos.dddb.BandDescriptor;
 import org.esa.smos.dataio.smos.dddb.Dddb;
 import org.esa.smos.dataio.smos.dddb.Family;
@@ -12,7 +21,6 @@ import org.esa.smos.dgg.SmosDgg;
 import org.esa.smos.ee2netcdf.AttributeEntry;
 import org.esa.smos.ee2netcdf.MetadataUtils;
 import org.esa.smos.lsmask.SmosLsMask;
-import org.esa.smos.Point;
 import org.esa.snap.dataio.netcdf.util.DataTypeUtils;
 import org.esa.snap.dataio.netcdf.util.NetcdfFileOpener;
 import org.esa.snap.framework.dataio.ProductReaderPlugIn;
@@ -31,7 +39,6 @@ import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.HashMap;
 import java.util.List;
 
 public class NetcdfProductReader extends SmosReader {
@@ -122,15 +129,15 @@ public class NetcdfProductReader extends SmosReader {
                 throw new IOException("Unable to read file");
             }
 
-            final Attribute fileTypeAttrbute = netcdfFile.findGlobalAttribute("Fixed_Header:File_Type");
-            if (fileTypeAttrbute == null) {
-                throw new IOException("Required attribute `Fixed_Header:File_Type` not found");
-            }
-            product = ProductHelper.createProduct(inputFile, fileTypeAttrbute.getStringValue());
+            final String productType = getProductTypeString();
+
+            final ProductTypeSupport typeSupport = ProductTypeSupportFactory.get(productType);
+
+            product = ProductHelper.createProduct(inputFile, productType);
             addSensingTimes(product);
             addMetadata(product);
 
-            final Area area = calculateArea();
+            final Area area = calculateArea(typeSupport);
             final GridPointInfo gridPointInfo = calculateGridPointInfo();
 
             final String schemaDescription = getSchemaDescription();
@@ -183,6 +190,14 @@ public class NetcdfProductReader extends SmosReader {
         return product;
     }
 
+    private String getProductTypeString() throws IOException {
+        final Attribute fileTypeAttrbute = netcdfFile.findGlobalAttribute("Fixed_Header:File_Type");
+        if (fileTypeAttrbute == null) {
+            throw new IOException("Required attribute `Fixed_Header:File_Type` not found");
+        }
+        return fileTypeAttrbute.getStringValue();
+    }
+
     private void addSensingTimes(Product product) throws IOException {
         final Attribute startAttribute = netcdfFile.findGlobalAttribute("Fixed_Header:Validity_Period:Validity_Start");
         final Attribute stopAttribute = netcdfFile.findGlobalAttribute("Fixed_Header:Validity_Period:Validity_Stop");
@@ -215,7 +230,7 @@ public class NetcdfProductReader extends SmosReader {
             final int gridPointId = gridPointIdArray.getInt(i);
             final int seqnum = SmosDgg.gridPointIdToSeqnum(gridPointId);
             seqNumbers[i] = seqnum;
-            if (seqnum < minSeqNum){
+            if (seqnum < minSeqNum) {
                 minSeqNum = seqnum;
             } else if (seqnum > maxSeqNum) {
                 maxSeqNum = seqnum;
@@ -227,14 +242,9 @@ public class NetcdfProductReader extends SmosReader {
         return gridPointInfo;
     }
 
-    private Area calculateArea() throws IOException {
-        // @todo 1 tb/tb extract class for L1C , L2 and Browse access
-
-//        final Variable latitude = netcdfFile.findVariable(null, "Grid_Point_Latitude");
-//        final Variable longitude = netcdfFile.findVariable(null, "Grid_Point_Longitude");
-
-        final Variable latitude = netcdfFile.findVariable(null, "Latitude");
-        final Variable longitude = netcdfFile.findVariable(null, "Longitude");
+    private Area calculateArea(ProductTypeSupport productTypeSupport) throws IOException {
+        final Variable latitude = netcdfFile.findVariable(null, productTypeSupport.getLatitudeBandName());
+        final Variable longitude = netcdfFile.findVariable(null, productTypeSupport.getLongitudeBandName());
         if (latitude == null || longitude == null) {
             throw new IOException("Missing geo location variables");
         }
