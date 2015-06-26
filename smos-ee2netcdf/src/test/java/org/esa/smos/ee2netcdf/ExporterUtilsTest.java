@@ -27,7 +27,7 @@ public class ExporterUtilsTest {
         final String resourcePath = getResourcePath();
         final TreeSet<File> inputFileSet = ExporterUtils.createInputFileSet(new String[]{resourcePath + File.separator + "*"});
         assertNotNull(inputFileSet);
-        assertEquals(5, inputFileSet.size());
+        assertEquals(6, inputFileSet.size());
         final Iterator<File> iterator = inputFileSet.iterator();
         assertEquals("SM_OPER_MIR_BWLF1C_20111026T143206_20111026T152520_503_001_1.zip", iterator.next().getName());
         assertEquals("SM_OPER_MIR_OSUDP2_20091204T001853_20091204T011255_310_001_1.zip", iterator.next().getName());

@@ -30,11 +30,13 @@ import java.awt.image.Raster;
 import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.List;
 
 public class NetcdfProductReader extends SmosReader {
 
+    private static final String SENSING_TIMES_PATTERN = "'UTC='yyyy-MM-dd'T'HH:mm:ss";
     private static final String LSMASK_SCHEMA_NAME = "DBL_SM_XXXX_AUX_LSMASK_0200";
 
     private NetcdfFile netcdfFile;
@@ -125,7 +127,7 @@ public class NetcdfProductReader extends SmosReader {
                 throw new IOException("Required attribute `Fixed_Header:File_Type` not found");
             }
             product = ProductHelper.createProduct(inputFile, fileTypeAttrbute.getStringValue());
-
+            addSensingTimes(product);
             addMetadata(product);
 
             final Area area = calculateArea();
@@ -179,6 +181,26 @@ public class NetcdfProductReader extends SmosReader {
         }
 
         return product;
+    }
+
+    private void addSensingTimes(Product product) throws IOException {
+        final Attribute startAttribute = netcdfFile.findGlobalAttribute("Fixed_Header:Validity_Period:Validity_Start");
+        final Attribute stopAttribute = netcdfFile.findGlobalAttribute("Fixed_Header:Validity_Period:Validity_Stop");
+        if (startAttribute == null || stopAttribute == null) {
+            throw new IOException("Sensing times metadata not present");
+        }
+
+        final String sensingStartUTC = startAttribute.getStringValue();
+        final String sensingStopUTC = stopAttribute.getStringValue();
+
+        try {
+            product.setStartTime(ProductData.UTC.parse(sensingStartUTC, SENSING_TIMES_PATTERN));
+            product.setEndTime(ProductData.UTC.parse(sensingStopUTC, SENSING_TIMES_PATTERN));
+        } catch (ParseException e) {
+            System.out.println("e.getMessage() = " + e.getMessage());
+            e.printStackTrace();
+        }
+
     }
 
     private GridPointInfo calculateGridPointInfo() throws IOException {
