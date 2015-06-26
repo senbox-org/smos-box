@@ -172,7 +172,7 @@ public class SmosBox {
         try {
             codeSourceUrl = FileUtils.getPathFromURI(SmosBox.class.getProtectionDomain().getCodeSource().getLocation().toURI());
             final File auxdataDir = getSystemAuxdataDir();
-            Path sourceDirPath = codeSourceUrl.resolve("auxdata/color_palettes/");
+            Path sourceDirPath = codeSourceUrl.resolve("auxdata/color_palettes");
             final ResourceInstaller resourceInstaller = new ResourceInstaller(sourceDirPath, auxdataDir.toPath());
 
             resourceInstaller.install(".*.cpd", ProgressMonitor.NULL);
