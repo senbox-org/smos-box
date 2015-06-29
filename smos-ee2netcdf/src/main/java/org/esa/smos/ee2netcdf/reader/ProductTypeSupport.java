@@ -14,6 +14,8 @@ interface ProductTypeSupport {
     String getLatitudeBandName();
     String getLongitudeBandName();
 
+    String restoreBandName(String ncBandName);
+
     void setScalingAndOffset(Band band, BandDescriptor bandDescriptor);
 
     ValueProvider createValueProvider(Variable variable, BandDescriptor descriptor, Area area, GridPointInfo gridPointInfo);

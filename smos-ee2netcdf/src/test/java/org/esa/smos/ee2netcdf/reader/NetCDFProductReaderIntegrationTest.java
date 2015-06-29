@@ -86,7 +86,7 @@ public class NetCDFProductReaderIntegrationTest {
             ncProduct = ProductIO.readProduct(ncFile);
             assertNotNull(ncProduct);
 
-            assertGlobalMetadataFields(ncProduct);
+            assertGlobalMetadataFields(ncProduct, 44273);
             assertSmosMetaDataFields(product, ncProduct);
 
             assertEquals(product.getNumBands(), ncProduct.getNumBands());
@@ -95,6 +95,52 @@ public class NetCDFProductReaderIntegrationTest {
             compareBand(product, ncProduct, "Dielect_Const_Non_MD_RE", 15869, 1594);
             compareBand(product, ncProduct, "N_RFI_X", 16167, 909);
             compareBand(product, ncProduct, "Surface_Temperature", 4205, 7141);
+            compareBand(product, ncProduct, "Roughness_Param", 3154, 7625);
+
+        } finally {
+            if (product != null) {
+                product.dispose();
+            }
+            if (ncProduct != null) {
+                ncProduct.dispose();
+            }
+        }
+    }
+
+    @Test
+    public void testConvertAndReImportOSUDP2() throws IOException {
+        final URL resource = NetcdfProductReaderPluginTest.class.getResource("../SM_OPER_MIR_OSUDP2_20091204T001853_20091204T011255_310_001_1.zip");
+        assertNotNull(resource);
+
+        Product product = null;
+        Product ncProduct = null;
+        try {
+            product = ProductIO.readProduct(resource.getFile());
+            assertNotNull(product);
+
+            final HashMap<String, Object> parameterMap = new HashMap<>();
+            parameterMap.put("targetDirectory", targetDirectory);
+
+            GPF.createProduct(NetcdfExportOp.ALIAS,
+                    parameterMap,
+                    new Product[]{product});
+
+            final File ncFile = new File(targetDirectory, "SM_OPER_MIR_OSUDP2_20091204T001853_20091204T011255_310_001_1.nc");
+            assertTrue(ncFile.isFile());
+
+            ncProduct = ProductIO.readProduct(ncFile);
+            assertNotNull(ncProduct);
+
+            assertGlobalMetadataFields(ncProduct, 98564);
+            assertSmosMetaDataFields(product, ncProduct);
+
+            assertEquals(product.getNumBands(), ncProduct.getNumBands());
+
+            compareBand(product, ncProduct, "SSS1", 11998, 5323);
+            compareBand(product, ncProduct, "Sigma_SSS2", 9599, 597);
+            compareBand(product, ncProduct, "Acard", 12884, 6675);
+            compareBand(product, ncProduct, "Sigma_WS", 11802, 4315);
+            compareBand(product, ncProduct, "TBH", 11504, 3307);
 
         } finally {
             if (product != null) {
@@ -147,7 +193,7 @@ public class NetCDFProductReaderIntegrationTest {
         }
     }
 
-    private void assertGlobalMetadataFields(Product ncProduct) {
+    private void assertGlobalMetadataFields(Product ncProduct, int gridPointCount) {
         final MetadataElement metadataRoot = ncProduct.getMetadataRoot();
         final MetadataElement global_attributes = metadataRoot.getElement("Global_Attributes");
         assertNotNull(global_attributes);
@@ -159,6 +205,6 @@ public class NetCDFProductReaderIntegrationTest {
 
         final MetadataAttribute total_number_of_grid_points = global_attributes.getAttribute("total_number_of_grid_points");
         assertNotNull(total_number_of_grid_points);
-        assertEquals("44273", total_number_of_grid_points.getData().getElemString());
+        assertEquals(Integer.toString(gridPointCount), total_number_of_grid_points.getData().getElemString());
     }
 }

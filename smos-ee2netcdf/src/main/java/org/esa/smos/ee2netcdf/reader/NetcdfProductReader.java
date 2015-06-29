@@ -20,6 +20,7 @@ import org.esa.smos.dataio.smos.dddb.FlagDescriptor;
 import org.esa.smos.dataio.smos.provider.ValueProvider;
 import org.esa.smos.dgg.SmosDgg;
 import org.esa.smos.ee2netcdf.AttributeEntry;
+import org.esa.smos.ee2netcdf.ExporterUtils;
 import org.esa.smos.ee2netcdf.MetadataUtils;
 import org.esa.smos.lsmask.SmosLsMask;
 import org.esa.snap.dataio.netcdf.util.DataTypeUtils;
@@ -151,10 +152,13 @@ public class NetcdfProductReader extends SmosReader {
                 if (!descriptor.isVisible()) {
                     continue;
                 }
-                final Variable variable = netcdfFile.findVariable(null, descriptor.getMemberName());
+
+                final String ncVariableName = ExporterUtils.ensureNetCDFName(descriptor.getMemberName());
+                final Variable variable = netcdfFile.findVariable(null, ncVariableName);
                 if (variable == null) {
                     continue;
                 }
+
                 final int rasterDataType = DataTypeUtils.getRasterDataType(variable);
                 final Band band = product.addBand(descriptor.getBandName(), rasterDataType);
 

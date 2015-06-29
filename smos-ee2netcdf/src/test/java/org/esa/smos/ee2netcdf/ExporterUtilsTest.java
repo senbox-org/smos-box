@@ -119,6 +119,12 @@ public class ExporterUtilsTest {
         assertEquals(5.6, corrected.getScaleFactor(), 1e-8);
     }
 
+    @Test
+    public void testEnsureNetCDFName() {
+        assertEquals("bla_bla_bla", ExporterUtils.ensureNetCDFName("bla_bla_bla"));
+        assertEquals("bla_bla_bla", ExporterUtils.ensureNetCDFName("bla.bla.bla"));
+    }
+
     private String getResourcePath() {
         File testDir = new File("./smos-ee2netcdf/src/test/resources/org/esa/smos/ee2netcdf/");
         if (!testDir.exists()) {

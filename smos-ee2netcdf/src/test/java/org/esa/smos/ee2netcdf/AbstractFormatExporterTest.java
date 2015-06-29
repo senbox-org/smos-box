@@ -168,12 +168,6 @@ public class AbstractFormatExporterTest {
     }
 
     @Test
-    public void testEnsureNetCDFName() {
-         assertEquals("bla_bla_bla", AbstractFormatExporter.ensureNetCDFName("bla_bla_bla"));
-         assertEquals("bla_bla_bla", AbstractFormatExporter.ensureNetCDFName("bla.bla.bla"));
-    }
-
-    @Test
     public void testMustExport_emptyArray() {
         final String[] subsetNames = new String[0];
 

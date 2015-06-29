@@ -14,4 +14,9 @@ abstract class AbstractProductTypeSupport implements ProductTypeSupport {
         band.setScalingOffset(bandDescriptor.getScalingOffset());
         band.setScalingFactor(bandDescriptor.getScalingFactor());
     }
+
+    @Override
+    public String restoreBandName(String ncBandName) {
+        return ncBandName;
+    }
 }
