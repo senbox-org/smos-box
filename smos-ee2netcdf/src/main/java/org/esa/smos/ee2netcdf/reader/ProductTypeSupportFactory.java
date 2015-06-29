@@ -1,18 +1,20 @@
 package org.esa.smos.ee2netcdf.reader;
 
+import ucar.nc2.NetcdfFile;
+
 class ProductTypeSupportFactory {
 
-    static ProductTypeSupport get(String typeString) {
+    static ProductTypeSupport get(String typeString, NetcdfFile netcdfFile) {
         if (typeString == null) {
             throw new IllegalArgumentException("Invalid product type: null");
         }
 
         if (isL2Type(typeString)) {
-            return new L2ProductSupport();
+            return new L2ProductSupport(netcdfFile);
         } else if (isBrowseType(typeString)) {
-            return new BrowseProductSupport();
+            return new BrowseProductSupport(netcdfFile);
         }else if (isScienceType(typeString)) {
-            return new ScienceProductSupport();
+            return new ScienceProductSupport(netcdfFile);
         }
 
         throw new IllegalArgumentException("Invalid product type: '" + typeString + "'");

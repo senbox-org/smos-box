@@ -11,7 +11,8 @@ public class BrowseProductSupportTest {
 
     @Before
     public void setUp() {
-        support = new BrowseProductSupport();
+        // no specific functionality concerning the NetCDF file tb 2015-06-29
+        support = new BrowseProductSupport(null);
     }
 
     @Test
@@ -23,4 +24,6 @@ public class BrowseProductSupportTest {
     public void testGetLongitudeBandName() {
         assertEquals("Grid_Point_Longitude", support.getLongitudeBandName());
     }
+
+    // @todo 2 tb/tb do not forget to add a  test for band-scaling 2015-06-29
 }

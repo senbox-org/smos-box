@@ -1,6 +1,12 @@
 package org.esa.smos.ee2netcdf.reader;
 
-class BrowseProductSupport implements ProductTypeSupport{
+import ucar.nc2.NetcdfFile;
+
+class BrowseProductSupport extends AbstractProductTypeSupport{
+
+    BrowseProductSupport(NetcdfFile netcdfFile) {
+        super(netcdfFile);
+    }
 
     @Override
     public String getLatitudeBandName() {

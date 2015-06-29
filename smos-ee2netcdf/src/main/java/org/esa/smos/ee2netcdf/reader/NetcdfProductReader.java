@@ -131,7 +131,7 @@ public class NetcdfProductReader extends SmosReader {
 
             final String productType = getProductTypeString();
 
-            final ProductTypeSupport typeSupport = ProductTypeSupportFactory.get(productType);
+            final ProductTypeSupport typeSupport = ProductTypeSupportFactory.get(productType, netcdfFile);
 
             product = ProductHelper.createProduct(inputFile, productType);
             addSensingTimes(product);
@@ -156,8 +156,8 @@ public class NetcdfProductReader extends SmosReader {
                 }
                 final int rasterDataType = DataTypeUtils.getRasterDataType(variable);
                 final Band band = product.addBand(variable.getFullName(), rasterDataType);
-                band.setScalingOffset(descriptor.getScalingOffset());
-                band.setScalingFactor(descriptor.getScalingFactor());
+
+                typeSupport.setScalingAndOffset(band, descriptor);
                 if (descriptor.hasFillValue()) {
                     band.setNoDataValueUsed(true);
                     band.setNoDataValue(descriptor.getFillValue());
