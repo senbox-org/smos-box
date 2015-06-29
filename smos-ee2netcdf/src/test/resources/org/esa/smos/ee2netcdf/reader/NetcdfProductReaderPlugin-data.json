@@ -4,6 +4,11 @@
       "id": "SM_OPER_MIR_OSUDP2_20130326T022647",
       "relativePath": "sensors_platforms/SMOS/MIR_OSUDP2/SM_OPER_MIR_OSUDP2_20130326T022647_20130326T032000_550_001_1.nc",
       "description": "SMOS OSUDP2 as Netcdf file, schema version 300"
+    },
+    {
+      "id": "SM_OPER_MIR_SMUDP2_20130326T190735",
+      "relativePath": "sensors_platforms/SMOS/MIR_SMUDP2/SM_OPER_MIR_SMUDP2_20130326T190735_20130326T200046_551_001_1.nc",
+      "description": "SMOS SMUDP2 as Netcdf file, schema version 300"
     }
   ]
 }
