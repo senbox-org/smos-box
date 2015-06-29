@@ -17,6 +17,7 @@ import org.esa.smos.dataio.smos.dddb.BandDescriptor;
 import org.esa.smos.dataio.smos.dddb.Dddb;
 import org.esa.smos.dataio.smos.dddb.Family;
 import org.esa.smos.dataio.smos.dddb.FlagDescriptor;
+import org.esa.smos.dataio.smos.provider.ValueProvider;
 import org.esa.smos.dgg.SmosDgg;
 import org.esa.smos.ee2netcdf.AttributeEntry;
 import org.esa.smos.ee2netcdf.MetadataUtils;
@@ -155,7 +156,7 @@ public class NetcdfProductReader extends SmosReader {
                     continue;
                 }
                 final int rasterDataType = DataTypeUtils.getRasterDataType(variable);
-                final Band band = product.addBand(variable.getFullName(), rasterDataType);
+                final Band band = product.addBand(descriptor.getBandName(), rasterDataType);
 
                 typeSupport.setScalingAndOffset(band, descriptor);
                 if (descriptor.hasFillValue()) {
@@ -177,9 +178,9 @@ public class NetcdfProductReader extends SmosReader {
                             descriptor.getFlagDescriptors());
                 }
 
-                final VariableValueProvider variableValueProvider = new VariableValueProvider(variable, area, gridPointInfo);
-                SmosMultiLevelSource smosMultiLevelSource = new SmosMultiLevelSource(band, variableValueProvider);
-                DefaultMultiLevelImage defaultMultiLevelImage = new DefaultMultiLevelImage(smosMultiLevelSource);
+                final ValueProvider valueProvider = typeSupport.createValueProvider(variable, descriptor, area, gridPointInfo);
+                final SmosMultiLevelSource smosMultiLevelSource = new SmosMultiLevelSource(band, valueProvider);
+                final DefaultMultiLevelImage defaultMultiLevelImage = new DefaultMultiLevelImage(smosMultiLevelSource);
                 band.setSourceImage(defaultMultiLevelImage);
                 band.setImageInfo(ProductHelper.createImageInfo(band, descriptor));
             }

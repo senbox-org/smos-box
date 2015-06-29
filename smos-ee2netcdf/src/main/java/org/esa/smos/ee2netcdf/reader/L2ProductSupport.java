@@ -1,9 +1,14 @@
 package org.esa.smos.ee2netcdf.reader;
 
+import org.esa.smos.dataio.smos.GridPointInfo;
 import org.esa.smos.dataio.smos.dddb.BandDescriptor;
+import org.esa.smos.dataio.smos.provider.ValueProvider;
 import org.esa.snap.framework.datamodel.Band;
 import ucar.nc2.Attribute;
 import ucar.nc2.NetcdfFile;
+import ucar.nc2.Variable;
+
+import java.awt.geom.Area;
 
 class L2ProductSupport extends AbstractProductTypeSupport {
 
@@ -39,5 +44,10 @@ class L2ProductSupport extends AbstractProductTypeSupport {
         } else {
             super.setScalingAndOffset(band, bandDescriptor);
         }
+    }
+
+    @Override
+    public ValueProvider createValueProvider(Variable variable, BandDescriptor descriptor, Area area, GridPointInfo gridPointInfo) {
+        return new VariableValueProvider(variable, area, gridPointInfo);
     }
 }
