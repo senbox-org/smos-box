@@ -152,6 +152,53 @@ public class NetCDFProductReaderIntegrationTest {
         }
     }
 
+    @Test
+    public void testConvertAndReImportBWLF1C() throws IOException {
+        final URL resource = NetcdfProductReaderPluginTest.class.getResource("../SM_OPER_MIR_BWLF1C_20111026T143206_20111026T152520_503_001_1.zip");
+        assertNotNull(resource);
+
+        Product product = null;
+        Product ncProduct = null;
+        try {
+            product = ProductIO.readProduct(resource.getFile());
+            assertNotNull(product);
+
+            final HashMap<String, Object> parameterMap = new HashMap<>();
+            parameterMap.put("targetDirectory", targetDirectory);
+
+            GPF.createProduct(NetcdfExportOp.ALIAS,
+                    parameterMap,
+                    new Product[]{product});
+
+            final File ncFile = new File(targetDirectory, "SM_OPER_MIR_BWLF1C_20111026T143206_20111026T152520_503_001_1.nc");
+            assertTrue(ncFile.isFile());
+
+            ncProduct = ProductIO.readProduct(ncFile);
+            assertNotNull(ncProduct);
+
+            assertGlobalMetadataFields(ncProduct, 84045);
+            assertSmosMetaDataFields(product, ncProduct);
+
+           // @todo 1 tb/tb reanimate .... error is caused by DDDB mapping EE-variable names to something different.
+           // Invent DDDB mechanism to re-mao the names tb 2015-06-29
+            //assertEquals(product.getNumBands(), ncProduct.getNumBands());
+
+//            compareBand(product, ncProduct, "SSS1", 11998, 5323);
+//            compareBand(product, ncProduct, "Sigma_SSS2", 9599, 597);
+//            compareBand(product, ncProduct, "Acard", 12884, 6675);
+//            compareBand(product, ncProduct, "Sigma_WS", 11802, 4315);
+//            compareBand(product, ncProduct, "TBH", 11504, 3307);
+
+        } finally {
+            if (product != null) {
+                product.dispose();
+            }
+            if (ncProduct != null) {
+                ncProduct.dispose();
+            }
+        }
+    }
+
     private void compareBand(Product product, Product ncProduct, String bandName, int pixelX, int pixelY) throws IOException {
         final Band afpBand = product.getBand(bandName);
         assertNotNull(afpBand);
