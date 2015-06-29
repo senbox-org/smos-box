@@ -5,11 +5,13 @@ import com.bc.ceres.glevel.MultiLevelImage;
 import com.bc.ceres.glevel.MultiLevelModel;
 import com.bc.ceres.glevel.MultiLevelSource;
 import com.bc.ceres.glevel.support.DefaultMultiLevelImage;
+import org.esa.smos.ObservationPointList;
+import org.esa.smos.Point;
 import org.esa.smos.dataio.smos.CellValueProvider;
 import org.esa.smos.dataio.smos.DggUtils;
 import org.esa.smos.dataio.smos.Grid;
 import org.esa.smos.dataio.smos.GridPointBtDataset;
-import org.esa.smos.dataio.smos.PointList;
+import org.esa.smos.PointList;
 import org.esa.smos.dataio.smos.PolarisationModel;
 import org.esa.smos.dataio.smos.ProductHelper;
 import org.esa.smos.dataio.smos.SmosReader;
@@ -758,49 +760,6 @@ public class SmosLightBufrReader extends SmosReader {
         @Override
         public void setSnapshotId(int snapshotId) {
             this.snapshotId = snapshotId;
-        }
-    }
-
-    private static class ObservationPointList implements PointList {
-
-        private final Point[] points;
-
-        public ObservationPointList(Point[] points) {
-            this.points = points;
-        }
-
-        @Override
-        public int getElementCount() {
-            return points.length;
-        }
-
-        @Override
-        public double getLon(int i) throws IOException {
-            return points[i].getLon();
-        }
-
-        @Override
-        public double getLat(int i) throws IOException {
-            return points[i].getLat();
-        }
-    }
-
-    private static final class Point {
-
-        private final double lon;
-        private final double lat;
-
-        public Point(double lon, double lat) {
-            this.lon = lon;
-            this.lat = lat;
-        }
-
-        public double getLon() {
-            return lon;
-        }
-
-        public double getLat() {
-            return lat;
         }
     }
 }
