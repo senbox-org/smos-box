@@ -2,8 +2,10 @@ package org.esa.smos.ee2netcdf.reader;
 
 import org.junit.Before;
 import org.junit.Test;
+import ucar.nc2.NetcdfFile;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
 
 public class BrowseProductSupportTest {
 
@@ -11,8 +13,8 @@ public class BrowseProductSupportTest {
 
     @Before
     public void setUp() {
-        // no specific functionality concerning the NetCDF file tb 2015-06-29
-        support = new BrowseProductSupport(null);
+        NetcdfFile netcdfFile = mock(NetcdfFile.class);
+        support = new BrowseProductSupport(netcdfFile);
     }
 
     @Test

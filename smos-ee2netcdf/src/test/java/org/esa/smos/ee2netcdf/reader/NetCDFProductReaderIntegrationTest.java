@@ -96,6 +96,7 @@ public class NetCDFProductReaderIntegrationTest {
             compareBand(product, ncProduct, "N_RFI_X", 16167, 909);
             compareBand(product, ncProduct, "Surface_Temperature", 4205, 7141);
             compareBand(product, ncProduct, "Roughness_Param", 3154, 7625);
+            compareBand(product, ncProduct, "Dielect_Const_MD_RE_DQX", 2345, 7523);
 
         } finally {
             if (product != null) {
@@ -141,6 +142,7 @@ public class NetCDFProductReaderIntegrationTest {
             compareBand(product, ncProduct, "Acard", 12884, 6675);
             compareBand(product, ncProduct, "Sigma_WS", 11802, 4315);
             compareBand(product, ncProduct, "TBH", 11504, 3307);
+            compareBand(product, ncProduct, "Sigma_TBV", 9697, 597);
 
         } finally {
             if (product != null) {
@@ -183,10 +185,10 @@ public class NetCDFProductReaderIntegrationTest {
 
             compareBand(product, ncProduct, "BT_Value_X", 6505, 7687);
             compareBand(product, ncProduct, "BT_Value_XY_Imag", 8754, 7314);
-            // @todo 1 tb/tb there are scaling factors to be read from somewhere 2015-06-30
-//            compareBand(product, ncProduct, "Pixel_Radiometric_Accuracy_XY", 9908, 6158);
-//            compareBand(product, ncProduct, "Sigma_WS", 11802, 4315);
-//            compareBand(product, ncProduct, "TBH", 11504, 3307);
+            compareBand(product, ncProduct, "Pixel_Radiometric_Accuracy_XY", 9908, 6158);
+            compareBand(product, ncProduct, "Azimuth_Angle_XY", 10240, 4845);
+            compareBand(product, ncProduct, "Footprint_Axis1_XY", 10506, 2946);
+            compareBand(product, ncProduct, "Footprint_Axis2_XY", 11037, 1706);
 
         } finally {
             if (product != null) {
