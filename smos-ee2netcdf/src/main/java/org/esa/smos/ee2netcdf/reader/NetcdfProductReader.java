@@ -1,6 +1,7 @@
 package org.esa.smos.ee2netcdf.reader;
 
 import com.bc.ceres.core.ProgressMonitor;
+import com.bc.ceres.glevel.MultiLevelImage;
 import com.bc.ceres.glevel.support.DefaultMultiLevelImage;
 import org.esa.smos.ObservationPointList;
 import org.esa.smos.Point;
@@ -43,12 +44,15 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.List;
 
+@SuppressWarnings("SimplifiableIfStatement")
 public class NetcdfProductReader extends SmosReader {
 
     private static final String SENSING_TIMES_PATTERN = "'UTC='yyyy-MM-dd'T'HH:mm:ss";
     private static final String LSMASK_SCHEMA_NAME = "DBL_SM_XXXX_AUX_LSMASK_0200";
 
     private NetcdfFile netcdfFile;
+    private ProductTypeSupport typeSupport;
+    private GridPointInfo gridPointInfo;
 
     /**
      * Constructs a new abstract product reader.
@@ -62,61 +66,84 @@ public class NetcdfProductReader extends SmosReader {
 
     @Override
     public boolean canSupplyGridPointBtData() {
-        return false;
+        if (typeSupport == null) {
+            return false;
+        }
+        return typeSupport.canSupplyGridPointBtData();
     }
 
     @Override
     public boolean canSupplyFullPolData() {
-        return false;
+        if (typeSupport == null) {
+            return false;
+        }
+        return typeSupport.canSupplyFullPolData();
     }
 
     @Override
     public GridPointBtDataset getBtData(int gridPointIndex) throws IOException {
-        return null;
+        if (typeSupport == null) {
+            return null;
+        }
+        return typeSupport.getBtData(gridPointIndex);
     }
 
     @Override
     public int getGridPointIndex(int gridPointId) {
-        return 0;
+        if (gridPointInfo == null) {
+            return -1;
+        }
+        return gridPointInfo.getGridPointIndex(gridPointId);
     }
 
     @Override
     public int getGridPointId(int levelPixelX, int levelPixelY, int currentLevel) {
-        return 0;
+        // @todo 3 tb/tb duplicated from SmosProductReader - refactor 2015-06-30
+        final MultiLevelImage levelImage = SmosDgg.getInstance().getMultiLevelImage();
+        final RenderedImage image = levelImage.getImage(currentLevel);
+        final Raster data = image.getData(new Rectangle(levelPixelX, levelPixelY, 1, 1));
+        return data.getSample(levelPixelX, levelPixelY, 0);
     }
 
     @Override
     public String[] getRawDataTableNames() {
+        // @todo 1 tb/tb continue implementing this 2015-06-30
         return new String[0];
     }
 
     @Override
     public FlagDescriptor[] getBtFlagDescriptors() {
+        // @todo 1 tb/tb continue implementing this 2015-06-30
         return new FlagDescriptor[0];
     }
 
     @Override
     public PolarisationModel getPolarisationModel() {
+        // @todo 1 tb/tb continue implementing this 2015-06-30
         return null;
     }
 
     @Override
     public boolean canSupplySnapshotData() {
+        // @todo 1 tb/tb continue implementing this 2015-06-30
         return false;
     }
 
     @Override
     public boolean hasSnapshotInfo() {
+        // @todo 1 tb/tb continue implementing this 2015-06-30
         return false;
     }
 
     @Override
     public SnapshotInfo getSnapshotInfo() {
+        // @todo 1 tb/tb continue implementing this 2015-06-30
         return null;
     }
 
     @Override
     public Object[][] getSnapshotData(int snapshotIndex) throws IOException {
+        // @todo 1 tb/tb continue implementing this 2015-06-30
         return new Object[0][];
     }
 
@@ -133,14 +160,14 @@ public class NetcdfProductReader extends SmosReader {
 
             final String productType = getProductTypeString();
 
-            final ProductTypeSupport typeSupport = ProductTypeSupportFactory.get(productType, netcdfFile);
+            typeSupport = ProductTypeSupportFactory.get(productType, netcdfFile);
 
             product = ProductHelper.createProduct(inputFile, productType);
             addSensingTimes(product);
             addMetadata(product);
 
             final Area area = calculateArea(typeSupport);
-            final GridPointInfo gridPointInfo = calculateGridPointInfo();
+            gridPointInfo = calculateGridPointInfo();
 
             final String schemaDescription = getSchemaDescription();
             final Dddb dddb = Dddb.getInstance();

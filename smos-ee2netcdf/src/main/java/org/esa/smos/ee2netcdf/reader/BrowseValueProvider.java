@@ -4,7 +4,6 @@ import org.esa.smos.dataio.smos.GridPointInfo;
 import org.esa.smos.dataio.smos.provider.ValueProvider;
 import ucar.ma2.Array;
 import ucar.ma2.Index;
-import ucar.ma2.Index2D;
 import ucar.nc2.Variable;
 
 import java.awt.geom.Area;
@@ -14,7 +13,6 @@ public class BrowseValueProvider implements ValueProvider {
 
     private final Area area;
     private final GridPointInfo gridPointInfo;
-    private final int[] shapeArray;
     private final int polarization;
     private final Variable variable;
     private Array array;
@@ -23,7 +21,6 @@ public class BrowseValueProvider implements ValueProvider {
         this.area = area;
         this.gridPointInfo = gridPointInfo;
         this.polarization = polarization;
-        this.shapeArray = new int[] {1, 1};
         this.variable = variable;
     }
 
