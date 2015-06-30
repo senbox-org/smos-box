@@ -30,9 +30,14 @@ import org.openide.awt.ActionReference;
 import org.openide.awt.ActionReferences;
 import org.openide.windows.TopComponent;
 
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.table.TableColumnModel;
-import java.awt.*;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -52,7 +57,7 @@ import java.util.Set;
 )
 @ActionID(category = "Window", id = "org.esa.smos.gui.gridpoint.GridPointBtDataTableTopComponent")
 @ActionReferences({
-        @ActionReference(path = "Menu/Window/Tool Windows/SMOS")
+        @ActionReference(path = "Menu/View/Tool Windows/SMOS")
 })
 @TopComponent.OpenActionRegistration(
         displayName = GridPointBtDataTableTopComponent.DISPLAY_NAME,
