@@ -122,18 +122,15 @@ public class Dddb {
             throw new IOException(MessageFormat.format(
                     "File ''{0}'': Missing namespace", hdrFile.getPath()));
         }
-        final Iterator descendants = document.getDescendants(new Filter() {
-            @Override
-            public boolean matches(Object o) {
-                if (o instanceof Element) {
-                    final Element e = (Element) o;
-                    if (e.getChildText(TAG_DATABLOCK_SCHEMA, namespace) != null) {
-                        return true;
-                    }
+        final Iterator descendants = document.getDescendants(o -> {
+            if (o instanceof Element) {
+                final Element e = (Element) o;
+                if (e.getChildText(TAG_DATABLOCK_SCHEMA, namespace) != null) {
+                    return true;
                 }
-
-                return false;
             }
+
+            return false;
         });
         final String formatName;
         if (descendants.hasNext()) {
@@ -277,6 +274,17 @@ public class Dddb {
         }
 
         return memberDescriptors;
+    }
+
+    public String getEEVariableName(String variableName, String schema) throws IOException {
+        final Properties mappingProperties = getMappingProperties(schema);
+        if (mappingProperties != null) {
+            final String originalName = findOriginalName(mappingProperties, variableName);
+            if (originalName!= null) {
+                return originalName;
+            }
+        }
+        return variableName;
     }
 
     // package access for testing only tb 2014-07-09

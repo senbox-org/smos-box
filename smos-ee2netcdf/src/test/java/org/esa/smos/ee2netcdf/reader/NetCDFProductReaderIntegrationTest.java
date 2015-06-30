@@ -179,13 +179,12 @@ public class NetCDFProductReaderIntegrationTest {
             assertGlobalMetadataFields(ncProduct, 84045);
             assertSmosMetaDataFields(product, ncProduct);
 
-           // @todo 1 tb/tb reanimate .... error is caused by DDDB mapping EE-variable names to something different.
-           // Invent DDDB mechanism to re-mao the names tb 2015-06-29
-            //assertEquals(product.getNumBands(), ncProduct.getNumBands());
+            assertEquals(product.getNumBands(), ncProduct.getNumBands());
 
-//            compareBand(product, ncProduct, "SSS1", 11998, 5323);
-//            compareBand(product, ncProduct, "Sigma_SSS2", 9599, 597);
-//            compareBand(product, ncProduct, "Acard", 12884, 6675);
+            compareBand(product, ncProduct, "BT_Value_X", 6505, 7687);
+            compareBand(product, ncProduct, "BT_Value_XY_Imag", 8754, 7314);
+            // @todo 1 tb/tb there are scaling factors to be read from somewhere 2015-06-30
+//            compareBand(product, ncProduct, "Pixel_Radiometric_Accuracy_XY", 9908, 6158);
 //            compareBand(product, ncProduct, "Sigma_WS", 11802, 4315);
 //            compareBand(product, ncProduct, "TBH", 11504, 3307);
 

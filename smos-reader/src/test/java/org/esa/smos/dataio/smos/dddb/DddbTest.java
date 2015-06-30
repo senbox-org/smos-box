@@ -509,6 +509,14 @@ public class DddbTest {
         assertTrue(descriptorMap.containsKey("name_4"));
     }
 
+    @Test
+    public void testGetEEVariableName() throws IOException {
+        assertEquals("Footprint_Axis2", dddb.getEEVariableName("Footprint_Axis2", DBL_SM_XXXX_MIR_BWSD1C_0200));
+        assertEquals("Radiometric_Accuracy_of_Pixel", dddb.getEEVariableName("Pixel_Radiometric_Accuracy", DBL_SM_XXXX_MIR_BWSD1C_0200));
+
+        assertEquals("schneckBand", dddb.getEEVariableName("schneckBand", "invalid_schema"));
+    }
+
     private class TestBandDescriptor implements BandDescriptor {
 
         private final String memberName;

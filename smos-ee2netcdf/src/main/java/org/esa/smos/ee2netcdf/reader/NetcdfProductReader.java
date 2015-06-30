@@ -143,7 +143,8 @@ public class NetcdfProductReader extends SmosReader {
             final GridPointInfo gridPointInfo = calculateGridPointInfo();
 
             final String schemaDescription = getSchemaDescription();
-            final Family<BandDescriptor> bandDescriptors = Dddb.getInstance().getBandDescriptors(schemaDescription);
+            final Dddb dddb = Dddb.getInstance();
+            final Family<BandDescriptor> bandDescriptors = dddb.getBandDescriptors(schemaDescription);
             if (bandDescriptors == null) {
                 throw new IOException("Unsupported file schema: '" + schemaDescription + "`");
             }
@@ -153,7 +154,8 @@ public class NetcdfProductReader extends SmosReader {
                     continue;
                 }
 
-                final String ncVariableName = ExporterUtils.ensureNetCDFName(descriptor.getMemberName());
+                final String eeVariableName = dddb.getEEVariableName(descriptor.getMemberName(), schemaDescription);
+                final String ncVariableName = ExporterUtils.ensureNetCDFName(eeVariableName);
                 final Variable variable = netcdfFile.findVariable(null, ncVariableName);
                 if (variable == null) {
                     continue;
