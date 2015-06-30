@@ -200,6 +200,52 @@ public class NetCDFProductReaderIntegrationTest {
         }
     }
 
+    @Test
+    public void testConvertAndReImportSCLF1C() throws IOException {
+        final URL resource = NetcdfProductReaderPluginTest.class.getResource("../SM_REPB_MIR_SCLF1C_20110201T151254_20110201T151308_505_152_1.zip");
+        assertNotNull(resource);
+
+        Product product = null;
+        Product ncProduct = null;
+        try {
+            product = ProductIO.readProduct(resource.getFile());
+            assertNotNull(product);
+
+            final HashMap<String, Object> parameterMap = new HashMap<>();
+            parameterMap.put("targetDirectory", targetDirectory);
+
+            GPF.createProduct(NetcdfExportOp.ALIAS,
+                    parameterMap,
+                    new Product[]{product});
+
+            final File ncFile = new File(targetDirectory, "SM_REPB_MIR_SCLF1C_20110201T151254_20110201T151308_505_152_1.nc");
+            assertTrue(ncFile.isFile());
+
+            ncProduct = ProductIO.readProduct(ncFile);
+            assertNotNull(ncProduct);
+
+            assertGlobalMetadataFields(ncProduct, 42);
+            assertSmosMetaDataFields(product, ncProduct);
+
+        //    assertEquals(product.getNumBands(), ncProduct.getNumBands());
+
+//            compareBand(product, ncProduct, "BT_Value_X", 6505, 7687);
+//            compareBand(product, ncProduct, "BT_Value_XY_Imag", 8754, 7314);
+//            compareBand(product, ncProduct, "Pixel_Radiometric_Accuracy_XY", 9908, 6158);
+//            compareBand(product, ncProduct, "Azimuth_Angle_XY", 10240, 4845);
+//            compareBand(product, ncProduct, "Footprint_Axis1_XY", 10506, 2946);
+//            compareBand(product, ncProduct, "Footprint_Axis2_XY", 11037, 1706);
+
+        } finally {
+            if (product != null) {
+                product.dispose();
+            }
+            if (ncProduct != null) {
+                ncProduct.dispose();
+            }
+        }
+    }
+
     private void compareBand(Product product, Product ncProduct, String bandName, int pixelX, int pixelY) throws IOException {
         final Band afpBand = product.getBand(bandName);
         assertNotNull(afpBand);
