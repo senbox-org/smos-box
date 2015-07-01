@@ -240,6 +240,8 @@ public class NetcdfProductReader extends SmosReader {
             }
 
             addLandSeaMask(product);
+
+            typeSupport.createAdditionalBands(product, bandDescriptors, schemaDescription);
         }
 
         return product;

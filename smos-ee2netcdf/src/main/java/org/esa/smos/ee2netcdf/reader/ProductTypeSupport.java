@@ -6,9 +6,11 @@ import org.esa.smos.dataio.smos.GridPointInfo;
 import org.esa.smos.dataio.smos.PolarisationModel;
 import org.esa.smos.dataio.smos.SnapshotInfo;
 import org.esa.smos.dataio.smos.dddb.BandDescriptor;
+import org.esa.smos.dataio.smos.dddb.Family;
 import org.esa.smos.dataio.smos.dddb.FlagDescriptor;
 import org.esa.smos.dataio.smos.provider.ValueProvider;
 import org.esa.snap.framework.datamodel.Band;
+import org.esa.snap.framework.datamodel.Product;
 import ucar.nc2.Variable;
 
 import java.awt.geom.Area;
@@ -33,4 +35,6 @@ interface ProductTypeSupport {
     void setScalingAndOffset(Band band, BandDescriptor bandDescriptor);
 
     ValueProvider createValueProvider(Variable variable, BandDescriptor descriptor, Area area, GridPointInfo gridPointInfo);
+
+    void createAdditionalBands(Product product, Family<BandDescriptor> bandDescriptors, String formatName);
 }
