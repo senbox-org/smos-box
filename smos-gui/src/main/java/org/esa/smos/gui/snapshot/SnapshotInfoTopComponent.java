@@ -27,13 +27,18 @@ import com.bc.ceres.glevel.support.DefaultMultiLevelImage;
 import com.bc.ceres.glevel.support.FileMultiLevelSource;
 import com.bc.ceres.grender.Rendering;
 import com.bc.ceres.grender.Viewport;
-import org.esa.smos.dataio.smos.*;
+import org.esa.smos.dataio.smos.CellValueProvider;
+import org.esa.smos.dataio.smos.L1cScienceValueProvider;
+import org.esa.smos.dataio.smos.SmosConstants;
+import org.esa.smos.dataio.smos.SmosMultiLevelSource;
+import org.esa.smos.dataio.smos.SmosReader;
+import org.esa.smos.dataio.smos.SnapshotInfo;
 import org.esa.smos.dataio.smos.bufr.LightBufrMultiLevelSource;
 import org.esa.smos.dataio.smos.provider.ValueProvider;
+import org.esa.smos.gui.ProgressBarProgressMonitor;
 import org.esa.smos.gui.SmosBox;
 import org.esa.smos.gui.SmosTopComponent;
 import org.esa.smos.gui.TableModelExportRunner;
-import org.esa.smos.gui.ProgressBarProgressMonitor;
 import org.esa.smos.gui.swing.SnapshotSelectorCombo;
 import org.esa.smos.gui.swing.SnapshotSelectorComboModel;
 import org.esa.snap.framework.datamodel.Band;
@@ -52,14 +57,45 @@ import org.openide.awt.ActionReference;
 import org.openide.awt.ActionReferences;
 import org.openide.windows.TopComponent;
 
-import javax.swing.*;
+import javax.swing.AbstractButton;
+import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
+import javax.swing.ButtonModel;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
+import javax.swing.JProgressBar;
+import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.SwingUtilities;
+import javax.swing.SwingWorker;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableModel;
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.ComponentOrientation;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
+import java.awt.Shape;
+import java.awt.Window;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -73,14 +109,11 @@ import java.util.concurrent.ExecutionException;
         iconBase = "org/esa/smos/icons/SmosSnapshot.png",
         persistenceType = TopComponent.PERSISTENCE_ALWAYS
 )
-@TopComponent.Registration(
-        mode = "navigator",
-        openAtStartup = false,
-        position = 4
-)
+@TopComponent.Registration(mode = "navigator", openAtStartup = false, position = 4)
 @ActionID(category = "Window", id = "org.esa.smos.gui.snapshot.SnapshotInfoTopComponent")
 @ActionReferences({
-        @ActionReference(path = "Menu/Window/Tool Windows/SMOS")
+        @ActionReference(path = "Menu/View/Tool Windows/SMOS", position = 10),
+        @ActionReference(path = "Toolbars/SMOS", position = 10)
 })
 @TopComponent.OpenActionRegistration(
         displayName = SnapshotInfoTopComponent.DISPLAY_NAME,
@@ -525,9 +558,9 @@ public class SnapshotInfoTopComponent extends SmosTopComponent {
         final Window window = SwingUtilities.getWindowAncestor(parent);
 
         exportItem.addActionListener(e -> new TableModelExportRunner(window,
-                getDisplayName(),
-                snapshotTable.getModel(),
-                (TableColumnModelExt) snapshotTable.getColumnModel()).run());
+                                                                     getDisplayName(),
+                                                                     snapshotTable.getModel(),
+                                                                     (TableColumnModelExt) snapshotTable.getColumnModel()).run());
         tablePopup.add(exportItem);
         snapshotTable.add(tablePopup);
 
