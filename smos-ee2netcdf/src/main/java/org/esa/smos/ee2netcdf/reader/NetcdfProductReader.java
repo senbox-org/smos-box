@@ -107,44 +107,65 @@ public class NetcdfProductReader extends SmosReader {
 
     @Override
     public String[] getRawDataTableNames() {
-        // @todo 1 tb/tb continue implementing this 2015-06-30
-        return new String[0];
+        if (typeSupport == null) {
+            return null;
+        }
+
+        return typeSupport.getRawDataTableNames();
     }
 
     @Override
     public FlagDescriptor[] getBtFlagDescriptors() {
-        // @todo 1 tb/tb continue implementing this 2015-06-30
-        return new FlagDescriptor[0];
+        if (typeSupport == null) {
+            return null;
+        }
+
+        return typeSupport.getBtFlagDescriptors();
     }
 
     @Override
     public PolarisationModel getPolarisationModel() {
-        // @todo 1 tb/tb continue implementing this 2015-06-30
-        return null;
+        if (typeSupport == null) {
+            return null;
+        }
+
+        return typeSupport.getPolarisationModel();
     }
 
     @Override
     public boolean canSupplySnapshotData() {
-        // @todo 1 tb/tb continue implementing this 2015-06-30
-        return false;
+        if (typeSupport == null) {
+            return false;
+        }
+
+        return typeSupport.canSupplySnapshotData();
     }
 
     @Override
     public boolean hasSnapshotInfo() {
-        // @todo 1 tb/tb continue implementing this 2015-06-30
-        return false;
+        if (typeSupport == null) {
+            return false;
+        }
+
+        return typeSupport.hasSnapshotInfo();
     }
 
     @Override
     public SnapshotInfo getSnapshotInfo() {
-        // @todo 1 tb/tb continue implementing this 2015-06-30
-        return null;
+        if (typeSupport == null) {
+            return null;
+        }
+
+        return typeSupport.getSnapshotInfo();
     }
 
     @Override
     public Object[][] getSnapshotData(int snapshotIndex) throws IOException {
-        // @todo 1 tb/tb continue implementing this 2015-06-30
-        return new Object[0][];
+        if (typeSupport == null) {
+            return new Object[0][];
+        }
+
+        return typeSupport.getSnapshotData(snapshotIndex);
     }
 
     @Override
