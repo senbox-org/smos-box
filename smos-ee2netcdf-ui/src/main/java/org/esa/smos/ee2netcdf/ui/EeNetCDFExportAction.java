@@ -20,7 +20,7 @@ import java.awt.event.ActionEvent;
 @ActionReference(path = "Menu/File/Export")
 
 @NbBundle.Messages({
-        "CTL_Ee2NetCDFExport_MenuText=Export SMOS EE Files to NetCDF...",
+        "CTL_Ee2NetCDFExport_MenuText=SMOS EE Files to NetCDF...",
         "CTL_Ee2NetCDFExport_ShortDescription=Export SMOS EE Files to linear NetCDF format"
 })
 public class EeNetCDFExportAction extends AbstractSnapAction {

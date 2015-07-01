@@ -36,7 +36,7 @@ import java.awt.event.ActionEvent;
 @ActionReference(path = "Menu/File/Export")
 
 @NbBundle.Messages({
-        "CTL_SmosGridPointExport_MenuText=Export SMOS Grid Points ...",
+        "CTL_SmosGridPointExport_MenuText=SMOS Grid Points ...",
         "CTL_SmosGridPointExport_ShortDescription=Export SMOS Grid Points to Clipboard or ASCII File"
 })
 
