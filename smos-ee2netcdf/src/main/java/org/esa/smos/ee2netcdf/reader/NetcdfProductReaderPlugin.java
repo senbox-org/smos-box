@@ -99,6 +99,6 @@ public class NetcdfProductReaderPlugin implements ProductReaderPlugIn {
                 }
             }
         }
-        return true;
+        return false;
     }
 }
