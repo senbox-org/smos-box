@@ -122,13 +122,13 @@ public abstract class ExplorerFile implements ProductFile {
                 final Band dataBand = product.getBand(descriptor.getBandName());
                 final Band ancilliaryBand = product.getBand(ancilliaryBandName);
 
-                final String bandRole = getAcilliaryBandRole(ancilliaryBandName);
-                dataBand.setAncillaryBand(bandRole, ancilliaryBand);
+                final String bandRelation = getAncilliaryBandRelation(ancilliaryBandName);
+                dataBand.addAncillaryVariable(ancilliaryBand, bandRelation);
             }
         }
     }
 
-    static String getAcilliaryBandRole(String ancilliaryBandName) {
+    static String getAncilliaryBandRelation(String ancilliaryBandName) {
         if (ancilliaryBandName.contains("DQX")) {
             return "standard_deviation";
         }
