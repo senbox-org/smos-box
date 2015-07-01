@@ -57,7 +57,8 @@ import java.util.Set;
 )
 @ActionID(category = "Window", id = "org.esa.smos.gui.gridpoint.GridPointBtDataTableTopComponent")
 @ActionReferences({
-        @ActionReference(path = "Menu/View/Tool Windows/SMOS")
+        @ActionReference(path = "Menu/View/Tool Windows/SMOS"),
+        @ActionReference(path = "Toolbars/SMOS", position = 40)
 })
 @TopComponent.OpenActionRegistration(
         displayName = GridPointBtDataTableTopComponent.DISPLAY_NAME,
