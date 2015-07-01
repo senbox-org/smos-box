@@ -29,7 +29,6 @@ import java.awt.event.ActionEvent;
 
 @ActionRegistration(
         displayName = "#CTL_SmosGridPointExport_MenuText",
-        popupText = "#CTL_SmosGridPointExport_ShortDescription",
         lazy = true
 )
 

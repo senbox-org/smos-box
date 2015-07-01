@@ -10,15 +10,8 @@ import org.openide.util.NbBundle;
 import java.awt.event.ActionEvent;
 
 @ActionID(category = "File", id = "Ee2NetCDFExportAction")
-
-@ActionRegistration(
-        displayName = "#CTL_Ee2NetCDFExport_MenuText",
-        popupText = "#CTL_Ee2NetCDFExport_ShortDescription",
-        lazy = true
-)
-
+@ActionRegistration(displayName = "#CTL_Ee2NetCDFExport_MenuText", lazy = true )
 @ActionReference(path = "Menu/File/Export")
-
 @NbBundle.Messages({
         "CTL_Ee2NetCDFExport_MenuText=SMOS EE Files to NetCDF...",
         "CTL_Ee2NetCDFExport_ShortDescription=Export SMOS EE Files to linear NetCDF format"
