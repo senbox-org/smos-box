@@ -26,19 +26,12 @@ import org.openide.util.NbBundle;
 import java.awt.event.ActionEvent;
 
 @ActionID(category = "File", id = "SmosGridPointExportAction")
-
-@ActionRegistration(
-        displayName = "#CTL_SmosGridPointExport_MenuText",
-        lazy = true
-)
-
+@ActionRegistration(displayName = "#CTL_SmosGridPointExport_MenuText", lazy = true )
 @ActionReference(path = "Menu/File/Export")
-
 @NbBundle.Messages({
         "CTL_SmosGridPointExport_MenuText=SMOS Grid Points ...",
         "CTL_SmosGridPointExport_ShortDescription=Export SMOS Grid Points to Clipboard or ASCII File"
 })
-
 public class GridPointExportAction extends AbstractSnapAction {
 
     private static final String HELP_ID = "smosGridPointExport";
