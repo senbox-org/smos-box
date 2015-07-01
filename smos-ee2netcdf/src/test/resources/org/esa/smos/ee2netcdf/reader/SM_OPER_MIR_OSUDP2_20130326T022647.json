@@ -452,7 +452,7 @@
         ]
       },
       {
-        "name": "A_card",
+        "name": "Acard",
         "description": "Effective Acard retrieved with minimalistic model",
         "noDataValue": "-999.0",
         "noDataValueUsed": "true",
@@ -774,7 +774,7 @@
         ]
       },
       {
-        "name": "Dg_quality_SSS_1",
+        "name": "Dg_quality_SSS1",
         "description": "Quality index for SSS1",
         "noDataValue": "0.0",
         "noDataValueUsed": "true",
@@ -794,7 +794,7 @@
         ]
       },
       {
-        "name": "Dg_quality_SSS_2",
+        "name": "Dg_quality_SSS2",
         "description": "Quality index for SSS2",
         "noDataValue": "0.0",
         "noDataValueUsed": "true",
@@ -814,7 +814,7 @@
         ]
       },
       {
-        "name": "Dg_quality_SSS_3",
+        "name": "Dg_quality_SSS3",
         "description": "Quality index for SSS3",
         "noDataValue": "0.0",
         "noDataValueUsed": "true",

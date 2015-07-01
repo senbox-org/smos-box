@@ -12,7 +12,7 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class L2ProductTypeSupportTest {
+public class L2ProductSupportTest {
 
     private L2ProductSupport support;
     private NetcdfFile netcdfFile;

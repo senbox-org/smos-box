@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.TreeSet;
 
-class ExporterUtils {
+public class ExporterUtils {
 
     static void assertTargetDirectoryExists(File targetDirectory) {
         if (!targetDirectory.isDirectory()) {
@@ -81,5 +81,9 @@ class ExporterUtils {
             final double originalScaleFactor = variableDescriptor.getScaleFactor();
             variableDescriptor.setScaleFactor(originalScaleFactor * scaleCorrection);
         }
+    }
+
+    public static String ensureNetCDFName(String variableName) {
+        return variableName.replace(".", "_");
     }
 }

@@ -1,24 +1,26 @@
 package org.esa.smos.ee2netcdf.reader;
 
-
 import org.esa.smos.dataio.smos.GridPointInfo;
 import org.esa.smos.dataio.smos.provider.ValueProvider;
 import ucar.ma2.Array;
+import ucar.ma2.Index;
 import ucar.nc2.Variable;
 
 import java.awt.geom.Area;
 import java.io.IOException;
 
-class VariableValueProvider implements ValueProvider {
+public class BrowseValueProvider implements ValueProvider {
 
     private final Area area;
     private final GridPointInfo gridPointInfo;
+    private final int polarization;
     private final Variable variable;
     private Array array;
 
-    public VariableValueProvider(Variable variable, Area area, GridPointInfo gridPointInfo) {
+    public BrowseValueProvider(Variable variable, int polarization, Area area, GridPointInfo gridPointInfo) {
         this.area = area;
         this.gridPointInfo = gridPointInfo;
+        this.polarization = polarization;
         this.variable = variable;
     }
 
@@ -36,7 +38,9 @@ class VariableValueProvider implements ValueProvider {
 
         try {
             final Array array = getArray();
-            return array.getByte(gridPointIndex);
+            final Index index = array.getIndex();
+            index.set(gridPointIndex, polarization);
+            return array.getByte(index);
         } catch (IOException e) {
             return noDataValue;
         }
@@ -51,7 +55,9 @@ class VariableValueProvider implements ValueProvider {
 
         try {
             final Array array = getArray();
-            return array.getShort(gridPointIndex);
+            final Index index = array.getIndex();
+            index.set(gridPointIndex, polarization);
+            return array.getShort(index);
         } catch (IOException e) {
             return noDataValue;
         }
@@ -66,7 +72,9 @@ class VariableValueProvider implements ValueProvider {
 
         try {
             final Array array = getArray();
-            return array.getInt(gridPointIndex);
+            final Index index = array.getIndex();
+            index.set(gridPointIndex, polarization);
+            return array.getInt(index);
         } catch (IOException e) {
             return noDataValue;
         }
@@ -81,7 +89,9 @@ class VariableValueProvider implements ValueProvider {
 
         try {
             final Array array = getArray();
-            return array.getFloat(gridPointIndex);
+            final Index index = array.getIndex();
+            index.set(gridPointIndex, polarization);
+            return array.getFloat(index);
         } catch (IOException e) {
             return noDataValue;
         }

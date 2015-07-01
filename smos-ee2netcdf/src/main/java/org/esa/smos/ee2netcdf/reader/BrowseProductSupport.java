@@ -1,11 +1,35 @@
 package org.esa.smos.ee2netcdf.reader;
 
+import org.esa.smos.dataio.smos.GridPointInfo;
+import org.esa.smos.dataio.smos.dddb.BandDescriptor;
+import org.esa.smos.dataio.smos.provider.ValueProvider;
+import org.esa.snap.framework.datamodel.Band;
+import ucar.nc2.Attribute;
 import ucar.nc2.NetcdfFile;
+import ucar.nc2.Variable;
 
-class BrowseProductSupport extends AbstractProductTypeSupport{
+import java.awt.geom.Area;
+
+class BrowseProductSupport extends AbstractProductTypeSupport {
+
+    private final double radAccuracyScale;
+    private final double footprintScale;
 
     BrowseProductSupport(NetcdfFile netcdfFile) {
         super(netcdfFile);
+
+        final Attribute radAccuracyAttribute = netcdfFile.findGlobalAttribute("Variable_Header:Specific_Product_Header:Radiometric_Accuracy_Scale");
+        if (radAccuracyAttribute != null) {
+            radAccuracyScale = Double.valueOf(radAccuracyAttribute.getStringValue());
+        } else {
+            radAccuracyScale = 1.0;
+        }
+        final Attribute footprintScaleAttribute = netcdfFile.findGlobalAttribute("Variable_Header:Specific_Product_Header:Pixel_Footprint_Scale");
+        if (footprintScaleAttribute != null) {
+            footprintScale = Double.valueOf(footprintScaleAttribute.getStringValue());
+        } else {
+            footprintScale = 1.0;
+        }
     }
 
     @Override
@@ -16,5 +40,29 @@ class BrowseProductSupport extends AbstractProductTypeSupport{
     @Override
     public String getLongitudeBandName() {
         return "Grid_Point_Longitude";
+    }
+
+    @Override
+    public void setScalingAndOffset(Band band, BandDescriptor bandDescriptor) {
+        final String memberName = bandDescriptor.getMemberName();
+        if (memberName.startsWith("Footprint_Axis")) {
+            band.setScalingFactor(bandDescriptor.getScalingFactor() * footprintScale);
+            band.setScalingOffset(bandDescriptor.getScalingOffset());
+        } else if (memberName.startsWith("Pixel_Radiometric_Accuracy")) {
+            band.setScalingFactor(bandDescriptor.getScalingFactor() * radAccuracyScale);
+            band.setScalingOffset(bandDescriptor.getScalingOffset());
+        } else {
+            super.setScalingAndOffset(band, bandDescriptor);
+        }
+    }
+
+    @Override
+    public ValueProvider createValueProvider(Variable variable, BandDescriptor descriptor, Area area, GridPointInfo gridPointInfo) {
+        final int polarization = descriptor.getPolarization();
+        if (polarization < 0) {
+            return new VariableValueProvider(variable, area, gridPointInfo);
+        } else {
+            return new BrowseValueProvider(variable, polarization, area, gridPointInfo);
+        }
     }
 }

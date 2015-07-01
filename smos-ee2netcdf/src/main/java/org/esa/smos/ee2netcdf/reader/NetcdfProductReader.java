@@ -1,6 +1,7 @@
 package org.esa.smos.ee2netcdf.reader;
 
 import com.bc.ceres.core.ProgressMonitor;
+import com.bc.ceres.glevel.MultiLevelImage;
 import com.bc.ceres.glevel.support.DefaultMultiLevelImage;
 import org.esa.smos.ObservationPointList;
 import org.esa.smos.Point;
@@ -17,8 +18,10 @@ import org.esa.smos.dataio.smos.dddb.BandDescriptor;
 import org.esa.smos.dataio.smos.dddb.Dddb;
 import org.esa.smos.dataio.smos.dddb.Family;
 import org.esa.smos.dataio.smos.dddb.FlagDescriptor;
+import org.esa.smos.dataio.smos.provider.ValueProvider;
 import org.esa.smos.dgg.SmosDgg;
 import org.esa.smos.ee2netcdf.AttributeEntry;
+import org.esa.smos.ee2netcdf.ExporterUtils;
 import org.esa.smos.ee2netcdf.MetadataUtils;
 import org.esa.smos.lsmask.SmosLsMask;
 import org.esa.snap.dataio.netcdf.util.DataTypeUtils;
@@ -41,12 +44,15 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.List;
 
+@SuppressWarnings("SimplifiableIfStatement")
 public class NetcdfProductReader extends SmosReader {
 
     private static final String SENSING_TIMES_PATTERN = "'UTC='yyyy-MM-dd'T'HH:mm:ss";
     private static final String LSMASK_SCHEMA_NAME = "DBL_SM_XXXX_AUX_LSMASK_0200";
 
     private NetcdfFile netcdfFile;
+    private ProductTypeSupport typeSupport;
+    private GridPointInfo gridPointInfo;
 
     /**
      * Constructs a new abstract product reader.
@@ -60,62 +66,106 @@ public class NetcdfProductReader extends SmosReader {
 
     @Override
     public boolean canSupplyGridPointBtData() {
-        return false;
+        if (typeSupport == null) {
+            return false;
+        }
+        return typeSupport.canSupplyGridPointBtData();
     }
 
     @Override
     public boolean canSupplyFullPolData() {
-        return false;
+        if (typeSupport == null) {
+            return false;
+        }
+        return typeSupport.canSupplyFullPolData();
     }
 
     @Override
     public GridPointBtDataset getBtData(int gridPointIndex) throws IOException {
-        return null;
+        if (typeSupport == null) {
+            return null;
+        }
+        return typeSupport.getBtData(gridPointIndex);
     }
 
     @Override
     public int getGridPointIndex(int gridPointId) {
-        return 0;
+        if (gridPointInfo == null) {
+            return -1;
+        }
+        return gridPointInfo.getGridPointIndex(gridPointId);
     }
 
     @Override
     public int getGridPointId(int levelPixelX, int levelPixelY, int currentLevel) {
-        return 0;
+        // @todo 3 tb/tb duplicated from SmosProductReader - refactor 2015-06-30
+        final MultiLevelImage levelImage = SmosDgg.getInstance().getMultiLevelImage();
+        final RenderedImage image = levelImage.getImage(currentLevel);
+        final Raster data = image.getData(new Rectangle(levelPixelX, levelPixelY, 1, 1));
+        return data.getSample(levelPixelX, levelPixelY, 0);
     }
 
     @Override
     public String[] getRawDataTableNames() {
-        return new String[0];
+        if (typeSupport == null) {
+            return null;
+        }
+
+        return typeSupport.getRawDataTableNames();
     }
 
     @Override
     public FlagDescriptor[] getBtFlagDescriptors() {
-        return new FlagDescriptor[0];
+        if (typeSupport == null) {
+            return null;
+        }
+
+        return typeSupport.getBtFlagDescriptors();
     }
 
     @Override
     public PolarisationModel getPolarisationModel() {
-        return null;
+        if (typeSupport == null) {
+            return null;
+        }
+
+        return typeSupport.getPolarisationModel();
     }
 
     @Override
     public boolean canSupplySnapshotData() {
-        return false;
+        if (typeSupport == null) {
+            return false;
+        }
+
+        return typeSupport.canSupplySnapshotData();
     }
 
     @Override
     public boolean hasSnapshotInfo() {
-        return false;
+        if (typeSupport == null) {
+            return false;
+        }
+
+        return typeSupport.hasSnapshotInfo();
     }
 
     @Override
     public SnapshotInfo getSnapshotInfo() {
-        return null;
+        if (typeSupport == null) {
+            return null;
+        }
+
+        return typeSupport.getSnapshotInfo();
     }
 
     @Override
     public Object[][] getSnapshotData(int snapshotIndex) throws IOException {
-        return new Object[0][];
+        if (typeSupport == null) {
+            return new Object[0][];
+        }
+
+        return typeSupport.getSnapshotData(snapshotIndex);
     }
 
     @Override
@@ -131,17 +181,18 @@ public class NetcdfProductReader extends SmosReader {
 
             final String productType = getProductTypeString();
 
-            final ProductTypeSupport typeSupport = ProductTypeSupportFactory.get(productType, netcdfFile);
+            typeSupport = ProductTypeSupportFactory.get(productType, netcdfFile);
 
             product = ProductHelper.createProduct(inputFile, productType);
             addSensingTimes(product);
             addMetadata(product);
 
             final Area area = calculateArea(typeSupport);
-            final GridPointInfo gridPointInfo = calculateGridPointInfo();
+            gridPointInfo = calculateGridPointInfo();
 
             final String schemaDescription = getSchemaDescription();
-            final Family<BandDescriptor> bandDescriptors = Dddb.getInstance().getBandDescriptors(schemaDescription);
+            final Dddb dddb = Dddb.getInstance();
+            final Family<BandDescriptor> bandDescriptors = dddb.getBandDescriptors(schemaDescription);
             if (bandDescriptors == null) {
                 throw new IOException("Unsupported file schema: '" + schemaDescription + "`");
             }
@@ -150,12 +201,16 @@ public class NetcdfProductReader extends SmosReader {
                 if (!descriptor.isVisible()) {
                     continue;
                 }
-                final Variable variable = netcdfFile.findVariable(null, descriptor.getMemberName());
+
+                final String eeVariableName = dddb.getEEVariableName(descriptor.getMemberName(), schemaDescription);
+                final String ncVariableName = ExporterUtils.ensureNetCDFName(eeVariableName);
+                final Variable variable = netcdfFile.findVariable(null, ncVariableName);
                 if (variable == null) {
                     continue;
                 }
+
                 final int rasterDataType = DataTypeUtils.getRasterDataType(variable);
-                final Band band = product.addBand(variable.getFullName(), rasterDataType);
+                final Band band = product.addBand(descriptor.getBandName(), rasterDataType);
 
                 typeSupport.setScalingAndOffset(band, descriptor);
                 if (descriptor.hasFillValue()) {
@@ -177,9 +232,9 @@ public class NetcdfProductReader extends SmosReader {
                             descriptor.getFlagDescriptors());
                 }
 
-                final VariableValueProvider variableValueProvider = new VariableValueProvider(variable, area, gridPointInfo);
-                SmosMultiLevelSource smosMultiLevelSource = new SmosMultiLevelSource(band, variableValueProvider);
-                DefaultMultiLevelImage defaultMultiLevelImage = new DefaultMultiLevelImage(smosMultiLevelSource);
+                final ValueProvider valueProvider = typeSupport.createValueProvider(variable, descriptor, area, gridPointInfo);
+                final SmosMultiLevelSource smosMultiLevelSource = new SmosMultiLevelSource(band, valueProvider);
+                final DefaultMultiLevelImage defaultMultiLevelImage = new DefaultMultiLevelImage(smosMultiLevelSource);
                 band.setSourceImage(defaultMultiLevelImage);
                 band.setImageInfo(ProductHelper.createImageInfo(band, descriptor));
             }

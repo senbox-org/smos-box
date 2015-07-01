@@ -16,11 +16,7 @@
 
 package org.esa.smos.dataio.smos.dddb;
 
-import com.bc.ceres.binio.CompoundMember;
-import com.bc.ceres.binio.CompoundType;
-import com.bc.ceres.binio.DataFormat;
-import com.bc.ceres.binio.SequenceType;
-import com.bc.ceres.binio.Type;
+import com.bc.ceres.binio.*;
 import com.bc.ceres.binio.binx.BinX;
 import org.esa.snap.util.StringUtils;
 import org.esa.snap.util.io.CsvReader;
@@ -28,26 +24,15 @@ import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.jdom.Namespace;
-import org.jdom.filter.Filter;
 import org.jdom.input.SAXBuilder;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.ByteOrder;
 import java.nio.charset.Charset;
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -122,18 +107,15 @@ public class Dddb {
             throw new IOException(MessageFormat.format(
                     "File ''{0}'': Missing namespace", hdrFile.getPath()));
         }
-        final Iterator descendants = document.getDescendants(new Filter() {
-            @Override
-            public boolean matches(Object o) {
-                if (o instanceof Element) {
-                    final Element e = (Element) o;
-                    if (e.getChildText(TAG_DATABLOCK_SCHEMA, namespace) != null) {
-                        return true;
-                    }
+        final Iterator descendants = document.getDescendants(o -> {
+            if (o instanceof Element) {
+                final Element e = (Element) o;
+                if (e.getChildText(TAG_DATABLOCK_SCHEMA, namespace) != null) {
+                    return true;
                 }
-
-                return false;
             }
+
+            return false;
         });
         final String formatName;
         if (descendants.hasNext()) {
@@ -277,6 +259,17 @@ public class Dddb {
         }
 
         return memberDescriptors;
+    }
+
+    public String getEEVariableName(String variableName, String schema) throws IOException {
+        final Properties mappingProperties = getMappingProperties(schema);
+        if (mappingProperties != null) {
+            final String originalName = findOriginalName(mappingProperties, variableName);
+            if (originalName != null) {
+                return originalName;
+            }
+        }
+        return variableName;
     }
 
     // package access for testing only tb 2014-07-09

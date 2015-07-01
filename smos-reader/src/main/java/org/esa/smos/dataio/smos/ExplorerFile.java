@@ -88,18 +88,15 @@ public abstract class ExplorerFile implements ProductFile {
     }
 
     protected Element getElement(Element parent, final String name) throws IOException {
-        final Iterator descendants = parent.getDescendants(new Filter() {
-            @Override
-            public boolean matches(Object o) {
-                if (o instanceof Element) {
-                    final Element e = (Element) o;
-                    if (name.equals(e.getName())) {
-                        return true;
-                    }
+        final Iterator descendants = parent.getDescendants(o -> {
+            if (o instanceof Element) {
+                final Element e = (Element) o;
+                if (name.equals(e.getName())) {
+                    return true;
                 }
-
-                return false;
             }
+
+            return false;
         });
         if (descendants.hasNext()) {
             return (Element) descendants.next();
@@ -122,13 +119,13 @@ public abstract class ExplorerFile implements ProductFile {
                 final Band dataBand = product.getBand(descriptor.getBandName());
                 final Band ancilliaryBand = product.getBand(ancilliaryBandName);
 
-                final String bandRelation = getAncilliaryBandRelation(ancilliaryBandName);
-                dataBand.addAncillaryVariable(ancilliaryBand, bandRelation);
+                final String bandRole = getAncilliaryBandRole(ancilliaryBandName);
+                dataBand.addAncillaryVariable(ancilliaryBand, bandRole);
             }
         }
     }
 
-    static String getAncilliaryBandRelation(String ancilliaryBandName) {
+    static String getAncilliaryBandRole(String ancilliaryBandName) {
         if (ancilliaryBandName.contains("DQX")) {
             return "standard_deviation";
         }
