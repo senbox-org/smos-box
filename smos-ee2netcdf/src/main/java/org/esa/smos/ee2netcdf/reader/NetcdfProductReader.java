@@ -179,6 +179,8 @@ public class NetcdfProductReader extends SmosReader {
                 throw new IOException("Unable to read file");
             }
 
+            final ArrayCache arrayCache = new ArrayCache(netcdfFile);
+
             final String productType = getProductTypeString();
 
             typeSupport = ProductTypeSupportFactory.get(productType, netcdfFile);
@@ -232,7 +234,7 @@ public class NetcdfProductReader extends SmosReader {
                             descriptor.getFlagDescriptors());
                 }
 
-                final ValueProvider valueProvider = typeSupport.createValueProvider(variable, descriptor, area, gridPointInfo);
+                final ValueProvider valueProvider = typeSupport.createValueProvider(arrayCache, ncVariableName, descriptor, area, gridPointInfo);
                 final SmosMultiLevelSource smosMultiLevelSource = new SmosMultiLevelSource(band, valueProvider);
                 final DefaultMultiLevelImage defaultMultiLevelImage = new DefaultMultiLevelImage(smosMultiLevelSource);
                 band.setSourceImage(defaultMultiLevelImage);

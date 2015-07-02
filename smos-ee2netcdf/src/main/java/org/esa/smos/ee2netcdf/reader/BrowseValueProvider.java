@@ -4,7 +4,6 @@ import org.esa.smos.dataio.smos.GridPointInfo;
 import org.esa.smos.dataio.smos.provider.ValueProvider;
 import ucar.ma2.Array;
 import ucar.ma2.Index;
-import ucar.nc2.Variable;
 
 import java.awt.geom.Area;
 import java.io.IOException;
@@ -14,14 +13,15 @@ public class BrowseValueProvider implements ValueProvider {
     private final Area area;
     private final GridPointInfo gridPointInfo;
     private final int polarization;
-    private final Variable variable;
-    private Array array;
+    private final ArrayCache arrayCache;
+    private final String variableName;
 
-    public BrowseValueProvider(Variable variable, int polarization, Area area, GridPointInfo gridPointInfo) {
+    public BrowseValueProvider(ArrayCache arrayCache, String variableName, int polarization, Area area, GridPointInfo gridPointInfo) {
         this.area = area;
         this.gridPointInfo = gridPointInfo;
         this.polarization = polarization;
-        this.variable = variable;
+        this.arrayCache = arrayCache;
+        this.variableName = variableName;
     }
 
     @Override
@@ -37,7 +37,7 @@ public class BrowseValueProvider implements ValueProvider {
         }
 
         try {
-            final Array array = getArray();
+            final Array array = arrayCache.get(variableName);
             final Index index = array.getIndex();
             index.set(gridPointIndex, polarization);
             return array.getByte(index);
@@ -54,7 +54,7 @@ public class BrowseValueProvider implements ValueProvider {
         }
 
         try {
-            final Array array = getArray();
+            final Array array = arrayCache.get(variableName);
             final Index index = array.getIndex();
             index.set(gridPointIndex, polarization);
             return array.getShort(index);
@@ -71,7 +71,7 @@ public class BrowseValueProvider implements ValueProvider {
         }
 
         try {
-            final Array array = getArray();
+            final Array array = arrayCache.get(variableName);
             final Index index = array.getIndex();
             index.set(gridPointIndex, polarization);
             return array.getInt(index);
@@ -88,20 +88,12 @@ public class BrowseValueProvider implements ValueProvider {
         }
 
         try {
-            final Array array = getArray();
+            final Array array = arrayCache.get(variableName);
             final Index index = array.getIndex();
             index.set(gridPointIndex, polarization);
             return array.getFloat(index);
         } catch (IOException e) {
             return noDataValue;
         }
-    }
-
-    private Array getArray() throws IOException {
-        if (array == null) {
-            array = variable.read();
-        }
-
-        return array;
     }
 }

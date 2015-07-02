@@ -28,8 +28,8 @@ class ScienceProductSupport extends AbstractProductTypeSupport {
     }
 
     @Override
-    public ValueProvider createValueProvider(Variable variable, BandDescriptor descriptor, Area area, GridPointInfo gridPointInfo) {
-        return new VariableValueProvider(variable, area, gridPointInfo);
+    public ValueProvider createValueProvider(ArrayCache arrayCache, String variableName, BandDescriptor descriptor, Area area, GridPointInfo gridPointInfo) {
+        return new VariableValueProvider(arrayCache, variableName, area, gridPointInfo);
     }
 
     @Override
