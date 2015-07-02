@@ -21,8 +21,10 @@ class ArrayCache {
     Array get(String variableName) throws IOException {
         Array array = cache.get(variableName);
         if (array == null) {
-            final Variable variable = netcdfFile.findVariable(null, variableName);
-            array =  variable.read();
+            synchronized (netcdfFile) {
+                final Variable variable = netcdfFile.findVariable(null, variableName);
+                array = variable.read();
+            }
             cache.put(variableName, array);
         }
 

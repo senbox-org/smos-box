@@ -172,13 +172,13 @@ public class NetcdfProductReader extends SmosReader {
     protected Product readProductNodesImpl() throws IOException {
         Product product;
 
-        synchronized (this) {
-            final File inputFile = getInputFile();
-            netcdfFile = NetcdfFileOpener.open(inputFile.getAbsolutePath());
-            if (netcdfFile == null) {
-                throw new IOException("Unable to read file");
-            }
+        final File inputFile = getInputFile();
+        netcdfFile = NetcdfFileOpener.open(inputFile.getAbsolutePath());
+        if (netcdfFile == null) {
+            throw new IOException("Unable to read file");
+        }
 
+        synchronized (netcdfFile) {
             final ArrayCache arrayCache = new ArrayCache(netcdfFile);
 
             final String productType = getProductTypeString();
@@ -340,7 +340,7 @@ public class NetcdfProductReader extends SmosReader {
                                                 int targetHeight,
                                                 ProductData targetBuffer,
                                                 ProgressMonitor pm) {
-        synchronized (this) {
+        synchronized (netcdfFile) {
             final RenderedImage image = targetBand.getSourceImage();
             final Raster data = image.getData(new Rectangle(targetOffsetX, targetOffsetY, targetWidth, targetHeight));
 
