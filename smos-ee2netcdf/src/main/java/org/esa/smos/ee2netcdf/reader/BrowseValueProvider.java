@@ -8,7 +8,7 @@ import ucar.ma2.Index;
 import java.awt.geom.Area;
 import java.io.IOException;
 
-public class BrowseValueProvider implements ValueProvider {
+class BrowseValueProvider implements ValueProvider {
 
     private final Area area;
     private final GridPointInfo gridPointInfo;
@@ -16,7 +16,7 @@ public class BrowseValueProvider implements ValueProvider {
     private final ArrayCache arrayCache;
     private final String variableName;
 
-    public BrowseValueProvider(ArrayCache arrayCache, String variableName, int polarization, Area area, GridPointInfo gridPointInfo) {
+    BrowseValueProvider(ArrayCache arrayCache, String variableName, int polarization, Area area, GridPointInfo gridPointInfo) {
         this.area = area;
         this.gridPointInfo = gridPointInfo;
         this.polarization = polarization;

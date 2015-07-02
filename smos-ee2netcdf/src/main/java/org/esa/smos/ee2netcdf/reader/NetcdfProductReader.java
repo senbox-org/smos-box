@@ -44,7 +44,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.List;
 
-@SuppressWarnings("SimplifiableIfStatement")
+@SuppressWarnings({"SimplifiableIfStatement", "SynchronizeOnNonFinalField"})
 public class NetcdfProductReader extends SmosReader {
 
     private static final String SENSING_TIMES_PATTERN = "'UTC='yyyy-MM-dd'T'HH:mm:ss";
