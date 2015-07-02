@@ -42,9 +42,25 @@ class ScienceProductSupport extends AbstractProductTypeSupport {
     }
 
     private void addRotatedFullPoleBands(Product product, Family<BandDescriptor> bandDescriptors) {
+        bandDescriptors.getMember("BT_Value_H");
+        bandDescriptors.getMember("BT_Value_V");
+        bandDescriptors.getMember("BT_Value_HV_Real");
+        bandDescriptors.getMember("BT_Value_HV_Imag");
+        bandDescriptors.getMember("Pixel_Radiometric_Accuracy_H");
+        bandDescriptors.getMember("Pixel_Radiometric_Accuracy_V");
+        bandDescriptors.getMember("Pixel_Radiometric_Accuracy_HV");
+        bandDescriptors.getMember("Stokes_1");
+        bandDescriptors.getMember("Stokes_2");
+        bandDescriptors.getMember("Stokes_3");
+        bandDescriptors.getMember("Stokes_4");
     }
 
     private void addRotatedDualPoleBands(Product product, Family<BandDescriptor> bandDescriptors) {
-
+        bandDescriptors.getMember("BT_Value_H");
+        bandDescriptors.getMember("BT_Value_V");
+        bandDescriptors.getMember("Pixel_Radiometric_Accuracy_H");
+        bandDescriptors.getMember("Pixel_Radiometric_Accuracy_V");
+        bandDescriptors.getMember("Stokes_1");
+        bandDescriptors.getMember("Stokes_2");
     }
 }
