@@ -1,5 +1,4 @@
 Manifest-Version: 1.0
 OpenIDE-Module-Display-Category: SMOS-Box
-OpenIDE-Module-Layer: org/esa/s1tbx/layer.xml
 AutoUpdate-Show-In-Client: true
 AutoUpdate-Essential-Module: false
