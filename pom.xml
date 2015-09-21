@@ -16,6 +16,7 @@
         <snap.version>[2.0.0-SNAPSHOT,2.1.0-SNAPSHOT)</snap.version>
         <netbeans.version>RELEASE802</netbeans.version>
         <javahelp.version>2.0.05</javahelp.version>
+        <smos.nbmSpecVersion>5.0.0</smos.nbmSpecVersion>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -345,7 +346,6 @@
 
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
-                <version>2.5.3</version>
                 <configuration>
                     <descriptors>
                         <descriptor>src/main/assembly/bin.xml</descriptor>
@@ -353,6 +353,35 @@
                     </descriptors>
                     <finalName>smos-box</finalName>
                 </configuration>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>2.7</version>
+                <configuration>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>file-manifest</id>
+                        <phase>process-sources</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${build.directory}/nbm</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>src/main/nbm</directory>
+                                    <filtering>true</filtering>
+                                    <includes>
+                                        <include>manifest.mf</include>
+                                    </includes>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
 
             <plugin>
@@ -406,13 +435,13 @@
                         <licenseName>GPL 3</licenseName>
                         <licenseFile>${project.basedir}/../LICENSE.html</licenseFile>
                         <cluster>${brandingToken}</cluster>
-                        <nbmBuildDir>${project.basedir}/../target/nbm</nbmBuildDir>
                         <brandingToken>${brandingToken}</brandingToken>
                         <useOSGiDependencies>false</useOSGiDependencies>
-                        <requiresRestart>false</requiresRestart>
+                        <requiresRestart>true</requiresRestart>
                         <keystore>${project.basedir}/../keystore/smos.ks</keystore>
                         <keystorealias>snap</keystorealias>
                         <keystorepassword>snap-123</keystorepassword>
+                        <sourceManifestFile>target/nbm/manifest.mf</sourceManifestFile>
                     </configuration>
                 </plugin>
                 <plugin>
