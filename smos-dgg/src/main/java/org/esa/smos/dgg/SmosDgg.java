@@ -23,7 +23,6 @@ import com.bc.ceres.glevel.support.DefaultMultiLevelImage;
 import org.esa.snap.glevel.TiledFileMultiLevelSource;
 import org.esa.snap.util.ResourceInstaller;
 import org.esa.snap.util.SystemUtils;
-import org.esa.snap.util.io.FileUtils;
 
 import javax.media.jai.PlanarImage;
 import java.awt.geom.AffineTransform;
@@ -118,7 +117,7 @@ public class SmosDgg {
         return data.getSample(pixelX, pixelY, 0);
     }
 
-    // todo (mp-23.03.15) - installation of auxiliary data should be done in an activator (still needs to be developed)
+    // todo (mp-29.09.15) - installation of auxiliary data should be done in an activator (org.esa.snap.runtime.Activator)
     private SmosDgg() {
         try {
             Path dirPath = getDirPathFromProperty();
@@ -141,11 +140,11 @@ public class SmosDgg {
     }
 
     private static Path getDggAuxdataPath() {
-        return SystemUtils.getApplicationDataDir().toPath().resolve("smos-dgg/grid-tiles");
+        return SystemUtils.getAuxDataPath().resolve("smos-dgg/grid-tiles");
     }
 
     private static Path getPathFromModule() throws URISyntaxException, IOException {
-          return FileUtils.getPathFromURI(SmosDgg.class.getProtectionDomain().getCodeSource().getLocation().toURI());
+          return ResourceInstaller.findModuleCodeBasePath(SmosDgg.class);
     }
 
     private static Path getDirPathFromProperty() throws IOException {
