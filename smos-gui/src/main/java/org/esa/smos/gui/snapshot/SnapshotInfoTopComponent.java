@@ -45,7 +45,7 @@ import org.esa.snap.core.datamodel.Band;
 import org.esa.snap.core.datamodel.Product;
 import org.esa.snap.core.datamodel.RasterDataNode;
 import org.esa.snap.core.datamodel.VirtualBand;
-import org.esa.snap.glevel.TiledFileMultiLevelSource;
+import org.esa.snap.core.image.TiledFileMultiLevelSource;
 import org.esa.snap.netbeans.docwin.WindowUtilities;
 import org.esa.snap.rcp.windows.ProductSceneViewTopComponent;
 import org.esa.snap.ui.product.ProductSceneView;
