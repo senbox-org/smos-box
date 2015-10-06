@@ -1,9 +1,9 @@
 package org.esa.smos.ee2netcdf;
 
 import org.esa.smos.ee2netcdf.variable.VariableDescriptor;
+import org.esa.snap.core.gpf.OperatorException;
 import org.esa.snap.framework.datamodel.MetadataElement;
 import org.esa.snap.framework.datamodel.Product;
-import org.esa.snap.framework.gpf.OperatorException;
 import org.esa.snap.util.io.FileUtils;
 import org.esa.snap.util.io.WildcardMatcher;
 

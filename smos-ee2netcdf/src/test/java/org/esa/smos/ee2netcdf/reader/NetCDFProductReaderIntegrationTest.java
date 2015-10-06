@@ -2,14 +2,18 @@ package org.esa.smos.ee2netcdf.reader;
 
 import org.esa.smos.AcceptanceTestRunner;
 import org.esa.smos.ee2netcdf.NetcdfExportOp;
+import org.esa.snap.core.gpf.GPF;
 import org.esa.snap.framework.dataio.ProductIO;
 import org.esa.snap.framework.datamodel.Band;
 import org.esa.snap.framework.datamodel.MetadataAttribute;
 import org.esa.snap.framework.datamodel.MetadataElement;
 import org.esa.snap.framework.datamodel.Product;
-import org.esa.snap.framework.gpf.GPF;
 import org.esa.snap.util.io.FileUtils;
-import org.junit.*;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import ucar.nc2.util.DiskCache;
 

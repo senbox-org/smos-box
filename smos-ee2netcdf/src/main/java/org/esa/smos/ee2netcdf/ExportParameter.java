@@ -2,7 +2,7 @@ package org.esa.smos.ee2netcdf;
 
 import com.vividsolutions.jts.geom.Geometry;
 import org.esa.smos.gui.BindingConstants;
-import org.esa.snap.framework.gpf.annotations.Parameter;
+import org.esa.snap.core.gpf.annotations.Parameter;
 import org.esa.snap.util.converters.JtsGeometryConverter;
 
 import java.io.File;
