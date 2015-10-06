@@ -19,7 +19,7 @@ import org.esa.smos.dgg.SmosDgg;
 import org.esa.snap.core.datamodel.Band;
 import org.esa.snap.core.datamodel.Product;
 import org.esa.snap.core.datamodel.ProductData;
-import org.esa.snap.util.io.FileUtils;
+import org.esa.snap.core.util.io.FileUtils;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.Namespace;

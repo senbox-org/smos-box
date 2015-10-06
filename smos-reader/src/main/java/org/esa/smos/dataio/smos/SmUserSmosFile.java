@@ -4,7 +4,7 @@ import com.bc.ceres.binio.DataContext;
 import org.esa.smos.EEFilePair;
 import org.esa.smos.dataio.smos.dddb.BandDescriptor;
 import org.esa.snap.core.datamodel.Band;
-import org.esa.snap.util.StringUtils;
+import org.esa.snap.core.util.StringUtils;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.Namespace;

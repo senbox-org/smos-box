@@ -18,9 +18,9 @@ package org.esa.smos.gui;
 
 import com.bc.ceres.core.ProgressMonitor;
 import com.bc.ceres.swing.progress.ProgressMonitorSwingWorker;
+import org.esa.snap.core.util.SystemUtils;
 import org.esa.snap.rcp.SnapDialogs;
 import org.esa.snap.ui.SelectExportMethodDialog;
-import org.esa.snap.util.SystemUtils;
 import org.jdesktop.swingx.table.TableColumnModelExt;
 
 import javax.swing.JOptionPane;

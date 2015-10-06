@@ -1,7 +1,7 @@
 package org.esa.smos.dataio.smos.dddb;
 
 
-import org.esa.snap.util.io.FileUtils;
+import org.esa.snap.core.util.io.FileUtils;
 import org.junit.Before;
 import org.junit.Test;
 

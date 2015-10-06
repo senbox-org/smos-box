@@ -3,7 +3,7 @@ package org.esa.smos.ee2netcdf;
 import org.esa.snap.core.gpf.Operator;
 import org.esa.snap.core.gpf.annotations.Parameter;
 import org.esa.snap.core.gpf.annotations.SourceProducts;
-import org.esa.snap.util.converters.JtsGeometryConverter;
+import org.esa.snap.core.util.converters.JtsGeometryConverter;
 import org.junit.Test;
 
 import java.lang.reflect.Field;

@@ -9,9 +9,9 @@ import org.esa.snap.core.gpf.OperatorSpi;
 import org.esa.snap.core.gpf.annotations.OperatorMetadata;
 import org.esa.snap.core.gpf.annotations.Parameter;
 import org.esa.snap.core.gpf.annotations.SourceProducts;
-import org.esa.snap.util.StringUtils;
-import org.esa.snap.util.converters.JtsGeometryConverter;
-import org.esa.snap.util.io.FileUtils;
+import org.esa.snap.core.util.StringUtils;
+import org.esa.snap.core.util.converters.JtsGeometryConverter;
+import org.esa.snap.core.util.io.FileUtils;
 
 import java.io.File;
 import java.nio.file.Path;

@@ -1,6 +1,6 @@
 package org.esa.smos.dataio.smos;
 
-import org.esa.snap.util.io.SnapFileFilter;
+import org.esa.snap.core.util.io.SnapFileFilter;
 import org.junit.Before;
 import org.junit.Test;
 

@@ -3,7 +3,7 @@ package org.esa.smos.ee2netcdf.geometry;
 import com.bc.ceres.binding.ConversionException;
 import com.bc.ceres.binio.CompoundData;
 import com.vividsolutions.jts.geom.Geometry;
-import org.esa.snap.util.converters.JtsGeometryConverter;
+import org.esa.snap.core.util.converters.JtsGeometryConverter;
 import org.junit.Before;
 import org.junit.Test;
 

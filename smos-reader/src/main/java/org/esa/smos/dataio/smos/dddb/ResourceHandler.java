@@ -1,7 +1,7 @@
 package org.esa.smos.dataio.smos.dddb;
 
 
-import org.esa.snap.util.StringUtils;
+import org.esa.snap.core.util.StringUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
