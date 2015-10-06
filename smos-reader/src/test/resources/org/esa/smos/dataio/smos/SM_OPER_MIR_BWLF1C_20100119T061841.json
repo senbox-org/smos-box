@@ -569,334 +569,334 @@
         "masks": [
             {
                 "name": "Flags_X_POL_FLAG_1",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "246,182,21",
                 "description": "Flag indicating antenna polarisation mode."
             },
             {
                 "name": "Flags_X_POL_FLAG_2",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "95,92,204",
                 "description": "Flag indicating antenna polarisation mode."
             },
             {
                 "name": "Flags_X_SUN_FOV",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "49,82,133",
                 "description": "Direct  Sun  correction  has  been  performed  during  image reconstruction of this pixel"
             },
             {
                 "name": "Flags_X_SUN_GLINT_FOV",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "169,175,146",
                 "description": "Reflected  Sun  correction  has  been  performed  during  image reconstruction of this pixel"
             },
             {
                 "name": "Flags_X_MOON_GLINT_FOV",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "156,188,14",
                 "description": "Direct  Moon  correction  has  been  performed  during  image reconstruction of this pixel"
             },
             {
                 "name": "Flags_X_SINGLE_SNAPSHOT",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "39,91,126"
             },
             {
                 "name": "Flags_X_FTT",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "214,25,160",
                 "description": "Flat Target  Transformation  has  been  performed  during  image reconstruction of this pixel"
             },
             {
                 "name": "Flags_X_SUN_POINT",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "178,13,207",
                 "description": "Pixel is located in a zone where a Sun alias was reconstructed (after Sun removal, measurement may be degraded)"
             },
             {
                 "name": "Flags_X_SUN_GLINT_AREA",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "208,249,67",
                 "description": "Pixel is located in a zone where Sun reflection has been detected"
             },
             {
                 "name": "Flags_X_MOON_POINT",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "106,109,115",
                 "description": "Pixel  is  located  in a zone where a Moon alias was reconstructed (after Moon removal, measurement may be degraded)"
             },
             {
                 "name": "Flags_X_AF_FOV",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "16,81,105",
                 "description": "Pixel is inside the exclusive zone of Alias free (delimited by the six aliased unit circles)"
             },
             {
                 "name": "Flags_X_EAF_FOV",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "171,1,243",
                 "description": "Pixel is inside the Extended Alias free zone (obtained after removing sky aliases)"
             },
             {
                 "name": "Flags_X_BORDER_FOV",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "238,203,217",
                 "description": "Pixel is close to the border delimiting the Extended Alias free zone"
             },
             {
                 "name": "Flags_X_SUN_TAILS",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "250,231,95",
                 "description": "Pixel is located in the hexagonal alias directions centred on a Sun alias (if Sun is not removed, measurement may be degraded in these directions)"
             },
             {
                 "name": "Flags_X_RFI_1",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "240,108,99",
                 "description": "Pixel is affected by RFI effects (as detected in the L1b processing)"
             },
             {
                 "name": "Flags_X_RFI_2",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "115,141,245",
                 "description": "Pixel is flagged as RFI in the AUX_RFI file"
             },
             {
                 "name": "Flags_Y_POL_FLAG_1",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "246,182,21",
                 "description": "Flag indicating antenna polarisation mode."
             },
             {
                 "name": "Flags_Y_POL_FLAG_2",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "95,92,204",
                 "description": "Flag indicating antenna polarisation mode."
             },
             {
                 "name": "Flags_Y_SUN_FOV",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "49,82,133",
                 "description": "Direct  Sun  correction  has  been  performed  during  image reconstruction of this pixel"
             },
             {
                 "name": "Flags_Y_SUN_GLINT_FOV",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "169,175,146",
                 "description": "Reflected  Sun  correction  has  been  performed  during  image reconstruction of this pixel"
             },
             {
                 "name": "Flags_Y_MOON_GLINT_FOV",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "156,188,14",
                 "description": "Direct  Moon  correction  has  been  performed  during  image reconstruction of this pixel"
             },
             {
                 "name": "Flags_Y_SINGLE_SNAPSHOT",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "39,91,126"
             },
             {
                 "name": "Flags_Y_FTT",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "214,25,160",
                 "description": "Flat Target  Transformation  has  been  performed  during  image reconstruction of this pixel"
             },
             {
                 "name": "Flags_Y_SUN_POINT",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "178,13,207",
                 "description": "Pixel is located in a zone where a Sun alias was reconstructed (after Sun removal, measurement may be degraded)"
             },
             {
                 "name": "Flags_Y_SUN_GLINT_AREA",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "208,249,67",
                 "description": "Pixel is located in a zone where Sun reflection has been detected"
             },
             {
                 "name": "Flags_Y_MOON_POINT",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "106,109,115",
                 "description": "Pixel  is  located  in a zone where a Moon alias was reconstructed (after Moon removal, measurement may be degraded)"
             },
             {
                 "name": "Flags_Y_AF_FOV",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "16,81,105",
                 "description": "Pixel is inside the exclusive zone of Alias free (delimited by the six aliased unit circles)"
             },
             {
                 "name": "Flags_Y_EAF_FOV",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "171,1,243",
                 "description": "Pixel is inside the Extended Alias free zone (obtained after removing sky aliases)"
             },
             {
                 "name": "Flags_Y_BORDER_FOV",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "238,203,217",
                 "description": "Pixel is close to the border delimiting the Extended Alias free zone"
             },
             {
                 "name": "Flags_Y_SUN_TAILS",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "250,231,95",
                 "description": "Pixel is located in the hexagonal alias directions centred on a Sun alias (if Sun is not removed, measurement may be degraded in these directions)"
             },
             {
                 "name": "Flags_Y_RFI_1",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "240,108,99",
                 "description": "Pixel is affected by RFI effects (as detected in the L1b processing)"
             },
             {
                 "name": "Flags_Y_RFI_2",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "115,141,245",
                 "description": "Pixel is flagged as RFI in the AUX_RFI file"
             },
             {
                 "name": "Flags_XY_POL_FLAG_1",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "246,182,21",
                 "description": "Flag indicating antenna polarisation mode."
             },
             {
                 "name": "Flags_XY_POL_FLAG_2",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "95,92,204",
                 "description": "Flag indicating antenna polarisation mode."
             },
             {
                 "name": "Flags_XY_SUN_FOV",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "49,82,133",
                 "description": "Direct  Sun  correction  has  been  performed  during  image reconstruction of this pixel"
             },
             {
                 "name": "Flags_XY_SUN_GLINT_FOV",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "169,175,146",
                 "description": "Reflected  Sun  correction  has  been  performed  during  image reconstruction of this pixel"
             },
             {
                 "name": "Flags_XY_MOON_GLINT_FOV",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "156,188,14",
                 "description": "Direct  Moon  correction  has  been  performed  during  image reconstruction of this pixel"
             },
             {
                 "name": "Flags_XY_SINGLE_SNAPSHOT",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "39,91,126"
             },
             {
                 "name": "Flags_XY_FTT",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "214,25,160",
                 "description": "Flat Target  Transformation  has  been  performed  during  image reconstruction of this pixel"
             },
             {
                 "name": "Flags_XY_SUN_POINT",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "178,13,207",
                 "description": "Pixel is located in a zone where a Sun alias was reconstructed (after Sun removal, measurement may be degraded)"
             },
             {
                 "name": "Flags_XY_SUN_GLINT_AREA",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "208,249,67",
                 "description": "Pixel is located in a zone where Sun reflection has been detected"
             },
             {
                 "name": "Flags_XY_MOON_POINT",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "106,109,115",
                 "description": "Pixel  is  located  in a zone where a Moon alias was reconstructed (after Moon removal, measurement may be degraded)"
             },
             {
                 "name": "Flags_XY_AF_FOV",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "16,81,105",
                 "description": "Pixel is inside the exclusive zone of Alias free (delimited by the six aliased unit circles)"
             },
             {
                 "name": "Flags_XY_EAF_FOV",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "171,1,243",
                 "description": "Pixel is inside the Extended Alias free zone (obtained after removing sky aliases)"
             },
             {
                 "name": "Flags_XY_BORDER_FOV",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "238,203,217",
                 "description": "Pixel is close to the border delimiting the Extended Alias free zone"
             },
             {
                 "name": "Flags_XY_SUN_TAILS",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "250,231,95",
                 "description": "Pixel is located in the hexagonal alias directions centred on a Sun alias (if Sun is not removed, measurement may be degraded in these directions)"
             },
             {
                 "name": "Flags_XY_RFI_1",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "240,108,99",
                 "description": "Pixel is affected by RFI effects (as detected in the L1b processing)"
             },
             {
                 "name": "Flags_XY_RFI_2",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "115,141,245",
                 "description": "Pixel is flagged as RFI in the AUX_RFI file"
             },
             {
                 "name": "Land_Sea_Mask_USGS_SEA_FLAG",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "0,0,255",
                 "description": "Water fraction is above 95 percent (1); below 95 percent (0)"
             },
             {
                 "name": "Land_Sea_Mask_USGS_LAND_FLAG",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "0,255,0",
                 "description": "Water fraction is below 10 percent (1); above 10 percent (0)"
             },
             {
                 "name": "Land_Sea_Mask_USGS_MIXED_FLAG",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "0,255,255",
                 "description": "Water fraction is above 10 and below 95 percent (1); below 10 or above 95 percent (0)"
             },
             {
                 "name": "Land_Sea_Mask_200_KM_COASTAL_FLAG",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "178,140,0",
                 "description": "Distance to coastline is less than 200 km (1); greater than 200 km (0)"
             },
             {
                 "name": "Land_Sea_Mask_100_KM_COASTAL_FLAG",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "255,200,0",
                 "description": "Distance to coastline is less than 100 km (1); greater than 100 km (0)"
             },
             {
                 "name": "Land_Sea_Mask_40_KM_COASTAL_FLAG",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "255,255,0",
                 "description": "Distance to coastline is less than 40 km (1); greater than 40 km (0)"
             },
             {
                 "name": "Land_Sea_Mask_MIN_SEA_ICE_FLAG",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "255,255,255",
                 "description": "Sea ice is present for all months (1); is not present for all months (0)"
             },
             {
                 "name": "Land_Sea_Mask_MAX_SEA_ICE_FLAG",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "240,240,240",
                 "description": "Sea ice is present for any months (1); is not present for any months (0)"
             }

@@ -18,8 +18,8 @@ package org.esa.smos.gui;
 
 import org.esa.smos.dataio.smos.SmosReader;
 import org.esa.smos.gui.snapshot.SnapshotSelectionService;
-import org.esa.snap.framework.datamodel.Product;
-import org.esa.snap.framework.datamodel.RasterDataNode;
+import org.esa.snap.core.datamodel.Product;
+import org.esa.snap.core.datamodel.RasterDataNode;
 import org.esa.snap.rcp.actions.help.HelpAction;
 import org.esa.snap.ui.product.ProductSceneView;
 import org.esa.snap.ui.tool.ToolButtonFactory;

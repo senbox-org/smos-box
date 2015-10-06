@@ -8,7 +8,7 @@ import org.esa.smos.dataio.smos.SnapshotInfo;
 import org.esa.smos.dataio.smos.dddb.BandDescriptor;
 import org.esa.smos.dataio.smos.dddb.FlagDescriptor;
 import org.esa.smos.dataio.smos.provider.ValueProvider;
-import org.esa.snap.framework.datamodel.Band;
+import org.esa.snap.core.datamodel.Band;
 import ucar.nc2.Variable;
 
 import java.awt.geom.Area;

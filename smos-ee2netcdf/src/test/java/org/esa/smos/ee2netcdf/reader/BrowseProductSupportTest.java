@@ -1,16 +1,15 @@
 package org.esa.smos.ee2netcdf.reader;
 
 import org.esa.smos.dataio.smos.dddb.BandDescriptor;
-import org.esa.snap.framework.datamodel.Band;
-import org.esa.snap.framework.datamodel.ProductData;
+import org.esa.snap.core.datamodel.Band;
+import org.esa.snap.core.datamodel.ProductData;
 import org.junit.Before;
 import org.junit.Test;
 import ucar.nc2.Attribute;
 import ucar.nc2.NetcdfFile;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 
 public class BrowseProductSupportTest {
 

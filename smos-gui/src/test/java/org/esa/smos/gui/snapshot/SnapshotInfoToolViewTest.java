@@ -1,7 +1,7 @@
 package org.esa.smos.gui.snapshot;
 
-import org.esa.snap.framework.datamodel.Band;
-import org.esa.snap.framework.datamodel.ProductData;
+import org.esa.snap.core.datamodel.Band;
+import org.esa.snap.core.datamodel.ProductData;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

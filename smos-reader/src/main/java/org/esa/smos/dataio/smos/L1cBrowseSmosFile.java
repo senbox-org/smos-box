@@ -19,7 +19,7 @@ import com.bc.ceres.binio.DataContext;
 import org.esa.smos.EEFilePair;
 import org.esa.smos.dataio.smos.dddb.BandDescriptor;
 import org.esa.smos.dataio.smos.provider.AbstractValueProvider;
-import org.esa.snap.framework.datamodel.Product;
+import org.esa.snap.core.datamodel.Product;
 
 import java.io.IOException;
 

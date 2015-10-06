@@ -34,9 +34,9 @@ import org.esa.smos.dataio.smos.provider.FPH;
 import org.esa.smos.dataio.smos.provider.FPHVR;
 import org.esa.smos.dataio.smos.provider.FPV;
 import org.esa.smos.dataio.smos.provider.ValueProvider;
-import org.esa.snap.framework.datamodel.Band;
-import org.esa.snap.framework.datamodel.Product;
-import org.esa.snap.framework.datamodel.ProductData;
+import org.esa.snap.core.datamodel.Band;
+import org.esa.snap.core.datamodel.Product;
+import org.esa.snap.core.datamodel.ProductData;
 
 import java.awt.geom.Rectangle2D;
 import java.io.IOException;

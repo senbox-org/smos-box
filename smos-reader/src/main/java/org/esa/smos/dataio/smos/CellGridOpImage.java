@@ -18,7 +18,7 @@ package org.esa.smos.dataio.smos;
 
 import com.bc.ceres.glevel.MultiLevelModel;
 import com.bc.ceres.jai.NoDataRaster;
-import org.esa.snap.framework.datamodel.RasterDataNode;
+import org.esa.snap.core.datamodel.RasterDataNode;
 import org.esa.snap.jai.ImageManager;
 import org.esa.snap.jai.ResolutionLevel;
 import org.esa.snap.jai.SingleBandedOpImage;

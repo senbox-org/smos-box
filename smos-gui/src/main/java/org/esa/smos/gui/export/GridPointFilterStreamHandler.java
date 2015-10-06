@@ -21,8 +21,8 @@ import com.bc.ceres.core.SubProgressMonitor;
 import org.esa.smos.dataio.smos.ProductFile;
 import org.esa.smos.dataio.smos.SmosFile;
 import org.esa.smos.dataio.smos.SmosProductReader;
-import org.esa.snap.framework.dataio.ProductReader;
-import org.esa.snap.framework.datamodel.Product;
+import org.esa.snap.core.dataio.ProductReader;
+import org.esa.snap.core.datamodel.Product;
 
 import java.io.File;
 import java.io.FileFilter;

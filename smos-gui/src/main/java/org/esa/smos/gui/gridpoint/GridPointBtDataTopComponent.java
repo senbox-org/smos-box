@@ -21,11 +21,11 @@ import org.esa.smos.dataio.smos.SmosReader;
 import org.esa.smos.gui.SceneViewSelectionService;
 import org.esa.smos.gui.SmosBox;
 import org.esa.smos.gui.SmosTopComponent;
-import org.esa.snap.framework.datamodel.PixelPos;
-import org.esa.snap.framework.datamodel.Placemark;
-import org.esa.snap.framework.datamodel.ProductNode;
-import org.esa.snap.framework.datamodel.ProductNodeEvent;
-import org.esa.snap.framework.datamodel.ProductNodeListener;
+import org.esa.snap.core.datamodel.PixelPos;
+import org.esa.snap.core.datamodel.Placemark;
+import org.esa.snap.core.datamodel.ProductNode;
+import org.esa.snap.core.datamodel.ProductNodeEvent;
+import org.esa.snap.core.datamodel.ProductNodeListener;
 import org.esa.snap.ui.product.ProductSceneView;
 import org.openide.util.HelpCtx;
 

@@ -1,8 +1,8 @@
 package org.esa.smos.ee2netcdf;
 
 import org.esa.smos.ee2netcdf.variable.VariableDescriptor;
-import org.esa.snap.framework.datamodel.MetadataElement;
-import org.esa.snap.framework.datamodel.Product;
+import org.esa.snap.core.datamodel.MetadataElement;
+import org.esa.snap.core.datamodel.Product;
 import org.junit.Test;
 
 import java.io.File;

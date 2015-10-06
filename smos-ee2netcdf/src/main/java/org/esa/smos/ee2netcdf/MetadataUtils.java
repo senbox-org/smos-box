@@ -1,8 +1,8 @@
 package org.esa.smos.ee2netcdf;
 
-import org.esa.snap.framework.datamodel.MetadataAttribute;
-import org.esa.snap.framework.datamodel.MetadataElement;
-import org.esa.snap.framework.datamodel.ProductData;
+import org.esa.snap.core.datamodel.MetadataAttribute;
+import org.esa.snap.core.datamodel.MetadataElement;
+import org.esa.snap.core.datamodel.ProductData;
 import org.esa.snap.util.StringUtils;
 import ucar.nc2.Attribute;
 

@@ -1,8 +1,8 @@
 package org.esa.smos.ee2netcdf;
 
-import org.esa.snap.framework.datamodel.MetadataAttribute;
-import org.esa.snap.framework.datamodel.MetadataElement;
-import org.esa.snap.framework.datamodel.ProductData;
+import org.esa.snap.core.datamodel.MetadataAttribute;
+import org.esa.snap.core.datamodel.MetadataElement;
+import org.esa.snap.core.datamodel.ProductData;
 import org.junit.Before;
 import org.junit.Test;
 import ucar.nc2.Attribute;
@@ -10,10 +10,8 @@ import ucar.nc2.Attribute;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 
 public class MetadataUtilsTest {
 

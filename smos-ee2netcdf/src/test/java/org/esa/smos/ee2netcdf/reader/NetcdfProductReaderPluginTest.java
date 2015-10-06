@@ -1,8 +1,8 @@
 package org.esa.smos.ee2netcdf.reader;
 
 
-import org.esa.snap.framework.dataio.DecodeQualification;
-import org.esa.snap.framework.dataio.ProductReader;
+import org.esa.snap.core.dataio.DecodeQualification;
+import org.esa.snap.core.dataio.ProductReader;
 import org.esa.snap.util.io.SnapFileFilter;
 import org.junit.Before;
 import org.junit.Test;
@@ -10,10 +10,7 @@ import org.junit.Test;
 import java.io.File;
 import java.net.URL;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class NetcdfProductReaderPluginTest {
 

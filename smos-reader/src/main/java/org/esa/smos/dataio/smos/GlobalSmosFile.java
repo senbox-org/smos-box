@@ -13,8 +13,8 @@ import org.esa.smos.dataio.smos.dddb.Dddb;
 import org.esa.smos.dataio.smos.dddb.Family;
 import org.esa.smos.dataio.smos.provider.ValueProvider;
 import org.esa.smos.dgg.SmosDgg;
-import org.esa.snap.framework.datamodel.Band;
-import org.esa.snap.framework.datamodel.Product;
+import org.esa.snap.core.datamodel.Band;
+import org.esa.snap.core.datamodel.Product;
 import org.esa.snap.util.io.FileUtils;
 
 import java.awt.Dimension;

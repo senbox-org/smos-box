@@ -18,10 +18,10 @@ import com.bc.ceres.swing.binding.internal.TextComponentAdapter;
 import com.bc.ceres.swing.binding.internal.TextFieldEditor;
 import org.esa.smos.gui.BindingConstants;
 import org.esa.smos.gui.ChooserFactory;
-import org.esa.snap.framework.datamodel.PlainFeatureFactory;
-import org.esa.snap.framework.datamodel.Product;
-import org.esa.snap.framework.datamodel.ProductNodeGroup;
-import org.esa.snap.framework.datamodel.VectorDataNode;
+import org.esa.snap.core.datamodel.PlainFeatureFactory;
+import org.esa.snap.core.datamodel.Product;
+import org.esa.snap.core.datamodel.ProductNodeGroup;
+import org.esa.snap.core.datamodel.VectorDataNode;
 import org.esa.snap.ui.AppContext;
 
 import javax.swing.AbstractButton;

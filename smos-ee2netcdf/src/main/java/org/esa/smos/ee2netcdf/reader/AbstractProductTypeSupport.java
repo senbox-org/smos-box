@@ -5,7 +5,7 @@ import org.esa.smos.dataio.smos.PolarisationModel;
 import org.esa.smos.dataio.smos.SnapshotInfo;
 import org.esa.smos.dataio.smos.dddb.BandDescriptor;
 import org.esa.smos.dataio.smos.dddb.FlagDescriptor;
-import org.esa.snap.framework.datamodel.Band;
+import org.esa.snap.core.datamodel.Band;
 import ucar.nc2.NetcdfFile;
 
 import java.io.IOException;

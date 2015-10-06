@@ -1,7 +1,7 @@
 package org.esa.smos.ee2netcdf.ui;
 
 import org.esa.smos.ee2netcdf.ExportParameter;
-import org.esa.snap.framework.datamodel.Product;
+import org.esa.snap.core.datamodel.Product;
 import org.esa.snap.ui.AppContext;
 
 class DialogHelper {

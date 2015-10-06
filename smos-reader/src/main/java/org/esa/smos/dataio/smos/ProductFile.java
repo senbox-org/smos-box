@@ -1,6 +1,6 @@
 package org.esa.smos.dataio.smos;
 
-import org.esa.snap.framework.datamodel.Product;
+import org.esa.snap.core.datamodel.Product;
 
 import java.awt.geom.Area;
 import java.io.Closeable;

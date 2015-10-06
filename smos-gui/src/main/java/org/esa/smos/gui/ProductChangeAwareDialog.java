@@ -1,9 +1,9 @@
 package org.esa.smos.gui;
 
-import org.esa.snap.framework.datamodel.Product;
-import org.esa.snap.framework.datamodel.ProductManager;
-import org.esa.snap.framework.datamodel.ProductNodeEvent;
-import org.esa.snap.framework.datamodel.ProductNodeListener;
+import org.esa.snap.core.datamodel.Product;
+import org.esa.snap.core.datamodel.ProductManager;
+import org.esa.snap.core.datamodel.ProductNodeEvent;
+import org.esa.snap.core.datamodel.ProductNodeListener;
 import org.esa.snap.rcp.util.SelectionSupport;
 import org.esa.snap.ui.ModelessDialog;
 import org.netbeans.api.annotations.common.NullAllowed;

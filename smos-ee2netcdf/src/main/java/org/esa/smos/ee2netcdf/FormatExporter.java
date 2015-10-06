@@ -1,9 +1,9 @@
 package org.esa.smos.ee2netcdf;
 
 
+import org.esa.snap.core.datamodel.MetadataElement;
+import org.esa.snap.core.datamodel.Product;
 import org.esa.snap.dataio.netcdf.nc.NFileWriteable;
-import org.esa.snap.framework.datamodel.MetadataElement;
-import org.esa.snap.framework.datamodel.Product;
 
 import java.io.IOException;
 

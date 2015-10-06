@@ -1622,445 +1622,445 @@
         "masks": [
             {
                 "name": "F1_CI_FLAG",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "246,182,21",
                 "description": "Quality flag: sea ice cover"
             },
             {
                 "name": "F1_SP_FLAG",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "95,92,204",
                 "description": "Quality flag: surface pressure"
             },
             {
                 "name": "F1_2T_FLAG",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "49,82,133",
                 "description": "Quality flag: air temperature 2m"
             },
             {
                 "name": "F1_SSTK_FLAG",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "169,175,146",
                 "description": "Quality flag: sea surface temperature"
             },
             {
                 "name": "F1_TCWV_FLAG",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "156,188,14",
                 "description": "Quality flag: total column water vapour"
             },
             {
                 "name": "F1_RR_FLAG",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "39,91,126",
                 "description": "Quality flag: rain rate"
             },
             {
                 "name": "F1_SWVL1_FLAG",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "214,25,160",
                 "description": "Quality flag: volumetric soil water L1"
             },
             {
                 "name": "F1_SWVL2_FLAG",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "178,13,207",
                 "description": "Quality flag: volumetric soil water L2"
             },
             {
                 "name": "F1_SRC_FLAG",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "208,249,67",
                 "description": "Quality flag: skin reservoir content"
             },
             {
                 "name": "F1_STL1_FLAG",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "106,109,115",
                 "description": "Quality flag: soil temperature L1"
             },
             {
                 "name": "F1_STL2_FLAG",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "16,81,105",
                 "description": "Quality flag: soil temperature L2"
             },
             {
                 "name": "F1_STL3_FLAG",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "171,1,243",
                 "description": "Quality flag: soil temperature L3"
             },
             {
                 "name": "F1_STL4_FLAG",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "238,203,217",
                 "description": "Quality flag: soil temperature L4"
             },
             {
                 "name": "F1_SKT_FLAG",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "250,231,95",
                 "description": "Quality flag: skin temperature"
             },
             {
                 "name": "F1_TSN_FLAG",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "240,108,99",
                 "description": "Quality flag: temperature snow layer"
             },
             {
                 "name": "F1_ISTL1_FLAG",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "115,141,245",
                 "description": "Quality flag: ice surface temperature"
             },
             {
                 "name": "F1_SD_FLAG",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "134,147,45",
                 "description": "Quality flag: snow depth"
             },
             {
                 "name": "F1_SMLT_FLAG",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "128,201,42",
                 "description": "Quality flag: accumulated water"
             },
             {
                 "name": "F1_RSN_FLAG",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "168,104,12",
                 "description": "Quality flag: Snow density"
             },
             {
                 "name": "F1_U_FLAG",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "143,245,6",
                 "description": "Quality flag: wind zonal lowest level"
             },
             {
                 "name": "F1_V_FLAG",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "36,87,190",
                 "description": "Quality flag: wind meridional lowest level"
             },
             {
                 "name": "F2_CDWW_FLAG",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "246,182,21",
                 "description": "Quality flag: drag coefficient with waves"
             },
             {
                 "name": "F2_WIND_FLAG",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "95,92,204",
                 "description": "Quality flag: wind 10m wave model"
             },
             {
                 "name": "F2_PP1D_FLAG",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "49,82,133",
                 "description": "Quality flag: peak period 1d"
             },
             {
                 "name": "F2_SWH_FLAG",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "169,175,146",
                 "description": "Quality flag: significant wave height"
             },
             {
                 "name": "F2_MSQS_FLAG",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "156,188,14",
                 "description": "Quality flag: mean square slope"
             },
             {
                 "name": "F2_MPWW_FLAG",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "39,91,126",
                 "description": "Quality flag: mean period wind waves"
             },
             {
                 "name": "F2_SHWW_FLAG",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "214,25,160",
                 "description": "Quality flag: significant height wind waves"
             },
             {
                 "name": "F2_UN10_FLAG",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "178,13,207",
                 "description": "Quality flag: 10 m neutral equivalent wind  zonal"
             },
             {
                 "name": "F2_VN10_FLAG",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "208,249,67",
                 "description": "Quality flag: 10 m neutral equivalent wind  meridional"
             },
             {
                 "name": "F2_ZNT_FLAG",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "106,109,115",
                 "description": "Quality flag: roughness length"
             },
             {
                 "name": "F2_UST_FLAG",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "16,81,105",
                 "description": "Quality flag: friction velocity from surface model"
             },
             {
                 "name": "F2_UWAV_FLAG",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "171,1,243",
                 "description": "Quality flag: friction velocity from wave model"
             },
             {
                 "name": "F2_OMEGA_FLAG",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "238,203,217",
                 "description": "Quality flag: inverse wave age"
             },
             {
                 "name": "D1_SP_FLAG",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "246,182,21",
                 "description": "Degradation flag: surface pressure"
             },
             {
                 "name": "D1_2T_FLAG",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "95,92,204",
                 "description": "Degradation flag: air temperature 2m"
             },
             {
                 "name": "D1_SSTK_FLAG",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "49,82,133",
                 "description": "Degradation flag: sea surface temperature"
             },
             {
                 "name": "D1_TCWV_FLAG",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "169,175,146",
                 "description": "Degradation flag: total column water vapour"
             },
             {
                 "name": "D1_SWVL1_FLAG",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "156,188,14",
                 "description": "Degradation flag: volumetric soil water L1"
             },
             {
                 "name": "D1_SWVL2_FLAG",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "39,91,126",
                 "description": "Degradation flag: volumetric soil water L2"
             },
             {
                 "name": "D1_SRC_FLAG",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "214,25,160",
                 "description": "Degradation flag: skin reservoir content"
             },
             {
                 "name": "D1_STL1_FLAG",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "178,13,207",
                 "description": "Degradation flag: soil temperature L1"
             },
             {
                 "name": "D1_STL2_FLAG",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "208,249,67",
                 "description": "Degradation flag: soil temperature L2"
             },
             {
                 "name": "D1_STL3_FLAG",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "106,109,115",
                 "description": "Degradation flag: soil temperature L3"
             },
             {
                 "name": "D1_STL4_FLAG",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "16,81,105",
                 "description": "Degradation flag: soil temperature L4"
             },
             {
                 "name": "D1_SKT_FLAG",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "171,1,243",
                 "description": "Degradation flag: skin temperature"
             },
             {
                 "name": "D1_TSN_FLAG",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "238,203,217",
                 "description": "Degradation flag: temperature snow layer"
             },
             {
                 "name": "D1_ISTL1_FLAG",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "250,231,95",
                 "description": "Degradation flag: ice surface temperature"
             },
             {
                 "name": "D1_SD_FLAG",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "240,108,99",
                 "description": "Degradation flag: snow depth"
             },
             {
                 "name": "D1_SMLT_FLAG",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "115,141,245",
                 "description": "Degradation flag: accumulated water"
             },
             {
                 "name": "D1_RSN_FLAG",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "134,147,45",
                 "description": "Degradation flag: Snow density"
             },
             {
                 "name": "D1_U_FLAG",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "128,201,42",
                 "description": "Degradation flag: wind zonal lowest level"
             },
             {
                 "name": "D1_V_FLAG",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "168,104,12",
                 "description": "Degradation flag: wind meridional lowest level"
             },
             {
                 "name": "D2_CDWW_FLAG",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "246,182,21",
                 "description": "Degradation flag: drag coefficient with waves"
             },
             {
                 "name": "D2_WIND_FLAG",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "95,92,204",
                 "description": "Degradation flag: wind 10m wave model"
             },
             {
                 "name": "D2_PP1D_FLAG",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "49,82,133",
                 "description": "Degradation flag: peak period 1d"
             },
             {
                 "name": "D2_SWH_FLAG",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "169,175,146",
                 "description": "Degradation flag: significant wave height"
             },
             {
                 "name": "D2_MSQS_FLAG",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "156,188,14",
                 "description": "Degradation flag: mean square slope"
             },
             {
                 "name": "D2_MPWW_FLAG",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "39,91,126",
                 "description": "Degradation flag: mean period wind waves"
             },
             {
                 "name": "D2_SHWW_FLAG",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "214,25,160",
                 "description": "Degradation flag: significant height wind waves"
             },
             {
                 "name": "D2_UN10_FLAG",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "178,13,207",
                 "description": "Degradation flag: 10 m neutral equivalent wind  zonal"
             },
             {
                 "name": "D2_VN10_FLAG",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "208,249,67",
                 "description": "Degradation flag: 10 m neutral equivalent wind  meridional"
             },
             {
                 "name": "D2_ZNT_FLAG",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "106,109,115",
                 "description": "Degradation flag: roughness length"
             },
             {
                 "name": "D2_UST_FLAG",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "16,81,105",
                 "description": "Degradation flag: friction velocity from surface model"
             },
             {
                 "name": "D2_UWAV_FLAG",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "171,1,243",
                 "description": "Degradation flag: friction velocity from wave model"
             },
             {
                 "name": "D2_OMEGA_FLAG",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "238,203,217",
                 "description": "Degradation flag: inverse wave age"
             },
             {
                 "name": "Land_Sea_Mask_USGS_SEA_FLAG",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "0,0,255",
                 "description": "Water fraction is above 95 percent (1); below 95 percent (0)"
             },
             {
                 "name": "Land_Sea_Mask_USGS_LAND_FLAG",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "0,255,0",
                 "description": "Water fraction is below 10 percent (1); above 10 percent (0)"
             },
             {
                 "name": "Land_Sea_Mask_USGS_MIXED_FLAG",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "0,255,255",
                 "description": "Water fraction is above 10 and below 95 percent (1); below 10 or above 95 percent (0)"
             },
             {
                 "name": "Land_Sea_Mask_200_KM_COASTAL_FLAG",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "178,140,0",
                 "description": "Distance to coastline is less than 200 km (1); greater than 200 km (0)"
             },
             {
                 "name": "Land_Sea_Mask_100_KM_COASTAL_FLAG",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "255,200,0",
                 "description": "Distance to coastline is less than 100 km (1); greater than 100 km (0)"
             },
             {
                 "name": "Land_Sea_Mask_40_KM_COASTAL_FLAG",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "255,255,0",
                 "description": "Distance to coastline is less than 40 km (1); greater than 40 km (0)"
             },
             {
                 "name": "Land_Sea_Mask_MIN_SEA_ICE_FLAG",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "255,255,255",
                 "description": "Sea ice is present for all months (1); is not present for all months (0)"
             },
             {
                 "name": "Land_Sea_Mask_MAX_SEA_ICE_FLAG",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "240,240,240",
                 "description": "Sea ice is present for any months (1); is not present for any months (0)"
             }

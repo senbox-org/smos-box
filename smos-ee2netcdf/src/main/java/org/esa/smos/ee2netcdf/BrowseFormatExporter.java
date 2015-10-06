@@ -8,9 +8,9 @@ import org.esa.smos.dataio.smos.L1cBrowseSmosFile;
 import org.esa.smos.ee2netcdf.variable.VariableDescriptor;
 import org.esa.smos.ee2netcdf.variable.VariableWriter;
 import org.esa.smos.ee2netcdf.variable.VariableWriterFactory;
+import org.esa.snap.core.datamodel.Product;
 import org.esa.snap.dataio.netcdf.nc.NFileWriteable;
 import org.esa.snap.dataio.netcdf.nc.NVariable;
-import org.esa.snap.framework.datamodel.Product;
 
 import java.io.IOException;
 import java.util.Set;

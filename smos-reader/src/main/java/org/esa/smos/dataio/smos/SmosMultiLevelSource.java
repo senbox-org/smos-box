@@ -19,7 +19,7 @@ package org.esa.smos.dataio.smos;
 import com.bc.ceres.glevel.support.AbstractMultiLevelSource;
 import org.esa.smos.dataio.smos.provider.ValueProvider;
 import org.esa.smos.dgg.SmosDgg;
-import org.esa.snap.framework.datamodel.RasterDataNode;
+import org.esa.snap.core.datamodel.RasterDataNode;
 import org.esa.snap.jai.ResolutionLevel;
 
 import java.awt.Shape;

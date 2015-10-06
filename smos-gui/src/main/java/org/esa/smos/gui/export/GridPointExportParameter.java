@@ -1,8 +1,8 @@
 package org.esa.smos.gui.export;
 
 import org.esa.smos.gui.BindingConstants;
+import org.esa.snap.core.datamodel.VectorDataNode;
 import org.esa.snap.core.gpf.annotations.Parameter;
-import org.esa.snap.framework.datamodel.VectorDataNode;
 
 import java.io.File;
 
