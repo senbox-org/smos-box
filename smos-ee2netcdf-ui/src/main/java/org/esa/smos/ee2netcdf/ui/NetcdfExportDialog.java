@@ -20,11 +20,11 @@ import org.esa.smos.gui.swing.GuiHelper;
 import org.esa.snap.core.gpf.annotations.ParameterDescriptorFactory;
 import org.esa.snap.framework.datamodel.Product;
 import org.esa.snap.framework.datamodel.ProductManager;
-import org.esa.snap.framework.ui.AbstractDialog;
-import org.esa.snap.framework.ui.AppContext;
-import org.esa.snap.framework.ui.RegionBoundsInputUI;
 import org.esa.snap.rcp.SnapApp;
 import org.esa.snap.rcp.util.SelectionSupport;
+import org.esa.snap.ui.AbstractDialog;
+import org.esa.snap.ui.AppContext;
+import org.esa.snap.ui.RegionBoundsInputUI;
 
 import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;

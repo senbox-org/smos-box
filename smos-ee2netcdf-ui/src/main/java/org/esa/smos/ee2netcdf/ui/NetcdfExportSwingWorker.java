@@ -10,7 +10,7 @@ import org.esa.smos.ee2netcdf.NetcdfExportOp;
 import org.esa.smos.gui.BindingConstants;
 import org.esa.snap.core.gpf.GPF;
 import org.esa.snap.framework.datamodel.Product;
-import org.esa.snap.framework.ui.AppContext;
+import org.esa.snap.ui.AppContext;
 import org.esa.snap.util.StringUtils;
 
 import java.io.File;

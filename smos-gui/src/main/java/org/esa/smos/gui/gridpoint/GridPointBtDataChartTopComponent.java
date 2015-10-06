@@ -19,7 +19,7 @@ package org.esa.smos.gui.gridpoint;
 import org.esa.smos.dataio.smos.GridPointBtDataset;
 import org.esa.smos.dataio.smos.PolarisationModel;
 import org.esa.smos.dataio.smos.SmosReader;
-import org.esa.snap.framework.ui.product.ProductSceneView;
+import org.esa.snap.ui.product.ProductSceneView;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;

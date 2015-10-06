@@ -18,15 +18,19 @@ package org.esa.smos.gui;
 
 import com.bc.ceres.core.ProgressMonitor;
 import com.bc.ceres.swing.progress.ProgressMonitorSwingWorker;
-import org.esa.snap.framework.ui.SelectExportMethodDialog;
 import org.esa.snap.rcp.SnapDialogs;
+import org.esa.snap.ui.SelectExportMethodDialog;
 import org.esa.snap.util.SystemUtils;
 import org.jdesktop.swingx.table.TableColumnModelExt;
 
-import javax.swing.*;
+import javax.swing.JOptionPane;
 import javax.swing.table.TableModel;
-import java.awt.*;
-import java.io.*;
+import java.awt.Component;
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.text.MessageFormat;
 import java.util.concurrent.ExecutionException;
 

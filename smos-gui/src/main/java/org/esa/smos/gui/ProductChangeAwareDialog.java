@@ -4,8 +4,8 @@ import org.esa.snap.framework.datamodel.Product;
 import org.esa.snap.framework.datamodel.ProductManager;
 import org.esa.snap.framework.datamodel.ProductNodeEvent;
 import org.esa.snap.framework.datamodel.ProductNodeListener;
-import org.esa.snap.framework.ui.ModelessDialog;
 import org.esa.snap.rcp.util.SelectionSupport;
+import org.esa.snap.ui.ModelessDialog;
 import org.netbeans.api.annotations.common.NullAllowed;
 
 import java.awt.Window;

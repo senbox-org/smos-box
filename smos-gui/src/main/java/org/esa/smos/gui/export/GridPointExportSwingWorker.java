@@ -24,7 +24,7 @@ import org.esa.snap.framework.datamodel.Placemark;
 import org.esa.snap.framework.datamodel.PlacemarkGroup;
 import org.esa.snap.framework.datamodel.Product;
 import org.esa.snap.framework.datamodel.VectorDataNode;
-import org.esa.snap.framework.ui.AppContext;
+import org.esa.snap.ui.AppContext;
 import org.geotools.feature.FeatureIterator;
 import org.geotools.geometry.jts.LiteShape2;
 import org.opengis.feature.simple.SimpleFeature;

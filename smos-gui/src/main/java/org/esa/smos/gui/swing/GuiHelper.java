@@ -22,7 +22,7 @@ import org.esa.snap.framework.datamodel.PlainFeatureFactory;
 import org.esa.snap.framework.datamodel.Product;
 import org.esa.snap.framework.datamodel.ProductNodeGroup;
 import org.esa.snap.framework.datamodel.VectorDataNode;
-import org.esa.snap.framework.ui.AppContext;
+import org.esa.snap.ui.AppContext;
 
 import javax.swing.AbstractButton;
 import javax.swing.BoxLayout;

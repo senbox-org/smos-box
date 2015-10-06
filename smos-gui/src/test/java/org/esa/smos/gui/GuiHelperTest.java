@@ -1,7 +1,7 @@
 package org.esa.smos.gui;
 
 import org.esa.smos.gui.swing.GuiHelper;
-import org.esa.snap.framework.ui.DefaultAppContext;
+import org.esa.snap.ui.DefaultAppContext;
 import org.junit.Test;
 
 import java.awt.GraphicsEnvironment;

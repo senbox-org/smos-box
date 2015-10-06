@@ -1,7 +1,7 @@
 package org.esa.smos.gui;
 
 
-import org.esa.snap.framework.ui.RegionBoundsInputUI;
+import org.esa.snap.ui.RegionBoundsInputUI;
 
 public class BindingConstants {
 

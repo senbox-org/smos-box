@@ -37,10 +37,10 @@ import org.esa.snap.framework.dataio.ProductReader;
 import org.esa.snap.framework.datamodel.Product;
 import org.esa.snap.framework.datamodel.ProductManager;
 import org.esa.snap.framework.datamodel.VectorDataNode;
-import org.esa.snap.framework.ui.AppContext;
-import org.esa.snap.framework.ui.FileChooserFactory;
 import org.esa.snap.rcp.SnapApp;
 import org.esa.snap.rcp.util.SelectionSupport;
+import org.esa.snap.ui.AppContext;
+import org.esa.snap.ui.FileChooserFactory;
 
 import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
