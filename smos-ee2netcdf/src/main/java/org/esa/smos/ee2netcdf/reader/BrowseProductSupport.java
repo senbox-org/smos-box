@@ -12,6 +12,7 @@ import org.esa.snap.framework.datamodel.Band;
 import ucar.nc2.Attribute;
 import ucar.nc2.Dimension;
 import ucar.nc2.NetcdfFile;
+import ucar.nc2.Variable;
 
 import java.awt.geom.Area;
 import java.io.IOException;
