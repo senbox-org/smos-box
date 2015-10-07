@@ -12,7 +12,6 @@ import org.esa.snap.framework.datamodel.Band;
 import ucar.nc2.Attribute;
 import ucar.nc2.Dimension;
 import ucar.nc2.NetcdfFile;
-import ucar.nc2.Variable;
 
 import java.awt.geom.Area;
 import java.io.IOException;
@@ -68,12 +67,12 @@ class BrowseProductSupport extends AbstractProductTypeSupport {
     }
 
     @Override
-    public ValueProvider createValueProvider(Variable variable, BandDescriptor descriptor, Area area, GridPointInfo gridPointInfo) {
+    public ValueProvider createValueProvider(ArrayCache arrayCache, String variableName, BandDescriptor descriptor, Area area, GridPointInfo gridPointInfo) {
         final int polarization = descriptor.getPolarization();
         if (polarization < 0) {
-            return new VariableValueProvider(variable, area, gridPointInfo);
+            return new VariableValueProvider(arrayCache, variableName, area, gridPointInfo);
         } else {
-            return new BrowseValueProvider(variable, polarization, area, gridPointInfo);
+            return new BrowseValueProvider(arrayCache, variableName, polarization, area, gridPointInfo);
         }
     }
 

@@ -34,7 +34,7 @@ interface ProductTypeSupport {
 
     void setScalingAndOffset(Band band, BandDescriptor bandDescriptor);
 
-    ValueProvider createValueProvider(Variable variable, BandDescriptor descriptor, Area area, GridPointInfo gridPointInfo);
+    ValueProvider createValueProvider(ArrayCache arrayCache, String variableName, BandDescriptor descriptor, Area area, GridPointInfo gridPointInfo);
 
     void createAdditionalBands(Product product, Family<BandDescriptor> bandDescriptors, String formatName);
 }

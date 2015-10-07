@@ -4,7 +4,6 @@ package org.esa.smos.ee2netcdf.reader;
 import org.esa.smos.dataio.smos.GridPointInfo;
 import org.esa.smos.dataio.smos.provider.ValueProvider;
 import ucar.ma2.Array;
-import ucar.nc2.Variable;
 
 import java.awt.geom.Area;
 import java.io.IOException;
@@ -13,13 +12,14 @@ class VariableValueProvider implements ValueProvider {
 
     private final Area area;
     private final GridPointInfo gridPointInfo;
-    private final Variable variable;
-    private Array array;
+    private final ArrayCache arrayCache;
+    private final String variableName;
 
-    public VariableValueProvider(Variable variable, Area area, GridPointInfo gridPointInfo) {
+    public VariableValueProvider(ArrayCache arrayCache, String variableName, Area area, GridPointInfo gridPointInfo) {
         this.area = area;
         this.gridPointInfo = gridPointInfo;
-        this.variable = variable;
+        this.arrayCache = arrayCache;
+        this.variableName = variableName;
     }
 
     @Override
@@ -35,7 +35,7 @@ class VariableValueProvider implements ValueProvider {
         }
 
         try {
-            final Array array = getArray();
+            final Array array = arrayCache.get(variableName);
             return array.getByte(gridPointIndex);
         } catch (IOException e) {
             return noDataValue;
@@ -50,7 +50,7 @@ class VariableValueProvider implements ValueProvider {
         }
 
         try {
-            final Array array = getArray();
+            final Array array = arrayCache.get(variableName);
             return array.getShort(gridPointIndex);
         } catch (IOException e) {
             return noDataValue;
@@ -65,7 +65,7 @@ class VariableValueProvider implements ValueProvider {
         }
 
         try {
-            final Array array = getArray();
+            final Array array = arrayCache.get(variableName);
             return array.getInt(gridPointIndex);
         } catch (IOException e) {
             return noDataValue;
@@ -80,18 +80,10 @@ class VariableValueProvider implements ValueProvider {
         }
 
         try {
-            final Array array = getArray();
+            final Array array = arrayCache.get(variableName);
             return array.getFloat(gridPointIndex);
         } catch (IOException e) {
             return noDataValue;
         }
-    }
-
-    private Array getArray() throws IOException {
-        if (array == null) {
-            array = variable.read();
-        }
-
-        return array;
     }
 }
