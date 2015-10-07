@@ -14,7 +14,10 @@ import java.io.IOException;
 
 abstract class AbstractProductTypeSupport implements ProductTypeSupport {
 
+    protected final NetcdfFile netcdfFile;
+
     AbstractProductTypeSupport(NetcdfFile netcdfFile) {
+        this.netcdfFile = netcdfFile;
     }
 
     @Override
@@ -39,7 +42,7 @@ abstract class AbstractProductTypeSupport implements ProductTypeSupport {
     }
 
     @Override
-    public String[] getRawDataTableNames() {
+    public String[] getRawDataTableNames()  {
         return new String[0];
     }
 

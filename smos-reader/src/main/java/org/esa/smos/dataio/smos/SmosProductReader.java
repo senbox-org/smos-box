@@ -476,6 +476,4 @@ public class SmosProductReader extends SmosReader {
 
         return null;
     }
-
-
 }

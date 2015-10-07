@@ -190,7 +190,7 @@ public class NetcdfProductReader extends SmosReader {
             final Area area = calculateArea(typeSupport);
             gridPointInfo = calculateGridPointInfo();
 
-            final String schemaDescription = getSchemaDescription();
+            final String schemaDescription = getSchemaDescription(netcdfFile);
             final Dddb dddb = Dddb.getInstance();
             final Family<BandDescriptor> bandDescriptors = dddb.getBandDescriptors(schemaDescription);
             if (bandDescriptors == null) {
@@ -383,7 +383,7 @@ public class NetcdfProductReader extends SmosReader {
         band.setImageInfo(ProductHelper.createImageInfo(band, descriptor));
     }
 
-    private String getSchemaDescription() throws IOException {
+    static String getSchemaDescription(NetcdfFile netcdfFile) throws IOException {
         final Attribute schemaAttribute = netcdfFile.findGlobalAttribute("Variable_Header:Specific_Product_Header:Main_Info:Datablock_Schema");
         if (schemaAttribute == null) {
             throw new IOException("Schema attribuite not found.");
