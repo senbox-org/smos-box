@@ -11,7 +11,6 @@ import org.esa.smos.dataio.smos.CellValueProvider;
 import org.esa.smos.dataio.smos.DggUtils;
 import org.esa.smos.dataio.smos.Grid;
 import org.esa.smos.dataio.smos.GridPointBtDataset;
-import org.esa.smos.PointList;
 import org.esa.smos.dataio.smos.PolarisationModel;
 import org.esa.smos.dataio.smos.ProductHelper;
 import org.esa.smos.dataio.smos.SmosReader;

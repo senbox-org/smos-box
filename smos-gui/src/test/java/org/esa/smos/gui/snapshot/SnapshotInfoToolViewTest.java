@@ -1,6 +1,5 @@
 package org.esa.smos.gui.snapshot;
 
-import org.esa.smos.gui.snapshot.SnapshotInfoTopComponent;
 import org.esa.snap.framework.datamodel.Band;
 import org.esa.snap.framework.datamodel.ProductData;
 import org.junit.Test;

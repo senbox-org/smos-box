@@ -1,17 +1,13 @@
 package org.esa.smos.dataio.smos.bufr;
 
-import org.esa.smos.dataio.smos.ProductHelper;
 import org.esa.snap.dataio.netcdf.util.MetadataUtils;
 import org.esa.snap.framework.datamodel.MetadataElement;
 import org.esa.snap.framework.datamodel.Product;
-import org.esa.snap.util.io.FileUtils;
 import ucar.ma2.StructureDataIterator;
 import ucar.nc2.Attribute;
 import ucar.nc2.Sequence;
 import ucar.nc2.Variable;
 
-import java.awt.Dimension;
-import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;

@@ -29,7 +29,6 @@ import org.esa.snap.util.StringUtils;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.JDOMException;
-import org.jdom.filter.Filter;
 import org.jdom.input.SAXBuilder;
 
 import java.io.File;

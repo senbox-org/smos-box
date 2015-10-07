@@ -24,7 +24,6 @@ import com.bc.ceres.glevel.support.DefaultMultiLevelImage;
 import org.esa.snap.glevel.TiledFileMultiLevelSource;
 import org.esa.snap.util.ResourceInstaller;
 import org.esa.snap.util.SystemUtils;
-import org.esa.snap.util.io.FileUtils;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -47,7 +46,7 @@ public class SmosLsMask {
         return multiLevelImage;
     }
 
-    // todo (mp-23.03.15) - installation of auxiliary data should be done in an activator (still needs to be developed)
+    // todo (mp-29.09.15) - installation of auxiliary data should be done in an activator (org.esa.snap.runtime.Activator)
     private SmosLsMask() {
         try {
             Path dirPath = getDirPathFromProperty();
@@ -65,7 +64,7 @@ public class SmosLsMask {
     }
 
     private static Path getPathFromModule() throws URISyntaxException, IOException {
-        return FileUtils.getPathFromURI(SmosLsMask.class.getProtectionDomain().getCodeSource().getLocation().toURI());
+        return ResourceInstaller.findModuleCodeBasePath(SmosLsMask.class);
     }
 
     private void installLsMaskFiles(Path auxdataPath) throws IOException, URISyntaxException {
@@ -74,7 +73,7 @@ public class SmosLsMask {
     }
 
     private static Path getLsMaskAuxdataPath() {
-        return SystemUtils.getApplicationDataDir().toPath().resolve("smos-lsmask/mask-tiles");
+        return SystemUtils.getAuxDataPath().resolve("smos-lsmask/mask-tiles");
     }
 
     private static Path getDirPathFromProperty() throws IOException {

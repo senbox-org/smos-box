@@ -27,8 +27,6 @@ import org.esa.snap.framework.datamodel.ProductNode;
 import org.esa.snap.framework.datamodel.ProductNodeEvent;
 import org.esa.snap.framework.datamodel.ProductNodeListener;
 import org.esa.snap.framework.ui.product.ProductSceneView;
-import org.esa.snap.framework.ui.tool.ToolButtonFactory;
-import org.esa.snap.rcp.actions.help.HelpAction;
 import org.openide.util.HelpCtx;
 
 import javax.swing.AbstractButton;

@@ -47,14 +47,11 @@ import java.io.IOException;
         iconBase = "org/esa/smos/icons/SmosBtGraph.png",
         persistenceType = TopComponent.PERSISTENCE_ALWAYS
 )
-@TopComponent.Registration(
-        mode = "navigator",
-        openAtStartup = false,
-        position = 1
-)
+@TopComponent.Registration(mode = "navigator", openAtStartup = false, position = 1)
 @ActionID(category = "Window", id = "org.esa.smos.gui.gridpoint.GridPointBtDataChartTopComponent")
 @ActionReferences({
-        @ActionReference(path = "Menu/Window/Tool Windows/SMOS")
+        @ActionReference(path = "Menu/View/Tool Windows/SMOS", position = 20),
+        @ActionReference(path = "Toolbars/SMOS", position = 20)
 })
 @TopComponent.OpenActionRegistration(
         displayName = GridPointBtDataChartTopComponent.DISPLAY_NAME,
@@ -82,13 +79,13 @@ public class GridPointBtDataChartTopComponent extends GridPointBtDataTopComponen
         coPolDataset = new YIntervalSeriesCollection();
         crossPolDataset = new YIntervalSeriesCollection();
         chart = ChartFactory.createXYLineChart(null,
-                null,
-                null,
-                coPolDataset,
-                PlotOrientation.VERTICAL,
-                true, // Legend?
-                true,
-                false);
+                                               null,
+                                               null,
+                                               coPolDataset,
+                                               PlotOrientation.VERTICAL,
+                                               true, // Legend?
+                                               true,
+                                               false);
 
         plot = chart.getXYPlot();
         plot.setNoDataMessage("No data");
