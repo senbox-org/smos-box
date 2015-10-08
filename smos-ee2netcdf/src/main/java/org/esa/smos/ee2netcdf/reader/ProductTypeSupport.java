@@ -15,6 +15,7 @@ import ucar.nc2.Variable;
 
 import java.awt.geom.Area;
 import java.io.IOException;
+import java.util.HashMap;
 
 interface ProductTypeSupport {
 
@@ -36,5 +37,9 @@ interface ProductTypeSupport {
 
     ValueProvider createValueProvider(ArrayCache arrayCache, String variableName, BandDescriptor descriptor, Area area, GridPointInfo gridPointInfo);
 
+    void setArrayCache(ArrayCache arrayCache);
+
     void createAdditionalBands(Product product, Family<BandDescriptor> bandDescriptors, String formatName);
+
+    void setGridPointInfo(GridPointInfo gridPointInfo);
 }

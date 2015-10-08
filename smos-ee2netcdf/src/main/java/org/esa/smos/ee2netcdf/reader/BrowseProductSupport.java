@@ -9,6 +9,8 @@ import org.esa.smos.dataio.smos.dddb.Family;
 import org.esa.smos.dataio.smos.provider.ValueProvider;
 import org.esa.smos.ee2netcdf.ExporterUtils;
 import org.esa.snap.framework.datamodel.Band;
+import ucar.ma2.Array;
+import ucar.ma2.InvalidRangeException;
 import ucar.nc2.Attribute;
 import ucar.nc2.Dimension;
 import ucar.nc2.NetcdfFile;
@@ -18,6 +20,8 @@ import java.awt.geom.Area;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 class BrowseProductSupport extends AbstractProductTypeSupport {
 
@@ -86,8 +90,6 @@ class BrowseProductSupport extends AbstractProductTypeSupport {
     public GridPointBtDataset getBtData(int gridPointIndex) throws IOException {
         ensureMemberNamesAndClasses();
 
-        System.out.println("gridPointIndex = " + gridPointIndex);
-
         final GridPointBtDataset gridPointBtDataset = new GridPointBtDataset(memberNamesMap, tableClasses);
         final Integer pixel_radiometric_accuracy = memberNamesMap.get("Radiometric_Accuracy_of_Pixel");
         if (pixel_radiometric_accuracy != null) {
@@ -96,12 +98,26 @@ class BrowseProductSupport extends AbstractProductTypeSupport {
 
         final Dimension dimension = netcdfFile.findDimension("n_bt_data");
 
-        final Number[][] tableData = new Number[dimension.getLength()][memberNamesMap.size()];
+        final int length = dimension.getLength();
+        final Number[][] tableData = new Number[length][memberNamesMap.size()];
 
-        // @todo 1 tb/tb continue here:
-        // implement context class that allows accessing the value providers for the bands
-        // ask the value providers about data
-        // fill data into table data
+        if (gridPointIndex >= 0) {
+            final Set<Map.Entry<String, Integer>> entries = memberNamesMap.entrySet();
+            for (final Map.Entry<String, Integer> entry : entries) {
+                final Array array = arrayCache.get(entry.getKey());
+                try {
+                    final Array section = array.section(new int[]{gridPointIndex, 0}, new int[]{1, length}, new int[]{1, 1});
+                    final Integer entryValue = entry.getValue();
+                    for (int i = 0; i < length; i++) {
+                        // @todo 1 tb/tb implement data scaling here 2015-10-10
+                        tableData[i][entryValue] = section.getDouble(i);
+                    }
+                } catch (InvalidRangeException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
 
         gridPointBtDataset.setData(tableData);
 
@@ -109,14 +125,20 @@ class BrowseProductSupport extends AbstractProductTypeSupport {
     }
 
     @Override
-    public String[] getRawDataTableNames()  {
+    public String[] getRawDataTableNames() {
         try {
             ensureMemberNamesAndClasses();
         } catch (IOException e) {
             // @todo 2 tb/tb ad logging here
             return new String[0];
         }
-        return memberNamesMap.keySet().toArray(new String[memberNamesMap.size()]);
+
+        final String[] names = new String[memberNamesMap.size()];
+        final Set<Map.Entry<String, Integer>> entries = memberNamesMap.entrySet();
+        for (final Map.Entry<String, Integer> entry : entries ){
+            names[entry.getValue()] = entry.getKey();
+        }
+        return names;
     }
 
     private void ensureMemberNamesAndClasses() throws IOException {

@@ -42,6 +42,7 @@ import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.HashMap;
 import java.util.List;
 
 @SuppressWarnings({"SimplifiableIfStatement", "SynchronizeOnNonFinalField"})
@@ -244,6 +245,8 @@ public class NetcdfProductReader extends SmosReader {
             addLandSeaMask(product);
 
             typeSupport.createAdditionalBands(product, bandDescriptors, schemaDescription);
+            typeSupport.setArrayCache(arrayCache);
+            typeSupport.setGridPointInfo(gridPointInfo);
         }
 
         return product;

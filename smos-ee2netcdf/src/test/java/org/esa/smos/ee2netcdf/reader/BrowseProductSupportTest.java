@@ -5,6 +5,7 @@ import org.esa.smos.dataio.smos.dddb.BandDescriptor;
 import org.esa.snap.framework.datamodel.Band;
 import org.esa.snap.framework.datamodel.ProductData;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import ucar.ma2.DataType;
 import ucar.nc2.Attribute;
@@ -113,6 +114,7 @@ public class BrowseProductSupportTest {
     }
 
     @Test
+    @Ignore // @todo 2 tb/tb rethink design, too many preconditions to be testable 2015-10-10
     public void testGetBtData() throws IOException {
         final Variable variable = mock(Variable.class);
         when(variable.getDataType()).thenReturn(DataType.LONG);
