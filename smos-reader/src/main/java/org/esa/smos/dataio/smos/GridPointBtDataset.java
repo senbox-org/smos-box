@@ -23,7 +23,7 @@ public class GridPointBtDataset {
 
     private final HashMap<String, Integer> memberNamesMap;
     private final Class[] columnClasses;
-    private final Number[][] data;
+    private Number[][] data;
     private int flagBandIndex;
     private int incidenceAngleBandIndex;
     private int radiometricAccuracyBandIndex;
@@ -31,10 +31,16 @@ public class GridPointBtDataset {
     private int btValueImaginaryBandIndex;
     private int polarisationFlagBandIndex;
 
+    // @todo 2 tb/tb remove this constructor 2015-10-09
     public GridPointBtDataset(HashMap<String, Integer> memberNamesMap, Class[] columnClasses, Number[][] data) {
+        this(memberNamesMap, columnClasses);
+        this.data = data;
+    }
+
+    public GridPointBtDataset(HashMap<String, Integer> memberNamesMap, Class[] columnClasses) {
         this.memberNamesMap = memberNamesMap;
         this.columnClasses = columnClasses;
-        this.data = data;
+
         flagBandIndex = -1;
         incidenceAngleBandIndex = -1;
         radiometricAccuracyBandIndex = -1;
@@ -53,6 +59,10 @@ public class GridPointBtDataset {
 
     public Number[][] getData() {
         return data;
+    }
+
+    public void setData(Number[][] data) {
+        this.data = data;
     }
 
     public Class[] getColumnClasses() {

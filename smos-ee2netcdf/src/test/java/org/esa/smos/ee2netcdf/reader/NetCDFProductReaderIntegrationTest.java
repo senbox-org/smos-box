@@ -227,9 +227,9 @@ public class NetCDFProductReaderIntegrationTest {
             assertGlobalMetadataFields(ncProduct, 42);
             assertSmosMetaDataFields(product, ncProduct);
 
-        //    assertEquals(product.getNumBands(), ncProduct.getNumBands());
-
-//            compareBand(product, ncProduct, "BT_Value_X", 6505, 7687);
+            assertEquals(product.getNumBands(), ncProduct.getNumBands());
+// @todo 1 tb/tb continue here 2015-07-01
+           // compareBand(product, ncProduct, "BT_Value_X", 8020, 7464);
 //            compareBand(product, ncProduct, "BT_Value_XY_Imag", 8754, 7314);
 //            compareBand(product, ncProduct, "Pixel_Radiometric_Accuracy_XY", 9908, 6158);
 //            compareBand(product, ncProduct, "Azimuth_Angle_XY", 10240, 4845);
