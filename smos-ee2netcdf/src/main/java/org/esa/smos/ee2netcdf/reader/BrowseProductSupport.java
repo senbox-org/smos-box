@@ -10,7 +10,7 @@ import org.esa.smos.dataio.smos.provider.ValueProvider;
 import org.esa.smos.ee2netcdf.ExporterUtils;
 import org.esa.snap.framework.datamodel.Band;
 import ucar.ma2.Array;
-import ucar.ma2.InvalidRangeException;
+import ucar.ma2.Index;
 import ucar.nc2.Attribute;
 import ucar.nc2.Dimension;
 import ucar.nc2.NetcdfFile;
@@ -104,16 +104,14 @@ class BrowseProductSupport extends AbstractProductTypeSupport {
         if (gridPointIndex >= 0) {
             final Set<Map.Entry<String, Integer>> entries = memberNamesMap.entrySet();
             for (final Map.Entry<String, Integer> entry : entries) {
+                final Integer variablesIndex = entry.getValue();
+
                 final Array array = arrayCache.get(entry.getKey());
-                try {
-                    final Array section = array.section(new int[]{gridPointIndex, 0}, new int[]{1, length}, new int[]{1, 1});
-                    final Integer entryValue = entry.getValue();
-                    for (int i = 0; i < length; i++) {
-                        // @todo 1 tb/tb implement data scaling here 2015-10-10
-                        tableData[i][entryValue] = section.getDouble(i);
-                    }
-                } catch (InvalidRangeException e) {
-                    e.printStackTrace();
+                final Index index = array.getIndex();
+                for (int i = 0; i < length; i++) {
+                    index.set(gridPointIndex, i);
+                    // @todo 1 tb/tb implement data scaling here 2015-10-10
+                    tableData[i][variablesIndex] = array.getDouble(index);
                 }
             }
         }
@@ -135,7 +133,7 @@ class BrowseProductSupport extends AbstractProductTypeSupport {
 
         final String[] names = new String[memberNamesMap.size()];
         final Set<Map.Entry<String, Integer>> entries = memberNamesMap.entrySet();
-        for (final Map.Entry<String, Integer> entry : entries ){
+        for (final Map.Entry<String, Integer> entry : entries) {
             names[entry.getValue()] = entry.getKey();
         }
         return names;
