@@ -132,6 +132,7 @@
                     <publicPackages>
                         <package>org.esa.smos.dataio.smos</package>
                         <package>org.esa.smos.dataio.smos.dddb</package>
+                        <package>org.esa.smos.dataio.smos.provider</package>
                     </publicPackages>
                 </configuration>
             </plugin>

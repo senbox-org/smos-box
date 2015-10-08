@@ -14,7 +14,6 @@ import org.esa.smos.ee2netcdf.geometry.GeometryFilterFactory;
 import org.esa.smos.ee2netcdf.variable.VariableDescriptor;
 import org.esa.snap.dataio.netcdf.nc.NFileWriteable;
 import org.esa.snap.dataio.netcdf.nc.NVariable;
-import org.esa.snap.framework.datamodel.MetadataAttribute;
 import org.esa.snap.framework.datamodel.MetadataElement;
 import org.esa.snap.framework.datamodel.Product;
 import ucar.ma2.Array;
@@ -146,7 +145,7 @@ abstract class AbstractFormatExporter implements FormatExporter {
             if (mustExport(memberDescriptorName, outputBandNames)) {
                 final String dimensionNames = memberDescriptor.getDimensionNames();
                 final int numDimensions = getNumDimensions(dimensionNames);
-                final String variableName = ensureNetCDFName(memberDescriptorName);
+                final String variableName = ExporterUtils.ensureNetCDFName(memberDescriptorName);
                 final VariableDescriptor variableDescriptor = new VariableDescriptor(variableName,
                         memberDescriptor.isGridPointData(),
                         DataType.OBJECT,
@@ -246,9 +245,5 @@ abstract class AbstractFormatExporter implements FormatExporter {
         }
         final String[] splittednames = StringUtils.split(dimensionNames, ' ');
         return splittednames.length;
-    }
-
-    static String ensureNetCDFName(String variableName) {
-        return variableName.replace(".", "_");
     }
 }

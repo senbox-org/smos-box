@@ -27,13 +27,24 @@ public class ExporterUtilsTest {
         final String resourcePath = getResourcePath();
         final TreeSet<File> inputFileSet = ExporterUtils.createInputFileSet(new String[]{resourcePath + File.separator + "*"});
         assertNotNull(inputFileSet);
-        assertEquals(5, inputFileSet.size());
+        assertEquals(6, inputFileSet.size());
         final Iterator<File> iterator = inputFileSet.iterator();
-        assertEquals("SM_OPER_MIR_BWLF1C_20111026T143206_20111026T152520_503_001_1.zip", iterator.next().getName());
-        assertEquals("SM_OPER_MIR_OSUDP2_20091204T001853_20091204T011255_310_001_1.zip", iterator.next().getName());
-        assertEquals("SM_OPER_MIR_SMUDP2_20120514T163815_20120514T173133_551_001_1.zip", iterator.next().getName());
-        assertEquals("SM_REPB_MIR_SCLF1C_20110201T151254_20110201T151308_505_152_1.zip", iterator.next().getName());
-        assertEquals("TEST_SM_OPER_MIR_SMUDP2_20120514T163815_20120514T173133_551_001_1.nc", iterator.next().getName());
+        assertContainsFile("SM_OPER_MIR_BWLF1C_20111026T143206_20111026T152520_503_001_1.zip", iterator);
+        assertContainsFile("SM_OPER_MIR_OSUDP2_20091204T001853_20091204T011255_310_001_1.zip", iterator);
+        assertContainsFile("SM_OPER_MIR_SMUDP2_20120514T163815_20120514T173133_551_001_1.zip", iterator);
+        assertContainsFile("SM_REPB_MIR_SCLF1C_20110201T151254_20110201T151308_505_152_1.zip", iterator);
+        assertContainsFile("TEST_SM_OPER_MIR_SMUDP2_20120514T163815_20120514T173133_551_001_1.nc", iterator);
+    }
+
+    private void assertContainsFile(String fileName, Iterator<File> iterator) {
+        while (iterator.hasNext()) {
+            final File file = iterator.next();
+            if (fileName.equals(file.getName())) {
+                return;
+            }
+        }
+
+        fail("Expected file '" + fileName + "`not in treeset");
     }
 
     @Test
@@ -117,6 +128,12 @@ public class ExporterUtilsTest {
         ExporterUtils.correctScaleFactor(variableDescriptors, "corrected", 2);
 
         assertEquals(5.6, corrected.getScaleFactor(), 1e-8);
+    }
+
+    @Test
+    public void testEnsureNetCDFName() {
+        assertEquals("bla_bla_bla", ExporterUtils.ensureNetCDFName("bla_bla_bla"));
+        assertEquals("bla_bla_bla", ExporterUtils.ensureNetCDFName("bla.bla.bla"));
     }
 
     private String getResourcePath() {

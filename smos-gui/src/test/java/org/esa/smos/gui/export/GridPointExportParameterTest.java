@@ -1,8 +1,6 @@
 package org.esa.smos.gui.export;
 
 import org.esa.smos.gui.BindingConstants;
-import org.esa.smos.gui.export.GridPointExportDialog;
-import org.esa.smos.gui.export.GridPointExportParameter;
 import org.esa.snap.framework.gpf.annotations.Parameter;
 import org.junit.Before;
 import org.junit.Test;

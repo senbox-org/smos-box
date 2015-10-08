@@ -48,14 +48,11 @@ import java.util.List;
         iconBase = "org/esa/smos/icons/SmosFlags.png",
         persistenceType = TopComponent.PERSISTENCE_ALWAYS
 )
-@TopComponent.Registration(
-        mode = "navigator",
-        openAtStartup = false,
-        position = 3
-)
+@TopComponent.Registration(mode = "navigator", openAtStartup = false, position = 3)
 @ActionID(category = "Window", id = "org.esa.smos.gui.gridpoint.GridPointBtDataFlagmatrixTopComponent")
 @ActionReferences({
-        @ActionReference(path = "Menu/Window/Tool Windows/SMOS")
+        @ActionReference(path = "Menu/View/Tool Windows/SMOS", position = 30),
+        @ActionReference(path = "Toolbars/SMOS", position = 30)
 })
 @TopComponent.OpenActionRegistration(
         displayName = GridPointBtDataFlagmatrixTopComponent.DISPLAY_NAME,

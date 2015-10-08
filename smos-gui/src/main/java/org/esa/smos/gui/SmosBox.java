@@ -17,14 +17,11 @@ import org.esa.snap.glayer.WorldMapLayerType;
 import org.esa.snap.rcp.SnapApp;
 import org.esa.snap.util.ResourceInstaller;
 import org.esa.snap.util.SystemUtils;
-import org.esa.snap.util.io.FileUtils;
 import org.openide.modules.OnStart;
 import org.openide.modules.OnStop;
 import org.openide.windows.OnShowing;
 
-import java.io.File;
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.util.logging.Logger;
 
@@ -169,22 +166,12 @@ public class SmosBox {
 
     private static void installColorPalettes() throws IOException {
         final Path codeSourceUrl;
-        try {
-            codeSourceUrl = FileUtils.getPathFromURI(SmosBox.class.getProtectionDomain().getCodeSource().getLocation().toURI());
-            final File auxdataDir = getSystemAuxdataDir();
-            Path sourceDirPath = codeSourceUrl.resolve("auxdata/color_palettes/");
-            final ResourceInstaller resourceInstaller = new ResourceInstaller(sourceDirPath, auxdataDir.toPath());
-
-            resourceInstaller.install(".*.cpd", ProgressMonitor.NULL);
-            colorPalettesInstalled = true;
-        } catch (URISyntaxException e) {
-            throw new IOException("Could not install colour palettes.", e);
-        }
-    }
-
-    private static File getSystemAuxdataDir() {
-        // @todo 3 tb/** code duplicated from ColormanipulationForm class. we should have central services classes that over such services. tb 2014-09-18
-        return new File(SystemUtils.getApplicationDataDir(), "snap-rcp/auxdata/color-palettes");
+        final Path auxdataDir = SystemUtils.getAuxDataPath().resolve("color-palettes");
+        codeSourceUrl = ResourceInstaller.findModuleCodeBasePath(SmosBox.class);
+        Path sourceDirPath = codeSourceUrl.resolve("color_palettes");
+        final ResourceInstaller resourceInstaller = new ResourceInstaller(sourceDirPath, auxdataDir);
+        resourceInstaller.install(".*.cpd", ProgressMonitor.NULL);
+        colorPalettesInstalled = true;
     }
 
 }
