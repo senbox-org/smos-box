@@ -7,18 +7,16 @@ import org.esa.smos.dataio.smos.SnapshotInfo;
 import org.esa.smos.dataio.smos.dddb.BandDescriptor;
 import org.esa.smos.dataio.smos.dddb.Family;
 import org.esa.smos.dataio.smos.dddb.FlagDescriptor;
-import org.esa.smos.dataio.smos.provider.ValueProvider;
 import org.esa.snap.framework.datamodel.Band;
 import org.esa.snap.framework.datamodel.Product;
 import ucar.nc2.NetcdfFile;
 
 import java.io.IOException;
-import java.util.HashMap;
 
 abstract class AbstractProductTypeSupport implements ProductTypeSupport {
 
     protected final NetcdfFile netcdfFile;
-   protected ArrayCache arrayCache;
+    protected ArrayCache arrayCache;
     protected GridPointInfo gridPointInfo;
 
     AbstractProductTypeSupport(NetcdfFile netcdfFile) {
@@ -47,7 +45,7 @@ abstract class AbstractProductTypeSupport implements ProductTypeSupport {
     }
 
     @Override
-    public String[] getRawDataTableNames()  {
+    public String[] getRawDataTableNames() {
         return new String[0];
     }
 
