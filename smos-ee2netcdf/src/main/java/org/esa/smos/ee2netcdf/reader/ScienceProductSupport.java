@@ -7,6 +7,7 @@ import org.esa.smos.dataio.smos.ProductHelper;
 import org.esa.smos.dataio.smos.SmosMultiLevelSource;
 import org.esa.smos.dataio.smos.dddb.BandDescriptor;
 import org.esa.smos.dataio.smos.dddb.Family;
+import org.esa.smos.dataio.smos.dddb.FlagDescriptor;
 import org.esa.smos.dataio.smos.provider.ValueProvider;
 import org.esa.snap.framework.datamodel.Band;
 import org.esa.snap.framework.datamodel.Product;
@@ -14,6 +15,9 @@ import org.esa.snap.framework.datamodel.ProductData;
 import ucar.nc2.NetcdfFile;
 
 import java.awt.geom.Area;
+import java.io.IOException;
+import java.util.Map;
+import java.util.Set;
 
 class ScienceProductSupport extends AbstractProductTypeSupport {
 
@@ -43,6 +47,38 @@ class ScienceProductSupport extends AbstractProductTypeSupport {
         } else {
             addRotatedFullPoleBands(product, bandDescriptors);
         }
+    }
+
+    @Override
+    public boolean canSupplyGridPointBtData() {
+        return true;
+    }
+
+    @Override
+    public String[] getRawDataTableNames() {
+        try {
+            ensureDataStructuresInitialized();
+        } catch (IOException e) {
+            // @todo 2 tb/tb ad logging here
+            return new String[0];
+        }
+
+        final String[] names = new String[memberNamesMap.size()];
+        final Set<Map.Entry<String, Integer>> entries = memberNamesMap.entrySet();
+        for (final Map.Entry<String, Integer> entry : entries) {
+            names[entry.getValue()] = entry.getKey();
+        }
+        return names;
+    }
+
+    @Override
+    public FlagDescriptor[] getBtFlagDescriptors() {
+        try {
+            ensureDataStructuresInitialized();
+        } catch (IOException e) {
+            // @todo 2 tb/tb ad logging here
+        }
+        return flagDescriptors;
     }
 
     private void addRotatedFullPoleBands(Product product, Family<BandDescriptor> bandDescriptors) {
