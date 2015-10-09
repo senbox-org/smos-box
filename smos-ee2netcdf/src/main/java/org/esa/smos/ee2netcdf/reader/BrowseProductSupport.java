@@ -3,9 +3,11 @@ package org.esa.smos.ee2netcdf.reader;
 
 import org.esa.smos.dataio.smos.GridPointBtDataset;
 import org.esa.smos.dataio.smos.GridPointInfo;
+import org.esa.smos.dataio.smos.SmosConstants;
 import org.esa.smos.dataio.smos.dddb.BandDescriptor;
 import org.esa.smos.dataio.smos.dddb.Dddb;
 import org.esa.smos.dataio.smos.dddb.Family;
+import org.esa.smos.dataio.smos.dddb.FlagDescriptor;
 import org.esa.smos.dataio.smos.provider.ValueProvider;
 import org.esa.smos.ee2netcdf.ExporterUtils;
 import org.esa.snap.framework.datamodel.Band;
@@ -20,6 +22,7 @@ import java.awt.geom.Area;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -30,6 +33,7 @@ class BrowseProductSupport extends AbstractProductTypeSupport {
     private HashMap<String, Integer> memberNamesMap;
     private HashMap<String, Scaler> scalerMap;
     private Class[] tableClasses;
+    private FlagDescriptor[] flagDescriptors;
 
     BrowseProductSupport(NetcdfFile netcdfFile) {
         super(netcdfFile);
@@ -89,12 +93,16 @@ class BrowseProductSupport extends AbstractProductTypeSupport {
 
     @Override
     public GridPointBtDataset getBtData(int gridPointIndex) throws IOException {
-        ensureMemberNamesAndClasses();
+        ensureDataStructuresInitialized();
 
         final GridPointBtDataset gridPointBtDataset = new GridPointBtDataset(memberNamesMap, tableClasses);
         final Integer pixel_radiometric_accuracy = memberNamesMap.get("Radiometric_Accuracy_of_Pixel");
         if (pixel_radiometric_accuracy != null) {
             gridPointBtDataset.setRadiometricAccuracyBandIndex(pixel_radiometric_accuracy);
+        }
+        final Integer flagsBandIndex = memberNamesMap.get(SmosConstants.BT_FLAGS_NAME);
+        if (flagsBandIndex != null) {
+            gridPointBtDataset.setFlagBandIndex(flagsBandIndex);
         }
 
         final Dimension dimension = netcdfFile.findDimension("n_bt_data");
@@ -126,7 +134,7 @@ class BrowseProductSupport extends AbstractProductTypeSupport {
     @Override
     public String[] getRawDataTableNames() {
         try {
-            ensureMemberNamesAndClasses();
+            ensureDataStructuresInitialized();
         } catch (IOException e) {
             // @todo 2 tb/tb ad logging here
             return new String[0];
@@ -140,7 +148,17 @@ class BrowseProductSupport extends AbstractProductTypeSupport {
         return names;
     }
 
-    private void ensureMemberNamesAndClasses() throws IOException {
+    @Override
+    public FlagDescriptor[] getBtFlagDescriptors() {
+        try {
+            ensureDataStructuresInitialized();
+        } catch (IOException e) {
+            // @todo 2 tb/tb ad logging here
+        }
+        return flagDescriptors;
+    }
+
+    private void ensureDataStructuresInitialized() throws IOException {
         if (memberNamesMap != null && tableClasses != null && scalerMap != null) {
             return;
         }
@@ -184,5 +202,15 @@ class BrowseProductSupport extends AbstractProductTypeSupport {
         }
 
         tableClasses = tableClassesList.toArray(new Class[tableClassesList.size()]);
+
+        for (final BandDescriptor descriptor : bandDescriptors.asList()) {
+            final Family<FlagDescriptor> bandFlagDescriptors = descriptor.getFlagDescriptors();
+            if (bandFlagDescriptors != null) {
+                final List<FlagDescriptor> flagDescriptorList = bandFlagDescriptors.asList();
+                flagDescriptors = flagDescriptorList.toArray(new FlagDescriptor[flagDescriptorList.size()]);
+                break;
+            }
+        }
+
     }
 }
