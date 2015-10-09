@@ -42,9 +42,10 @@ import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.HashMap;
 import java.util.List;
 
-@SuppressWarnings("SimplifiableIfStatement")
+@SuppressWarnings({"SimplifiableIfStatement", "SynchronizeOnNonFinalField"})
 public class NetcdfProductReader extends SmosReader {
 
     private static final String SENSING_TIMES_PATTERN = "'UTC='yyyy-MM-dd'T'HH:mm:ss";
@@ -172,12 +173,14 @@ public class NetcdfProductReader extends SmosReader {
     protected Product readProductNodesImpl() throws IOException {
         Product product;
 
-        synchronized (this) {
-            final File inputFile = getInputFile();
-            netcdfFile = NetcdfFileOpener.open(inputFile.getAbsolutePath());
-            if (netcdfFile == null) {
-                throw new IOException("Unable to read file");
-            }
+        final File inputFile = getInputFile();
+        netcdfFile = NetcdfFileOpener.open(inputFile.getAbsolutePath());
+        if (netcdfFile == null) {
+            throw new IOException("Unable to read file");
+        }
+
+        synchronized (netcdfFile) {
+            final ArrayCache arrayCache = new ArrayCache(netcdfFile);
 
             final String productType = getProductTypeString();
 
@@ -190,7 +193,7 @@ public class NetcdfProductReader extends SmosReader {
             final Area area = calculateArea(typeSupport);
             gridPointInfo = calculateGridPointInfo();
 
-            final String schemaDescription = getSchemaDescription();
+            final String schemaDescription = getSchemaDescription(netcdfFile);
             final Dddb dddb = Dddb.getInstance();
             final Family<BandDescriptor> bandDescriptors = dddb.getBandDescriptors(schemaDescription);
             if (bandDescriptors == null) {
@@ -232,7 +235,7 @@ public class NetcdfProductReader extends SmosReader {
                             descriptor.getFlagDescriptors());
                 }
 
-                final ValueProvider valueProvider = typeSupport.createValueProvider(variable, descriptor, area, gridPointInfo);
+                final ValueProvider valueProvider = typeSupport.createValueProvider(arrayCache, ncVariableName, descriptor, area, gridPointInfo);
                 final SmosMultiLevelSource smosMultiLevelSource = new SmosMultiLevelSource(band, valueProvider);
                 final DefaultMultiLevelImage defaultMultiLevelImage = new DefaultMultiLevelImage(smosMultiLevelSource);
                 band.setSourceImage(defaultMultiLevelImage);
@@ -240,6 +243,10 @@ public class NetcdfProductReader extends SmosReader {
             }
 
             addLandSeaMask(product);
+
+            typeSupport.createAdditionalBands(product, bandDescriptors, schemaDescription);
+            typeSupport.setArrayCache(arrayCache);
+            typeSupport.setGridPointInfo(gridPointInfo);
         }
 
         return product;
@@ -336,7 +343,7 @@ public class NetcdfProductReader extends SmosReader {
                                                 int targetHeight,
                                                 ProductData targetBuffer,
                                                 ProgressMonitor pm) {
-        synchronized (this) {
+        synchronized (netcdfFile) {
             final RenderedImage image = targetBand.getSourceImage();
             final Raster data = image.getData(new Rectangle(targetOffsetX, targetOffsetY, targetWidth, targetHeight));
 
@@ -381,7 +388,7 @@ public class NetcdfProductReader extends SmosReader {
         band.setImageInfo(ProductHelper.createImageInfo(band, descriptor));
     }
 
-    private String getSchemaDescription() throws IOException {
+    static String getSchemaDescription(NetcdfFile netcdfFile) throws IOException {
         final Attribute schemaAttribute = netcdfFile.findGlobalAttribute("Variable_Header:Specific_Product_Header:Main_Info:Datablock_Schema");
         if (schemaAttribute == null) {
             throw new IOException("Schema attribuite not found.");

@@ -6,7 +6,6 @@ import org.esa.smos.dataio.smos.provider.ValueProvider;
 import org.esa.snap.core.datamodel.Band;
 import ucar.nc2.Attribute;
 import ucar.nc2.NetcdfFile;
-import ucar.nc2.Variable;
 
 import java.awt.geom.Area;
 
@@ -47,7 +46,7 @@ class L2ProductSupport extends AbstractProductTypeSupport {
     }
 
     @Override
-    public ValueProvider createValueProvider(Variable variable, BandDescriptor descriptor, Area area, GridPointInfo gridPointInfo) {
-        return new VariableValueProvider(variable, area, gridPointInfo);
+    public ValueProvider createValueProvider(ArrayCache arrayCache, String variableName, BandDescriptor descriptor, Area area, GridPointInfo gridPointInfo) {
+        return new VariableValueProvider(arrayCache, variableName, area, gridPointInfo);
     }
 }
