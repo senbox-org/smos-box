@@ -9,12 +9,12 @@ import org.esa.smos.ee2netcdf.geometry.GeometryFilterFactory;
 import org.esa.smos.ee2netcdf.variable.VariableDescriptor;
 import org.esa.smos.ee2netcdf.variable.VariableWriter;
 import org.esa.smos.ee2netcdf.variable.VariableWriterFactory;
+import org.esa.snap.core.datamodel.MetadataAttribute;
+import org.esa.snap.core.datamodel.MetadataElement;
+import org.esa.snap.core.datamodel.Product;
+import org.esa.snap.core.util.StringUtils;
 import org.esa.snap.dataio.netcdf.nc.NFileWriteable;
 import org.esa.snap.dataio.netcdf.nc.NVariable;
-import org.esa.snap.framework.datamodel.MetadataAttribute;
-import org.esa.snap.framework.datamodel.MetadataElement;
-import org.esa.snap.framework.datamodel.Product;
-import org.esa.snap.util.StringUtils;
 
 import java.awt.Dimension;
 import java.io.IOException;

@@ -1,7 +1,7 @@
 package org.esa.smos.ee2netcdf.ui;
 
-import org.esa.snap.framework.datamodel.Product;
-import org.esa.snap.framework.ui.DefaultAppContext;
+import org.esa.snap.core.datamodel.Product;
+import org.esa.snap.ui.DefaultAppContext;
 import org.junit.Test;
 
 import java.awt.GraphicsEnvironment;

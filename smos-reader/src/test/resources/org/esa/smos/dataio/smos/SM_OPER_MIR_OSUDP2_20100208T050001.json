@@ -1562,1121 +1562,1121 @@
         "masks": [
             {
                 "name": "Control_Flags_1_FG_CTRL_SEL_GP",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "246,182,21",
                 "description": "Grid point selected according to land sea mask"
             },
             {
                 "name": "Control_Flags_1_FG_CTRL_RANGE",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "95,92,204",
                 "description": "Retrieved values outside range"
             },
             {
                 "name": "Control_Flags_1_FG_CTRL_SIGMA",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "49,82,133",
                 "description": "High retrieval sigma"
             },
             {
                 "name": "Control_Flags_1_FG_CTRL_CHI2",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "169,175,146",
                 "description": "Poor fit quality"
             },
             {
                 "name": "Control_Flags_1_FG_CTRL_CHI2_P",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "156,188,14",
                 "description": "Poor fit quality"
             },
             {
                 "name": "Control_Flags_1_FG_CTRL_QUALITY_SSS",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "39,91,126",
                 "description": "At least one critical flag was raised during SSS1 retrieval"
             },
             {
                 "name": "Control_Flags_1_FG_CTRL_SUNGLINT",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "214,25,160",
                 "description": "Grid point with number of measurements flagged for sunglint above threshold"
             },
             {
                 "name": "Control_Flags_1_FG_CTRL_MOONGLINT",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "178,13,207",
                 "description": "Grid point with number of measurements flagged for moonglint above threshold"
             },
             {
                 "name": "Control_Flags_1_FG_CTRL_GAL_NOISE",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "208,249,67",
                 "description": "Grid point with number of measurements flagged for galactic noise above threshold"
             },
             {
                 "name": "Control_Flags_1_FG_CTRL_GAL_NOISE_POL",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "106,109,115",
                 "description": "Grid point with number of measurements flagged for polarised galactic noise above threshold"
             },
             {
                 "name": "Control_Flags_1_FG_CTRL_REACH_MAXITER",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "16,81,105",
                 "description": "Maximum number of iteration reached before convergence"
             },
             {
                 "name": "Control_Flags_1_FG_CTRL_NUM_MEAS_MIN",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "171,1,243",
                 "description": "Not processed due to too few valid measurements"
             },
             {
                 "name": "Control_Flags_1_FG_CTRL_NUM_MEAS_LOW",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "238,203,217",
                 "description": "Number of valid measurements used for retrieval is less than Tg_num_meas_valid"
             },
             {
                 "name": "Control_Flags_1_FG_CTRL_MANY_OUTLIERS",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "250,231,95",
                 "description": "If number of outliers Dg_num_outliers greater than Tg_num_outliers_max"
             },
             {
                 "name": "Control_Flags_1_FG_CTRL_MARQ",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "240,108,99",
                 "description": "Iterative loop ends because Marquardt increment is greather than lambdaMax"
             },
             {
                 "name": "Control_Flags_1_FG_CTRL_ROUGHNESS",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "115,141,245",
                 "description": "Roughness correction applied"
             },
             {
                 "name": "Control_Flags_1_FG_CTRL_FOAM",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "134,147,45",
                 "description": "Wind speed is less than Tg_WS_foam and foam contribution and foam fraction are set to zero"
             },
             {
                 "name": "Control_Flags_1_FG_CTRL_ECMWF",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "128,201,42",
                 "description": "Flag set to false if one or more ECMWF data is missing for the different models"
             },
             {
                 "name": "Control_Flags_1_FG_CTRL_VALID",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "168,104,12",
                 "description": "Flags raised if grid points pass grid point measurement discrimination tests"
             },
             {
                 "name": "Control_Flags_1_FG_CTRL_NO_SURFACE",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "143,245,6",
                 "description": "Flags raised if the 42.5° angle is not included in the dwell line for grid points"
             },
             {
                 "name": "Control_Flags_1_FG_CTRL_RANGE_ACARD",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "36,87,190",
                 "description": "Flags raised if retrieved Acard is outside range"
             },
             {
                 "name": "Control_Flags_1_FG_CTRL_SIGMA_ACARD",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "114,207,90",
                 "description": "Flags raised if retrieved Acard sigma is too high"
             },
             {
                 "name": "Control_Flags_1_FG_CTRL_QUALITY_ACARD",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "145,13,33",
                 "description": "Flags raised if at least one critical flag was raised during Acard retrieval"
             },
             {
                 "name": "Control_Flags_2_FG_CTRL_SEL_GP",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "246,182,21",
                 "description": "Grid point selected according to land sea mask"
             },
             {
                 "name": "Control_Flags_2_FG_CTRL_RANGE",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "95,92,204",
                 "description": "Retrieved values outside range"
             },
             {
                 "name": "Control_Flags_2_FG_CTRL_SIGMA",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "49,82,133",
                 "description": "High retrieval sigma"
             },
             {
                 "name": "Control_Flags_2_FG_CTRL_CHI2",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "169,175,146",
                 "description": "Poor fit quality"
             },
             {
                 "name": "Control_Flags_2_FG_CTRL_CHI2_P",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "156,188,14",
                 "description": "Poor fit quality"
             },
             {
                 "name": "Control_Flags_2_FG_CTRL_QUALITY_SSS",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "39,91,126",
                 "description": "At least one critical flag was raised during SSS1 retrieval"
             },
             {
                 "name": "Control_Flags_2_FG_CTRL_SUNGLINT",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "214,25,160",
                 "description": "Grid point with number of measurements flagged for sunglint above threshold"
             },
             {
                 "name": "Control_Flags_2_FG_CTRL_MOONGLINT",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "178,13,207",
                 "description": "Grid point with number of measurements flagged for moonglint above threshold"
             },
             {
                 "name": "Control_Flags_2_FG_CTRL_GAL_NOISE",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "208,249,67",
                 "description": "Grid point with number of measurements flagged for galactic noise above threshold"
             },
             {
                 "name": "Control_Flags_2_FG_CTRL_GAL_NOISE_POL",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "106,109,115",
                 "description": "Grid point with number of measurements flagged for polarised galactic noise above threshold"
             },
             {
                 "name": "Control_Flags_2_FG_CTRL_REACH_MAXITER",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "16,81,105",
                 "description": "Maximum number of iteration reached before convergence"
             },
             {
                 "name": "Control_Flags_2_FG_CTRL_NUM_MEAS_MIN",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "171,1,243",
                 "description": "Not processed due to too few valid measurements"
             },
             {
                 "name": "Control_Flags_2_FG_CTRL_NUM_MEAS_LOW",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "238,203,217",
                 "description": "Number of valid measurements used for retrieval is less than Tg_num_meas_valid"
             },
             {
                 "name": "Control_Flags_2_FG_CTRL_MANY_OUTLIERS",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "250,231,95",
                 "description": "If number of outliers Dg_num_outliers greater than Tg_num_outliers_max"
             },
             {
                 "name": "Control_Flags_2_FG_CTRL_MARQ",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "240,108,99",
                 "description": "Iterative loop ends because Marquardt increment is greather than lambdaMax"
             },
             {
                 "name": "Control_Flags_2_FG_CTRL_ROUGHNESS",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "115,141,245",
                 "description": "Roughness correction applied"
             },
             {
                 "name": "Control_Flags_2_FG_CTRL_FOAM",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "134,147,45",
                 "description": "Wind speed is less than Tg_WS_foam and foam contribution and foam fraction are set to zero"
             },
             {
                 "name": "Control_Flags_2_FG_CTRL_ECMWF",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "128,201,42",
                 "description": "Flag set to false if one or more ECMWF data is missing for the different models"
             },
             {
                 "name": "Control_Flags_2_FG_CTRL_VALID",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "168,104,12",
                 "description": "Flags raised if grid points pass grid point measurement discrimination tests"
             },
             {
                 "name": "Control_Flags_2_FG_CTRL_NO_SURFACE",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "143,245,6",
                 "description": "Flags raised if the 42.5° angle is not included in the dwell line for grid points"
             },
             {
                 "name": "Control_Flags_2_FG_CTRL_RANGE_ACARD",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "36,87,190",
                 "description": "Flags raised if retrieved Acard is outside range"
             },
             {
                 "name": "Control_Flags_2_FG_CTRL_SIGMA_ACARD",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "114,207,90",
                 "description": "Flags raised if retrieved Acard sigma is too high"
             },
             {
                 "name": "Control_Flags_2_FG_CTRL_QUALITY_ACARD",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "145,13,33",
                 "description": "Flags raised if at least one critical flag was raised during Acard retrieval"
             },
             {
                 "name": "Control_Flags_3_FG_CTRL_SEL_GP",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "246,182,21",
                 "description": "Grid point selected according to land sea mask"
             },
             {
                 "name": "Control_Flags_3_FG_CTRL_RANGE",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "95,92,204",
                 "description": "Retrieved values outside range"
             },
             {
                 "name": "Control_Flags_3_FG_CTRL_SIGMA",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "49,82,133",
                 "description": "High retrieval sigma"
             },
             {
                 "name": "Control_Flags_3_FG_CTRL_CHI2",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "169,175,146",
                 "description": "Poor fit quality"
             },
             {
                 "name": "Control_Flags_3_FG_CTRL_CHI2_P",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "156,188,14",
                 "description": "Poor fit quality"
             },
             {
                 "name": "Control_Flags_3_FG_CTRL_QUALITY_SSS",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "39,91,126",
                 "description": "At least one critical flag was raised during SSS1 retrieval"
             },
             {
                 "name": "Control_Flags_3_FG_CTRL_SUNGLINT",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "214,25,160",
                 "description": "Grid point with number of measurements flagged for sunglint above threshold"
             },
             {
                 "name": "Control_Flags_3_FG_CTRL_MOONGLINT",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "178,13,207",
                 "description": "Grid point with number of measurements flagged for moonglint above threshold"
             },
             {
                 "name": "Control_Flags_3_FG_CTRL_GAL_NOISE",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "208,249,67",
                 "description": "Grid point with number of measurements flagged for galactic noise above threshold"
             },
             {
                 "name": "Control_Flags_3_FG_CTRL_GAL_NOISE_POL",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "106,109,115",
                 "description": "Grid point with number of measurements flagged for polarised galactic noise above threshold"
             },
             {
                 "name": "Control_Flags_3_FG_CTRL_REACH_MAXITER",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "16,81,105",
                 "description": "Maximum number of iteration reached before convergence"
             },
             {
                 "name": "Control_Flags_3_FG_CTRL_NUM_MEAS_MIN",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "171,1,243",
                 "description": "Not processed due to too few valid measurements"
             },
             {
                 "name": "Control_Flags_3_FG_CTRL_NUM_MEAS_LOW",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "238,203,217",
                 "description": "Number of valid measurements used for retrieval is less than Tg_num_meas_valid"
             },
             {
                 "name": "Control_Flags_3_FG_CTRL_MANY_OUTLIERS",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "250,231,95",
                 "description": "If number of outliers Dg_num_outliers greater than Tg_num_outliers_max"
             },
             {
                 "name": "Control_Flags_3_FG_CTRL_MARQ",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "240,108,99",
                 "description": "Iterative loop ends because Marquardt increment is greather than lambdaMax"
             },
             {
                 "name": "Control_Flags_3_FG_CTRL_ROUGHNESS",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "115,141,245",
                 "description": "Roughness correction applied"
             },
             {
                 "name": "Control_Flags_3_FG_CTRL_FOAM",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "134,147,45",
                 "description": "Wind speed is less than Tg_WS_foam and foam contribution and foam fraction are set to zero"
             },
             {
                 "name": "Control_Flags_3_FG_CTRL_ECMWF",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "128,201,42",
                 "description": "Flag set to false if one or more ECMWF data is missing for the different models"
             },
             {
                 "name": "Control_Flags_3_FG_CTRL_VALID",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "168,104,12",
                 "description": "Flags raised if grid points pass grid point measurement discrimination tests"
             },
             {
                 "name": "Control_Flags_3_FG_CTRL_NO_SURFACE",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "143,245,6",
                 "description": "Flags raised if the 42.5° angle is not included in the dwell line for grid points"
             },
             {
                 "name": "Control_Flags_3_FG_CTRL_RANGE_ACARD",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "36,87,190",
                 "description": "Flags raised if retrieved Acard is outside range"
             },
             {
                 "name": "Control_Flags_3_FG_CTRL_SIGMA_ACARD",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "114,207,90",
                 "description": "Flags raised if retrieved Acard sigma is too high"
             },
             {
                 "name": "Control_Flags_3_FG_CTRL_QUALITY_ACARD",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "145,13,33",
                 "description": "Flags raised if at least one critical flag was raised during Acard retrieval"
             },
             {
                 "name": "Control_Flags_4_FG_CTRL_SEL_GP",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "246,182,21",
                 "description": "Grid point selected according to land sea mask"
             },
             {
                 "name": "Control_Flags_4_FG_CTRL_RANGE",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "95,92,204",
                 "description": "Retrieved values outside range"
             },
             {
                 "name": "Control_Flags_4_FG_CTRL_SIGMA",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "49,82,133",
                 "description": "High retrieval sigma"
             },
             {
                 "name": "Control_Flags_4_FG_CTRL_CHI2",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "169,175,146",
                 "description": "Poor fit quality"
             },
             {
                 "name": "Control_Flags_4_FG_CTRL_CHI2_P",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "156,188,14",
                 "description": "Poor fit quality"
             },
             {
                 "name": "Control_Flags_4_FG_CTRL_QUALITY_SSS",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "39,91,126",
                 "description": "At least one critical flag was raised during SSS1 retrieval"
             },
             {
                 "name": "Control_Flags_4_FG_CTRL_SUNGLINT",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "214,25,160",
                 "description": "Grid point with number of measurements flagged for sunglint above threshold"
             },
             {
                 "name": "Control_Flags_4_FG_CTRL_MOONGLINT",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "178,13,207",
                 "description": "Grid point with number of measurements flagged for moonglint above threshold"
             },
             {
                 "name": "Control_Flags_4_FG_CTRL_GAL_NOISE",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "208,249,67",
                 "description": "Grid point with number of measurements flagged for galactic noise above threshold"
             },
             {
                 "name": "Control_Flags_4_FG_CTRL_GAL_NOISE_POL",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "106,109,115",
                 "description": "Grid point with number of measurements flagged for polarised galactic noise above threshold"
             },
             {
                 "name": "Control_Flags_4_FG_CTRL_REACH_MAXITER",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "16,81,105",
                 "description": "Maximum number of iteration reached before convergence"
             },
             {
                 "name": "Control_Flags_4_FG_CTRL_NUM_MEAS_MIN",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "171,1,243",
                 "description": "Not processed due to too few valid measurements"
             },
             {
                 "name": "Control_Flags_4_FG_CTRL_NUM_MEAS_LOW",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "238,203,217",
                 "description": "Number of valid measurements used for retrieval is less than Tg_num_meas_valid"
             },
             {
                 "name": "Control_Flags_4_FG_CTRL_MANY_OUTLIERS",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "250,231,95",
                 "description": "If number of outliers Dg_num_outliers greater than Tg_num_outliers_max"
             },
             {
                 "name": "Control_Flags_4_FG_CTRL_MARQ",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "240,108,99",
                 "description": "Iterative loop ends because Marquardt increment is greather than lambdaMax"
             },
             {
                 "name": "Control_Flags_4_FG_CTRL_ROUGHNESS",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "115,141,245",
                 "description": "Roughness correction applied"
             },
             {
                 "name": "Control_Flags_4_FG_CTRL_FOAM",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "134,147,45",
                 "description": "Wind speed is less than Tg_WS_foam and foam contribution and foam fraction are set to zero"
             },
             {
                 "name": "Control_Flags_4_FG_CTRL_ECMWF",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "128,201,42",
                 "description": "Flag set to false if one or more ECMWF data is missing for the different models"
             },
             {
                 "name": "Control_Flags_4_FG_CTRL_VALID",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "168,104,12",
                 "description": "Flags raised if grid points pass grid point measurement discrimination tests"
             },
             {
                 "name": "Control_Flags_4_FG_CTRL_NO_SURFACE",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "143,245,6",
                 "description": "Flags raised if the 42.5° angle is not included in the dwell line for grid points"
             },
             {
                 "name": "Control_Flags_4_FG_CTRL_RANGE_ACARD",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "36,87,190",
                 "description": "Flags raised if retrieved Acard is outside range"
             },
             {
                 "name": "Control_Flags_4_FG_CTRL_SIGMA_ACARD",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "114,207,90",
                 "description": "Flags raised if retrieved Acard sigma is too high"
             },
             {
                 "name": "Control_Flags_4_FG_CTRL_QUALITY_ACARD",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "145,13,33",
                 "description": "Flags raised if at least one critical flag was raised during Acard retrieval"
             },
             {
                 "name": "Science_Flags_1_FG_SC_LAND_SEA_COAST1",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "246,182,21",
                 "description": "Distance from coast to gridpoint is less than threshold Max1 in file AUX_DISTAN"
             },
             {
                 "name": "Science_Flags_1_FG_SC_LAND_SEA_COAST2",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "95,92,204",
                 "description": "Distance from coast to gridpoint is less than threshold Max2 in file AUX_DISTAN"
             },
             {
                 "name": "Science_Flags_1_FG_SC_TEC_GRADIENT",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "49,82,133",
                 "description": "High TEC gradient along dwell for a grid point"
             },
             {
                 "name": "Science_Flags_1_FG_SC_IN_CLIM_ICE",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "169,175,146",
                 "description": "Gridpoint with maximum extend of sea ice accordy to monthly climatology"
             },
             {
                 "name": "Science_Flags_1_FG_SC_ICE",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "156,188,14",
                 "description": "Ice concentration at gridpoint is above threshold Tg_ice_concentration"
             },
             {
                 "name": "Science_Flags_1_FG_SC_SUSPECT_ICE",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "39,91,126",
                 "description": "Suspect ice on gridpoint"
             },
             {
                 "name": "Science_Flags_1_FG_SC_RAIN",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "214,25,160",
                 "description": "Heavy rain suspected on gridpoint. Rain rate is above threshold Tg_max_rainfall"
             },
             {
                 "name": "Science_Flags_1_FG_SC_HIGH_WIND",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "178,13,207",
                 "description": "High wind"
             },
             {
                 "name": "Science_Flags_1_FG_SC_LOW_WIND",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "208,249,67",
                 "description": "Low wind"
             },
             {
                 "name": "Science_Flags_1_FG_SC_HIGHT_SST",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "106,109,115",
                 "description": "High SST"
             },
             {
                 "name": "Science_Flags_1_FG_SC_LOW_SST",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "16,81,105",
                 "description": "Low SST"
             },
             {
                 "name": "Science_Flags_1_FG_SC_HIGH_SSS",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "171,1,243",
                 "description": "High SSS"
             },
             {
                 "name": "Science_Flags_1_FG_SC_LOW_SSS",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "238,203,217",
                 "description": "Low SSS"
             },
             {
                 "name": "Science_Flags_1_FG_SC_SEA_STATE_1",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "250,231,95",
                 "description": "Sea state class 1"
             },
             {
                 "name": "Science_Flags_1_FG_SC_SEA_STATE_2",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "240,108,99",
                 "description": "Sea state class 2"
             },
             {
                 "name": "Science_Flags_1_FG_SC_SEA_STATE_3",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "115,141,245",
                 "description": "Sea state class 3"
             },
             {
                 "name": "Science_Flags_1_FG_SC_SEA_STATE_4",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "134,147,45",
                 "description": "Sea state class 4"
             },
             {
                 "name": "Science_Flags_1_FG_SC_SEA_STATE_5",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "128,201,42",
                 "description": "Sea state class 5"
             },
             {
                 "name": "Science_Flags_1_FG_SC_SEA_STATE_6",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "168,104,12",
                 "description": "Sea state class 6"
             },
             {
                 "name": "Science_Flags_1_FG_SC_SST_FRONT",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "143,245,6"
             },
             {
                 "name": "Science_Flags_1_FG_SC_SSS_FRONT",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "36,87,190"
             },
             {
                 "name": "Science_Flags_1_FG_SC_ICE_ACARD",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "114,207,90",
                 "description": "Ice flag from cardioid"
             },
             {
                 "name": "Science_Flags_2_FG_SC_LAND_SEA_COAST1",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "246,182,21",
                 "description": "Distance from coast to gridpoint is less than threshold Max1 in file AUX_DISTAN"
             },
             {
                 "name": "Science_Flags_2_FG_SC_LAND_SEA_COAST2",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "95,92,204",
                 "description": "Distance from coast to gridpoint is less than threshold Max2 in file AUX_DISTAN"
             },
             {
                 "name": "Science_Flags_2_FG_SC_TEC_GRADIENT",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "49,82,133",
                 "description": "High TEC gradient along dwell for a grid point"
             },
             {
                 "name": "Science_Flags_2_FG_SC_IN_CLIM_ICE",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "169,175,146",
                 "description": "Gridpoint with maximum extend of sea ice accordy to monthly climatology"
             },
             {
                 "name": "Science_Flags_2_FG_SC_ICE",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "156,188,14",
                 "description": "Ice concentration at gridpoint is above threshold Tg_ice_concentration"
             },
             {
                 "name": "Science_Flags_2_FG_SC_SUSPECT_ICE",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "39,91,126",
                 "description": "Suspect ice on gridpoint"
             },
             {
                 "name": "Science_Flags_2_FG_SC_RAIN",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "214,25,160",
                 "description": "Heavy rain suspected on gridpoint. Rain rate is above threshold Tg_max_rainfall"
             },
             {
                 "name": "Science_Flags_2_FG_SC_HIGH_WIND",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "178,13,207",
                 "description": "High wind"
             },
             {
                 "name": "Science_Flags_2_FG_SC_LOW_WIND",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "208,249,67",
                 "description": "Low wind"
             },
             {
                 "name": "Science_Flags_2_FG_SC_HIGHT_SST",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "106,109,115",
                 "description": "High SST"
             },
             {
                 "name": "Science_Flags_2_FG_SC_LOW_SST",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "16,81,105",
                 "description": "Low SST"
             },
             {
                 "name": "Science_Flags_2_FG_SC_HIGH_SSS",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "171,1,243",
                 "description": "High SSS"
             },
             {
                 "name": "Science_Flags_2_FG_SC_LOW_SSS",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "238,203,217",
                 "description": "Low SSS"
             },
             {
                 "name": "Science_Flags_2_FG_SC_SEA_STATE_1",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "250,231,95",
                 "description": "Sea state class 1"
             },
             {
                 "name": "Science_Flags_2_FG_SC_SEA_STATE_2",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "240,108,99",
                 "description": "Sea state class 2"
             },
             {
                 "name": "Science_Flags_2_FG_SC_SEA_STATE_3",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "115,141,245",
                 "description": "Sea state class 3"
             },
             {
                 "name": "Science_Flags_2_FG_SC_SEA_STATE_4",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "134,147,45",
                 "description": "Sea state class 4"
             },
             {
                 "name": "Science_Flags_2_FG_SC_SEA_STATE_5",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "128,201,42",
                 "description": "Sea state class 5"
             },
             {
                 "name": "Science_Flags_2_FG_SC_SEA_STATE_6",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "168,104,12",
                 "description": "Sea state class 6"
             },
             {
                 "name": "Science_Flags_2_FG_SC_SST_FRONT",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "143,245,6"
             },
             {
                 "name": "Science_Flags_2_FG_SC_SSS_FRONT",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "36,87,190"
             },
             {
                 "name": "Science_Flags_2_FG_SC_ICE_ACARD",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "114,207,90",
                 "description": "Ice flag from cardioid"
             },
             {
                 "name": "Science_Flags_3_FG_SC_LAND_SEA_COAST1",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "246,182,21",
                 "description": "Distance from coast to gridpoint is less than threshold Max1 in file AUX_DISTAN"
             },
             {
                 "name": "Science_Flags_3_FG_SC_LAND_SEA_COAST2",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "95,92,204",
                 "description": "Distance from coast to gridpoint is less than threshold Max2 in file AUX_DISTAN"
             },
             {
                 "name": "Science_Flags_3_FG_SC_TEC_GRADIENT",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "49,82,133",
                 "description": "High TEC gradient along dwell for a grid point"
             },
             {
                 "name": "Science_Flags_3_FG_SC_IN_CLIM_ICE",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "169,175,146",
                 "description": "Gridpoint with maximum extend of sea ice accordy to monthly climatology"
             },
             {
                 "name": "Science_Flags_3_FG_SC_ICE",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "156,188,14",
                 "description": "Ice concentration at gridpoint is above threshold Tg_ice_concentration"
             },
             {
                 "name": "Science_Flags_3_FG_SC_SUSPECT_ICE",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "39,91,126",
                 "description": "Suspect ice on gridpoint"
             },
             {
                 "name": "Science_Flags_3_FG_SC_RAIN",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "214,25,160",
                 "description": "Heavy rain suspected on gridpoint. Rain rate is above threshold Tg_max_rainfall"
             },
             {
                 "name": "Science_Flags_3_FG_SC_HIGH_WIND",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "178,13,207",
                 "description": "High wind"
             },
             {
                 "name": "Science_Flags_3_FG_SC_LOW_WIND",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "208,249,67",
                 "description": "Low wind"
             },
             {
                 "name": "Science_Flags_3_FG_SC_HIGHT_SST",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "106,109,115",
                 "description": "High SST"
             },
             {
                 "name": "Science_Flags_3_FG_SC_LOW_SST",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "16,81,105",
                 "description": "Low SST"
             },
             {
                 "name": "Science_Flags_3_FG_SC_HIGH_SSS",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "171,1,243",
                 "description": "High SSS"
             },
             {
                 "name": "Science_Flags_3_FG_SC_LOW_SSS",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "238,203,217",
                 "description": "Low SSS"
             },
             {
                 "name": "Science_Flags_3_FG_SC_SEA_STATE_1",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "250,231,95",
                 "description": "Sea state class 1"
             },
             {
                 "name": "Science_Flags_3_FG_SC_SEA_STATE_2",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "240,108,99",
                 "description": "Sea state class 2"
             },
             {
                 "name": "Science_Flags_3_FG_SC_SEA_STATE_3",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "115,141,245",
                 "description": "Sea state class 3"
             },
             {
                 "name": "Science_Flags_3_FG_SC_SEA_STATE_4",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "134,147,45",
                 "description": "Sea state class 4"
             },
             {
                 "name": "Science_Flags_3_FG_SC_SEA_STATE_5",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "128,201,42",
                 "description": "Sea state class 5"
             },
             {
                 "name": "Science_Flags_3_FG_SC_SEA_STATE_6",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "168,104,12",
                 "description": "Sea state class 6"
             },
             {
                 "name": "Science_Flags_3_FG_SC_SST_FRONT",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "143,245,6"
             },
             {
                 "name": "Science_Flags_3_FG_SC_SSS_FRONT",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "36,87,190"
             },
             {
                 "name": "Science_Flags_3_FG_SC_ICE_ACARD",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "114,207,90",
                 "description": "Ice flag from cardioid"
             },
             {
                 "name": "Science_Flags_4_FG_SC_LAND_SEA_COAST1",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "246,182,21",
                 "description": "Distance from coast to gridpoint is less than threshold Max1 in file AUX_DISTAN"
             },
             {
                 "name": "Science_Flags_4_FG_SC_LAND_SEA_COAST2",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "95,92,204",
                 "description": "Distance from coast to gridpoint is less than threshold Max2 in file AUX_DISTAN"
             },
             {
                 "name": "Science_Flags_4_FG_SC_TEC_GRADIENT",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "49,82,133",
                 "description": "High TEC gradient along dwell for a grid point"
             },
             {
                 "name": "Science_Flags_4_FG_SC_IN_CLIM_ICE",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "169,175,146",
                 "description": "Gridpoint with maximum extend of sea ice accordy to monthly climatology"
             },
             {
                 "name": "Science_Flags_4_FG_SC_ICE",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "156,188,14",
                 "description": "Ice concentration at gridpoint is above threshold Tg_ice_concentration"
             },
             {
                 "name": "Science_Flags_4_FG_SC_SUSPECT_ICE",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "39,91,126",
                 "description": "Suspect ice on gridpoint"
             },
             {
                 "name": "Science_Flags_4_FG_SC_RAIN",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "214,25,160",
                 "description": "Heavy rain suspected on gridpoint. Rain rate is above threshold Tg_max_rainfall"
             },
             {
                 "name": "Science_Flags_4_FG_SC_HIGH_WIND",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "178,13,207",
                 "description": "High wind"
             },
             {
                 "name": "Science_Flags_4_FG_SC_LOW_WIND",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "208,249,67",
                 "description": "Low wind"
             },
             {
                 "name": "Science_Flags_4_FG_SC_HIGHT_SST",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "106,109,115",
                 "description": "High SST"
             },
             {
                 "name": "Science_Flags_4_FG_SC_LOW_SST",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "16,81,105",
                 "description": "Low SST"
             },
             {
                 "name": "Science_Flags_4_FG_SC_HIGH_SSS",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "171,1,243",
                 "description": "High SSS"
             },
             {
                 "name": "Science_Flags_4_FG_SC_LOW_SSS",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "238,203,217",
                 "description": "Low SSS"
             },
             {
                 "name": "Science_Flags_4_FG_SC_SEA_STATE_1",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "250,231,95",
                 "description": "Sea state class 1"
             },
             {
                 "name": "Science_Flags_4_FG_SC_SEA_STATE_2",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "240,108,99",
                 "description": "Sea state class 2"
             },
             {
                 "name": "Science_Flags_4_FG_SC_SEA_STATE_3",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "115,141,245",
                 "description": "Sea state class 3"
             },
             {
                 "name": "Science_Flags_4_FG_SC_SEA_STATE_4",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "134,147,45",
                 "description": "Sea state class 4"
             },
             {
                 "name": "Science_Flags_4_FG_SC_SEA_STATE_5",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "128,201,42",
                 "description": "Sea state class 5"
             },
             {
                 "name": "Science_Flags_4_FG_SC_SEA_STATE_6",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "168,104,12",
                 "description": "Sea state class 6"
             },
             {
                 "name": "Science_Flags_4_FG_SC_SST_FRONT",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "143,245,6"
             },
             {
                 "name": "Science_Flags_4_FG_SC_SSS_FRONT",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "36,87,190"
             },
             {
                 "name": "Science_Flags_4_FG_SC_ICE_ACARD",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "114,207,90",
                 "description": "Ice flag from cardioid"
             },
             {
                 "name": "Land_Sea_Mask_USGS_SEA_FLAG",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "0,0,255",
                 "description": "Water fraction is above 95 percent (1); below 95 percent (0)"
             },
             {
                 "name": "Land_Sea_Mask_USGS_LAND_FLAG",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "0,255,0",
                 "description": "Water fraction is below 10 percent (1); above 10 percent (0)"
             },
             {
                 "name": "Land_Sea_Mask_USGS_MIXED_FLAG",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "0,255,255",
                 "description": "Water fraction is above 10 and below 95 percent (1); below 10 or above 95 percent (0)"
             },
             {
                 "name": "Land_Sea_Mask_200_KM_COASTAL_FLAG",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "178,140,0",
                 "description": "Distance to coastline is less than 200 km (1); greater than 200 km (0)"
             },
             {
                 "name": "Land_Sea_Mask_100_KM_COASTAL_FLAG",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "255,200,0",
                 "description": "Distance to coastline is less than 100 km (1); greater than 100 km (0)"
             },
             {
                 "name": "Land_Sea_Mask_40_KM_COASTAL_FLAG",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "255,255,0",
                 "description": "Distance to coastline is less than 40 km (1); greater than 40 km (0)"
             },
             {
                 "name": "Land_Sea_Mask_MIN_SEA_ICE_FLAG",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "255,255,255",
                 "description": "Sea ice is present for all months (1); is not present for all months (0)"
             },
             {
                 "name": "Land_Sea_Mask_MAX_SEA_ICE_FLAG",
-                "type": "org.esa.snap.framework.datamodel.Mask$BandMathsType",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
                 "color": "240,240,240",
                 "description": "Sea ice is present for any months (1); is not present for any months (0)"
             }

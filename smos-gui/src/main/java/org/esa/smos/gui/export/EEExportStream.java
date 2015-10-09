@@ -20,7 +20,7 @@ import com.bc.ceres.binio.CompoundData;
 import com.bc.ceres.binio.DataContext;
 import com.bc.ceres.binio.DataFormat;
 import org.esa.smos.dataio.smos.SmosFile;
-import org.esa.snap.util.io.FileUtils;
+import org.esa.snap.core.util.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;

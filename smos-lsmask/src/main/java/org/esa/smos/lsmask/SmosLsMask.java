@@ -21,9 +21,9 @@ import com.bc.ceres.core.ProgressMonitor;
 import com.bc.ceres.glevel.MultiLevelImage;
 import com.bc.ceres.glevel.MultiLevelSource;
 import com.bc.ceres.glevel.support.DefaultMultiLevelImage;
-import org.esa.snap.glevel.TiledFileMultiLevelSource;
-import org.esa.snap.util.ResourceInstaller;
-import org.esa.snap.util.SystemUtils;
+import org.esa.snap.core.image.TiledFileMultiLevelSource;
+import org.esa.snap.core.util.ResourceInstaller;
+import org.esa.snap.core.util.SystemUtils;
 
 import java.io.IOException;
 import java.net.URISyntaxException;

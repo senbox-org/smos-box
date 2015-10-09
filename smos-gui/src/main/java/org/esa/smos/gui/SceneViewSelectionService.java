@@ -18,11 +18,11 @@ package org.esa.smos.gui;
 
 import com.bc.ceres.glayer.support.ImageLayer;
 import org.esa.smos.dataio.smos.SmosReader;
-import org.esa.snap.framework.dataio.ProductReader;
-import org.esa.snap.framework.datamodel.Product;
-import org.esa.snap.framework.ui.PixelPositionListener;
-import org.esa.snap.framework.ui.product.ProductSceneView;
+import org.esa.snap.core.dataio.ProductReader;
+import org.esa.snap.core.datamodel.Product;
 import org.esa.snap.rcp.windows.ToolTopComponent;
+import org.esa.snap.ui.PixelPositionListener;
+import org.esa.snap.ui.product.ProductSceneView;
 import org.netbeans.api.annotations.common.NonNull;
 
 import java.awt.event.MouseEvent;

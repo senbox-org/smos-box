@@ -19,10 +19,10 @@ import com.bc.ceres.glevel.MultiLevelModel;
 import com.bc.ceres.jai.NoDataRaster;
 import org.esa.smos.dataio.smos.provider.ValueProvider;
 import org.esa.smos.dgg.SmosDgg;
-import org.esa.snap.framework.datamodel.RasterDataNode;
-import org.esa.snap.jai.ImageManager;
-import org.esa.snap.jai.ResolutionLevel;
-import org.esa.snap.jai.SingleBandedOpImage;
+import org.esa.snap.core.datamodel.RasterDataNode;
+import org.esa.snap.core.image.ImageManager;
+import org.esa.snap.core.image.ResolutionLevel;
+import org.esa.snap.core.image.SingleBandedOpImage;
 
 import javax.media.jai.PixelAccessor;
 import javax.media.jai.PlanarImage;

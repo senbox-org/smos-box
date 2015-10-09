@@ -1,10 +1,19 @@
 package org.esa.smos.gui.gridpoint;
 
 
-import org.esa.snap.framework.ui.UIUtils;
+import org.esa.snap.ui.UIUtils;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import java.awt.Dimension;
+import java.awt.Frame;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.ScrollPane;
 import java.awt.event.ActionEvent;
 import java.util.HashMap;
 

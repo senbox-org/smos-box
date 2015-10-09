@@ -4,7 +4,7 @@ import com.bc.ceres.binding.ConversionException;
 import com.vividsolutions.jts.geom.Geometry;
 import org.esa.smos.ee2netcdf.ExportParameter;
 import org.esa.smos.gui.BindingConstants;
-import org.esa.snap.util.converters.JtsGeometryConverter;
+import org.esa.snap.core.util.converters.JtsGeometryConverter;
 import org.junit.Before;
 import org.junit.Test;
 

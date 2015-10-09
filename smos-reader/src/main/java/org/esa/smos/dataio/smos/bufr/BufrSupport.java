@@ -1,8 +1,8 @@
 package org.esa.smos.dataio.smos.bufr;
 
+import org.esa.snap.core.datamodel.MetadataElement;
+import org.esa.snap.core.datamodel.Product;
 import org.esa.snap.dataio.netcdf.util.MetadataUtils;
-import org.esa.snap.framework.datamodel.MetadataElement;
-import org.esa.snap.framework.datamodel.Product;
 import ucar.ma2.StructureDataIterator;
 import ucar.nc2.Attribute;
 import ucar.nc2.Sequence;

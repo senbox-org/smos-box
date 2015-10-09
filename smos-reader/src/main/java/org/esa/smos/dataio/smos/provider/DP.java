@@ -16,8 +16,8 @@
 
 package org.esa.smos.dataio.smos.provider;
 
-import org.esa.snap.framework.datamodel.Band;
-import org.esa.snap.framework.datamodel.Product;
+import org.esa.snap.core.datamodel.Band;
+import org.esa.snap.core.datamodel.Product;
 
 import java.awt.geom.Area;
 import java.io.IOException;

@@ -12,10 +12,10 @@ import org.esa.smos.dataio.smos.dddb.MemberDescriptor;
 import org.esa.smos.ee2netcdf.geometry.GeometryFilter;
 import org.esa.smos.ee2netcdf.geometry.GeometryFilterFactory;
 import org.esa.smos.ee2netcdf.variable.VariableDescriptor;
+import org.esa.snap.core.datamodel.MetadataElement;
+import org.esa.snap.core.datamodel.Product;
 import org.esa.snap.dataio.netcdf.nc.NFileWriteable;
 import org.esa.snap.dataio.netcdf.nc.NVariable;
-import org.esa.snap.framework.datamodel.MetadataElement;
-import org.esa.snap.framework.datamodel.Product;
 import ucar.ma2.Array;
 import ucar.ma2.DataType;
 

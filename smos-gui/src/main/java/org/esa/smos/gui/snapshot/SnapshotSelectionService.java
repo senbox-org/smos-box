@@ -18,8 +18,8 @@ package org.esa.smos.gui.snapshot;
 
 import org.esa.smos.gui.SceneViewSelectionService;
 import org.esa.smos.gui.SmosBox;
-import org.esa.snap.framework.datamodel.RasterDataNode;
-import org.esa.snap.framework.ui.product.ProductSceneView;
+import org.esa.snap.core.datamodel.RasterDataNode;
+import org.esa.snap.ui.product.ProductSceneView;
 
 import java.util.ArrayList;
 import java.util.List;

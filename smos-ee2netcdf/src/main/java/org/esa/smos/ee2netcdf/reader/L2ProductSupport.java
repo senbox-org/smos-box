@@ -3,7 +3,7 @@ package org.esa.smos.ee2netcdf.reader;
 import org.esa.smos.dataio.smos.GridPointInfo;
 import org.esa.smos.dataio.smos.dddb.BandDescriptor;
 import org.esa.smos.dataio.smos.provider.ValueProvider;
-import org.esa.snap.framework.datamodel.Band;
+import org.esa.snap.core.datamodel.Band;
 import ucar.nc2.Attribute;
 import ucar.nc2.NetcdfFile;
 

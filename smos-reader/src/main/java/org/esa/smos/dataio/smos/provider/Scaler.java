@@ -16,7 +16,7 @@
 
 package org.esa.smos.dataio.smos.provider;
 
-import org.esa.snap.framework.datamodel.Scaling;
+import org.esa.snap.core.datamodel.Scaling;
 
 import java.awt.geom.Area;
 import java.io.IOException;

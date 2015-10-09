@@ -1,15 +1,16 @@
 package org.esa.smos.dataio.smos;
 
 import org.esa.smos.dataio.smos.dddb.BandDescriptor;
-import org.esa.snap.framework.datamodel.Band;
-import org.esa.snap.framework.datamodel.ColorPaletteDef;
-import org.esa.snap.framework.datamodel.GeoCoding;
-import org.esa.snap.framework.datamodel.ImageInfo;
-import org.esa.snap.framework.datamodel.Product;
+import org.esa.snap.core.datamodel.Band;
+import org.esa.snap.core.datamodel.ColorPaletteDef;
+import org.esa.snap.core.datamodel.GeoCoding;
+import org.esa.snap.core.datamodel.ImageInfo;
+import org.esa.snap.core.datamodel.Product;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.io.File;
 
 import static org.junit.Assert.*;

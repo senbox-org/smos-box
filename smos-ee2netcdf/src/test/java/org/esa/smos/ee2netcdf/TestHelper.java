@@ -1,6 +1,6 @@
 package org.esa.smos.ee2netcdf;
 
-import org.esa.snap.util.io.FileUtils;
+import org.esa.snap.core.util.io.FileUtils;
 
 import java.io.IOException;
 import java.net.URISyntaxException;

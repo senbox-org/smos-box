@@ -17,10 +17,10 @@ package org.esa.smos.dataio.smos;
 
 import org.esa.smos.SmosUtils;
 import org.esa.smos.dataio.smos.dddb.Dddb;
-import org.esa.snap.framework.dataio.DecodeQualification;
-import org.esa.snap.framework.dataio.ProductReaderPlugIn;
-import org.esa.snap.util.io.FileUtils;
-import org.esa.snap.util.io.SnapFileFilter;
+import org.esa.snap.core.dataio.DecodeQualification;
+import org.esa.snap.core.dataio.ProductReaderPlugIn;
+import org.esa.snap.core.util.io.FileUtils;
+import org.esa.snap.core.util.io.SnapFileFilter;
 
 import java.io.File;
 import java.io.IOException;

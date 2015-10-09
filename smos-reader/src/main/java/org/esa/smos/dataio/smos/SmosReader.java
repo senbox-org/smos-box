@@ -2,8 +2,8 @@ package org.esa.smos.dataio.smos;
 
 
 import org.esa.smos.dataio.smos.dddb.FlagDescriptor;
-import org.esa.snap.framework.dataio.AbstractProductReader;
-import org.esa.snap.framework.dataio.ProductReaderPlugIn;
+import org.esa.snap.core.dataio.AbstractProductReader;
+import org.esa.snap.core.dataio.ProductReaderPlugIn;
 
 import java.io.File;
 import java.io.IOException;

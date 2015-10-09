@@ -9,9 +9,9 @@ import org.esa.smos.dataio.smos.dddb.BandDescriptor;
 import org.esa.smos.dataio.smos.dddb.Family;
 import org.esa.smos.dataio.smos.dddb.FlagDescriptor;
 import org.esa.smos.dataio.smos.provider.ValueProvider;
-import org.esa.snap.framework.datamodel.Band;
-import org.esa.snap.framework.datamodel.Product;
-import org.esa.snap.framework.datamodel.ProductData;
+import org.esa.snap.core.datamodel.Band;
+import org.esa.snap.core.datamodel.Product;
+import org.esa.snap.core.datamodel.ProductData;
 import ucar.nc2.NetcdfFile;
 
 import java.awt.geom.Area;

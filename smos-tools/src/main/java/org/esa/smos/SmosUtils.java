@@ -1,7 +1,7 @@
 package org.esa.smos;
 
-import org.esa.snap.util.StringUtils;
-import org.esa.snap.util.io.FileUtils;
+import org.esa.snap.core.util.StringUtils;
+import org.esa.snap.core.util.io.FileUtils;
 
 import java.io.File;
 import java.text.DateFormat;

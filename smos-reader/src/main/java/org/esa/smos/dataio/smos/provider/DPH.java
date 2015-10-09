@@ -16,7 +16,7 @@
 
 package org.esa.smos.dataio.smos.provider;
 
-import org.esa.snap.framework.datamodel.Product;
+import org.esa.snap.core.datamodel.Product;
 
 import java.util.Map;
 

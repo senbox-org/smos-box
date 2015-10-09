@@ -3,37 +3,21 @@ package org.esa.smos.ee2netcdf.reader;
 import org.esa.smos.dataio.smos.GridPointBtDataset;
 import org.esa.smos.dataio.smos.GridPointInfo;
 import org.esa.smos.dataio.smos.PolarisationModel;
-import org.esa.smos.dataio.smos.SmosConstants;
 import org.esa.smos.dataio.smos.SnapshotInfo;
 import org.esa.smos.dataio.smos.dddb.BandDescriptor;
-import org.esa.smos.dataio.smos.dddb.Dddb;
 import org.esa.smos.dataio.smos.dddb.Family;
 import org.esa.smos.dataio.smos.dddb.FlagDescriptor;
-import org.esa.smos.ee2netcdf.ExporterUtils;
-import org.esa.snap.framework.datamodel.Band;
-import org.esa.snap.framework.datamodel.Product;
-import ucar.ma2.Array;
-import ucar.ma2.Index;
-import ucar.nc2.Dimension;
+import org.esa.snap.core.datamodel.Band;
+import org.esa.snap.core.datamodel.Product;
 import ucar.nc2.NetcdfFile;
-import ucar.nc2.Variable;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 abstract class AbstractProductTypeSupport implements ProductTypeSupport {
 
     protected final NetcdfFile netcdfFile;
     protected ArrayCache arrayCache;
     protected GridPointInfo gridPointInfo;
-    protected HashMap<String, Integer> memberNamesMap;
-    protected HashMap<String, Scaler> scalerMap;
-    protected Class[] tableClasses;
-    protected FlagDescriptor[] flagDescriptors;
 
     AbstractProductTypeSupport(NetcdfFile netcdfFile) {
         this.netcdfFile = netcdfFile;

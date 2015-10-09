@@ -4,8 +4,8 @@ import com.bc.ceres.glevel.MultiLevelModel;
 import com.bc.ceres.glevel.support.AbstractMultiLevelSource;
 import org.esa.smos.dataio.smos.CellGridOpImage;
 import org.esa.smos.dataio.smos.CellValueProvider;
-import org.esa.snap.framework.datamodel.RasterDataNode;
-import org.esa.snap.jai.ResolutionLevel;
+import org.esa.snap.core.datamodel.RasterDataNode;
+import org.esa.snap.core.image.ResolutionLevel;
 
 import java.awt.image.RenderedImage;
 

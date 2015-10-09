@@ -1,7 +1,7 @@
 package org.esa.smos.ee2netcdf;
 
-import org.esa.snap.framework.gpf.GPF;
-import org.esa.snap.util.io.FileUtils;
+import org.esa.snap.core.gpf.GPF;
+import org.esa.snap.core.util.io.FileUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;

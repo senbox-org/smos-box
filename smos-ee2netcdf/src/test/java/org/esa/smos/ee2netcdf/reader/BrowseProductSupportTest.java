@@ -2,8 +2,8 @@ package org.esa.smos.ee2netcdf.reader;
 
 import org.esa.smos.dataio.smos.GridPointBtDataset;
 import org.esa.smos.dataio.smos.dddb.BandDescriptor;
-import org.esa.snap.framework.datamodel.Band;
-import org.esa.snap.framework.datamodel.ProductData;
+import org.esa.snap.core.datamodel.Band;
+import org.esa.snap.core.datamodel.ProductData;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;

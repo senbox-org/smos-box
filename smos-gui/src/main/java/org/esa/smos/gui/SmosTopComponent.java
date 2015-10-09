@@ -18,17 +18,22 @@ package org.esa.smos.gui;
 
 import org.esa.smos.dataio.smos.SmosReader;
 import org.esa.smos.gui.snapshot.SnapshotSelectionService;
-import org.esa.snap.framework.datamodel.Product;
-import org.esa.snap.framework.datamodel.RasterDataNode;
-import org.esa.snap.framework.ui.product.ProductSceneView;
-import org.esa.snap.framework.ui.tool.ToolButtonFactory;
+import org.esa.snap.core.datamodel.Product;
+import org.esa.snap.core.datamodel.RasterDataNode;
 import org.esa.snap.rcp.actions.help.HelpAction;
+import org.esa.snap.ui.product.ProductSceneView;
+import org.esa.snap.ui.tool.ToolButtonFactory;
 import org.openide.util.HelpCtx;
 import org.openide.util.ImageUtilities;
 import org.openide.windows.TopComponent;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.AbstractButton;
+import javax.swing.ImageIcon;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import java.awt.Image;
 
 public abstract class SmosTopComponent extends TopComponent {
 

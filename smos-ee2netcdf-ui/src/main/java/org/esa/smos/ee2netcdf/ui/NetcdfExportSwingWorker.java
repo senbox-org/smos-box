@@ -8,10 +8,10 @@ import com.vividsolutions.jts.io.WKTWriter;
 import org.esa.smos.ee2netcdf.ExportParameter;
 import org.esa.smos.ee2netcdf.NetcdfExportOp;
 import org.esa.smos.gui.BindingConstants;
-import org.esa.snap.framework.datamodel.Product;
-import org.esa.snap.framework.gpf.GPF;
-import org.esa.snap.framework.ui.AppContext;
-import org.esa.snap.util.StringUtils;
+import org.esa.snap.core.datamodel.Product;
+import org.esa.snap.core.gpf.GPF;
+import org.esa.snap.core.util.StringUtils;
+import org.esa.snap.ui.AppContext;
 
 import java.io.File;
 import java.text.MessageFormat;
