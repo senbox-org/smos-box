@@ -28,6 +28,7 @@ class BrowseProductSupport extends AbstractProductTypeSupport {
     private final double radAccuracyScale;
     private final double footprintScale;
     private HashMap<String, Integer> memberNamesMap;
+    private HashMap<String, Scaler> scalerMap;
     private Class[] tableClasses;
 
     BrowseProductSupport(NetcdfFile netcdfFile) {
@@ -107,11 +108,11 @@ class BrowseProductSupport extends AbstractProductTypeSupport {
                 final Integer variablesIndex = entry.getValue();
 
                 final Array array = arrayCache.get(entry.getKey());
+                final Scaler scaler = scalerMap.get(entry.getKey());
                 final Index index = array.getIndex();
                 for (int i = 0; i < length; i++) {
                     index.set(gridPointIndex, i);
-                    // @todo 1 tb/tb implement data scaling here 2015-10-10
-                    tableData[i][variablesIndex] = array.getDouble(index);
+                    tableData[i][variablesIndex] = scaler.scale(array.getDouble(index));
                 }
             }
         }
@@ -140,11 +141,12 @@ class BrowseProductSupport extends AbstractProductTypeSupport {
     }
 
     private void ensureMemberNamesAndClasses() throws IOException {
-        if (memberNamesMap != null && tableClasses != null) {
+        if (memberNamesMap != null && tableClasses != null && scalerMap != null) {
             return;
         }
 
         memberNamesMap = new HashMap<>();
+        scalerMap = new HashMap<>();
         final ArrayList<Class> tableClassesList = new ArrayList<>();
         final String schemaDescription = NetcdfProductReader.getSchemaDescription(netcdfFile);
         final Dddb dddb = Dddb.getInstance();
@@ -167,6 +169,14 @@ class BrowseProductSupport extends AbstractProductTypeSupport {
             }
             if (memberNamesMap.containsKey(eeVariableName)) {
                 continue;
+            }
+
+            final double scalingFactor = descriptor.getScalingFactor();
+            final double scalingOffset = descriptor.getScalingOffset();
+            if (scalingFactor != 1.0 || scalingOffset != 0.0) {
+                scalerMap.put(eeVariableName, new LinearScaler(scalingFactor, scalingOffset));
+            } else {
+                scalerMap.put(eeVariableName, new IdentityScaler());
             }
             tableClassesList.add(variable.getDataType().getClassType());
             memberNamesMap.put(eeVariableName, index);

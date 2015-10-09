@@ -1,11 +1,11 @@
 package org.esa.smos.ee2netcdf.reader;
 
-class LinearScale implements Scale{
+class LinearScaler implements Scaler {
 
     private final double scale;
     private final double offset;
 
-    LinearScale(double scale, double offset) {
+    LinearScaler(double scale, double offset) {
         this.scale = scale;
         this.offset = offset;
     }

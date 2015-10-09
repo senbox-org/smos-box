@@ -1,6 +1,6 @@
 package org.esa.smos.ee2netcdf.reader;
 
-class IdentityScale implements Scale{
+class IdentityScaler implements Scaler {
 
     @Override
     public double scale(double rawValue) {
