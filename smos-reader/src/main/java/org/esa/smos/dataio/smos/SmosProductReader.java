@@ -211,9 +211,14 @@ public class SmosProductReader extends SmosReader {
             final L1cSmosFile smosFile = (L1cSmosFile) productFile;
             final String dataFormatName = smosFile.getDataFormat().getName();
             final Family<BandDescriptor> bandDescriptors = Dddb.getInstance().getBandDescriptors(dataFormatName);
-            final BandDescriptor flagBandDescriptor = bandDescriptors.getMember(SmosConstants.BT_FLAGS_NAME);
-            final List<FlagDescriptor> flagDescriptorList = flagBandDescriptor.getFlagDescriptors().asList();
-            return flagDescriptorList.toArray(new FlagDescriptor[flagDescriptorList.size()]);
+            final List<BandDescriptor> bandDescriptorsList = bandDescriptors.asList();
+            for (final BandDescriptor descriptor : bandDescriptorsList) {
+                final Family<FlagDescriptor> flagDescriptors = descriptor.getFlagDescriptors();
+                if (flagDescriptors != null) {
+                    final List<FlagDescriptor> flagDescriptorList = descriptor.getFlagDescriptors().asList();
+                    return flagDescriptorList.toArray(new FlagDescriptor[flagDescriptorList.size()]);
+                }
+            }
         }
 
         return new FlagDescriptor[0];
