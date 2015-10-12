@@ -14,7 +14,6 @@ import org.esa.snap.core.datamodel.Band;
 import org.esa.snap.core.datamodel.Product;
 import ucar.ma2.Array;
 import ucar.ma2.Index;
-import ucar.nc2.Dimension;
 import ucar.nc2.NetcdfFile;
 import ucar.nc2.Variable;
 
@@ -69,9 +68,9 @@ abstract class AbstractProductTypeSupport implements ProductTypeSupport {
             gridPointBtDataset.setFlagBandIndex(flagsBandIndex);
         }
 
-        final Dimension dimension = netcdfFile.findDimension("n_bt_data");
-        final int length = dimension.getLength();
-        Number[][] tableData = new Number[length][memberNamesMap.size()];
+        final Array btDataCountArray = arrayCache.get("BT_Data_Counter");
+        final int numMeasurements = btDataCountArray.getInt(gridPointIndex);
+        Number[][] tableData = new Number[numMeasurements][memberNamesMap.size()];
 
         if (gridPointIndex >= 0) {
             final Set<Map.Entry<String, Integer>> entries = memberNamesMap.entrySet();
@@ -81,7 +80,7 @@ abstract class AbstractProductTypeSupport implements ProductTypeSupport {
                 final Array array = arrayCache.get(entry.getKey());
                 final Scaler scaler = scalerMap.get(entry.getKey());
                 final Index index = array.getIndex();
-                for (int i = 0; i < length; i++) {
+                for (int i = 0; i < numMeasurements; i++) {
                     index.set(gridPointIndex, i);
                     final double rawValue = array.getDouble(index);
                     if (scaler.isValid(rawValue)) {
