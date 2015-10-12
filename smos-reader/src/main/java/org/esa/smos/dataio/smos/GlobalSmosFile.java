@@ -52,7 +52,7 @@ class GlobalSmosFile extends ExplorerFile {
         product.setPreferredTileSize(512, 504);
         ProductHelper.addMetadata(product.getMetadataRoot(), this);
 
-        product.setGeoCoding(ProductHelper.createGeoCoding(dimension));
+        product.setSceneGeoCoding(ProductHelper.createGeoCoding(dimension));
         final CompoundType compoundType = (CompoundType) zones[0].getType().getElementType();
         final Family<BandDescriptor> descriptors = Dddb.getInstance().getBandDescriptors(getDataFormat().getName());
         if (descriptors != null) {

@@ -169,7 +169,7 @@ public class ProductHelper {
         product.setFileLocation(inputFile);
         product.setPreferredTileSize(512, 512);
 
-        product.setGeoCoding(ProductHelper.createGeoCoding(dimension));
+        product.setSceneGeoCoding(ProductHelper.createGeoCoding(dimension));
 
         return product;
     }

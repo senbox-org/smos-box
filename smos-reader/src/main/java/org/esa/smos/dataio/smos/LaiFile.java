@@ -114,7 +114,7 @@ class LaiFile extends ExplorerFile {
         product.setPreferredTileSize(512, 504);
         ProductHelper.addMetadata(product.getMetadataRoot(), this);
 
-        product.setGeoCoding(ProductHelper.createGeoCoding(dimension));
+        product.setSceneGeoCoding(ProductHelper.createGeoCoding(dimension));
         addBands(product);
 
         return product;

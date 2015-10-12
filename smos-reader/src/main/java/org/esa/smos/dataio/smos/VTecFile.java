@@ -116,7 +116,7 @@ class VTecFile extends ExplorerFile {
         product.setFileLocation(getDataFile());
         product.setPreferredTileSize(512, 504);
         ProductHelper.addMetadata(product.getMetadataRoot(), this);
-        product.setGeoCoding(ProductHelper.createGeoCoding(dimension));
+        product.setSceneGeoCoding(ProductHelper.createGeoCoding(dimension));
 
         for (int i = 0; i < mapData.getElementCount(); i++) {
             final CompoundData mapCompoundData = mapData.getCompound(i);

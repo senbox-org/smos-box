@@ -133,7 +133,7 @@ public class ProductHelperTest {
         assertEquals(512, preferredTileSize.width);
         assertEquals(512, preferredTileSize.height);
 
-        final GeoCoding geoCoding = product.getGeoCoding();
+        final GeoCoding geoCoding = product.getSceneGeoCoding();
         assertNotNull(geoCoding);
     }
 
