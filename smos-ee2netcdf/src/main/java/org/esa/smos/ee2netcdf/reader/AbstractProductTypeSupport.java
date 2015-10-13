@@ -1,10 +1,6 @@
 package org.esa.smos.ee2netcdf.reader;
 
-import org.esa.smos.dataio.smos.GridPointBtDataset;
-import org.esa.smos.dataio.smos.GridPointInfo;
-import org.esa.smos.dataio.smos.PolarisationModel;
-import org.esa.smos.dataio.smos.SmosConstants;
-import org.esa.smos.dataio.smos.SnapshotInfo;
+import org.esa.smos.dataio.smos.*;
 import org.esa.smos.dataio.smos.dddb.BandDescriptor;
 import org.esa.smos.dataio.smos.dddb.Dddb;
 import org.esa.smos.dataio.smos.dddb.Family;
@@ -18,11 +14,7 @@ import ucar.nc2.NetcdfFile;
 import ucar.nc2.Variable;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 abstract class AbstractProductTypeSupport implements ProductTypeSupport {
 
@@ -32,6 +24,7 @@ abstract class AbstractProductTypeSupport implements ProductTypeSupport {
     protected HashMap<String, Integer> memberNamesMap;
     protected FlagDescriptor[] flagDescriptors;
     private HashMap<String, Scaler> scalerMap;
+    protected String[] snapshotDataNames;
     private Class[] tableClasses;
 
     AbstractProductTypeSupport(NetcdfFile netcdfFile) {
@@ -149,13 +142,14 @@ abstract class AbstractProductTypeSupport implements ProductTypeSupport {
     }
 
     protected void ensureDataStructuresInitialized() throws IOException {
-        if (memberNamesMap != null && tableClasses != null && scalerMap != null) {
+        if (memberNamesMap != null && tableClasses != null && scalerMap != null && snapshotDataNames != null) {
             return;
         }
 
         memberNamesMap = new HashMap<>();
         scalerMap = new HashMap<>();
         final ArrayList<Class> tableClassesList = new ArrayList<>();
+        final ArrayList<String> snapshotBandNamesList = new ArrayList<>();
         final String schemaDescription = NetcdfProductReader.getSchemaDescription(netcdfFile);
         final Dddb dddb = Dddb.getInstance();
         final Family<BandDescriptor> bandDescriptors = dddb.getBandDescriptors(schemaDescription);
@@ -165,12 +159,20 @@ abstract class AbstractProductTypeSupport implements ProductTypeSupport {
 
         int index = 0;
         for (final BandDescriptor descriptor : bandDescriptors.asList()) {
+            final String eeVariableName = dddb.getEEVariableName(descriptor.getMemberName(), schemaDescription);
+            final String ncVariableName = ExporterUtils.ensureNetCDFName(eeVariableName);
+
+            if (!descriptor.isGridPointData()) {
+                final Variable variable = netcdfFile.findVariable(null, ncVariableName);
+                if (variable != null) {
+                    snapshotBandNamesList.add(descriptor.getMemberName());
+                }
+
+            }
             if (!descriptor.isVisible()) {
                 continue;
             }
 
-            final String eeVariableName = dddb.getEEVariableName(descriptor.getMemberName(), schemaDescription);
-            final String ncVariableName = ExporterUtils.ensureNetCDFName(eeVariableName);
             final Variable variable = netcdfFile.findVariable(null, ncVariableName);
             if (variable == null) {
                 continue;
@@ -192,6 +194,7 @@ abstract class AbstractProductTypeSupport implements ProductTypeSupport {
             ++index;
         }
 
+        snapshotDataNames = snapshotBandNamesList.toArray(new String[snapshotBandNamesList.size()]);
         tableClasses = tableClassesList.toArray(new Class[tableClassesList.size()]);
 
         for (final BandDescriptor descriptor : bandDescriptors.asList()) {

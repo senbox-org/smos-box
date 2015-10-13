@@ -22,7 +22,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
-import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -79,12 +78,7 @@ class ScienceProductSupport extends AbstractProductTypeSupport {
     @Override
     public boolean hasSnapshotInfo() {
         if (snapshotInfoFuture == null) {
-            snapshotInfoFuture = Executors.newSingleThreadExecutor().submit(new Callable<SnapshotInfo>() {
-                @Override
-                public SnapshotInfo call() throws IOException {
-                    return createSnapshotInfo();
-                }
-            });
+            snapshotInfoFuture = Executors.newSingleThreadExecutor().submit(() -> createSnapshotInfo());
         }
         return snapshotInfoFuture.isDone();
     }
@@ -100,7 +94,18 @@ class ScienceProductSupport extends AbstractProductTypeSupport {
 
     @Override
     public Object[][] getSnapshotData(int snapshotIndex) {
-        return super.getSnapshotData(snapshotIndex);
+        try {
+            final Object[][] snapshotData = new Object[snapshotDataNames.length][2];
+            for(int i = 0; i < snapshotDataNames.length; i++ ) {
+                final String variableName = snapshotDataNames[i];
+                final Array array = arrayCache.get(variableName);
+                snapshotData[i][0] = variableName;
+                snapshotData[i][1] = array.getDouble(snapshotIndex);
+            }
+            return snapshotData;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private SnapshotInfo createSnapshotInfo() throws IOException {
@@ -177,6 +182,11 @@ class ScienceProductSupport extends AbstractProductTypeSupport {
             if (all.contains(id)) {
                 snapshotIndexMap.put(id, i);
             }
+        }
+
+        // load snapshot variables
+        for(String variableName : snapshotDataNames) {
+            arrayCache.get(variableName);
         }
 
         return new SnapshotInfo(snapshotIndexMap, all, x, y, xy, snapshotAreaMap);
