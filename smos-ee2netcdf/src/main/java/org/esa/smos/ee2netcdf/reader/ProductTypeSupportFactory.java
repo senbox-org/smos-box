@@ -15,8 +15,8 @@ class ProductTypeSupportFactory {
             return new L2ProductSupport(netcdfFile);
         } else if (isBrowseType(typeString)) {
             return new BrowseProductSupport(netcdfFile);
-        }else if (isScienceType(typeString)) {
-            return new ScienceProductSupport(netcdfFile);
+        } else if (isScienceType(typeString)) {
+            return new ScienceProductSupport(netcdfFile, typeString);
         }
 
         throw new IllegalArgumentException("Invalid product type: '" + typeString + "'");

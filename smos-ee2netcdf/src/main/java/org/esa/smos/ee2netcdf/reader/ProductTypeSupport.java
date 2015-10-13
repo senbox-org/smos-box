@@ -27,7 +27,7 @@ interface ProductTypeSupport {
     PolarisationModel getPolarisationModel();
     boolean canSupplySnapshotData();
     boolean hasSnapshotInfo();
-    SnapshotInfo getSnapshotInfo();
+    SnapshotInfo getSnapshotInfo() throws IOException;
     Object[][] getSnapshotData(int snapshotIndex);
 
     String getLatitudeBandName();

@@ -28,7 +28,7 @@ abstract public class SmosReader extends AbstractProductReader{
 
     public abstract boolean canSupplySnapshotData();
     public abstract boolean hasSnapshotInfo();
-    public abstract SnapshotInfo getSnapshotInfo();
+    public abstract SnapshotInfo getSnapshotInfo() ;
     public abstract Object[][] getSnapshotData(int snapshotIndex) throws IOException;
 
     protected File getInputFile() {

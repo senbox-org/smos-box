@@ -157,7 +157,13 @@ public class NetcdfProductReader extends SmosReader {
             return null;
         }
 
-        return typeSupport.getSnapshotInfo();
+        try {
+            return typeSupport.getSnapshotInfo();
+        } catch (IOException e) {
+            // @todo 2 tb/tb handle this 2015-10-13
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override

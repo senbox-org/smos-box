@@ -144,7 +144,6 @@ public abstract class GridPointBtDataTopComponent extends SmosTopComponent {
                 @Override
                 protected GridPointBtDataset doInBackground() throws ExecutionException {
                     try {
-
                         return smosReader.getBtData(gridPointIndex);
                     } catch (IOException e) {
                         e.printStackTrace();

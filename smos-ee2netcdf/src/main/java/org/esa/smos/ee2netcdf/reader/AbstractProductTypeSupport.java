@@ -124,7 +124,7 @@ abstract class AbstractProductTypeSupport implements ProductTypeSupport {
     }
 
     @Override
-    public SnapshotInfo getSnapshotInfo() {
+    public SnapshotInfo getSnapshotInfo() throws IOException {
         return null;
     }
 
