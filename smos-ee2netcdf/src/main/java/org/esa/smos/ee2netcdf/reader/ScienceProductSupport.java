@@ -69,7 +69,12 @@ class ScienceProductSupport extends AbstractProductTypeSupport {
 
     @Override
     public ValueProvider createValueProvider(ArrayCache arrayCache, String variableName, BandDescriptor descriptor, Area area, GridPointInfo gridPointInfo) {
-        return new InterpolatedValueProvider(arrayCache, variableName, descriptor, area, gridPointInfo, incidentAngleScaleFactor);
+        if (descriptor.getMemberName().equals("Flags")) {
+
+            return new ScienceFlagsValueProvider(arrayCache, variableName, descriptor, area, gridPointInfo, incidentAngleScaleFactor);
+        } else {
+            return new ScienceValueProvider(arrayCache, variableName, descriptor, area, gridPointInfo, incidentAngleScaleFactor);
+        }
     }
 
     @Override
