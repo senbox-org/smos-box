@@ -32,6 +32,11 @@ abstract class AbstractProductTypeSupport implements ProductTypeSupport {
     }
 
     @Override
+    public void initialize(Family<BandDescriptor> bandDescriptors) {
+        // nothing to do as default tb 2015-10-14
+    }
+
+    @Override
     public void setScalingAndOffset(Band band, BandDescriptor bandDescriptor) {
         band.setScalingOffset(bandDescriptor.getScalingOffset());
         band.setScalingFactor(bandDescriptor.getScalingFactor());

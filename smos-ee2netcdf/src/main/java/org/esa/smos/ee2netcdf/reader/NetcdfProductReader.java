@@ -206,6 +206,8 @@ public class NetcdfProductReader extends SmosReader {
                 throw new IOException("Unsupported file schema: '" + schemaDescription + "`");
             }
 
+            typeSupport.initialize(bandDescriptors);
+
             for (final BandDescriptor descriptor : bandDescriptors.asList()) {
                 if (!descriptor.isVisible()) {
                     continue;

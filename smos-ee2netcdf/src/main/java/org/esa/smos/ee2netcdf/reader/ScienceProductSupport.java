@@ -18,6 +18,7 @@ import ucar.nc2.NetcdfFile;
 import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
@@ -28,12 +29,32 @@ import java.util.concurrent.Future;
 
 class ScienceProductSupport extends AbstractProductTypeSupport {
 
+    private static final String INCIDENCE_ANGLE_NAME = "Incidence_Angle";
+
     private final String typeString;
     private Future<SnapshotInfo> snapshotInfoFuture;
+    private double incidentAngleScaleFactor;
 
     ScienceProductSupport(NetcdfFile netcdfFile, String typeString) {
         super(netcdfFile);
         this.typeString = typeString;
+    }
+
+    @Override
+    public void initialize(Family<BandDescriptor> bandDescriptors) {
+        boolean found = false;
+        final List<BandDescriptor> bandDescriptorList = bandDescriptors.asList();
+        for (final BandDescriptor bandDescriptor : bandDescriptorList) {
+            if (INCIDENCE_ANGLE_NAME.equals(bandDescriptor.getMemberName())) {
+                incidentAngleScaleFactor = bandDescriptor.getScalingFactor();
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            throw new RuntimeException(INCIDENCE_ANGLE_NAME + " variable not found");
+        }
+        super.initialize(bandDescriptors);
     }
 
     @Override
@@ -48,7 +69,7 @@ class ScienceProductSupport extends AbstractProductTypeSupport {
 
     @Override
     public ValueProvider createValueProvider(ArrayCache arrayCache, String variableName, BandDescriptor descriptor, Area area, GridPointInfo gridPointInfo) {
-        return new InterpolatedValueProvider(arrayCache, variableName, descriptor.getPolarization(), area, gridPointInfo);
+        return new InterpolatedValueProvider(arrayCache, variableName, descriptor, area, gridPointInfo, incidentAngleScaleFactor);
     }
 
     @Override

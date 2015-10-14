@@ -42,4 +42,6 @@ interface ProductTypeSupport {
     void createAdditionalBands(Product product, Family<BandDescriptor> bandDescriptors, String formatName);
 
     void setGridPointInfo(GridPointInfo gridPointInfo);
+
+    void initialize(Family<BandDescriptor> bandDescriptors);
 }
