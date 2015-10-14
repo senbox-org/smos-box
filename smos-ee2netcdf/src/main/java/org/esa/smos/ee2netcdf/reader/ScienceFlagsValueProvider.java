@@ -81,7 +81,7 @@ class ScienceFlagsValueProvider implements ValueProvider {
             final Array flagsVector = extractGridPointVector(gridPointIndex, flagDataArray);
             final Index flagsVectorIndex = flagsVector.getIndex();
 
-            final Array incidenceAngleArray = arrayCache.get("Incidence_Angle");
+            final Array incidenceAngleArray = arrayCache.get(SmosConstants.INCIDENCE_ANGLE);
             final Array incidenceAngleVector = extractGridPointVector(gridPointIndex, incidenceAngleArray);
             final Index angleVectorIndex = incidenceAngleVector.getIndex();
 

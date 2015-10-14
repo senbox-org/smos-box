@@ -168,7 +168,7 @@ public class SmosProductReader extends SmosReader {
                 break;
             }
         }
-        final Integer incidence_angle = memberNamesMap.get("Incidence_Angle");
+        final Integer incidence_angle = memberNamesMap.get(SmosConstants.INCIDENCE_ANGLE);
         if (incidence_angle != null) {
             btDataset.setIncidenceAngleBandIndex(incidence_angle);
         }

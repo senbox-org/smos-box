@@ -29,8 +29,6 @@ import java.util.concurrent.Future;
 
 class ScienceProductSupport extends AbstractProductTypeSupport {
 
-    private static final String INCIDENCE_ANGLE_NAME = "Incidence_Angle";
-
     private final String typeString;
     private Future<SnapshotInfo> snapshotInfoFuture;
     private double incidentAngleScaleFactor;
@@ -45,14 +43,14 @@ class ScienceProductSupport extends AbstractProductTypeSupport {
         boolean found = false;
         final List<BandDescriptor> bandDescriptorList = bandDescriptors.asList();
         for (final BandDescriptor bandDescriptor : bandDescriptorList) {
-            if (INCIDENCE_ANGLE_NAME.equals(bandDescriptor.getMemberName())) {
+            if (SmosConstants.INCIDENCE_ANGLE.equals(bandDescriptor.getMemberName())) {
                 incidentAngleScaleFactor = bandDescriptor.getScalingFactor();
                 found = true;
                 break;
             }
         }
         if (!found) {
-            throw new RuntimeException(INCIDENCE_ANGLE_NAME + " variable not found");
+            throw new RuntimeException(SmosConstants.INCIDENCE_ANGLE + " variable not found");
         }
         super.initialize(bandDescriptors);
     }

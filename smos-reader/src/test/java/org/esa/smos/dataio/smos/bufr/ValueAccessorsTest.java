@@ -1,5 +1,6 @@
 package org.esa.smos.dataio.smos.bufr;
 
+import org.esa.smos.dataio.smos.SmosConstants;
 import org.junit.Test;
 import ucar.ma2.StructureData;
 
@@ -19,7 +20,7 @@ public class ValueAccessorsTest {
         valueAccessor = ValueAccessors.get(SmosBufrFile.GEOMETRIC_ROTATIONAL_ANGLE);
         assertTrue(valueAccessor instanceof ValueAccessors.IntValueAccessor);
 
-        valueAccessor = ValueAccessors.get(SmosBufrFile.INCIDENCE_ANGLE);
+        valueAccessor = ValueAccessors.get(SmosConstants.INCIDENCE_ANGLE);
         assertTrue(valueAccessor instanceof ValueAccessors.IntValueAccessor);
     }
 

@@ -1,5 +1,6 @@
 package org.esa.smos.dataio.smos.bufr;
 
+import org.esa.smos.dataio.smos.SmosConstants;
 import org.esa.snap.core.datamodel.MetadataElement;
 import org.esa.snap.core.datamodel.Product;
 import org.esa.snap.dataio.netcdf.util.MetadataUtils;
@@ -43,7 +44,7 @@ class BufrSupport {
                 SmosBufrFile.BRIGHTNESS_TEMPERATURE_REAL_PART,
                 SmosBufrFile.BRIGHTNESS_TEMPERATURE_IMAGINARY_PART,
                 SmosBufrFile.PIXEL_RADIOMETRIC_ACCURACY,
-                SmosBufrFile.INCIDENCE_ANGLE,
+                SmosConstants.INCIDENCE_ANGLE,
                 SmosBufrFile.AZIMUTH_ANGLE,
                 SmosBufrFile.FARADAY_ROTATIONAL_ANGLE,
                 SmosBufrFile.GEOMETRIC_ROTATIONAL_ANGLE,
@@ -126,7 +127,7 @@ class BufrSupport {
 
         valueDecoders.lonDecoder = smosBufrFile.getValueDecoder(SmosBufrFile.LONGITUDE_HIGH_ACCURACY);
         valueDecoders.latDecoder = smosBufrFile.getValueDecoder(SmosBufrFile.LATITUDE_HIGH_ACCURACY);
-        valueDecoders.incidenceAngleDecoder = smosBufrFile.getValueDecoder(SmosBufrFile.INCIDENCE_ANGLE);
+        valueDecoders.incidenceAngleDecoder = smosBufrFile.getValueDecoder(SmosConstants.INCIDENCE_ANGLE);
         valueDecoders.tecDecoder = smosBufrFile.getValueDecoder(SmosBufrFile.TOTAL_ELECTRON_COUNT);
         valueDecoders.snapshotAccuracyDecoder = smosBufrFile.getValueDecoder(SmosBufrFile.SNAPSHOT_ACCURACY);
         valueDecoders.raPpDecoder = smosBufrFile.getValueDecoder(SmosBufrFile.RADIOMETRIC_ACCURACY_PP);

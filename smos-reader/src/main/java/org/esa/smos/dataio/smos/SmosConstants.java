@@ -25,19 +25,19 @@ public class SmosConstants {
      * The name of any SMOS grid point data sequence is mapped to this name.
      */
     public static final String GRID_POINT_LIST_NAME = "Grid_Point_List";
-
     public static final String GRID_POINT_COUNTER_NAME = "Grid_Point_Counter";
-
     public static final String GRID_POINT_ID_NAME = "Grid_Point_ID";
     public static final String GRID_POINT_LAT_NAME = "Latitude";
     public static final String GRID_POINT_LON_NAME = "Longitude";
-    public static final String SNAPSHOT_LIST_NAME = "Swath_Snapshot_List";
 
+    public static final String SNAPSHOT_LIST_NAME = "Swath_Snapshot_List";
     public static final String SNAPSHOT_ID_NAME = "Snapshot_ID";
+
     public static final String BT_DATA_LIST_NAME = "BT_Data";
     public static final String BT_FLAGS_NAME = "Flags";
     public static final String BT_SNAPSHOT_ID_OF_PIXEL_NAME = "Snapshot_ID_of_Pixel";
 
+    public static final String INCIDENCE_ANGLE = "Incidence_angle";
     /**
      * Mask for flags indicating polarization mode.
      */
