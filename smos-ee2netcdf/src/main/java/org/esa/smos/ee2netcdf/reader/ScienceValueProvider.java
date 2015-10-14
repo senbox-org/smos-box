@@ -2,6 +2,7 @@ package org.esa.smos.ee2netcdf.reader;
 
 
 import org.esa.smos.dataio.smos.GridPointInfo;
+import org.esa.smos.dataio.smos.SmosConstants;
 import org.esa.smos.dataio.smos.dddb.BandDescriptor;
 import org.esa.smos.dataio.smos.provider.ValueProvider;
 import ucar.ma2.Array;
@@ -12,10 +13,6 @@ import java.awt.geom.Area;
 import java.io.IOException;
 
 class ScienceValueProvider implements ValueProvider {
-
-    private static final double MIN_BROWSE_INCIDENCE_ANGLE = 37.5;
-    private static final double MAX_BROWSE_INCIDENCE_ANGLE = 52.5;
-    private static final double CENTER_BROWSE_INCIDENCE_ANGLE = 42.5;
 
     private final Area area;
     private final GridPointInfo gridPointInfo;
@@ -116,7 +113,7 @@ class ScienceValueProvider implements ValueProvider {
                 if (polarization == 4 || polarization == (flags & 3) || (polarization & flags & 2) != 0) {
                     final double incidenceAngle = incidenceAngleScalingFactor * incidenceAngleVector.getInt(angleVectorIndex);
 
-                    if (incidenceAngle >= MIN_BROWSE_INCIDENCE_ANGLE && incidenceAngle <= MAX_BROWSE_INCIDENCE_ANGLE) {
+                    if (incidenceAngle >= SmosConstants.MIN_BROWSE_INCIDENCE_ANGLE && incidenceAngle <= SmosConstants.MAX_BROWSE_INCIDENCE_ANGLE) {
                         sx += incidenceAngle;
                         sy += value;
                         sxx += incidenceAngle * incidenceAngle;
@@ -124,10 +121,10 @@ class ScienceValueProvider implements ValueProvider {
                         count++;
 
                         if (!hasLower) {
-                            hasLower = incidenceAngle <= CENTER_BROWSE_INCIDENCE_ANGLE;
+                            hasLower = incidenceAngle <= SmosConstants.CENTER_BROWSE_INCIDENCE_ANGLE;
                         }
                         if (!hasUpper) {
-                            hasUpper = incidenceAngle > CENTER_BROWSE_INCIDENCE_ANGLE;
+                            hasUpper = incidenceAngle > SmosConstants.CENTER_BROWSE_INCIDENCE_ANGLE;
                         }
                     }
                 }
@@ -136,7 +133,7 @@ class ScienceValueProvider implements ValueProvider {
             if (hasLower && hasUpper) {
                 final double a = (count * sxy - sx * sy) / (count * sxx - sx * sx);
                 final double b = (sy - a * sx) / count;
-                return (float) (a * CENTER_BROWSE_INCIDENCE_ANGLE + b);
+                return (float) (a * SmosConstants.CENTER_BROWSE_INCIDENCE_ANGLE + b);
             }
         } catch (IOException e) {
             return noDataValue;

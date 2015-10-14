@@ -62,10 +62,6 @@ public class L1cScienceSmosFile extends L1cSmosFile {
 
     private static final String INCIDENCE_ANGLE_NAME = "Incidence_Angle";
 
-    private static final double CENTER_BROWSE_INCIDENCE_ANGLE = 42.5;
-    private static final double MIN_BROWSE_INCIDENCE_ANGLE = 37.5;
-    private static final double MAX_BROWSE_INCIDENCE_ANGLE = 52.5;
-
     private final Map<String, AbstractValueProvider> valueProviderMap = new HashMap<>(17);
     private final int flagsIndex;
     private final int incidenceAngleIndex;
@@ -253,7 +249,7 @@ public class L1cScienceSmosFile extends L1cSmosFile {
             if (polarization == 4 || polarization == (flags & 3) || (polarization & flags & 2) != 0) {
                 final double incidenceAngle = incidenceAngleScalingFactor * btData.getInt(incidenceAngleIndex);
 
-                if (incidenceAngle >= MIN_BROWSE_INCIDENCE_ANGLE && incidenceAngle <= MAX_BROWSE_INCIDENCE_ANGLE) {
+                if (incidenceAngle >= SmosConstants.MIN_BROWSE_INCIDENCE_ANGLE && incidenceAngle <= SmosConstants.MAX_BROWSE_INCIDENCE_ANGLE) {
                     final float value = btData.getFloat(memberIndex);
 
                     sx += incidenceAngle;
@@ -263,10 +259,10 @@ public class L1cScienceSmosFile extends L1cSmosFile {
                     count++;
 
                     if (!hasLower) {
-                        hasLower = incidenceAngle <= CENTER_BROWSE_INCIDENCE_ANGLE;
+                        hasLower = incidenceAngle <= SmosConstants.CENTER_BROWSE_INCIDENCE_ANGLE;
                     }
                     if (!hasUpper) {
-                        hasUpper = incidenceAngle > CENTER_BROWSE_INCIDENCE_ANGLE;
+                        hasUpper = incidenceAngle > SmosConstants.CENTER_BROWSE_INCIDENCE_ANGLE;
                     }
                 }
             }
@@ -274,7 +270,7 @@ public class L1cScienceSmosFile extends L1cSmosFile {
         if (hasLower && hasUpper) {
             final double a = (count * sxy - sx * sy) / (count * sxx - sx * sx);
             final double b = (sy - a * sx) / count;
-            return a * CENTER_BROWSE_INCIDENCE_ANGLE + b;
+            return a * SmosConstants.CENTER_BROWSE_INCIDENCE_ANGLE + b;
         }
 
         throw new IOException(MessageFormat.format(
@@ -297,14 +293,14 @@ public class L1cScienceSmosFile extends L1cSmosFile {
             if (polarization == 4 || polarization == (flags & 3) || (polarization & flags & 2) != 0) {
                 final double incidenceAngle = incidenceAngleScalingFactor * btData.getInt(incidenceAngleIndex);
 
-                if (incidenceAngle >= MIN_BROWSE_INCIDENCE_ANGLE && incidenceAngle <= MAX_BROWSE_INCIDENCE_ANGLE) {
+                if (incidenceAngle >= SmosConstants.MIN_BROWSE_INCIDENCE_ANGLE && incidenceAngle <= SmosConstants.MAX_BROWSE_INCIDENCE_ANGLE) {
                     combinedFlags |= flags;
 
                     if (!hasLower) {
-                        hasLower = incidenceAngle <= CENTER_BROWSE_INCIDENCE_ANGLE;
+                        hasLower = incidenceAngle <= SmosConstants.CENTER_BROWSE_INCIDENCE_ANGLE;
                     }
                     if (!hasUpper) {
-                        hasUpper = incidenceAngle > CENTER_BROWSE_INCIDENCE_ANGLE;
+                        hasUpper = incidenceAngle > SmosConstants.CENTER_BROWSE_INCIDENCE_ANGLE;
                     }
                 }
             }

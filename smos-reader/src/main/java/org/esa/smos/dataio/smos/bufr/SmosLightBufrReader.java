@@ -13,6 +13,7 @@ import org.esa.smos.dataio.smos.Grid;
 import org.esa.smos.dataio.smos.GridPointBtDataset;
 import org.esa.smos.dataio.smos.PolarisationModel;
 import org.esa.smos.dataio.smos.ProductHelper;
+import org.esa.smos.dataio.smos.SmosConstants;
 import org.esa.smos.dataio.smos.SmosReader;
 import org.esa.smos.dataio.smos.SnapshotInfo;
 import org.esa.smos.dataio.smos.dddb.BandDescriptor;
@@ -52,10 +53,6 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 
 public class SmosLightBufrReader extends SmosReader {
-
-    private static final double CENTER_BROWSE_INCIDENCE_ANGLE = 42.5;
-    private static final double MIN_BROWSE_INCIDENCE_ANGLE = 37.5;
-    private static final double MAX_BROWSE_INCIDENCE_ANGLE = 52.5;
 
     private HashMap<Integer, SnapshotObservation> snapshotMap;
     private HashMap<Integer, List<Observation>> gridPointMap;
@@ -609,7 +606,7 @@ public class SmosLightBufrReader extends SmosReader {
                         final int incidenceAngleInt = observation.data[BufrSupport.INCIDENCE_ANGLE_INDEX];
                         if (incidenceAngleValueDecoder.isValid(incidenceAngleInt)) {
                             final double incidenceAngle = incidenceAngleValueDecoder.decode(incidenceAngleInt);
-                            if (incidenceAngle >= MIN_BROWSE_INCIDENCE_ANGLE && incidenceAngle <= MAX_BROWSE_INCIDENCE_ANGLE) {
+                            if (incidenceAngle >= SmosConstants.MIN_BROWSE_INCIDENCE_ANGLE && incidenceAngle <= SmosConstants.MAX_BROWSE_INCIDENCE_ANGLE) {
                                 sx += incidenceAngle;
                                 sy += value;
                                 sxx += incidenceAngle * incidenceAngle;
@@ -617,10 +614,10 @@ public class SmosLightBufrReader extends SmosReader {
                                 count++;
 
                                 if (!hasLower) {
-                                    hasLower = incidenceAngle <= CENTER_BROWSE_INCIDENCE_ANGLE;
+                                    hasLower = incidenceAngle <= SmosConstants.CENTER_BROWSE_INCIDENCE_ANGLE;
                                 }
                                 if (!hasUpper) {
-                                    hasUpper = incidenceAngle > CENTER_BROWSE_INCIDENCE_ANGLE;
+                                    hasUpper = incidenceAngle > SmosConstants.CENTER_BROWSE_INCIDENCE_ANGLE;
                                 }
                             }
                         }
@@ -629,7 +626,7 @@ public class SmosLightBufrReader extends SmosReader {
                 if (hasLower && hasUpper) {
                     final double a = (count * sxy - sx * sy) / (count * sxx - sx * sx);
                     final double b = (sy - a * sx) / count;
-                    return (int) (a * CENTER_BROWSE_INCIDENCE_ANGLE + b);
+                    return (int) (a * SmosConstants.CENTER_BROWSE_INCIDENCE_ANGLE + b);
                 }
             }
             return noDataValue;
@@ -716,14 +713,14 @@ public class SmosLightBufrReader extends SmosReader {
 
                         if (incidenceAngleValueDecoder.isValid(incidenceAngleInt)) {
                             final double incidenceAngle = incidenceAngleValueDecoder.decode(incidenceAngleInt);
-                            if (incidenceAngle >= MIN_BROWSE_INCIDENCE_ANGLE && incidenceAngle <= MAX_BROWSE_INCIDENCE_ANGLE) {
+                            if (incidenceAngle >= SmosConstants.MIN_BROWSE_INCIDENCE_ANGLE && incidenceAngle <= SmosConstants.MAX_BROWSE_INCIDENCE_ANGLE) {
                                 combinedFlags |= observation.data[dataindex];
 
                                 if (!hasLower) {
-                                    hasLower = incidenceAngle <= CENTER_BROWSE_INCIDENCE_ANGLE;
+                                    hasLower = incidenceAngle <= SmosConstants.CENTER_BROWSE_INCIDENCE_ANGLE;
                                 }
                                 if (!hasUpper) {
-                                    hasUpper = incidenceAngle > CENTER_BROWSE_INCIDENCE_ANGLE;
+                                    hasUpper = incidenceAngle > SmosConstants.CENTER_BROWSE_INCIDENCE_ANGLE;
                                 }
                             }
                         }

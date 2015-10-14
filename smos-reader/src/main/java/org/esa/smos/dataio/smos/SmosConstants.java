@@ -64,4 +64,8 @@ public class SmosConstants {
      * Name of the band containing the static SMOS Land/Sea Mask.
      */
     public static final String LAND_SEA_MASK_NAME = "Land_Sea_Mask";
+
+    public static final double MIN_BROWSE_INCIDENCE_ANGLE = 37.5;
+    public static final double MAX_BROWSE_INCIDENCE_ANGLE = 52.5;
+    public static final double CENTER_BROWSE_INCIDENCE_ANGLE = 42.5;
 }
