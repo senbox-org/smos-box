@@ -166,7 +166,7 @@ public class SmosBox {
 
     private static void installColorPalettes() throws IOException {
         final Path codeSourceUrl;
-        final Path auxdataDir = SystemUtils.getAuxDataPath().resolve("color-palettes");
+        final Path auxdataDir = SystemUtils.getAuxDataPath().resolve("color_palettes");
         codeSourceUrl = ResourceInstaller.findModuleCodeBasePath(SmosBox.class);
         Path sourceDirPath = codeSourceUrl.resolve("color_palettes");
         final ResourceInstaller resourceInstaller = new ResourceInstaller(sourceDirPath, auxdataDir);
