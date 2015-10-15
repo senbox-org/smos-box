@@ -34,11 +34,12 @@ public class NetcdfExportDialogTest {
 
         final List<Path> targetFiles = NetcdfExportDialog.getTargetFiles(resourceDirectory, "*.zip", targetDir);
         assertNotNull(targetFiles);
-        assertEquals(4, targetFiles.size());
-        assertEquals(getAbsolutePath(someNotExistingDir, "SM_OPER_MIR_BWLF1C_20111026T143206_20111026T152520_503_001_1.nc"), targetFiles.get(0));
-        assertEquals(getAbsolutePath(someNotExistingDir, "SM_OPER_MIR_OSUDP2_20091204T001853_20091204T011255_310_001_1.nc"), targetFiles.get(1));
-        assertEquals(getAbsolutePath(someNotExistingDir, "SM_OPER_MIR_SMUDP2_20120514T163815_20120514T173133_551_001_1.nc"), targetFiles.get(2));
-        assertEquals(getAbsolutePath(someNotExistingDir, "SM_REPB_MIR_SCLF1C_20110201T151254_20110201T151308_505_152_1.nc"), targetFiles.get(3));
+        assertEquals(5, targetFiles.size());
+        assertEquals(getAbsolutePath(someNotExistingDir, "SM_OPER_MIR_BWLD1C_20100208T040959_20100208T050400_324_001_1.nc"), targetFiles.get(0));
+        assertEquals(getAbsolutePath(someNotExistingDir, "SM_OPER_MIR_BWLF1C_20111026T143206_20111026T152520_503_001_1.nc"), targetFiles.get(1));
+        assertEquals(getAbsolutePath(someNotExistingDir, "SM_OPER_MIR_OSUDP2_20091204T001853_20091204T011255_310_001_1.nc"), targetFiles.get(2));
+        assertEquals(getAbsolutePath(someNotExistingDir, "SM_OPER_MIR_SMUDP2_20120514T163815_20120514T173133_551_001_1.nc"), targetFiles.get(3));
+        assertEquals(getAbsolutePath(someNotExistingDir, "SM_REPB_MIR_SCLF1C_20110201T151254_20110201T151308_505_152_1.nc"), targetFiles.get(4));
     }
 
     private Path getAbsolutePath(String someNotExistingDir, String s) {
