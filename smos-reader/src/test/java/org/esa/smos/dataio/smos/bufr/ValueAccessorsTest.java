@@ -20,7 +20,7 @@ public class ValueAccessorsTest {
         valueAccessor = ValueAccessors.get(SmosBufrFile.GEOMETRIC_ROTATIONAL_ANGLE);
         assertTrue(valueAccessor instanceof ValueAccessors.IntValueAccessor);
 
-        valueAccessor = ValueAccessors.get(SmosConstants.INCIDENCE_ANGLE);
+        valueAccessor = ValueAccessors.get(SmosBufrFile.INCIDENCE_ANGLE);
         assertTrue(valueAccessor instanceof ValueAccessors.IntValueAccessor);
     }
 

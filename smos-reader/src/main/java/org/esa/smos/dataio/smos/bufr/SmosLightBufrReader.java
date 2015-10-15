@@ -337,7 +337,7 @@ public class SmosLightBufrReader extends SmosReader {
                         SmosBufrFile.FOOTPRINT_AXIS_2);
                 observation.data[BufrSupport.GEOMETRIC_ANGLE_INDEX] = structureData.getScalarInt(
                         SmosBufrFile.GEOMETRIC_ROTATIONAL_ANGLE);
-                observation.data[BufrSupport.INCIDENCE_ANGLE_INDEX] = structureData.getScalarInt(SmosConstants.INCIDENCE_ANGLE);
+                observation.data[BufrSupport.INCIDENCE_ANGLE_INDEX] = structureData.getScalarInt(SmosBufrFile.INCIDENCE_ANGLE);
                 observation.data[BufrSupport.RADIOMETRIC_ACCURACY_INDEX] = structureData.getScalarShort(
                         SmosBufrFile.PIXEL_RADIOMETRIC_ACCURACY);
                 observation.data[BufrSupport.INFORMATION_FLAG_INDEX] = structureData.getScalarShort(

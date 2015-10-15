@@ -44,7 +44,7 @@ class BufrSupport {
                 SmosBufrFile.BRIGHTNESS_TEMPERATURE_REAL_PART,
                 SmosBufrFile.BRIGHTNESS_TEMPERATURE_IMAGINARY_PART,
                 SmosBufrFile.PIXEL_RADIOMETRIC_ACCURACY,
-                SmosConstants.INCIDENCE_ANGLE,
+                SmosBufrFile.INCIDENCE_ANGLE,
                 SmosBufrFile.AZIMUTH_ANGLE,
                 SmosBufrFile.FARADAY_ROTATIONAL_ANGLE,
                 SmosBufrFile.GEOMETRIC_ROTATIONAL_ANGLE,

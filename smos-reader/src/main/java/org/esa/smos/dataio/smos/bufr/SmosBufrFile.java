@@ -41,6 +41,7 @@ public class SmosBufrFile extends NetcdfFile implements Closeable {
     public static final String FOOTPRINT_AXIS_2 = "Footprint_axis_2";
     public static final String GEOMETRIC_ROTATIONAL_ANGLE = "Geometric_rotational_angle";
     public static final String GRID_POINT_IDENTIFIER = "Grid_point_identifier";
+    public static final String INCIDENCE_ANGLE = "Incidence_angle";
     public static final String LATITUDE_HIGH_ACCURACY = "Latitude_high_accuracy";
     public static final String LONGITUDE_HIGH_ACCURACY = "Longitude_high_accuracy";
     public static final String NUMBER_OF_GRID_POINTS = "Number_of_grid_points";
@@ -133,7 +134,7 @@ public class SmosBufrFile extends NetcdfFile implements Closeable {
         addValueDecoder(FOOTPRINT_AXIS_2);
         addValueDecoder(GEOMETRIC_ROTATIONAL_ANGLE);
         addValueDecoder(GRID_POINT_IDENTIFIER);
-        addValueDecoder(SmosConstants.INCIDENCE_ANGLE);
+        addValueDecoder(INCIDENCE_ANGLE);
         addValueDecoder(LATITUDE_HIGH_ACCURACY);
         addValueDecoder(LONGITUDE_HIGH_ACCURACY);
         addValueDecoder(NUMBER_OF_GRID_POINTS);

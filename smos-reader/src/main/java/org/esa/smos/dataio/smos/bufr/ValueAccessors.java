@@ -10,7 +10,7 @@ class ValueAccessors {
         if (datasetName.equalsIgnoreCase(SmosBufrFile.AZIMUTH_ANGLE) ||
                 datasetName.equalsIgnoreCase(SmosBufrFile.FARADAY_ROTATIONAL_ANGLE) ||
                 datasetName.equalsIgnoreCase(SmosBufrFile.GEOMETRIC_ROTATIONAL_ANGLE) ||
-                datasetName.equalsIgnoreCase(SmosConstants.INCIDENCE_ANGLE) ||
+                datasetName.equalsIgnoreCase(SmosBufrFile.INCIDENCE_ANGLE) ||
                 datasetName.equalsIgnoreCase(SmosBufrFile.DIRECT_SUN_BRIGHTNESS_TEMPERATURE)) {
             return new IntValueAccessor(datasetName);
         } else if (datasetName.equalsIgnoreCase(SmosBufrFile.BRIGHTNESS_TEMPERATURE_REAL_PART) ||

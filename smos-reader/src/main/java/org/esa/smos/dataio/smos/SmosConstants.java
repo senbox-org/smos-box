@@ -37,7 +37,7 @@ public class SmosConstants {
     public static final String BT_FLAGS_NAME = "Flags";
     public static final String BT_SNAPSHOT_ID_OF_PIXEL_NAME = "Snapshot_ID_of_Pixel";
 
-    public static final String INCIDENCE_ANGLE = "Incidence_angle";
+    public static final String INCIDENCE_ANGLE = "Incidence_Angle";
     /**
      * Mask for flags indicating polarization mode.
      */
