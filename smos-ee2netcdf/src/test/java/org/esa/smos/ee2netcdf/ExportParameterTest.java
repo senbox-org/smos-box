@@ -1,6 +1,5 @@
 package org.esa.smos.ee2netcdf;
 
-import org.esa.smos.gui.BindingConstants;
 import org.esa.snap.core.gpf.annotations.Parameter;
 import org.junit.Before;
 import org.junit.Test;
@@ -30,9 +29,9 @@ public class ExportParameterTest {
 
     @Test
     public void testSelectedProductAnnotation() throws NoSuchFieldException {
-        final Field selectedProductField = ExportParameter.class.getDeclaredField(BindingConstants.SELECTED_PRODUCT);
+        final Field selectedProductField = ExportParameter.class.getDeclaredField(ExportParameter.SELECTED_PRODUCT);
         final Parameter parameter = selectedProductField.getAnnotation(Parameter.class);
-        assertEquals(BindingConstants.SELECTED_PRODUCT, parameter.alias());
+        assertEquals(ExportParameter.SELECTED_PRODUCT, parameter.alias());
     }
 
     @Test
@@ -45,9 +44,9 @@ public class ExportParameterTest {
 
     @Test
     public void testSourceDirectoryAnnotation() throws NoSuchFieldException {
-        final Field selectedProductField = ExportParameter.class.getDeclaredField(BindingConstants.SOURCE_DIRECTORY);
+        final Field selectedProductField = ExportParameter.class.getDeclaredField(ExportParameter.SOURCE_DIRECTORY);
         final Parameter parameter = selectedProductField.getAnnotation(Parameter.class);
-        assertEquals(BindingConstants.SOURCE_DIRECTORY, parameter.alias());
+        assertEquals(ExportParameter.SOURCE_DIRECTORY, parameter.alias());
     }
 
     @Test
@@ -61,9 +60,9 @@ public class ExportParameterTest {
 
     @Test
     public void testOpenFileDialogAnnotation() throws NoSuchFieldException {
-        final Field selectedProductField = ExportParameter.class.getDeclaredField(BindingConstants.OPEN_FILE_DIALOG);
+        final Field selectedProductField = ExportParameter.class.getDeclaredField(ExportParameter.OPEN_FILE_DIALOG);
         final Parameter parameter = selectedProductField.getAnnotation(Parameter.class);
-        assertEquals(BindingConstants.OPEN_FILE_DIALOG, parameter.alias());
+        assertEquals(ExportParameter.OPEN_FILE_DIALOG, parameter.alias());
     }
 
     // @todo 1 tb/tb write test for geometry access 2013-04-08
@@ -95,9 +94,9 @@ public class ExportParameterTest {
 
     @Test
     public void testRoiTypeAnnotation() throws NoSuchFieldException {
-        final Field selectedProductField = ExportParameter.class.getDeclaredField(BindingConstants.ROI_TYPE);
+        final Field selectedProductField = ExportParameter.class.getDeclaredField(ExportParameter.ROI_TYPE);
         final Parameter parameter = selectedProductField.getAnnotation(Parameter.class);
-        assertEquals(BindingConstants.ROI_TYPE, parameter.alias());
+        assertEquals(ExportParameter.ROI_TYPE, parameter.alias());
         assertEquals("0", parameter.defaultValue());
         assertArrayEquals(new String[]{"0", "1", "2"}, parameter.valueSet());
     }

@@ -10,7 +10,6 @@ import org.apache.commons.cli.OptionBuilder;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.PosixParser;
-import org.esa.smos.gui.BindingConstants;
 import org.esa.snap.core.gpf.annotations.Parameter;
 import org.esa.snap.core.gpf.annotations.ParameterDescriptorFactory;
 import org.esa.snap.core.util.StringUtils;
@@ -48,13 +47,13 @@ public class NetcdfExportTool {
     static {
         Locale.setDefault(Locale.ENGLISH);
 
-        PARAMETER_NAMES.put(BindingConstants.CONTACT, "contact");
-        PARAMETER_NAMES.put(BindingConstants.INSTITUTION, "institution");
-        PARAMETER_NAMES.put(BindingConstants.OVERWRITE_TARGET, "overwrite-target");
-        PARAMETER_NAMES.put(BindingConstants.GEOMETRY, "region");
-        PARAMETER_NAMES.put(BindingConstants.TARGET_DIRECTORY, "target-directory");
-        PARAMETER_NAMES.put(BindingConstants.VARIABLES, "variables");
-        PARAMETER_NAMES.put(BindingConstants.COMPRESSION_LEVEL, "compression-level");
+        PARAMETER_NAMES.put(ExportParameter.CONTACT, "contact");
+        PARAMETER_NAMES.put(ExportParameter.INSTITUTION, "institution");
+        PARAMETER_NAMES.put(ExportParameter.OVERWRITE_TARGET, "overwrite-target");
+        PARAMETER_NAMES.put(ExportParameter.GEOMETRY, "region");
+        PARAMETER_NAMES.put(ExportParameter.TARGET_DIRECTORY, "target-directory");
+        PARAMETER_NAMES.put(ExportParameter.VARIABLES, "variables");
+        PARAMETER_NAMES.put(ExportParameter.COMPRESSION_LEVEL, "compression-level");
     }
 
     private static final Level[] LOG_LEVELS = new Level[]{
@@ -169,7 +168,7 @@ public class NetcdfExportTool {
         final ParameterDescriptorFactory descriptorFactory = new ParameterDescriptorFactory();
         final PropertyContainer container = PropertyContainer.createObjectBacked(exportParameter, descriptorFactory);
         container.setDefaultValues();
-        container.setValue(BindingConstants.ROI_TYPE, BindingConstants.ROI_TYPE_GEOMETRY);
+        container.setValue(ExportParameter.ROI_TYPE, ExportParameter.ROI_TYPE_GEOMETRY);
 
         for (final String parameterName : PARAMETER_NAMES.keySet()) {
             final String optionName = getOptionName(parameterName);

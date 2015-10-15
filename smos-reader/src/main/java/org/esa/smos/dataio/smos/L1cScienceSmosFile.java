@@ -80,8 +80,7 @@ public class L1cScienceSmosFile extends L1cSmosFile {
         incidenceAngleIndex = getBtDataType().getMemberIndex(INCIDENCE_ANGLE_NAME);
         final Family<BandDescriptor> bandDescriptors = Dddb.getInstance().getBandDescriptors(formatName);
         if (bandDescriptors == null) {
-            throw new IOException(MessageFormat.format(
-                    "No band descriptors found for format ''{0}''.", formatName));
+            throw new IOException(MessageFormat.format("No band descriptors found for format ''{0}''.", formatName));
         }
         incidenceAngleScalingFactor = getIncidenceAngleScalingFactor(bandDescriptors);
         snapshotIdOfPixelIndex = getBtDataType().getMemberIndex(SmosConstants.BT_SNAPSHOT_ID_OF_PIXEL_NAME);

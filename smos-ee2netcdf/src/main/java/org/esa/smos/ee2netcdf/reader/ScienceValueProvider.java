@@ -12,7 +12,7 @@ import ucar.ma2.InvalidRangeException;
 import java.awt.geom.Area;
 import java.io.IOException;
 
-class ScienceValueProvider implements ValueProvider {
+public class ScienceValueProvider implements ValueProvider {
 
     private final Area area;
     private final GridPointInfo gridPointInfo;
@@ -20,6 +20,7 @@ class ScienceValueProvider implements ValueProvider {
     private final ArrayCache arrayCache;
     private final BandDescriptor descriptor;
     private final double incidenceAngleScalingFactor;
+    private long snapshotId;
 
     public ScienceValueProvider(ArrayCache arrayCache, String variableName, BandDescriptor descriptor, Area area, GridPointInfo gridPointInfo, double incidenceAngleScalingFactor) {
         this.area = area;
@@ -28,6 +29,8 @@ class ScienceValueProvider implements ValueProvider {
         this.arrayCache = arrayCache;
         this.descriptor = descriptor;
         this.incidenceAngleScalingFactor = incidenceAngleScalingFactor;
+
+        snapshotId = -1;
     }
 
     @Override
@@ -36,6 +39,14 @@ class ScienceValueProvider implements ValueProvider {
     }
 
 
+    public long getSnapshotId() {
+        return snapshotId;
+    }
+
+    public void setSnapshotId(long snapshotId) {
+        this.snapshotId = snapshotId;
+    }
+
     @Override
     public byte getValue(int seqnum, byte noDataValue) {
         final int gridPointIndex = gridPointInfo.getGridPointIndex(seqnum);
@@ -43,7 +54,11 @@ class ScienceValueProvider implements ValueProvider {
             return noDataValue;
         }
 
-        return (byte) getInterpolatedValue(gridPointIndex, (float)noDataValue);
+        if (snapshotId == -1) {
+            return (byte) getInterpolatedValue(gridPointIndex, (float) noDataValue);
+        } else {
+            return (byte) getSnapshotValue(gridPointIndex, (float) noDataValue);
+        }
     }
 
     @Override
@@ -53,7 +68,11 @@ class ScienceValueProvider implements ValueProvider {
             return noDataValue;
         }
 
-        return (short) getInterpolatedValue(gridPointIndex, (float)noDataValue);
+        if (snapshotId == -1) {
+            return (short) getInterpolatedValue(gridPointIndex, (float) noDataValue);
+        } else {
+            return (short) getSnapshotValue(gridPointIndex, (float) noDataValue);
+        }
     }
 
     @Override
@@ -62,7 +81,12 @@ class ScienceValueProvider implements ValueProvider {
         if (gridPointIndex < 0) {
             return noDataValue;
         }
-        return (int) getInterpolatedValue(gridPointIndex, (float)noDataValue);
+
+        if (snapshotId == -1) {
+            return (int) getInterpolatedValue(gridPointIndex, (float) noDataValue);
+        } else {
+            return (int) getSnapshotValue(gridPointIndex, (float) noDataValue);
+        }
     }
 
     @Override
@@ -72,7 +96,11 @@ class ScienceValueProvider implements ValueProvider {
             return noDataValue;
         }
 
-        return getInterpolatedValue(gridPointIndex, noDataValue);
+        if (snapshotId == -1) {
+            return getInterpolatedValue(gridPointIndex, noDataValue);
+        } else {
+            return getSnapshotValue(gridPointIndex, noDataValue);
+        }
     }
 
     private float getInterpolatedValue(int gridPointIndex, float noDataValue) {
@@ -138,6 +166,43 @@ class ScienceValueProvider implements ValueProvider {
         } catch (IOException e) {
             return noDataValue;
         } catch (InvalidRangeException e) {
+            return noDataValue;
+        }
+        return noDataValue;
+    }
+
+    private float getSnapshotValue(int gridPointIndex, float noDataValue) {
+        try {
+            final Array gpArray = arrayCache.get(variableName);
+            final Array gpDataVector = extractGridPointVector(gridPointIndex, gpArray);
+            final Index dataIndex = gpDataVector.getIndex();
+
+            final Array snapshotIdOfPixelArray = arrayCache.get("Snapshot_ID_of_Pixel");
+            final Array snapsotIdVector = extractGridPointVector(gridPointIndex, snapshotIdOfPixelArray);
+            final Index snapshotIndex = snapsotIdVector.getIndex();
+
+            final Array flagsArray = arrayCache.get("Flags");
+            final Array flagsVector = extractGridPointVector(gridPointIndex, flagsArray);
+            final Index flagsIndex = flagsVector.getIndex();
+
+            final int polarization = descriptor.getPolarization();
+            for (int i = 0; i < gpDataVector.getSize(); i++) {
+                snapshotIndex.set(i);
+
+                final long pixelSnapshotId = snapsotIdVector.getLong(snapshotIndex);
+                if (pixelSnapshotId == snapshotId) {
+                    flagsIndex.set(i);
+
+                    final int flags = flagsVector.getInt(flagsIndex);
+                    if (polarization == 4 || // for flags (they do not depend on polarisation)
+                            polarization == (flags & 1) || // for x or y polarisation (dual pol)
+                            (polarization & flags & 2) != 0) { // for xy polarisation (full pol, real and imaginary)
+                        dataIndex.set(i);
+                        return gpDataVector.getFloat(dataIndex);
+                    }
+                }
+            }
+        } catch (IOException | InvalidRangeException e) {
             return noDataValue;
         }
         return noDataValue;

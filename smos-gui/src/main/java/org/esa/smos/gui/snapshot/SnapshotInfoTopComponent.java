@@ -27,14 +27,10 @@ import com.bc.ceres.glevel.support.DefaultMultiLevelImage;
 import com.bc.ceres.glevel.support.FileMultiLevelSource;
 import com.bc.ceres.grender.Rendering;
 import com.bc.ceres.grender.Viewport;
-import org.esa.smos.dataio.smos.CellValueProvider;
-import org.esa.smos.dataio.smos.L1cScienceValueProvider;
-import org.esa.smos.dataio.smos.SmosConstants;
-import org.esa.smos.dataio.smos.SmosMultiLevelSource;
-import org.esa.smos.dataio.smos.SmosReader;
-import org.esa.smos.dataio.smos.SnapshotInfo;
+import org.esa.smos.dataio.smos.*;
 import org.esa.smos.dataio.smos.bufr.LightBufrMultiLevelSource;
 import org.esa.smos.dataio.smos.provider.ValueProvider;
+import org.esa.smos.ee2netcdf.reader.ScienceValueProvider;
 import org.esa.smos.gui.ProgressBarProgressMonitor;
 import org.esa.smos.gui.SmosBox;
 import org.esa.smos.gui.SmosTopComponent;
@@ -57,45 +53,14 @@ import org.openide.awt.ActionReference;
 import org.openide.awt.ActionReferences;
 import org.openide.windows.TopComponent;
 
-import javax.swing.AbstractButton;
-import javax.swing.BorderFactory;
-import javax.swing.ButtonGroup;
-import javax.swing.ButtonModel;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
-import javax.swing.JProgressBar;
-import javax.swing.JRadioButton;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.SwingUtilities;
-import javax.swing.SwingWorker;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableModel;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.ComponentOrientation;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
-import java.awt.Shape;
-import java.awt.Window;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.*;
+import java.awt.event.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -229,6 +194,12 @@ public class SnapshotInfoTopComponent extends SmosTopComponent {
                     final L1cScienceValueProvider btDataValueProvider = (L1cScienceValueProvider) valueProvider;
                     if (btDataValueProvider.getSnapshotId() != snapshotId) {
                         btDataValueProvider.setSnapshotId(snapshotId);
+                        resetRasterImages(raster);
+                    }
+                } else if (valueProvider instanceof ScienceValueProvider) {
+                    final ScienceValueProvider scienceValueProvider = (ScienceValueProvider) valueProvider;
+                    if (scienceValueProvider.getSnapshotId() != snapshotId) {
+                        scienceValueProvider.setSnapshotId(snapshotId);
                         resetRasterImages(raster);
                     }
                 }
@@ -558,9 +529,9 @@ public class SnapshotInfoTopComponent extends SmosTopComponent {
         final Window window = SwingUtilities.getWindowAncestor(parent);
 
         exportItem.addActionListener(e -> new TableModelExportRunner(window,
-                                                                     getDisplayName(),
-                                                                     snapshotTable.getModel(),
-                                                                     (TableColumnModelExt) snapshotTable.getColumnModel()).run());
+                getDisplayName(),
+                snapshotTable.getModel(),
+                (TableColumnModelExt) snapshotTable.getColumnModel()).run());
         tablePopup.add(exportItem);
         snapshotTable.add(tablePopup);
 

@@ -25,8 +25,6 @@ public class BindingConstants {
 
     public static final String USE_SELECTED_PRODUCT_BUTTON_NAME = "Use selected SMOS product";
 
-    public static final String INSTITUTION = "institution";
-    public static final String CONTACT = "contact";
     public static final String VARIABLES = "variables";
 
     public static final String COMPRESSION_LEVEL = "compressionLevel";
