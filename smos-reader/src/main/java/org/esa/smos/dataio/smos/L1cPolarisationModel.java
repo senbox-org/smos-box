@@ -1,6 +1,6 @@
 package org.esa.smos.dataio.smos;
 
-class L1cPolarisationModel extends PolarisationModel {
+public class L1cPolarisationModel extends PolarisationModel {
 
     @Override
     public int getPolarisationMode(int flagValue) {

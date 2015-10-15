@@ -64,6 +64,19 @@ abstract class AbstractProductTypeSupport implements ProductTypeSupport {
         final Integer flagsBandIndex = memberNamesMap.get(SmosConstants.BT_FLAGS_NAME);
         if (flagsBandIndex != null) {
             gridPointBtDataset.setFlagBandIndex(flagsBandIndex);
+            gridPointBtDataset.setPolarisationFlagBandIndex(flagsBandIndex);
+        }
+        final Integer bt_value_real = memberNamesMap.get("BT_Value_Real");
+        if (bt_value_real != null) {
+            gridPointBtDataset.setBTValueRealBandIndex(bt_value_real);
+        }
+        final Integer bt_value_imag = memberNamesMap.get("BT_Value_Imag");
+        if (bt_value_imag != null) {
+            gridPointBtDataset.setBTValueImaginaryBandIndex(bt_value_imag);
+        }
+        final Integer incidence_angle = memberNamesMap.get(SmosConstants.INCIDENCE_ANGLE);
+        if (incidence_angle != null) {
+            gridPointBtDataset.setIncidenceAngleBandIndex(incidence_angle);
         }
 
         final Array btDataCountArray = arrayCache.get("BT_Data_Counter");
@@ -80,11 +93,13 @@ abstract class AbstractProductTypeSupport implements ProductTypeSupport {
                 final Index index = array.getIndex();
                 for (int i = 0; i < numMeasurements; i++) {
                     index.set(gridPointIndex, i);
+                    final Number[] tableVector = tableData[i];
+
                     final double rawValue = array.getDouble(index);
                     if (scaler.isValid(rawValue)) {
-                        tableData[i][variablesIndex] = scaler.scale(rawValue);
+                        tableVector[variablesIndex] = scaler.scale(rawValue);
                     } else {
-                        tableData[i][variablesIndex] = Double.NaN;
+                        tableVector[variablesIndex] = Double.NaN;
                     }
                 }
             }

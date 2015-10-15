@@ -133,6 +133,8 @@ class ScienceProductSupport extends AbstractProductTypeSupport {
     }
 
     private SnapshotInfo createSnapshotInfo() throws IOException {
+        ensureDataStructuresInitialized();
+
         final Set<Long> all = new TreeSet<>();
         final Set<Long> x = new TreeSet<>();
         final Set<Long> y = new TreeSet<>();
@@ -241,6 +243,11 @@ class ScienceProductSupport extends AbstractProductTypeSupport {
             // @todo 2 tb/tb ad logging here
         }
         return flagDescriptors;
+    }
+
+    @Override
+    public PolarisationModel getPolarisationModel() {
+        return new L1cPolarisationModel();
     }
 
     private void addRotatedFullPoleBands(Product product, Family<BandDescriptor> bandDescriptors) {
