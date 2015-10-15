@@ -13,6 +13,7 @@ import org.apache.commons.cli.PosixParser;
 import org.esa.snap.core.gpf.annotations.Parameter;
 import org.esa.snap.core.gpf.annotations.ParameterDescriptorFactory;
 import org.esa.snap.core.util.StringUtils;
+import org.esa.snap.core.util.SystemUtils;
 import org.esa.snap.core.util.logging.BeamLogManager;
 
 import java.io.File;
@@ -210,7 +211,7 @@ public class NetcdfExportTool {
 
     private Logger getLogger() {
         if (logger == null) {
-            logger = BeamLogManager.getSystemLogger();
+            logger = SystemUtils.LOG;
         }
         return logger;
     }
