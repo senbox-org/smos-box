@@ -85,6 +85,7 @@ public class ScienceFlagsValueProvider implements ValueProvider {
         if (snapshotId < 0) {
             return getCombinedFlags(gridPointIndex, noDataValue);
         } else {
+
             return getSnapshotValue(gridPointIndex, noDataValue);
         }
     }
@@ -149,7 +150,6 @@ public class ScienceFlagsValueProvider implements ValueProvider {
     }
 
     private int getSnapshotValue(int gridPointIndex, int noDataValue) {
-
         try {
             final Array flagDataArray = arrayCache.get(variableName);
             final Array flagsVector = extractGridPointVector(gridPointIndex, flagDataArray);
