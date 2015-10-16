@@ -11,7 +11,7 @@ import ucar.ma2.InvalidRangeException;
 import java.awt.geom.Area;
 import java.io.IOException;
 
-class ScienceFlagsValueProvider implements ValueProvider {
+public class ScienceFlagsValueProvider implements ValueProvider {
 
     private final Area area;
     private final GridPointInfo gridPointInfo;
@@ -19,6 +19,8 @@ class ScienceFlagsValueProvider implements ValueProvider {
     private final ArrayCache arrayCache;
     private final BandDescriptor descriptor;
     private final double incidenceAngleScalingFactor;
+
+    private long snapshotId;
 
 
     public ScienceFlagsValueProvider(ArrayCache arrayCache, String variableName, BandDescriptor descriptor, Area area, GridPointInfo gridPointInfo, double incidenceAngleScalingFactor) {
@@ -28,11 +30,21 @@ class ScienceFlagsValueProvider implements ValueProvider {
         this.arrayCache = arrayCache;
         this.descriptor = descriptor;
         this.incidenceAngleScalingFactor = incidenceAngleScalingFactor;
+
+        snapshotId = -1;
     }
 
     @Override
     public Area getArea() {
         return area;
+    }
+
+    public long getSnapshotId() {
+        return snapshotId;
+    }
+
+    public void setSnapshotId(long snapshotId) {
+        this.snapshotId = snapshotId;
     }
 
     @Override
@@ -42,7 +54,11 @@ class ScienceFlagsValueProvider implements ValueProvider {
             return noDataValue;
         }
 
-        return (byte) getCombinedFlags(gridPointIndex, noDataValue);
+        if (snapshotId < 0) {
+            return (byte) getCombinedFlags(gridPointIndex, noDataValue);
+        } else {
+            return (byte) getSnapshotValue(gridPointIndex, noDataValue);
+        }
     }
 
     @Override
@@ -52,7 +68,11 @@ class ScienceFlagsValueProvider implements ValueProvider {
             return noDataValue;
         }
 
-        return (short) getCombinedFlags(gridPointIndex, noDataValue);
+        if (snapshotId < 0) {
+            return (short) getCombinedFlags(gridPointIndex, noDataValue);
+        } else {
+            return (short) getSnapshotValue(gridPointIndex, noDataValue);
+        }
     }
 
     @Override
@@ -62,7 +82,11 @@ class ScienceFlagsValueProvider implements ValueProvider {
             return noDataValue;
         }
 
-        return getCombinedFlags(gridPointIndex, noDataValue);
+        if (snapshotId < 0) {
+            return getCombinedFlags(gridPointIndex, noDataValue);
+        } else {
+            return getSnapshotValue(gridPointIndex, noDataValue);
+        }
     }
 
     @Override
@@ -72,7 +96,11 @@ class ScienceFlagsValueProvider implements ValueProvider {
             return noDataValue;
         }
 
-        return getCombinedFlags(gridPointIndex, (int) noDataValue);
+        if (snapshotId < 0) {
+            return getCombinedFlags(gridPointIndex, (int) noDataValue);
+        } else {
+            return getSnapshotValue(gridPointIndex, (int) noDataValue);
+        }
     }
 
     private int getCombinedFlags(int gridPointIndex, int noDataValue) {
@@ -120,6 +148,38 @@ class ScienceFlagsValueProvider implements ValueProvider {
         return noDataValue;
     }
 
+    private int getSnapshotValue(int gridPointIndex, int noDataValue) {
+
+        try {
+            final Array flagDataArray = arrayCache.get(variableName);
+            final Array flagsVector = extractGridPointVector(gridPointIndex, flagDataArray);
+            final Index flagsVectorIndex = flagsVector.getIndex();
+
+            final Array snapshotIdOfPixelArray = arrayCache.get("Snapshot_ID_of_Pixel");
+            final Array snapsotIdVector = extractGridPointVector(gridPointIndex, snapshotIdOfPixelArray);
+            final Index snapshotIndex = snapsotIdVector.getIndex();
+
+            final int polarization = descriptor.getPolarization();
+            for (int i = 0; i < flagsVector.getSize(); i++) {
+                snapshotIndex.set(i);
+
+                final long pixelSnapshotId = snapsotIdVector.getLong(snapshotIndex);
+                if (pixelSnapshotId == snapshotId) {
+                    flagsVectorIndex.set(i);
+
+                    final int flags = flagsVector.getInt(flagsVectorIndex);
+                    if (polarization == 4 || // for flags (they do not depend on polarisation)
+                            polarization == (flags & 1) || // for x or y polarisation (dual pol)
+                            (polarization & flags & 2) != 0) { // for xy polarisation (full pol, real and imaginary)
+                        return flags;
+                    }
+                }
+            }
+        } catch (IOException | InvalidRangeException e) {
+            // @todo 3 tb/tb handle correctly 2015-10-16
+        }
+        return noDataValue;
+    }
 
     // @todo 3 tb/tb duplicated code - move to common location and write test 2015-10-14
     private Array extractGridPointVector(int gridPointIndex, Array array) throws InvalidRangeException {

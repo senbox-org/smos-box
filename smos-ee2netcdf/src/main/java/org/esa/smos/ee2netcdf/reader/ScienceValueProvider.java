@@ -38,7 +38,6 @@ public class ScienceValueProvider implements ValueProvider {
         return area;
     }
 
-
     public long getSnapshotId() {
         return snapshotId;
     }

@@ -27,9 +27,15 @@ import com.bc.ceres.glevel.support.DefaultMultiLevelImage;
 import com.bc.ceres.glevel.support.FileMultiLevelSource;
 import com.bc.ceres.grender.Rendering;
 import com.bc.ceres.grender.Viewport;
-import org.esa.smos.dataio.smos.*;
+import org.esa.smos.dataio.smos.CellValueProvider;
+import org.esa.smos.dataio.smos.L1cScienceValueProvider;
+import org.esa.smos.dataio.smos.SmosConstants;
+import org.esa.smos.dataio.smos.SmosMultiLevelSource;
+import org.esa.smos.dataio.smos.SmosReader;
+import org.esa.smos.dataio.smos.SnapshotInfo;
 import org.esa.smos.dataio.smos.bufr.LightBufrMultiLevelSource;
 import org.esa.smos.dataio.smos.provider.ValueProvider;
+import org.esa.smos.ee2netcdf.reader.ScienceFlagsValueProvider;
 import org.esa.smos.ee2netcdf.reader.ScienceValueProvider;
 import org.esa.smos.gui.ProgressBarProgressMonitor;
 import org.esa.smos.gui.SmosBox;
@@ -60,7 +66,11 @@ import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableModel;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -184,8 +194,10 @@ public class SnapshotInfoTopComponent extends SmosTopComponent {
     // @todo 1 tb/tb refactor, this is ugly code 2014-10-31
     private void updateSnapshotImage(RasterDataNode raster, long snapshotId) {
         final MultiLevelImage sourceImage = raster.getSourceImage();
+
         if (sourceImage instanceof DefaultMultiLevelImage) {
             final DefaultMultiLevelImage multiLevelImage = (DefaultMultiLevelImage) sourceImage;
+
             final MultiLevelSource source = multiLevelImage.getSource();
             if (source instanceof SmosMultiLevelSource) {
                 final SmosMultiLevelSource smosMultiLevelSource = (SmosMultiLevelSource) source;
@@ -200,6 +212,13 @@ public class SnapshotInfoTopComponent extends SmosTopComponent {
                     final ScienceValueProvider scienceValueProvider = (ScienceValueProvider) valueProvider;
                     if (scienceValueProvider.getSnapshotId() != snapshotId) {
                         scienceValueProvider.setSnapshotId(snapshotId);
+                        resetRasterImages(raster);
+                    }
+                }
+                else if (valueProvider instanceof ScienceFlagsValueProvider) {
+                    final ScienceFlagsValueProvider scienceFlagsValueProvider = (ScienceFlagsValueProvider) valueProvider;
+                    if (scienceFlagsValueProvider.getSnapshotId() != snapshotId) {
+                        scienceFlagsValueProvider.setSnapshotId(snapshotId);
                         resetRasterImages(raster);
                     }
                 }
