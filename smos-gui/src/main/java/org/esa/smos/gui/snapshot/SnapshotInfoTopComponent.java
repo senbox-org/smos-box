@@ -44,7 +44,9 @@ import org.esa.smos.gui.TableModelExportRunner;
 import org.esa.smos.gui.swing.SnapshotSelectorCombo;
 import org.esa.smos.gui.swing.SnapshotSelectorComboModel;
 import org.esa.snap.core.datamodel.Band;
+import org.esa.snap.core.datamodel.Mask;
 import org.esa.snap.core.datamodel.Product;
+import org.esa.snap.core.datamodel.ProductNodeGroup;
 import org.esa.snap.core.datamodel.RasterDataNode;
 import org.esa.snap.core.datamodel.VirtualBand;
 import org.esa.snap.core.image.TiledFileMultiLevelSource;
@@ -59,13 +61,40 @@ import org.openide.awt.ActionReference;
 import org.openide.awt.ActionReferences;
 import org.openide.windows.TopComponent;
 
-import javax.swing.*;
+import javax.swing.AbstractButton;
+import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
+import javax.swing.ButtonModel;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
+import javax.swing.JProgressBar;
+import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.SwingUtilities;
+import javax.swing.SwingWorker;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableModel;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.ComponentOrientation;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
+import java.awt.Shape;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -206,20 +235,17 @@ public class SnapshotInfoTopComponent extends SmosTopComponent {
                     final L1cScienceValueProvider btDataValueProvider = (L1cScienceValueProvider) valueProvider;
                     if (btDataValueProvider.getSnapshotId() != snapshotId) {
                         btDataValueProvider.setSnapshotId(snapshotId);
-                        resetRasterImages(raster);
                     }
                 } else if (valueProvider instanceof ScienceValueProvider) {
                     final ScienceValueProvider scienceValueProvider = (ScienceValueProvider) valueProvider;
                     if (scienceValueProvider.getSnapshotId() != snapshotId) {
                         scienceValueProvider.setSnapshotId(snapshotId);
-                        resetRasterImages(raster);
                     }
                 }
                 else if (valueProvider instanceof ScienceFlagsValueProvider) {
                     final ScienceFlagsValueProvider scienceFlagsValueProvider = (ScienceFlagsValueProvider) valueProvider;
                     if (scienceFlagsValueProvider.getSnapshotId() != snapshotId) {
                         scienceFlagsValueProvider.setSnapshotId(snapshotId);
-                        resetRasterImages(raster);
                     }
                 }
             } else if (source instanceof LightBufrMultiLevelSource) {
@@ -227,9 +253,9 @@ public class SnapshotInfoTopComponent extends SmosTopComponent {
                 final CellValueProvider valueProvider = lightBufrMultiLevelSource.getValueProvider();
                 if (valueProvider.getSnapshotId() != snapshotId) {
                     valueProvider.setSnapshotId((int) snapshotId);
-                    resetRasterImages(raster);
                 }
             }
+            resetRasterImages(raster);
         }
     }
 
@@ -419,6 +445,12 @@ public class SnapshotInfoTopComponent extends SmosTopComponent {
             } else {
                 setSelectedSnapshotId(band, snapshotId);
             }
+        }
+
+        final ProductNodeGroup<Mask> maskGroup = smosProduct.getMaskGroup();
+        for (int i = 0; i < maskGroup.getNodeCount(); i++) {
+            final Mask mask = maskGroup.get(i);
+            mask.setSourceImage(null);
         }
     }
 
