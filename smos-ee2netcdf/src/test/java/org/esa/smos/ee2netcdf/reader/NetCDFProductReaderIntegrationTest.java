@@ -226,19 +226,19 @@ public class NetCDFProductReaderIntegrationTest {
             assertTrue(ncFile.isFile());
 
             ncProduct = ProductIO.readProduct(ncFile);
-//            assertNotNull(ncProduct);
-//
-//            assertGlobalMetadataFields(ncProduct, 84045);
-//            assertSmosMetaDataFields(product, ncProduct);
-//
-//            assertEquals(product.getNumBands(), ncProduct.getNumBands());
-//
-//            compareBand(product, ncProduct, "BT_Value_X", 6505, 7687);
-//            compareBand(product, ncProduct, "BT_Value_XY_Imag", 8754, 7314);
-//            compareBand(product, ncProduct, "Pixel_Radiometric_Accuracy_XY", 9908, 6158);
-//            compareBand(product, ncProduct, "Azimuth_Angle_XY", 10240, 4845);
-//            compareBand(product, ncProduct, "Footprint_Axis1_XY", 10506, 2946);
-//            compareBand(product, ncProduct, "Footprint_Axis2_XY", 11037, 1706);
+            assertNotNull(ncProduct);
+
+            assertGlobalMetadataFields(ncProduct, 384);
+            assertSmosMetaDataFields(product, ncProduct);
+
+            assertEquals(product.getNumBands(), ncProduct.getNumBands());
+
+            compareBand(product, ncProduct, "BT_Value_X", 8304, 1998);
+            compareBand(product, ncProduct, "Pixel_Radiometric_Accuracy_X", 8215, 1942);
+            compareBand(product, ncProduct, "Azimuth_Angle_X", 8335, 1947);
+            compareBand(product, ncProduct, "Footprint_Axis1_X", 8350, 2099);
+            compareBand(product, ncProduct, "Footprint_Axis2_Y", 8302, 2100);
+            compareBand(product, ncProduct, "Flags_Y", 8282, 2007);
 
         } finally {
             if (product != null) {
