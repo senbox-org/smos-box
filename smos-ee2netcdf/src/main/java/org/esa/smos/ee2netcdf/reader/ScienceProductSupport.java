@@ -2,7 +2,14 @@ package org.esa.smos.ee2netcdf.reader;
 
 import com.bc.ceres.glevel.support.DefaultMultiLevelImage;
 import org.esa.smos.SmosUtils;
-import org.esa.smos.dataio.smos.*;
+import org.esa.smos.dataio.smos.DggUtils;
+import org.esa.smos.dataio.smos.GridPointInfo;
+import org.esa.smos.dataio.smos.L1cPolarisationModel;
+import org.esa.smos.dataio.smos.PolarisationModel;
+import org.esa.smos.dataio.smos.ProductHelper;
+import org.esa.smos.dataio.smos.SmosConstants;
+import org.esa.smos.dataio.smos.SmosMultiLevelSource;
+import org.esa.smos.dataio.smos.SnapshotInfo;
 import org.esa.smos.dataio.smos.dddb.BandDescriptor;
 import org.esa.smos.dataio.smos.dddb.Family;
 import org.esa.smos.dataio.smos.dddb.FlagDescriptor;
@@ -43,14 +50,14 @@ class ScienceProductSupport extends AbstractProductTypeSupport {
         boolean found = false;
         final List<BandDescriptor> bandDescriptorList = bandDescriptors.asList();
         for (final BandDescriptor bandDescriptor : bandDescriptorList) {
-            if (SmosConstants.INCIDENCE_ANGLE.equals(bandDescriptor.getMemberName())) {
+            if (bandDescriptor.getMemberName().startsWith(SmosConstants.INCIDENCE_ANGLE)) {
                 incidentAngleScaleFactor = bandDescriptor.getScalingFactor();
                 found = true;
                 break;
             }
         }
         if (!found) {
-            throw new RuntimeException(SmosConstants.INCIDENCE_ANGLE + " variable not found");
+            throw new RuntimeException("No " + SmosConstants.INCIDENCE_ANGLE + " variable found");
         }
         super.initialize(bandDescriptors);
     }
