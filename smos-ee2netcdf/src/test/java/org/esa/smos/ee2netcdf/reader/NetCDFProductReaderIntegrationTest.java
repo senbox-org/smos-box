@@ -3,6 +3,7 @@ package org.esa.smos.ee2netcdf.reader;
 import org.esa.smos.AcceptanceTestRunner;
 import org.esa.smos.ee2netcdf.NetcdfExportOp;
 import org.esa.snap.core.dataio.ProductIO;
+import org.esa.snap.core.dataio.ProductReader;
 import org.esa.snap.core.datamodel.Band;
 import org.esa.snap.core.datamodel.MetadataAttribute;
 import org.esa.snap.core.datamodel.MetadataElement;
@@ -90,6 +91,10 @@ public class NetCDFProductReaderIntegrationTest {
             ncProduct = ProductIO.readProduct(ncFile);
             assertNotNull(ncProduct);
 
+            final ProductReader productReader = ncProduct.getProductReader();
+            assertNotNull(productReader);
+            assertTrue(productReader instanceof NetcdfProductReader);
+
             assertGlobalMetadataFields(ncProduct, 44273);
             assertSmosMetaDataFields(product, ncProduct);
 
@@ -135,6 +140,10 @@ public class NetCDFProductReaderIntegrationTest {
 
             ncProduct = ProductIO.readProduct(ncFile);
             assertNotNull(ncProduct);
+
+            final ProductReader productReader = ncProduct.getProductReader();
+            assertNotNull(productReader);
+            assertTrue(productReader instanceof NetcdfProductReader);
 
             assertGlobalMetadataFields(ncProduct, 98564);
             assertSmosMetaDataFields(product, ncProduct);
@@ -182,6 +191,10 @@ public class NetCDFProductReaderIntegrationTest {
             ncProduct = ProductIO.readProduct(ncFile);
             assertNotNull(ncProduct);
 
+            final ProductReader productReader = ncProduct.getProductReader();
+            assertNotNull(productReader);
+            assertTrue(productReader instanceof NetcdfProductReader);
+
             assertGlobalMetadataFields(ncProduct, 84045);
             assertSmosMetaDataFields(product, ncProduct);
 
@@ -227,6 +240,10 @@ public class NetCDFProductReaderIntegrationTest {
 
             ncProduct = ProductIO.readProduct(ncFile);
             assertNotNull(ncProduct);
+
+            final ProductReader productReader = ncProduct.getProductReader();
+            assertNotNull(productReader);
+            assertTrue(productReader instanceof NetcdfProductReader);
 
             assertGlobalMetadataFields(ncProduct, 384);
             assertSmosMetaDataFields(product, ncProduct);
@@ -274,17 +291,20 @@ public class NetCDFProductReaderIntegrationTest {
             ncProduct = ProductIO.readProduct(ncFile);
             assertNotNull(ncProduct);
 
+            final ProductReader productReader = ncProduct.getProductReader();
+            assertNotNull(productReader);
+            assertTrue(productReader instanceof NetcdfProductReader);
+
             assertGlobalMetadataFields(ncProduct, 42);
             assertSmosMetaDataFields(product, ncProduct);
 
             assertEquals(product.getNumBands(), ncProduct.getNumBands());
-// @todo 1 tb/tb continue here 2015-07-01
-           // compareBand(product, ncProduct, "BT_Value_X", 8020, 7464);
-//            compareBand(product, ncProduct, "BT_Value_XY_Imag", 8754, 7314);
-//            compareBand(product, ncProduct, "Pixel_Radiometric_Accuracy_XY", 9908, 6158);
-//            compareBand(product, ncProduct, "Azimuth_Angle_XY", 10240, 4845);
-//            compareBand(product, ncProduct, "Footprint_Axis1_XY", 10506, 2946);
-//            compareBand(product, ncProduct, "Footprint_Axis2_XY", 11037, 1706);
+            compareBand(product, ncProduct, "BT_Value_X", 8020, 7464);
+            compareBand(product, ncProduct, "BT_Value_XY_Imag", 8754, 7314);
+            compareBand(product, ncProduct, "Pixel_Radiometric_Accuracy_XY", 9908, 6158);
+            compareBand(product, ncProduct, "Azimuth_Angle_XY", 10240, 4845);
+            compareBand(product, ncProduct, "Footprint_Axis1_XY", 10506, 2946);
+            compareBand(product, ncProduct, "Footprint_Axis2_XY", 11037, 1706);
 
         } finally {
             if (product != null) {

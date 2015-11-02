@@ -35,14 +35,13 @@ import ucar.nc2.Attribute;
 import ucar.nc2.NetcdfFile;
 import ucar.nc2.Variable;
 
-import java.awt.Rectangle;
+import java.awt.*;
 import java.awt.geom.Area;
 import java.awt.image.Raster;
 import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.HashMap;
 import java.util.List;
 
 @SuppressWarnings({"SimplifiableIfStatement", "SynchronizeOnNonFinalField"})
@@ -193,6 +192,7 @@ public class NetcdfProductReader extends SmosReader {
             typeSupport = ProductTypeSupportFactory.get(productType, netcdfFile);
 
             product = ProductHelper.createProduct(inputFile, productType);
+            product.setProductReader(this);
             addSensingTimes(product);
             addMetadata(product);
 
