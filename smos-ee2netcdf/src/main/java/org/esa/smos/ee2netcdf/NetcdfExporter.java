@@ -45,9 +45,14 @@ class NetcdfExporter {
                 }
             }
 
-            nFileWriteable = N4FileWriteable.create(targetFile.getPath());
 
-            exporter.prepareGeographicSubset(parameter);
+            final int numGridCellsCovered = exporter.prepareGeographicSubset(parameter);
+            if (numGridCellsCovered == 0) {
+                logger.info("No geometric intersection between subset and input file. Skipping export operation");
+                return;
+            }
+
+            nFileWriteable = N4FileWriteable.create(targetFile.getPath());
             exporter.addDimensions(nFileWriteable);
             exporter.addVariables(nFileWriteable, parameter);
             exporter.addGlobalAttributes(nFileWriteable, product.getMetadataRoot(), parameter);
