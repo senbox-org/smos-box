@@ -69,9 +69,17 @@ public class SceneViewSelectionService extends ToolTopComponent {
             if (oldView != null) {
                 oldView.removePixelPositionListener(ppl);
             }
-            if (newView != null && !(newView.getProduct().getProductReader() instanceof SmosReader)) {
-                return;
+
+            if (newView != null) {
+                final Product product = newView.getProduct();
+                if (product == null) {
+                    return;
+                }
+                if (!(product.getProductReader() instanceof SmosReader)) {
+                    return;
+                }
             }
+
             selectedSceneView = newView;
             fireSelectionChange(oldView, newView);
             if (selectedSceneView != null) {
