@@ -127,7 +127,7 @@ class BufrSupport {
 
         valueDecoders.lonDecoder = smosBufrFile.getValueDecoder(SmosBufrFile.LONGITUDE_HIGH_ACCURACY);
         valueDecoders.latDecoder = smosBufrFile.getValueDecoder(SmosBufrFile.LATITUDE_HIGH_ACCURACY);
-        valueDecoders.incidenceAngleDecoder = smosBufrFile.getValueDecoder(SmosConstants.INCIDENCE_ANGLE);
+        valueDecoders.incidenceAngleDecoder = smosBufrFile.getValueDecoder(SmosBufrFile.INCIDENCE_ANGLE);
         valueDecoders.tecDecoder = smosBufrFile.getValueDecoder(SmosBufrFile.TOTAL_ELECTRON_COUNT);
         valueDecoders.snapshotAccuracyDecoder = smosBufrFile.getValueDecoder(SmosBufrFile.SNAPSHOT_ACCURACY);
         valueDecoders.raPpDecoder = smosBufrFile.getValueDecoder(SmosBufrFile.RADIOMETRIC_ACCURACY_PP);
