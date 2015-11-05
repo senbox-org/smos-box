@@ -11,6 +11,7 @@ import org.esa.smos.dataio.smos.dddb.FlagDescriptor;
 import org.esa.smos.dataio.smos.provider.ValueProvider;
 import org.esa.snap.core.datamodel.Band;
 import org.esa.snap.core.datamodel.Product;
+import org.esa.snap.core.param.validators.StringArrayValidator;
 import ucar.nc2.Variable;
 
 import java.awt.geom.Area;
@@ -39,7 +40,7 @@ interface ProductTypeSupport {
 
     void setArrayCache(ArrayCache arrayCache);
 
-    void createAdditionalBands(Product product, Area area, Family<BandDescriptor> bandDescriptors, String formatName);
+    void createAdditionalBands(Product product, Area area, Family<BandDescriptor> bandDescriptors, String formatName, HashMap<String, ValueProvider> valueProviderMap);
 
     void setGridPointInfo(GridPointInfo gridPointInfo);
 

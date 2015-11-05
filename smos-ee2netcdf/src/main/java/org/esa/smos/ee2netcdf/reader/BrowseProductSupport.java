@@ -82,5 +82,4 @@ class BrowseProductSupport extends AbstractProductTypeSupport {
         }
         return flagDescriptors;
     }
-
 }

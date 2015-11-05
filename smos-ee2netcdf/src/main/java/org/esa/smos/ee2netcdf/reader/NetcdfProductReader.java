@@ -42,6 +42,7 @@ import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.HashMap;
 import java.util.List;
 
 @SuppressWarnings({"SimplifiableIfStatement", "SynchronizeOnNonFinalField"})
@@ -53,6 +54,7 @@ public class NetcdfProductReader extends SmosReader {
     private NetcdfFile netcdfFile;
     private ProductTypeSupport typeSupport;
     private GridPointInfo gridPointInfo;
+    private final HashMap<String, ValueProvider> valueProviderMap;
 
     /**
      * Constructs a new abstract product reader.
@@ -62,6 +64,8 @@ public class NetcdfProductReader extends SmosReader {
      */
     protected NetcdfProductReader(ProductReaderPlugIn readerPlugIn) {
         super(readerPlugIn);
+
+        valueProviderMap = new HashMap<>();
     }
 
     @Override
@@ -248,11 +252,13 @@ public class NetcdfProductReader extends SmosReader {
                 final DefaultMultiLevelImage defaultMultiLevelImage = new DefaultMultiLevelImage(smosMultiLevelSource);
                 band.setSourceImage(defaultMultiLevelImage);
                 band.setImageInfo(ProductHelper.createImageInfo(band, descriptor));
+
+                valueProviderMap.put(descriptor.getBandName(), valueProvider);
             }
 
             addLandSeaMask(product);
 
-            typeSupport.createAdditionalBands(product, area, bandDescriptors, schemaDescription);
+            typeSupport.createAdditionalBands(product, area, bandDescriptors, schemaDescription, valueProviderMap);
             typeSupport.setArrayCache(arrayCache);
             typeSupport.setGridPointInfo(gridPointInfo);
         }

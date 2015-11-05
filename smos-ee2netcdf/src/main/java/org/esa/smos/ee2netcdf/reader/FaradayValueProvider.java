@@ -4,12 +4,13 @@ package org.esa.smos.ee2netcdf.reader;
 import org.esa.smos.dataio.smos.provider.ValueProvider;
 
 import java.awt.geom.Area;
+import java.util.HashMap;
 
 class FaradayValueProvider implements ValueProvider {
 
     private final Area area;
 
-    public FaradayValueProvider(Area area) {
+    public FaradayValueProvider(Area area, HashMap<String, ValueProvider> valueProviderMap) {
         this.area = area;
     }
 
