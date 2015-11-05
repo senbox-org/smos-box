@@ -13,6 +13,7 @@ import ucar.ma2.Index;
 import ucar.nc2.NetcdfFile;
 import ucar.nc2.Variable;
 
+import java.awt.geom.Area;
 import java.io.IOException;
 import java.util.*;
 
@@ -113,7 +114,19 @@ abstract class AbstractProductTypeSupport implements ProductTypeSupport {
 
     @Override
     public String[] getRawDataTableNames() {
-        return new String[0];
+        try {
+            ensureDataStructuresInitialized();
+        } catch (IOException e) {
+            // @todo 2 tb/tb ad logging here
+            return new String[0];
+        }
+
+        final String[] names = new String[memberNamesMap.size()];
+        final Set<Map.Entry<String, Integer>> entries = memberNamesMap.entrySet();
+        for (final Map.Entry<String, Integer> entry : entries) {
+            names[entry.getValue()] = entry.getKey();
+        }
+        return names;
     }
 
     @Override
@@ -147,7 +160,7 @@ abstract class AbstractProductTypeSupport implements ProductTypeSupport {
     }
 
     @Override
-    public void createAdditionalBands(Product product, Family<BandDescriptor> bandDescriptors, String formatName) {
+    public void createAdditionalBands(Product product, Area area, Family<BandDescriptor> bandDescriptors, String formatName) {
         // nothing to do here, must override if something should be achieved tb 2015-07-01
     }
 

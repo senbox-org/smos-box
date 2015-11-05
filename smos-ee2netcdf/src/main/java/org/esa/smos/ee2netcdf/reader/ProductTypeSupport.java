@@ -39,7 +39,7 @@ interface ProductTypeSupport {
 
     void setArrayCache(ArrayCache arrayCache);
 
-    void createAdditionalBands(Product product, Family<BandDescriptor> bandDescriptors, String formatName);
+    void createAdditionalBands(Product product, Area area, Family<BandDescriptor> bandDescriptors, String formatName);
 
     void setGridPointInfo(GridPointInfo gridPointInfo);
 

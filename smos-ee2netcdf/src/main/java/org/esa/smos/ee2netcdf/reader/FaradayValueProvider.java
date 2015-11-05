@@ -7,9 +7,15 @@ import java.awt.geom.Area;
 
 class FaradayValueProvider implements ValueProvider {
 
+    private final Area area;
+
+    public FaradayValueProvider(Area area) {
+        this.area = area;
+    }
+
     @Override
     public Area getArea() {
-        return null;
+        return area;
     }
 
     @Override

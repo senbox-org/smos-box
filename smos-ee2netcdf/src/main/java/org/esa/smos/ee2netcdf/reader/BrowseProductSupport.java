@@ -11,8 +11,6 @@ import ucar.nc2.NetcdfFile;
 
 import java.awt.geom.Area;
 import java.io.IOException;
-import java.util.Map;
-import java.util.Set;
 
 class BrowseProductSupport extends AbstractProductTypeSupport {
 
@@ -73,23 +71,6 @@ class BrowseProductSupport extends AbstractProductTypeSupport {
     @Override
     public boolean canSupplyGridPointBtData() {
         return true;
-    }
-
-    @Override
-    public String[] getRawDataTableNames() {
-        try {
-            ensureDataStructuresInitialized();
-        } catch (IOException e) {
-            // @todo 2 tb/tb ad logging here
-            return new String[0];
-        }
-
-        final String[] names = new String[memberNamesMap.size()];
-        final Set<Map.Entry<String, Integer>> entries = memberNamesMap.entrySet();
-        for (final Map.Entry<String, Integer> entry : entries) {
-            names[entry.getValue()] = entry.getKey();
-        }
-        return names;
     }
 
     @Override

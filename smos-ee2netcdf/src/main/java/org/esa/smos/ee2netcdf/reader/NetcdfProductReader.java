@@ -252,7 +252,7 @@ public class NetcdfProductReader extends SmosReader {
 
             addLandSeaMask(product);
 
-            typeSupport.createAdditionalBands(product, bandDescriptors, schemaDescription);
+            typeSupport.createAdditionalBands(product, area, bandDescriptors, schemaDescription);
             typeSupport.setArrayCache(arrayCache);
             typeSupport.setGridPointInfo(gridPointInfo);
         }
