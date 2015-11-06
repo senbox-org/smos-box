@@ -8,6 +8,7 @@ import org.esa.smos.dataio.smos.SnapshotInfo;
 import org.esa.smos.dataio.smos.dddb.BandDescriptor;
 import org.esa.smos.dataio.smos.dddb.Family;
 import org.esa.smos.dataio.smos.dddb.FlagDescriptor;
+import org.esa.smos.dataio.smos.provider.AbstractValueProvider;
 import org.esa.smos.dataio.smos.provider.ValueProvider;
 import org.esa.snap.core.datamodel.Band;
 import org.esa.snap.core.datamodel.Product;
@@ -36,11 +37,11 @@ interface ProductTypeSupport {
 
     void setScalingAndOffset(Band band, BandDescriptor bandDescriptor);
 
-    ValueProvider createValueProvider(ArrayCache arrayCache, String variableName, BandDescriptor descriptor, Area area, GridPointInfo gridPointInfo);
+    AbstractValueProvider createValueProvider(ArrayCache arrayCache, String variableName, BandDescriptor descriptor, Area area, GridPointInfo gridPointInfo);
 
     void setArrayCache(ArrayCache arrayCache);
 
-    void createAdditionalBands(Product product, Area area, Family<BandDescriptor> bandDescriptors, String formatName, HashMap<String, ValueProvider> valueProviderMap);
+    void createAdditionalBands(Product product, Area area, Family<BandDescriptor> bandDescriptors, String formatName, HashMap<String, AbstractValueProvider> valueProviderMap);
 
     void setGridPointInfo(GridPointInfo gridPointInfo);
 

@@ -5,6 +5,7 @@ import org.esa.smos.dataio.smos.dddb.BandDescriptor;
 import org.esa.smos.dataio.smos.dddb.Dddb;
 import org.esa.smos.dataio.smos.dddb.Family;
 import org.esa.smos.dataio.smos.dddb.FlagDescriptor;
+import org.esa.smos.dataio.smos.provider.AbstractValueProvider;
 import org.esa.smos.dataio.smos.provider.ValueProvider;
 import org.esa.smos.ee2netcdf.ExporterUtils;
 import org.esa.snap.core.datamodel.Band;
@@ -161,7 +162,7 @@ abstract class AbstractProductTypeSupport implements ProductTypeSupport {
     }
 
     @Override
-    public void createAdditionalBands(Product product, Area area, Family<BandDescriptor> bandDescriptors, String formatName, HashMap<String, ValueProvider> valueProvierMap) {
+    public void createAdditionalBands(Product product, Area area, Family<BandDescriptor> bandDescriptors, String formatName, HashMap<String, AbstractValueProvider> valueProvierMap) {
         // nothing to do here, must override if something should be achieved tb 2015-07-01
     }
 

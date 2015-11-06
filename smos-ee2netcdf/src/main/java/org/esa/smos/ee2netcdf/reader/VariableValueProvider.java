@@ -2,13 +2,14 @@ package org.esa.smos.ee2netcdf.reader;
 
 
 import org.esa.smos.dataio.smos.GridPointInfo;
+import org.esa.smos.dataio.smos.provider.AbstractValueProvider;
 import org.esa.smos.dataio.smos.provider.ValueProvider;
 import ucar.ma2.Array;
 
 import java.awt.geom.Area;
 import java.io.IOException;
 
-class VariableValueProvider implements ValueProvider {
+class VariableValueProvider extends AbstractValueProvider {
 
     private final Area area;
     private final GridPointInfo gridPointInfo;
@@ -28,62 +29,31 @@ class VariableValueProvider implements ValueProvider {
     }
 
     @Override
-    public byte getValue(int seqnum, byte noDataValue) {
-        int gridPointIndex = gridPointInfo.getGridPointIndex(seqnum);
-        if (gridPointIndex < 0) {
-            return noDataValue;
-        }
-
-        try {
-            final Array array = arrayCache.get(variableName);
-            return array.getByte(gridPointIndex);
-        } catch (IOException e) {
-            return noDataValue;
-        }
+    public int getGridPointIndex(int seqnum) {
+        return gridPointInfo.getGridPointIndex(seqnum);
     }
 
     @Override
-    public short getValue(int seqnum, short noDataValue) {
-        int gridPointIndex = gridPointInfo.getGridPointIndex(seqnum);
-        if (gridPointIndex < 0) {
-            return noDataValue;
-        }
-
-        try {
-            final Array array = arrayCache.get(variableName);
-            return array.getShort(gridPointIndex);
-        } catch (IOException e) {
-            return noDataValue;
-        }
+    public byte getByte(int gridPointIndex) throws IOException {
+        final Array array = arrayCache.get(variableName);
+        return array.getByte(gridPointIndex);
     }
 
     @Override
-    public int getValue(int seqnum, int noDataValue) {
-        int gridPointIndex = gridPointInfo.getGridPointIndex(seqnum);
-        if (gridPointIndex < 0) {
-            return noDataValue;
-        }
-
-        try {
-            final Array array = arrayCache.get(variableName);
-            return array.getInt(gridPointIndex);
-        } catch (IOException e) {
-            return noDataValue;
-        }
+    public short getShort(int gridPointIndex) throws IOException {
+        final Array array = arrayCache.get(variableName);
+        return array.getShort(gridPointIndex);
     }
 
     @Override
-    public float getValue(int seqnum, float noDataValue) {
-        int gridPointIndex = gridPointInfo.getGridPointIndex(seqnum);
-        if (gridPointIndex < 0) {
-            return noDataValue;
-        }
+    public int getInt(int gridPointIndex) throws IOException {
+        final Array array = arrayCache.get(variableName);
+        return array.getInt(gridPointIndex);
+    }
 
-        try {
-            final Array array = arrayCache.get(variableName);
-            return array.getFloat(gridPointIndex);
-        } catch (IOException e) {
-            return noDataValue;
-        }
+    @Override
+    public float getFloat(int gridPointIndex) throws IOException {
+        final Array array = arrayCache.get(variableName);
+        return array.getFloat(gridPointIndex);
     }
 }

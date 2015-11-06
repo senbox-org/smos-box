@@ -4,6 +4,7 @@ package org.esa.smos.ee2netcdf.reader;
 import org.esa.smos.dataio.smos.GridPointInfo;
 import org.esa.smos.dataio.smos.dddb.BandDescriptor;
 import org.esa.smos.dataio.smos.dddb.FlagDescriptor;
+import org.esa.smos.dataio.smos.provider.AbstractValueProvider;
 import org.esa.smos.dataio.smos.provider.ValueProvider;
 import org.esa.snap.core.datamodel.Band;
 import ucar.nc2.Attribute;
@@ -59,7 +60,7 @@ class BrowseProductSupport extends AbstractProductTypeSupport {
     }
 
     @Override
-    public ValueProvider createValueProvider(ArrayCache arrayCache, String variableName, BandDescriptor descriptor, Area area, GridPointInfo gridPointInfo) {
+    public AbstractValueProvider createValueProvider(ArrayCache arrayCache, String variableName, BandDescriptor descriptor, Area area, GridPointInfo gridPointInfo) {
         final int polarization = descriptor.getPolarization();
         if (polarization < 0) {
             return new VariableValueProvider(arrayCache, variableName, area, gridPointInfo);

@@ -18,6 +18,7 @@ import org.esa.smos.dataio.smos.dddb.BandDescriptor;
 import org.esa.smos.dataio.smos.dddb.Dddb;
 import org.esa.smos.dataio.smos.dddb.Family;
 import org.esa.smos.dataio.smos.dddb.FlagDescriptor;
+import org.esa.smos.dataio.smos.provider.AbstractValueProvider;
 import org.esa.smos.dataio.smos.provider.ValueProvider;
 import org.esa.smos.dgg.SmosDgg;
 import org.esa.smos.ee2netcdf.AttributeEntry;
@@ -54,7 +55,7 @@ public class NetcdfProductReader extends SmosReader {
     private NetcdfFile netcdfFile;
     private ProductTypeSupport typeSupport;
     private GridPointInfo gridPointInfo;
-    private final HashMap<String, ValueProvider> valueProviderMap;
+    private final HashMap<String, AbstractValueProvider> valueProviderMap;
 
     /**
      * Constructs a new abstract product reader.
@@ -247,7 +248,7 @@ public class NetcdfProductReader extends SmosReader {
                             descriptor.getFlagDescriptors());
                 }
 
-                final ValueProvider valueProvider = typeSupport.createValueProvider(arrayCache, ncVariableName, descriptor, area, gridPointInfo);
+                final AbstractValueProvider valueProvider = typeSupport.createValueProvider(arrayCache, ncVariableName, descriptor, area, gridPointInfo);
                 final SmosMultiLevelSource smosMultiLevelSource = new SmosMultiLevelSource(band, valueProvider);
                 final DefaultMultiLevelImage defaultMultiLevelImage = new DefaultMultiLevelImage(smosMultiLevelSource);
                 band.setSourceImage(defaultMultiLevelImage);

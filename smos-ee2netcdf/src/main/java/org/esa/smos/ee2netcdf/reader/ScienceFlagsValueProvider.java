@@ -3,6 +3,7 @@ package org.esa.smos.ee2netcdf.reader;
 import org.esa.smos.dataio.smos.GridPointInfo;
 import org.esa.smos.dataio.smos.SmosConstants;
 import org.esa.smos.dataio.smos.dddb.BandDescriptor;
+import org.esa.smos.dataio.smos.provider.AbstractValueProvider;
 import org.esa.smos.dataio.smos.provider.ValueProvider;
 import ucar.ma2.Array;
 import ucar.ma2.Index;
@@ -11,7 +12,7 @@ import ucar.ma2.InvalidRangeException;
 import java.awt.geom.Area;
 import java.io.IOException;
 
-public class ScienceFlagsValueProvider implements ValueProvider {
+public class ScienceFlagsValueProvider extends AbstractValueProvider {
 
     private final Area area;
     private final GridPointInfo gridPointInfo;
@@ -102,6 +103,31 @@ public class ScienceFlagsValueProvider implements ValueProvider {
         } else {
             return getSnapshotValue(gridPointIndex, (int) noDataValue);
         }
+    }
+
+    @Override
+    public int getGridPointIndex(int seqnum) {
+        return 0; // not used in this implementation tb 2015-11-06
+    }
+
+    @Override
+    public byte getByte(int gridPointIndex) throws IOException {
+        return 0; // not used in this implementation tb 2015-11-06
+    }
+
+    @Override
+    public short getShort(int gridPointIndex) throws IOException {
+        return 0; // not used in this implementation tb 2015-11-06
+    }
+
+    @Override
+    public int getInt(int gridPointIndex) throws IOException {
+        return 0; // not used in this implementation tb 2015-11-06
+    }
+
+    @Override
+    public float getFloat(int gridPointIndex) throws IOException {
+        return 0; // not used in this implementation tb 2015-11-06
     }
 
     private int getCombinedFlags(int gridPointIndex, int noDataValue) {
