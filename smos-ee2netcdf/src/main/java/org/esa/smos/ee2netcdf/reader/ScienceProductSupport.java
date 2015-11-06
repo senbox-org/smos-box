@@ -7,7 +7,13 @@ import org.esa.smos.dataio.smos.dddb.BandDescriptor;
 import org.esa.smos.dataio.smos.dddb.Family;
 import org.esa.smos.dataio.smos.dddb.FlagDescriptor;
 import org.esa.smos.dataio.smos.provider.AbstractValueProvider;
+import org.esa.smos.dataio.smos.provider.DP;
 import org.esa.smos.dataio.smos.provider.DPH;
+import org.esa.smos.dataio.smos.provider.DPV;
+import org.esa.smos.dataio.smos.provider.FP;
+import org.esa.smos.dataio.smos.provider.FPH;
+import org.esa.smos.dataio.smos.provider.FPHVR;
+import org.esa.smos.dataio.smos.provider.FPV;
 import org.esa.smos.dataio.smos.provider.ValueProvider;
 import org.esa.snap.core.datamodel.Band;
 import org.esa.snap.core.datamodel.Product;
@@ -75,9 +81,9 @@ class ScienceProductSupport extends AbstractProductTypeSupport {
     @Override
     public void createAdditionalBands(Product product, Area area, Family<BandDescriptor> bandDescriptors, String formatName, HashMap<String, AbstractValueProvider> valueProvierMap) {
         if (SmosUtils.isDualPolScienceFormat(formatName)) {
-            addRotatedDualPoleBands(product, area, bandDescriptors, valueProvierMap);
+            addRotatedDualPoleBands(product, bandDescriptors, valueProvierMap);
         } else {
-            addRotatedFullPoleBands(product, area, bandDescriptors, valueProvierMap);
+            addRotatedFullPoleBands(product, bandDescriptors, valueProvierMap);
         }
     }
 
@@ -230,61 +236,59 @@ class ScienceProductSupport extends AbstractProductTypeSupport {
         return new L1cPolarisationModel();
     }
 
-    private void addRotatedFullPoleBands(Product product, Area area, Family<BandDescriptor> bandDescriptors, HashMap<String, AbstractValueProvider> valueProviderMap) {
-//        BandDescriptor descriptor = bandDescriptors.getMember("BT_Value_H");
-//        addRotatedBand(product, descriptor, new FaradayValueProvider(area, valueProviderMap));
-//
-//        descriptor = bandDescriptors.getMember("BT_Value_V");
-//        addRotatedBand(product, descriptor, new FaradayValueProvider(area, valueProviderMap));
-//
-//        descriptor = bandDescriptors.getMember("BT_Value_HV_Real");
-//        addRotatedBand(product, descriptor, new FaradayValueProvider(area, valueProviderMap));
-//
-//        descriptor = bandDescriptors.getMember("BT_Value_HV_Imag");
-//        addRotatedBand(product, descriptor, new FaradayValueProvider(area, valueProviderMap));
-//
-//        descriptor = bandDescriptors.getMember("Pixel_Radiometric_Accuracy_H");
-//        addRotatedBand(product, descriptor, new FaradayValueProvider(area, valueProviderMap));
-//
-//        descriptor = bandDescriptors.getMember("Pixel_Radiometric_Accuracy_V");
-//        addRotatedBand(product, descriptor, new FaradayValueProvider(area, valueProviderMap));
-//
-//        descriptor = bandDescriptors.getMember("Pixel_Radiometric_Accuracy_HV");
-//        addRotatedBand(product, descriptor, new FaradayValueProvider(area, valueProviderMap));
-//
-//        descriptor = bandDescriptors.getMember("Stokes_1");
-//        addRotatedBand(product, descriptor, new FaradayValueProvider(area, valueProviderMap));
-//
-//        descriptor = bandDescriptors.getMember("Stokes_2");
-//        addRotatedBand(product, descriptor, new FaradayValueProvider(area, valueProviderMap));
-//
-//        descriptor = bandDescriptors.getMember("Stokes_3");
-//        addRotatedBand(product, descriptor, new FaradayValueProvider(area, valueProviderMap));
-//
-//        descriptor = bandDescriptors.getMember("Stokes_4");
-//        addRotatedBand(product, descriptor, new FaradayValueProvider(area, valueProviderMap));
+    private void addRotatedFullPoleBands(Product product, Family<BandDescriptor> bandDescriptors, HashMap<String, AbstractValueProvider> valueProviderMap) {
+
+        FP valueProvider = new FPH(product, valueProviderMap, false);
+        BandDescriptor descriptor = bandDescriptors.getMember("BT_Value_H");
+        addRotatedBand(product, descriptor, valueProvider);
+
+        valueProvider = new FPV(product, valueProviderMap, false);
+        descriptor = bandDescriptors.getMember("BT_Value_V");
+        addRotatedBand(product, descriptor, valueProvider);
+
+        valueProvider = new FPHVR(product, valueProviderMap, false);
+        descriptor = bandDescriptors.getMember("BT_Value_HV_Real");
+        addRotatedBand(product, descriptor, valueProvider);
+
+        ProductHelper.addVirtualBand(product, bandDescriptors.getMember("BT_Value_HV_Imag"), "BT_Value_XY_Imag");
+
+        valueProvider = new FPH(product, valueProviderMap, true);
+        descriptor = bandDescriptors.getMember("Pixel_Radiometric_Accuracy_H");
+        addRotatedBand(product, descriptor, valueProvider);
+
+        valueProvider = new FPV(product, valueProviderMap, true);
+        descriptor = bandDescriptors.getMember("Pixel_Radiometric_Accuracy_V");
+        addRotatedBand(product, descriptor, valueProvider);
+
+        valueProvider = new FPHVR(product, valueProviderMap, true);
+        descriptor = bandDescriptors.getMember("Pixel_Radiometric_Accuracy_HV");
+        addRotatedBand(product, descriptor, valueProvider);
+
+        ProductHelper.addVirtualBand(product, bandDescriptors.getMember("Stokes_1"), "(BT_Value_X + BT_Value_Y) / 2.0");
+        ProductHelper.addVirtualBand(product, bandDescriptors.getMember("Stokes_2"), "(BT_Value_H - BT_Value_V) / 2.0");
+        ProductHelper.addVirtualBand(product, bandDescriptors.getMember("Stokes_3"), "BT_Value_HV_Real");
+        ProductHelper.addVirtualBand(product, bandDescriptors.getMember("Stokes_4"), "BT_Value_XY_Imag");
     }
 
-    private void addRotatedDualPoleBands(Product product, Area area, Family<BandDescriptor> bandDescriptors, HashMap<String, AbstractValueProvider> valueProviderMap) {
-        //final DPH valueProvider = new DPH(product, valueProviderMap, false);
+    private void addRotatedDualPoleBands(Product product, Family<BandDescriptor> bandDescriptors, HashMap<String, AbstractValueProvider> valueProviderMap) {
+        DP valueProvider = new DPH(product, valueProviderMap, false);
+        BandDescriptor descriptor = bandDescriptors.getMember("BT_Value_H");
+        addRotatedBand(product, descriptor, valueProvider);
 
-//        BandDescriptor descriptor = bandDescriptors.getMember("BT_Value_H");
-//        addRotatedBand(product, descriptor, new FaradayValueProvider(area, valueProviderMap));
-//
-//        descriptor = bandDescriptors.getMember("BT_Value_V");
-//        addRotatedBand(product, descriptor, new FaradayValueProvider(area, valueProviderMap));
-//
-//        descriptor = bandDescriptors.getMember("Pixel_Radiometric_Accuracy_H");
-//        addRotatedBand(product, descriptor, new FaradayValueProvider(area, valueProviderMap));
-//
-//        descriptor = bandDescriptors.getMember("Pixel_Radiometric_Accuracy_V");
-//        addRotatedBand(product, descriptor, new FaradayValueProvider(area, valueProviderMap));
-//
-//        descriptor = bandDescriptors.getMember("Stokes_1");
-//        addRotatedBand(product, descriptor, new FaradayValueProvider(area, valueProviderMap));
-//
-//        descriptor = bandDescriptors.getMember("Stokes_2");
-//        addRotatedBand(product, descriptor, new FaradayValueProvider(area, valueProviderMap));
+        valueProvider = new DPV(product, valueProviderMap, false);
+        descriptor = bandDescriptors.getMember("BT_Value_V");
+        addRotatedBand(product, descriptor, valueProvider);
+
+        valueProvider =  new DPH(product, valueProviderMap, true);
+        descriptor = bandDescriptors.getMember("Pixel_Radiometric_Accuracy_H");
+        addRotatedBand(product, descriptor, valueProvider);
+
+        valueProvider = new DPV(product, valueProviderMap, true);
+        descriptor = bandDescriptors.getMember("Pixel_Radiometric_Accuracy_V");
+        addRotatedBand(product, descriptor, valueProvider);
+
+        ProductHelper.addVirtualBand(product, bandDescriptors.getMember("Stokes_1"), "(BT_Value_X + BT_Value_Y) / 2.0");
+        ProductHelper.addVirtualBand(product, bandDescriptors.getMember("Stokes_2"), "(BT_Value_H - BT_Value_V) / 2.0");
     }
 
     private void addRotatedBand(Product product, BandDescriptor descriptor, ValueProvider valueProvider) {

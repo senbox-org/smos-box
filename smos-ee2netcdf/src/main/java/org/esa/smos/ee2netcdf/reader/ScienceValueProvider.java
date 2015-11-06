@@ -5,7 +5,6 @@ import org.esa.smos.dataio.smos.GridPointInfo;
 import org.esa.smos.dataio.smos.SmosConstants;
 import org.esa.smos.dataio.smos.dddb.BandDescriptor;
 import org.esa.smos.dataio.smos.provider.AbstractValueProvider;
-import org.esa.smos.dataio.smos.provider.ValueProvider;
 import ucar.ma2.Array;
 import ucar.ma2.Index;
 import ucar.ma2.InvalidRangeException;
@@ -48,87 +47,49 @@ public class ScienceValueProvider extends AbstractValueProvider {
     }
 
     @Override
-    public byte getValue(int seqnum, byte noDataValue) {
-        final int gridPointIndex = gridPointInfo.getGridPointIndex(seqnum);
-        if (gridPointIndex < 0) {
-            return noDataValue;
-        }
-
-        if (snapshotId == -1) {
-            return (byte) getInterpolatedValue(gridPointIndex, (float) noDataValue);
-        } else {
-            return (byte) getSnapshotValue(gridPointIndex, (float) noDataValue);
-        }
-    }
-
-    @Override
-    public short getValue(int seqnum, short noDataValue) {
-        final int gridPointIndex = gridPointInfo.getGridPointIndex(seqnum);
-        if (gridPointIndex < 0) {
-            return noDataValue;
-        }
-
-        if (snapshotId == -1) {
-            return (short) getInterpolatedValue(gridPointIndex, (float) noDataValue);
-        } else {
-            return (short) getSnapshotValue(gridPointIndex, (float) noDataValue);
-        }
-    }
-
-    @Override
-    public int getValue(int seqnum, int noDataValue) {
-        final int gridPointIndex = gridPointInfo.getGridPointIndex(seqnum);
-        if (gridPointIndex < 0) {
-            return noDataValue;
-        }
-
-        if (snapshotId == -1) {
-            return (int) getInterpolatedValue(gridPointIndex, (float) noDataValue);
-        } else {
-            return (int) getSnapshotValue(gridPointIndex, (float) noDataValue);
-        }
-    }
-
-    @Override
-    public float getValue(int seqnum, float noDataValue) {
-        final int gridPointIndex = gridPointInfo.getGridPointIndex(seqnum);
-        if (gridPointIndex < 0) {
-            return noDataValue;
-        }
-
-        if (snapshotId == -1) {
-            return getInterpolatedValue(gridPointIndex, noDataValue);
-        } else {
-            return getSnapshotValue(gridPointIndex, noDataValue);
-        }
-    }
-
-    @Override
     public int getGridPointIndex(int seqnum) {
-        return 0; // not used in this implementation tb 2015-11-06
+        return gridPointInfo.getGridPointIndex(seqnum); // used by faraday providers tb 2015-11-06
     }
 
     @Override
     public byte getByte(int gridPointIndex) throws IOException {
-        return 0; // not used in this implementation tb 2015-11-06
+        if (snapshotId == -1) {
+            return (byte) getInterpolatedValue(gridPointIndex);
+        } else {
+            return (byte) getSnapshotValue(gridPointIndex);
+        }
     }
 
     @Override
     public short getShort(int gridPointIndex) throws IOException {
-        return 0; // not used in this implementation tb 2015-11-06
+        if (snapshotId == -1) {
+            return (short) getInterpolatedValue(gridPointIndex);
+        } else {
+            return (short) getSnapshotValue(gridPointIndex);
+        }
     }
 
     @Override
     public int getInt(int gridPointIndex) throws IOException {
-        return 0; // not used in this implementation tb 2015-11-06
+        if (snapshotId == -1) {
+            return (int) getInterpolatedValue(gridPointIndex);
+        } else {
+            return (int) getSnapshotValue(gridPointIndex);
+        }
     }
 
     @Override
     public float getFloat(int gridPointIndex) throws IOException {
-        return 0; // not used in this implementation tb 2015-11-06
+        if (snapshotId == -1) {
+            return getInterpolatedValue(gridPointIndex);
+        } else {
+            return getSnapshotValue(gridPointIndex);
+        }
     }
 
-    private float getInterpolatedValue(int gridPointIndex, float noDataValue) {
+    private float getInterpolatedValue(int gridPointIndex) {
+        final double fillValue = descriptor.getFillValue();
+
         try {
             final Array gpArray = arrayCache.get(variableName);
             final Array gpDataVector = extractGridPointVector(gridPointIndex, gpArray);
@@ -152,13 +113,14 @@ public class ScienceValueProvider extends AbstractValueProvider {
             boolean hasUpper = false;
 
             final int polarization = descriptor.getPolarization();
+
             for (int i = 0; i < gpDataVector.getSize(); i++) {
                 dataIndex.set(i);
                 flagsIndex.set(i);
                 angleVectorIndex.set(i);
 
                 final float value = gpDataVector.getFloat(dataIndex);
-                if (Math.abs(value - noDataValue) < 1e-8) {
+                if (Math.abs(value - fillValue) < 1e-8) {
                     continue;
                 }
 
@@ -189,14 +151,15 @@ public class ScienceValueProvider extends AbstractValueProvider {
                 return (float) (a * SmosConstants.CENTER_BROWSE_INCIDENCE_ANGLE + b);
             }
         } catch (IOException e) {
-            return noDataValue;
+            return (float) fillValue;
         } catch (InvalidRangeException e) {
-            return noDataValue;
+            return (float) fillValue;
         }
-        return noDataValue;
+        return (float) fillValue;
     }
 
-    private float getSnapshotValue(int gridPointIndex, float noDataValue) {
+    private float getSnapshotValue(int gridPointIndex) {
+        final double fillValue = descriptor.getFillValue();
         try {
             final Array gpArray = arrayCache.get(variableName);
             final Array gpDataVector = extractGridPointVector(gridPointIndex, gpArray);
@@ -228,9 +191,9 @@ public class ScienceValueProvider extends AbstractValueProvider {
                 }
             }
         } catch (IOException | InvalidRangeException e) {
-            return noDataValue;
+            return (float) fillValue;
         }
-        return noDataValue;
+        return (float) fillValue;
     }
 
     private Array extractGridPointVector(int gridPointIndex, Array array) throws InvalidRangeException {

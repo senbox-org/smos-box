@@ -274,7 +274,7 @@ public class ProductHelper {
         }
     }
 
-    static void addVirtualBand(Product product, BandDescriptor descriptor, String bandExpression) {
+    public static void addVirtualBand(Product product, BandDescriptor descriptor, String bandExpression) {
         final VirtualBand virtualBand = new VirtualBand(descriptor.getBandName(), ProductData.TYPE_FLOAT32,
                                                  product.getSceneRasterWidth(),
                                                  product.getSceneRasterHeight(),

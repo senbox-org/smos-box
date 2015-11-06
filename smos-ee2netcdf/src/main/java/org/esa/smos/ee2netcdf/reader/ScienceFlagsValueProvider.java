@@ -49,88 +49,47 @@ public class ScienceFlagsValueProvider extends AbstractValueProvider {
     }
 
     @Override
-    public byte getValue(int seqnum, byte noDataValue) {
-        final int gridPointIndex = gridPointInfo.getGridPointIndex(seqnum);
-        if (gridPointIndex < 0) {
-            return noDataValue;
-        }
-
-        if (snapshotId < 0) {
-            return (byte) getCombinedFlags(gridPointIndex, noDataValue);
-        } else {
-            return (byte) getSnapshotValue(gridPointIndex, noDataValue);
-        }
-    }
-
-    @Override
-    public short getValue(int seqnum, short noDataValue) {
-        final int gridPointIndex = gridPointInfo.getGridPointIndex(seqnum);
-        if (gridPointIndex < 0) {
-            return noDataValue;
-        }
-
-        if (snapshotId < 0) {
-            return (short) getCombinedFlags(gridPointIndex, noDataValue);
-        } else {
-            return (short) getSnapshotValue(gridPointIndex, noDataValue);
-        }
-    }
-
-    @Override
-    public int getValue(int seqnum, int noDataValue) {
-        final int gridPointIndex = gridPointInfo.getGridPointIndex(seqnum);
-        if (gridPointIndex < 0) {
-            return noDataValue;
-        }
-
-        if (snapshotId < 0) {
-            return getCombinedFlags(gridPointIndex, noDataValue);
-        } else {
-
-            return getSnapshotValue(gridPointIndex, noDataValue);
-        }
-    }
-
-    @Override
-    public float getValue(int seqnum, float noDataValue) {
-        final int gridPointIndex = gridPointInfo.getGridPointIndex(seqnum);
-        if (gridPointIndex < 0) {
-            return noDataValue;
-        }
-
-        if (snapshotId < 0) {
-            return getCombinedFlags(gridPointIndex, (int) noDataValue);
-        } else {
-            return getSnapshotValue(gridPointIndex, (int) noDataValue);
-        }
-    }
-
-    @Override
     public int getGridPointIndex(int seqnum) {
-        return 0; // not used in this implementation tb 2015-11-06
+        return gridPointInfo.getGridPointIndex(seqnum);
     }
 
     @Override
     public byte getByte(int gridPointIndex) throws IOException {
-        return 0; // not used in this implementation tb 2015-11-06
+        if (snapshotId < 0) {
+            return (byte) getCombinedFlags(gridPointIndex);
+        } else {
+            return (byte) getSnapshotValue(gridPointIndex);
+        }
     }
 
     @Override
     public short getShort(int gridPointIndex) throws IOException {
-        return 0; // not used in this implementation tb 2015-11-06
+        if (snapshotId < 0) {
+            return (short) getCombinedFlags(gridPointIndex);
+        } else {
+            return (short) getSnapshotValue(gridPointIndex);
+        }
     }
 
     @Override
     public int getInt(int gridPointIndex) throws IOException {
-        return 0; // not used in this implementation tb 2015-11-06
+        if (snapshotId < 0) {
+            return getCombinedFlags(gridPointIndex);
+        } else {
+            return getSnapshotValue(gridPointIndex);
+        }
     }
 
     @Override
     public float getFloat(int gridPointIndex) throws IOException {
-        return 0; // not used in this implementation tb 2015-11-06
+        if (snapshotId < 0) {
+            return getCombinedFlags(gridPointIndex);
+        } else {
+            return getSnapshotValue(gridPointIndex);
+        }
     }
 
-    private int getCombinedFlags(int gridPointIndex, int noDataValue) {
+    private int getCombinedFlags(int gridPointIndex) {
         try {
             final Array flagDataArray = arrayCache.get(variableName);
             final Array flagsVector = extractGridPointVector(gridPointIndex, flagDataArray);
@@ -172,10 +131,10 @@ public class ScienceFlagsValueProvider extends AbstractValueProvider {
         } catch (InvalidRangeException | IOException e) {
             // @todo 3 tb/tb handle correctly 2015-10-14
         }
-        return noDataValue;
+        return (int) descriptor.getFillValue();
     }
 
-    private int getSnapshotValue(int gridPointIndex, int noDataValue) {
+    private int getSnapshotValue(int gridPointIndex) {
         try {
             final Array flagDataArray = arrayCache.get(variableName);
             final Array flagsVector = extractGridPointVector(gridPointIndex, flagDataArray);
@@ -204,7 +163,7 @@ public class ScienceFlagsValueProvider extends AbstractValueProvider {
         } catch (IOException | InvalidRangeException e) {
             // @todo 3 tb/tb handle correctly 2015-10-16
         }
-        return noDataValue;
+        return (int) descriptor.getFillValue();
     }
 
     // @todo 3 tb/tb duplicated code - move to common location and write test 2015-10-14
