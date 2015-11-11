@@ -47,8 +47,8 @@ public class CellGridOpImage extends SingleBandedOpImage {
     public CellGridOpImage(CellValueProvider valueProvider, RasterDataNode rasterDataNode, MultiLevelModel model,
                     ResolutionLevel level) {
         super(ImageManager.getDataBufferType(rasterDataNode.getDataType()),
-              rasterDataNode.getSceneRasterWidth(),
-              rasterDataNode.getSceneRasterHeight(),
+              rasterDataNode.getRasterWidth(),
+              rasterDataNode.getRasterHeight(),
               rasterDataNode.getProduct().getPreferredTileSize(),
               null, // no configuration
               level);
