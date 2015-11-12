@@ -10,12 +10,11 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import java.awt.BorderLayout;
-import java.awt.Image;
 
 /**
  * @author muhammad.bc
  */
-@AboutBox(displayName = "SMOS-BOX", position = 60)
+@AboutBox(displayName = "SMOS-Box", position = 60)
 public class SMOSBoxAboutBox extends JPanel {
     public SMOSBoxAboutBox() {
         super(new BorderLayout(4, 4));
@@ -24,6 +23,6 @@ public class SMOSBoxAboutBox extends JPanel {
         ImageIcon imageIcon = new ImageIcon(SMOSBoxAboutBox.class.getResource("smos_aboutbox.jpg"));
         JLabel label = new JLabel(imageIcon);
         add(label, BorderLayout.CENTER);
-        add(new JLabel("<html><b>SMOS-BOX version " + moduleInfo.getImplementationVersion() + "</b>", SwingConstants.RIGHT), BorderLayout.SOUTH);
+        add(new JLabel("<html><b>SMOS-Box version " + moduleInfo.getImplementationVersion() + "</b>", SwingConstants.RIGHT), BorderLayout.SOUTH);
     }
 }
