@@ -19,7 +19,7 @@ package org.esa.smos.gui;
 import com.bc.ceres.core.ProgressMonitor;
 import com.bc.ceres.swing.progress.ProgressMonitorSwingWorker;
 import org.esa.snap.core.util.SystemUtils;
-import org.esa.snap.rcp.SnapDialogs;
+import org.esa.snap.rcp.util.Dialogs;
 import org.esa.snap.ui.SelectExportMethodDialog;
 import org.jdesktop.swingx.table.TableColumnModelExt;
 
@@ -67,7 +67,7 @@ public class TableModelExportRunner {
      */
     public void run() {
         if (model.getRowCount() == 0) {
-            SnapDialogs.showMessage(title, "The table is empty!", JOptionPane.INFORMATION_MESSAGE, null);
+            Dialogs.showMessage(title, "The table is empty!", JOptionPane.INFORMATION_MESSAGE, null);
         }
 
         // Get export method from user
@@ -110,7 +110,7 @@ public class TableModelExportRunner {
                 } catch (ExecutionException e) {
                     e.getCause().printStackTrace();
                     final String message = MessageFormat.format("The table could not be exported!\nReason: {0}", e.getCause().getMessage());
-                    SnapDialogs.showMessage(title, message, JOptionPane.ERROR_MESSAGE, null);
+                    Dialogs.showMessage(title, message, JOptionPane.ERROR_MESSAGE, null);
                 }
             }
         };
@@ -145,7 +145,7 @@ public class TableModelExportRunner {
                     cause.printStackTrace();
                     final String message = MessageFormat.format("The table could not be exported!\nReason: {0}",
                             cause.getMessage());
-                    SnapDialogs.showMessage(title, message, JOptionPane.ERROR_MESSAGE, null);
+                    Dialogs.showMessage(title, message, JOptionPane.ERROR_MESSAGE, null);
                 }
             }
         };
@@ -165,13 +165,13 @@ public class TableModelExportRunner {
         final String dlgTitle = "Export Table";
         File file = null;
         while (file == null) {
-            file = SnapDialogs.requestFileForSave(dlgTitle,
-                    false,
-                    null,
-                    ".txt",
-                    defaultFileName,
-                    null,
-                    "exportSmosTable.lastDir");
+            file = Dialogs.requestFileForSave(dlgTitle,
+                                              false,
+                                              null,
+                                              ".txt",
+                                              defaultFileName,
+                                              null,
+                                              "exportSmosTable.lastDir");
 
             if (file == null) {
                 return null; // Cancel
