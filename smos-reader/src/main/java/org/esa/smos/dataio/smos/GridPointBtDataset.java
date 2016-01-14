@@ -41,6 +41,8 @@ public class GridPointBtDataset {
         this.memberNamesMap = memberNamesMap;
         this.columnClasses = columnClasses;
 
+        this.data = new Number[0][0];
+
         flagBandIndex = -1;
         incidenceAngleBandIndex = -1;
         radiometricAccuracyBandIndex = -1;

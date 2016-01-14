@@ -82,33 +82,33 @@ abstract class AbstractProductTypeSupport implements ProductTypeSupport {
         }
 
         final Array btDataCountArray = arrayCache.get("BT_Data_Counter");
-        final int numMeasurements = btDataCountArray.getInt(gridPointIndex);
-        Number[][] tableData = new Number[numMeasurements][memberNamesMap.size()];
+        if (btDataCountArray != null) {
+            final int numMeasurements = btDataCountArray.getInt(gridPointIndex);
+            Number[][] tableData = new Number[numMeasurements][memberNamesMap.size()];
 
-        if (gridPointIndex >= 0) {
-            final Set<Map.Entry<String, Integer>> entries = memberNamesMap.entrySet();
-            for (final Map.Entry<String, Integer> entry : entries) {
-                final Integer variablesIndex = entry.getValue();
+            if (gridPointIndex >= 0) {
+                final Set<Map.Entry<String, Integer>> entries = memberNamesMap.entrySet();
+                for (final Map.Entry<String, Integer> entry : entries) {
+                    final Integer variablesIndex = entry.getValue();
 
-                final Array array = arrayCache.get(entry.getKey());
-                final Scaler scaler = scalerMap.get(entry.getKey());
-                final Index index = array.getIndex();
-                for (int i = 0; i < numMeasurements; i++) {
-                    index.set(gridPointIndex, i);
-                    final Number[] tableVector = tableData[i];
+                    final Array array = arrayCache.get(entry.getKey());
+                    final Scaler scaler = scalerMap.get(entry.getKey());
+                    final Index index = array.getIndex();
+                    for (int i = 0; i < numMeasurements; i++) {
+                        index.set(gridPointIndex, i);
+                        final Number[] tableVector = tableData[i];
 
-                    final double rawValue = array.getDouble(index);
-                    if (scaler.isValid(rawValue)) {
-                        tableVector[variablesIndex] = scaler.scale(rawValue);
-                    } else {
-                        tableVector[variablesIndex] = Double.NaN;
+                        final double rawValue = array.getDouble(index);
+                        if (scaler.isValid(rawValue)) {
+                            tableVector[variablesIndex] = scaler.scale(rawValue);
+                        } else {
+                            tableVector[variablesIndex] = Double.NaN;
+                        }
                     }
                 }
             }
+            gridPointBtDataset.setData(tableData);
         }
-
-
-        gridPointBtDataset.setData(tableData);
 
         return gridPointBtDataset;
     }
@@ -201,7 +201,6 @@ abstract class AbstractProductTypeSupport implements ProductTypeSupport {
                 if (variable != null) {
                     snapshotBandNamesList.add(descriptor.getMemberName());
                 }
-
             }
             if (!descriptor.isVisible()) {
                 continue;

@@ -23,7 +23,9 @@ class ArrayCache {
         if (array == null) {
             synchronized (netcdfFile) {
                 final Variable variable = netcdfFile.findVariable(null, variableName);
-                array = variable.read();
+                if (variable != null) {
+                    array = variable.read();
+                }
             }
             cache.put(variableName, array);
         }
