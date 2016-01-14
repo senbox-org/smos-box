@@ -88,18 +88,22 @@ public class ScienceValueProvider extends AbstractValueProvider {
     }
 
     private float getInterpolatedValue(int gridPointIndex) {
-        final double fillValue = descriptor.getFillValue();
+        final float fillValue = (float) descriptor.getFillValue();
 
         try {
+            final Array flagsArray = arrayCache.get("Flags");
+            final Array incidenceAngleArray = arrayCache.get(SmosConstants.INCIDENCE_ANGLE);
+            if (flagsArray == null || incidenceAngleArray == null) {
+                return fillValue;
+            }
+
             final Array gpArray = arrayCache.get(variableName);
             final Array gpDataVector = extractGridPointVector(gridPointIndex, gpArray);
             final Index dataIndex = gpDataVector.getIndex();
 
-            final Array flagsArray = arrayCache.get("Flags");
             final Array flagsVector = extractGridPointVector(gridPointIndex, flagsArray);
             final Index flagsIndex = flagsVector.getIndex();
 
-            final Array incidenceAngleArray = arrayCache.get(SmosConstants.INCIDENCE_ANGLE);
             final Array incidenceAngleVector = extractGridPointVector(gridPointIndex, incidenceAngleArray);
             final Index angleVectorIndex = incidenceAngleVector.getIndex();
 
@@ -151,25 +155,31 @@ public class ScienceValueProvider extends AbstractValueProvider {
                 return (float) (a * SmosConstants.CENTER_BROWSE_INCIDENCE_ANGLE + b);
             }
         } catch (IOException e) {
-            return (float) fillValue;
+            return fillValue;
         } catch (InvalidRangeException e) {
-            return (float) fillValue;
+            return fillValue;
         }
-        return (float) fillValue;
+        return fillValue;
     }
 
     private float getSnapshotValue(int gridPointIndex) {
-        final double fillValue = descriptor.getFillValue();
+        final float fillValue = (float) descriptor.getFillValue();
         try {
+            final Array snapshotIdOfPixelArray = arrayCache.get("Snapshot_ID_of_Pixel");
+            final Array flagsArray = arrayCache.get("Flags");
+            if (snapshotIdOfPixelArray == null || flagsArray == null) {
+                return fillValue;
+            }
+
             final Array gpArray = arrayCache.get(variableName);
             final Array gpDataVector = extractGridPointVector(gridPointIndex, gpArray);
             final Index dataIndex = gpDataVector.getIndex();
 
-            final Array snapshotIdOfPixelArray = arrayCache.get("Snapshot_ID_of_Pixel");
+
             final Array snapsotIdVector = extractGridPointVector(gridPointIndex, snapshotIdOfPixelArray);
             final Index snapshotIndex = snapsotIdVector.getIndex();
 
-            final Array flagsArray = arrayCache.get("Flags");
+
             final Array flagsVector = extractGridPointVector(gridPointIndex, flagsArray);
             final Index flagsIndex = flagsVector.getIndex();
 
@@ -191,9 +201,9 @@ public class ScienceValueProvider extends AbstractValueProvider {
                 }
             }
         } catch (IOException | InvalidRangeException e) {
-            return (float) fillValue;
+            return fillValue;
         }
-        return (float) fillValue;
+        return fillValue;
     }
 
     private Array extractGridPointVector(int gridPointIndex, Array array) throws InvalidRangeException {

@@ -1,5 +1,7 @@
 package org.esa.smos.ee2netcdf.reader;
 
+import org.esa.snap.core.datamodel.Product;
+import org.esa.snap.core.datamodel.ProductData;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -44,6 +46,78 @@ public class ScienceProductSupportTest {
 
         final ScienceProductSupport fullPole = new ScienceProductSupport(null, "MIR_SCSF1C");
         assertTrue(fullPole.canSupplyFullPolData());
+    }
+
+    @Test
+    public void testContainsRotatedBands() {
+        final Product product = new Product("test", "test_type", 2, 2);
+        assertFalse(ScienceProductSupport.containsAllRotationBands(product));
+
+        product.addBand("Faraday_Rotation_Angle_X", ProductData.TYPE_INT8);
+        assertFalse(ScienceProductSupport.containsAllRotationBands(product));
+
+        product.addBand("Faraday_Rotation_Angle_Y", ProductData.TYPE_INT8);
+        assertFalse(ScienceProductSupport.containsAllRotationBands(product));
+
+        product.addBand("Geometric_Rotation_Angle_X", ProductData.TYPE_INT8);
+        assertFalse(ScienceProductSupport.containsAllRotationBands(product));
+
+        product.addBand("Geometric_Rotation_Angle_y", ProductData.TYPE_INT8);
+        assertTrue(ScienceProductSupport.containsAllRotationBands(product));
+    }
+
+    @Test
+    public void testContainsBT_XY_Bands() {
+        final Product product = new Product("test", "test_type", 2, 2);
+        assertFalse(ScienceProductSupport.containsBT_XY_Bands(product));
+
+        product.addBand("BT_Value_X", ProductData.TYPE_INT8);
+        assertFalse(ScienceProductSupport.containsBT_XY_Bands(product));
+
+        product.addBand("BT_Value_Y", ProductData.TYPE_INT8);
+        assertTrue(ScienceProductSupport.containsBT_XY_Bands(product));
+    }
+
+    @Test
+    public void testContainsBT_XY_FP_Bands() {
+        final Product product = new Product("test", "test_type", 2, 2);
+        assertFalse(ScienceProductSupport.containsBT_XY_FP_Bands(product));
+
+        product.addBand("BT_Value_X", ProductData.TYPE_INT8);
+        assertFalse(ScienceProductSupport.containsBT_XY_FP_Bands(product));
+
+        product.addBand("BT_Value_Y", ProductData.TYPE_INT8);
+        assertFalse(ScienceProductSupport.containsBT_XY_FP_Bands(product));
+
+        product.addBand("BT_Value_XY_REAL", ProductData.TYPE_INT8);
+        assertTrue(ScienceProductSupport.containsBT_XY_FP_Bands(product));
+    }
+
+    @Test
+    public void testContainsAccuracy_XY_Bands() {
+        final Product product = new Product("test", "test_type", 2, 2);
+        assertFalse(ScienceProductSupport.containsAccuracy_XY_Bands(product));
+
+        product.addBand("Pixel_Radiometric_Accuracy_X", ProductData.TYPE_INT8);
+        assertFalse(ScienceProductSupport.containsAccuracy_XY_Bands(product));
+
+        product.addBand("Pixel_Radiometric_Accuracy_Y", ProductData.TYPE_INT8);
+        assertTrue(ScienceProductSupport.containsAccuracy_XY_Bands(product));
+    }
+
+    @Test
+    public void testContainsAccuracy_XY_FP_Bands() {
+        final Product product = new Product("test", "test_type", 2, 2);
+        assertFalse(ScienceProductSupport.containsAccuracy_XY_FP_Bands(product));
+
+        product.addBand("Pixel_Radiometric_Accuracy_X", ProductData.TYPE_INT8);
+        assertFalse(ScienceProductSupport.containsAccuracy_XY_FP_Bands(product));
+
+        product.addBand("Pixel_Radiometric_Accuracy_Y", ProductData.TYPE_INT8);
+        assertFalse(ScienceProductSupport.containsAccuracy_XY_FP_Bands(product));
+
+        product.addBand("Pixel_Radiometric_Accuracy_XY", ProductData.TYPE_INT8);
+        assertTrue(ScienceProductSupport.containsAccuracy_XY_FP_Bands(product));
     }
 
     // @todo 2 tb/tb do not forget to add a  test for band-scaling 2015-06-29

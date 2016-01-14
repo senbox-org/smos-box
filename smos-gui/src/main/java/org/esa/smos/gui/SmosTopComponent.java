@@ -149,6 +149,10 @@ public abstract class SmosTopComponent extends TopComponent {
         return clientComponent != null ? clientComponent : defaultComponent;
     }
 
+    protected JComponent getDefaultComponent() {
+        return defaultComponent;
+    }
+
     protected abstract JComponent createClientComponent();
 
     protected abstract void updateClientComponent(ProductSceneView smosView);

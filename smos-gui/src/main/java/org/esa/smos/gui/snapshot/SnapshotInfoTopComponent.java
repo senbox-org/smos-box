@@ -183,8 +183,12 @@ public class SnapshotInfoTopComponent extends SmosTopComponent {
                 startPolModeInitWaiting(smosView, l1CScienceSmosReader);
                 return;
             }
-            final long snapshotId = getSelectedSnapshotId(smosView.getRaster());
-            updateUI(smosView, snapshotId, true);
+            if (l1CScienceSmosReader.getSnapshotInfo().containsData()) {
+                final long snapshotId = getSelectedSnapshotId(smosView.getRaster());
+                updateUI(smosView, snapshotId, true);
+            } else {
+                super.realizeSmosView(null);
+            }
         } else {
             super.realizeSmosView(null);
         }
@@ -641,7 +645,12 @@ public class SnapshotInfoTopComponent extends SmosTopComponent {
 
         @Override
         protected void done() {
-            setToolViewComponent(getClientComponent());
+            final SnapshotInfo snapshotInfo = l1CScienceSmosReader.getSnapshotInfo();
+            if (snapshotInfo.containsData()) {
+                setToolViewComponent(getClientComponent());
+            } else {
+                setToolViewComponent(getDefaultComponent());
+            }
             updateClientComponent(smosView);
         }
     }

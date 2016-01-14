@@ -6,15 +6,7 @@ import org.esa.smos.dataio.smos.*;
 import org.esa.smos.dataio.smos.dddb.BandDescriptor;
 import org.esa.smos.dataio.smos.dddb.Family;
 import org.esa.smos.dataio.smos.dddb.FlagDescriptor;
-import org.esa.smos.dataio.smos.provider.AbstractValueProvider;
-import org.esa.smos.dataio.smos.provider.DP;
-import org.esa.smos.dataio.smos.provider.DPH;
-import org.esa.smos.dataio.smos.provider.DPV;
-import org.esa.smos.dataio.smos.provider.FP;
-import org.esa.smos.dataio.smos.provider.FPH;
-import org.esa.smos.dataio.smos.provider.FPHVR;
-import org.esa.smos.dataio.smos.provider.FPV;
-import org.esa.smos.dataio.smos.provider.ValueProvider;
+import org.esa.smos.dataio.smos.provider.*;
 import org.esa.snap.core.datamodel.Band;
 import org.esa.snap.core.datamodel.Product;
 import org.esa.snap.core.datamodel.ProductData;
@@ -107,11 +99,12 @@ class ScienceProductSupport extends AbstractProductTypeSupport {
         if (snapshotInfoFuture == null) {
             snapshotInfoFuture = Executors.newSingleThreadExecutor().submit(() -> createSnapshotInfo());
         }
+
         return snapshotInfoFuture.isDone();
     }
 
     @Override
-    public SnapshotInfo getSnapshotInfo() throws IOException {
+    public SnapshotInfo getSnapshotInfo() {
         try {
             return snapshotInfoFuture.get();
         } catch (InterruptedException | ExecutionException e) {
@@ -144,6 +137,8 @@ class ScienceProductSupport extends AbstractProductTypeSupport {
         final Set<Long> xy = new TreeSet<>();
 
         final Map<Long, Rectangle2D> snapshotAreaMap = new TreeMap<>();
+        final Map<Long, Integer> snapshotIndexMap = new TreeMap<>();
+
         final Array latitude = arrayCache.get("Grid_Point_Latitude");
         final Array longitude = arrayCache.get("Grid_Point_Longitude");
         final Array btDataCounter = arrayCache.get("BT_Data_Counter");
@@ -151,74 +146,80 @@ class ScienceProductSupport extends AbstractProductTypeSupport {
         final Array flags = arrayCache.get("Flags");
         final Array snapshotId = arrayCache.get("Snapshot_ID");
 
-        final Dimension dimension = netcdfFile.findDimension("n_grid_points");
-        final int gridPointCount = dimension.getLength();
+        if (allRequiredArrayPresent(latitude, longitude, btDataCounter, snapshotIdOfPixel, flags, snapshotId)) {
+            final Dimension dimension = netcdfFile.findDimension("n_grid_points");
+            final int gridPointCount = dimension.getLength();
 
-        for (int i = 0; i < gridPointCount; i++) {
-            final int btCount = btDataCounter.getInt(i);
-            final Index snapshotIdOfPixelIndex = snapshotIdOfPixel.getIndex();
-            final Index flagsIndex = flags.getIndex();
+            for (int i = 0; i < gridPointCount; i++) {
+                final int btCount = btDataCounter.getInt(i);
+                final Index snapshotIdOfPixelIndex = snapshotIdOfPixel.getIndex();
+                final Index flagsIndex = flags.getIndex();
 
-            if (btCount > 0) {
-                double lon = longitude.getDouble(i);
-                double lat = latitude.getDouble(i);
-                // normalisation to [-180, 180] necessary for some L1c test products
-                if (lon > 180.0) {
-                    lon -= 360.0;
-                }
-                final Rectangle2D rectangle = DggUtils.createGridPointRectangle(lon, lat);
+                if (btCount > 0) {
+                    double lon = longitude.getDouble(i);
+                    double lat = latitude.getDouble(i);
+                    // normalisation to [-180, 180] necessary for some L1c test products
+                    if (lon > 180.0) {
+                        lon -= 360.0;
+                    }
+                    final Rectangle2D rectangle = DggUtils.createGridPointRectangle(lon, lat);
 
-                long lastId = -1;
-                for (int j = 0; j < btCount; j++) {
-                    snapshotIdOfPixelIndex.set(i, j);
-                    final long id = snapshotIdOfPixel.getLong(snapshotIdOfPixelIndex);
+                    long lastId = -1;
+                    for (int j = 0; j < btCount; j++) {
+                        snapshotIdOfPixelIndex.set(i, j);
+                        final long id = snapshotIdOfPixel.getLong(snapshotIdOfPixelIndex);
 
-                    if (lastId != id) { // snapshots are ordered
-                        all.add(id);
-                        if (snapshotAreaMap.containsKey(id)) {
-                            // todo: rq/rq - snapshots on the anti-meridian, use area instead of rectangle (2009-10-22)
-                            snapshotAreaMap.get(id).add(rectangle);
-                        } else {
-                            snapshotAreaMap.put(id, rectangle);
+                        if (lastId != id) { // snapshots are ordered
+                            all.add(id);
+                            if (snapshotAreaMap.containsKey(id)) {
+                                // todo: rq/rq - snapshots on the anti-meridian, use area instead of rectangle (2009-10-22)
+                                snapshotAreaMap.get(id).add(rectangle);
+                            } else {
+                                snapshotAreaMap.put(id, rectangle);
+                            }
+                            lastId = id;
                         }
-                        lastId = id;
-                    }
 
-                    flagsIndex.set(i, j);
-                    final int flag = flags.getInt(flagsIndex);
-                    switch (flag & SmosConstants.L1C_POL_MODE_FLAGS_MASK) {
-                        case SmosConstants.L1C_POL_MODE_X:
-                            x.add(id);
-                            break;
-                        case SmosConstants.L1C_POL_MODE_Y:
-                            y.add(id);
-                            break;
-                        case SmosConstants.L1C_POL_MODE_XY1:
-                        case SmosConstants.L1C_POL_MODE_XY2:
-                            xy.add(id);
-                            break;
+                        flagsIndex.set(i, j);
+                        final int flag = flags.getInt(flagsIndex);
+                        switch (flag & SmosConstants.L1C_POL_MODE_FLAGS_MASK) {
+                            case SmosConstants.L1C_POL_MODE_X:
+                                x.add(id);
+                                break;
+                            case SmosConstants.L1C_POL_MODE_Y:
+                                y.add(id);
+                                break;
+                            case SmosConstants.L1C_POL_MODE_XY1:
+                            case SmosConstants.L1C_POL_MODE_XY2:
+                                xy.add(id);
+                                break;
+                        }
                     }
                 }
             }
-        }
 
-        final Map<Long, Integer> snapshotIndexMap = new TreeMap<>();
-        final Dimension snapshotDimension = netcdfFile.findDimension("n_snapshots");
-        final int snapshotCount = snapshotDimension.getLength();
 
-        for (int i = 0; i < snapshotCount; i++) {
-            final long id = snapshotId.getLong(i);
-            if (all.contains(id)) {
-                snapshotIndexMap.put(id, i);
+            final Dimension snapshotDimension = netcdfFile.findDimension("n_snapshots");
+            final int snapshotCount = snapshotDimension.getLength();
+
+            for (int i = 0; i < snapshotCount; i++) {
+                final long id = snapshotId.getLong(i);
+                if (all.contains(id)) {
+                    snapshotIndexMap.put(id, i);
+                }
+            }
+
+            // load snapshot variables
+            for (String variableName : snapshotDataNames) {
+                arrayCache.get(variableName);
             }
         }
-
-        // load snapshot variables
-        for (String variableName : snapshotDataNames) {
-            arrayCache.get(variableName);
-        }
-
         return new SnapshotInfo(snapshotIndexMap, all, x, y, xy, snapshotAreaMap);
+    }
+
+    // @todo 4 tb/tb make package and static and add test 2016-01-14
+    private boolean allRequiredArrayPresent(Array latitude, Array longitude, Array btDataCounter, Array snapshotIdOfPixel, Array flags, Array snapshotId) {
+        return latitude != null && longitude != null && btDataCounter != null && snapshotIdOfPixel != null && flags != null & snapshotId != null;
     }
 
     @Override
@@ -237,58 +238,100 @@ class ScienceProductSupport extends AbstractProductTypeSupport {
     }
 
     private void addRotatedFullPoleBands(Product product, Family<BandDescriptor> bandDescriptors, HashMap<String, AbstractValueProvider> valueProviderMap) {
+        if (containsAllRotationBands(product)) {
+            FP valueProvider;
+            BandDescriptor descriptor;
 
-        FP valueProvider = new FPH(product, valueProviderMap, false);
-        BandDescriptor descriptor = bandDescriptors.getMember("BT_Value_H");
-        addRotatedBand(product, descriptor, valueProvider);
+            if (containsBT_XY_FP_Bands(product)) {
+                valueProvider = new FPH(product, valueProviderMap, false);
+                descriptor = bandDescriptors.getMember("BT_Value_H");
+                addRotatedBand(product, descriptor, valueProvider);
 
-        valueProvider = new FPV(product, valueProviderMap, false);
-        descriptor = bandDescriptors.getMember("BT_Value_V");
-        addRotatedBand(product, descriptor, valueProvider);
+                valueProvider = new FPV(product, valueProviderMap, false);
+                descriptor = bandDescriptors.getMember("BT_Value_V");
+                addRotatedBand(product, descriptor, valueProvider);
 
-        valueProvider = new FPHVR(product, valueProviderMap, false);
-        descriptor = bandDescriptors.getMember("BT_Value_HV_Real");
-        addRotatedBand(product, descriptor, valueProvider);
+                valueProvider = new FPHVR(product, valueProviderMap, false);
+                descriptor = bandDescriptors.getMember("BT_Value_HV_Real");
+                addRotatedBand(product, descriptor, valueProvider);
 
-        ProductHelper.addVirtualBand(product, bandDescriptors.getMember("BT_Value_HV_Imag"), "BT_Value_XY_Imag");
+                ProductHelper.addVirtualBand(product, bandDescriptors.getMember("Stokes_1"), "(BT_Value_X + BT_Value_Y) / 2.0");
+                ProductHelper.addVirtualBand(product, bandDescriptors.getMember("Stokes_2"), "(BT_Value_H - BT_Value_V) / 2.0");
+                ProductHelper.addVirtualBand(product, bandDescriptors.getMember("Stokes_3"), "BT_Value_HV_Real");
+            }
 
-        valueProvider = new FPH(product, valueProviderMap, true);
-        descriptor = bandDescriptors.getMember("Pixel_Radiometric_Accuracy_H");
-        addRotatedBand(product, descriptor, valueProvider);
+            if (product.containsBand("BT_Value_XY_Imag")) {
+                ProductHelper.addVirtualBand(product, bandDescriptors.getMember("BT_Value_HV_Imag"), "BT_Value_XY_Imag");
+            }
 
-        valueProvider = new FPV(product, valueProviderMap, true);
-        descriptor = bandDescriptors.getMember("Pixel_Radiometric_Accuracy_V");
-        addRotatedBand(product, descriptor, valueProvider);
+            if (containsAccuracy_XY_FP_Bands(product)) {
+                valueProvider = new FPH(product, valueProviderMap, true);
+                descriptor = bandDescriptors.getMember("Pixel_Radiometric_Accuracy_H");
+                addRotatedBand(product, descriptor, valueProvider);
 
-        valueProvider = new FPHVR(product, valueProviderMap, true);
-        descriptor = bandDescriptors.getMember("Pixel_Radiometric_Accuracy_HV");
-        addRotatedBand(product, descriptor, valueProvider);
+                valueProvider = new FPV(product, valueProviderMap, true);
+                descriptor = bandDescriptors.getMember("Pixel_Radiometric_Accuracy_V");
+                addRotatedBand(product, descriptor, valueProvider);
 
-        ProductHelper.addVirtualBand(product, bandDescriptors.getMember("Stokes_1"), "(BT_Value_X + BT_Value_Y) / 2.0");
-        ProductHelper.addVirtualBand(product, bandDescriptors.getMember("Stokes_2"), "(BT_Value_H - BT_Value_V) / 2.0");
-        ProductHelper.addVirtualBand(product, bandDescriptors.getMember("Stokes_3"), "BT_Value_HV_Real");
-        ProductHelper.addVirtualBand(product, bandDescriptors.getMember("Stokes_4"), "BT_Value_XY_Imag");
+                valueProvider = new FPHVR(product, valueProviderMap, true);
+                descriptor = bandDescriptors.getMember("Pixel_Radiometric_Accuracy_HV");
+                addRotatedBand(product, descriptor, valueProvider);
+            }
+
+            if (product.containsBand("BT_Value_XY_Imag")) {
+                ProductHelper.addVirtualBand(product, bandDescriptors.getMember("Stokes_4"), "BT_Value_XY_Imag");
+            }
+        }
     }
 
     private void addRotatedDualPoleBands(Product product, Family<BandDescriptor> bandDescriptors, HashMap<String, AbstractValueProvider> valueProviderMap) {
-        DP valueProvider = new DPH(product, valueProviderMap, false);
-        BandDescriptor descriptor = bandDescriptors.getMember("BT_Value_H");
-        addRotatedBand(product, descriptor, valueProvider);
+        if (containsAllRotationBands(product)) {
+            DP valueProvider;
+            BandDescriptor descriptor;
 
-        valueProvider = new DPV(product, valueProviderMap, false);
-        descriptor = bandDescriptors.getMember("BT_Value_V");
-        addRotatedBand(product, descriptor, valueProvider);
+            if (containsBT_XY_Bands(product)) {
+                valueProvider = new DPH(product, valueProviderMap, false);
+                descriptor = bandDescriptors.getMember("BT_Value_H");
+                addRotatedBand(product, descriptor, valueProvider);
 
-        valueProvider =  new DPH(product, valueProviderMap, true);
-        descriptor = bandDescriptors.getMember("Pixel_Radiometric_Accuracy_H");
-        addRotatedBand(product, descriptor, valueProvider);
+                valueProvider = new DPV(product, valueProviderMap, false);
+                descriptor = bandDescriptors.getMember("BT_Value_V");
+                addRotatedBand(product, descriptor, valueProvider);
 
-        valueProvider = new DPV(product, valueProviderMap, true);
-        descriptor = bandDescriptors.getMember("Pixel_Radiometric_Accuracy_V");
-        addRotatedBand(product, descriptor, valueProvider);
+                ProductHelper.addVirtualBand(product, bandDescriptors.getMember("Stokes_1"), "(BT_Value_X + BT_Value_Y) / 2.0");
+                ProductHelper.addVirtualBand(product, bandDescriptors.getMember("Stokes_2"), "(BT_Value_H - BT_Value_V) / 2.0");
+            }
 
-        ProductHelper.addVirtualBand(product, bandDescriptors.getMember("Stokes_1"), "(BT_Value_X + BT_Value_Y) / 2.0");
-        ProductHelper.addVirtualBand(product, bandDescriptors.getMember("Stokes_2"), "(BT_Value_H - BT_Value_V) / 2.0");
+            if (containsAccuracy_XY_Bands(product)) {
+                valueProvider = new DPH(product, valueProviderMap, true);
+                descriptor = bandDescriptors.getMember("Pixel_Radiometric_Accuracy_H");
+                addRotatedBand(product, descriptor, valueProvider);
+
+                valueProvider = new DPV(product, valueProviderMap, true);
+                descriptor = bandDescriptors.getMember("Pixel_Radiometric_Accuracy_V");
+                addRotatedBand(product, descriptor, valueProvider);
+            }
+        }
+    }
+
+    static boolean containsAccuracy_XY_Bands(Product product) {
+        return product.containsBand("Pixel_Radiometric_Accuracy_X") && product.containsBand("Pixel_Radiometric_Accuracy_Y");
+    }
+
+    static boolean containsAccuracy_XY_FP_Bands(Product product) {
+        return containsAccuracy_XY_Bands(product) && product.containsBand("Pixel_Radiometric_Accuracy_XY");
+    }
+
+    static boolean containsBT_XY_Bands(Product product) {
+        return product.containsBand("BT_Value_X") && product.containsBand("BT_Value_Y");
+    }
+
+    static boolean containsBT_XY_FP_Bands(Product product) {
+        return containsBT_XY_Bands(product) && product.containsBand("BT_Value_XY_Real");
+    }
+
+    static boolean containsAllRotationBands(Product product) {
+        return product.containsBand("Faraday_Rotation_Angle_X") && product.containsBand("Faraday_Rotation_Angle_Y") && product.containsBand("Geometric_Rotation_Angle_X") && product.containsBand("Geometric_Rotation_Angle_Y");
     }
 
     private void addRotatedBand(Product product, BandDescriptor descriptor, ValueProvider valueProvider) {
