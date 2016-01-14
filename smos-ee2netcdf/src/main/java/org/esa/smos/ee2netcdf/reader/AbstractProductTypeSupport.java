@@ -6,7 +6,6 @@ import org.esa.smos.dataio.smos.dddb.Dddb;
 import org.esa.smos.dataio.smos.dddb.Family;
 import org.esa.smos.dataio.smos.dddb.FlagDescriptor;
 import org.esa.smos.dataio.smos.provider.AbstractValueProvider;
-import org.esa.smos.dataio.smos.provider.ValueProvider;
 import org.esa.smos.ee2netcdf.ExporterUtils;
 import org.esa.snap.core.datamodel.Band;
 import org.esa.snap.core.datamodel.Product;

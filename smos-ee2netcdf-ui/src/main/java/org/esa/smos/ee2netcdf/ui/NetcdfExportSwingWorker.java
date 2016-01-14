@@ -118,7 +118,7 @@ class NetcdfExportSwingWorker extends ProgressMonitorSwingWorker<List<Exception>
         }
         final String[] variableNames = exportParameter.getVariableNames();
         if (variableNames != null && variableNames.length != 0) {
-            parameterMap.put("variableNames", StringUtils.arrayToString(exportParameter.getVariableNames(), "s"));
+            parameterMap.put("variableNames", StringUtils.arrayToCsv(exportParameter.getVariableNames()));
         }
         parameterMap.put("compressionLevel", exportParameter.getCompressionLevel());
 

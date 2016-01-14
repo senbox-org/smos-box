@@ -91,6 +91,24 @@ public class NetcdfExportSwingWorkerTest {
     }
 
     @Test
+    public void testCreateMap_oneVariable() {
+        exportParameter.setVariableNames(new String[]{"one_band"});
+
+        HashMap<String, Object> parameterMap = NetcdfExportSwingWorker.createParameterMap(exportParameter);
+
+        assertEquals("one_band", parameterMap.get("variableNames"));
+    }
+
+    @Test
+    public void testCreateMap_threeVariable() {
+        exportParameter.setVariableNames(new String[]{"band_one", "band_two", "band_three"});
+
+        HashMap<String, Object> parameterMap = NetcdfExportSwingWorker.createParameterMap(exportParameter);
+
+        assertEquals("band_one,band_two,band_three", parameterMap.get("variableNames"));
+    }
+
+    @Test
     public void testCreateSourcePathWildcards() {
         final File inputDir = new File("data");
         final String pathWildcards = NetcdfExportSwingWorker.createSourcePathWildcards(inputDir);

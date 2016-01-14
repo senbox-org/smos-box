@@ -4,7 +4,6 @@ import org.esa.smos.dataio.smos.GridPointInfo;
 import org.esa.smos.dataio.smos.SmosConstants;
 import org.esa.smos.dataio.smos.dddb.BandDescriptor;
 import org.esa.smos.dataio.smos.provider.AbstractValueProvider;
-import org.esa.smos.dataio.smos.provider.ValueProvider;
 import ucar.ma2.Array;
 import ucar.ma2.Index;
 import ucar.ma2.InvalidRangeException;

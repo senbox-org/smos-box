@@ -5,21 +5,12 @@ import com.bc.ceres.glevel.MultiLevelImage;
 import com.bc.ceres.glevel.support.DefaultMultiLevelImage;
 import org.esa.smos.ObservationPointList;
 import org.esa.smos.Point;
-import org.esa.smos.dataio.smos.DggUtils;
-import org.esa.smos.dataio.smos.GridPointBtDataset;
-import org.esa.smos.dataio.smos.GridPointInfo;
-import org.esa.smos.dataio.smos.PolarisationModel;
-import org.esa.smos.dataio.smos.ProductHelper;
-import org.esa.smos.dataio.smos.SmosConstants;
-import org.esa.smos.dataio.smos.SmosMultiLevelSource;
-import org.esa.smos.dataio.smos.SmosReader;
-import org.esa.smos.dataio.smos.SnapshotInfo;
+import org.esa.smos.dataio.smos.*;
 import org.esa.smos.dataio.smos.dddb.BandDescriptor;
 import org.esa.smos.dataio.smos.dddb.Dddb;
 import org.esa.smos.dataio.smos.dddb.Family;
 import org.esa.smos.dataio.smos.dddb.FlagDescriptor;
 import org.esa.smos.dataio.smos.provider.AbstractValueProvider;
-import org.esa.smos.dataio.smos.provider.ValueProvider;
 import org.esa.smos.dgg.SmosDgg;
 import org.esa.smos.ee2netcdf.AttributeEntry;
 import org.esa.smos.ee2netcdf.ExporterUtils;
@@ -297,6 +288,9 @@ public class NetcdfProductReader extends SmosReader {
 
     private GridPointInfo calculateGridPointInfo() throws IOException {
         final Variable gridPointIdVariable = netcdfFile.findVariable(null, "Grid_Point_ID");
+        if (gridPointIdVariable == null) {
+            throw new IOException("Required variable 'Grid_Point_ID' missing, Unable to open product");
+        }
         final Array gridPointIdArray = gridPointIdVariable.read();
         final int[] shape = gridPointIdArray.getShape();
 
