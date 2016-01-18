@@ -6,7 +6,7 @@
     <parent>
         <artifactId>smos-box</artifactId>
         <groupId>org.esa.smostbx</groupId>
-        <version>5.0.0</version>
+        <version>5.0.1</version>
     </parent>
 
     <artifactId>smos-dgg</artifactId>
