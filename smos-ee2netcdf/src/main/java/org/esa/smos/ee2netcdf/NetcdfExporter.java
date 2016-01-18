@@ -47,7 +47,7 @@ class NetcdfExporter {
 
 
             final int numGridCellsCovered = exporter.prepareGeographicSubset(parameter);
-            if (numGridCellsCovered <= 0) {
+            if (numGridCellsCovered == 0) {
                 logger.info("No geometric intersection between subset and input file. Skipping export operation");
                 return;
             }
