@@ -133,6 +133,7 @@ public class NetcdfExportTool {
             try {
                 exporter.exportFile(file, getLogger());
             } catch (Exception e) {
+                e.printStackTrace();
                 throw new ToolException(
                         MessageFormat.format("An error has occurred while trying to convert file ''{0}''.", path), e,
                         EXECUTION_ERROR);
@@ -148,7 +149,12 @@ public class NetcdfExportTool {
                 if (inputFile.isDirectory()) {
                     continue;
                 }
-                exporter.exportFile(inputFile, getLogger());
+                try {
+                    exporter.exportFile(inputFile, getLogger());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    logger.severe(MessageFormat.format("An error has occurred while trying to convert file ''{0}''.", inputFile));
+                }
             }
         }
     }
