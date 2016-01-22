@@ -60,6 +60,10 @@ public class SnapshotInfo {
         this.snapshotAreaMap = Collections.unmodifiableMap(map);
     }
 
+    public boolean containsData() {
+        return !snapshotIds.isEmpty();
+    }
+
     public int getSnapshotIndex(long snapshotId) {
         if (!snapshotIndexMap.containsKey(snapshotId)) {
             return -1;

@@ -10,6 +10,7 @@ import ucar.nc2.Variable;
 import java.io.IOException;
 
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import static org.mockito.Mockito.*;
 
@@ -52,6 +53,15 @@ public class ArrayCacheTest {
 
         verify(netcdfFile, times(1)).findVariable(null, "a_variable");
         verify(variable, times(1)).read();
+        verifyNoMoreInteractions(netcdfFile, variable);
+    }
+
+    @Test
+    public void testArrayIsNullWhenVariableIsNotPresent() throws IOException {
+        final Array resultArray =  arrayCache.get("not_present_variable");
+        assertNull(resultArray);
+
+        verify(netcdfFile, times(1)).findVariable(null, "not_present_variable");
         verifyNoMoreInteractions(netcdfFile, variable);
     }
 }

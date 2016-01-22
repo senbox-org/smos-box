@@ -25,7 +25,7 @@ import java.util.logging.Logger;
 public class NetcdfExportTool {
 
     private static final String TOOL_NAME = "smos-ee-to-nc";
-    private static final String TOOL_VERSION = "1.0";
+    private static final String TOOL_VERSION = "1.2";
 
     private static final int ERROR = 1;
     private static final int USAGE_ERROR = 2;
@@ -133,6 +133,7 @@ public class NetcdfExportTool {
             try {
                 exporter.exportFile(file, getLogger());
             } catch (Exception e) {
+                e.printStackTrace();
                 throw new ToolException(
                         MessageFormat.format("An error has occurred while trying to convert file ''{0}''.", path), e,
                         EXECUTION_ERROR);
@@ -148,7 +149,12 @@ public class NetcdfExportTool {
                 if (inputFile.isDirectory()) {
                     continue;
                 }
-                exporter.exportFile(inputFile, getLogger());
+                try {
+                    exporter.exportFile(inputFile, getLogger());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    logger.severe(MessageFormat.format("An error has occurred while trying to convert file ''{0}''.", inputFile));
+                }
             }
         }
     }
