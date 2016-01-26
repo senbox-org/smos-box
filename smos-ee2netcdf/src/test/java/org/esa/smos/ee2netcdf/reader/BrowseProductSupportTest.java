@@ -15,9 +15,7 @@ import ucar.nc2.Variable;
 
 import java.io.IOException;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -40,6 +38,22 @@ public class BrowseProductSupportTest {
     @Test
     public void testGetLongitudeBandName() {
         assertEquals("Grid_Point_Longitude", support.getLongitudeBandName());
+    }
+
+    @Test
+    public void testCanOpenFile() {
+        final Variable variable = mock(Variable.class);
+
+        assertFalse(support.canOpenFile());
+
+        when(netcdfFile.findVariable("Grid_Point_Latitude")).thenReturn(variable);
+        assertFalse(support.canOpenFile());
+
+        when(netcdfFile.findVariable("Grid_Point_Longitude")).thenReturn(variable);
+        assertFalse(support.canOpenFile());
+
+        when(netcdfFile.findVariable("Grid_Point_ID")).thenReturn(variable);
+        assertTrue(support.canOpenFile());
     }
 
     @Test

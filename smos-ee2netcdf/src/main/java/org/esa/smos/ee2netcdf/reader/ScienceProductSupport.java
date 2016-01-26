@@ -14,6 +14,7 @@ import ucar.ma2.Array;
 import ucar.ma2.Index;
 import ucar.nc2.Dimension;
 import ucar.nc2.NetcdfFile;
+import ucar.nc2.Variable;
 
 import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
@@ -62,8 +63,21 @@ class ScienceProductSupport extends AbstractProductTypeSupport {
     }
 
     @Override
+    public boolean canOpenFile() {
+        return containsVariable("Grid_Point_Latitude") &&
+                containsVariable("Grid_Point_Longitude") &&
+                containsVariable("Grid_Point_ID") &&
+                containsVariable("Flags") &&
+                containsVariable("Incidence_Angle");
+    }
+
+    @Override
     public AbstractValueProvider createValueProvider(ArrayCache arrayCache, String variableName, BandDescriptor descriptor, Area area, GridPointInfo gridPointInfo) {
         if (descriptor.getMemberName().equals("Flags")) {
+            final Variable incidenceAngleVariable = netcdfFile.findVariable(SmosConstants.INCIDENCE_ANGLE);
+            if (incidenceAngleVariable == null) {
+                return null;
+            }
             return new ScienceFlagsValueProvider(arrayCache, variableName, descriptor, area, gridPointInfo, incidentAngleScaleFactor);
         } else {
             return new ScienceValueProvider(arrayCache, variableName, descriptor, area, gridPointInfo, incidentAngleScaleFactor);

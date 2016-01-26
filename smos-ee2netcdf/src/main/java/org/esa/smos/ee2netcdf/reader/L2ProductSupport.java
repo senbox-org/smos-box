@@ -36,6 +36,13 @@ class L2ProductSupport extends AbstractProductTypeSupport {
     }
 
     @Override
+    public boolean canOpenFile() {
+        return containsVariable("Latitude") &&
+                containsVariable("Longitude") &&
+                containsVariable("Grid_Point_ID");
+    }
+
+    @Override
     public void setScalingAndOffset(Band band, BandDescriptor bandDescriptor) {
         final String memberName = bandDescriptor.getMemberName();
         if ("Chi_2".equals(memberName)) {

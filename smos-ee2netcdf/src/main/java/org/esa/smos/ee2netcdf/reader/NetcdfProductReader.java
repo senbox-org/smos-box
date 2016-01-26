@@ -187,6 +187,10 @@ public class NetcdfProductReader extends SmosReader {
 
             typeSupport = ProductTypeSupportFactory.get(productType, netcdfFile);
 
+            if (!typeSupport.canOpenFile()){
+                throw new IOException("Incomplete SMOS file, unable to handle correctly.");
+            }
+
             product = ProductHelper.createProduct(inputFile, productType);
             product.setProductReader(this);
             addSensingTimes(product);
