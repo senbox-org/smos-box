@@ -5,10 +5,10 @@ import org.esa.smos.dataio.smos.GridPointInfo;
 import org.esa.smos.dataio.smos.dddb.BandDescriptor;
 import org.esa.smos.dataio.smos.dddb.FlagDescriptor;
 import org.esa.smos.dataio.smos.provider.AbstractValueProvider;
-import org.esa.smos.dataio.smos.provider.ValueProvider;
 import org.esa.snap.core.datamodel.Band;
 import ucar.nc2.Attribute;
 import ucar.nc2.NetcdfFile;
+import ucar.nc2.Variable;
 
 import java.awt.geom.Area;
 import java.io.IOException;
@@ -43,6 +43,13 @@ class BrowseProductSupport extends AbstractProductTypeSupport {
     @Override
     public String getLongitudeBandName() {
         return "Grid_Point_Longitude";
+    }
+
+    @Override
+    public boolean canOpenFile() {
+        return containsVariable("Grid_Point_Latitude") &&
+                containsVariable("Grid_Point_Longitude") &&
+                containsVariable("Grid_Point_ID");
     }
 
     @Override

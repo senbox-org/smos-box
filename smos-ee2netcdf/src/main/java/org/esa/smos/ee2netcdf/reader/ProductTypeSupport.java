@@ -13,6 +13,7 @@ import org.esa.smos.dataio.smos.provider.ValueProvider;
 import org.esa.snap.core.datamodel.Band;
 import org.esa.snap.core.datamodel.Product;
 import org.esa.snap.core.param.validators.StringArrayValidator;
+import ucar.nc2.NetcdfFile;
 import ucar.nc2.Variable;
 
 import java.awt.geom.Area;
@@ -34,6 +35,8 @@ interface ProductTypeSupport {
 
     String getLatitudeBandName();
     String getLongitudeBandName();
+
+    boolean canOpenFile();
 
     void setScalingAndOffset(Band band, BandDescriptor bandDescriptor);
 

@@ -4,10 +4,14 @@ import org.esa.snap.core.datamodel.Product;
 import org.esa.snap.core.datamodel.ProductData;
 import org.junit.Before;
 import org.junit.Test;
+import ucar.nc2.NetcdfFile;
+import ucar.nc2.Variable;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class ScienceProductSupportTest {
 
@@ -27,6 +31,30 @@ public class ScienceProductSupportTest {
     @Test
     public void testGetLongitudeBandName() {
         assertEquals("Grid_Point_Longitude", support.getLongitudeBandName());
+    }
+
+    @Test
+    public void testCanOpenFile() {
+        final Variable variable = mock(Variable.class);
+        final NetcdfFile netcdfFile = mock(NetcdfFile.class);
+        final ScienceProductSupport supportWithFile = new ScienceProductSupport(netcdfFile, "MIR_SCSD1C");
+
+        assertFalse(supportWithFile.canOpenFile());
+
+        when(netcdfFile.findVariable("Grid_Point_Latitude")).thenReturn(variable);
+        assertFalse(supportWithFile.canOpenFile());
+
+        when(netcdfFile.findVariable("Grid_Point_Longitude")).thenReturn(variable);
+        assertFalse(supportWithFile.canOpenFile());
+
+        when(netcdfFile.findVariable("Grid_Point_ID")).thenReturn(variable);
+        assertFalse(supportWithFile.canOpenFile());
+
+        when(netcdfFile.findVariable("Flags")).thenReturn(variable);
+        assertFalse(supportWithFile.canOpenFile());
+
+        when(netcdfFile.findVariable("Incidence_Angle")).thenReturn(variable);
+        assertTrue(supportWithFile.canOpenFile());
     }
 
     @Test

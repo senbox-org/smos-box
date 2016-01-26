@@ -175,6 +175,11 @@ abstract class AbstractProductTypeSupport implements ProductTypeSupport {
         this.gridPointInfo = gridPointInfo;
     }
 
+    protected boolean containsVariable(String variableName) {
+        final Variable variable = netcdfFile.findVariable(variableName);
+        return variable != null;
+    }
+
     protected void ensureDataStructuresInitialized() throws IOException {
         if (memberNamesMap != null && tableClasses != null && scalerMap != null && snapshotDataNames != null) {
             return;
