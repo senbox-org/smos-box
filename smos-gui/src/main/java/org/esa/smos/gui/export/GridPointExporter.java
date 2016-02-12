@@ -16,6 +16,7 @@
 package org.esa.smos.gui.export;
 
 import com.bc.ceres.core.ProgressMonitor;
+import org.esa.snap.core.util.SystemUtils;
 
 import java.awt.Shape;
 import java.io.File;
@@ -25,9 +26,6 @@ import java.io.PrintWriter;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.ConsoleHandler;
-import java.util.logging.FileHandler;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -40,10 +38,9 @@ import java.util.logging.Logger;
  */
 public class GridPointExporter {
 
-    private static Logger logger;
+    private static Logger logger = SystemUtils.LOG;
 
     public static void main(String[] args) throws IOException {
-        initializeLogging();
 
         final GPEArguments arguments = new GPEArguments(args, new ErrorHandler() {
             @Override
@@ -75,21 +72,6 @@ public class GridPointExporter {
                 System.exit(1);
             }
         });
-    }
-
-    private static void initializeLogging() throws IOException {
-        logger = Logger.getLogger("org.esa.smos");
-        final FileHandler fileHandler = new FileHandler("export.log");
-        fileHandler.setLevel(Level.ALL);
-        logger.addHandler(fileHandler);
-
-        final ConsoleHandler consoleHandler = new ConsoleHandler();
-        consoleHandler.setLevel(Level.INFO);
-        logger.addHandler(consoleHandler);
-
-        // handlers are set, so
-        logger.setUseParentHandlers(false);
-        logger.setLevel(Level.INFO);
     }
 
     private static void execute(GPEArguments arguments, ErrorHandler errorHandler) {
