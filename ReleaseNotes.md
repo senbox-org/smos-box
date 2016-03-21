@@ -2,13 +2,9 @@
 
 ###New Features and Important Changes
 
-###Bugs fixed 
-[List of resolved issue](https://senbox.atlassian.net/projects/SMOSTBX/versions/11302)
+No changes have been made to the SMOS-Box in this new release.
 
-#New in SMOS-Box 5.0
+#Release notes of former versions
 
-###New Features and Important Changes
-
-###Bugs fixed 
-[List of resolved issue](https://senbox.atlassian.net/projects/SMOSTBX/versions/11300)
+* [Resolved issues in version 5.0](https://senbox.atlassian.net/projects/SMOSTBX/versions/11300)
 
