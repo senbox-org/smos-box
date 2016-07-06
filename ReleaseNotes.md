@@ -1,3 +1,7 @@
+#New in SMOS-Box 5.2
+
+No changes have been done to SMOS-BOX since the last release. 
+
 #New in SMOS-Box 5.1
 
 ###New Features and Important Changes
