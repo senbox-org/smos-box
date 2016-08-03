@@ -52,8 +52,8 @@
     <li>MIR_SM_OSUDP2</li>
     <li>MIR_SM_SMUDP2</li>
 </ul>
-The NetCDF Conversion Command is integrated into the S-3 Toolbox framework in two different places.
-It can be either invoked from within S-3 Toolbox application or be used as a GPT-Operator for batch-processing using the
+The NetCDF Conversion Command is integrated into the SNAP framework in two different places.
+It can be either invoked from within SNAP application or be used as a GPT-Operator for batch-processing using the
 command line.
 </p>
 
@@ -65,10 +65,10 @@ command line.
     Common Data Form)</a>
 </p>
 
-<h4>NetCDF Conversion in the S-3 Toolbox</h4>
+<h4>NetCDF Conversion in the SNAP</h4>
 
 <p>
-    The NetCDF Export dialog can be invoked within S-3 Toolbox using the "Tools" menu.
+    The NetCDF Export dialog can be invoked within SNAP using the "Tools" menu.
 </p>
 
 <h5>
@@ -83,7 +83,7 @@ command line.
 <p><img src="images/NetcdfExportGui1.png" alt="NetCDF Export GUI"/></p>
 
 <p><b>Source Products:</b> Either the SMOS product selected in the
-    S-3 Toolbox, or all SMOS products residing in a specified directory of the file
+    SNAP, or all SMOS products residing in a specified directory of the file
     system can be used for exporting. When a directory is specified,
     the exporting process will convert all SMOS files contained in the directory.
     The exporter handles unpacked as well as zip-compressed products.
@@ -126,7 +126,7 @@ command line.
 
 <p>
     The NetCDF conversion tool is implemented as a GPT operator. This allows to use the converter in batch mode using
-    the GPT command line tool. Information about the Graph Processing Tool can be found in the S-3 Toolbox main
+    the GPT command line tool. Information about the Graph Processing Tool can be found in the SNAP main
     documentation, chapter <i>Graph Processing Framework</i>.
 </p>
 
@@ -223,7 +223,7 @@ into account. Only data contained in this region are used for the exporting proc
 The following section gives some examples on the usage of the <i>NetcdfExport</i> operator, covering the most important
 use cases.
 The GPT tool is invoked from the command-line. This section uses the tag <i>&lt;S3TBX_HOME&gt;</i> for the installation
-directory of S-3 Toolbox. The following paragraphs use Windows specific notation; for Linux, please replace "gpt.bat"
+directory of SNAP. The following paragraphs use Windows specific notation; for Linux, please replace "gpt.bat"
 with "gpt.sh".
 <br>
 <br>
