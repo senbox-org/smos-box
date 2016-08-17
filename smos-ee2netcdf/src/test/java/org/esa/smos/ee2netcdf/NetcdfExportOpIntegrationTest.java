@@ -40,7 +40,6 @@ import static org.junit.Assert.*;
 public class NetcdfExportOpIntegrationTest {
 
     private static File tempDir;
-    private static NetcdfExportOp.Spi spi;
 
     private final File targetDirectory;
 
@@ -50,9 +49,6 @@ public class NetcdfExportOpIntegrationTest {
 
     @BeforeClass
     public static void setUpClass() throws IOException {
-        spi = new NetcdfExportOp.Spi();
-        GPF.getDefaultInstance().getOperatorSpiRegistry().addOperatorSpi(spi);
-
         tempDir = Files.createTempDirectory("NetcdfExportOpIntegrationTest").toFile();
         Path sourceBasePath = ResourceInstaller.findModuleCodeBasePath(NetcdfExportOpIntegrationTest.class);
         ResourceInstaller installer = new ResourceInstaller(sourceBasePath.resolve("org/esa/smos/ee2netcdf"), tempDir.toPath());
@@ -69,7 +65,6 @@ public class NetcdfExportOpIntegrationTest {
         DiskCache.setRootDirectory(targetDirectory.getAbsolutePath());
         DiskCache.setCachePolicy(true);
 
-        GPF.getDefaultInstance().getOperatorSpiRegistry().addOperatorSpi(spi);
     }
 
     @After
@@ -83,10 +78,9 @@ public class NetcdfExportOpIntegrationTest {
 
     @AfterClass
     public static void tearDownClass() {
-        GPF.getDefaultInstance().getOperatorSpiRegistry().removeOperatorSpi(spi);
-            if (!FileUtils.deleteTree(tempDir)) {
-                fail("Unable to delete temporary directory");
-            }
+        if (!FileUtils.deleteTree(tempDir)) {
+            fail("Unable to delete temporary directory");
+        }
     }
 
     @Test
@@ -99,8 +93,8 @@ public class NetcdfExportOpIntegrationTest {
             product = ProductIO.readProduct(file);
 
             GPF.createProduct(NetcdfExportOp.ALIAS,
-                    createDefaultParameterMap(),
-                    new Product[]{product});
+                              createDefaultParameterMap(),
+                              new Product[]{product});
 
             final File outputFile = new File(targetDirectory, "SM_OPER_MIR_BWLF1C_20111026T143206_20111026T152520_503_001_1.nc");
             assertTrue(outputFile.isFile());
@@ -190,9 +184,13 @@ public class NetcdfExportOpIntegrationTest {
             assertEquals(DataType.SHORT, flagsVariable.getDataType());
             assertNoAttribute("units", flagsVariable);
             assertAttribute("_FillValue", 0.0, flagsVariable);
-            assertAttribute("flag_masks", new short[]{1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, (short) 32768}, flagsVariable);
-            assertAttribute("flag_values", new short[]{1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, (short) 32768}, flagsVariable);
-            assertAttribute("flag_meanings", "POL_FLAG_1 POL_FLAG_2 SUN_FOV SUN_GLINT_FOV MOON_GLINT_FOV SINGLE_SNAPSHOT FTT SUN_POINT SUN_GLINT_AREA MOON_POINT AF_FOV EAF_FOV BORDER_FOV SUN_TAILS RFI_1 RFI_2", flagsVariable);
+            assertAttribute("flag_masks", new short[]{1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, (short) 32768},
+                            flagsVariable);
+            assertAttribute("flag_values", new short[]{1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, (short) 32768},
+                            flagsVariable);
+            assertAttribute("flag_meanings",
+                            "POL_FLAG_1 POL_FLAG_2 SUN_FOV SUN_GLINT_FOV MOON_GLINT_FOV SINGLE_SNAPSHOT FTT SUN_POINT SUN_GLINT_AREA MOON_POINT AF_FOV EAF_FOV BORDER_FOV SUN_TAILS RFI_1 RFI_2",
+                            flagsVariable);
             assertNoAttribute("scale_factor", flagsVariable);
             assertAttribute("_Unsigned", "true", flagsVariable);
             array = flagsVariable.read(new int[]{945, 1}, new int[]{2, 1});
@@ -299,8 +297,8 @@ public class NetcdfExportOpIntegrationTest {
             final HashMap<String, Object> parameterMap = createDefaultParameterMap();
             parameterMap.put("variableNames", "Grid_Point_Latitude,Grid_Point_Longitude,BT_Value,Azimuth_Angle");
             GPF.createProduct(NetcdfExportOp.ALIAS,
-                    parameterMap,
-                    new Product[]{product});
+                              parameterMap,
+                              new Product[]{product});
 
             final File outputFile = new File(targetDirectory, "SM_OPER_MIR_BWLF1C_20111026T143206_20111026T152520_503_001_1.nc");
             assertTrue(outputFile.isFile());
@@ -341,8 +339,8 @@ public class NetcdfExportOpIntegrationTest {
             final HashMap<String, Object> parameterMap = createDefaultParameterMap();
             parameterMap.put("geometry", "POLYGON((42 5, 42 9, 44 9, 44 5, 42 5))");
             GPF.createProduct(NetcdfExportOp.ALIAS,
-                    parameterMap,
-                    new Product[]{product});
+                              parameterMap,
+                              new Product[]{product});
 
             final File outputFile = new File(targetDirectory, "SM_OPER_MIR_BWLF1C_20111026T143206_20111026T152520_503_001_1.nc");
             assertTrue(outputFile.isFile());
@@ -374,7 +372,7 @@ public class NetcdfExportOpIntegrationTest {
             final HashMap<String, Object> parameterMap = createDefaultParameterMap();
             parameterMap.put("sourceProductPaths", file.getParent() + File.separator + "*SCLF1C*");
             GPF.createProduct(NetcdfExportOp.ALIAS,
-                    parameterMap);
+                              parameterMap);
 
             final File outputFile = new File(targetDirectory, "SM_REPB_MIR_SCLF1C_20110201T151254_20110201T151308_505_152_1.nc");
             assertTrue(outputFile.isFile());
@@ -499,7 +497,7 @@ public class NetcdfExportOpIntegrationTest {
         parameterMap.put("sourceProductPaths", file.getParent() + File.separator + "*SCLF1C*");
         parameterMap.put("overwriteTarget", "false");
         GPF.createProduct(NetcdfExportOp.ALIAS,
-                parameterMap);
+                          parameterMap);
 
         assertTrue(outputFile.isFile());
         assertEquals(0, outputFile.length());
@@ -518,7 +516,7 @@ public class NetcdfExportOpIntegrationTest {
         parameterMap.put("sourceProductPaths", file.getParent() + File.separator + "*SCLF1C*");
         parameterMap.put("overwriteTarget", "true");
         GPF.createProduct(NetcdfExportOp.ALIAS,
-                parameterMap);
+                          parameterMap);
 
         assertTrue(outputFile.isFile());
         assertEquals(647311, outputFile.length());
@@ -534,7 +532,7 @@ public class NetcdfExportOpIntegrationTest {
             parameterMap.put("sourceProductPaths", file.getParent() + File.separator + "*SCLF1C*");
             parameterMap.put("geometry", "POLYGON((-3.5 -75.5,-3.5 -75, 0 -75, 0 -75.5, -3.5 -75.5))");
             GPF.createProduct(NetcdfExportOp.ALIAS,
-                    parameterMap);
+                              parameterMap);
 
             final File outputFile = new File(targetDirectory, "SM_REPB_MIR_SCLF1C_20110201T151254_20110201T151308_505_152_1.nc");
             assertTrue(outputFile.isFile());
@@ -576,8 +574,8 @@ public class NetcdfExportOpIntegrationTest {
             parameterMap.put("institution", "BC");
             parameterMap.put("contact", "Tom");
             GPF.createProduct(NetcdfExportOp.ALIAS,
-                    parameterMap,
-                    new Product[]{product});
+                              parameterMap,
+                              new Product[]{product});
 
             final File outputFile = new File(targetDirectory, "SM_OPER_MIR_OSUDP2_20091204T001853_20091204T011255_310_001_1.nc");
             assertTrue(outputFile.isFile());
@@ -671,8 +669,8 @@ public class NetcdfExportOpIntegrationTest {
             final HashMap<String, Object> parameterMap = createDefaultParameterMap();
             parameterMap.put("geometry", "POLYGON((80 -25, 80 -23, 83 -23, 83 -25, 80 -25))");
             GPF.createProduct(NetcdfExportOp.ALIAS,
-                    parameterMap,
-                    new Product[]{product});
+                              parameterMap,
+                              new Product[]{product});
 
             final File outputFile = new File(targetDirectory, "SM_OPER_MIR_OSUDP2_20091204T001853_20091204T011255_310_001_1.nc");
             assertTrue(outputFile.isFile());
@@ -712,8 +710,8 @@ public class NetcdfExportOpIntegrationTest {
 
             final HashMap<String, Object> parameterMap = createDefaultParameterMap();
             GPF.createProduct(NetcdfExportOp.ALIAS,
-                    parameterMap,
-                    new Product[]{product});
+                              parameterMap,
+                              new Product[]{product});
 
             final File outputFile = new File(targetDirectory, "SM_OPER_MIR_SMUDP2_20120514T163815_20120514T173133_551_001_1.nc");
             assertTrue(outputFile.isFile());

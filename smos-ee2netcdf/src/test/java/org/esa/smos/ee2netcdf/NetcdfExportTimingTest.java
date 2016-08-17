@@ -15,11 +15,9 @@ import static org.junit.Assert.*;
 
 public class NetcdfExportTimingTest {
 
-    private final NetcdfExportOp.Spi spi;
     private final File targetDirectory;
 
     public NetcdfExportTimingTest() {
-        spi = new NetcdfExportOp.Spi();
         targetDirectory = new File("timing_out");
     }
 
@@ -32,14 +30,10 @@ public class NetcdfExportTimingTest {
         // need to move NetCDF cache dir to a directory that gets deleted  tb 2014-07-04
         DiskCache.setRootDirectory(targetDirectory.getAbsolutePath());
         DiskCache.setCachePolicy(true);
-
-        GPF.getDefaultInstance().getOperatorSpiRegistry().addOperatorSpi(spi);
     }
 
     @After
     public void tearDown() {
-        GPF.getDefaultInstance().getOperatorSpiRegistry().removeOperatorSpi(spi);
-
         if (targetDirectory.isDirectory()) {
             if (!FileUtils.deleteTree(targetDirectory)) {
                 fail("Unable to delete test directory");
