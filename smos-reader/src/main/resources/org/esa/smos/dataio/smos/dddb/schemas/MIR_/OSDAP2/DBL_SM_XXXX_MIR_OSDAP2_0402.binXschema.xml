@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- binX schema for smos product -->
+<!-- v 3.0 16/05/2011 -->
+<!-- www.indra.es -->
+<!-- teledeteccion@indra.es -->
+<binx xmlns="http://www.edikt.org/binx/2003/06/binx" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.edikt.org/binx/2003/06/binx binx.xsd">
+	<definitions>
+		<defineType typeName="Diff_TBs_Type">
+			<struct>
+				<short-16 varName="Diff_TB"/>
+				<short-16 varName="Tb_gal_H"/>
+				<short-16 varName="Tb_gal_V"/>				
+			</struct>	
+		</defineType>	
+		<defineType typeName="Measurement_Data_Type">
+			<struct>
+				<unsignedInteger-32 varName="Snapshot_ID"/>
+				<short-16 varName="xi"/>
+				<short-16 varName="eta"/>
+				<unsignedInteger-32 varName="Meas_Flags"/>
+			</struct>	
+		</defineType>	
+		<defineType typeName="Available_Data_Type">
+			<struct>
+				<useType typeName="Measurement_Data_Type" varName="Measurement_Data"/>	
+				<useType typeName="Diff_TBs_Type" varName="Diff_TBs"/>	
+			</struct>	
+		</defineType>	
+		<defineType typeName="Geophysical_Parameters_Post_Type">
+			<struct>
+				<float-32 varName="Param1_R1"/>
+				<float-32 varName="Param1_sigma_R1"/>
+				<float-32 varName="Param2_R1"/>
+				<float-32 varName="Param2_sigma_R1"/>				
+				<float-32 varName="Param3_R1"/>
+				<float-32 varName="Param3_sigma_R1"/>
+				<float-32 varName="Param4_R1"/>
+				<float-32 varName="Param4_sigma_R1"/>
+				<float-32 varName="Param5_R1"/>
+				<float-32 varName="Param5_sigma_R1"/>
+				<unsignedInteger-32 varName="Dg_num_iter_R1"/>
+				<unsignedInteger-32 varName="Dg_quality_R1"/>
+				<unsignedInteger-32 varName="Dg_chi2_R1"/>
+				<unsignedInteger-32 varName="Dg_chi2_P_R1"/>
+
+				<float-32 varName="Param1_R2"/>				
+				<float-32 varName="Param1_sigma_R2"/>
+				<float-32 varName="Param2_R2"/>
+				<float-32 varName="Param2_sigma_R2"/>
+				<float-32 varName="Param3_R2"/>
+				<float-32 varName="Param3_sigma_R2"/>
+				<float-32 varName="Param4_R2"/>
+				<float-32 varName="Param4_sigma_R2"/>
+				<float-32 varName="Param5_R2"/>
+				<float-32 varName="Param5_sigma_R2"/>
+				<unsignedInteger-32 varName="Dg_num_iter_R2"/>
+				<unsignedInteger-32 varName="Dg_quality_R2"/>
+				<unsignedInteger-32 varName="Dg_chi2_R2"/>
+				<unsignedInteger-32 varName="Dg_chi2_P_R2"/>
+				
+				<float-32 varName="Param1_R3"/>
+				<float-32 varName="Param1_sigma_R3"/>
+				<float-32 varName="Param2_R3"/>
+				<float-32 varName="Param2_sigma_R3"/>
+				<float-32 varName="Param3_R3"/>
+				<float-32 varName="Param3_sigma_R3"/>
+				<float-32 varName="Param4_R3"/>
+				<float-32 varName="Param4_sigma_R3"/>
+				<float-32 varName="Param5_R3"/>
+				<float-32 varName="Param5_sigma_R3"/>
+				<unsignedInteger-32 varName="Dg_num_iter_R3"/>
+				<unsignedInteger-32 varName="Dg_quality_R3"/>
+				<unsignedInteger-32 varName="Dg_chi2_R3"/>
+				<unsignedInteger-32 varName="Dg_chi2_P_R3"/>
+				
+				<float-32 varName="Param1_R4"/>
+				<float-32 varName="Param1_sigma_R4"/>
+				<float-32 varName="Param2_R4"/>
+				<float-32 varName="Param2_sigma_R4"/>
+				<float-32 varName="Param3_R4"/>
+				<float-32 varName="Param3_sigma_R4"/>
+				<float-32 varName="Param4_R4"/>
+				<float-32 varName="Param4_sigma_R4"/>
+				<float-32 varName="Param5_R4"/>
+				<float-32 varName="Param5_sigma_R4"/>
+				<unsignedInteger-32 varName="Dg_num_iter_R4"/>
+				<unsignedInteger-32 varName="Dg_quality_R4"/>
+				<unsignedInteger-32 varName="Dg_chi2_R4"/>
+				<unsignedInteger-32 varName="Dg_chi2_P_R4"/>
+				
+			</struct>	
+		</defineType>	
+		<defineType typeName="Geophysical_Parameters_Prior_Type">
+			<struct>
+				<float-32 varName="Param1_prior_R1"/>
+				<float-32 varName="Param1_sigma_prior_R1"/>
+				<float-32 varName="Param2_prior_R1"/>
+				<float-32 varName="Param2_sigma_prior_R1"/>
+				<float-32 varName="Param3_prior_R1"/>
+				<float-32 varName="Param3_sigma_prior_R1"/>
+				<float-32 varName="Param4_prior_R1"/>
+				<float-32 varName="Param4_sigma_prior_R1"/>
+				<float-32 varName="Param5_prior_R1"/>
+				<float-32 varName="Param5_sigma_prior_R1"/>
+				<float-32 varName="Param6_prior_R1"/>
+				<float-32 varName="Dg_LSC_R1"/>
+				<unsignedInteger-32 varName="Science_Flags_R1"/>
+				<unsignedInteger-32 varName="Control_Flags_R1"/>
+				
+								
+				<float-32 varName="Param1_prior_R2"/>
+				<float-32 varName="Param1_sigma_prior_R2"/>
+				<float-32 varName="Param2_prior_R2"/>
+				<float-32 varName="Param2_sigma_prior_R2"/>
+				<float-32 varName="Param3_prior_R2"/>
+				<float-32 varName="Param3_sigma_prior_R2"/>
+				<float-32 varName="Param4_prior_R2"/>
+				<float-32 varName="Param4_sigma_prior_R2"/>
+				<float-32 varName="Param5_prior_R2"/>
+				<float-32 varName="Param5_sigma_prior_R2"/>
+				<float-32 varName="Param6_prior_R2"/>
+				<float-32 varName="Dg_LSC_R2"/>
+				<unsignedInteger-32 varName="Science_Flags_R2"/>
+				<unsignedInteger-32 varName="Control_Flags_R2"/>
+				
+				
+				<float-32 varName="Param1_prior_R3"/>
+				<float-32 varName="Param1_sigma_prior_R3"/>
+				<float-32 varName="Param2_prior_R3"/>
+				<float-32 varName="Param2_sigma_prior_R3"/>
+				<float-32 varName="Param3_prior_R3"/>
+				<float-32 varName="Param3_sigma_prior_R3"/>
+				<float-32 varName="Param4_prior_R3"/>
+				<float-32 varName="Param4_sigma_prior_R3"/>
+				<float-32 varName="Param5_prior_R3"/>
+				<float-32 varName="Param5_sigma_prior_R3"/>
+				<float-32 varName="Param6_prior_R3"/>
+				<float-32 varName="Dg_LSC_R3"/>
+				<unsignedInteger-32 varName="Science_Flags_R3"/>
+				<unsignedInteger-32 varName="Control_Flags_R3"/>
+				
+				<float-32 varName="Param1_prior_R4"/>
+				<float-32 varName="Param1_sigma_prior_R4"/>
+				<float-32 varName="Param2_prior_R4"/>
+				<float-32 varName="Param2_sigma_prior_R4"/>
+				<float-32 varName="Param3_prior_R4"/>
+				<float-32 varName="Param3_sigma_prior_R4"/>
+				<float-32 varName="Param4_prior_R4"/>
+				<float-32 varName="Param4_sigma_prior_R4"/>
+				<float-32 varName="Param5_prior_R4"/>
+				<float-32 varName="Param5_sigma_prior_R4"/>
+				<float-32 varName="Param6_prior_R4"/>
+				<float-32 varName="Dg_LSC_R4"/>
+				<unsignedInteger-32 varName="Science_Flags_R4"/>
+				<unsignedInteger-32 varName="Control_Flags_R4"/>
+				
+			</struct>	
+		</defineType>	
+		<defineType typeName="Grid_Point_Descriptors_Type">
+			<struct>
+				<unsignedInteger-32 varName="Out_of_LUT_flags_R1"/>			
+				<unsignedInteger-32 varName="Out_of_LUT_flags_R2"/>			
+				<unsignedInteger-32 varName="Out_of_LUT_flags_R3"/>			
+				<unsignedInteger-32 varName="Out_of_LUT_flags_R4"/>			
+																
+				<short-16 varName="X_swath"/>
+				<unsignedShort-16  varName="Dg_af_fov"/>
+
+				<unsignedShort-16 varName="Dg_num_outliers"/>
+				<unsignedShort-16 varName="Dg_num_high_resol"/>
+				<unsignedShort-16 varName="Dg_user"/>
+				<unsignedShort-16 varName="Dg_sunglint_L1"/>
+
+				<float-32 varName="Tau"/>
+				<float-32 varName="TBatm_emission"/>
+			</struct>	
+		</defineType>	
+		<defineType typeName="Grid_Point_Data_Type">
+			<struct>
+				<unsignedInteger-32 varName="Grid_Point_ID"/>
+				<float-32 varName="Latitude"/>
+				<float-32 varName="Longitude"/>
+				<useType typeName="Grid_Point_Descriptors_Type" varName="Grid_Point_Descriptors"/>
+				<useType typeName="Geophysical_Parameters_Prior_Type" varName="Geophysical_Parameters_Prior"/>
+				<useType typeName="Geophysical_Parameters_Post_Type" varName="Geophysical_Parameters_Post"/>
+			</struct>	
+		</defineType>	
+		<defineType typeName="Grid_Point_Measurement_Data_Type">
+			<struct>
+				<unsignedInteger-32 varName="Grid_Point_ID"/>
+				<arrayVariable varName="Available_Data" byteOrder="littleEndian">
+					<sizeRef>
+						<unsignedShort-16 varName="Dg_num_meas_l1c"/>
+					</sizeRef>
+					<useType typeName="Available_Data_Type"/>
+					<dim/>
+				</arrayVariable>
+			</struct>	
+		</defineType>	
+		<defineType typeName="Data_Block_Type">
+			<struct>
+				<arrayVariable varName="SSS_SWATH_ANALYSIS" byteOrder="littleEndian">
+					<sizeRef>
+						<unsignedInteger-32 varName="N_Grid_Points"/>
+					</sizeRef>
+					<useType typeName="Grid_Point_Data_Type"/>
+					<dim/>
+				</arrayVariable>
+				<arrayVariable varName="SSS_MEASUREMENT_ANALYSIS" byteOrder="littleEndian">
+					<sizeRef>
+						<unsignedInteger-32 varName="N_Grid_Points_Measurements"/>
+					</sizeRef>
+					<useType typeName="Grid_Point_Measurement_Data_Type"/>
+					<dim/>
+				</arrayVariable>
+			</struct>
+		</defineType>
+	</definitions>
+	<dataset src=" ">
+		<useType typeName="Data_Block_Type" varName="Data_Block"/>
+	</dataset>
+</binx>
