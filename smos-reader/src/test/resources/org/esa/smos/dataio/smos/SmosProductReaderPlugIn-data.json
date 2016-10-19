@@ -20,6 +20,11 @@
             "description": "SMOS BWLF1C as directory with DBL file, schema version 300"
         },
         {
+            "id": "SM_TEST_MIR_BWLF1C_20110502T024130",
+            "relativePath": "sensors_platforms/SMOS/MIR_BWLF1C/SM_TEST_MIR_BWLF1C_20110502T024130_20110502T033443_710_001_1/SM_TEST_MIR_BWLF1C_20110502T024130_20110502T033443_710_001_1.DBL",
+            "description": "SMOS BWLF1C schema version 400"
+        },
+        {
             "id": "SM_TEST_MIR_BWLF1C_20100802T153857",
             "relativePath": "sensors_platforms/SMOS/MIR_BWLF1C/SM_TEST_MIR_BWLF1C_20100802T153857_20100802T163215_620_001_1/SM_TEST_MIR_BWLF1C_20100802T153857_20100802T163215_620_001_1.HDR",
             "description": "SMOS BWLF1C schema version 400"
@@ -40,6 +45,11 @@
             "description": "SMOS BWSD1C as zipped file with internal directory"
         },
         {
+            "id": "SM_TEST_MIR_BWSD1C_20100119T203000",
+            "relativePath": "sensors_platforms/SMOS/MIR_BWSD1C/SM_TEST_MIR_BWSD1C_20100119T203000_20100119T212320_710_001_1/SM_TEST_MIR_BWSD1C_20100119T203000_20100119T212320_710_001_1.HDR",
+            "description": "SMOS BWSD1C schema version 400"
+        },
+        {
             "id": "SM_OPER_MIR_BWSF1C_20100119T043836",
             "relativePath": "sensors_platforms/SMOS/MIR_BWSF1C/SM_OPER_MIR_BWSF1C_20100119T043836_20100119T053238_324_001_1/SM_OPER_MIR_BWSF1C_20100119T043836_20100119T053238_324_001_1.DBL",
             "description": "SMOS BWSF1C, schema version 201"
@@ -53,6 +63,11 @@
             "id": "SM_TEST_MIR_BWSF1C_20100802T153857",
             "relativePath": "sensors_platforms/SMOS/MIR_BWSF1C/SM_TEST_MIR_BWSF1C_20100802T153857_20100802T163215_620_001_1/SM_TEST_MIR_BWSF1C_20100802T153857_20100802T163215_620_001_1.HDR",
             "description": "SMOS BWSF1C, schema version 400"
+        },
+        {
+            "id": "SM_TEST_MIR_BWSF1C_20110502T024130",
+            "relativePath": "sensors_platforms/SMOS/MIR_BWSF1C/SM_TEST_MIR_BWSF1C_20110502T024130_20110502T033443_710_001_1/SM_TEST_MIR_BWSF1C_20110502T024130_20110502T033443_710_001_1.HDR",
+            "description": "SMOS BWSF1C, schema version 400, repr v7.03"
         },
         {
             "id": "SM_OPER_MIR_OSDAP2_20120514T022742",
