@@ -1,0 +1,3042 @@
+{
+  "id": "SM_REPR_MIR_OSDAP2_20150429T141825",
+  "decodeQualification": "INTENDED",
+  "expectedContent": {
+    "sceneWidth": 16384,
+    "sceneHeight": 8064,
+    "startTime": "29-APR-2015 14:18:25.000000",
+    "endTime": "29-APR-2015 15:11:44.000000",
+    "geoCoding": {
+      "coordinates": [
+        {
+          "x": 7066.0,
+          "y": 4334.0,
+          "lat": -6.6357421875,
+          "lon": -24.7412109375
+        },
+        {
+          "x": 12164.0,
+          "y": 5232.0,
+          "lat": -26.3671875,
+          "lon": 87.275390625
+        }
+      ],
+      "reverseAccuracy": 0.0
+    },
+    "flagCodings": [
+      {
+        "name": "Land_Sea_Mask_Flags",
+        "samples": [
+          {
+            "name": "USGS_SEA_FLAG",
+            "value": 1,
+            "description": "Water fraction is above 95 percent (1); below 95 percent (0)"
+          },
+          {
+            "name": "USGS_LAND_FLAG",
+            "value": 2,
+            "description": "Water fraction is below 10 percent (1); above 10 percent (0)"
+          },
+          {
+            "name": "USGS_MIXED_FLAG",
+            "value": 4,
+            "description": "Water fraction is above 10 and below 95 percent (1); below 10 or above 95 percent (0)"
+          },
+          {
+            "name": "200_KM_COASTAL_FLAG",
+            "value": 8,
+            "description": "Distance to coastline is less than 200 km (1); greater than 200 km (0)"
+          },
+          {
+            "name": "100_KM_COASTAL_FLAG",
+            "value": 16,
+            "description": "Distance to coastline is less than 100 km (1); greater than 100 km (0)"
+          },
+          {
+            "name": "40_KM_COASTAL_FLAG",
+            "value": 32,
+            "description": "Distance to coastline is less than 40 km (1); greater than 40 km (0)"
+          },
+          {
+            "name": "MIN_SEA_ICE_FLAG",
+            "value": 64,
+            "description": "Sea ice is present for all months (1); is not present for all months (0)"
+          },
+          {
+            "name": "MAX_SEA_ICE_FLAG",
+            "value": 128,
+            "description": "Sea ice is present for any months (1); is not present for any months (0)"
+          }
+        ]
+      }
+    ],
+    "bands": [
+      {
+        "name": "Param1_R1",
+        "description": "Param1_R1",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "geophysicalUnit": "psu",
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 854,
+            "y": 1436,
+            "value": "NaN"
+          },
+          {
+            "x": 1378,
+            "y": 1639,
+            "value": 32.47603
+          }
+        ]
+      },
+      {
+        "name": "Param1_sigma_R1",
+        "description": "Param1_sigma_R1",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "geophysicalUnit": "psu",
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 4765,
+            "y": 2071,
+            "value": "NaN"
+          },
+          {
+            "x": 3680,
+            "y": 6870,
+            "value": 3.6824679374694824
+          }
+        ]
+      },
+      {
+        "name": "Param2_R1",
+        "description": "Param2_R1",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "geophysicalUnit": "K",
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 9011,
+            "y": 6010,
+            "value": "NaN"
+          },
+          {
+            "x": 1924,
+            "y": 2179,
+            "value": 287.00549
+          }
+        ]
+      },
+      {
+        "name": "Param2_sigma_R1",
+        "description": "Param2_sigma_R1",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "geophysicalUnit": "K",
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 2593,
+            "y": 5371,
+            "value": 0.997458
+          },
+          {
+            "x": 8505,
+            "y": 7366,
+            "value": "NaN"
+          }
+        ]
+      },
+      {
+        "name": "Param3_R1",
+        "description": "Param3_R1",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "geophysicalUnit": "m/s",
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 12388,
+            "y": 3907,
+            "value": "NaN"
+          },
+          {
+            "x": 1873,
+            "y": 3102,
+            "value": -8.389078140258789
+          }
+        ]
+      },
+      {
+        "name": "Param3_sigma_R1",
+        "description": "Param3_sigma_R1",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "geophysicalUnit": "m/s",
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 5577,
+            "y": 7253,
+            "value": "NaN"
+          },
+          {
+            "x": 2160,
+            "y": 4324,
+            "value": 1.6449320316314697
+          }
+        ]
+      },
+      {
+        "name": "Param4_R1",
+        "description": "Param4_R1",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "geophysicalUnit": "m/s",
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 5364,
+            "y": 1589,
+            "value": "NaN"
+          },
+          {
+            "x": 2171,
+            "y": 4868,
+            "value": 2.7368111610412598
+          }
+        ]
+      },
+      {
+        "name": "Param4_sigma_R1",
+        "description": "Param4_sigma_R1",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "geophysicalUnit": "m/s",
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 15916,
+            "y": 4876,
+            "value": "NaN"
+          },
+          {
+            "x": 2643,
+            "y": 5340,
+            "value": 1.94932
+          }
+        ]
+      },
+      {
+        "name": "Param5_R1",
+        "description": "Param5_R1",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "geophysicalUnit": "tecu",
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 3800,
+            "y": 4011,
+            "value": "NaN"
+          },
+          {
+            "x": 2735,
+            "y": 5566,
+            "value": 15.34258
+          }
+        ]
+      },
+      {
+        "name": "Param5_sigma_R1",
+        "description": "Param5_sigma_R1",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "geophysicalUnit": "tecu",
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 5867,
+            "y": 4017,
+            "value": "NaN"
+          },
+          {
+            "x": 2479,
+            "y": 6008,
+            "value": 3.5986764430999756
+          }
+        ]
+      },
+      {
+        "name": "Dg_num_iter_R1",
+        "description": "Number of iterations for 1st mapped configuration",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "noDataValue": "0.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 9415,
+            "y": 740,
+            "value": "NaN"
+          },
+          {
+            "x": 1577,
+            "y": 1292,
+            "value": 20
+          }
+        ]
+      },
+      {
+        "name": "Dg_quality_R1",
+        "description": "Quality index for 1st mapped configuration",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "noDataValue": "999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 15977,
+            "y": 2961,
+            "value": "NaN"
+          },
+          {
+            "x": 1310,
+            "y": 1721,
+            "value": 451
+          }
+        ]
+      },
+      {
+        "name": "Dg_chi2_R1",
+        "description": "Normalized retrieval fit quality index for 1st mapped configuration (nominally SSS_corr)",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "noDataValue": "0.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 1817,
+            "y": 3643,
+            "value": "NaN"
+          },
+          {
+            "x": 1495,
+            "y": 1262,
+            "value": 89.29
+          }
+        ]
+      },
+      {
+        "name": "Dg_chi2_P_R1",
+        "description": "Normalised chi2 high value acceptability probability for 1st mapped configuration",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "noDataValue": "0.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 8287,
+            "y": 4206,
+            "value": "NaN"
+          },
+          {
+            "x": 1678,
+            "y": 1680,
+            "value": 0.995
+          }
+        ]
+      },
+      {
+        "name": "Param1_R2",
+        "description": "Param1_R2",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "geophysicalUnit": "psu",
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 236,
+            "y": 3424,
+            "value": "NaN"
+          },
+          {
+            "x": 1575,
+            "y": 2261,
+            "value": 34.50172424316406
+          }
+        ]
+      },
+      {
+        "name": "Param1_sigma_R2",
+        "description": "Param1_sigma_R2",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "geophysicalUnit": "psu",
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 4862,
+            "y": 6008,
+            "value": "NaN"
+          },
+          {
+            "x": 1865,
+            "y": 1637,
+            "value": 3.4513742923736572
+          }
+        ]
+      },
+      {
+        "name": "Param2_R2",
+        "description": "Param2_R2",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "geophysicalUnit": "K",
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 13671,
+            "y": 7624,
+            "value": "NaN"
+          },
+          {
+            "x": 1945,
+            "y": 2836,
+            "value": 294.38174
+          }
+        ]
+      },
+      {
+        "name": "Param2_sigma_R2",
+        "description": "Param2_sigma_R2",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "geophysicalUnit": "K",
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 10010,
+            "y": 2097,
+            "value": "NaN"
+          },
+          {
+            "x": 2017,
+            "y": 3431,
+            "value": 0.997315526008606
+          }
+        ]
+      },
+      {
+        "name": "Param3_R2",
+        "description": "Param3_R2",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "geophysicalUnit": "m/s",
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 7790,
+            "y": 4508,
+            "value": "NaN"
+          },
+          {
+            "x": 2150,
+            "y": 3133,
+            "value": 8.71447
+          }
+        ]
+      },
+      {
+        "name": "Param3_sigma_R2",
+        "description": "Param3_sigma_R2",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "geophysicalUnit": "m/s",
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 1575,
+            "y": 627,
+            "value": "NaN"
+          },
+          {
+            "x": 2089,
+            "y": 3256,
+            "value": 1.54345
+          }
+        ]
+      },
+      {
+        "name": "Param4_R2",
+        "description": "Param4_R2",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "geophysicalUnit": "tecu",
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 7619,
+            "y": 7219,
+            "value": "NaN"
+          },
+          {
+            "x": 2006,
+            "y": 3801,
+            "value": 4.83841
+          }
+        ]
+      },
+      {
+        "name": "Param4_sigma_R2",
+        "description": "Param4_sigma_R2",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "geophysicalUnit": "tecu",
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 15762,
+            "y": 3072,
+            "value": "NaN"
+          },
+          {
+            "x": 2119,
+            "y": 3883,
+            "value": 2.710923433303833
+          }
+        ]
+      },
+      {
+        "name": "Param5_R2",
+        "description": "Param5_R2",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 12049,
+            "y": 4797,
+            "value": "NaN"
+          },
+          {
+            "x": 15993,
+            "y": 1500,
+            "value": "NaN"
+          }
+        ]
+      },
+      {
+        "name": "Param5_sigma_R2",
+        "description": "Param5_sigma_R2",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 7543,
+            "y": 2104,
+            "value": "NaN"
+          },
+          {
+            "x": 3753,
+            "y": 5223,
+            "value": "NaN"
+          }
+        ]
+      },
+      {
+        "name": "Dg_num_iter_R2",
+        "description": "Number of iterations for 2nd mapped configuration",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "noDataValue": "0.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 10480,
+            "y": 3528,
+            "value": "NaN"
+          },
+          {
+            "x": 2220,
+            "y": 4209,
+            "value": 3
+          }
+        ]
+      },
+      {
+        "name": "Dg_quality_R2",
+        "description": "Quality index for 2nd mapped configuration",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "noDataValue": "999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 6485,
+            "y": 1724,
+            "value": "NaN"
+          },
+          {
+            "x": 2684,
+            "y": 6357,
+            "value": 188
+          }
+        ]
+      },
+      {
+        "name": "Dg_chi2_R2",
+        "description": "Normalized retrieval fit quality index for 2nd mapped configuration",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "noDataValue": "0.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 15493,
+            "y": 4676,
+            "value": "NaN"
+          },
+          {
+            "x": 2325,
+            "y": 5299,
+            "value": 1.32
+          }
+        ]
+      },
+      {
+        "name": "Dg_chi2_P_R2",
+        "description": "Normalised chi2 high value acceptability probability for 2nd mapped configuration",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "noDataValue": "0.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 9184,
+            "y": 2345,
+            "value": "NaN"
+          },
+          {
+            "x": 3187,
+            "y": 6305,
+            "value": 0.977
+          }
+        ]
+      },
+      {
+        "name": "Param1_R3",
+        "description": "Param1_R3",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "geophysicalUnit": "psu",
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 1771,
+            "y": 7153,
+            "value": "NaN"
+          },
+          {
+            "x": 5634,
+            "y": 6565,
+            "value": "NaN"
+          }
+        ]
+      },
+      {
+        "name": "Param1_sigma_R3",
+        "description": "Param1_sigma_R3",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "geophysicalUnit": "psu",
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 2984,
+            "y": 5583,
+            "value": "NaN"
+          },
+          {
+            "x": 9706,
+            "y": 4427,
+            "value": "NaN"
+          }
+        ]
+      },
+      {
+        "name": "Param2_R3",
+        "description": "Param2_R3",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "geophysicalUnit": "m/s",
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 3370,
+            "y": 2468,
+            "value": "NaN"
+          },
+          {
+            "x": 6722,
+            "y": 6964,
+            "value": "NaN"
+          }
+        ]
+      },
+      {
+        "name": "Param2_sigma_R3",
+        "description": "Param2_sigma_R3",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "geophysicalUnit": "m/s",
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 11497,
+            "y": 7237,
+            "value": "NaN"
+          },
+          {
+            "x": 4875,
+            "y": 8005,
+            "value": "NaN"
+          }
+        ]
+      },
+      {
+        "name": "Param3_R3",
+        "description": "Param3_R3",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "geophysicalUnit": "tecu",
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 8965,
+            "y": 941,
+            "value": "NaN"
+          },
+          {
+            "x": 3191,
+            "y": 4524,
+            "value": "NaN"
+          }
+        ]
+      },
+      {
+        "name": "Param3_sigma_R3",
+        "description": "Param3_sigma_R3",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "geophysicalUnit": "tecu",
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 7504,
+            "y": 1039,
+            "value": "NaN"
+          },
+          {
+            "x": 13581,
+            "y": 4619,
+            "value": "NaN"
+          }
+        ]
+      },
+      {
+        "name": "Param4_R3",
+        "description": "Param4_R3",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 1681,
+            "y": 5456,
+            "value": "NaN"
+          },
+          {
+            "x": 11976,
+            "y": 3807,
+            "value": "NaN"
+          }
+        ]
+      },
+      {
+        "name": "Param4_sigma_R3",
+        "description": "Param4_sigma_R3",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 2345,
+            "y": 537,
+            "value": "NaN"
+          },
+          {
+            "x": 13787,
+            "y": 2417,
+            "value": "NaN"
+          }
+        ]
+      },
+      {
+        "name": "Param5_R3",
+        "description": "Param5_R3",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 9703,
+            "y": 7837,
+            "value": "NaN"
+          },
+          {
+            "x": 12736,
+            "y": 221,
+            "value": "NaN"
+          }
+        ]
+      },
+      {
+        "name": "Param5_sigma_R3",
+        "description": "Param5_sigma_R3",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 3550,
+            "y": 1987,
+            "value": "NaN"
+          },
+          {
+            "x": 5233,
+            "y": 1562,
+            "value": "NaN"
+          }
+        ]
+      },
+      {
+        "name": "Dg_num_iter_R3",
+        "description": "Number of iterations for 3rd mapped configuration",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "noDataValue": "0.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 4628,
+            "y": 7122,
+            "value": "NaN"
+          },
+          {
+            "x": 16343,
+            "y": 609,
+            "value": "NaN"
+          }
+        ]
+      },
+      {
+        "name": "Dg_quality_R3",
+        "description": "Quality index for 3rd mapped configuration",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "noDataValue": "999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 13417,
+            "y": 4045,
+            "value": "NaN"
+          },
+          {
+            "x": 1027,
+            "y": 3107,
+            "value": "NaN"
+          }
+        ]
+      },
+      {
+        "name": "Dg_chi2_R3",
+        "description": "Normalized retrieval fit quality index for 3rd mapped configuration",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "noDataValue": "0.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 4543,
+            "y": 4694,
+            "value": "NaN"
+          },
+          {
+            "x": 15214,
+            "y": 1119,
+            "value": "NaN"
+          }
+        ]
+      },
+      {
+        "name": "Dg_chi2_P_R3",
+        "description": "Normalised chi2 high value acceptability probability for 3rd mapped configuration",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "noDataValue": "0.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 1713,
+            "y": 1174,
+            "value": "NaN"
+          },
+          {
+            "x": 14478,
+            "y": 860,
+            "value": "NaN"
+          }
+        ]
+      },
+      {
+        "name": "Param1_R4",
+        "description": "Param1_R4",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 6062,
+            "y": 7107,
+            "value": "NaN"
+          },
+          {
+            "x": 9586,
+            "y": 4641,
+            "value": "NaN"
+          }
+        ]
+      },
+      {
+        "name": "Param1_sigma_R4",
+        "description": "Param1_sigma_R4",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 5532,
+            "y": 2628,
+            "value": "NaN"
+          },
+          {
+            "x": 6124,
+            "y": 6904,
+            "value": "NaN"
+          }
+        ]
+      },
+      {
+        "name": "Param2_R4",
+        "description": "Param2_R4",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "geophysicalUnit": "K",
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 5338,
+            "y": 5523,
+            "value": "NaN"
+          },
+          {
+            "x": 10542,
+            "y": 5446,
+            "value": "NaN"
+          }
+        ]
+      },
+      {
+        "name": "Param2_sigma_R4",
+        "description": "Param2_sigma_R4",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "geophysicalUnit": "K",
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 8688,
+            "y": 1051,
+            "value": "NaN"
+          },
+          {
+            "x": 7597,
+            "y": 6456,
+            "value": "NaN"
+          }
+        ]
+      },
+      {
+        "name": "Param3_R4",
+        "description": "Param3_R4",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 13145,
+            "y": 7274,
+            "value": "NaN"
+          },
+          {
+            "x": 419,
+            "y": 5633,
+            "value": "NaN"
+          }
+        ]
+      },
+      {
+        "name": "Param3_sigma_R4",
+        "description": "Param3_sigma_R4",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 14567,
+            "y": 4645,
+            "value": "NaN"
+          },
+          {
+            "x": 10447,
+            "y": 7319,
+            "value": "NaN"
+          }
+        ]
+      },
+      {
+        "name": "Param4_R4",
+        "description": "Param4_R4",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 16094,
+            "y": 2604,
+            "value": "NaN"
+          },
+          {
+            "x": 5885,
+            "y": 43,
+            "value": "NaN"
+          }
+        ]
+      },
+      {
+        "name": "Param4_sigma_R4",
+        "description": "Param4_sigma_R4",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 13755,
+            "y": 4589,
+            "value": "NaN"
+          },
+          {
+            "x": 9673,
+            "y": 3210,
+            "value": "NaN"
+          }
+        ]
+      },
+      {
+        "name": "Param5_R4",
+        "description": "Param5_R4",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 6465,
+            "y": 7970,
+            "value": "NaN"
+          },
+          {
+            "x": 3761,
+            "y": 5782,
+            "value": "NaN"
+          }
+        ]
+      },
+      {
+        "name": "Param5_sigma_R4",
+        "description": "Param5_sigma_R4",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 15380,
+            "y": 2326,
+            "value": "NaN"
+          },
+          {
+            "x": 5154,
+            "y": 6870,
+            "value": "NaN"
+          }
+        ]
+      },
+      {
+        "name": "Dg_num_iter_R4",
+        "description": "Number of iterations for 4th mapped configuration",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "noDataValue": "0.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 5367,
+            "y": 4264,
+            "value": "NaN"
+          },
+          {
+            "x": 5868,
+            "y": 6449,
+            "value": "NaN"
+          }
+        ]
+      },
+      {
+        "name": "Dg_quality_R4",
+        "description": "Quality index for 4th mapped configuration",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "noDataValue": "999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 9183,
+            "y": 1758,
+            "value": "NaN"
+          },
+          {
+            "x": 1558,
+            "y": 5681,
+            "value": "NaN"
+          }
+        ]
+      },
+      {
+        "name": "Dg_chi2_R4",
+        "description": "Normalized retrieval fit quality index for 4th mapped configuration",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "noDataValue": "0.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 11511,
+            "y": 6411,
+            "value": "NaN"
+          },
+          {
+            "x": 13829,
+            "y": 548,
+            "value": "NaN"
+          }
+        ]
+      },
+      {
+        "name": "Dg_chi2_P_R4",
+        "description": "Normalised chi2 high value acceptability probability for 4th mapped configuration",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "noDataValue": "0.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 13703,
+            "y": 1830,
+            "value": "NaN"
+          },
+          {
+            "x": 10692,
+            "y": 7501,
+            "value": "NaN"
+          }
+        ]
+      },
+      {
+        "name": "Param1_prior_R1",
+        "description": "Param1_prior_R1",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "geophysicalUnit": "psu",
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 4392,
+            "y": 6946,
+            "value": "NaN"
+          },
+          {
+            "x": 6328,
+            "y": 2990,
+            "value": "NaN"
+          }
+        ]
+      },
+      {
+        "name": "Param1_sigma_prior_R1",
+        "description": "Param1_sigma_prior_R1",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "geophysicalUnit": "psu",
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 15923,
+            "y": 5488,
+            "value": "NaN"
+          },
+          {
+            "x": 11875,
+            "y": 3449,
+            "value": "NaN"
+          }
+        ]
+      },
+      {
+        "name": "Param2_prior_R1",
+        "description": "Param2_prior_R1",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "geophysicalUnit": "K",
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 8172,
+            "y": 1119,
+            "value": "NaN"
+          },
+          {
+            "x": 15874,
+            "y": 1097,
+            "value": "NaN"
+          }
+        ]
+      },
+      {
+        "name": "Param2_sigma_prior_R1",
+        "description": "Param2_sigma_prior_R1",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "geophysicalUnit": "K",
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 11812,
+            "y": 4483,
+            "value": "NaN"
+          },
+          {
+            "x": 11564,
+            "y": 7981,
+            "value": "NaN"
+          }
+        ]
+      },
+      {
+        "name": "Param3_prior_R1",
+        "description": "Param3_prior_R1",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "geophysicalUnit": "m/s",
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 10498,
+            "y": 7305,
+            "value": "NaN"
+          },
+          {
+            "x": 13685,
+            "y": 4281,
+            "value": "NaN"
+          }
+        ]
+      },
+      {
+        "name": "Param3_sigma_prior_R1",
+        "description": "Param3_sigma_prior_R1",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "geophysicalUnit": "m/s",
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 8191,
+            "y": 7498,
+            "value": "NaN"
+          },
+          {
+            "x": 9376,
+            "y": 6229,
+            "value": "NaN"
+          }
+        ]
+      },
+      {
+        "name": "Param4_prior_R1",
+        "description": "Param4_prior_R1",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "geophysicalUnit": "m/s",
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 15226,
+            "y": 316,
+            "value": "NaN"
+          },
+          {
+            "x": 11536,
+            "y": 5829,
+            "value": "NaN"
+          }
+        ]
+      },
+      {
+        "name": "Param4_sigma_prior_R1",
+        "description": "Param4_sigma_prior_R1",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "geophysicalUnit": "m/s",
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 5689,
+            "y": 55,
+            "value": "NaN"
+          },
+          {
+            "x": 3545,
+            "y": 6938,
+            "value": 2.000001
+          }
+        ]
+      },
+      {
+        "name": "Param5_prior_R1",
+        "description": "Param5_prior_R1",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "geophysicalUnit": "tecu",
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 2060,
+            "y": 818,
+            "value": "NaN"
+          },
+          {
+            "x": 1412,
+            "y": 923,
+            "value": "NaN"
+          }
+        ]
+      },
+      {
+        "name": "Param5_sigma_prior_R1",
+        "description": "Param5_sigma_prior_R1",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "geophysicalUnit": "tecu",
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 11404,
+            "y": 563,
+            "value": "NaN"
+          },
+          {
+            "x": 7884,
+            "y": 7000,
+            "value": "NaN"
+          }
+        ]
+      },
+      {
+        "name": "Param6_prior_R1",
+        "description": "Param6_prior_R1",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 2742,
+            "y": 1907,
+            "value": "NaN"
+          },
+          {
+            "x": 4114,
+            "y": 7832,
+            "value": "NaN"
+          }
+        ]
+      },
+      {
+        "name": "Dg_LSC_R1",
+        "description": "Dwell-line mean of absolute value of land-sea correction for 1st mapped retrieval",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "geophysicalUnit": "K",
+        "noDataValue": "0.0",
+        "noDataValueUsed": "false",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 11728,
+            "y": 2740,
+            "value": 0.0
+          },
+          {
+            "x": 10559,
+            "y": 4117,
+            "value": 0.0
+          }
+        ]
+      },
+      {
+        "name": "Science_Flags_R1",
+        "description": "Science flags for 1st mapped retrieval configuration",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "noDataValue": "0.0",
+        "noDataValueUsed": "false",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 14861,
+            "y": 4104,
+            "value": 0.0
+          },
+          {
+            "x": 14108,
+            "y": 4503,
+            "value": 0.0
+          }
+        ]
+      },
+      {
+        "name": "Control_Flags_R1",
+        "description": "Control flags for 1st mapped retrieval configuration",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "noDataValue": "0.0",
+        "noDataValueUsed": "false",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 13116,
+            "y": 6139,
+            "value": 0.0
+          },
+          {
+            "x": 13684,
+            "y": 5934,
+            "value": 0.0
+          }
+        ]
+      },
+      {
+        "name": "Param1_prior_R2",
+        "description": "Param1_prior_R2",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "geophysicalUnit": "psu",
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 10309,
+            "y": 3435,
+            "value": "NaN"
+          },
+          {
+            "x": 8853,
+            "y": 6155,
+            "value": "NaN"
+          }
+        ]
+      },
+      {
+        "name": "Param1_sigma_prior_R2",
+        "description": "Param1_sigma_prior_R2",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "geophysicalUnit": "psu",
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 10386,
+            "y": 1225,
+            "value": "NaN"
+          },
+          {
+            "x": 14457,
+            "y": 2539,
+            "value": "NaN"
+          }
+        ]
+      },
+      {
+        "name": "Param2_prior_R2",
+        "description": "Param2_prior_R2",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "geophysicalUnit": "K",
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 4481,
+            "y": 3100,
+            "value": "NaN"
+          },
+          {
+            "x": 11179,
+            "y": 1503,
+            "value": "NaN"
+          }
+        ]
+      },
+      {
+        "name": "Param2_sigma_prior_R2",
+        "description": "Param2_sigma_prior_R2",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "geophysicalUnit": "K",
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 2382,
+            "y": 7958,
+            "value": "NaN"
+          },
+          {
+            "x": 6438,
+            "y": 6078,
+            "value": "NaN"
+          }
+        ]
+      },
+      {
+        "name": "Param3_prior_R2",
+        "description": "Param3_prior_R2",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "geophysicalUnit": "m/s",
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 1155,
+            "y": 5620,
+            "value": "NaN"
+          },
+          {
+            "x": 9959,
+            "y": 6959,
+            "value": "NaN"
+          }
+        ]
+      },
+      {
+        "name": "Param3_sigma_prior_R2",
+        "description": "Param3_sigma_prior_R2",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "geophysicalUnit": "m/s",
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 9605,
+            "y": 2679,
+            "value": "NaN"
+          },
+          {
+            "x": 7163,
+            "y": 138,
+            "value": "NaN"
+          }
+        ]
+      },
+      {
+        "name": "Param4_prior_R2",
+        "description": "Param4_prior_R2",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "geophysicalUnit": "tecu",
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 9851,
+            "y": 5384,
+            "value": "NaN"
+          },
+          {
+            "x": 12859,
+            "y": 720,
+            "value": "NaN"
+          }
+        ]
+      },
+      {
+        "name": "Param4_sigma_prior_R2",
+        "description": "Param4_sigma_prior_R2",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "geophysicalUnit": "tecu",
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 14756,
+            "y": 668,
+            "value": "NaN"
+          },
+          {
+            "x": 1265,
+            "y": 6644,
+            "value": "NaN"
+          }
+        ]
+      },
+      {
+        "name": "Param5_prior_R2",
+        "description": "Param5_prior_R2",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 2089,
+            "y": 7366,
+            "value": "NaN"
+          },
+          {
+            "x": 3173,
+            "y": 2597,
+            "value": "NaN"
+          }
+        ]
+      },
+      {
+        "name": "Param5_sigma_prior_R2",
+        "description": "Param5_sigma_prior_R2",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 8932,
+            "y": 5755,
+            "value": "NaN"
+          },
+          {
+            "x": 1927,
+            "y": 1760,
+            "value": "NaN"
+          }
+        ]
+      },
+      {
+        "name": "Param6_prior_R2",
+        "description": "Param6_prior_R2",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 6696,
+            "y": 6072,
+            "value": "NaN"
+          },
+          {
+            "x": 1332,
+            "y": 6033,
+            "value": "NaN"
+          }
+        ]
+      },
+      {
+        "name": "Dg_LSC_R2",
+        "description": "Dwell-line mean of absolute value of land-sea correction for 2nd mapped retrieval",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "geophysicalUnit": "K",
+        "noDataValue": "0.0",
+        "noDataValueUsed": "false",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 15037,
+            "y": 1714,
+            "value": 0.0
+          },
+          {
+            "x": 14427,
+            "y": 5666,
+            "value": 0.0
+          }
+        ]
+      },
+      {
+        "name": "Science_Flags_R2",
+        "description": "Science flags for 2nd mapped retrieval configuration",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "noDataValue": "0.0",
+        "noDataValueUsed": "false",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 1987,
+            "y": 220,
+            "value": 0.0
+          },
+          {
+            "x": 4668,
+            "y": 7410,
+            "value": 4206720.0
+          }
+        ]
+      },
+      {
+        "name": "Control_Flags_R2",
+        "description": "Control flags for 2nd mapped retrieval configuration",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "noDataValue": "0.0",
+        "noDataValueUsed": "false",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 9807,
+            "y": 5837,
+            "value": 0.0
+          },
+          {
+            "x": 8350,
+            "y": 3816,
+            "value": 0.0
+          }
+        ]
+      },
+      {
+        "name": "Param1_prior_R3",
+        "description": "Param1_prior_R3",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "geophysicalUnit": "psu",
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 6978,
+            "y": 1233,
+            "value": "NaN"
+          },
+          {
+            "x": 424,
+            "y": 6409,
+            "value": "NaN"
+          }
+        ]
+      },
+      {
+        "name": "Param1_sigma_prior_R3",
+        "description": "Param1_sigma_prior_R3",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "geophysicalUnit": "psu",
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 11052,
+            "y": 5701,
+            "value": "NaN"
+          },
+          {
+            "x": 4836,
+            "y": 1586,
+            "value": "NaN"
+          }
+        ]
+      },
+      {
+        "name": "Param2_prior_R3",
+        "description": "Param2_prior_R3",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "geophysicalUnit": "m/s",
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 3119,
+            "y": 4513,
+            "value": "NaN"
+          },
+          {
+            "x": 9428,
+            "y": 5240,
+            "value": "NaN"
+          }
+        ]
+      },
+      {
+        "name": "Param2_sigma_prior_R3",
+        "description": "Param2_sigma_prior_R3",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "geophysicalUnit": "m/s",
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 8598,
+            "y": 686,
+            "value": "NaN"
+          },
+          {
+            "x": 12725,
+            "y": 2645,
+            "value": "NaN"
+          }
+        ]
+      },
+      {
+        "name": "Param3_prior_R3",
+        "description": "Param3_prior_R3",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "geophysicalUnit": "tecu",
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 14249,
+            "y": 7420,
+            "value": "NaN"
+          },
+          {
+            "x": 7797,
+            "y": 4443,
+            "value": "NaN"
+          }
+        ]
+      },
+      {
+        "name": "Param3_sigma_prior_R3",
+        "description": "Param3_sigma_prior_R3",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "geophysicalUnit": "tecu",
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 9412,
+            "y": 7653,
+            "value": "NaN"
+          },
+          {
+            "x": 15228,
+            "y": 1505,
+            "value": "NaN"
+          }
+        ]
+      },
+      {
+        "name": "Param4_prior_R3",
+        "description": "Param4_prior_R3",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 1120,
+            "y": 5963,
+            "value": "NaN"
+          },
+          {
+            "x": 1071,
+            "y": 4376,
+            "value": "NaN"
+          }
+        ]
+      },
+      {
+        "name": "Param4_sigma_prior_R3",
+        "description": "Param4_sigma_prior_R3",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 11351,
+            "y": 6967,
+            "value": "NaN"
+          },
+          {
+            "x": 9325,
+            "y": 7085,
+            "value": "NaN"
+          }
+        ]
+      },
+      {
+        "name": "Param5_prior_R3",
+        "description": "Param5_prior_R3",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 5991,
+            "y": 7566,
+            "value": "NaN"
+          },
+          {
+            "x": 14703,
+            "y": 1985,
+            "value": "NaN"
+          }
+        ]
+      },
+      {
+        "name": "Param5_sigma_prior_R3",
+        "description": "Param5_sigma_prior_R3",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 1726,
+            "y": 5860,
+            "value": "NaN"
+          },
+          {
+            "x": 3593,
+            "y": 5484,
+            "value": "NaN"
+          }
+        ]
+      },
+      {
+        "name": "Param6_prior_R3",
+        "description": "Param6_prior_R3",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 1197,
+            "y": 318,
+            "value": 0.0
+          },
+          {
+            "x": 4479,
+            "y": 2516,
+            "value": "NaN"
+          }
+        ]
+      },
+      {
+        "name": "Dg_LSC_R3",
+        "description": "Dwell-line mean of absolute value of land-sea correction for 3rd mapped retrieval",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "geophysicalUnit": "K",
+        "noDataValue": "0.0",
+        "noDataValueUsed": "false",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 15039,
+            "y": 3401,
+            "value": 0.0
+          },
+          {
+            "x": 1287,
+            "y": 5521,
+            "value": 0.0
+          }
+        ]
+      },
+      {
+        "name": "Science_Flags_R3",
+        "description": "Science flags for 3rd mapped retrieval configuration",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "noDataValue": "0.0",
+        "noDataValueUsed": "false",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 3416,
+            "y": 3609,
+            "value": 0.0
+          },
+          {
+            "x": 8423,
+            "y": 425,
+            "value": 0.0
+          }
+        ]
+      },
+      {
+        "name": "Control_Flags_R3",
+        "description": "Control flags for 3rd mapped retrieval configuration",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "noDataValue": "0.0",
+        "noDataValueUsed": "false",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 10011,
+            "y": 1859,
+            "value": 0.0
+          },
+          {
+            "x": 6494,
+            "y": 2865,
+            "value": 0.0
+          }
+        ]
+      },
+      {
+        "name": "Param1_prior_R4",
+        "description": "Param1_prior_R4",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 2031,
+            "y": 759,
+            "value": "NaN"
+          },
+          {
+            "x": 12832,
+            "y": 5045,
+            "value": "NaN"
+          }
+        ]
+      },
+      {
+        "name": "Param1_sigma_prior_R4",
+        "description": "Param1_sigma_prior_R4",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 2456,
+            "y": 535,
+            "value": "NaN"
+          },
+          {
+            "x": 8544,
+            "y": 964,
+            "value": "NaN"
+          }
+        ]
+      },
+      {
+        "name": "Param2_prior_R4",
+        "description": "Param2_prior_R4",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "geophysicalUnit": "K",
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 14787,
+            "y": 3367,
+            "value": "NaN"
+          },
+          {
+            "x": 4029,
+            "y": 2725,
+            "value": "NaN"
+          }
+        ]
+      },
+      {
+        "name": "Param2_sigma_prior_R4",
+        "description": "Param2_sigma_prior_R4",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "geophysicalUnit": "K",
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 11133,
+            "y": 990,
+            "value": "NaN"
+          },
+          {
+            "x": 1989,
+            "y": 2426,
+            "value": 1.000001
+          }
+        ]
+      },
+      {
+        "name": "Param3_prior_R4",
+        "description": "Param3_prior_R4",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 13975,
+            "y": 1953,
+            "value": "NaN"
+          },
+          {
+            "x": 1617,
+            "y": 7,
+            "value": "NaN"
+          }
+        ]
+      },
+      {
+        "name": "Param3_sigma_prior_R4",
+        "description": "Param3_sigma_prior_R4",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 2044,
+            "y": 3682,
+            "value": "NaN"
+          },
+          {
+            "x": 9637,
+            "y": 3935,
+            "value": "NaN"
+          }
+        ]
+      },
+      {
+        "name": "Param4_prior_R4",
+        "description": "Param4_prior_R4",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 2834,
+            "y": 5072,
+            "value": "NaN"
+          },
+          {
+            "x": 8766,
+            "y": 6236,
+            "value": "NaN"
+          }
+        ]
+      },
+      {
+        "name": "Param4_sigma_prior_R4",
+        "description": "Param4_sigma_prior_R4",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 6580,
+            "y": 2839,
+            "value": "NaN"
+          },
+          {
+            "x": 7284,
+            "y": 7322,
+            "value": "NaN"
+          }
+        ]
+      },
+      {
+        "name": "Param5_prior_R4",
+        "description": "Param5_prior_R4",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 2083,
+            "y": 1432,
+            "value": "NaN"
+          },
+          {
+            "x": 468,
+            "y": 4860,
+            "value": "NaN"
+          }
+        ]
+      },
+      {
+        "name": "Param5_sigma_prior_R4",
+        "description": "Param5_sigma_prior_R4",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 5848,
+            "y": 479,
+            "value": "NaN"
+          },
+          {
+            "x": 10513,
+            "y": 3995,
+            "value": "NaN"
+          }
+        ]
+      },
+      {
+        "name": "Param6_prior_R4",
+        "description": "Param6_prior_R4",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 14592,
+            "y": 4681,
+            "value": "NaN"
+          },
+          {
+            "x": 6685,
+            "y": 1609,
+            "value": "NaN"
+          }
+        ]
+      },
+      {
+        "name": "Dg_LSC_R4",
+        "description": "Dwell-line mean of absolute value of land-sea correction for 4th mapped retrieval",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "noDataValue": "0.0",
+        "noDataValueUsed": "false",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 80,
+            "y": 5166,
+            "value": 0.0
+          },
+          {
+            "x": 32,
+            "y": 993,
+            "value": 0.0
+          }
+        ]
+      },
+      {
+        "name": "Science_Flags_R4",
+        "description": "Science flags for 4th mapped retrieval configuration",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "noDataValue": "0.0",
+        "noDataValueUsed": "false",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 8971,
+            "y": 3641,
+            "value": 0.0
+          },
+          {
+            "x": 1222,
+            "y": 3706,
+            "value": 0.0
+          }
+        ]
+      },
+      {
+        "name": "Control_Flags_R4",
+        "description": "Control flags for 4th mapped retrieval configuration",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "noDataValue": "0.0",
+        "noDataValueUsed": "false",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 1674,
+            "y": 1698,
+            "value": 4.44989952E8
+          },
+          {
+            "x": 11493,
+            "y": 7246,
+            "value": 0.0
+          }
+        ]
+      },
+      {
+        "name": "Out_of_LUT_flags_R1",
+        "description": "Flags for for 1st mapped retrieval",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "noDataValue": "0.0",
+        "noDataValueUsed": "false",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 9824,
+            "y": 4689,
+            "value": 0.0
+          },
+          {
+            "x": 6071,
+            "y": 3127,
+            "value": 0.0
+          }
+        ]
+      },
+      {
+        "name": "Out_of_LUT_flags_R2",
+        "description": "Flags for for 2nd mapped retrieval",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "noDataValue": "0.0",
+        "noDataValueUsed": "false",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 10077,
+            "y": 6605,
+            "value": 0.0
+          },
+          {
+            "x": 9966,
+            "y": 4179,
+            "value": 0.0
+          }
+        ]
+      },
+      {
+        "name": "Out_of_LUT_flags_R3",
+        "description": "Flags for for 3rd mapped retrieval",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "noDataValue": "0.0",
+        "noDataValueUsed": "false",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 12157,
+            "y": 6533,
+            "value": 0.0
+          },
+          {
+            "x": 8929,
+            "y": 7020,
+            "value": 0.0
+          }
+        ]
+      },
+      {
+        "name": "Out_of_LUT_flags_R4",
+        "description": "Flags for for 4th mapped retrieval",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "noDataValue": "0.0",
+        "noDataValueUsed": "false",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 2782,
+            "y": 4684,
+            "value": 0.0
+          },
+          {
+            "x": 8167,
+            "y": 3397,
+            "value": 0.0
+          }
+        ]
+      },
+      {
+        "name": "X_swath",
+        "description": "Grid point distance from the satellite track",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "geophysicalUnit": "km",
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 9693,
+            "y": 5201,
+            "value": "NaN"
+          },
+          {
+            "x": 16105,
+            "y": 769,
+            "value": 611.0
+          }
+        ]
+      },
+      {
+        "name": "Dg_af_fov",
+        "description": "Number of valid measurements with AF_FOV flag raised",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "noDataValue": "0.0",
+        "noDataValueUsed": "false",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 2472,
+            "y": 3517,
+            "value": 0.0
+          },
+          {
+            "x": 10761,
+            "y": 7135,
+            "value": 0.0
+          }
+        ]
+      },
+      {
+        "name": "Dg_num_outliers",
+        "description": "Dg_num_outliers",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "noDataValue": "0.0",
+        "noDataValueUsed": "false",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 8485,
+            "y": 4904,
+            "value": 0.0
+          },
+          {
+            "x": 6002,
+            "y": 159,
+            "value": 0.0
+          }
+        ]
+      },
+      {
+        "name": "Dg_num_high_resol",
+        "description": "Dg_num_high_resol",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "noDataValue": "0.0",
+        "noDataValueUsed": "false",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 11676,
+            "y": 778,
+            "value": 0.0
+          },
+          {
+            "x": 2202,
+            "y": 2146,
+            "value": 0.0
+          }
+        ]
+      },
+      {
+        "name": "Dg_user",
+        "description": "Number of measurements matching user filter in AUX_CNFOSF/D",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "noDataValue": "0.0",
+        "noDataValueUsed": "false",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 11734,
+            "y": 357,
+            "value": 0.0
+          },
+          {
+            "x": 3509,
+            "y": 467,
+            "value": 0.0
+          }
+        ]
+      },
+      {
+        "name": "Dg_sunglint_L1",
+        "description": "Dg_sunglint_L1",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "noDataValue": "0.0",
+        "noDataValueUsed": "false",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 9902,
+            "y": 2549,
+            "value": 0.0
+          },
+          {
+            "x": 16149,
+            "y": 2491,
+            "value": 0.0
+          }
+        ]
+      },
+      {
+        "name": "Tau",
+        "description": "Tau",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 3128,
+            "y": 6345,
+            "value": 0.007962622
+          },
+          {
+            "x": 13384,
+            "y": 562,
+            "value": "NaN"
+          }
+        ]
+      },
+      {
+        "name": "TBatm_emission",
+        "description": "TBatm_emission",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 6130,
+            "y": 4974,
+            "value": "NaN"
+          },
+          {
+            "x": 2178,
+            "y": 6496,
+            "value": "NaN"
+          }
+        ]
+      },
+      {
+        "name": "Grid_Point_ID",
+        "description": "Grid point ID",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "noDataValue": "0.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 6059,
+            "y": 5209,
+            "value": "NaN"
+          },
+          {
+            "x": 15102,
+            "y": 6559,
+            "value": "NaN"
+          }
+        ]
+      },
+      {
+        "name": "Latitude",
+        "description": "Latitude (-90, 90)",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "geophysicalUnit": "deg",
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 3470,
+            "y": 8005,
+            "value": "NaN"
+          },
+          {
+            "x": 1993,
+            "y": 7544,
+            "value": "NaN"
+          }
+        ]
+      },
+      {
+        "name": "Longitude",
+        "description": "Longitude (-180, 180)",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "geophysicalUnit": "deg",
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 10767,
+            "y": 1236,
+            "value": "NaN"
+          },
+          {
+            "x": 10691,
+            "y": 2040,
+            "value": "NaN"
+          }
+        ]
+      },
+      {
+        "name": "Land_Sea_Mask",
+        "description": "Flag indicating Land/Sea USGS content, Coastline distance, and Ice content",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "noDataValue": "0.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 6903,
+            "y": 7403,
+            "value": 193.0
+          },
+          {
+            "x": 15006,
+            "y": 2278,
+            "value": 1.0
+          }
+        ]
+      }
+    ],
+    "masks": [
+      {
+        "name": "Land_Sea_Mask_USGS_SEA_FLAG",
+        "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+        "color": "0,0,255",
+        "description": "Water fraction is above 95 percent (1); below 95 percent (0)"
+      },
+      {
+        "name": "Land_Sea_Mask_USGS_LAND_FLAG",
+        "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+        "color": "0,255,0",
+        "description": "Water fraction is below 10 percent (1); above 10 percent (0)"
+      },
+      {
+        "name": "Land_Sea_Mask_USGS_MIXED_FLAG",
+        "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+        "color": "0,255,255",
+        "description": "Water fraction is above 10 and below 95 percent (1); below 10 or above 95 percent (0)"
+      },
+      {
+        "name": "Land_Sea_Mask_200_KM_COASTAL_FLAG",
+        "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+        "color": "178,140,0",
+        "description": "Distance to coastline is less than 200 km (1); greater than 200 km (0)"
+      },
+      {
+        "name": "Land_Sea_Mask_100_KM_COASTAL_FLAG",
+        "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+        "color": "255,200,0",
+        "description": "Distance to coastline is less than 100 km (1); greater than 100 km (0)"
+      },
+      {
+        "name": "Land_Sea_Mask_40_KM_COASTAL_FLAG",
+        "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+        "color": "255,255,0",
+        "description": "Distance to coastline is less than 40 km (1); greater than 40 km (0)"
+      },
+      {
+        "name": "Land_Sea_Mask_MIN_SEA_ICE_FLAG",
+        "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+        "color": "255,255,255",
+        "description": "Sea ice is present for all months (1); is not present for all months (0)"
+      },
+      {
+        "name": "Land_Sea_Mask_MAX_SEA_ICE_FLAG",
+        "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+        "color": "240,240,240",
+        "description": "Sea ice is present for any months (1); is not present for any months (0)"
+      }
+    ],
+    "metadata": [
+      {
+        "path": "Fixed_Header/Validity_Period/Validity_Start",
+        "value": "UTC=2015-04-29T14:18:25"
+      },
+      {
+        "path": "Variable_Header/Main_Product_Header/Orbit_Information/Phase",
+        "value": "+001"
+      },
+      {
+        "path": "Variable_Header/Main_Product_Header/Orbit_Information/OSV_TAI",
+        "value": "TAI=2015-04-29T14:17:35.000000"
+      },
+      {
+        "path": "Variable_Header/Specific_Product_Header/L2_Product_Location/Westernmost_Gridpoint_ID",
+        "value": "0015394"
+      },
+      {
+        "path": "Variable_Header/Specific_Product_Header/L2_Product_Desciption/List_of_models/List_of_Retrieved_Parameters/Retrieved_Parameter[6]/description",
+        "value": "no parameter defined"
+      },
+      {
+        "path": "Variable_Header/Specific_Product_Header/List_of_Data_Sets/Data_Set[23]/DS_Offset",
+        "value": "0000000000"
+      },
+      {
+        "path": "Fixed_Header/Source/Creator",
+        "value": "L2OP"
+      },
+      {
+        "path": "Fixed_Header/Source/Creator_Version",
+        "value": "661"
+      },
+      {
+        "path": "Fixed_Header/Validity_Period/Validity_Start",
+        "value": "UTC=2015-04-29T14:18:25"
+      },
+      {
+        "path": "Variable_Header/Specific_Product_Header/L2_Product_Location/Mid_Lon",
+        "value": "-130.161278"
+      }
+    ]
+  }
+}
