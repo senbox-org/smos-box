@@ -21,9 +21,9 @@ import java.util.TreeSet;
 
 @OperatorMetadata(
         alias = NetcdfExportOp.ALIAS,
-        version = "1.0",
+        version = "5.3.0",
         authors = "Tom Block",
-        copyright = "(c) 2014 by Brockmann Consult",
+        copyright = "(c) 2014-2016 by Brockmann Consult",
         description = "Exports SMOS Earth Explorer products to NetCDF format.",
         autoWriteDisabled = true)
 public class NetcdfExportOp extends Operator {
