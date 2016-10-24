@@ -1,5 +1,5 @@
 <!--
-  ~ Copyright (C) 2014 Brockmann Consult GmbH (info@brockmann-consult.de)
+  ~ Copyright (C) 2014-2016 Brockmann Consult GmbH (info@brockmann-consult.de)
   ~
   ~ This program is free software; you can redistribute it and/or modify it
   ~ under the terms of the GNU General Public License as published by the Free
@@ -135,6 +135,11 @@ The following table lists all properties that may be used to describe a band.
         <td>For flag bands only: the name of the flag descriptor resource</td>
     </tr>
     <tr>
+        <td>ancilliaryBandName</td>
+        <td>string</td>
+        <td>Name of the associated uncertainty/error band. Optional, set to '*' if not known or not applicable</td>
+    </tr>
+    <tr>
         <td>gridPointData</td>
         <td>boolean</td>
         <td>Is the data field member of a grid point structure (<i>true</i> or <i>false</i>).</td>
@@ -160,9 +165,9 @@ The following table lists all properties that may be used to describe a band.
     Below is an example of a band-properties file. This example is taken from the operational resources of the SMOS-Box:
 </p>
 <pre>
-    # visible | band       | dataset    | pol | sampleModel | scalingOffset | scalingFactor | typicaMin | typicalMax | cyclic | fillValue | validExpr | unit | decription                                   | flagCoding | flags | gridPointData | dimensionNames
-         *    | SSS1       | SSS1       | *   | *           | *             | *             | 0.0       | 40.0       | *      | -999.0    | *         | psu  | Sea surface salinity using Roughness Model 1 | *          | *     | true          | n_grid_points
-         *    | Sigma_SSS1 | Sigma_SSS1 | *   | *           | *             | *             | 0.1       | 1.5        | *      | -999.0    | *         | psu  | Theoretical uncertainty computed for SSS1    | *          | *     | true          | n_grid_points
+    # visible | band       | dataset    | pol | sampleModel | scalingOffset | scalingFactor | typicaMin | typicalMax | cyclic | fillValue | validExpr | unit | decription                                   | flagCoding | flags | ancilliaryBandName | gridPointData | dimensionNames
+         *    | SSS1       | SSS1       | *   | *           | *             | *             | 0.0       | 40.0       | *      | -999.0    | *         | psu  | Sea surface salinity using Roughness Model 1 | *          | *     | Sigma_SSS1         | true          | n_grid_points
+         *    | Sigma_SSS1 | Sigma_SSS1 | *   | *           | *             | *             | 0.1       | 1.5        | *      | -999.0    | *         | psu  | Theoretical uncertainty computed for SSS1    | *          | *     | *                  | true          | n_grid_points
 </pre>
 </body>
 </html>

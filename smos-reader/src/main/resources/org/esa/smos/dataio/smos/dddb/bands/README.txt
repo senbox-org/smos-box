@@ -2,8 +2,8 @@ Properties used in band descriptors:
 
     Name            Type            Explanation
     
-    visible         boolean         should the band appear in the BEAM product tree?
-    band            string          band name used in BEAM
+    visible         boolean         should the band appear in the SNAP product tree?
+    band            string          band name used in SNAP
     dataset         string          the name of the dataset in the product file
     pol             int             polarization
     sampleModel     int             0, 1, 2
@@ -12,8 +12,8 @@ Properties used in band descriptors:
     typicalMin      double          typical (scaled) minimum value
     typicalMax      double          typical (scaled) maximum value
     cyclic          boolean         is the value range cyclic?
-    fillValue       double          value indicating no-data in BEAM
-    validExpr       string          valid-pixel expression used in BEAM
+    fillValue       double          value indicating no-data in SNAP
+    validExpr       string          valid-pixel expression used in SNAP
     unit            string          physical unit
     description     string          description
     flagCoding      string          for flag bands only: name of the flag coding

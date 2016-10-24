@@ -1,5 +1,5 @@
 <!--
-  ~ Copyright (C) 2014 Brockmann Consult GmbH (info@brockmann-consult.de)
+  ~ Copyright (C) 2014-2016 Brockmann Consult GmbH (info@brockmann-consult.de)
   ~
   ~ This program is free software; you can redistribute it and/or modify it
   ~ under the terms of the GNU General Public License as published by the Free
@@ -104,6 +104,12 @@ The most important file formats are the
     The first step consists in setting up the structure of the external DDDB. This is done by simply setting up a
     directory structure following the DDDB structure described above. It is not necessary to create all directories,
     it is sufficient to just add the paths to the descriptor files that should be added or overwritten.
+</p>
+<p>
+    It is possible to check the internal DDDB resources for comparison. To do so, open the SMOS reader binary jar in a
+    standard zip file utility. The executable file is located in the SMOS-Box modules directory (<i>&lt;SNAP-DIR&gt;/smos/modules</i>)
+    and is named <i>org-esa-smostbx-smos-reader.jar</i>. The DDDB resources are located in the sub-folder <i>/org/esa/smos/dataio/smos/dddb</i>.
+
 </p>
 <p>
     In a second step, the new configuration files have to be put in the corresponding location. Updated schema files have
