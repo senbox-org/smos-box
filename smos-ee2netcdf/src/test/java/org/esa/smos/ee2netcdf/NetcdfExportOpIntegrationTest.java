@@ -40,6 +40,7 @@ import static org.junit.Assert.*;
 public class NetcdfExportOpIntegrationTest {
 
     private static File tempDir;
+    private static NetcdfExportOp.Spi spi;
 
     private final File targetDirectory;
 
@@ -49,6 +50,9 @@ public class NetcdfExportOpIntegrationTest {
 
     @BeforeClass
     public static void setUpClass() throws IOException {
+        spi = new NetcdfExportOp.Spi();
+        GPF.getDefaultInstance().getOperatorSpiRegistry().addOperatorSpi(spi);
+
         tempDir = Files.createTempDirectory("NetcdfExportOpIntegrationTest").toFile();
         Path sourceBasePath = ResourceInstaller.findModuleCodeBasePath(NetcdfExportOpIntegrationTest.class);
         ResourceInstaller installer = new ResourceInstaller(sourceBasePath.resolve("org/esa/smos/ee2netcdf"), tempDir.toPath());
@@ -64,7 +68,6 @@ public class NetcdfExportOpIntegrationTest {
         // need to move NetCDF cache dir to a directory that gets deleted  tb 2014-07-04
         DiskCache.setRootDirectory(targetDirectory.getAbsolutePath());
         DiskCache.setCachePolicy(true);
-
     }
 
     @After
@@ -81,6 +84,8 @@ public class NetcdfExportOpIntegrationTest {
         if (!FileUtils.deleteTree(tempDir)) {
             fail("Unable to delete temporary directory");
         }
+
+        GPF.getDefaultInstance().getOperatorSpiRegistry().removeOperatorSpi(spi);
     }
 
     @Test
