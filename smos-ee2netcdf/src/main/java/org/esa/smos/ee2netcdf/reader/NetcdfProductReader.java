@@ -5,7 +5,15 @@ import com.bc.ceres.glevel.MultiLevelImage;
 import com.bc.ceres.glevel.support.DefaultMultiLevelImage;
 import org.esa.smos.ObservationPointList;
 import org.esa.smos.Point;
-import org.esa.smos.dataio.smos.*;
+import org.esa.smos.dataio.smos.DggUtils;
+import org.esa.smos.dataio.smos.GridPointBtDataset;
+import org.esa.smos.dataio.smos.GridPointInfo;
+import org.esa.smos.dataio.smos.PolarisationModel;
+import org.esa.smos.dataio.smos.ProductHelper;
+import org.esa.smos.dataio.smos.SmosConstants;
+import org.esa.smos.dataio.smos.SmosMultiLevelSource;
+import org.esa.smos.dataio.smos.SmosReader;
+import org.esa.smos.dataio.smos.SnapshotInfo;
 import org.esa.smos.dataio.smos.dddb.BandDescriptor;
 import org.esa.smos.dataio.smos.dddb.Dddb;
 import org.esa.smos.dataio.smos.dddb.Family;
@@ -187,7 +195,7 @@ public class NetcdfProductReader extends SmosReader {
 
             typeSupport = ProductTypeSupportFactory.get(productType, netcdfFile);
 
-            if (!typeSupport.canOpenFile()){
+            if (!typeSupport.canOpenFile()) {
                 throw new IOException("Incomplete SMOS file, unable to handle correctly.");
             }
 
@@ -307,7 +315,8 @@ public class NetcdfProductReader extends SmosReader {
             seqNumbers[i] = seqnum;
             if (seqnum < minSeqNum) {
                 minSeqNum = seqnum;
-            } else if (seqnum > maxSeqNum) {
+            }
+            if (seqnum > maxSeqNum) {
                 maxSeqNum = seqnum;
             }
         }

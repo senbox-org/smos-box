@@ -24,7 +24,7 @@ import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.Namespace;
 
-import java.awt.Dimension;
+import java.awt.*;
 import java.awt.geom.Area;
 import java.io.IOException;
 import java.text.MessageFormat;
@@ -132,7 +132,6 @@ public class DggFile extends ExplorerFile {
     }
 
 
-
     protected void addBands(Product product) {
         final String formatName = getDataFormat().getName();
         final Family<BandDescriptor> descriptors = Dddb.getInstance().getBandDescriptors(formatName);
@@ -236,10 +235,9 @@ public class DggFile extends ExplorerFile {
 
             if (seqnum < minSeqnum) {
                 minSeqnum = seqnum;
-            } else {
-                if (seqnum > maxSeqnum) {
-                    maxSeqnum = seqnum;
-                }
+            }
+            if (seqnum > maxSeqnum) {
+                maxSeqnum = seqnum;
             }
         }
 
