@@ -91,12 +91,7 @@ public class L1cScienceSmosFile extends L1cSmosFile {
         }
         snapshotType = (CompoundType) snapshotList.getType().getElementType();
 
-        snapshotInfoFuture = Executors.newSingleThreadExecutor().submit(new Callable<SnapshotInfo>() {
-            @Override
-            public SnapshotInfo call() throws IOException {
-                return createSnapshotInfo();
-            }
-        });
+        snapshotInfoFuture = Executors.newSingleThreadExecutor().submit(() -> createSnapshotInfo());
     }
 
     private double getIncidenceAngleScalingFactor(Family<BandDescriptor> descriptors) {
@@ -169,6 +164,10 @@ public class L1cScienceSmosFile extends L1cSmosFile {
         } catch (ExecutionException e) {
             throw new RuntimeException(e.getCause());
         }
+    }
+
+    public int getSnapshotCount() {
+        return snapshotList.getElementCount();
     }
 
     public byte getBrowseBtDataValueByte(int gridPointIndex, int memberIndex, int polarization) throws IOException {

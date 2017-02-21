@@ -376,7 +376,7 @@ public class NetcdfExportOpIntegrationTest {
 
             final File outputFile = new File(targetDirectory, "SM_REPB_MIR_SCLF1C_20110201T151254_20110201T151308_505_152_1.nc");
             assertTrue(outputFile.isFile());
-            assertEquals(647311, outputFile.length());
+            assertEquals(974827, outputFile.length());
 
             final ExportParameter exportParameter = new ExportParameter();
             targetFile = NetcdfFileOpener.open(outputFile);
@@ -391,7 +391,7 @@ public class NetcdfExportOpIntegrationTest {
             assertDimension("n_grid_points", numGridPoints, targetFile);
             assertDimension("n_bt_data", 300, targetFile);
             assertDimension("n_radiometric_accuracy", 2, targetFile);
-            assertDimension("n_snapshots", 172, targetFile);
+            assertDimension("n_snapshots", 2663, targetFile);
 
             assertGridPointIdVariable(targetFile, 32, new int[]{6247647, 6248159});
 
@@ -519,7 +519,7 @@ public class NetcdfExportOpIntegrationTest {
                           parameterMap);
 
         assertTrue(outputFile.isFile());
-        assertEquals(647311, outputFile.length());
+        assertEquals(974827, outputFile.length());
     }
 
     @Test
@@ -536,7 +536,7 @@ public class NetcdfExportOpIntegrationTest {
 
             final File outputFile = new File(targetDirectory, "SM_REPB_MIR_SCLF1C_20110201T151254_20110201T151308_505_152_1.nc");
             assertTrue(outputFile.isFile());
-            assertEquals(501908, outputFile.length());
+            assertEquals(522730, outputFile.length());
 
             final ExportParameter exportParameter = new ExportParameter();
             targetFile = NetcdfFileOpener.open(outputFile);

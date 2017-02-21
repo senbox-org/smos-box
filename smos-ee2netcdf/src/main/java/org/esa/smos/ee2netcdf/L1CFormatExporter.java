@@ -35,9 +35,8 @@ class L1CFormatExporter extends AbstractFormatExporter {
         super.initialize(product, exportParameter);
 
         scienceSmosFile = (L1cScienceSmosFile) explorerFile;
-        final SnapshotInfo snapshotInfo = scienceSmosFile.getSnapshotInfo();
-        numSnapshotsToExport = snapshotInfo.getSnapshotIds().size();
-        numSnapshotsInInput = numSnapshotsToExport;
+        numSnapshotsInInput = scienceSmosFile.getSnapshotCount();
+        numSnapshotsToExport = numSnapshotsInInput;
 
         snapshotIdList = new ArrayList<>();
 
@@ -133,6 +132,7 @@ class L1CFormatExporter extends AbstractFormatExporter {
 
     private void writeAllSnapshots(L1cScienceSmosFile l1cScienceSmosFile, VariableWriter[] snapshotVariableWriters) throws IOException {
         for (int i = 0; i < numSnapshotsInInput; i++) {
+        //for (int i = 0; i < numSnapshotsInInput; i++) {
             final CompoundData snapshotData = l1cScienceSmosFile.getSnapshotData(i);
             final SequenceData radiometricAccuracy = snapshotData.getSequence("Radiometric_Accuracy");
 
