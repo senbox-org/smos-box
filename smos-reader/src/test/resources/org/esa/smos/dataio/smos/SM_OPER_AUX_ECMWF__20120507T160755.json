@@ -1186,6 +1186,26 @@
                 ]
             },
             {
+                "name": "SSWVL1",
+                "description": "Scaled volumetric soil water layer 1 (m3 m-3)",
+                "noDataValue": "0.0",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 13789,
+                        "y": 2453,
+                        "value": "NaN"
+                    },
+                    {
+                        "x": 9705,
+                        "y": 7895,
+                        "value": 0.15813228487968445
+                    }
+                ]
+            },
+            {
                 "name": "SRC",
                 "description": "Skin reservoir content (water) (m)",
                 "geophysicalUnit": "m",
