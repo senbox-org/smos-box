@@ -16,27 +16,6 @@ import static org.junit.Assert.*;
 public class SmosUtilsTest {
 
     @Test
-    public void testFindDblFile() {
-        File[] inputFiles = new File[0];
-        assertNull(SmosUtils.findDblFile(inputFiles));
-
-        inputFiles = new File[]{new File("murks.txt"), new File("blärks.dot")};
-        assertNull(SmosUtils.findDblFile(inputFiles));
-
-        inputFiles = new File[]{new File("murks.DBL"), new File("blärks.dot")};
-        File dblFile = SmosUtils.findDblFile(inputFiles);
-        assertEquals("murks.DBL", dblFile.getName());
-
-        inputFiles = new File[]{new File("murks.txt"), new File("blärks.dbl")};
-        dblFile = SmosUtils.findDblFile(inputFiles);
-        assertEquals("blärks.dbl", dblFile.getName());
-
-        inputFiles = new File[]{new File("hoppla.dbl")};
-        dblFile = SmosUtils.findDblFile(inputFiles);
-        assertEquals("hoppla.dbl", dblFile.getName());
-    }
-
-    @Test
     public void testGetSensingTimesFromFilename() {
         final DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
         df.setTimeZone(TimeZone.getTimeZone("UTC"));
@@ -519,7 +498,11 @@ public class SmosUtilsTest {
         assertFalse(SmosUtils.isDffLaiFormat("SM_TEST_MIR_SMDAP2_20121118T135052_20121118T144140_303_007_1.DBL"));
     }
 
-
+    @Test
+    public void testIsDffSnoFormat() {
+        assertTrue(SmosUtils.isDffSnoFormat("SM_OPER_AUX_DFFSNO_20170226T000000_20170228T140000_102_001_3.DBL"));
+        assertFalse(SmosUtils.isDffSnoFormat("SM_TEST_MIR_SMDAP2_20121118T135052_20121118T144140_303_007_1.DBL"));
+    }
 
     ////////////////////////////////////////////////////////////////////////////////
     /////// END OF PUBLIC
