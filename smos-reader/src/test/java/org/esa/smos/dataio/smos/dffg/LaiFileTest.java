@@ -14,7 +14,7 @@
  * with this program; if not, see http://www.gnu.org/licenses/
  */
 
-package org.esa.smos.dataio.smos;
+package org.esa.smos.dataio.smos.dffg;
 
 import com.bc.ceres.binio.CompoundData;
 import com.bc.ceres.binio.CompoundType;
@@ -24,7 +24,9 @@ import com.bc.ceres.binio.SequenceType;
 import com.bc.ceres.binio.Type;
 import com.bc.ceres.binio.util.DataPrinter;
 import org.esa.smos.EEFilePair;
+import org.esa.smos.dataio.smos.ExplorerFile;
 import org.esa.smos.dataio.smos.dddb.Dddb;
+import org.esa.smos.dataio.smos.dffg.LaiFile;
 import org.junit.Test;
 
 import java.io.File;

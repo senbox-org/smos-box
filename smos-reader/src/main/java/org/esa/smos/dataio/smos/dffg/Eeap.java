@@ -14,7 +14,7 @@
  * with this program; if not, see http://www.gnu.org/licenses/
  */
 
-package org.esa.smos.dataio.smos;
+package org.esa.smos.dataio.smos.dffg;
 
 class Eeap {
 

@@ -16,13 +16,7 @@
 
 package org.esa.smos.dataio.smos;
 
-import com.bc.ceres.binio.CompoundData;
-import com.bc.ceres.binio.CompoundMember;
-import com.bc.ceres.binio.CompoundType;
-import com.bc.ceres.binio.DataContext;
-import com.bc.ceres.binio.DataFormat;
-import com.bc.ceres.binio.SequenceData;
-import com.bc.ceres.binio.Type;
+import com.bc.ceres.binio.*;
 import com.bc.ceres.binio.util.NumberUtils;
 import com.bc.ceres.core.ProgressMonitor;
 import com.bc.ceres.core.VirtualDir;
@@ -34,6 +28,7 @@ import org.esa.smos.dataio.smos.dddb.BandDescriptor;
 import org.esa.smos.dataio.smos.dddb.Dddb;
 import org.esa.smos.dataio.smos.dddb.Family;
 import org.esa.smos.dataio.smos.dddb.FlagDescriptor;
+import org.esa.smos.dataio.smos.dffg.LaiFile;
 import org.esa.smos.dgg.SmosDgg;
 import org.esa.smos.lsmask.SmosLsMask;
 import org.esa.snap.core.dataio.ProductReaderPlugIn;
@@ -43,19 +38,15 @@ import org.esa.snap.core.datamodel.ProductData;
 import org.esa.snap.core.util.StringUtils;
 import org.esa.snap.core.util.io.FileUtils;
 
-import java.awt.Rectangle;
+import java.awt.*;
 import java.awt.image.Raster;
 import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
+import java.util.*;
 import java.util.List;
-import java.util.Locale;
-import java.util.TimeZone;
 
 public class SmosProductReader extends SmosReader {
 
