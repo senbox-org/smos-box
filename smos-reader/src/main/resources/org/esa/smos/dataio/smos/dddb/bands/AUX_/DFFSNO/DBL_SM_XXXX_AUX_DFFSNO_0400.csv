@@ -1,0 +1,2 @@
+# visible | band                         | dataset                      | pol   | sampleModel | scalingOffset | scalingFactor | typicaMin | typicalMax | cyclic | fillValue | validExpr                                  | unit      | decription                | flagCoding | flags
+  *       | SnowPercentage               | SnowPercentage               | *     | *           | *             | 0.5           | 0.0       | 100.0      | *      | 255       | *                                          | *         | Percentage of snow cover) | *          | *

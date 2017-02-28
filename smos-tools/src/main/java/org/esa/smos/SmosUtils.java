@@ -17,21 +17,6 @@ public class SmosUtils {
 
     private static final Logger logger = Logger.getLogger(SmosUtils.class.getName());
 
-    public static File findDblFile(File[] zipFiles) {
-        File dblFile = null;
-        if (zipFiles.length == 1) {
-            dblFile = zipFiles[0];
-        } else {
-            for (File zipFile : zipFiles) {
-                if (zipFile.getName().matches(".+\\.[dD][bB][lL]")) {
-                    dblFile = zipFile;
-                    break;
-                }
-            }
-        }
-        return dblFile;
-    }
-
     /**
      * @param fileName The filename of the product, from which the start day will be read.
      * @return a Date with the year, month, and day field set from the filename, and the rest left default (today's time)
@@ -311,6 +296,10 @@ public class SmosUtils {
     public static boolean isDffLaiFormat(String formatName) {
         return formatName.contains("AUX_DFFLAI");
     }
+    // @todo 1 tb/tb merge these two functions to one DFF file checker 2017-02-28
+    public static boolean isDffSnoFormat(String formatName) {
+        return formatName.contains("AUX_DFFSNO");
+    }
 
     public static boolean isL2Format(String formatName) {
         return SmosUtils.isSmUserFormat(formatName) ||
@@ -347,5 +336,4 @@ public class SmosUtils {
             return null;
         }
     }
-
 }
