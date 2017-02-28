@@ -14,7 +14,7 @@
  * with this program; if not, see http://www.gnu.org/licenses/
  */
 
-package org.esa.smos.dataio.smos;
+package org.esa.smos.dataio.smos.dffg;
 
 import com.bc.ceres.binio.CompoundData;
 import com.bc.ceres.binio.CompoundMember;
@@ -26,6 +26,7 @@ import com.bc.ceres.glevel.MultiLevelSource;
 import com.bc.ceres.glevel.support.AbstractMultiLevelSource;
 import com.bc.ceres.glevel.support.DefaultMultiLevelImage;
 import org.esa.smos.EEFilePair;
+import org.esa.smos.dataio.smos.*;
 import org.esa.smos.dataio.smos.dddb.BandDescriptor;
 import org.esa.smos.dataio.smos.dddb.Dddb;
 import org.esa.smos.dataio.smos.dddb.Family;
@@ -48,7 +49,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-class LaiFile extends ExplorerFile {
+public class LaiFile extends ExplorerFile {
 
     private static final String CUMULATED_LON_COUNT_NAME = "Cumulated_N_Lon";
     private static final String DELTA_LAT_NAME = "Delta_Lat";
@@ -73,7 +74,7 @@ class LaiFile extends ExplorerFile {
     private final long zoneIndexMultiplier;
     private volatile List<Dffg> gridList = null;
 
-    LaiFile(EEFilePair eeFilePair, DataContext dataContext) throws IOException {
+    public LaiFile(EEFilePair eeFilePair, DataContext dataContext) throws IOException {
         super(eeFilePair, dataContext);
 
         final Document document = getDocument();

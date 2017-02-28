@@ -174,7 +174,7 @@ public class ProductHelper {
         return product;
     }
 
-    static int getDataType(Type memberType) {
+    public static int getDataType(Type memberType) {
         if (memberType.equals(SimpleType.BYTE)) {
             return ProductData.TYPE_INT8;
         }
@@ -206,7 +206,7 @@ public class ProductHelper {
         throw new IllegalArgumentException("Illegal member type:" + memberType.getName());
     }
 
-    static void addMetadata(MetadataElement metadataElement, ExplorerFile explorerFile) throws IOException {
+    public static void addMetadata(MetadataElement metadataElement, ExplorerFile explorerFile) throws IOException {
         final Document document;
 
         try {
@@ -225,6 +225,7 @@ public class ProductHelper {
         addMetadata(metadataElement, document.getRootElement(), namespace);
     }
 
+    // @todo 3 tb/tb add tests 2017-02-28
     static void addMetadata(MetadataElement metadataElement, Element xmlElement, Namespace namespace) {
         for (final Object o : xmlElement.getChildren()) {
             final Element xmlChild = (Element) o;

@@ -1,6 +1,7 @@
-package org.esa.smos.dataio.smos;
+package org.esa.smos.dataio.smos.dffg;
 
 
+import org.esa.smos.dataio.smos.dffg.Dffg;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
