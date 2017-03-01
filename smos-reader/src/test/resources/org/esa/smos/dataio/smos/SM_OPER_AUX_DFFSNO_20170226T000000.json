@@ -1,0 +1,91 @@
+{
+  "id": "SM_OPER_AUX_DFFSNO_20170226T000000",
+  "decodeQualification": "INTENDED",
+  "expectedContent": {
+    "sceneWidth": 16384,
+    "sceneHeight": 8064,
+    "geoCoding": {
+      "coordinates": [
+        {
+          "x": 7066.0,
+          "y": 4334.0,
+          "lat": -6.6357421875,
+          "lon": -24.7412109375
+        },
+        {
+          "x": 12164.0,
+          "y": 5232.0,
+          "lat": -26.3671875,
+          "lon": 87.275390625
+        }
+      ],
+      "reverseAccuracy": 0.0
+    },
+    "bands": [
+      {
+        "name": "SnowPercentage",
+        "description": "Percentage of snow cover",
+        "bandWidth": 16384,
+        "bandHeight": 8064,
+        "noDataValue": "127.5",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 854,
+            "y": 1436,
+            "value": 0.0
+          },
+          {
+            "x": 11224,
+            "y": 6859,
+            "value": "NaN"
+          }
+        ]
+      }
+    ],
+    "metadata": [
+      {
+        "path": "Fixed_Header/Validity_Period/Validity_Stop",
+        "value": "UTC=2017-02-28T14:00:00"
+      },
+      {
+        "path": "Fixed_Header/Source/Creator_Version",
+        "value": "102"
+      },
+      {
+        "path": "Variable_Header/Specific_Product_Header/Main_SPH/Datablock_Schema",
+        "value": "DBL_SM_XXXX_AUX_DFFSNO_0400.binXschema.xml"
+      },
+      {
+        "path": "Variable_Header/Specific_Product_Header/List_of_Data_Sets/Data_Set/Byte_Order",
+        "value": "0000"
+      },
+      {
+        "path": "Fixed_Header/Validity_Period/Validity_Stop",
+        "value": "UTC=2017-02-28T14:00:00"
+      },
+      {
+        "path": "Fixed_Header/Validity_Period/Validity_Start",
+        "value": "UTC=2017-02-26T00:00:00"
+      },
+      {
+        "path": "Fixed_Header/Validity_Period/Validity_Start",
+        "value": "UTC=2017-02-26T00:00:00"
+      },
+      {
+        "path": "Variable_Header/Specific_Product_Header/List_of_Data_Sets/Data_Set[2]/DS_Type",
+        "value": "M"
+      },
+      {
+        "path": "Fixed_Header/Validity_Period/Validity_Stop",
+        "value": "UTC=2017-02-28T14:00:00"
+      },
+      {
+        "path": "Fixed_Header/Validity_Period/Validity_Start",
+        "value": "UTC=2017-02-26T00:00:00"
+      }
+    ]
+  }
+}

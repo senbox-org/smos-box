@@ -28,8 +28,8 @@ import org.esa.smos.dataio.smos.dddb.BandDescriptor;
 import org.esa.smos.dataio.smos.dddb.Dddb;
 import org.esa.smos.dataio.smos.dddb.Family;
 import org.esa.smos.dataio.smos.dddb.FlagDescriptor;
-import org.esa.smos.dataio.smos.dffg.DffSnoFile;
-import org.esa.smos.dataio.smos.dffg.LaiFile;
+import org.esa.smos.dataio.smos.dffg.DffgSnoFile;
+import org.esa.smos.dataio.smos.dffg.DffgLaiFile;
 import org.esa.smos.dgg.SmosDgg;
 import org.esa.smos.lsmask.SmosLsMask;
 import org.esa.snap.core.dataio.ProductReaderPlugIn;
@@ -458,9 +458,9 @@ public class SmosProductReader extends SmosReader {
                 SmosUtils.isAuxECMWFType(formatName)) {
             return new SmosFile(eeFilePair, context);
         } else if (SmosUtils.isDffLaiFormat(formatName)) {
-            return new LaiFile(eeFilePair, context);
+            return new DffgLaiFile(eeFilePair, context);
         } else if (SmosUtils.isDffSnoFormat(formatName)) {
-            return new DffSnoFile(eeFilePair, context);
+            return new DffgSnoFile(eeFilePair, context);
         } else if (SmosUtils.isVTecFormat(formatName)) {
             return new VTecFile(eeFilePair, context);
         } else if (SmosUtils.isLsMaskFormat(formatName)) {
