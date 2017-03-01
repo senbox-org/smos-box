@@ -1,3 +1,13 @@
+#New in SMOS-Box 5.4
+The update to version 5.4 adds support for AUX_DFFSNO file type that contains the 
+snow coverage for the northern hemisphere based on NOAA data.
+
+### Solved issues
+####Bugs
+    [smos-box#2] Incomplete snapshot information NetCDF SCSF1C/SCSL1C
+    [smos-box#3] Scaled_Volumetric_Soil_Water_L1 Variable missing in AUX_ECMWF
+
+
 #New in SMOS-Box 5.3
 SMOS-Box version 5.3 has been updated to fully support L1C, L2 and auxiliary files using the new schema version 7.3.0. 
 This update implements support for all files following the SMOS L1 Format Specification v6.2 (SO-TN-IDR-GS-0005_v6.2_L1 Spec_2016-08-31) 
