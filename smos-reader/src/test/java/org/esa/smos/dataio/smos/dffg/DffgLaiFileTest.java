@@ -26,7 +26,6 @@ import com.bc.ceres.binio.util.DataPrinter;
 import org.esa.smos.EEFilePair;
 import org.esa.smos.dataio.smos.ExplorerFile;
 import org.esa.smos.dataio.smos.dddb.Dddb;
-import org.esa.smos.dataio.smos.dffg.LaiFile;
 import org.junit.Test;
 
 import java.io.File;
@@ -35,7 +34,7 @@ import java.io.PrintStream;
 
 import static org.junit.Assert.*;
 
-public class LaiFileTest {
+public class DffgLaiFileTest {
 
     private static final File USER_HOME = new File(System.getProperty("user.home"));
     private static final File DATA_DIR = new File(USER_HOME,
@@ -69,7 +68,7 @@ public class LaiFileTest {
     public void testZoneDataSizes() throws IOException {
         if (HDR_FILE.exists() && DBL_FILE.exists()) {
             final DataFormat dataFormat = Dddb.getInstance().getDataFormat(HDR_FILE);
-            final LaiFile laiFile = new LaiFile(new EEFilePair(HDR_FILE, DBL_FILE), dataFormat.createContext(DBL_FILE, "r"));
+            final DffgLaiFile laiFile = new DffgLaiFile(new EEFilePair(HDR_FILE, DBL_FILE), dataFormat.createContext(DBL_FILE, "r"));
 
             final SequenceData sequenceData = laiFile.getDataBlock().getSequence(DFFG_LAI_NAME);
             assertEquals(ZONE_COUNT, sequenceData.getElementCount());
@@ -101,7 +100,7 @@ public class LaiFileTest {
     // for dumping the contents of a LAI file
     public static void main(String[] args) throws IOException {
         final DataFormat dataFormat = Dddb.getInstance().getDataFormat(HDR_FILE);
-        final ExplorerFile explorerFile = new LaiFile(new EEFilePair(HDR_FILE, DBL_FILE), dataFormat.createContext(DBL_FILE, "r"));
+        final ExplorerFile explorerFile = new DffgLaiFile(new EEFilePair(HDR_FILE, DBL_FILE), dataFormat.createContext(DBL_FILE, "r"));
         final SequenceData sequenceData = explorerFile.getDataBlock().getSequence(DFFG_LAI_NAME);
 
         try {

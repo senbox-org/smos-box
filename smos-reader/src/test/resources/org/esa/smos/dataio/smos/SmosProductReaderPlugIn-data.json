@@ -200,6 +200,11 @@
             "description": "AUX_DFFLAI, leaf area index, schema version 200"
         },
         {
+            "id": "SM_OPER_AUX_DFFSNO_20170226T000000",
+            "relativePath": "sensors_platforms/SMOS/AUX_DFFSNO/SM_OPER_AUX_DFFSNO_20170226T000000_20170228T140000_102_001_3/SM_OPER_AUX_DFFSNO_20170226T000000_20170228T140000_102_001_3.HDR",
+            "description": "AUX_DFFSNO, snow coverage, schema version 300"
+        },
+        {
             "id": "SM_OPER_AUX_DGGFLO_20110605T000000",
             "relativePath": "sensors_platforms/SMOS/AUX_DGGFLO/SM_OPER_AUX_DGGFLO_20110605T000000_20110608T000000_307_001_3/SM_OPER_AUX_DGGFLO_20110605T000000_20110608T000000_307_001_3.DBL",
             "description": "AUX_DGGFLO, flood probability, schema version 200"
