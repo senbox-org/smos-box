@@ -1,3 +1,6 @@
+#New in SMOS-Box 5.5
+The update to version 5.5 does not add any new feature to the SMOS-BOX. Only released for compatibility reasons with SNAP 6.
+
 #New in SMOS-Box 5.4
 The update to version 5.4 adds support for AUX_DFFSNO file type that contains the 
 snow coverage for the northern hemisphere based on NOAA data.
