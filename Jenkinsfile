@@ -69,6 +69,7 @@ pipeline {
                 // sh "/opt/scripts/saveToLocalUpdateCenter.sh . ${deployDirName} ${branchVersion} ${toolName}"
             }
         }
+    }
     /* disable email send on failure
     post {
         failure {
