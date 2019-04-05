@@ -319,6 +319,10 @@
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
+
+                    <!-- added to fix an exception in the compiler -->
+                    <useIncrementalCompilation>false</useIncrementalCompilation>
+                    
                     <debug>true</debug>
                     <fork>false</fork>
                     <encoding>UTF-8</encoding>
