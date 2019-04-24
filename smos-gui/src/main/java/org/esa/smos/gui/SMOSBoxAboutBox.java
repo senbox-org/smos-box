@@ -1,5 +1,6 @@
 package org.esa.smos.gui;
 
+import com.bc.ceres.core.runtime.Version;
 import org.esa.snap.rcp.about.AboutBox;
 import org.esa.snap.rcp.util.BrowserUtils;
 import org.openide.modules.ModuleInfo;
@@ -22,7 +23,7 @@ import java.net.URISyntaxException;
 @AboutBox(displayName = "SMOS-Box", position = 60)
 public class SMOSBoxAboutBox extends JPanel {
 
-    private final static String releaseNotesHTTP = "https://github.com/senbox-org/smos-box/blob/master/ReleaseNotes.md";
+    private final static String releaseNotesUrlString = "https://senbox.atlassian.net/issues/?jql=project%20%3D%20SMOSTBX%20AND%20fixVersion%20%3D%20";
 
     public SMOSBoxAboutBox() {
         super(new BorderLayout(4, 4));
@@ -38,24 +39,16 @@ public class SMOSBoxAboutBox extends JPanel {
         final JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.LINE_AXIS));
         final ModuleInfo moduleInfo = Modules.getDefault().ownerOf(SMOSBoxAboutBox.class);
-        panel.add(new JLabel("<html><b>SMOS-Box version " + moduleInfo.getImplementationVersion() + "</b>",
-                             SwingConstants.RIGHT));
-        final URI releaseNotesURI = getReleaseNotesURI();
-        if (releaseNotesURI != null) {
-            final JLabel releaseNoteLabel = new JLabel("<html><a href=\"" + releaseNotesURI.toString() + "\">Release Notes</a>",
-                                                       SwingConstants.RIGHT);
-            releaseNoteLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
-            releaseNoteLabel.addMouseListener(new BrowserUtils.URLClickAdaptor(releaseNotesHTTP));
-            panel.add(releaseNoteLabel);
-        }
+        panel.add(new JLabel("<html><b>SMOS-Box version " + moduleInfo.getImplementationVersion() + "</b>", SwingConstants.RIGHT));
+
+        Version specVersion = Version.parseVersion(moduleInfo.getSpecificationVersion().toString());
+        String versionString = String.format("%s.%s.%s", specVersion.getMajor(), specVersion.getMinor(), specVersion.getMicro());
+        String changelogUrl = releaseNotesUrlString + versionString;
+        final JLabel releaseNoteLabel = new JLabel("<html><a href=\"" + changelogUrl + "\">Release Notes</a>", SwingConstants.RIGHT);
+        releaseNoteLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        releaseNoteLabel.addMouseListener(new BrowserUtils.URLClickAdaptor(changelogUrl));
+        panel.add(releaseNoteLabel);
         return panel;
     }
 
-    private URI getReleaseNotesURI() {
-        try {
-            return new URI(releaseNotesHTTP);
-        } catch (URISyntaxException e) {
-            return null;
-        }
-    }
 }
