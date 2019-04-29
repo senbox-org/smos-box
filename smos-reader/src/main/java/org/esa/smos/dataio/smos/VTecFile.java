@@ -22,7 +22,6 @@ import com.bc.ceres.binio.SequenceData;
 import org.esa.smos.DateTimeUtils;
 import org.esa.smos.EEFilePair;
 import org.esa.snap.core.datamodel.Product;
-import org.esa.snap.core.datamodel.ProductData;
 import org.esa.snap.core.datamodel.TiePointGrid;
 import org.esa.snap.core.util.io.FileUtils;
 import org.jdom.Document;
@@ -34,7 +33,6 @@ import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
 import java.io.IOException;
 import java.text.MessageFormat;
-import java.util.Date;
 
 class VTecFile extends ExplorerFile {
 
@@ -172,9 +170,7 @@ class VTecFile extends ExplorerFile {
         final int days = epoch.getInt(DAYS_NAME);
         final int seconds = epoch.getInt(SECONDS_NAME);
         final int microseconds = epoch.getInt(MICROSECONDS_NAME);
-
-        Date cfiDate = DateTimeUtils.cfiDateToUtc(days, seconds, microseconds);
-        final String dateTime = ProductData.UTC.createDateFormat().format(cfiDate);
+        final String dateTime = DateTimeUtils.cfiDateToUtc(days, seconds, microseconds).toString();
 
         return "Vertical total electron content (TECU) for epoch " + dateTime;
     }

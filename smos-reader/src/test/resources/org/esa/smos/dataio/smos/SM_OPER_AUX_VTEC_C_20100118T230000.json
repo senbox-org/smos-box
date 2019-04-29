@@ -18,7 +18,7 @@
         "tiePointGrids": [
             {
                 "name": "VTEC_C_1",
-                "description": "Vertical total electron content (TECU) for epoch 19-Jan-2010 00:00:00",
+                "description": "Vertical total electron content (TECU) for epoch Tue Jan 19 01:00:00 CET 2010",
                 "offsetX": "0.0",
                 "offsetY": "112.0",
                 "subSamplingX": "227.55555555555557",
@@ -38,7 +38,7 @@
             },
             {
                 "name": "VTEC_C_2",
-                "description": "Vertical total electron content (TECU) for epoch 19-Jan-2010 02:00:00",
+                "description": "Vertical total electron content (TECU) for epoch Tue Jan 19 03:00:00 CET 2010",
                 "offsetX": "0.0",
                 "offsetY": "112.0",
                 "subSamplingX": "227.55555555555557",
@@ -58,7 +58,7 @@
             },
             {
                 "name": "VTEC_C_3",
-                "description": "Vertical total electron content (TECU) for epoch 19-Jan-2010 04:00:00",
+                "description": "Vertical total electron content (TECU) for epoch Tue Jan 19 05:00:00 CET 2010",
                 "offsetX": "0.0",
                 "offsetY": "112.0",
                 "subSamplingX": "227.55555555555557",
@@ -78,7 +78,7 @@
             },
             {
                 "name": "VTEC_C_4",
-                "description": "Vertical total electron content (TECU) for epoch 19-Jan-2010 06:00:00",
+                "description": "Vertical total electron content (TECU) for epoch Tue Jan 19 07:00:00 CET 2010",
                 "offsetX": "0.0",
                 "offsetY": "112.0",
                 "subSamplingX": "227.55555555555557",
@@ -98,7 +98,7 @@
             },
             {
                 "name": "VTEC_C_5",
-                "description": "Vertical total electron content (TECU) for epoch 19-Jan-2010 08:00:00",
+                "description": "Vertical total electron content (TECU) for epoch Tue Jan 19 09:00:00 CET 2010",
                 "offsetX": "0.0",
                 "offsetY": "112.0",
                 "subSamplingX": "227.55555555555557",
@@ -118,7 +118,7 @@
             },
             {
                 "name": "VTEC_C_6",
-                "description": "Vertical total electron content (TECU) for epoch 19-Jan-2010 10:00:00",
+                "description": "Vertical total electron content (TECU) for epoch Tue Jan 19 11:00:00 CET 2010",
                 "offsetX": "0.0",
                 "offsetY": "112.0",
                 "subSamplingX": "227.55555555555557",
@@ -138,7 +138,7 @@
             },
             {
                 "name": "VTEC_C_7",
-                "description": "Vertical total electron content (TECU) for epoch 19-Jan-2010 12:00:00",
+                "description": "Vertical total electron content (TECU) for epoch Tue Jan 19 13:00:00 CET 2010",
                 "offsetX": "0.0",
                 "offsetY": "112.0",
                 "subSamplingX": "227.55555555555557",
@@ -158,7 +158,7 @@
             },
             {
                 "name": "VTEC_C_8",
-                "description": "Vertical total electron content (TECU) for epoch 19-Jan-2010 14:00:00",
+                "description": "Vertical total electron content (TECU) for epoch Tue Jan 19 15:00:00 CET 2010",
                 "offsetX": "0.0",
                 "offsetY": "112.0",
                 "subSamplingX": "227.55555555555557",
@@ -178,7 +178,7 @@
             },
             {
                 "name": "VTEC_C_9",
-                "description": "Vertical total electron content (TECU) for epoch 19-Jan-2010 16:00:00",
+                "description": "Vertical total electron content (TECU) for epoch Tue Jan 19 17:00:00 CET 2010",
                 "offsetX": "0.0",
                 "offsetY": "112.0",
                 "subSamplingX": "227.55555555555557",
@@ -198,7 +198,7 @@
             },
             {
                 "name": "VTEC_C_10",
-                "description": "Vertical total electron content (TECU) for epoch 19-Jan-2010 18:00:00",
+                "description": "Vertical total electron content (TECU) for epoch Tue Jan 19 19:00:00 CET 2010",
                 "offsetX": "0.0",
                 "offsetY": "112.0",
                 "subSamplingX": "227.55555555555557",
@@ -218,7 +218,7 @@
             },
             {
                 "name": "VTEC_C_11",
-                "description": "Vertical total electron content (TECU) for epoch 19-Jan-2010 20:00:00",
+                "description": "Vertical total electron content (TECU) for epoch Tue Jan 19 21:00:00 CET 2010",
                 "offsetX": "0.0",
                 "offsetY": "112.0",
                 "subSamplingX": "227.55555555555557",
@@ -238,7 +238,7 @@
             },
             {
                 "name": "VTEC_C_12",
-                "description": "Vertical total electron content (TECU) for epoch 19-Jan-2010 22:00:00",
+                "description": "Vertical total electron content (TECU) for epoch Tue Jan 19 23:00:00 CET 2010",
                 "offsetX": "0.0",
                 "offsetY": "112.0",
                 "subSamplingX": "227.55555555555557",
@@ -258,7 +258,7 @@
             },
             {
                 "name": "VTEC_C_13",
-                "description": "Vertical total electron content (TECU) for epoch 20-Jan-2010 00:00:00",
+                "description": "Vertical total electron content (TECU) for epoch Wed Jan 20 01:00:00 CET 2010",
                 "offsetX": "0.0",
                 "offsetY": "112.0",
                 "subSamplingX": "227.55555555555557",
