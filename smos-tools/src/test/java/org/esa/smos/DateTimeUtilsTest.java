@@ -5,6 +5,7 @@ import org.esa.snap.core.datamodel.ProductData;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
@@ -16,18 +17,19 @@ public class DateTimeUtilsTest {
 
     @Test
     public void testCfiDateToUtc() {
+        DateFormat dateFormat = ProductData.UTC.createDateFormat();
         Date date = DateTimeUtils.cfiDateToUtc(0, 0, 0);
-        assertEquals("01-JAN-2000 00:00:00.000000", ProductData.UTC.create(date, 0).format());
+        assertEquals("01-Jan-2000 00:00:00", dateFormat.format(date));
 
         date = DateTimeUtils.cfiDateToUtc(1, 0, 0);
-        assertEquals("02-JAN-2000 00:00:00.000000", ProductData.UTC.create(date, 0).format());
+        assertEquals("02-Jan-2000 00:00:00", dateFormat.format(date));
 
         date = DateTimeUtils.cfiDateToUtc(1, 10, 0);
         long timeWithoutMillis = date.getTime();
-        assertEquals("02-JAN-2000 00:00:10.000000", ProductData.UTC.create(date, 0).format());
+        assertEquals("02-Jan-2000 00:00:10", dateFormat.format(date));
 
         date = DateTimeUtils.cfiDateToUtc(1, 10, 100000);    // last argument is microsecond, date can only handle millis ...
-        assertEquals("02-JAN-2000 00:00:10.000000", ProductData.UTC.create(date, 0).format());
+        assertEquals("02-Jan-2000 00:00:10", dateFormat.format(date));
         assertEquals(timeWithoutMillis + 100, date.getTime());
     }
 
