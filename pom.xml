@@ -376,6 +376,7 @@
                     <argLine>
                         -Dorg.esa.smos.dggDir=${project.basedir}/../smos-dgg/src/main/resources/org/esa/smos/dgg
                         -Dorg.esa.smos.lsMaskDir=${project.basedir}/../smos-lsmask/src/main/resources/org/esa/smos/lsmask
+                        @{argLine}
                     </argLine>
                     <excludes>
                         <exclude>**/AcceptanceTestRunner.java</exclude>
@@ -476,6 +477,19 @@
                         <goals>
                             <goal>jar</goal>
                             <goal>test-jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.3</version>
+                <executions>
+                    <execution>
+                        <id>prepare-agent</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
                         </goals>
                     </execution>
                 </executions>
