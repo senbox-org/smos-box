@@ -33,6 +33,7 @@ pipeline {
             }
             steps {
                 script {
+                    sonarOption = ""
                     if ("${branchVersion}" == "master") {
                         // Only use sonar on master branch
                         sonarOption = "sonar:sonar"
