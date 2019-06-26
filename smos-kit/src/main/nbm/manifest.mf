@@ -7,6 +7,6 @@ OpenIDE-Module-Long-Description: The SMOS-Box is a SNAP extension dedicated to t
  <p>The changes for this version can be viewed in our
  <a href="https://senbox.atlassian.net/issues/?jql=project%20%3D%20SMOSTBX%20AND%20fixVersion%20%3D%20${smosbox.majorVersion}.${smosbox.minorVersion}.${smosbox.incrementalVersion}">issue tracker</a></p>
  <p><b>Vendor:</b> Brockmann Consult GmbH
- <p><b>Contact address:</b> Max-Planck-Str. 2, 21502 Geesthacht (Germany)</p>
+ <p><b>Contact address:</b> Chrysanderstr. 1, 21029 Hamburg (Germany)</p>
  <p><b>Copyright:</b> (C) 2019 by Brockmann Consult GmbH</p>
  <p><b>License:</b> http://www.gnu.org/licenses/gpl.html</p>
