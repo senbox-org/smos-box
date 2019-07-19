@@ -7,13 +7,13 @@
     <name>SMOS-Box</name>
     <groupId>org.esa.smostbx</groupId>
     <artifactId>smos-box</artifactId>
-    <version>5.6.0-rc6</version>
+    <version>5.6.0</version>
 
     <packaging>pom</packaging>
 
     <properties>
         <brandingToken>smos</brandingToken>
-        <snap.version>7.0.0-rc6</snap.version>
+        <snap.version>7.0.0</snap.version>
         <netbeans.version>RELEASE82</netbeans.version>
         <javahelp.version>2.0.05</javahelp.version>
         <smos.nbmSpecVersion>5.6.0</smos.nbmSpecVersion>
