@@ -11,7 +11,8 @@ import ucar.nc2.util.DiskCache;
 import java.io.File;
 import java.util.HashMap;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 public class NetcdfExportTimingTest {
 
@@ -42,7 +43,7 @@ public class NetcdfExportTimingTest {
     }
 
     @Test
-    @Ignore
+    @Ignore("not for running on the test server, local testing only")
     public void testExportWithTiming() {
 
         final File file = new File("/usr/local/data/reader_acceptance_tests/sensors_platforms/SMOS/MIR_SMUDP2/SM_OPER_MIR_SMUDP2_20120514T163815_20120514T173133_551_001_1.zip");
