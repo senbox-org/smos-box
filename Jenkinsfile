@@ -51,7 +51,7 @@ pipeline {
                     script {
                         if ("${env.GIT_BRANCH}" == 'master' || "${env.GIT_BRANCH}" =~ /\d+\.x/ || "${env.GIT_BRANCH}" =~ /\d+\.\d+\.\d+(-rc\d+)?$/) {
                             echo "Deploy ${env.JOB_NAME} from ${env.GIT_BRANCH} with commit ${env.GIT_COMMIT}"
-                            sh "mvn -Duser.home=/var/maven -Dsnap.userdir=/home/snap deploy -U -DskipTests=true"
+                            sh "mvn -Dm2repo=/var/tmp/repository/ -Duser.home=/var/maven -Dsnap.userdir=/home/snap deploy -DskipTests=true"
                         }
                     }
                 }
