@@ -23,7 +23,7 @@ pipeline {
     }
     agent { label 'snap-test' }
     stages {
-        stage('Package') {
+        stage('Package and Deploy') {
             agent {
                 docker {
                     label 'snap-test'
@@ -47,6 +47,14 @@ pipeline {
                     junit "**/target/surefire-reports/*.xml"
                     jacoco(execPattern: '**/*.exec')
                 }
+                success {
+                    script {
+                        if ("${env.GIT_BRANCH}" == 'master' || "${env.GIT_BRANCH}" =~ /\d+\.x/ || "${env.GIT_BRANCH}" =~ /\d+\.\d+\.\d+(-rc\d+)?$/) {
+                            echo "Deploy ${env.JOB_NAME} from ${env.GIT_BRANCH} with commit ${env.GIT_COMMIT}"
+                            sh "mvn -Dm2repo=/var/tmp/repository/ -Duser.home=/home/snap -Dsnap.userdir=/home/snap deploy -DskipTests=true"
+                        }
+                    }
+                }
             }
         }
         stage('Save installer data') {
@@ -67,7 +75,7 @@ pipeline {
                 sh "/opt/scripts/saveInstallData.sh ${toolName} ${env.GIT_BRANCH}"
             }
         }
-        stage('Deploy') {
+        /*stage('Deploy') {
             agent {
                 docker {
                     label 'snap-test'
@@ -84,7 +92,7 @@ pipeline {
                 echo "Deploy ${env.JOB_NAME} from ${env.GIT_BRANCH} with commit ${env.GIT_COMMIT}"
                 sh "mvn -Duser.home=/var/maven -Dsnap.userdir=/home/snap deploy -U -DskipTests=true"
             }
-        }
+        }*/
     }
     /* disable email send on failure
     post {
