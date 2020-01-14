@@ -4,6 +4,7 @@ import com.bc.ceres.binio.CompoundData;
 import com.bc.ceres.binio.SequenceData;
 import org.esa.snap.dataio.netcdf.nc.NVariable;
 import ucar.ma2.Array;
+import ucar.ma2.DataType;
 
 import java.io.IOException;
 
@@ -14,7 +15,7 @@ class FloatStructMemberWriter extends AbstractVariableWriter {
     FloatStructMemberWriter(NVariable variable, int memberIndex, int arraySize, float fillValue) {
         this.memberIndex = memberIndex;
         final float[] floatVector = VariableHelper.getFloatVector(arraySize, fillValue);
-        array = Array.factory(floatVector);
+        array = Array.factory(DataType.FLOAT, new int[]{floatVector.length}, floatVector);
         this.variable = variable;
     }
 
