@@ -1,6 +1,10 @@
 package org.esa.smos.ee2netcdf.reader;
 
-import org.esa.smos.dataio.smos.*;
+import org.esa.smos.dataio.smos.GridPointBtDataset;
+import org.esa.smos.dataio.smos.GridPointInfo;
+import org.esa.smos.dataio.smos.PolarisationModel;
+import org.esa.smos.dataio.smos.SmosConstants;
+import org.esa.smos.dataio.smos.SnapshotInfo;
 import org.esa.smos.dataio.smos.dddb.BandDescriptor;
 import org.esa.smos.dataio.smos.dddb.Dddb;
 import org.esa.smos.dataio.smos.dddb.Family;
@@ -16,7 +20,11 @@ import ucar.nc2.Variable;
 
 import java.awt.geom.Area;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 abstract class AbstractProductTypeSupport implements ProductTypeSupport {
 
@@ -227,7 +235,7 @@ abstract class AbstractProductTypeSupport implements ProductTypeSupport {
             } else {
                 scalerMap.put(eeVariableName, new IdentityScaler(fillValue));
             }
-            tableClassesList.add(variable.getDataType().getClassType());
+            tableClassesList.add(variable.getDataType().getPrimitiveClassType());
             memberNamesMap.put(eeVariableName, index);
             ++index;
         }
