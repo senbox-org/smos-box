@@ -32,35 +32,26 @@
  */
 package ucar.nc2.iosp.bufr.writer;
 
-import ucar.ma2.Array;
-import ucar.ma2.ArrayChar;
-import ucar.ma2.ArraySequence;
-import ucar.ma2.ArrayStructure;
-import ucar.ma2.DataType;
-import ucar.ma2.StructureData;
-import ucar.ma2.StructureDataIterator;
-import ucar.ma2.StructureMembers;
-import ucar.nc2.Attribute;
-import ucar.nc2.NetcdfFile;
-import ucar.nc2.Variable;
 import ucar.nc2.constants.CDM;
+import ucar.nc2.iosp.bufr.Message;
+import ucar.nc2.iosp.bufr.BufrIosp;
+import ucar.nc2.iosp.bufr.MessageScanner;
+import ucar.nc2.*;
+import ucar.nc2.util.Indent;
+import ucar.nc2.dataset.VariableDS;
 import ucar.nc2.dataset.NetcdfDataset;
 import ucar.nc2.dataset.SequenceDS;
 import ucar.nc2.dataset.StructureDS;
-import ucar.nc2.dataset.VariableDS;
-import ucar.nc2.iosp.bufr.BufrIosp;
-import ucar.nc2.iosp.bufr.Message;
-import ucar.nc2.iosp.bufr.MessageScanner;
-import ucar.nc2.util.Indent;
+import ucar.ma2.*;
 import ucar.unidata.io.RandomAccessFile;
 import ucar.unidata.util.StringUtil2;
 
-import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
-import java.io.FileOutputStream;
+import javax.xml.stream.XMLOutputFactory;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.FileOutputStream;
 import java.util.Formatter;
 
 /**
@@ -208,7 +199,7 @@ public class Bufr2Xml {
         staxWriter.writeCharacters("\n");
         staxWriter.writeCharacters(indent.toString());
         staxWriter.writeStartElement("struct");
-        staxWriter.writeAttribute("name", quoteXmlAttribute(s.getShortName()));
+        staxWriter.writeAttribute("name", StringUtil2.quoteXmlAttribute(s.getShortName()));
         staxWriter.writeAttribute("count", Integer.toString(count++));
 
         for (StructureMembers.Member m : sdata.getMembers()) {
@@ -236,26 +227,26 @@ public class Bufr2Xml {
         staxWriter.writeEndElement();
       }
     } finally {
-      sdataIter.close();
+      sdataIter.finish();
     }
   }
 
-  void writeVariable(VariableDS v, Array mdata) throws XMLStreamException {
+  void writeVariable(VariableDS v, Array mdata) throws XMLStreamException, IOException {
     staxWriter.writeCharacters("\n");
     staxWriter.writeCharacters(indent.toString());
 
     // complete option
     staxWriter.writeStartElement("data");
     String name = v.getShortName();
-    staxWriter.writeAttribute("name", quoteXmlAttribute(name));
+    staxWriter.writeAttribute("name", StringUtil2.quoteXmlAttribute(name));
 
     String units = v.getUnitsString();
     if ((units != null) && !units.equals(name) && !units.startsWith("Code"))
-      staxWriter.writeAttribute(CDM.UNITS, quoteXmlAttribute(v.getUnitsString()));
+      staxWriter.writeAttribute(CDM.UNITS, StringUtil2.quoteXmlAttribute(v.getUnitsString()));
 
     Attribute att = v.findAttribute("BUFR:TableB_descriptor");
     String desc = (att == null) ? "N/A" : att.getStringValue();
-    staxWriter.writeAttribute("bufr", quoteXmlAttribute(desc)); // */
+    staxWriter.writeAttribute("bufr", StringUtil2.quoteXmlAttribute(desc)); // */
 
     if (v.getDataType() == DataType.CHAR) {
       ArrayChar ac = (ArrayChar) mdata;
@@ -284,25 +275,13 @@ public class Bufr2Xml {
 
         } else {  // not numeric
           String s = StringUtil2.filter7bits(mdata.next().toString());
-          staxWriter.writeCharacters(quoteXmlContent(s));
+          staxWriter.writeCharacters(StringUtil2.quoteXmlContent(s));
         }
       }
     }
 
 
     staxWriter.writeEndElement();
-  }
-
-  private String quoteXmlContent(String content) {
-    final char[] xmlInC = {'&', '<', '>'};
-    final String[] xmlOutC = {"&", "<", ">"};
-    return StringUtil2.replace(content, xmlInC, xmlOutC);
-  }
-
-  private String quoteXmlAttribute(String name) {
-    final char[] xmlIn = {'&', '"', '\'', '<', '>', '\r', '\n'};
-    final String[] xmlOut = {"&", "\"", "'", "<", ">", " ", " "};
-    return StringUtil2.replace(name, xmlIn, xmlOut);
   }
 
   private void writeFloat(Variable v, double val) throws XMLStreamException {

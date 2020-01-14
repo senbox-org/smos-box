@@ -5,7 +5,6 @@ import com.bc.ceres.binio.CompoundData;
 import com.bc.ceres.binio.SequenceData;
 import org.esa.snap.dataio.netcdf.nc.NVariable;
 import ucar.ma2.Array;
-import ucar.ma2.DataType;
 import ucar.ma2.Index;
 
 import java.io.IOException;
@@ -17,8 +16,8 @@ class FloatStructMember2DWriter extends AbstractVariableWriter {
     FloatStructMember2DWriter(NVariable variable, int width, int height, int memberIndex, float fillValue) {
         this.variable = variable;
         this.memberIndex = memberIndex;
-        final float[] floatArray = VariableHelper.getFloatVector(width * height, fillValue);
-        array = Array.factory(DataType.FLOAT, new int[]{width, height}, floatArray);
+        final float[][] floatArray = VariableHelper.getFloatArray(width, height, fillValue);
+        array = Array.factory(floatArray);
     }
 
     @Override

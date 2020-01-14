@@ -4,7 +4,6 @@ import com.bc.ceres.binio.CompoundData;
 import com.bc.ceres.binio.SequenceData;
 import org.esa.snap.dataio.netcdf.nc.NVariable;
 import ucar.ma2.Array;
-import ucar.ma2.DataType;
 
 import java.io.IOException;
 
@@ -15,7 +14,7 @@ class LongStructMemberWriter extends AbstractVariableWriter {
     LongStructMemberWriter(NVariable variable, int memberIndex, int arraySize, long fillValue) {
         this.memberIndex = memberIndex;
         final long[] longVector = VariableHelper.getLongVector(arraySize, fillValue);
-        array = Array.factory(DataType.LONG, new int[]{longVector.length}, longVector);
+        array = Array.factory(longVector);
         this.variable = variable;
     }
 

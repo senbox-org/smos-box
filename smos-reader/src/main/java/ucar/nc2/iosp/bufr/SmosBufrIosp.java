@@ -32,12 +32,13 @@
  */
 package ucar.nc2.iosp.bufr;
 
+import thredds.catalog.DataFormatType;
 import ucar.ma2.Array;
 import ucar.ma2.ArraySequence;
 import ucar.ma2.ArrayStructure;
 import ucar.ma2.ArrayStructureBB;
-import ucar.ma2.DataType;
 import ucar.ma2.IndexIterator;
+import ucar.ma2.InvalidRangeException;
 import ucar.ma2.Section;
 import ucar.ma2.StructureData;
 import ucar.ma2.StructureDataIterator;
@@ -130,34 +131,40 @@ public final class SmosBufrIosp extends AbstractIOServiceProvider {
     }
 
     @Override
-    public Array readData(Variable v2, Section section) {
+    public Array readData(Variable v2, Section section) throws IOException, InvalidRangeException {
         final Structure s = construct.recordStructure;
         return new ArraySequence(s.makeStructureMembers(), new SeqIter(), elementCount);
     }
 
     private void addTime(ArrayStructure as) throws IOException {
         final int n = (int) as.getSize();
-        final Array timeData = Array.factory(DataType.STRING, new int[]{n});
+        final Array timeData = Array.factory(String.class, new int[]{n});
         final IndexIterator ii = timeData.getIndexIterator();
 
         if (as instanceof ArrayStructureBB) {
             final ArrayStructureBB asbb = (ArrayStructureBB) as;
             final StructureMembers.Member m = asbb.findMember(ConstructNC.TIME_NAME);
-            try (StructureDataIterator iter = as.getStructureDataIterator()) {
+            final StructureDataIterator iter = as.getStructureDataIterator();
+            try {
                 int recno = 0;
                 while (iter.hasNext()) {
                     CalendarDate cd = construct.makeObsTimeValue(iter.next());
                     asbb.addObjectToHeap(recno, m, cd.toString()); // add object into the Heap
                     recno++;
                 }
+            } finally {
+                iter.finish();
             }
 
         } else {
-            try (StructureDataIterator iter = as.getStructureDataIterator()) {
+            final StructureDataIterator iter = as.getStructureDataIterator();
+            try {
                 while (iter.hasNext()) {
                     final CalendarDate cd = construct.makeObsTimeValue(iter.next());
                     ii.setObjectNext(cd.toString());
                 }
+            } finally {
+                iter.finish();
             }
             final StructureMembers.Member m = as.findMember(ConstructNC.TIME_NAME);
             m.setDataArray(timeData);
@@ -165,7 +172,7 @@ public final class SmosBufrIosp extends AbstractIOServiceProvider {
     }
 
     @Override
-    public StructureDataIterator getStructureIterator(Structure s, int bufferSize) {
+    public StructureDataIterator getStructureIterator(Structure s, int bufferSize) throws java.io.IOException {
         return new SeqIter();
     }
 
@@ -256,9 +263,9 @@ public final class SmosBufrIosp extends AbstractIOServiceProvider {
         }
 
         @Override
-        public void close() {
+        public void finish() {
             if (structureDataIterator != null) {
-                structureDataIterator.close();
+                structureDataIterator.finish();
             }
             structureDataIterator = null;
         }
@@ -278,7 +285,7 @@ public final class SmosBufrIosp extends AbstractIOServiceProvider {
 
     @Override
     public String getFileTypeId() {
-        return "BUFR";
+        return DataFormatType.BUFR.toString();
     }
 
     @Override
