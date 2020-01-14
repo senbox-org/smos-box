@@ -4,6 +4,7 @@ import com.bc.ceres.binio.CompoundData;
 import com.bc.ceres.binio.SequenceData;
 import org.esa.snap.dataio.netcdf.nc.NVariable;
 import ucar.ma2.Array;
+import ucar.ma2.DataType;
 
 import java.io.IOException;
 
@@ -14,7 +15,7 @@ class ShortStructMemberWriter extends AbstractVariableWriter {
     ShortStructMemberWriter(NVariable variable, int memberIndex, int arraySize, short fillValue) {
         this.memberIndex = memberIndex;
         final short[] shortVector = VariableHelper.getShortVector(arraySize, fillValue);
-        array = Array.factory(shortVector);
+        array = Array.factory(DataType.SHORT, new int[]{shortVector.length}, shortVector);
         this.variable = variable;
     }
 

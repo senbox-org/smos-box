@@ -114,11 +114,11 @@ abstract class AbstractFormatExporter implements FormatExporter {
             }
             final short[] flagMasks = variableDescriptor.getFlagMasks();
             if (flagMasks != null) {
-                nVariable.addAttribute("flag_masks", Array.factory(flagMasks));
+                nVariable.addAttribute("flag_masks", Array.factory(DataType.SHORT, new int[]{flagMasks.length}, flagMasks));
             }
             final short[] flagValues = variableDescriptor.getFlagValues();
             if (flagValues != null) {
-                nVariable.addAttribute("flag_values", Array.factory(flagValues));
+                nVariable.addAttribute("flag_values", Array.factory(DataType.SHORT, new int[]{flagValues.length}, flagValues));
             }
             final String flagMeanings = variableDescriptor.getFlagMeanings();
             if (StringUtils.isNotBlank(flagMeanings)) {
