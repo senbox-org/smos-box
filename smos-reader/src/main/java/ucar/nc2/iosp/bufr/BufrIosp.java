@@ -32,33 +32,19 @@
  */
 package ucar.nc2.iosp.bufr;
 
-import ucar.ma2.Array;
-import ucar.ma2.ArraySequence;
-import ucar.ma2.ArrayStructure;
-import ucar.ma2.ArrayStructureBB;
-import ucar.ma2.DataType;
-import ucar.ma2.IndexIterator;
-import ucar.ma2.InvalidRangeException;
-import ucar.ma2.Section;
-import ucar.ma2.StructureData;
-import ucar.ma2.StructureDataIterator;
-import ucar.ma2.StructureMembers;
-import ucar.nc2.NCdumpW;
-import ucar.nc2.NetcdfFile;
-import ucar.nc2.Structure;
-import ucar.nc2.Variable;
+import thredds.catalog.DataFormatType;
+import ucar.ma2.*;
+
+import ucar.nc2.*;
 import ucar.nc2.iosp.AbstractIOServiceProvider;
 import ucar.nc2.time.CalendarDate;
 import ucar.nc2.util.CancelTask;
 import ucar.nc2.util.CompareNetcdf2;
+
 import ucar.unidata.io.RandomAccessFile;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Formatter;
-import java.util.Iterator;
-import java.util.List;
+import java.io.*;
+import java.util.*;
 
 /**
  * IOSP for BUFR data
@@ -275,12 +261,12 @@ public class BufrIosp extends AbstractIOServiceProvider {
 
   private void addTime(ArrayStructure as) throws IOException {
     int n = (int) as.getSize();
-    Array timeData = Array.factory(DataType.STRING, new int[]{n});
+    Array timeData = Array.factory(String.class, new int[]{n});
     IndexIterator ii = timeData.getIndexIterator();
 
     if (as instanceof ArrayStructureBB) {
       ArrayStructureBB asbb = (ArrayStructureBB) as;
-      StructureMembers.Member m = asbb.findMember(ConstructNC.TIME_NAME);
+      StructureMembers.Member m = asbb.findMember( ConstructNC.TIME_NAME);
       StructureDataIterator iter = as.getStructureDataIterator();
       try {
         int recno = 0;
@@ -405,7 +391,7 @@ public class BufrIosp extends AbstractIOServiceProvider {
   }
 
   public String getFileTypeId() {
-    return "BUFR";
+    return DataFormatType.BUFR.toString();
   }
 
   public String getFileTypeDescription() {
@@ -422,7 +408,7 @@ public class BufrIosp extends AbstractIOServiceProvider {
         MessageCompressedDataReader reader = new MessageCompressedDataReader();
         data = reader.readEntireMessage(construct.recordStructure, protoMessage, m, raf, null);
       }
-      if (dump) NCdumpW.printArray(data, new PrintWriter(System.out));
+      if (dump) NCdumpW.printArray(data, "test", new PrintWriter(System.out), null);
     }
   }
 
