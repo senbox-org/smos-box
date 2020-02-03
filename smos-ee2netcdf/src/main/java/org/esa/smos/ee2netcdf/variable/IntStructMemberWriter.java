@@ -5,7 +5,6 @@ import com.bc.ceres.binio.CompoundData;
 import com.bc.ceres.binio.SequenceData;
 import org.esa.snap.dataio.netcdf.nc.NVariable;
 import ucar.ma2.Array;
-import ucar.ma2.DataType;
 
 import java.io.IOException;
 
@@ -16,7 +15,7 @@ class IntStructMemberWriter extends AbstractVariableWriter {
     IntStructMemberWriter(NVariable variable, int memberIndex, int arraySize, int fillValue) {
         this.memberIndex = memberIndex;
         final int[] intVector = VariableHelper.getIntVector(arraySize, fillValue);
-        array = Array.factory(DataType.INT, new int[]{intVector.length}, intVector);
+        array = Array.factory(intVector);
         this.variable = variable;
     }
 
