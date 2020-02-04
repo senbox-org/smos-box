@@ -32,30 +32,17 @@
 
 package ucar.nc2.iosp.bufr.writer;
 
-import ucar.ma2.Array;
-import ucar.ma2.ArraySequence;
-import ucar.ma2.ArrayStructure;
-import ucar.ma2.DataType;
-import ucar.ma2.StructureData;
-import ucar.ma2.StructureDataIterator;
-import ucar.ma2.StructureMembers;
-import ucar.nc2.Attribute;
-import ucar.nc2.NetcdfFile;
-import ucar.nc2.Sequence;
-import ucar.nc2.Structure;
-import ucar.nc2.Variable;
-import ucar.nc2.iosp.bufr.BufrIosp;
-import ucar.nc2.iosp.bufr.BufrNumbers;
 import ucar.nc2.iosp.bufr.Message;
+import ucar.nc2.iosp.bufr.BufrIosp;
 import ucar.nc2.iosp.bufr.MessageScanner;
+import ucar.nc2.iosp.bufr.BufrNumbers;
 import ucar.nc2.util.Indent;
+import ucar.nc2.Variable;
+import ucar.nc2.*;
+import ucar.ma2.*;
 import ucar.unidata.io.RandomAccessFile;
 
-import java.io.File;
-import java.io.FileFilter;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintStream;
+import java.io.*;
 
 /**
  * reads a file with BUFR messages in it and prints out the data values.
@@ -222,7 +209,7 @@ public class BufrDataProcess {
     mdata.resetLocalIterator();
     while (mdata.hasNext()) {
       count.nvals++;
-      if (v.getDataType().isUnsigned()) {
+      if (v.isUnsigned()) {
         if (isMissingUnsigned(v, mdata, bitWidth)) count.nmiss++;
       } else {
         if (isMissing(v, mdata, bitWidth)) count.nmiss++;

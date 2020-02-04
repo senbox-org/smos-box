@@ -33,30 +33,16 @@
 
 package ucar.nc2.iosp.bufr.writer;
 
-import ucar.ma2.Array;
-import ucar.ma2.ArrayChar;
-import ucar.ma2.ArraySequence;
-import ucar.ma2.DataType;
-import ucar.ma2.Index;
-import ucar.ma2.IndexIterator;
-import ucar.ma2.InvalidRangeException;
-import ucar.ma2.StructureData;
-import ucar.ma2.StructureDataIterator;
-import ucar.ma2.StructureMembers;
-import ucar.nc2.Attribute;
-import ucar.nc2.Dimension;
-import ucar.nc2.NetcdfFile;
-import ucar.nc2.NetcdfFileWriter;
-import ucar.nc2.Structure;
-import ucar.nc2.Variable;
-import ucar.nc2.iosp.bufr.BufrIosp;
+import ucar.nc2.*;
 import ucar.nc2.iosp.netcdf3.N3iosp;
+import ucar.nc2.iosp.bufr.BufrIosp;
+import ucar.ma2.*;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.HashMap;
+import java.util.ArrayList;
 
 /**
  * Class Description.
@@ -69,7 +55,7 @@ public class WriteT42_ncRect {
 
   WriteT42_ncRect(NetcdfFile bufr, String fileOutName, boolean fill) throws IOException, InvalidRangeException {
 
-    NetcdfFileWriter ncfile = NetcdfFileWriter.createNew(fileOutName, fill);
+    NetcdfFileWriteable ncfile = NetcdfFileWriteable.createNew(fileOutName, fill);
     if (debug) {
       System.out.println("FileWriter write " + bufr.getLocation() + " to " + fileOutName);
     }
@@ -80,7 +66,7 @@ public class WriteT42_ncRect {
       String useName = N3iosp.makeValidNetcdfObjectName(att.getShortName());
       Attribute useAtt;
       if (att.isArray())
-        useAtt = ncfile.addGlobalAttribute(new Attribute(useName, att.getValues()));
+        useAtt = ncfile.addGlobalAttribute(useName, att.getValues());
       else if (att.isString())
         useAtt = ncfile.addGlobalAttribute(useName, att.getStringValue());
       else
@@ -95,7 +81,7 @@ public class WriteT42_ncRect {
       String useName = N3iosp.makeValidNetcdfObjectName(oldD.getShortName());
       boolean isRecord = useName.equals("record");
       Dimension newD = ncfile.addDimension(useName, isRecord ? 0 : oldD.getLength(),
-                                           oldD.isUnlimited(), oldD.isVariableLength());
+              oldD.isShared(), isRecord, oldD.isVariableLength());
       dimHash.put(newD.getShortName(), newD);
       if (isRecord) recordDim = newD;
       if (debug) System.out.println("add dim= " + newD);
@@ -123,7 +109,7 @@ public class WriteT42_ncRect {
       for (Attribute att : attList) {
         String useName = N3iosp.makeValidNetcdfObjectName(att.getShortName());
         if (att.isArray())
-          ncfile.addVariableAttribute(varName, new Attribute(useName, att.getValues()));
+          ncfile.addVariableAttribute(varName, useName, att.getValues());
         else if (att.isString())
           ncfile.addVariableAttribute(varName, useName, att.getStringValue());
         else
@@ -157,7 +143,7 @@ public class WriteT42_ncRect {
         for (Attribute att : attList) {
           String useName = N3iosp.makeValidNetcdfObjectName(att.getShortName());
           if (att.isArray())
-            ncfile.addVariableAttribute(varName, new Attribute(useName, att.getValues()));
+            ncfile.addVariableAttribute(varName, useName, att.getValues());
           else if (att.isString())
             ncfile.addVariableAttribute(varName, useName, att.getStringValue());
           else
@@ -230,7 +216,7 @@ public class WriteT42_ncRect {
 
   static private long maxSize = 1000 * 1000; // 1 MByte
 
-  private double copyVarData(NetcdfFile bufr, NetcdfFileWriter ncfile, Structure recordStruct) throws IOException, InvalidRangeException {
+  private double copyVarData(NetcdfFile bufr, NetcdfFileWriteable ncfile, Structure recordStruct) throws IOException, InvalidRangeException {
     int nrecs = (int) recordStruct.getSize();
     int sdataSize = recordStruct.getElementSize();
 
@@ -295,7 +281,7 @@ public class WriteT42_ncRect {
     return total;
   }
 
-  private void copyAll(NetcdfFileWriter ncfile, Variable oldVar) throws IOException {
+  private void copyAll(NetcdfFileWriteable ncfile, Variable oldVar) throws IOException {
     String newName = N3iosp.makeValidNetcdfObjectName(oldVar.getShortName());
 
     Array data = oldVar.read();
@@ -312,7 +298,7 @@ public class WriteT42_ncRect {
     }
   }
 
-  private void copySome(NetcdfFileWriter ncfile, Variable oldVar, int nelems) throws IOException {
+  private void copySome(NetcdfFileWriteable ncfile, Variable oldVar, int nelems) throws IOException {
     String newName = N3iosp.makeValidNetcdfObjectName(oldVar.getShortName());
 
     int[] shape = oldVar.getShape();

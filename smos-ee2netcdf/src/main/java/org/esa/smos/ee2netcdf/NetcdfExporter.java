@@ -5,8 +5,8 @@ import org.esa.smos.dataio.smos.SmosProductReaderPlugIn;
 import org.esa.snap.core.dataio.DecodeQualification;
 import org.esa.snap.core.datamodel.Product;
 import org.esa.snap.core.util.io.FileUtils;
+import org.esa.snap.dataio.netcdf.nc.N4FileWriteable;
 import org.esa.snap.dataio.netcdf.nc.NFileWriteable;
-import org.esa.snap.dataio.netcdf.nc.NWritableFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -52,7 +52,7 @@ class NetcdfExporter {
                 return;
             }
 
-            nFileWriteable = NWritableFactory.create(targetFile.getPath(), "netcdf4");
+            nFileWriteable = N4FileWriteable.create(targetFile.getPath());
             exporter.addDimensions(nFileWriteable);
             exporter.addVariables(nFileWriteable, parameter);
             exporter.addGlobalAttributes(nFileWriteable, product.getMetadataRoot(), parameter);
