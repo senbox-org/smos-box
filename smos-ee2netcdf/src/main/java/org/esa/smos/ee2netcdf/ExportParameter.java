@@ -1,8 +1,8 @@
 package org.esa.smos.ee2netcdf;
 
-import com.vividsolutions.jts.geom.Geometry;
 import org.esa.snap.core.gpf.annotations.Parameter;
 import org.esa.snap.core.util.converters.JtsGeometryConverter;
+import org.locationtech.jts.geom.Geometry;
 
 import java.io.File;
 

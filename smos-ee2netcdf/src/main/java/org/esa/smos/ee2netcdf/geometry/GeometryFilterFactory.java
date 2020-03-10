@@ -1,7 +1,8 @@
 package org.esa.smos.ee2netcdf.geometry;
 
-import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.geom.Polygon;
+
+import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.geom.Polygon;
 
 public class GeometryFilterFactory {
 

@@ -1,7 +1,7 @@
 package org.esa.smos.gui.swing;
 
-import com.vividsolutions.jts.geom.Geometry;
 import org.esa.snap.core.datamodel.ProductNode;
+import org.locationtech.jts.geom.Geometry;
 
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JLabel;

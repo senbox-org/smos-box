@@ -2,9 +2,6 @@ package org.esa.smos.ee2netcdf.ui;
 
 import com.bc.ceres.core.ProgressMonitor;
 import com.bc.ceres.swing.progress.ProgressMonitorSwingWorker;
-import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.geom.Polygon;
-import com.vividsolutions.jts.io.WKTWriter;
 import org.esa.smos.ee2netcdf.ExportParameter;
 import org.esa.smos.ee2netcdf.NetcdfExportOp;
 import org.esa.smos.gui.BindingConstants;
@@ -12,6 +9,9 @@ import org.esa.snap.core.datamodel.Product;
 import org.esa.snap.core.gpf.GPF;
 import org.esa.snap.core.util.StringUtils;
 import org.esa.snap.ui.AppContext;
+import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.geom.Polygon;
+import org.locationtech.jts.io.WKTWriter;
 
 import java.io.File;
 import java.text.MessageFormat;

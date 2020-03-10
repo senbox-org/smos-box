@@ -2,15 +2,17 @@ package org.esa.smos.ee2netcdf.geometry;
 
 import com.bc.ceres.binding.ConversionException;
 import com.bc.ceres.binio.CompoundData;
-import com.vividsolutions.jts.geom.Geometry;
 import org.esa.snap.core.util.converters.JtsGeometryConverter;
 import org.junit.Before;
 import org.junit.Test;
+import org.locationtech.jts.geom.Geometry;
 
 import java.io.IOException;
 
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 @SuppressWarnings("ConstantConditions")
 public class PolygonGeometryFilterTest {

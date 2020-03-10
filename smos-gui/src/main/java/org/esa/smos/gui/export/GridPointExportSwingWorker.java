@@ -18,8 +18,6 @@ package org.esa.smos.gui.export;
 
 import com.bc.ceres.core.ProgressMonitor;
 import com.bc.ceres.swing.progress.ProgressMonitorSwingWorker;
-import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.geom.Point;
 import org.esa.snap.core.datamodel.Placemark;
 import org.esa.snap.core.datamodel.PlacemarkGroup;
 import org.esa.snap.core.datamodel.Product;
@@ -27,6 +25,8 @@ import org.esa.snap.core.datamodel.VectorDataNode;
 import org.esa.snap.ui.AppContext;
 import org.geotools.feature.FeatureIterator;
 import org.geotools.geometry.jts.LiteShape2;
+import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.geom.Point;
 import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.referencing.FactoryException;
 import org.opengis.referencing.operation.TransformException;

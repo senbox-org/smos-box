@@ -1,17 +1,19 @@
 package org.esa.smos.ee2netcdf.ui;
 
 import com.bc.ceres.binding.ConversionException;
-import com.vividsolutions.jts.geom.Geometry;
 import org.esa.smos.ee2netcdf.ExportParameter;
 import org.esa.smos.gui.BindingConstants;
 import org.esa.snap.core.util.converters.JtsGeometryConverter;
 import org.junit.Before;
 import org.junit.Test;
+import org.locationtech.jts.geom.Geometry;
 
 import java.io.File;
 import java.util.HashMap;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 
 public class NetcdfExportSwingWorkerTest {
 

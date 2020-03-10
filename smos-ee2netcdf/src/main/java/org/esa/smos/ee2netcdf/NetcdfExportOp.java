@@ -1,6 +1,5 @@
 package org.esa.smos.ee2netcdf;
 
-import com.vividsolutions.jts.geom.Geometry;
 import org.esa.snap.core.datamodel.Product;
 import org.esa.snap.core.datamodel.ProductData;
 import org.esa.snap.core.gpf.Operator;
@@ -12,6 +11,7 @@ import org.esa.snap.core.gpf.annotations.SourceProducts;
 import org.esa.snap.core.util.StringUtils;
 import org.esa.snap.core.util.converters.JtsGeometryConverter;
 import org.esa.snap.core.util.io.FileUtils;
+import org.locationtech.jts.geom.Geometry;
 
 import java.io.File;
 import java.nio.file.Path;
