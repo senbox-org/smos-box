@@ -32,26 +32,35 @@
  */
 package ucar.nc2.iosp.bufr.writer;
 
+import ucar.ma2.Array;
+import ucar.ma2.ArrayChar;
+import ucar.ma2.ArraySequence;
+import ucar.ma2.ArrayStructure;
+import ucar.ma2.DataType;
+import ucar.ma2.StructureData;
+import ucar.ma2.StructureDataIterator;
+import ucar.ma2.StructureMembers;
+import ucar.nc2.Attribute;
+import ucar.nc2.NetcdfFile;
+import ucar.nc2.Variable;
 import ucar.nc2.constants.CDM;
-import ucar.nc2.iosp.bufr.Message;
-import ucar.nc2.iosp.bufr.BufrIosp;
-import ucar.nc2.iosp.bufr.MessageScanner;
-import ucar.nc2.*;
-import ucar.nc2.util.Indent;
-import ucar.nc2.dataset.VariableDS;
 import ucar.nc2.dataset.NetcdfDataset;
 import ucar.nc2.dataset.SequenceDS;
 import ucar.nc2.dataset.StructureDS;
-import ucar.ma2.*;
+import ucar.nc2.dataset.VariableDS;
+import ucar.nc2.iosp.bufr.BufrIosp;
+import ucar.nc2.iosp.bufr.Message;
+import ucar.nc2.iosp.bufr.MessageScanner;
+import ucar.nc2.util.Indent;
 import ucar.unidata.io.RandomAccessFile;
 import ucar.unidata.util.StringUtil2;
 
+import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
-import javax.xml.stream.XMLOutputFactory;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.FileOutputStream;
 import java.util.Formatter;
 
 /**
