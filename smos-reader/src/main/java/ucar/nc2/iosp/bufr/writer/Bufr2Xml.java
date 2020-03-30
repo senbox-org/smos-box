@@ -199,7 +199,7 @@ public class Bufr2Xml {
         staxWriter.writeCharacters("\n");
         staxWriter.writeCharacters(indent.toString());
         staxWriter.writeStartElement("struct");
-        staxWriter.writeAttribute("name", StringUtil2.quoteXmlAttribute(s.getShortName()));
+        staxWriter.writeAttribute("name", quoteXmlAttribute(s.getShortName()));
         staxWriter.writeAttribute("count", Integer.toString(count++));
 
         for (StructureMembers.Member m : sdata.getMembers()) {
@@ -227,26 +227,26 @@ public class Bufr2Xml {
         staxWriter.writeEndElement();
       }
     } finally {
-      sdataIter.finish();
+      sdataIter.close();
     }
   }
 
-  void writeVariable(VariableDS v, Array mdata) throws XMLStreamException, IOException {
+  void writeVariable(VariableDS v, Array mdata) throws XMLStreamException {
     staxWriter.writeCharacters("\n");
     staxWriter.writeCharacters(indent.toString());
 
     // complete option
     staxWriter.writeStartElement("data");
     String name = v.getShortName();
-    staxWriter.writeAttribute("name", StringUtil2.quoteXmlAttribute(name));
+    staxWriter.writeAttribute("name", quoteXmlAttribute(name));
 
     String units = v.getUnitsString();
     if ((units != null) && !units.equals(name) && !units.startsWith("Code"))
-      staxWriter.writeAttribute(CDM.UNITS, StringUtil2.quoteXmlAttribute(v.getUnitsString()));
+      staxWriter.writeAttribute(CDM.UNITS, quoteXmlAttribute(v.getUnitsString()));
 
     Attribute att = v.findAttribute("BUFR:TableB_descriptor");
     String desc = (att == null) ? "N/A" : att.getStringValue();
-    staxWriter.writeAttribute("bufr", StringUtil2.quoteXmlAttribute(desc)); // */
+    staxWriter.writeAttribute("bufr", quoteXmlAttribute(desc)); // */
 
     if (v.getDataType() == DataType.CHAR) {
       ArrayChar ac = (ArrayChar) mdata;
@@ -275,13 +275,25 @@ public class Bufr2Xml {
 
         } else {  // not numeric
           String s = StringUtil2.filter7bits(mdata.next().toString());
-          staxWriter.writeCharacters(StringUtil2.quoteXmlContent(s));
+          staxWriter.writeCharacters(quoteXmlContent(s));
         }
       }
     }
 
 
     staxWriter.writeEndElement();
+  }
+
+  private String quoteXmlContent(String content) {
+    final char[] xmlInC = {'&', '<', '>'};
+    final String[] xmlOutC = {"&", "<", ">"};
+    return StringUtil2.replace(content, xmlInC, xmlOutC);
+  }
+
+  private String quoteXmlAttribute(String name) {
+    final char[] xmlIn = {'&', '"', '\'', '<', '>', '\r', '\n'};
+    final String[] xmlOut = {"&", "\"", "'", "<", ">", " ", " "};
+    return StringUtil2.replace(name, xmlIn, xmlOut);
   }
 
   private void writeFloat(Variable v, double val) throws XMLStreamException {
