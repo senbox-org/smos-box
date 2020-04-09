@@ -42,7 +42,7 @@ import ucar.nc2.ft.point.standard.Evaluator;
 import ucar.nc2.ft.point.standard.Table;
 import ucar.nc2.ft.point.standard.TableConfig;
 import ucar.nc2.ft.point.standard.TableConfigurerImpl;
-import ucar.nc2.iosp.bufr.BufrIosp;
+import ucar.nc2.iosp.smos.bufr.BufrIosp;
 
 import java.util.Formatter;
 import java.util.StringTokenizer;

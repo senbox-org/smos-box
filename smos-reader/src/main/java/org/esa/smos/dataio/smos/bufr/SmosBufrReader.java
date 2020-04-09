@@ -22,7 +22,6 @@ import org.esa.snap.core.datamodel.Product;
 import org.esa.snap.core.datamodel.ProductData;
 import org.esa.snap.core.util.StringUtils;
 import org.esa.snap.core.util.logging.BeamLogManager;
-import org.esa.snap.dataio.netcdf.util.DataTypeUtils;
 import ucar.ma2.Array;
 import ucar.ma2.StructureData;
 import ucar.ma2.StructureDataIterator;
@@ -254,7 +253,7 @@ public class SmosBufrReader extends SmosReader {
                 final int dataType = ProductData.TYPE_UINT8;
                 addBand(product, variable, dataType, descriptor);
             } else {
-                final int dataType = DataTypeUtils.getRasterDataType(variable);
+                final int dataType = BufrSupport.getBufrDataType(variable);
                 if (dataType != -1) {
                     addBand(product, variable, dataType, descriptor);
                 }

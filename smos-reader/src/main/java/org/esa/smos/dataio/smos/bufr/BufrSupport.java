@@ -1,8 +1,8 @@
 package org.esa.smos.dataio.smos.bufr;
 
-import org.esa.smos.dataio.smos.SmosConstants;
 import org.esa.snap.core.datamodel.MetadataElement;
 import org.esa.snap.core.datamodel.Product;
+import org.esa.snap.dataio.netcdf.util.DataTypeUtils;
 import org.esa.snap.dataio.netcdf.util.MetadataUtils;
 import ucar.ma2.StructureDataIterator;
 import ucar.nc2.Attribute;
@@ -152,5 +152,14 @@ class BufrSupport {
 
     static boolean isIntegerBandIndex(int index) {
         return index == INFORMATION_FLAG_INDEX || index == POLARISATION_INDEX;
+    }
+
+    static int getBufrDataType(Variable variable) {
+        boolean unsignedDataType = false;
+        Attribute _unsignedAttrbute = variable.findAttribute("_Unsigned");
+        if (_unsignedAttrbute != null) {
+            unsignedDataType = Boolean.parseBoolean(_unsignedAttrbute.getStringValue());
+        }
+        return DataTypeUtils.getRasterDataType(variable.getDataType(), unsignedDataType);
     }
 }

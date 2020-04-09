@@ -1,13 +1,12 @@
 package org.esa.smos.dataio.smos.bufr;
 
-import org.esa.smos.dataio.smos.SmosConstants;
 import ucar.ma2.StructureDataIterator;
 import ucar.nc2.Attribute;
 import ucar.nc2.NetcdfFile;
 import ucar.nc2.Sequence;
 import ucar.nc2.Variable;
-import ucar.nc2.iosp.bufr.BufrIosp;
-import ucar.nc2.iosp.bufr.SmosBufrIosp;
+import ucar.nc2.iosp.smos.bufr.BufrIosp;
+import ucar.nc2.iosp.smos.bufr.SmosBufrIosp;
 import ucar.unidata.io.InMemoryRandomAccessFile;
 import ucar.unidata.io.RandomAccessFile;
 import ucar.unidata.io.bzip2.CBZip2InputStream;
