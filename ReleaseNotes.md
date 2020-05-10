@@ -1,3 +1,6 @@
+#New in SMOS-Box 5.7.0
+The update to version 5.5 does not add any new feature to the SMOS-BOX. Only released for compatibility reasons with SNAP 8.
+
 #New in SMOS-Box 5.6.0
 
 ### Solved issues
