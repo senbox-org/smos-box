@@ -14,6 +14,9 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import java.awt.BorderLayout;
 import java.awt.Cursor;
+import java.util.Calendar;
+import java.util.Locale;
+import java.util.TimeZone;
 
 @AboutBox(displayName = "SMOS-Box", position = 60)
 public class SMOSBoxAboutBox extends JPanel {
@@ -30,7 +33,9 @@ public class SMOSBoxAboutBox extends JPanel {
     }
 
     private JPanel createVersionPanel() {
-        JLabel copyRightLabel = new JLabel("<html><b>© 2005-2020 Brockmann Consult GmbH and contributors</b>", SwingConstants.CENTER);
+        Calendar utc = Calendar.getInstance(TimeZone.getTimeZone("UTC"), Locale.ENGLISH);
+        int year = utc.get(Calendar.YEAR);
+        JLabel copyRightLabel = new JLabel("<html><b>© 2005-" + year + " Brockmann Consult GmbH and contributors</b>", SwingConstants.CENTER);
 
         final ModuleInfo moduleInfo = Modules.getDefault().ownerOf(SMOSBoxAboutBox.class);
         JLabel versionLabel = new JLabel("<html><b>SMOS-Box version " + moduleInfo.getImplementationVersion() + "</b>", SwingConstants.CENTER);
