@@ -1,3 +1,5 @@
+#New in SMOS-Box 5.6.1
+
 #New in SMOS-Box 5.6.0
 
 ### Solved issues
