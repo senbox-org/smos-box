@@ -4,7 +4,8 @@
             "id": "SM_OPER_MIR_BWLD1C_20100208T040959",
             "relativePath": "sensors_platforms/SMOS/MIR_BWLD1C/SM_OPER_MIR_BWLD1C_20100208T040959_20100208T050400_324_001_1/SM_OPER_MIR_BWLD1C_20100208T040959_20100208T050400_324_001_1.HDR",
             "description": "SMOS BWLD1C as directory with HDR file, schema version 201"
-        }, {
+        },
+        {
             "id": "SM_TEST_MIR_BWLD1C_20100119T203000",
             "relativePath": "sensors_platforms/SMOS/MIR_BWLD1C/SM_TEST_MIR_BWLD1C_20100119T203000_20100119T212320_710_001_1/SM_TEST_MIR_BWLD1C_20100119T203000_20100119T212320_710_001_1.HDR",
             "description": "SMOS BWLD1C as directory with HDR file, schema version 400"
@@ -100,9 +101,14 @@
             "description": "SMOS OSUDP2,  schema version 400"
         },
         {
-            "id": "SM_REPR_MIR_OSUDP2_20150429T141825",
-            "relativePath": "sensors_platforms/SMOS/MIR_OSUDP2/SM_REPR_MIR_OSUDP2_20150429T141825_20150429T151144_661_300_1.zip",
-            "description": "SMOS OSUDP2,  schema version 401 as zip"
+            "id": "SM_TEST_MIR_OSUDP2_20160715T001340",
+            "relativePath": "sensors_platforms/SMOS/MIR_OSUDP2/SM_TEST_MIR_OSUDP2_20160715T001340_20160715T010659_691_001_8/SM_TEST_MIR_OSUDP2_20160715T001340_20160715T010659_691_001_8.DBL",
+            "description": "SMOS OSUDP2,  schema version 401"
+        },
+        {
+            "id": "SM_TEST_MIR_OSUDP2_20160715T010348",
+            "relativePath": "sensors_platforms/SMOS/MIR_OSUDP2/SM_TEST_MIR_OSUDP2_20160715T010348_20160715T015702_691_001_8/SM_TEST_MIR_OSUDP2_20160715T010348_20160715T015702_691_001_8.HDR",
+            "description": "SMOS OSUDP2,  schema version 401"
         },
         {
             "id": "SM_OPER_MIR_SCLD1C_20100208T040959",
@@ -130,8 +136,8 @@
             "description": "SMOS SCLF1C, schema version 400"
         },
         {
-            "id": "SM_TEST_MIR_SCLF1C_20110502T024130",
-            "relativePath": "sensors_platforms/SMOS/MIR_SCLF1C/SM_TEST_MIR_SCLF1C_20110502T024130_20110502T033443_710_001_1/SM_TEST_MIR_SCLF1C_20110502T024130_20110502T033443_710_001_1.DBL",
+            "id": "SM_REPR_MIR_SCLF1C_20150823T145320",
+            "relativePath": "sensors_platforms/SMOS/MIR_SCLF1C/SM_REPR_MIR_SCLF1C_20150823T145320_20150823T154632_724_200_1/SM_REPR_MIR_SCLF1C_20150823T145320_20150823T154632_724_200_1.HDR",
             "description": "SMOS SCLF1C, schema version 401"
         },
         {
@@ -160,9 +166,9 @@
             "description": "SMOS SCSD1C, schema version 400"
         },
         {
-            "id": "SM_TEST_MIR_SCSF1C_20110502T024130",
-            "relativePath": "sensors_platforms/SMOS/MIR_SCSF1C/SM_TEST_MIR_SCSF1C_20110502T024130_20110502T033443_710_001_1/SM_TEST_MIR_SCSF1C_20110502T024130_20110502T033443_710_001_1.HDR",
-            "description": "SMOS SCSD1C, schema version 400"
+            "id": "SM_REPR_MIR_SCSF1C_20150823T140310",
+            "relativePath": "sensors_platforms/SMOS/MIR_SCSF1C/SM_REPR_MIR_SCSF1C_20150823T140310_20150823T145630_724_200_1/SM_REPR_MIR_SCSF1C_20150823T140310_20150823T145630_724_200_1.DBL",
+            "description": "SMOS SCSF1C, schema version 401"
         },
         {
             "id": "SM_REPR_MIR_SMDAP2_20101105T163013",
@@ -314,6 +320,5 @@
             "relativePath": "sensors_platforms/AATSR/TOA/N1/ATS_TOA_1PRBCM20111204_214526_000005093109_00186_51062_0045.N1.zip",
             "description": "AATSR Gridded brightness temperature and reflectance,SOFTWARE_VER: AATS/06.03, intersecting anti meridian"
         }
-
     ]
 }

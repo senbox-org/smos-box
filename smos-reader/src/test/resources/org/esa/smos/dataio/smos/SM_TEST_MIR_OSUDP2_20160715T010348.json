@@ -1,0 +1,8 @@
+{
+  "id": "SM_TEST_MIR_OSUDP2_20160715T010348",
+  "decodeQualification": "INTENDED",
+  "expectedContent": {
+    "sceneWidth": 16384,
+    "sceneHeight": 8064
+  }
+}
