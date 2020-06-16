@@ -147,24 +147,30 @@ public class GridPointBtDataFlagmatrixTopComponent extends GridPointBtDataTopCom
         int iq = ds.getFlagBandIndex();
         if (iq != -1) {
             final Number[][] dsData = ds.getData();
-            final int m = dsData.length;
-            final int n = flagDescriptors.length;
-            double[][] data = new double[3][n * m];
-            for (int x = 0; x < m; x++) {
-                final int flags = dsData[x][iq].intValue();
-                for (int y = 0; y < n; y++) {
-                    final int index = y * m + x;
-                    data[0][index] = (1 + x);
-                    data[1][index] = y;
-                    final int mask = flagDescriptors[y].getMask();
-                    data[2][index] = ((flags & mask) == mask) ? (1 + y % 3) : 0.0;
-                }
-            }
+            double[][] data = calculateFlaggingData(iq, dsData, flagDescriptors);
             dataset.addSeries(SERIES_KEY, data);
         } else {
             plot.setNoDataMessage("Not a SMOS D1C/F1C pixel.");
         }
         chart.fireChartChanged();
+    }
+
+    // package access for testing only tb 2020-06-16
+    static double[][] calculateFlaggingData(int iq, Number[][] dsData, FlagDescriptor[] flagDescriptors) {
+        final int numMeasurements = dsData.length;
+        final int numFlags = flagDescriptors.length;
+        double[][] data = new double[3][numFlags * numMeasurements];
+        for (int x = 0; x < numMeasurements; x++) {
+            final int flags = dsData[x][iq].intValue();
+            for (int y = 0; y < numFlags; y++) {
+                final int index = y * numMeasurements + x;
+                data[0][index] = (1 + x);
+                data[1][index] = y;
+                final int mask = flagDescriptors[y].getMask();
+                data[2][index] = ((flags & mask) == mask) ? (1 + y % 3) : 0.0;
+            }
+        }
+        return data;
     }
 
     @Override
