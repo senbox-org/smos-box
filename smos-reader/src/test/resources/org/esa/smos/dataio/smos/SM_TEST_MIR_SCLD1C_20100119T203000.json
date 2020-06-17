@@ -712,7 +712,7 @@
         ]
       }
     ],
-    "masks": [
+    "masks":  [
       {
         "name": "Flags_POL_FLAG_1",
         "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
@@ -723,91 +723,97 @@
         "name": "Flags_POL_FLAG_2",
         "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
         "color": "95,92,204",
-        "description": "Not used"
+        "description": "HV polarization when the instrument was in VHH+HVH+HHV (0) or HVV+VHV+VVH (1) arm configuration"
       },
       {
         "name": "Flags_SUN_FOV",
         "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
         "color": "49,82,133",
-        "description": "If set, Direct Sun correction has been performed during image reconstruction of this pixel"
+        "description": "Direct Sun correction for the Sun in the front of the FOV has been performed during image reconstruction of this pixel"
       },
       {
         "name": "Flags_SUN_GLINT_FOV",
         "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
         "color": "169,175,146",
-        "description": "If set, Reflected Sun correction has been performed during image reconstruction of this pixel. Sun correction is based on the Sea bi-static coefficients defined in the AUX_BSCAT ADF and computed for a fixed wind speed of 7 m/s and wind direction of 0 deg North"
+        "description": "Reflected Sun correction has been performed during image reconstruction of this pixel. Sun correction is based on the Sea bistatic coefficients defined in the AUX_BSCAT ADF and computed for a fixed wind speed of 7 m/s and wind direction of 0 deg North"
       },
       {
         "name": "Flags_MOON_FOV",
         "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
         "color": "156,188,14",
-        "description": "If set, Direct Moon correction has been performed during image reconstruction of this pixel"
+        "description": "Direct Moon correction has been performed during image reconstruction of this pixel"
       },
       {
         "name": "Flags_SINGLE_SNAPSHOT",
         "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
         "color": "39,91,126",
-        "description": "If set, this scene has not been combined with an adjacent scene in opposite polarisation during image reconstruction to account for cross-polarisation leakage (it has been processed with only co- polar antenna patterns information)"
+        "description": "Scene has not been combined with an adjacent scene in opposite polarisation during image reconstruction to account for crosspolarisation leakage (it has been processed with only co-polar antenna patterns information)"
       },
       {
         "name": "Flags_SUN_POINT",
         "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
         "color": "214,25,160",
-        "description": "If set, this pixel is located in a zone (circle around Sun alias position with radius configurable through Sun_Point_Flag_Size field in AUX CNFL1P) where a Sun alias was reconstructed (if Sun removal is active, measurement may be degraded)"
+        "description": "Pixel is located in a zone (circle around Sun alias position with radius configurable through Sun_Point_Flag_Size field in AUX CNFL1P) where a Sun alias was reconstructed (if Sun removal is active, measurement may be degraded)"
       },
       {
         "name": "Flags_SUN_GLINT_AREA",
         "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
         "color": "178,13,207",
-        "description": "If set, this pixel is located in a zone where Sun reflection has been detected using the bi-static scattering coefficient threshold defined in the configuration file"
+        "description": "Pixel is located in a zone where Sun reflection has been detected using the bi-static scattering coefficient threshold defined in the configuration file"
       },
       {
         "name": "Flags_MOON_POINT",
         "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
         "color": "208,249,67",
-        "description": "If set, this pixel is located in a zone where a Moon alias was reconstructed (after Moon removal, measurement may be degraded)"
+        "description": "Pixel is located in a zone where a Moon alias was reconstructed (after Moon removal, measurement may be degraded)"
       },
       {
         "name": "Flags_AF_FOV",
         "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
         "color": "106,109,115",
-        "description": "If set, the pixel is inside the exclusive zone of Alias free (delimited by the six aliased unit circles)"
+        "description": "Pixel is inside the exclusive zone of Alias free (delimited by the six aliased unit circles)"
       },
       {
         "name": "Flags_BORDER_FOV",
         "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
         "color": "16,81,105",
-        "description": "If set, the pixel is close to the border delimiting the Extended Alias free zone or to the unit circle replicas borders (also known as “suspenders and belts”). Distance threshold is configurable through FOV_Border_Flag_Size field in AUX CNFL1P"
+        "description": "Pixel is close to the border delimiting the Extended Alias free zone or to the unit circle replicas borders (also known as “suspenders and belts”). Distance threshold is configurable through FOV_Border_Flag_Size field in AUX CNFL1P"
       },
       {
         "name": "Flags_SUN_TAILS",
         "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
         "color": "171,1,243",
-        "description": "If set, this pixel is located in the hexagonal alias directions centred on a Sun alias (if Sun is not removed, measurement may be degraded in these directions)"
+        "description": "Pixel is located in the hexagonal alias directions centred on a Sun alias (if Sun is not removed, measurement may be degraded in these directions)"
       },
       {
         "name": "Flags_RFI_POINT_SOURCE",
         "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
         "color": "238,203,217",
-        "description": "If set, the measurement is affected by point source RFI"
+        "description": "Measurement is affected by point source RFI as identified in the AUX RFI list (flag is set in a circle around the RFI position, with a radius dependant on the RFI expected BT defined in the AUX RFILST), or it has exceeded the threshold defined in BT_Dual/Full_RFI_Pixel_Flag_Threshold fields in AUX CNFL1P, or is negative for Dual Polarisation values"
       },
       {
         "name": "Flags_RFI_TAIL",
         "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
         "color": "250,231,95",
-        "description": "If set, the measurement is affected by any tails from point source RFI"
+        "description": "Measurement is affected by the tails of a point source RFI as identified in the AUX RFI list (tail width is dependant on the RFI estimated BT (from each snapshot measurements) , corresponding to 0.16 of the radius of the RFI circle flagged)"
       },
       {
-        "name": "Flags_RFI_2",
+        "name": "Flags_RFI_LOW",
         "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
         "color": "240,108,99",
-        "description": "If set, the measurement is affected by point source RFI as identified in the AUX RFI list"
+        "description": "Measurement is affected by a point source RFI identified in the AUX RFI list whose contribution generates a contamination in BT above a certain level defined in the AUX CNFL1P file"
       },
       {
-        "name": "Flags_RFI_3",
+        "name": "Flags_RFI_MEDIUM",
         "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
         "color": "115,141,245",
-        "description": "If set, the measurement is affected by point source RFI as identified in the AUX RFI list"
+        "description": "Measurement is affected by a point source RFI identified in the AUX RFI list whose contribution generates a contamination in BT above a certain level defined in the AUX CNFL1P file"
+      },
+      {
+        "name": "Flags_RFI_HIGH",
+        "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+        "color": "134,147,45",
+        "description": "Measurement is affected by a point source RFI identified in the AUX RFI list whose contribution generates a contamination in BT above a certain level defined in the AUX CNFL1P file"
       },
       {
         "name": "Land_Sea_Mask_USGS_SEA_FLAG",
