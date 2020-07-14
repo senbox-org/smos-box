@@ -476,13 +476,243 @@
         "spectralBandwidth": "0.0",
         "expectedPixels": [
           {
-            "x": 261,
-            "y": 1277,
-            "value": "NaN"
+            "x": 1782,
+            "y": 6798,
+            "value": 47.64059
           },
           {
             "x": 4475,
             "y": 353,
+            "value": "NaN"
+          }
+        ]
+      },
+      {
+        "name": "Sigma_Acard",
+        "description": "Theoretical uncertainty computed for Acard",
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 4556,
+            "y": 1069,
+            "value": 1.048763632774353
+          },
+          {
+            "x": 4475,
+            "y": 353,
+            "value": "NaN"
+          }
+        ]
+      },
+      {
+        "name": "WS",
+        "description": "Equivalent neutral wind speed as derived from ECMWF",
+        "geophysicalUnit": "m s-1",
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 2963,
+            "y": 4682,
+            "value": 8.00091
+          },
+          {
+            "x": 5260,
+            "y": 5919,
+            "value": "NaN"
+          }
+        ]
+      },
+      {
+        "name": "SST",
+        "description": "Sea Surface Temperature as derived from ECMWF",
+        "geophysicalUnit": "°C",
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 2700,
+            "y": 5442,
+            "value": 19.01025
+          },
+          {
+            "x": 6600,
+            "y": 3623,
+            "value": "NaN"
+          }
+        ]
+      },
+      {
+        "name": "TBH",
+        "description": "Brightness temperature at surface level derived with default forward model and retrieved geophysical parameters, H polarisation direction",
+        "geophysicalUnit": "K",
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 3050,
+            "y": 3352,
+            "value": 77.73318
+          },
+          {
+            "x": 10571,
+            "y": 129,
+            "value": "NaN"
+          }
+        ]
+      },
+      {
+        "name": "Sigma_TBH",
+        "description": "Theoretical uncertainty computed for TBH",
+        "geophysicalUnit": "K",
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 5341,
+            "y": 667,
+            "value": 0.64330
+          },
+          {
+            "x": 15566,
+            "y": 7752,
+            "value": "NaN"
+          }
+        ]
+      },
+      {
+        "name": "TBV",
+        "description": "Brightness temperature at surface level derived with default forward model and retrieved geophysical parameters, V polarisation direction",
+        "geophysicalUnit": "K",
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 1802,
+            "y": 6793,
+            "value": 123.16425
+          },
+          {
+            "x": 9353,
+            "y": 4607,
+            "value": "NaN"
+          }
+        ]
+      },
+      {
+        "name": "Sigma_TBV",
+        "description": "Theoretical uncertainty computed for TBV",
+        "geophysicalUnit": "K",
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 2656,
+            "y": 5273,
+            "value": 0.4131377339363098
+          },
+          {
+            "x": 7384,
+            "y": 4759,
+            "value": "NaN"
+          }
+        ]
+      },
+      {
+        "name": "TBX",
+        "description": "Brightness temperature at antenna level derived with default forward model and retrieved geophysical parameters, X polarisation direction",
+        "geophysicalUnit": "K",
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 2745,
+            "y": 4542,
+            "value": 101.88719
+          },
+          {
+            "x": 1451,
+            "y": 4121,
+            "value": "NaN"
+          }
+        ]
+      },
+      {
+        "name": "Sigma_TBX",
+        "description": "Theoretical uncertainty computed for TBX",
+        "geophysicalUnit": "K",
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 2971,
+            "y": 4485,
+            "value": 0.6449521780014038
+          },
+          {
+            "x": 1451,
+            "y": 4121,
+            "value": "NaN"
+          }
+        ]
+      },
+      {
+        "name": "TBY",
+        "description": "Brightness temperature at antenna level derived with default forward model and retrieved geophysical parameters, Y polarisation direction",
+        "geophysicalUnit": "K",
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 2546,
+            "y": 5939,
+            "value": 126.29288
+          },
+          {
+            "x": 1451,
+            "y": 4121,
+            "value": "NaN"
+          }
+        ]
+      },
+      {
+        "name": "Sigma_TBY",
+        "description": "Theoretical uncertainty computed for TBY",
+        "geophysicalUnit": "K",
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 3136,
+            "y": 3375,
+            "value": 0.5478858351707458
+          },
+          {
+            "x": 1451,
+            "y": 4121,
             "value": "NaN"
           }
         ]

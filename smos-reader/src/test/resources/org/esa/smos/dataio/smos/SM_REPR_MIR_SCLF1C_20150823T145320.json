@@ -4,6 +4,17 @@
   "expectedContent": {
     "sceneWidth": 16384,
     "sceneHeight": 8064,
+    "geoCoding": {
+      "coordinates": [
+        {
+          "x": 7067.0,
+          "y": 4404.0,
+          "lat": -8.173828125,
+          "lon": -24.71923828125
+        }
+      ],
+      "reverseAccuracy": 0.01
+    },
     "flagCodings": [
       {
         "name": "Flags",
@@ -92,6 +103,92 @@
             "name": "RFI_HIGH",
             "value": 49152,
             "description": "Measurement is affected by a point source RFI identified in the AUX RFI list whose contribution generates a contamination in BT above a certain level defined in the AUX CNFL1P file"
+          }
+        ]
+      }
+    ],
+    "bands": [
+      {
+        "name": "BT_Value_X",
+        "description": "Brightness temperature measurement over current Earth fixed grid point, obtained by DFT interpolation from L1b data, antenna X polarisation",
+        "geophysicalUnit": "K",
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 10936,
+            "y": 1257,
+            "value": 258.38113
+          },
+          {
+            "x": 11224,
+            "y": 6968,
+            "value": "NaN"
+          }
+        ]
+      },
+      {
+        "name": "BT_Value_Y",
+        "description": "Brightness temperature measurement over current Earth fixed grid point, obtained by DFT interpolation from L1b data, antenna Y polarisation",
+        "geophysicalUnit": "K",
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 9639,
+            "y": 5331,
+            "value": 276.85544
+          },
+          {
+            "x": 11224,
+            "y": 6968,
+            "value": "NaN"
+          }
+        ]
+      },
+      {
+        "name": "BT_Value_XY_Real",
+        "description": "Brightness temperature measurement over current Earth fixed grid point, obtained by DFT interpolation from L1b data, antenna XY polarisation, real value",
+        "geophysicalUnit": "K",
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 11470,
+            "y": 517,
+            "value": 17.47516
+          },
+          {
+            "x": 11224,
+            "y": 6968,
+            "value": "NaN"
+          }
+        ]
+      },
+      {
+        "name": "BT_Value_XY_Imag",
+        "description": "Brightness temperature measurement over current Earth fixed grid point, obtained by DFT interpolation from L1b data, antenna XY polarisation, imaginary value",
+        "geophysicalUnit": "K",
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 9966,
+            "y": 4682,
+            "value": 3.26595
+          },
+          {
+            "x": 11224,
+            "y": 6968,
+            "value": "NaN"
           }
         ]
       }
