@@ -3,7 +3,6 @@ package org.esa.smos.ee2netcdf.reader;
 
 import org.esa.smos.dataio.smos.GridPointInfo;
 import org.esa.smos.dataio.smos.provider.AbstractValueProvider;
-import org.esa.smos.dataio.smos.provider.ValueProvider;
 import ucar.ma2.Array;
 
 import java.awt.geom.Area;
@@ -16,7 +15,7 @@ class VariableValueProvider extends AbstractValueProvider {
     private final ArrayCache arrayCache;
     private final String variableName;
 
-    public VariableValueProvider(ArrayCache arrayCache, String variableName, Area area, GridPointInfo gridPointInfo) {
+    VariableValueProvider(ArrayCache arrayCache, String variableName, Area area, GridPointInfo gridPointInfo) {
         this.area = area;
         this.gridPointInfo = gridPointInfo;
         this.arrayCache = arrayCache;

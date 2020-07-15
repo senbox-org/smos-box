@@ -50,11 +50,10 @@ public class NetcdfProductReader extends SmosReader {
 
     private static final String SENSING_TIMES_PATTERN = "'UTC='yyyy-MM-dd'T'HH:mm:ss";
     private static final String LSMASK_SCHEMA_NAME = "DBL_SM_XXXX_AUX_LSMASK_0200";
-
+    private final HashMap<String, AbstractValueProvider> valueProviderMap;
     private NetcdfFile netcdfFile;
     private ProductTypeSupport typeSupport;
     private GridPointInfo gridPointInfo;
-    private final HashMap<String, AbstractValueProvider> valueProviderMap;
 
     /**
      * Constructs a new abstract product reader.
@@ -62,10 +61,19 @@ public class NetcdfProductReader extends SmosReader {
      * @param readerPlugIn the reader plug-in which created this reader, can be <code>null</code> for internal reader
      *                     implementations
      */
-    protected NetcdfProductReader(ProductReaderPlugIn readerPlugIn) {
+    NetcdfProductReader(ProductReaderPlugIn readerPlugIn) {
         super(readerPlugIn);
 
         valueProviderMap = new HashMap<>();
+    }
+
+    static String getSchemaDescription(NetcdfFile netcdfFile) throws IOException {
+        final Attribute schemaAttribute = netcdfFile.findGlobalAttribute("Variable_Header:Specific_Product_Header:Main_Info:Datablock_Schema");
+        if (schemaAttribute == null) {
+            throw new IOException("Schema attribuite not found.");
+        }
+
+        return schemaAttribute.getStringValue().substring(0, 27);
     }
 
     @Override
@@ -170,7 +178,7 @@ public class NetcdfProductReader extends SmosReader {
     }
 
     @Override
-    public Object[][] getSnapshotData(int snapshotIndex) throws IOException {
+    public Object[][] getSnapshotData(int snapshotIndex) {
         if (typeSupport == null) {
             return new Object[0][];
         }
@@ -295,7 +303,6 @@ public class NetcdfProductReader extends SmosReader {
             System.out.println("e.getMessage() = " + e.getMessage());
             e.printStackTrace();
         }
-
     }
 
     private GridPointInfo calculateGridPointInfo() throws IOException {
@@ -408,14 +415,5 @@ public class NetcdfProductReader extends SmosReader {
 
         band.setSourceImage(SmosLsMask.getInstance().getMultiLevelImage());
         band.setImageInfo(ProductHelper.createImageInfo(band, descriptor));
-    }
-
-    static String getSchemaDescription(NetcdfFile netcdfFile) throws IOException {
-        final Attribute schemaAttribute = netcdfFile.findGlobalAttribute("Variable_Header:Specific_Product_Header:Main_Info:Datablock_Schema");
-        if (schemaAttribute == null) {
-            throw new IOException("Schema attribuite not found.");
-        }
-
-        return schemaAttribute.getStringValue().substring(0, 27);
     }
 }

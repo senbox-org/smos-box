@@ -35,6 +35,30 @@ class ScienceProductSupport extends AbstractProductTypeSupport {
         this.typeString = typeString;
     }
 
+    static boolean allRequiredArrayPresent(Array latitude, Array longitude, Array btDataCounter, Array snapshotIdOfPixel, Array flags, Array snapshotId) {
+        return latitude != null && longitude != null && btDataCounter != null && snapshotIdOfPixel != null && flags != null & snapshotId != null;
+    }
+
+    static boolean containsAccuracy_XY_Bands(Product product) {
+        return product.containsBand("Pixel_Radiometric_Accuracy_X") && product.containsBand("Pixel_Radiometric_Accuracy_Y");
+    }
+
+    static boolean containsAccuracy_XY_FP_Bands(Product product) {
+        return containsAccuracy_XY_Bands(product) && product.containsBand("Pixel_Radiometric_Accuracy_XY");
+    }
+
+    static boolean containsBT_XY_Bands(Product product) {
+        return product.containsBand("BT_Value_X") && product.containsBand("BT_Value_Y");
+    }
+
+    static boolean containsBT_XY_FP_Bands(Product product) {
+        return containsBT_XY_Bands(product) && product.containsBand("BT_Value_XY_Real");
+    }
+
+    static boolean containsAllRotationBands(Product product) {
+        return product.containsBand("Faraday_Rotation_Angle_X") && product.containsBand("Faraday_Rotation_Angle_Y") && product.containsBand("Geometric_Rotation_Angle_X") && product.containsBand("Geometric_Rotation_Angle_Y");
+    }
+
     @Override
     public void initialize(Family<BandDescriptor> bandDescriptors) {
         boolean found = false;
@@ -111,7 +135,7 @@ class ScienceProductSupport extends AbstractProductTypeSupport {
     @Override
     public boolean hasSnapshotInfo() {
         if (snapshotInfoFuture == null) {
-            snapshotInfoFuture = Executors.newSingleThreadExecutor().submit(() -> createSnapshotInfo());
+            snapshotInfoFuture = Executors.newSingleThreadExecutor().submit(this::createSnapshotInfo);
         }
 
         return snapshotInfoFuture.isDone();
@@ -231,11 +255,6 @@ class ScienceProductSupport extends AbstractProductTypeSupport {
         return new SnapshotInfo(snapshotIndexMap, all, x, y, xy, snapshotAreaMap);
     }
 
-    // @todo 4 tb/tb make package and static and add test 2016-01-14
-    private boolean allRequiredArrayPresent(Array latitude, Array longitude, Array btDataCounter, Array snapshotIdOfPixel, Array flags, Array snapshotId) {
-        return latitude != null && longitude != null && btDataCounter != null && snapshotIdOfPixel != null && flags != null & snapshotId != null;
-    }
-
     @Override
     public FlagDescriptor[] getBtFlagDescriptors() {
         try {
@@ -326,26 +345,6 @@ class ScienceProductSupport extends AbstractProductTypeSupport {
                 addRotatedBand(product, descriptor, valueProvider);
             }
         }
-    }
-
-    static boolean containsAccuracy_XY_Bands(Product product) {
-        return product.containsBand("Pixel_Radiometric_Accuracy_X") && product.containsBand("Pixel_Radiometric_Accuracy_Y");
-    }
-
-    static boolean containsAccuracy_XY_FP_Bands(Product product) {
-        return containsAccuracy_XY_Bands(product) && product.containsBand("Pixel_Radiometric_Accuracy_XY");
-    }
-
-    static boolean containsBT_XY_Bands(Product product) {
-        return product.containsBand("BT_Value_X") && product.containsBand("BT_Value_Y");
-    }
-
-    static boolean containsBT_XY_FP_Bands(Product product) {
-        return containsBT_XY_Bands(product) && product.containsBand("BT_Value_XY_Real");
-    }
-
-    static boolean containsAllRotationBands(Product product) {
-        return product.containsBand("Faraday_Rotation_Angle_X") && product.containsBand("Faraday_Rotation_Angle_Y") && product.containsBand("Geometric_Rotation_Angle_X") && product.containsBand("Geometric_Rotation_Angle_Y");
     }
 
     private void addRotatedBand(Product product, BandDescriptor descriptor, ValueProvider valueProvider) {

@@ -3,8 +3,8 @@ package org.esa.smos.ee2netcdf.reader;
 import org.esa.smos.dataio.smos.GridPointInfo;
 import org.esa.smos.dataio.smos.dddb.BandDescriptor;
 import org.esa.smos.dataio.smos.provider.AbstractValueProvider;
-import org.esa.smos.dataio.smos.provider.ValueProvider;
 import org.esa.snap.core.datamodel.Band;
+import org.esa.snap.core.util.StringUtils;
 import ucar.nc2.Attribute;
 import ucar.nc2.NetcdfFile;
 
@@ -19,7 +19,12 @@ class L2ProductSupport extends AbstractProductTypeSupport {
 
         final Attribute chi2ScaleAttribute = netcdfFile.findGlobalAttribute("Variable_Header:Specific_Product_Header:Chi_2_Scale");
         if (chi2ScaleAttribute != null) {
-            chi_2_scale = Double.valueOf(chi2ScaleAttribute.getStringValue());
+            final String chi2ScaleString = chi2ScaleAttribute.getStringValue();
+            if (StringUtils.isNotNullAndNotEmpty(chi2ScaleString)) {
+                chi_2_scale = Double.valueOf(chi2ScaleString);
+            } else {
+                chi_2_scale = 1.0;
+            }
         } else {
             chi_2_scale = 1.0;
         }
