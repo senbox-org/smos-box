@@ -71,7 +71,7 @@
                 <version>${snap.version}</version>
             </dependency>
 
-            <!-- BEAM System Level Modules ############################################# -->
+            <!-- SNAP System Level Modules ############################################# -->
 
             <dependency>
                 <groupId>org.esa.snap</groupId>
