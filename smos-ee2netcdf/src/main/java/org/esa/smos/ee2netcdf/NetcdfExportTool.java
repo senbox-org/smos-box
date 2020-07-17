@@ -3,7 +3,13 @@ package org.esa.smos.ee2netcdf;
 import com.bc.ceres.binding.Property;
 import com.bc.ceres.binding.PropertyContainer;
 import com.bc.ceres.binding.ValidationException;
-import org.apache.commons.cli.*;
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.HelpFormatter;
+import org.apache.commons.cli.Option;
+import org.apache.commons.cli.OptionBuilder;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
+import org.apache.commons.cli.PosixParser;
 import org.esa.snap.core.gpf.annotations.Parameter;
 import org.esa.snap.core.gpf.annotations.ParameterDescriptorFactory;
 import org.esa.snap.core.util.StringUtils;
@@ -12,7 +18,12 @@ import org.esa.snap.core.util.SystemUtils;
 import java.io.File;
 import java.lang.reflect.Field;
 import java.text.MessageFormat;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,7 +36,7 @@ import java.util.logging.Logger;
 public class NetcdfExportTool {
 
     private static final String TOOL_NAME = "smos-ee-to-nc";
-    private static final String TOOL_VERSION = "5.8.0";
+    private static final String TOOL_VERSION = "5.3.0";
 
     private static final int ERROR = 1;
     private static final int USAGE_ERROR = 2;

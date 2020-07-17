@@ -1,14 +1,5 @@
-#New in SMOS-Box 5.8.0
-Update to version 5.8.0 adds 
-* support for L1C data V724 (schema version 401)
-  * update RFI flag codings and visualisation
-  * added variable "Radiometric Accuracy"
-* support for L2OS data V691 (schema version 401)
-  * adde variables "Equiv_ftprt_diam" and "Mean_acq_time"
-* updated NetCDF exporter to handle these changes
-
 #New in SMOS-Box 5.7.0
-The update to version 5.7.0 does not add any new feature to the SMOS-BOX. Only released for compatibility reasons with SNAP 8.
+The update to version 5.5 does not add any new feature to the SMOS-BOX. Only released for compatibility reasons with SNAP 8.
 
 #New in SMOS-Box 5.6.0
 
