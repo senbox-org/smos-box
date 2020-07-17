@@ -16,7 +16,13 @@
 
 package org.esa.smos.dataio.smos;
 
-import com.bc.ceres.binio.*;
+import com.bc.ceres.binio.CompoundData;
+import com.bc.ceres.binio.CompoundMember;
+import com.bc.ceres.binio.CompoundType;
+import com.bc.ceres.binio.DataContext;
+import com.bc.ceres.binio.DataFormat;
+import com.bc.ceres.binio.SequenceData;
+import com.bc.ceres.binio.Type;
 import com.bc.ceres.binio.util.NumberUtils;
 import com.bc.ceres.core.ProgressMonitor;
 import com.bc.ceres.core.VirtualDir;
@@ -39,15 +45,19 @@ import org.esa.snap.core.datamodel.ProductData;
 import org.esa.snap.core.util.StringUtils;
 import org.esa.snap.core.util.io.FileUtils;
 
-import java.awt.*;
+import java.awt.Rectangle;
 import java.awt.image.Raster;
 import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
 
 public class SmosProductReader extends SmosReader {
 
@@ -56,8 +66,8 @@ public class SmosProductReader extends SmosReader {
     private ProductFile productFile;
     private VirtualDir virtualDir;
 
-    SmosProductReader(ProductReaderPlugIn readerPlugIn) {
-        super(readerPlugIn);
+    public ProductFile getProductFile() {
+        return productFile;
     }
 
     public static ProductFile createProductFile(File file) throws IOException {
@@ -72,81 +82,6 @@ public class SmosProductReader extends SmosReader {
         if (productFile == null) {
             throw new IOException(MessageFormat.format("File ''{0}'': unknown/unsupported SMOS data format.", file));
         }
-        return productFile;
-    }
-
-    private static ProductFile createProductFile(VirtualDir virtualDir) throws IOException {
-        String listPath = "";
-        String[] list = virtualDir.list(listPath);
-        if (list.length == 1) {
-            listPath = list[0] + "/";
-        }
-        list = virtualDir.list(listPath);
-
-        String fileName = null;
-        for (String listEntry : list) {
-            if (listEntry.contains(".hdr") || listEntry.contains(".HDR")) {
-                fileName = listEntry;
-                break;
-            }
-        }
-
-        if (fileName == null) {
-            return null;
-        }
-
-        final File hdrFile = virtualDir.getFile(listPath + fileName);
-        File dblFile = FileUtils.exchangeExtension(hdrFile, ".DBL");
-        dblFile = virtualDir.getFile(listPath + dblFile.getName());
-
-        return createProductFileImplementation(dblFile);
-    }
-
-    private static ProductFile createProductFileImplementation(File file) throws IOException {
-        final File hdrFile = FileUtils.exchangeExtension(file, ".HDR");
-        final File dblFile = FileUtils.exchangeExtension(file, ".DBL");
-
-        final DataFormat format = Dddb.getInstance().getDataFormat(hdrFile);
-        if (format == null) {
-            return null;
-        }
-
-        final EEFilePair eeFilePair = new EEFilePair(hdrFile, dblFile);
-        final String formatName = format.getName();
-        final DataContext context = format.createContext(dblFile, "r");
-
-        if (SmosUtils.isBrowseFormat(formatName)) {
-            return new L1cBrowseSmosFile(eeFilePair, context);
-        } else if (SmosUtils.isDualPolScienceFormat(formatName) ||
-                SmosUtils.isFullPolScienceFormat(formatName)) {
-            return new L1cScienceSmosFile(eeFilePair, context);
-        } else if (SmosUtils.isSmUserFormat(formatName)) {
-            return new SmUserSmosFile(eeFilePair, context);
-        } else if (SmosUtils.isOsUserFormat(formatName) ||
-                SmosUtils.isOsAnalysisFormat(formatName) ||
-                SmosUtils.isSmAnalysisFormat(formatName) ||
-                SmosUtils.isAuxECMWFType(formatName)) {
-            return new SmosFile(eeFilePair, context);
-        } else if (SmosUtils.isDffLaiFormat(formatName)) {
-            return new DffgLaiFile(eeFilePair, context);
-        } else if (SmosUtils.isDffSnoFormat(formatName)) {
-            return new DffgSnoFile(eeFilePair, context);
-        } else if (SmosUtils.isVTecFormat(formatName)) {
-            return new VTecFile(eeFilePair, context);
-        } else if (SmosUtils.isLsMaskFormat(formatName)) {
-            return new GlobalSmosFile(eeFilePair, context);
-        } else if (SmosUtils.isDggFloFormat(formatName) ||
-                SmosUtils.isDggRfiFormat(formatName) ||
-                SmosUtils.isDggRouFormat(formatName) ||
-                SmosUtils.isDggTfoFormat(formatName) ||
-                SmosUtils.isDggTlvFormat(formatName)) {
-            return new AuxiliaryFile(eeFilePair, context);
-        }
-
-        return null;
-    }
-
-    public ProductFile getProductFile() {
         return productFile;
     }
 
@@ -283,7 +218,7 @@ public class SmosProductReader extends SmosReader {
                 final Family<FlagDescriptor> flagDescriptors = descriptor.getFlagDescriptors();
                 if (flagDescriptors != null) {
                     final List<FlagDescriptor> flagDescriptorList = descriptor.getFlagDescriptors().asList();
-                    return flagDescriptorList.toArray(new FlagDescriptor[0]);
+                    return flagDescriptorList.toArray(new FlagDescriptor[flagDescriptorList.size()]);
                 }
             }
         }
@@ -326,9 +261,8 @@ public class SmosProductReader extends SmosReader {
             final ArrayList<Object[]> list = new ArrayList<>(memberCount);
 
             for (int i = 0; i < memberCount; i++) {
-                final String memberName = compoundType.getMemberName(i);
                 final Object[] entry = new Object[2];
-                entry[0] = memberName;
+                entry[0] = compoundType.getMemberName(i);
 
                 final Type memberType = compoundType.getMemberType(i);
                 if (memberType.isSimpleType()) {
@@ -338,21 +272,12 @@ public class SmosProductReader extends SmosReader {
                         entry[1] = "Failed reading data";
                     }
                     list.add(entry);
-                } else if (memberType.isSequenceType()) {
-                    final SequenceData sequenceData = data.getSequence(i);
-                    final int numSequenceElems = sequenceData.getElementCount();
-                    for (int n = 0; n < numSequenceElems; n++) {
-                        final Object[] sequenceEntry = new Object[2];
-                        sequenceEntry[0] = entry[0] + "_" + n;
-                        sequenceEntry[1] = sequenceData.getFloat(n);
-                        list.add(sequenceEntry);
-                    }
                 } else {
-                    if ("Snapshot_Time".equals(memberName)) {
+                    if ("Snapshot_Time".equals(compoundType.getMemberName(i))) {
                         try {
                             final Date date = DateTimeUtils.cfiDateToUtc(data);
                             final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSz",
-                                    Locale.ENGLISH);
+                                                                                     Locale.ENGLISH);
                             dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
                             entry[1] = dateFormat.format(date);
                         } catch (IOException e) {
@@ -377,6 +302,37 @@ public class SmosProductReader extends SmosReader {
             memberNamesMap.put(member.getName(), i);
         }
         return memberNamesMap;
+    }
+
+    private static ProductFile createProductFile(VirtualDir virtualDir) throws IOException {
+        String listPath = "";
+        String[] list = virtualDir.list(listPath);
+        if (list.length == 1) {
+            listPath = list[0] + "/";
+        }
+        list = virtualDir.list(listPath);
+
+        String fileName = null;
+        for (String listEntry : list) {
+            if (listEntry.contains(".hdr") || listEntry.contains(".HDR")) {
+                fileName = listEntry;
+                break;
+            }
+        }
+
+        if (fileName == null) {
+            return null;
+        }
+
+        final File hdrFile = virtualDir.getFile(listPath + fileName);
+        File dblFile = FileUtils.exchangeExtension(hdrFile, ".DBL");
+        dblFile = virtualDir.getFile(listPath + dblFile.getName());
+
+        return createProductFileImplementation(dblFile);
+    }
+
+    SmosProductReader(ProductReaderPlugIn readerPlugIn) {
+        super(readerPlugIn);
     }
 
     @Override
@@ -406,6 +362,7 @@ public class SmosProductReader extends SmosReader {
             return product;
         }
     }
+
 
     @Override
     protected final void readBandRasterDataImpl(int sourceOffsetX,
@@ -478,10 +435,54 @@ public class SmosProductReader extends SmosReader {
         }
         if (descriptor.getFlagDescriptors() != null) {
             ProductHelper.addFlagsAndMasks(product, band, descriptor.getFlagCodingName(),
-                    descriptor.getFlagDescriptors());
+                                           descriptor.getFlagDescriptors());
         }
 
         band.setSourceImage(SmosLsMask.getInstance().getMultiLevelImage());
         band.setImageInfo(ProductHelper.createImageInfo(band, descriptor));
+    }
+
+    private static ProductFile createProductFileImplementation(File file) throws IOException {
+        final File hdrFile = FileUtils.exchangeExtension(file, ".HDR");
+        final File dblFile = FileUtils.exchangeExtension(file, ".DBL");
+
+        final DataFormat format = Dddb.getInstance().getDataFormat(hdrFile);
+        if (format == null) {
+            return null;
+        }
+
+        final EEFilePair eeFilePair = new EEFilePair(hdrFile, dblFile);
+        final String formatName = format.getName();
+        final DataContext context = format.createContext(dblFile, "r");
+
+        if (SmosUtils.isBrowseFormat(formatName)) {
+            return new L1cBrowseSmosFile(eeFilePair, context);
+        } else if (SmosUtils.isDualPolScienceFormat(formatName) ||
+                SmosUtils.isFullPolScienceFormat(formatName)) {
+            return new L1cScienceSmosFile(eeFilePair, context);
+        } else if (SmosUtils.isSmUserFormat(formatName)) {
+            return new SmUserSmosFile(eeFilePair, context);
+        } else if (SmosUtils.isOsUserFormat(formatName) ||
+                SmosUtils.isOsAnalysisFormat(formatName) ||
+                SmosUtils.isSmAnalysisFormat(formatName) ||
+                SmosUtils.isAuxECMWFType(formatName)) {
+            return new SmosFile(eeFilePair, context);
+        } else if (SmosUtils.isDffLaiFormat(formatName)) {
+            return new DffgLaiFile(eeFilePair, context);
+        } else if (SmosUtils.isDffSnoFormat(formatName)) {
+            return new DffgSnoFile(eeFilePair, context);
+        } else if (SmosUtils.isVTecFormat(formatName)) {
+            return new VTecFile(eeFilePair, context);
+        } else if (SmosUtils.isLsMaskFormat(formatName)) {
+            return new GlobalSmosFile(eeFilePair, context);
+        } else if (SmosUtils.isDggFloFormat(formatName) ||
+                SmosUtils.isDggRfiFormat(formatName) ||
+                SmosUtils.isDggRouFormat(formatName) ||
+                SmosUtils.isDggTfoFormat(formatName) ||
+                SmosUtils.isDggTlvFormat(formatName)) {
+            return new AuxiliaryFile(eeFilePair, context);
+        }
+
+        return null;
     }
 }
