@@ -6,7 +6,7 @@ import java.io.IOException;
 
 class ProductTypeSupportFactory {
 
-    static ProductTypeSupport get(String typeString, NetcdfFile netcdfFile) {
+    static ProductTypeSupport get(String typeString, NetcdfFile netcdfFile) throws IOException {
         if (typeString == null) {
             throw new IllegalArgumentException("Invalid product type: null");
         }

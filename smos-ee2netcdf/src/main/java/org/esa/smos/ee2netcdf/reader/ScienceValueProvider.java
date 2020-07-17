@@ -22,7 +22,7 @@ public class ScienceValueProvider extends AbstractValueProvider {
     private final double incidenceAngleScalingFactor;
     private long snapshotId;
 
-    ScienceValueProvider(ArrayCache arrayCache, String variableName, BandDescriptor descriptor, Area area, GridPointInfo gridPointInfo, double incidenceAngleScalingFactor) {
+    public ScienceValueProvider(ArrayCache arrayCache, String variableName, BandDescriptor descriptor, Area area, GridPointInfo gridPointInfo, double incidenceAngleScalingFactor) {
         this.area = area;
         this.gridPointInfo = gridPointInfo;
         this.variableName = variableName;
@@ -52,7 +52,7 @@ public class ScienceValueProvider extends AbstractValueProvider {
     }
 
     @Override
-    public byte getByte(int gridPointIndex) {
+    public byte getByte(int gridPointIndex) throws IOException {
         if (snapshotId == -1) {
             return (byte) getInterpolatedValue(gridPointIndex);
         } else {
@@ -61,7 +61,7 @@ public class ScienceValueProvider extends AbstractValueProvider {
     }
 
     @Override
-    public short getShort(int gridPointIndex) {
+    public short getShort(int gridPointIndex) throws IOException {
         if (snapshotId == -1) {
             return (short) getInterpolatedValue(gridPointIndex);
         } else {
@@ -70,7 +70,7 @@ public class ScienceValueProvider extends AbstractValueProvider {
     }
 
     @Override
-    public int getInt(int gridPointIndex) {
+    public int getInt(int gridPointIndex) throws IOException {
         if (snapshotId == -1) {
             return (int) getInterpolatedValue(gridPointIndex);
         } else {
@@ -79,7 +79,7 @@ public class ScienceValueProvider extends AbstractValueProvider {
     }
 
     @Override
-    public float getFloat(int gridPointIndex) {
+    public float getFloat(int gridPointIndex) throws IOException {
         if (snapshotId == -1) {
             return getInterpolatedValue(gridPointIndex);
         } else {
@@ -154,7 +154,9 @@ public class ScienceValueProvider extends AbstractValueProvider {
                 final double b = (sy - a * sx) / count;
                 return (float) (a * SmosConstants.CENTER_BROWSE_INCIDENCE_ANGLE + b);
             }
-        } catch (IOException | InvalidRangeException e) {
+        } catch (IOException e) {
+            return fillValue;
+        } catch (InvalidRangeException e) {
             return fillValue;
         }
         return fillValue;
@@ -173,8 +175,10 @@ public class ScienceValueProvider extends AbstractValueProvider {
             final Array gpDataVector = extractGridPointVector(gridPointIndex, gpArray);
             final Index dataIndex = gpDataVector.getIndex();
 
+
             final Array snapsotIdVector = extractGridPointVector(gridPointIndex, snapshotIdOfPixelArray);
             final Index snapshotIndex = snapsotIdVector.getIndex();
+
 
             final Array flagsVector = extractGridPointVector(gridPointIndex, flagsArray);
             final Index flagsIndex = flagsVector.getIndex();

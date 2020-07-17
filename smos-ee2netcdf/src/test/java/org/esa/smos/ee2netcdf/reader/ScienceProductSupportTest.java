@@ -4,7 +4,6 @@ import org.esa.snap.core.datamodel.Product;
 import org.esa.snap.core.datamodel.ProductData;
 import org.junit.Before;
 import org.junit.Test;
-import ucar.ma2.Array;
 import ucar.nc2.NetcdfFile;
 import ucar.nc2.Variable;
 
@@ -20,7 +19,7 @@ public class ScienceProductSupportTest {
 
     @Before
     public void setUp() {
-        // no specific functionality concerning the NetCDF file tb 2015-06-29
+         // no specific functionality concerning the NetCDF file tb 2015-06-29
         support = new ScienceProductSupport(null, "MIR_SCSD1C");
     }
 
@@ -149,24 +148,5 @@ public class ScienceProductSupportTest {
         assertTrue(ScienceProductSupport.containsAccuracy_XY_FP_Bands(product));
     }
 
-    @SuppressWarnings("ConstantConditions")
-    @Test
-    public void testAllRequiredArrayPresent() {
-        final Array latitude = mock(Array.class);
-        final Array longitude = mock(Array.class);
-        final Array btDataCounter = mock(Array.class);
-        final Array snapshotIdOfPixel = mock(Array.class);
-        final Array flags = mock(Array.class);
-        final Array snapshotId = mock(Array.class);
-
-        assertTrue(ScienceProductSupport.allRequiredArrayPresent(latitude, longitude, btDataCounter, snapshotIdOfPixel, flags, snapshotId));
-
-        assertFalse(ScienceProductSupport.allRequiredArrayPresent(null, longitude, btDataCounter, snapshotIdOfPixel, flags, snapshotId));
-        assertFalse(ScienceProductSupport.allRequiredArrayPresent(latitude, null, btDataCounter, snapshotIdOfPixel, flags, snapshotId));
-        assertFalse(ScienceProductSupport.allRequiredArrayPresent(latitude, longitude, null, snapshotIdOfPixel, flags, snapshotId));
-        assertFalse(ScienceProductSupport.allRequiredArrayPresent(latitude, longitude, btDataCounter, null, flags, snapshotId));
-        assertFalse(ScienceProductSupport.allRequiredArrayPresent(latitude, longitude, btDataCounter, snapshotIdOfPixel, null, snapshotId));
-        assertFalse(ScienceProductSupport.allRequiredArrayPresent(latitude, longitude, btDataCounter, snapshotIdOfPixel, flags, null));
-    }
     // @todo 2 tb/tb do not forget to add a  test for band-scaling 2015-06-29
 }

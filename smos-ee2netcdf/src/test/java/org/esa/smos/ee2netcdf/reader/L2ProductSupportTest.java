@@ -1,22 +1,19 @@
 package org.esa.smos.ee2netcdf.reader;
 
-import org.esa.smos.dataio.smos.GridPointInfo;
 import org.esa.smos.dataio.smos.dddb.BandDescriptor;
-import org.esa.smos.dataio.smos.provider.AbstractValueProvider;
 import org.esa.snap.core.datamodel.Band;
 import org.esa.snap.core.datamodel.ProductData;
-import org.jetbrains.annotations.NotNull;
 import org.junit.Before;
 import org.junit.Test;
 import ucar.nc2.Attribute;
 import ucar.nc2.NetcdfFile;
 import ucar.nc2.Variable;
 
-import java.awt.*;
-import java.awt.geom.Area;
-
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class L2ProductSupportTest {
 
@@ -88,47 +85,11 @@ public class L2ProductSupportTest {
         assertEquals(offset, chi_2.getScalingOffset(), 1e-8);
     }
 
-    @Test
-    public void testSetScaleAndOffset_otherVariable() {
-        final Band band = new Band("Hasimaus", ProductData.TYPE_FLOAT32, 2, 2);
-        final double scaling = 2.2;
-        final double offset = -0.35;
-        final BandDescriptor descriptor = createOtherDescriptor(scaling, offset);
-
-        support.setScalingAndOffset(band, descriptor);
-
-        assertEquals(scaling, band.getScalingFactor(), 1e-8);
-        assertEquals(offset, band.getScalingOffset(), 1e-8);
-    }
-
-    @Test
-    public void testCreateValueProvider() {
-        final ArrayCache arrayCache = mock(ArrayCache.class);
-        final BandDescriptor descriptor = mock(BandDescriptor.class);
-        final GridPointInfo gridPointInfo = mock(GridPointInfo.class);
-
-        final AbstractValueProvider valueProvider = support.createValueProvider(arrayCache, "whatever", descriptor, new Area(new Rectangle(0, 0, 12, 34)), gridPointInfo);
-        assertNotNull(valueProvider);
-        assertTrue(valueProvider instanceof VariableValueProvider);
-    }
-
     private BandDescriptor createChi2Descriptor(double scaling, double offset) {
-        final BandDescriptor descriptor = createDescriptorMock(scaling, offset);
-        when(descriptor.getMemberName()).thenReturn("Chi_2");
-        return descriptor;
-    }
-
-    @NotNull
-    private BandDescriptor createDescriptorMock(double scaling, double offset) {
         final BandDescriptor descriptor = mock(BandDescriptor.class);
         when(descriptor.getScalingFactor()).thenReturn(scaling);
         when(descriptor.getScalingOffset()).thenReturn(offset);
-        return descriptor;
-    }
-
-    private BandDescriptor createOtherDescriptor(double scaling, double offset) {
-        final BandDescriptor descriptor = createDescriptorMock(scaling, offset);
-        when(descriptor.getMemberName()).thenReturn("Hasimaus");
+        when(descriptor.getMemberName()).thenReturn("Chi_2");
         return descriptor;
     }
 }

@@ -6,7 +6,6 @@ import org.esa.smos.dataio.smos.provider.ValueProvider;
 import java.awt.geom.Area;
 import java.util.HashMap;
 
-@Deprecated
 class FaradayValueProvider implements ValueProvider {
 
     private final Area area;

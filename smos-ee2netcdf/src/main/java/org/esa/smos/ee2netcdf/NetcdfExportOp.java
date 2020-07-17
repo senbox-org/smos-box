@@ -61,7 +61,7 @@ public class NetcdfExportOp extends Operator {
     private String contact;
 
     @Parameter(defaultValue = "",
-            description = "A comma-separated list of variables to be included in the target netCDF file. Variables have to be denoted by names as defined in the ESA SMOS product specification documents. If left empty, all variables in the source file are included in the target file.")
+            description = "A comma-separated list of variables to be included in the target netCDF file. Variables have to be denoted by names as defined in the ESA SMOS product specification documents. By default all variables in the source file are included in the target file.")
     private String variableNames;
 
     @Parameter(defaultValue = "6",

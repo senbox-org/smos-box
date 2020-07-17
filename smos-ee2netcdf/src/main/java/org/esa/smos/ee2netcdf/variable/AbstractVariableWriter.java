@@ -7,8 +7,7 @@ import java.io.IOException;
 
 abstract class AbstractVariableWriter implements VariableWriter {
 
-    // package access for testing only tb 2020-07-15
-    Array array;
+    protected Array array;
     protected NVariable variable;
 
     @Override

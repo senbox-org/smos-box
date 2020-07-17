@@ -15,7 +15,7 @@ class VariableValueProvider extends AbstractValueProvider {
     private final ArrayCache arrayCache;
     private final String variableName;
 
-    VariableValueProvider(ArrayCache arrayCache, String variableName, Area area, GridPointInfo gridPointInfo) {
+    public VariableValueProvider(ArrayCache arrayCache, String variableName, Area area, GridPointInfo gridPointInfo) {
         this.area = area;
         this.gridPointInfo = gridPointInfo;
         this.arrayCache = arrayCache;
