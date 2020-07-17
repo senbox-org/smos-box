@@ -7,6 +7,8 @@ Update to version 5.8.0 adds
   * adde variables "Equiv_ftprt_diam" and "Mean_acq_time"
 * updated NetCDF exporter to handle these changes
 
+All [JIRA issues](https://senbox.atlassian.net/issues/?jql=project%20%3D%20SMOSTBX%20AND%20fixVersion%20%3D%205.8.0%20ORDER%20BY%20priority%20DESC)
+
 #New in SMOS-Box 5.7.0
 The update to version 5.7.0 does not add any new feature to the SMOS-BOX. Only released for compatibility reasons with SNAP 8.
 
