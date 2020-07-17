@@ -509,46 +509,6 @@
         ]
       },
       {
-        "name": "Acard",
-        "description": "Effective Acard retrieved with minimalistic model",
-        "noDataValue": "-999.0",
-        "noDataValueUsed": "true",
-        "spectralWavelength": "0.0",
-        "spectralBandwidth": "0.0",
-        "expectedPixels": [
-          {
-            "x": 11853,
-            "y": 3551,
-            "value": 58.04443
-          },
-          {
-            "x": 4475,
-            "y": 353,
-            "value": "NaN"
-          }
-        ]
-      },
-      {
-        "name": "Sigma_Acard",
-        "description": "Theoretical uncertainty computed for Acard",
-        "noDataValue": "-999.0",
-        "noDataValueUsed": "true",
-        "spectralWavelength": "0.0",
-        "spectralBandwidth": "0.0",
-        "expectedPixels": [
-          {
-            "x": 9611,
-            "y": 691,
-            "value": 0.8006035089492798
-          },
-          {
-            "x": 4475,
-            "y": 353,
-            "value": "NaN"
-          }
-        ]
-      },
-      {
         "name": "WS",
         "description": "Equivalent neutral wind speed as derived from ECMWF",
         "geophysicalUnit": "m s-1",
@@ -558,9 +518,9 @@
         "spectralBandwidth": "0.0",
         "expectedPixels": [
           {
-            "x": 12223,
-            "y": 6347,
-            "value": 17.79469
+            "x": 3009,
+            "y": 3085,
+            "value": "NaN"
           },
           {
             "x": 5260,
@@ -579,9 +539,9 @@
         "spectralBandwidth": "0.0",
         "expectedPixels": [
           {
-            "x": 12739,
-            "y": 6305,
-            "value": 4.31107
+            "x": 5867,
+            "y": 4081,
+            "value": "NaN"
           },
           {
             "x": 6600,
@@ -621,9 +581,9 @@
         "spectralBandwidth": "0.0",
         "expectedPixels": [
           {
-            "x": 11457,
-            "y": 3104,
-            "value": 6.34461
+            "x": 15977,
+            "y": 3008,
+            "value": "NaN"
           },
           {
             "x": 15566,
@@ -642,9 +602,9 @@
         "spectralBandwidth": "0.0",
         "expectedPixels": [
           {
-            "x": 11981,
-            "y": 5106,
-            "value": 121.75563
+            "x": 1817,
+            "y": 3701,
+            "value": "NaN"
           },
           {
             "x": 9353,
@@ -663,9 +623,9 @@
         "spectralBandwidth": "0.0",
         "expectedPixels": [
           {
-            "x": 10119,
-            "y": 568,
-            "value": 0.4301019310951233
+            "x": 8287,
+            "y": 4272,
+            "value": "NaN"
           },
           {
             "x": 7384,
@@ -684,72 +644,9 @@
         "spectralBandwidth": "0.0",
         "expectedPixels": [
           {
-            "x": 9917,
-            "y": 530,
-            "value": 79.88454
-          },
-          {
-            "x": 1451,
-            "y": 4121,
+            "x": 236,
+            "y": 3478,
             "value": "NaN"
-          }
-        ]
-      },
-      {
-        "name": "Sigma_TBX",
-        "description": "Theoretical uncertainty computed for TBX",
-        "geophysicalUnit": "K",
-        "noDataValue": "-999.0",
-        "noDataValueUsed": "true",
-        "spectralWavelength": "0.0",
-        "spectralBandwidth": "0.0",
-        "expectedPixels": [
-          {
-            "x": 11932,
-            "y": 4485,
-            "value": 0.41474878787994385
-          },
-          {
-            "x": 1451,
-            "y": 4121,
-            "value": "NaN"
-          }
-        ]
-      },
-      {
-        "name": "TBY",
-        "description": "Brightness temperature at antenna level derived with default forward model and retrieved geophysical parameters, Y polarisation direction",
-        "geophysicalUnit": "K",
-        "noDataValue": "-999.0",
-        "noDataValueUsed": "true",
-        "spectralWavelength": "0.0",
-        "spectralBandwidth": "0.0",
-        "expectedPixels": [
-          {
-            "x": 11797,
-            "y": 4630,
-            "value": 112.88090
-          },
-          {
-            "x": 1451,
-            "y": 4121,
-            "value": "NaN"
-          }
-        ]
-      },
-      {
-        "name": "Sigma_TBY",
-        "description": "Theoretical uncertainty computed for TBY",
-        "geophysicalUnit": "K",
-        "noDataValue": "-999.0",
-        "noDataValueUsed": "true",
-        "spectralWavelength": "0.0",
-        "spectralBandwidth": "0.0",
-        "expectedPixels": [
-          {
-            "x": 11942,
-            "y": 4622,
-            "value": 0.3744450509548187
           },
           {
             "x": 1451,
