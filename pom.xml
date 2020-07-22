@@ -546,21 +546,12 @@
 
     <developers>
         <developer>
-            <id>ralf</id>
-            <name>Ralf Quast</name>
-            <email>ralf.quast@brockmann-consult.de</email>
-            <organization>Brockmann Consult</organization>
-            <roles>
-                <role>Project Manager</role>
-                <role>Java Developer</role>
-            </roles>
-        </developer>
-        <developer>
             <id>tomblock</id>
             <name>Tom Block</name>
             <email>tom.block@brockmann-consult.de</email>
             <organization>Brockmann Consult</organization>
             <roles>
+                <role>Project Manager</role>
                 <role>Java Developer</role>
             </roles>
         </developer>
@@ -577,6 +568,15 @@
             <id>marcop</id>
             <name>Marco Peters</name>
             <email>marco.peters@brockmann-consult.de</email>
+            <organization>Brockmann Consult</organization>
+            <roles>
+                <role>Java Developer</role>
+            </roles>
+        </developer>
+        <developer>
+            <id>ralf</id>
+            <name>Ralf Quast</name>
+            <email>ralf.quast@brockmann-consult.de</email>
             <organization>Brockmann Consult</organization>
             <roles>
                 <role>Java Developer</role>
