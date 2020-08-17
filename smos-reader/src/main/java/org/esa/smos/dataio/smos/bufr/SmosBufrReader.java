@@ -5,13 +5,7 @@ import com.bc.ceres.glevel.MultiLevelImage;
 import com.bc.ceres.glevel.MultiLevelModel;
 import com.bc.ceres.glevel.MultiLevelSource;
 import com.bc.ceres.glevel.support.DefaultMultiLevelImage;
-import org.esa.smos.dataio.smos.CellValueProvider;
-import org.esa.smos.dataio.smos.DggUtils;
-import org.esa.smos.dataio.smos.GridPointBtDataset;
-import org.esa.smos.dataio.smos.PolarisationModel;
-import org.esa.smos.dataio.smos.ProductHelper;
-import org.esa.smos.dataio.smos.SmosReader;
-import org.esa.smos.dataio.smos.SnapshotInfo;
+import org.esa.smos.dataio.smos.*;
 import org.esa.smos.dataio.smos.dddb.BandDescriptor;
 import org.esa.smos.dataio.smos.dddb.Dddb;
 import org.esa.smos.dataio.smos.dddb.Family;
@@ -21,7 +15,7 @@ import org.esa.snap.core.datamodel.Band;
 import org.esa.snap.core.datamodel.Product;
 import org.esa.snap.core.datamodel.ProductData;
 import org.esa.snap.core.util.StringUtils;
-import org.esa.snap.core.util.logging.BeamLogManager;
+import org.esa.snap.core.util.SystemUtils;
 import ucar.ma2.Array;
 import ucar.ma2.StructureData;
 import ucar.ma2.StructureDataIterator;
@@ -29,18 +23,14 @@ import ucar.nc2.Attribute;
 import ucar.nc2.Sequence;
 import ucar.nc2.Variable;
 
-import java.awt.Rectangle;
+import java.awt.*;
 import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.Raster;
 import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
-import java.util.TreeSet;
+import java.util.*;
 import java.util.logging.Logger;
 
 /**
@@ -48,12 +38,11 @@ import java.util.logging.Logger;
  */
 public class SmosBufrReader extends SmosReader {
 
+    private final Map<Integer, IndexArea> snapshotMessageIndexMap;
     private BufrSupport bufrSupport;
     private ValueDecoders valueDecoders;
     private int firstSnapshotId;
     private SnapshotInfo snapshotInfo;
-
-    private final Map<Integer, IndexArea> snapshotMessageIndexMap;
 
     public SmosBufrReader(SmosBufrReaderPlugIn smosBufrReaderPlugIn) {
         super(smosBufrReaderPlugIn);
@@ -75,7 +64,7 @@ public class SmosBufrReader extends SmosReader {
     }
 
     @Override
-    public final GridPointBtDataset getBtData(int gridPointIndex) throws IOException {
+    public final GridPointBtDataset getBtData(int gridPointIndex) {
         return null;
     }
 
@@ -194,7 +183,7 @@ public class SmosBufrReader extends SmosReader {
     protected final void readBandRasterDataImpl(int sourceOffsetX, int sourceOffsetY, int sourceWidth, int sourceHeight,
                                                 int sourceStepX, int sourceStepY, Band destBand, int destOffsetX,
                                                 int destOffsetY, int destWidth, int destHeight, ProductData destBuffer,
-                                                ProgressMonitor pm) throws IOException {
+                                                ProgressMonitor pm) {
         synchronized (this) {
             final RenderedImage image = destBand.getSourceImage();
             final Raster data = image.getData(new Rectangle(destOffsetX, destOffsetY, destWidth, destHeight));
@@ -243,7 +232,7 @@ public class SmosBufrReader extends SmosReader {
         }
     }
 
-    private void addBands(Product product) throws IOException {
+    private void addBands(Product product) {
         final SmosBufrFile smosBufrFile = bufrSupport.getSmosBufrFile();
         final Sequence sequence = smosBufrFile.getObservationStructure();
         final Family<BandDescriptor> descriptors = Dddb.getInstance().getBandDescriptors("BUFR");
@@ -262,8 +251,7 @@ public class SmosBufrReader extends SmosReader {
     }
 
 
-    private void addBand(Product product, Variable variable, int dataType, BandDescriptor descriptor) throws
-            IOException {
+    private void addBand(Product product, Variable variable, int dataType, BandDescriptor descriptor) {
         if (!descriptor.isVisible()) {
             return;
         }
@@ -297,7 +285,7 @@ public class SmosBufrReader extends SmosReader {
         }
         if (descriptor.getFlagDescriptors() != null) {
             ProductHelper.addFlagsAndMasks(product, band, descriptor.getFlagCodingName(),
-                                           descriptor.getFlagDescriptors());
+                    descriptor.getFlagDescriptors());
         }
 
         final String memberName = descriptor.getMemberName();
@@ -361,9 +349,9 @@ public class SmosBufrReader extends SmosReader {
                 snapshotAreaMap.put(longSnapshotId, indexArea.getArea());
             }
 
-            snapshotInfo = new SnapshotInfo(snapshotIndexMap, all, x, y, xy, snapshotAreaMap);
+            snapshotInfo = new SnapshotInfo(snapshotIndexMap, all, x, y, xy, snapshotAreaMap, null);
         } catch (IOException e) {
-            final Logger systemLogger = BeamLogManager.getSystemLogger();
+            final Logger systemLogger = SystemUtils.LOG;
             systemLogger.warning("Failed to read snpshot data: " + e.getMessage());
             snapshotInfo = null;
         }
@@ -456,7 +444,7 @@ public class SmosBufrReader extends SmosReader {
                 }
                 dataLoaded = true;
             } catch (IOException e) {
-                final Logger systemLogger = BeamLogManager.getSystemLogger();
+                final Logger systemLogger = SystemUtils.LOG;
                 systemLogger.warning("Failed to read snpshot data: " + e.getMessage());
             }
         }

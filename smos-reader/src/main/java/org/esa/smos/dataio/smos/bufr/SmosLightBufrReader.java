@@ -7,15 +7,7 @@ import com.bc.ceres.glevel.MultiLevelSource;
 import com.bc.ceres.glevel.support.DefaultMultiLevelImage;
 import org.esa.smos.ObservationPointList;
 import org.esa.smos.Point;
-import org.esa.smos.dataio.smos.CellValueProvider;
-import org.esa.smos.dataio.smos.DggUtils;
-import org.esa.smos.dataio.smos.Grid;
-import org.esa.smos.dataio.smos.GridPointBtDataset;
-import org.esa.smos.dataio.smos.PolarisationModel;
-import org.esa.smos.dataio.smos.ProductHelper;
-import org.esa.smos.dataio.smos.SmosConstants;
-import org.esa.smos.dataio.smos.SmosReader;
-import org.esa.smos.dataio.smos.SnapshotInfo;
+import org.esa.smos.dataio.smos.*;
 import org.esa.smos.dataio.smos.dddb.BandDescriptor;
 import org.esa.smos.dataio.smos.dddb.Dddb;
 import org.esa.smos.dataio.smos.dddb.Family;
@@ -34,22 +26,15 @@ import ucar.nc2.Attribute;
 import ucar.nc2.Sequence;
 import ucar.nc2.Variable;
 
-import java.awt.Rectangle;
+import java.awt.*;
 import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.Raster;
 import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedList;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
-import java.util.TreeSet;
 
 public class SmosLightBufrReader extends SmosReader {
 
@@ -111,7 +96,7 @@ public class SmosLightBufrReader extends SmosReader {
         }
 
         final GridPointBtDataset btDataset = new GridPointBtDataset(BufrSupport.getDatasetNameIndexMap(), classes,
-                                                                    data);
+                data);
         btDataset.setFlagBandIndex(BufrSupport.INFORMATION_FLAG_INDEX);
         btDataset.setIncidenceAngleBandIndex(BufrSupport.INCIDENCE_ANGLE_INDEX);
         btDataset.setRadiometricAccuracyBandIndex(BufrSupport.RADIOMETRIC_ACCURACY_INDEX);
@@ -156,7 +141,7 @@ public class SmosLightBufrReader extends SmosReader {
         final Family<FlagDescriptor> flagDescriptors = Dddb.getInstance().getFlagDescriptors("BUFR_flags");
         final List<FlagDescriptor> flagDescriptorsList = flagDescriptors.asList();
 
-        return flagDescriptorsList.toArray(new FlagDescriptor[flagDescriptorsList.size()]);
+        return flagDescriptorsList.toArray(new FlagDescriptor[0]);
     }
 
     @Override
@@ -268,7 +253,7 @@ public class SmosLightBufrReader extends SmosReader {
             snapshotAreaMap.put(snapshotIdLong, snapshotRect);
         }
 
-        return new SnapshotInfo(snapshotIndexMap, all, x, y, xy, snapshotAreaMap);
+        return new SnapshotInfo(snapshotIndexMap, all, x, y, xy, snapshotAreaMap, null);
     }
 
     @Override
@@ -453,7 +438,7 @@ public class SmosLightBufrReader extends SmosReader {
     }
 
     private void addBand(Product product, Variable variable, int dataType, BandDescriptor descriptor) throws
-                                                                                                      IOException {
+            IOException {
         if (!descriptor.isVisible()) {
             return;
         }
@@ -487,7 +472,7 @@ public class SmosLightBufrReader extends SmosReader {
         }
         if (descriptor.getFlagDescriptors() != null) {
             ProductHelper.addFlagsAndMasks(product, band, descriptor.getFlagCodingName(),
-                                           descriptor.getFlagDescriptors());
+                    descriptor.getFlagDescriptors());
         }
 
         final Integer index = BufrSupport.getDatasetNameIndexMap().get(descriptor.getMemberName());
@@ -598,8 +583,8 @@ public class SmosLightBufrReader extends SmosReader {
                         continue;
                     }
                     if (polarisation == 4 ||
-                        (observation.data[BufrSupport.POLARISATION_INDEX] & 3) == polarisation ||
-                        (polarisation & observation.data[BufrSupport.POLARISATION_INDEX] & 2) != 0) {
+                            (observation.data[BufrSupport.POLARISATION_INDEX] & 3) == polarisation ||
+                            (polarisation & observation.data[BufrSupport.POLARISATION_INDEX] & 2) != 0) {
 
                         final int incidenceAngleInt = observation.data[BufrSupport.INCIDENCE_ANGLE_INDEX];
                         if (incidenceAngleValueDecoder.isValid(incidenceAngleInt)) {
@@ -704,8 +689,8 @@ public class SmosLightBufrReader extends SmosReader {
                 for (final Observation observation : cellObservations) {
                     // @todo 2 tb/tb move this conditional to a method 2014-12-02
                     if (polarisation == 4 ||
-                        (observation.data[BufrSupport.POLARISATION_INDEX] & 3) == polarisation ||
-                        (polarisation & observation.data[BufrSupport.POLARISATION_INDEX] & 2) != 0) {
+                            (observation.data[BufrSupport.POLARISATION_INDEX] & 3) == polarisation ||
+                            (polarisation & observation.data[BufrSupport.POLARISATION_INDEX] & 2) != 0) {
 
                         final int incidenceAngleInt = observation.data[BufrSupport.INCIDENCE_ANGLE_INDEX];
 

@@ -331,7 +331,36 @@ public class SmosProductReader extends SmosReader {
                 entry[0] = memberName;
 
                 final Type memberType = compoundType.getMemberType(i);
-                if (memberType.isSimpleType()) {
+                if ("Flags".equals(memberName)) {
+                    final SnapshotInfo snapshotInfo = getSnapshotInfo();
+                    final List<FlagDescriptor> rfiFlagDescriptors = snapshotInfo.getRfiFlagDescriptors();
+
+                    final Number flagValue;
+                    try {
+                        flagValue = NumberUtils.getNumericMember(data, i);
+                    } catch (IOException e) {
+                        entry[1] = "Failed reading data";
+                        list.add(entry);
+                        continue;
+                    }
+
+                    if (rfiFlagDescriptors == null) {
+                        entry[1] = flagValue;
+                        list.add(entry);
+                    } else {
+                        for (final FlagDescriptor descriptor : rfiFlagDescriptors) {
+                            final Object[] flagEntry = new Object[2];
+                            final String flagName = memberName + "." + descriptor.getFlagName();
+                            flagEntry[0] = flagName;
+
+                            final int mask = descriptor.getMask();
+                            final int flag = flagValue.intValue();
+                            flagEntry[1] = (mask & flag) == mask;
+
+                            list.add(flagEntry);
+                        }
+                    }
+                } else if (memberType.isSimpleType()) {
                     try {
                         entry[1] = NumberUtils.getNumericMember(data, i);
                     } catch (IOException e) {

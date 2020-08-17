@@ -16,6 +16,8 @@
 
 package org.esa.smos.dataio.smos;
 
+import org.esa.smos.dataio.smos.dddb.FlagDescriptor;
+
 import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
@@ -40,13 +42,15 @@ public class SnapshotInfo {
     private final List<Long> snapshotIdsY;
     private final List<Long> snapshotIdsXY;
     private final Map<Long, Area> snapshotAreaMap;
+    private final List<FlagDescriptor> rfiFlagDescriptors;
 
     public SnapshotInfo(Map<Long, Integer> snapshotIndexMap,
                         Collection<Long> snapshotIds,
                         Collection<Long> snapshotIdsX,
                         Collection<Long> snapshotIdsY,
                         Collection<Long> snapshotIdsXY,
-                        Map<Long, Rectangle2D> snapshotAreaMap) {
+                        Map<Long, Rectangle2D> snapshotAreaMap,
+                        List<FlagDescriptor> rfiFlagDescriptors) {
         this.snapshotIndexMap = Collections.unmodifiableMap(snapshotIndexMap);
         this.snapshotIds = Collections.unmodifiableList(new ArrayList<>(snapshotIds));
         this.snapshotIdsX = Collections.unmodifiableList(new ArrayList<>(snapshotIdsX));
@@ -58,6 +62,8 @@ public class SnapshotInfo {
             map.put(entry.getKey(), new Area(entry.getValue()));
         }
         this.snapshotAreaMap = Collections.unmodifiableMap(map);
+
+        this.rfiFlagDescriptors = rfiFlagDescriptors;
     }
 
     public boolean containsData() {
@@ -89,5 +95,9 @@ public class SnapshotInfo {
 
     public Area getArea(long snapshotId) {
         return snapshotAreaMap.get(snapshotId);
+    }
+
+    public List<FlagDescriptor> getRfiFlagDescriptors() {
+        return rfiFlagDescriptors;
     }
 }

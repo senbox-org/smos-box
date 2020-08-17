@@ -4,6 +4,7 @@ import com.bc.ceres.glevel.support.DefaultMultiLevelImage;
 import org.esa.smos.SmosUtils;
 import org.esa.smos.dataio.smos.*;
 import org.esa.smos.dataio.smos.dddb.BandDescriptor;
+import org.esa.smos.dataio.smos.dddb.Dddb;
 import org.esa.smos.dataio.smos.dddb.Family;
 import org.esa.smos.dataio.smos.dddb.FlagDescriptor;
 import org.esa.smos.dataio.smos.provider.*;
@@ -252,7 +253,19 @@ class ScienceProductSupport extends AbstractProductTypeSupport {
                 arrayCache.get(variableName);
             }
         }
-        return new SnapshotInfo(snapshotIndexMap, all, x, y, xy, snapshotAreaMap);
+
+        final Family<BandDescriptor> bandDescriptors = Dddb.getInstance().getBandDescriptors(typeString);
+        final List<BandDescriptor> bandDescriptorsList = bandDescriptors.asList();
+        List<FlagDescriptor> flagDescriptorList = null;
+        for (final BandDescriptor descriptor : bandDescriptorsList) {
+            if (descriptor.getBandName().equals("RFI_Flags")) {
+                final Family<FlagDescriptor> flagDescriptors = descriptor.getFlagDescriptors();
+                flagDescriptorList = flagDescriptors.asList();
+                break;
+            }
+        }
+
+        return new SnapshotInfo(snapshotIndexMap, all, x, y, xy, snapshotAreaMap, flagDescriptorList);
     }
 
     @Override

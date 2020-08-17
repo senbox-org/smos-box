@@ -157,7 +157,7 @@ public class SnapshotInfoTopComponent extends SmosTopComponent {
         snapshotSelectorCombo.addSliderChangeListener(snapshotIdListener);
         snapshotSelectorCombo.addComboBoxActionListener(e -> updateTable(snapshotSelectorCombo.getSnapshotId()));
 
-        JComponent comboComponent = SnapshotSelectorCombo.createComponent(snapshotSelectorCombo, false);
+        final JComponent comboComponent = SnapshotSelectorCombo.createComponent(snapshotSelectorCombo, false);
         mainPanel.add(comboComponent, BorderLayout.NORTH);
 
         final JPanel snapshotTablePanel = createSnapshotTablePanel();
