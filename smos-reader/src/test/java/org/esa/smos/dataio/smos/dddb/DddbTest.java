@@ -22,6 +22,7 @@ import org.junit.Test;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
@@ -515,6 +516,21 @@ public class DddbTest {
         assertEquals("Radiometric_Accuracy_of_Pixel", dddb.getEEVariableName("Pixel_Radiometric_Accuracy", DBL_SM_XXXX_MIR_BWSD1C_0200));
 
         assertEquals("schneckBand", dddb.getEEVariableName("schneckBand", "invalid_schema"));
+    }
+
+    @Test
+    public void testGetComplexFlagDescriptors() {
+        final Family<FlagDescriptor> descriptorFamily = dddb.getComplexFlagDescriptors("DBL_SM_XXXX_MIR_XXXF1C_0401_RFI");
+        final List<FlagDescriptor> descriptors = descriptorFamily.asList();
+        assertEquals(4, descriptors.size());
+
+        FlagDescriptor descriptor = descriptors.get(1);
+        assertEquals("RFI_LOW", descriptor.getFlagName());
+        assertEquals(0X0000C000, descriptor.getMask());
+
+        descriptor = descriptors.get(3);
+        assertEquals("RFI_HIGH", descriptor.getFlagName());
+        assertEquals(0X0000C000, descriptor.getMask());
     }
 
     private class TestBandDescriptor implements BandDescriptor {
