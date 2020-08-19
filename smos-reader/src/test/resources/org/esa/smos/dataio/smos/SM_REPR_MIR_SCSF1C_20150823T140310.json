@@ -27,7 +27,7 @@
           {
             "name": "POL_FLAG_2",
             "value": 2,
-            "description": "HV polarization when the instrument was in VHH+HVH+HHV (0) or HVV+VHV+VVH (1) arm configuration"
+            "description": "Flag indicating Real and Imaginary part of the HV polarization when the instrument was in VHH+HVH+HHV arm configuration"
           },
           {
             "name": "SUN_FOV",
@@ -90,18 +90,13 @@
             "description": "Measurement is affected by the tails of a point source RFI as identified in the AUX RFI list (tail width is dependant on the RFI estimated BT (from each snapshot measurements) , corresponding to 0.16 of the radius of the RFI circle flagged)"
           },
           {
-            "name": "RFI_LOW",
+            "name": "RFI_FLAG_1",
             "value": 16384,
             "description": "Measurement is affected by a point source RFI identified in the AUX RFI list whose contribution generates a contamination in BT above a certain level defined in the AUX CNFL1P file"
           },
           {
-            "name": "RFI_MEDIUM",
+            "name": "RFI_FLAG_2",
             "value": 32768,
-            "description": "Measurement is affected by a point source RFI identified in the AUX RFI list whose contribution generates a contamination in BT above a certain level defined in the AUX CNFL1P file"
-          },
-          {
-            "name": "RFI_HIGH",
-            "value": 49152,
             "description": "Measurement is affected by a point source RFI identified in the AUX RFI list whose contribution generates a contamination in BT above a certain level defined in the AUX CNFL1P file"
           }
         ]

@@ -1,6 +1,7 @@
 package org.esa.smos.gui.gridpoint;
 
 import org.esa.smos.dataio.smos.dddb.FlagDescriptor;
+import org.esa.smos.dataio.smos.dddb.FlagDescriptorImpl;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -22,26 +23,16 @@ public class GridPointBtDataFlagmatrixTopComponentTest {
         data[7][0] = 49160;     // RFI_HIGH & SUN_GLINT_FOV
 
         final FlagDescriptor[] flagDescriptors = new FlagDescriptor[10];
-        flagDescriptors[0] = mock(FlagDescriptor.class);
-        when(flagDescriptors[0].getMask()).thenReturn(1);
-        flagDescriptors[1] = mock(FlagDescriptor.class);
-        when(flagDescriptors[1].getMask()).thenReturn(2);
-        flagDescriptors[2] = mock(FlagDescriptor.class);
-        when(flagDescriptors[2].getMask()).thenReturn(8);
-        flagDescriptors[3] = mock(FlagDescriptor.class);
-        when(flagDescriptors[3].getMask()).thenReturn(16);
-        flagDescriptors[4] = mock(FlagDescriptor.class);
-        when(flagDescriptors[4].getMask()).thenReturn(1024);
-        flagDescriptors[5] = mock(FlagDescriptor.class);
-        when(flagDescriptors[5].getMask()).thenReturn(2048);
-        flagDescriptors[6] = mock(FlagDescriptor.class);
-        when(flagDescriptors[6].getMask()).thenReturn(4096);
-        flagDescriptors[7] = mock(FlagDescriptor.class);
-        when(flagDescriptors[7].getMask()).thenReturn(8192);
-        flagDescriptors[8] = mock(FlagDescriptor.class);
-        when(flagDescriptors[8].getMask()).thenReturn(64);
-        flagDescriptors[9] = mock(FlagDescriptor.class);
-        when(flagDescriptors[9].getMask()).thenReturn(49152);
+        flagDescriptors[0] = new FlagDescriptorImpl(new String[]{"", "POL_FLAG_1", "00000001", "2", "*", ""});
+        flagDescriptors[1] = new FlagDescriptorImpl(new String[]{"", "POL_FLAG_2", "00000002", "2", "*", ""});
+        flagDescriptors[2] = new FlagDescriptorImpl(new String[]{"", "SUN_GLINT_FOV", "00000008", "2", "*", ""});
+        flagDescriptors[3] = new FlagDescriptorImpl(new String[]{"", "MOON_FOV", "00000010", "2", "*", ""});
+        flagDescriptors[4] = new FlagDescriptorImpl(new String[]{"", "AF_FOV", "00000400", "2", "*", ""});
+        flagDescriptors[5] = new FlagDescriptorImpl(new String[]{"", "RFI_TAIL", "00000800", "2", "*", ""});
+        flagDescriptors[6] = new FlagDescriptorImpl(new String[]{"", "BORDER_FOV", "00001000", "2", "*", ""});
+        flagDescriptors[7] = new FlagDescriptorImpl(new String[]{"", "SUN_TAILS", "00002000", "2", "*", ""});
+        flagDescriptors[8] = new FlagDescriptorImpl(new String[]{"", "RFI_POINT_SOURCE", "00000040", "2", "*", ""});
+        flagDescriptors[9] = new FlagDescriptorImpl(new String[]{"", "RFI_FLAG_2", "00008000", "2", "*", ""});
 
         final double[][] flagData = GridPointBtDataFlagmatrixTopComponent.calculateFlaggingData(0, data, flagDescriptors);
         assertEquals(3, flagData.length);

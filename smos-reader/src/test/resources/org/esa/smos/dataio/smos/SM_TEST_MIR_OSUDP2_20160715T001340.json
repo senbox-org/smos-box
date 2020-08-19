@@ -344,7 +344,7 @@
       {
         "name": "Equiv_ftprt_diam",
         "description": "Equivalent footprint diameter",
-        "geophysicalUnit": "m",
+        "geophysicalUnit": "km",
         "noDataValue": "-999.0",
         "noDataValueUsed": "true",
         "spectralWavelength": "0.0",

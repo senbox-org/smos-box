@@ -16,9 +16,12 @@
 
 package org.esa.smos.dataio.smos.dddb;
 
-import java.awt.Color;
+import java.awt.*;
 
 public interface FlagDescriptor {
+
+    double TRANSPARENCY_DEFAULT = 0.5;
+    String DESCRIPTION_DEFAULT = "";
 
     String getFlagName();
 
@@ -31,4 +34,6 @@ public interface FlagDescriptor {
     double getTransparency();
 
     String getDescription();
+
+    boolean evaluate(int flags);
 }

@@ -32,4 +32,19 @@ public class FlagDescriptorImplTest {
         assertEquals(0.5, flagDescriptor.getTransparency(), 1e-8);
         assertEquals("", flagDescriptor.getDescription());
     }
+
+    @Test
+    public void testEvaluate() {
+        String[] tokens = new String[]{"true", "flagName", "00000001", "2000", "0.78", "description"};
+
+        FlagDescriptorImpl flagDescriptor = new FlagDescriptorImpl(tokens);
+        assertTrue(flagDescriptor.evaluate(17));
+        assertFalse(flagDescriptor.evaluate(48));
+
+        tokens = new String[]{"true", "flagName", "00000010", "2000", "0.78", "description"};
+
+        flagDescriptor = new FlagDescriptorImpl(tokens);
+        assertTrue(flagDescriptor.evaluate(17));
+        assertFalse(flagDescriptor.evaluate(33));
+    }
 }

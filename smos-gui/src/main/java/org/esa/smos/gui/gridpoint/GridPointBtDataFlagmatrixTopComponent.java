@@ -90,7 +90,7 @@ public class GridPointBtDataFlagmatrixTopComponent extends GridPointBtDataTopCom
 
         final List<FlagDescriptor> flagDescriptorList = Dddb.getInstance().getFlagDescriptors(
                 DEFAULT_FLAG_DESCRIPTOR_IDENTIFIER).asList();
-        flagDescriptors = flagDescriptorList.toArray(new FlagDescriptor[flagDescriptorList.size()]);
+        flagDescriptors = flagDescriptorList.toArray(new FlagDescriptor[0]);
         final String[] flagNames = createFlagNames(flagDescriptors);
         final NumberAxis yAxis = createRangeAxis(flagNames);
 
@@ -168,6 +168,7 @@ public class GridPointBtDataFlagmatrixTopComponent extends GridPointBtDataTopCom
                 data[1][index] = y;
                 final int mask = flagDescriptors[y].getMask();
                 data[2][index] = ((flags & mask) == mask) ? (1 + y % 3) : 0.0;
+                data[2][index] = flagDescriptors[y].evaluate(flags) ? (1 + y % 3) : 0.0;
             }
         }
         return data;
