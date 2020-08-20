@@ -520,7 +520,7 @@ public class DddbTest {
 
     @Test
     public void testGetComplexFlagDescriptors() {
-        final Family<FlagDescriptor> descriptorFamily = dddb.getComplexFlagDescriptors("DBL_SM_XXXX_MIR_XXXF1C_0401_RFI");
+        final Family<FlagDescriptor> descriptorFamily = dddb.getCombinedFlagDescriptors("DBL_SM_XXXX_MIR_XXXF1C_0401_RFI");
         final List<FlagDescriptor> descriptors = descriptorFamily.asList();
         assertEquals(4, descriptors.size());
 

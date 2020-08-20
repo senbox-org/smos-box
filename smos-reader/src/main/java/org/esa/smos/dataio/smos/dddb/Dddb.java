@@ -213,7 +213,7 @@ public class Dddb {
         return flagDescriptorMap.get(identifier);
     }
 
-    public Family<FlagDescriptor> getComplexFlagDescriptors(String identifier) {
+    public Family<FlagDescriptor> getCombinedFlagDescriptors(String identifier) {
         if (!flagDescriptorCombinedMap.containsKey(identifier)) {
             try (InputStream inputStream = getFlagDescriptorResource(identifier)) {
                 final FlagDescriptorsCombined descriptors = readCombinedFlagDescriptors(inputStream);
