@@ -1,4 +1,4 @@
-# visible | name                  | mask     | color | transparency | description
+# visible | name                  | mask     | color | combinedDesc | description
 # *       | not used              | 00000001 | *     | *            | *
   *       | FG_CTRL_RANGE         | 00000002 | *     | *            | Retrieved values outside range using forward model 1
   *       | FG_CTRL_SIGMA         | 00000004 | *     | *            | High retrieval sigma using forward model 1

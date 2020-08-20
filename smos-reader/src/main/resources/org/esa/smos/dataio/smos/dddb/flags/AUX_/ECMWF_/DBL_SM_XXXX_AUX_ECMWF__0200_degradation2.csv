@@ -1,4 +1,4 @@
-# visible | name       | mask     | color | transparency | description
+# visible | name       | mask     | color | combinedDesc | description
 # *       | SSHF_FLAG  | 00000001 | *     | *            | Degradation flag: surface sensible heat flux rate
 # *       | SLHF_FLAG  | 00000002 | *     | *            | Degradation flag: surface latent heat flux rate
   *       | CDWW_FLAG  | 00000004 | *     | *            | Degradation flag: drag coefficient with waves

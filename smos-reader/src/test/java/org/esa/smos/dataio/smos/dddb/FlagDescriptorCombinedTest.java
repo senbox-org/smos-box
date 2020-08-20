@@ -15,7 +15,7 @@ public class FlagDescriptorCombinedTest {
         assertEquals(3, desciptor.getMask());
         assertFalse(desciptor.isVisible());
         assertNull(desciptor.getColor());
-        assertEquals(0.5, desciptor.getTransparency(), 1e-8);
+        assertEquals("", desciptor.getCombinedDescriptor());
         assertEquals("", desciptor.getDescription());
     }
 

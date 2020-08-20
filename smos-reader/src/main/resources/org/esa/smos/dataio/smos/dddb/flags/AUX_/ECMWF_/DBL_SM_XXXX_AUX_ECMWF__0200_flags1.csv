@@ -1,4 +1,4 @@
-# visible | name       | mask     | color | transparency | description
+# visible | name       | mask     | color | combinedDesc | description
   *       | CI_FLAG    | 00000001 | *     | *            | Quality flag: sea ice cover
   *       | SP_FLAG    | 00000002 | *     | *            | Quality flag: surface pressure
   *       | 2T_FLAG    | 00000004 | *     | *            | Quality flag: air temperature 2m

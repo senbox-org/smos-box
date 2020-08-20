@@ -1,4 +1,4 @@
-# visible | name                  | mask     | color | transparency | description
+# visible | name                  | mask     | color | combinedDesc | description
   *       | RFI                   | 00000001 | *     | *            | Pixel is affected by RFI effects as identified in the AUX_RFILST or it has exceeded the BT thresholds.
   *       | SUN_TAILS             | 00000002 | *     | *            | Pixel is located in the hexagonal alias directions centred on a Sun alias (if Sun is not removed, measurement may be degraded in these directions).
   *       | BORDER_FOV            | 00000004 | *     | *            | Pixel is close to the border delimiting the Extended Alias free zone or to the unit circle replicas borders.

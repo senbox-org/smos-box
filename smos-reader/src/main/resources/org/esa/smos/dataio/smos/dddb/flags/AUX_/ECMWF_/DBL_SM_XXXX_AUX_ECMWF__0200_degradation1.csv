@@ -1,4 +1,4 @@
-# visible | name       | mask     | color | transparency | description
+# visible | name       | mask     | color | combinedDesc | description
 # *       | spare      | 00000001 | *     | *            | this flag is never raised
   *       | SP_FLAG    | 00000002 | *     | *            | Degradation flag: surface pressure
   *       | 2T_FLAG    | 00000004 | *     | *            | Degradation flag: air temperature 2m

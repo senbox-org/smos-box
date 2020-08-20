@@ -1,4 +1,4 @@
-# visible | name                         | mask     | color | transparency | description
+# visible | name                         | mask     | color | combinedDesc | description
   *       | FM_SUSPECT_ICE               | 00000001 | *     | *            | True if difference between measured brightness temperature and flat sea model > Tm_DT_ice
   *       | FM_L1C_ERROR                 | 00000002 | *     | *            | True if L1c BT value is invalid (NaN) or any of the L1c snapshot quality error flags are non-zero
   *       | FM_OUT_OF_RANGE              | 00000004 | *     | *            | True if difference between measured brightness temperature and that derived with default forward model > Tm_out_of_range

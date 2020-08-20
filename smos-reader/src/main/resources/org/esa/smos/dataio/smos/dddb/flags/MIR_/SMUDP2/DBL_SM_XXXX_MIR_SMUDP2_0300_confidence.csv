@@ -1,4 +1,4 @@
-# visible | name                      | mask     | color | transparency | description
+# visible | name                      | mask     | color | combinedDesc | description
 # *       | spare                     | 00000001 | *     | *            | not used
   *       | FL_RFI_PRONE_H            | 00000002 | *     | *            | DGG Current RFI for H pol above threshold
   *       | FL_RFI_PRONE_V            | 00000004 | *     | *            | DGG Current RFI for V pol above threshold

@@ -41,8 +41,8 @@ public class FlagDescriptorCombined implements FlagDescriptor {
     }
 
     @Override
-    public double getTransparency() {
-        return TRANSPARENCY_DEFAULT;
+    public String getCombinedDescriptor() {
+        return DESCRIPTION_DEFAULT;
     }
 
     @Override

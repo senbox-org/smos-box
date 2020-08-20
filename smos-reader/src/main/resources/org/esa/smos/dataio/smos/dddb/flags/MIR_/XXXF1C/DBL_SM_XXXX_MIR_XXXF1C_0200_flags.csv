@@ -1,4 +1,4 @@
-# visible | name                  | mask     | color | transparency | description
+# visible | name                  | mask     | color | combinedDesc | description
   *       | POL_FLAG_1            | 00000001 | *     | *            | Flag indicating antenna polarisation mode.
   *       | POL_FLAG_2            | 00000002 | *     | *            | Flag indicating antenna polarisation mode.
   *       | SUN_FOV               | 00000004 | *     | *            | Direct  Sun  correction  has  been  performed  during  image reconstruction of this pixel

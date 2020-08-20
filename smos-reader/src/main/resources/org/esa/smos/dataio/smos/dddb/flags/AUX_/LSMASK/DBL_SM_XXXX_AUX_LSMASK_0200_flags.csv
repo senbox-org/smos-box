@@ -1,4 +1,4 @@
-# visible | name                | mask     | color    | transparency | description
+# visible | name                | mask     | color    | combinedDesc | description
   *       | USGS_SEA_FLAG       | 00000001 | 000000FF | *            | Water fraction is above 95 percent (1); below 95 percent (0)
   *       | USGS_LAND_FLAG      | 00000002 | 0000FF00 | *            | Water fraction is below 10 percent (1); above 10 percent (0)
   *       | USGS_MIXED_FLAG     | 00000004 | 0000FFFF | *            | Water fraction is above 10 and below 95 percent (1); below 10 or above 95 percent (0)

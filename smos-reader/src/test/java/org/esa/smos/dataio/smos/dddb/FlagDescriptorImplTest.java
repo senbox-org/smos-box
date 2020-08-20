@@ -9,14 +9,14 @@ public class FlagDescriptorImplTest {
 
     @Test
     public void testConstructFromTokens() {
-        final String[] tokens = new String[]{"true", "flagName", "1000", "2000", "0.78", "description"};
+        final String[] tokens = new String[]{"true", "flagName", "1000", "2000", "combination", "description"};
 
         final FlagDescriptorImpl flagDescriptor = new FlagDescriptorImpl(tokens);
         assertTrue(flagDescriptor.isVisible());
         assertEquals("flagName", flagDescriptor.getFlagName());
         assertEquals(4096, flagDescriptor.getMask());
         assertEquals("java.awt.Color[r=0,g=32,b=0]", flagDescriptor.getColor().toString());
-        assertEquals(0.78, flagDescriptor.getTransparency(), 1e-8);
+        assertEquals("combination", flagDescriptor.getCombinedDescriptor());
         assertEquals("description", flagDescriptor.getDescription());
     }
 
@@ -29,7 +29,7 @@ public class FlagDescriptorImplTest {
         assertEquals("Merkel", flagDescriptor.getFlagName());
         assertEquals(0, flagDescriptor.getMask());
         assertNull(flagDescriptor.getColor());
-        assertEquals(0.5, flagDescriptor.getTransparency(), 1e-8);
+        assertEquals("", flagDescriptor.getCombinedDescriptor());
         assertEquals("", flagDescriptor.getDescription());
     }
 

@@ -77,7 +77,7 @@ public class DddbTest {
     }
 
     @Test
-    public void testGetBandDescriptors_BUFR() throws Exception {
+    public void testGetBandDescriptors_BUFR() {
         final Family<BandDescriptor> descriptors = dddb.getBandDescriptors("BUFR");
         assertEquals(27, descriptors.asList().size());
 
@@ -88,7 +88,7 @@ public class DddbTest {
     }
 
     @Test
-    public void testGetFlagDescriptors_BUFR() throws Exception {
+    public void testGetFlagDescriptors_BUFR() {
         final Family<FlagDescriptor> descriptors = dddb.getFlagDescriptors("BUFR_flags");
         assertEquals(14, descriptors.asList().size());
     }
@@ -105,8 +105,8 @@ public class DddbTest {
         assertEquals("RR_FLAG", descriptor.getFlagName());
         assertEquals(0x00000080, descriptor.getMask());
         assertNull(descriptor.getColor());
-        assertEquals(0.5, descriptor.getTransparency(), 0.0);
-        assertFalse(descriptor.getDescription().isEmpty());
+        assertEquals("", descriptor.getCombinedDescriptor());
+        assertEquals("Quality flag: rain rate", descriptor.getDescription());
     }
 
     @Test
