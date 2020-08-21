@@ -5,15 +5,8 @@ import com.bc.ceres.glevel.MultiLevelImage;
 import com.bc.ceres.glevel.support.DefaultMultiLevelImage;
 import org.esa.smos.ObservationPointList;
 import org.esa.smos.Point;
-import org.esa.smos.dataio.smos.DggUtils;
-import org.esa.smos.dataio.smos.GridPointBtDataset;
-import org.esa.smos.dataio.smos.GridPointInfo;
-import org.esa.smos.dataio.smos.PolarisationModel;
-import org.esa.smos.dataio.smos.ProductHelper;
-import org.esa.smos.dataio.smos.SmosConstants;
-import org.esa.smos.dataio.smos.SmosMultiLevelSource;
-import org.esa.smos.dataio.smos.SmosReader;
-import org.esa.smos.dataio.smos.SnapshotInfo;
+import org.esa.smos.SmosUtils;
+import org.esa.smos.dataio.smos.*;
 import org.esa.smos.dataio.smos.dddb.BandDescriptor;
 import org.esa.smos.dataio.smos.dddb.Dddb;
 import org.esa.smos.dataio.smos.dddb.Family;
@@ -28,6 +21,7 @@ import org.esa.snap.core.dataio.ProductReaderPlugIn;
 import org.esa.snap.core.datamodel.Band;
 import org.esa.snap.core.datamodel.Product;
 import org.esa.snap.core.datamodel.ProductData;
+import org.esa.snap.core.util.io.FileUtils;
 import org.esa.snap.dataio.netcdf.util.DataTypeUtils;
 import org.esa.snap.dataio.netcdf.util.NetcdfFileOpener;
 import ucar.ma2.Array;
@@ -54,6 +48,8 @@ public class NetcdfProductReader extends SmosReader {
     private NetcdfFile netcdfFile;
     private ProductTypeSupport typeSupport;
     private GridPointInfo gridPointInfo;
+    private boolean isL2Type;
+    private List<AttributeEntry> globalAttributeList;
 
     /**
      * Constructs a new abstract product reader.
@@ -68,10 +64,16 @@ public class NetcdfProductReader extends SmosReader {
     }
 
     static String getSchemaDescription(NetcdfFile netcdfFile) throws IOException {
-        final Attribute schemaAttribute = netcdfFile.findGlobalAttribute("Variable_Header:Specific_Product_Header:Main_Info:Datablock_Schema");
+        final String schemaAttributeName = "Variable_Header:Specific_Product_Header:Main_Info:Datablock_Schema";
+        Attribute schemaAttribute = netcdfFile.findGlobalAttribute(schemaAttributeName);
         if (schemaAttribute == null) {
-            throw new IOException("Schema attribuite not found.");
+            final String replacement = MetadataUtils.getReplacement(schemaAttributeName);
+            schemaAttribute = netcdfFile.findGlobalAttribute(replacement);
+            if (schemaAttribute == null) {
+                throw new IOException("Schema attribute not found.");
+            }
         }
+
 
         return schemaAttribute.getStringValue().substring(0, 27);
     }
@@ -196,21 +198,25 @@ public class NetcdfProductReader extends SmosReader {
             throw new IOException("Unable to read file");
         }
 
+        final String fileNameWithHDRExtension = FileUtils.exchangeExtension(inputFile.getName(), ".HDR");
+        isL2Type = SmosUtils.isL2Type(fileNameWithHDRExtension);
+
         synchronized (netcdfFile) {
             final ArrayCache arrayCache = new ArrayCache(netcdfFile);
 
             final String productType = getProductTypeString();
-
             typeSupport = ProductTypeSupportFactory.get(productType, netcdfFile);
-
             if (!typeSupport.canOpenFile()) {
                 throw new IOException("Incomplete SMOS file, unable to handle correctly.");
             }
 
+            final List<Attribute> globalAttributes = netcdfFile.getGlobalAttributes();
+            globalAttributeList = MetadataUtils.convertNetcdfAttributes(globalAttributes, isL2Type);
+
             product = ProductHelper.createProduct(inputFile, productType);
             product.setProductReader(this);
             addSensingTimes(product);
-            addMetadata(product);
+            MetadataUtils.parseMetadata(globalAttributeList, product.getMetadataRoot());
 
             final Area area = calculateArea(typeSupport);
             gridPointInfo = calculateGridPointInfo();
@@ -279,7 +285,13 @@ public class NetcdfProductReader extends SmosReader {
     }
 
     private String getProductTypeString() throws IOException {
-        final Attribute fileTypeAttrbute = netcdfFile.findGlobalAttribute("Fixed_Header:File_Type");
+        String fileTypeAttribName;
+        if (isL2Type) {
+            fileTypeAttribName = MetadataUtils.getReplacement("Fixed_Header:File_Type");
+        } else {
+            fileTypeAttribName = "Fixed_Header:File_Type";
+        }
+        final Attribute fileTypeAttrbute = netcdfFile.findGlobalAttribute(fileTypeAttribName);
         if (fileTypeAttrbute == null) {
             throw new IOException("Required attribute `Fixed_Header:File_Type` not found");
         }
@@ -287,14 +299,8 @@ public class NetcdfProductReader extends SmosReader {
     }
 
     private void addSensingTimes(Product product) throws IOException {
-        final Attribute startAttribute = netcdfFile.findGlobalAttribute("Fixed_Header:Validity_Period:Validity_Start");
-        final Attribute stopAttribute = netcdfFile.findGlobalAttribute("Fixed_Header:Validity_Period:Validity_Stop");
-        if (startAttribute == null || stopAttribute == null) {
-            throw new IOException("Sensing times metadata not present");
-        }
-
-        final String sensingStartUTC = startAttribute.getStringValue();
-        final String sensingStopUTC = stopAttribute.getStringValue();
+        final String sensingStartUTC = getGlobalAttributeValue("Fixed_Header:Validity_Period:Validity_Start");
+        final String sensingStopUTC = getGlobalAttributeValue("Fixed_Header:Validity_Period:Validity_Stop");
 
         try {
             product.setStartTime(ProductData.UTC.parse(sensingStartUTC, SENSING_TIMES_PATTERN));
@@ -350,12 +356,6 @@ public class NetcdfProductReader extends SmosReader {
         }
 
         return DggUtils.computeArea(new ObservationPointList(pointArray));
-    }
-
-    private void addMetadata(Product product) {
-        final List<Attribute> globalAttributes = netcdfFile.getGlobalAttributes();
-        final List<AttributeEntry> attributeEntries = MetadataUtils.convertNetcdfAttributes(globalAttributes);
-        MetadataUtils.parseMetadata(attributeEntries, product.getMetadataRoot());
     }
 
     @Override
@@ -415,5 +415,15 @@ public class NetcdfProductReader extends SmosReader {
 
         band.setSourceImage(SmosLsMask.getInstance().getMultiLevelImage());
         band.setImageInfo(ProductHelper.createImageInfo(band, descriptor));
+    }
+
+    private String getGlobalAttributeValue(String key) throws IOException {
+        for (final AttributeEntry entry : globalAttributeList) {
+            if (entry.getName().equals(key)) {
+                return entry.getValue();
+            }
+        }
+
+        throw new IOException("Global attribute '" + key + "' not found.");
     }
 }

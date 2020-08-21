@@ -345,7 +345,6 @@ public class NetCDFProductReaderIntegrationTest {
         sourceElement = metadataRoot.getElement("Variable_Header").getElement("Specific_Product_Header").getElement("Main_Info");
         ncSourceElement = ncMetadataRoot.getElement("Variable_Header").getElement("Specific_Product_Header").getElement("Main_Info");
         assertSameAttributes(sourceElement, ncSourceElement);
-
     }
 
     private void assertSameAttributes(MetadataElement sourceElement, MetadataElement ncSourceElement) {

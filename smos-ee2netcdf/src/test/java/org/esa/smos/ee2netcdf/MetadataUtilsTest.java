@@ -141,7 +141,7 @@ public class MetadataUtilsTest {
     public void testConvertNetcdfAttriutes_emptyList() {
         final List<Attribute> ncAttributes = new ArrayList<>();
 
-        final List<AttributeEntry> convertedAttributes = MetadataUtils.convertNetcdfAttributes(ncAttributes);
+        final List<AttributeEntry> convertedAttributes = MetadataUtils.convertNetcdfAttributes(ncAttributes, true);
         assertNotNull(convertedAttributes);
         assertEquals(0, convertedAttributes.size());
     }
@@ -159,7 +159,7 @@ public class MetadataUtilsTest {
         when(attribute_2.getStringValue()).thenReturn("value 2");
         ncAttributes.add(attribute_2);
 
-        final List<AttributeEntry> convertedAttributes = MetadataUtils.convertNetcdfAttributes(ncAttributes);
+        final List<AttributeEntry> convertedAttributes = MetadataUtils.convertNetcdfAttributes(ncAttributes, false);
         assertNotNull(convertedAttributes);
         assertEquals(2, convertedAttributes.size());
 
@@ -272,5 +272,147 @@ public class MetadataUtilsTest {
         final MetadataAttribute nestedAttribute = nestedElement.getAttribute("e_e_attribute");
         assertNotNull(nestedAttribute);
         assertEquals("e_e_a_value", nestedAttribute.getData().getElemString());
+    }
+
+    @Test
+    public void testShrinkNames_emptList() {
+        final List<AttributeEntry> metaDataElements = new ArrayList<>();
+        MetadataUtils.shrinkNames(metaDataElements);
+
+        assertEquals(0, metaDataElements.size());
+    }
+
+    @Test
+    public void testShrinkNames_oneElement() {
+        final List<AttributeEntry> metaDataElements = new ArrayList<>();
+        final AttributeEntry entry = new AttributeEntry("Fixed_Header:File_Class", "whatever");
+        metaDataElements.add(entry);
+
+        MetadataUtils.shrinkNames(metaDataElements);
+
+        assertEquals(1, metaDataElements.size());
+        final AttributeEntry attributeEntry = metaDataElements.get(0);
+        assertEquals("FH:File_Class", attributeEntry.getName());
+    }
+
+    @Test
+    public void testShrinkNames_threeElements() {
+        final List<AttributeEntry> metaDataElements = new ArrayList<>();
+        AttributeEntry entry = new AttributeEntry("Variable_Header:Specific_Product_Header:Quality_Information:List_of_Retrieval_Schemes:Quality_Description_2:List_of_Quality_Classes:Quality_Record_16:SSS_Class", "whatever");
+        metaDataElements.add(entry);
+        entry = new AttributeEntry("Variable_Header:Specific_Product_Header:Quality_Information:List_of_Retrieval_Schemes:Quality_Description_1:Sea_Quality:Good_Quality", "whatever");
+        metaDataElements.add(entry);
+        entry = new AttributeEntry("Variable_Header:Specific_Product_Header:Quality_Information:List_of_Retrieval_Schemes:Quality_Description_1:List_of_Quality_Classes:Quality_Record_25:Poor_Quality_Retrieved_Average_Sigma", "whatever");
+        metaDataElements.add(entry);
+
+        MetadataUtils.shrinkNames(metaDataElements);
+
+        assertEquals(3, metaDataElements.size());
+        AttributeEntry attributeEntry = metaDataElements.get(0);
+        assertEquals("VH:SPH:QI:LORS:Quality_Description_2:LOQC:Quality_Record_16:SSS_Class", attributeEntry.getName());
+
+        attributeEntry = metaDataElements.get(1);
+        assertEquals("VH:SPH:QI:LORS:Quality_Description_1:SQ:Good_Quality", attributeEntry.getName());
+
+        attributeEntry = metaDataElements.get(2);
+        assertEquals("VH:SPH:QI:LORS:Quality_Description_1:LOQC:Quality_Record_25:Poor_Quality_Retrieved_Average_Sigma", attributeEntry.getName());
+    }
+
+    @Test
+    public void testExpandNames_emptList() {
+        final List<AttributeEntry> metaDataElements = new ArrayList<>();
+        MetadataUtils.expandNames(metaDataElements);
+
+        assertEquals(0, metaDataElements.size());
+    }
+
+    @Test
+    public void testExpandNames_oneElement() {
+        final List<AttributeEntry> metaDataElements = new ArrayList<>();
+        final AttributeEntry entry = new AttributeEntry("FH:File_Class", "whatever");
+        metaDataElements.add(entry);
+
+        MetadataUtils.expandNames(metaDataElements);
+
+        assertEquals(1, metaDataElements.size());
+        final AttributeEntry attributeEntry = metaDataElements.get(0);
+        assertEquals("Fixed_Header:File_Class", attributeEntry.getName());
+    }
+
+    @Test
+    public void testExpandNames_threeElements() {
+        final List<AttributeEntry> metaDataElements = new ArrayList<>();
+        AttributeEntry entry = new AttributeEntry("VH:SPH:QI:LORS:Quality_Description_1:LOQC:Quality_Record_15:Good_Quality", "whatever");
+        metaDataElements.add(entry);
+        entry = new AttributeEntry("VH:SPH:QI:LORS:Quality_Description_0:LOQC:Quality_Record_4:SST_Class", "whatever");
+        metaDataElements.add(entry);
+        entry = new AttributeEntry("VH:SPH:QI:LORS:Quality_Description_0:SIQ:Good_Quality_Failed_OOLUT", "whatever");
+        metaDataElements.add(entry);
+
+        MetadataUtils.shrinkNames(metaDataElements);
+
+        assertEquals(3, metaDataElements.size());
+        AttributeEntry attributeEntry = metaDataElements.get(0);
+        assertEquals("Variable_Header:Specific_Product_Header:Quality_Information:List_of_Retrieval_Schemes:Quality_Description_1:List_of_Quality_Classes:Quality_Record_15:Good_Quality", attributeEntry.getName());
+
+        attributeEntry = metaDataElements.get(1);
+        assertEquals("Variable_Header:Specific_Product_Header:Quality_Information:List_of_Retrieval_Schemes:Quality_Description_0:List_of_Quality_Classes:Quality_Record_4:SST_Class", attributeEntry.getName());
+
+        attributeEntry = metaDataElements.get(2);
+        assertEquals("Variable_Header:Specific_Product_Header:Quality_Information:List_of_Retrieval_Schemes:Quality_Description_0:Sea_Ice_Quality:Good_Quality_Failed_OOLUT", attributeEntry.getName());
+    }
+
+    @Test
+    public void testGetReplacement() {
+        assertEquals("Fixed_Header", MetadataUtils.getReplacement("FH"));
+        assertEquals("FH", MetadataUtils.getReplacement("Fixed_Header"));
+
+        assertEquals("Variable_Header", MetadataUtils.getReplacement("VH"));
+        assertEquals("VH", MetadataUtils.getReplacement("Variable_Header"));
+
+        assertEquals("Main_Product_Header", MetadataUtils.getReplacement("MPH"));
+        assertEquals("MPH", MetadataUtils.getReplacement("Main_Product_Header"));
+
+        assertEquals("Orbit_Information", MetadataUtils.getReplacement("OI"));
+        assertEquals("OI", MetadataUtils.getReplacement("Orbit_Information"));
+
+        assertEquals("Specific_Product_Header", MetadataUtils.getReplacement("SPH"));
+        assertEquals("SPH", MetadataUtils.getReplacement("Specific_Product_Header"));
+
+        assertEquals("L2_Product_Desciption", MetadataUtils.getReplacement("L2PD"));
+        assertEquals("L2PD", MetadataUtils.getReplacement("L2_Product_Desciption"));
+
+        assertEquals("List_of_models", MetadataUtils.getReplacement("LOM"));
+        assertEquals("LOM", MetadataUtils.getReplacement("List_of_models"));
+
+        assertEquals("L2_Product_Location", MetadataUtils.getReplacement("L2PL"));
+        assertEquals("L2PL", MetadataUtils.getReplacement("L2_Product_Location"));
+
+        assertEquals("List_of_Data_Sets", MetadataUtils.getReplacement("LODS"));
+        assertEquals("LODS", MetadataUtils.getReplacement("List_of_Data_Sets"));
+
+        assertEquals("Main_Info", MetadataUtils.getReplacement("MI"));
+        assertEquals("MI", MetadataUtils.getReplacement("Main_Info"));
+
+        assertEquals("Time_Info", MetadataUtils.getReplacement("TI"));
+        assertEquals("TI", MetadataUtils.getReplacement("Time_Info"));
+
+        assertEquals("Quality_Information", MetadataUtils.getReplacement("QI"));
+        assertEquals("QI", MetadataUtils.getReplacement("Quality_Information"));
+
+        assertEquals("List_of_Retrieval_Schemes", MetadataUtils.getReplacement("LORS"));
+        assertEquals("LORS", MetadataUtils.getReplacement("List_of_Retrieval_Schemes"));
+
+        assertEquals("List_of_Quality_Classes", MetadataUtils.getReplacement("LOQC"));
+        assertEquals("LOQC", MetadataUtils.getReplacement("List_of_Quality_Classes"));
+
+        assertEquals("Near_Coast_Quality", MetadataUtils.getReplacement("NCQ"));
+        assertEquals("NCQ", MetadataUtils.getReplacement("Near_Coast_Quality"));
+
+        assertEquals("Sea_Ice_Quality", MetadataUtils.getReplacement("SIQ"));
+        assertEquals("SIQ", MetadataUtils.getReplacement("Sea_Ice_Quality"));
+
+        assertEquals("Sea_Quality", MetadataUtils.getReplacement("SQ"));
+        assertEquals("SQ", MetadataUtils.getReplacement("Sea_Quality"));
     }
 }

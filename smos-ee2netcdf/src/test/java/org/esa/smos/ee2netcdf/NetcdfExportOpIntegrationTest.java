@@ -19,10 +19,7 @@ import org.junit.runner.RunWith;
 import ucar.ma2.Array;
 import ucar.ma2.DataType;
 import ucar.ma2.InvalidRangeException;
-import ucar.nc2.Attribute;
-import ucar.nc2.Dimension;
-import ucar.nc2.NetcdfFile;
-import ucar.nc2.Variable;
+import ucar.nc2.*;
 import ucar.nc2.util.DiskCache;
 
 import java.io.File;
@@ -64,7 +61,6 @@ public class NetcdfExportOpIntegrationTest {
         // need to move NetCDF cache dir to a directory that gets deleted  tb 2014-07-04
         DiskCache.setRootDirectory(targetDirectory.getAbsolutePath());
         DiskCache.setCachePolicy(true);
-
     }
 
     @After
@@ -98,7 +94,7 @@ public class NetcdfExportOpIntegrationTest {
 
             final File outputFile = new File(targetDirectory, "SM_OPER_MIR_BWLF1C_20111026T143206_20111026T152520_503_001_1.nc");
             assertTrue(outputFile.isFile());
-            assertEquals(4342782, outputFile.length());
+            assertEquals(3382387, outputFile.length());
 
             targetFile = NetcdfFileOpener.open(outputFile);
             final ExportParameter exportParameter = new ExportParameter();
@@ -155,9 +151,10 @@ public class NetcdfExportOpIntegrationTest {
             assertEquals(0.0, array.getFloat(1), 1e-8);
 
             final Variable gridPointMaskVariable = getVariableVerified("Grid_Point_Mask", targetFile);
-            assertEquals(DataType.BYTE, gridPointMaskVariable.getDataType());
+            assertEquals(DataType.UBYTE, gridPointMaskVariable.getDataType());
             assertNoAttribute("units", gridPointMaskVariable);
-            assertAttribute("_FillValue", Double.NaN, gridPointMaskVariable);
+            // @todo 2 tb/tb check with spec 2020-08-20
+            //assertAttribute("_FillValue", Double.NaN, gridPointMaskVariable);
             assertNoAttribute("flag_masks", gridPointMaskVariable);
             assertNoAttribute("flag_values", gridPointMaskVariable);
             assertNoAttribute("flag_meanings", gridPointMaskVariable);
@@ -168,9 +165,10 @@ public class NetcdfExportOpIntegrationTest {
             assertEquals(-39, array.getByte(1));
 
             final Variable btDataCountVariable = getVariableVerified("BT_Data_Counter", targetFile);
-            assertEquals(DataType.BYTE, btDataCountVariable.getDataType());
+            assertEquals(DataType.UBYTE, btDataCountVariable.getDataType());
             assertNoAttribute("units", btDataCountVariable);
-            assertAttribute("_FillValue", Double.NaN, gridPointMaskVariable);
+            // @todo 2 tb/tb check with spec 2020-08-20
+//            assertAttribute("_FillValue", Double.NaN, gridPointMaskVariable);
             assertNoAttribute("flag_masks", btDataCountVariable);
             assertNoAttribute("flag_values", btDataCountVariable);
             assertNoAttribute("flag_meanings", btDataCountVariable);
@@ -181,9 +179,10 @@ public class NetcdfExportOpIntegrationTest {
             assertEquals(4, array.getByte(1));
 
             final Variable flagsVariable = getVariableVerified("Flags", targetFile);
-            assertEquals(DataType.SHORT, flagsVariable.getDataType());
+            assertEquals(DataType.USHORT, flagsVariable.getDataType());
             assertNoAttribute("units", flagsVariable);
-            assertAttribute("_FillValue", 0.0, flagsVariable);
+            // todo 2 tb/tb check with spec 2020-08-20
+//            assertAttribute("_FillValue", 0.0, flagsVariable);
             assertAttribute("flag_masks", new short[]{1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, (short) 32768},
                             flagsVariable);
             assertAttribute("flag_values", new short[]{1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, (short) 32768},
@@ -213,9 +212,10 @@ public class NetcdfExportOpIntegrationTest {
             assertEquals(-0.10488655418157578, array.getFloat(3), 1e-8);
 
             final Variable radAccVariable = getVariableVerified("Radiometric_Accuracy_of_Pixel", targetFile);
-            assertEquals(DataType.SHORT, radAccVariable.getDataType());
+            assertEquals(DataType.USHORT, radAccVariable.getDataType());
             assertAttribute("units", "K", radAccVariable);
-            assertAttribute("_FillValue", 0.0, radAccVariable);
+            // todo 2 tb/tb check with spec 2020-08-20
+//            assertAttribute("_FillValue", 0.0, radAccVariable);
             assertNoAttribute("flag_masks", radAccVariable);
             assertNoAttribute("flag_values", radAccVariable);
             assertNoAttribute("flag_meanings", radAccVariable);
@@ -229,9 +229,10 @@ public class NetcdfExportOpIntegrationTest {
             assertEquals(3642, array.getShort(3));
 
             final Variable azimuthAngleVariable = getVariableVerified("Azimuth_Angle", targetFile);
-            assertEquals(DataType.SHORT, azimuthAngleVariable.getDataType());
+            assertEquals(DataType.USHORT, azimuthAngleVariable.getDataType());
             assertAttribute("units", "deg", azimuthAngleVariable);
-            assertAttribute("_FillValue", 0.0, azimuthAngleVariable);
+            // todo 2 tb/tb check with spec 2020-08-20
+//            assertAttribute("_FillValue", 0.0, azimuthAngleVariable);
             assertNoAttribute("flag_masks", azimuthAngleVariable);
             assertNoAttribute("flag_values", azimuthAngleVariable);
             assertNoAttribute("flag_meanings", azimuthAngleVariable);
@@ -245,9 +246,10 @@ public class NetcdfExportOpIntegrationTest {
             assertEquals(8376, array.getShort(3));
 
             final Variable footAxis1Variable = getVariableVerified("Footprint_Axis1", targetFile);
-            assertEquals(DataType.SHORT, footAxis1Variable.getDataType());
+            assertEquals(DataType.USHORT, footAxis1Variable.getDataType());
             assertAttribute("units", "km", footAxis1Variable);
-            assertAttribute("_FillValue", 0.0, footAxis1Variable);
+            // todo 2 tb/tb check with spec 2020-08-20
+//            assertAttribute("_FillValue", 0.0, footAxis1Variable);
             assertNoAttribute("flag_masks", footAxis1Variable);
             assertNoAttribute("flag_values", footAxis1Variable);
             assertNoAttribute("flag_meanings", footAxis1Variable);
@@ -261,9 +263,10 @@ public class NetcdfExportOpIntegrationTest {
             assertEquals(18492, array.getShort(3));
 
             final Variable footAxis2Variable = getVariableVerified("Footprint_Axis2", targetFile);
-            assertEquals(DataType.SHORT, footAxis2Variable.getDataType());
+            assertEquals(DataType.USHORT, footAxis2Variable.getDataType());
             assertAttribute("units", "km", footAxis2Variable);
-            assertAttribute("_FillValue", 0.0, footAxis2Variable);
+            // todo 2 tb/tb check with spec 2020-08-20
+//            assertAttribute("_FillValue", 0.0, footAxis2Variable);
             assertNoAttribute("flag_masks", footAxis2Variable);
             assertNoAttribute("flag_values", footAxis2Variable);
             assertNoAttribute("flag_meanings", footAxis2Variable);
@@ -302,7 +305,7 @@ public class NetcdfExportOpIntegrationTest {
 
             final File outputFile = new File(targetDirectory, "SM_OPER_MIR_BWLF1C_20111026T143206_20111026T152520_503_001_1.nc");
             assertTrue(outputFile.isFile());
-            assertEquals(2519779, outputFile.length());
+            assertEquals(1896268, outputFile.length());
 
             targetFile = NetcdfFileOpener.open(outputFile);
             getVariableVerified("Grid_Point_Latitude", targetFile);
@@ -344,7 +347,7 @@ public class NetcdfExportOpIntegrationTest {
 
             final File outputFile = new File(targetDirectory, "SM_OPER_MIR_BWLF1C_20111026T143206_20111026T152520_503_001_1.nc");
             assertTrue(outputFile.isFile());
-            assertEquals(172217, outputFile.length());
+            assertEquals(96809, outputFile.length());
 
             targetFile = NetcdfFileOpener.open(outputFile);
             final Variable grid_point_latitude = getVariableVerified("Grid_Point_Latitude", targetFile);
@@ -376,7 +379,7 @@ public class NetcdfExportOpIntegrationTest {
 
             final File outputFile = new File(targetDirectory, "SM_REPB_MIR_SCLF1C_20110201T151254_20110201T151308_505_152_1.nc");
             assertTrue(outputFile.isFile());
-            assertEquals(974827, outputFile.length());
+            assertEquals(881438, outputFile.length());
 
             final ExportParameter exportParameter = new ExportParameter();
             targetFile = NetcdfFileOpener.open(outputFile);
@@ -396,49 +399,49 @@ public class NetcdfExportOpIntegrationTest {
             assertGridPointIdVariable(targetFile, 32, new int[]{6247647, 6248159});
 
             final Variable software_error_flag = getVariableVerified("Software_Error_flag", targetFile);
-            assertEquals(DataType.BYTE, software_error_flag.getDataType());
+            assertEquals(DataType.UBYTE, software_error_flag.getDataType());
             assertAttribute("_Unsigned", "true", software_error_flag);
             Array array = software_error_flag.read(new int[]{1}, new int[]{2});
             assertEquals(0, array.getByte(0));
             assertEquals(0, array.getByte(1));
 
             final Variable instrument_error_flag = getVariableVerified("Instrument_Error_flag", targetFile);
-            assertEquals(DataType.BYTE, instrument_error_flag.getDataType());
+            assertEquals(DataType.UBYTE, instrument_error_flag.getDataType());
             assertAttribute("_Unsigned", "true", instrument_error_flag);
             array = instrument_error_flag.read(new int[]{1}, new int[]{2});
             assertEquals(0, array.getByte(0));
             assertEquals(0, array.getByte(1));
 
             final Variable adf_error_flag = getVariableVerified("ADF_Error_flag", targetFile);
-            assertEquals(DataType.BYTE, adf_error_flag.getDataType());
+            assertEquals(DataType.UBYTE, adf_error_flag.getDataType());
             assertAttribute("_Unsigned", "true", adf_error_flag);
             array = adf_error_flag.read(new int[]{1}, new int[]{2});
             assertEquals(0, array.getByte(0));
             assertEquals(0, array.getByte(1));
 
             final Variable calibration_error_flag = getVariableVerified("Calibration_Error_flag", targetFile);
-            assertEquals(DataType.BYTE, calibration_error_flag.getDataType());
+            assertEquals(DataType.UBYTE, calibration_error_flag.getDataType());
             assertAttribute("_Unsigned", "true", calibration_error_flag);
             array = calibration_error_flag.read(new int[]{1}, new int[]{2});
             assertEquals(0, array.getByte(0));
             assertEquals(0, array.getByte(1));
 
             final Variable days = getVariableVerified("Days", targetFile);
-            assertEquals(DataType.INT, days.getDataType());
+            assertEquals(DataType.UINT, days.getDataType());
             assertNoAttribute("_Unsigned", days);
             array = days.read(new int[]{1}, new int[]{2});
             assertEquals(4049, array.getInt(0));
             assertEquals(4049, array.getInt(1));
 
             final Variable seconds = getVariableVerified("Seconds", targetFile);
-            assertEquals(DataType.INT, seconds.getDataType());
+            assertEquals(DataType.UINT, seconds.getDataType());
             assertAttribute("_Unsigned", "true", seconds);
             array = seconds.read(new int[]{1}, new int[]{2});
             assertEquals(51928, array.getInt(0));
             assertEquals(51929, array.getInt(1));
 
             final Variable microseconds = getVariableVerified("Microseconds", targetFile);
-            assertEquals(DataType.INT, microseconds.getDataType());
+            assertEquals(DataType.UINT, microseconds.getDataType());
             assertAttribute("_Unsigned", "true", microseconds);
             array = microseconds.read(new int[]{1}, new int[]{2});
             assertEquals(792932, array.getInt(0));
@@ -456,7 +459,7 @@ public class NetcdfExportOpIntegrationTest {
             assertEquals(4.488641262054443, array.getFloat(3), 1e-8);
 
             final Variable footprint_axis1 = getVariableVerified("Footprint_Axis1", targetFile);
-            assertEquals(DataType.SHORT, footprint_axis1.getDataType());
+            assertEquals(DataType.USHORT, footprint_axis1.getDataType());
             assertAttribute("units", "km", footprint_axis1);
             assertAttribute("scale_factor", 7.476806640625E-4, footprint_axis1);
             assertAttribute("scale_offset", 0.0, footprint_axis1);
@@ -467,7 +470,7 @@ public class NetcdfExportOpIntegrationTest {
             assertEquals(-18419, array.getShort(3));
 
             final Variable footprint_axis2 = getVariableVerified("Footprint_Axis2", targetFile);
-            assertEquals(DataType.SHORT, footprint_axis2.getDataType());
+            assertEquals(DataType.USHORT, footprint_axis2.getDataType());
             assertAttribute("units", "km", footprint_axis2);
             assertAttribute("scale_factor", 7.476806640625E-4, footprint_axis2);
             assertAttribute("scale_offset", 0.0, footprint_axis2);
@@ -519,7 +522,7 @@ public class NetcdfExportOpIntegrationTest {
                           parameterMap);
 
         assertTrue(outputFile.isFile());
-        assertEquals(974827, outputFile.length());
+        assertEquals(881438, outputFile.length());
     }
 
     @Test
@@ -536,7 +539,7 @@ public class NetcdfExportOpIntegrationTest {
 
             final File outputFile = new File(targetDirectory, "SM_REPB_MIR_SCLF1C_20110201T151254_20110201T151308_505_152_1.nc");
             assertTrue(outputFile.isFile());
-            assertEquals(522730, outputFile.length());
+            assertEquals(188777, outputFile.length());
 
             final ExportParameter exportParameter = new ExportParameter();
             targetFile = NetcdfFileOpener.open(outputFile);
@@ -579,7 +582,7 @@ public class NetcdfExportOpIntegrationTest {
 
             final File outputFile = new File(targetDirectory, "SM_OPER_MIR_OSUDP2_20091204T001853_20091204T011255_310_001_1.nc");
             assertTrue(outputFile.isFile());
-            assertEquals(7245773, outputFile.length());
+            assertEquals(6691415, outputFile.length());
 
             targetFile = NetcdfFileOpener.open(outputFile);
 
@@ -674,7 +677,7 @@ public class NetcdfExportOpIntegrationTest {
 
             final File outputFile = new File(targetDirectory, "SM_OPER_MIR_OSUDP2_20091204T001853_20091204T011255_310_001_1.nc");
             assertTrue(outputFile.isFile());
-            assertEquals(1032929, outputFile.length());
+            assertEquals(642459, outputFile.length());
 
             targetFile = NetcdfFileOpener.open(outputFile);
 
@@ -715,7 +718,7 @@ public class NetcdfExportOpIntegrationTest {
 
             final File outputFile = new File(targetDirectory, "SM_OPER_MIR_SMUDP2_20120514T163815_20120514T173133_551_001_1.nc");
             assertTrue(outputFile.isFile());
-            assertEquals(3257080, outputFile.length());
+            assertEquals(2804152, outputFile.length());
 
             targetFile = NetcdfFileOpener.open(outputFile);
 
@@ -747,8 +750,9 @@ public class NetcdfExportOpIntegrationTest {
             assertEquals(-80.6969985961914, array.getFloat(1), 1e-8);
 
             final Variable chi_2 = getVariableVerified("Chi_2", targetFile);
-            assertEquals(DataType.BYTE, chi_2.getDataType());
-            assertAttribute("_FillValue", 0.0, chi_2);
+            assertEquals(DataType.UBYTE, chi_2.getDataType());
+            // @todo 2 tb/tb check with spec 2020-08-20
+//            assertAttribute("_FillValue", 0.0, chi_2);
             assertAttribute("scale_factor", 0.20784314954653382, chi_2);
             assertAttribute("scale_offset", 0.0, chi_2);
             array = chi_2.read(new int[]{131}, new int[]{2});
@@ -850,7 +854,7 @@ public class NetcdfExportOpIntegrationTest {
 
     private void assertGridPointIdVariable(NetcdfFile targetFile, int offset, int[] expected) throws IOException, InvalidRangeException {
         final Variable gridPointIdVariable = getVariableVerified("Grid_Point_ID", targetFile);
-        assertEquals(DataType.INT, gridPointIdVariable.getDataType());
+        assertEquals(DataType.UINT, gridPointIdVariable.getDataType());
         assertAttribute("_Unsigned", "true", gridPointIdVariable);
         Array array = gridPointIdVariable.read(new int[]{offset}, new int[]{2});
         for (int i = 0; i < 2; i++) {

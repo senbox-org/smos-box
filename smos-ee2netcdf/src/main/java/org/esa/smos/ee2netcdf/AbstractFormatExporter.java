@@ -20,21 +20,82 @@ import ucar.ma2.Array;
 import ucar.ma2.DataType;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 abstract class AbstractFormatExporter implements FormatExporter {
-
-    private Family<MemberDescriptor> memberDescriptors;
 
     protected int gridPointCount;
     protected SmosFile explorerFile;
     protected Map<String, VariableDescriptor> variableDescriptors;
     protected ArrayList<Integer> gpIndexList;
+    private Family<MemberDescriptor> memberDescriptors;
+
+    // package access for testing only tb 2014-07-01
+    static List<AttributeEntry> extractMetadata(MetadataElement root) {
+        final List<AttributeEntry> properties = new ArrayList<>();
+        MetadataUtils.extractAttributes(root, properties, "");
+
+        return properties;
+    }
+
+    // package access for testing only tb 2014-08-01
+    static boolean mustExport(String bandName, String[] outputBandNames) {
+        if (outputBandNames.length == 0) {
+            return true;
+        }
+
+        for (final String outputBandName : outputBandNames) {
+            if (outputBandName.equalsIgnoreCase(bandName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static SmosFile getSmosFile(Product product) {
+        final SmosProductReader smosReader = (SmosProductReader) product.getProductReader();
+        return (SmosFile) smosReader.getProductFile();
+    }
+
+    // package access for testing only tb 2014-07-30
+    static void setDataType(VariableDescriptor variableDescriptor, String dataTypeName) {
+        if (StringUtils.isBlank(dataTypeName)) {
+            throw new IllegalStateException("datatype not set for '" + variableDescriptor.getName() + "'");
+        }
+
+        if ("uint".equalsIgnoreCase(dataTypeName)) {
+            variableDescriptor.setDataType(DataType.INT);
+            variableDescriptor.setUnsigned(true);
+        } else if ("int".equalsIgnoreCase(dataTypeName)) {
+            variableDescriptor.setDataType(DataType.INT);
+        } else if ("float".equalsIgnoreCase(dataTypeName)) {
+            variableDescriptor.setDataType(DataType.FLOAT);
+        } else if ("ubyte".equalsIgnoreCase(dataTypeName)) {
+            variableDescriptor.setDataType(DataType.BYTE);
+            variableDescriptor.setUnsigned(true);
+        } else if ("ushort".equalsIgnoreCase(dataTypeName)) {
+            variableDescriptor.setDataType(DataType.SHORT);
+            variableDescriptor.setUnsigned(true);
+        } else if ("short".equalsIgnoreCase(dataTypeName)) {
+            variableDescriptor.setDataType(DataType.SHORT);
+        } else if ("ulong".equalsIgnoreCase(dataTypeName)) {
+            variableDescriptor.setDataType(DataType.LONG);
+            variableDescriptor.setUnsigned(true);
+        } else if ("double".equalsIgnoreCase(dataTypeName)) {
+            variableDescriptor.setDataType(DataType.DOUBLE);
+        } else {
+            throw new IllegalArgumentException("unsupported datatype: '" + dataTypeName + "'");
+        }
+    }
+
+    // package access for testing only tb 2014-07-30
+    static int getNumDimensions(String dimensionNames) {
+        if (StringUtils.isBlank(dimensionNames)) {
+            throw new IllegalArgumentException("empty dimension names");
+        }
+        final String[] splittednames = StringUtils.split(dimensionNames, ' ');
+        return splittednames.length;
+    }
 
     @Override
     public void initialize(Product product, ExportParameter exportParameter) throws IOException {
@@ -181,72 +242,5 @@ abstract class AbstractFormatExporter implements FormatExporter {
                 variableDescriptors.put(variableName, variableDescriptor);
             }
         }
-    }
-
-    // package access for testing only tb 2014-07-01
-    static List<AttributeEntry> extractMetadata(MetadataElement root) {
-        final List<AttributeEntry> properties = new ArrayList<>();
-        MetadataUtils.extractAttributes(root, properties, "");
-
-        return properties;
-    }
-
-    // package access for testing only tb 2014-08-01
-    static boolean mustExport(String bandName, String[] outputBandNames) {
-        if (outputBandNames.length == 0) {
-            return true;
-        }
-
-        for (final String outputBandName : outputBandNames) {
-            if (outputBandName.equalsIgnoreCase(bandName)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private static SmosFile getSmosFile(Product product) {
-        final SmosProductReader smosReader = (SmosProductReader) product.getProductReader();
-        return (SmosFile) smosReader.getProductFile();
-    }
-
-    // package access for testing only tb 2014-07-30
-    static void setDataType(VariableDescriptor variableDescriptor, String dataTypeName) {
-        if (StringUtils.isBlank(dataTypeName)) {
-            throw new IllegalStateException("datatype not set for '" + variableDescriptor.getName() + "'");
-        }
-
-        if ("uint".equalsIgnoreCase(dataTypeName)) {
-            variableDescriptor.setDataType(DataType.INT);
-            variableDescriptor.setUnsigned(true);
-        } else if ("int".equalsIgnoreCase(dataTypeName)) {
-            variableDescriptor.setDataType(DataType.INT);
-        } else if ("float".equalsIgnoreCase(dataTypeName)) {
-            variableDescriptor.setDataType(DataType.FLOAT);
-        } else if ("ubyte".equalsIgnoreCase(dataTypeName)) {
-            variableDescriptor.setDataType(DataType.BYTE);
-            variableDescriptor.setUnsigned(true);
-        } else if ("ushort".equalsIgnoreCase(dataTypeName)) {
-            variableDescriptor.setDataType(DataType.SHORT);
-            variableDescriptor.setUnsigned(true);
-        } else if ("short".equalsIgnoreCase(dataTypeName)) {
-            variableDescriptor.setDataType(DataType.SHORT);
-        } else if ("ulong".equalsIgnoreCase(dataTypeName)) {
-            variableDescriptor.setDataType(DataType.LONG);
-            variableDescriptor.setUnsigned(true);
-        } else if ("double".equalsIgnoreCase(dataTypeName)) {
-            variableDescriptor.setDataType(DataType.DOUBLE);
-        } else {
-            throw new IllegalArgumentException("unsupported datatype: '" + dataTypeName + "'");
-        }
-    }
-
-    // package access for testing only tb 2014-07-30
-    static int getNumDimensions(String dimensionNames) {
-        if (StringUtils.isBlank(dimensionNames)) {
-            throw new IllegalArgumentException("empty dimension names");
-        }
-        final String[] splittednames = StringUtils.split(dimensionNames, ' ');
-        return splittednames.length;
     }
 }
