@@ -94,7 +94,7 @@ public class NetcdfExportOpIntegrationTest {
 
             final File outputFile = new File(targetDirectory, "SM_OPER_MIR_BWLF1C_20111026T143206_20111026T152520_503_001_1.nc");
             assertTrue(outputFile.isFile());
-            assertEquals(3382387, outputFile.length());
+            assertEquals(3380346, outputFile.length());
 
             targetFile = NetcdfFileOpener.open(outputFile);
             final ExportParameter exportParameter = new ExportParameter();
@@ -305,7 +305,7 @@ public class NetcdfExportOpIntegrationTest {
 
             final File outputFile = new File(targetDirectory, "SM_OPER_MIR_BWLF1C_20111026T143206_20111026T152520_503_001_1.nc");
             assertTrue(outputFile.isFile());
-            assertEquals(1896268, outputFile.length());
+            assertEquals(1895204, outputFile.length());
 
             targetFile = NetcdfFileOpener.open(outputFile);
             getVariableVerified("Grid_Point_Latitude", targetFile);
@@ -379,7 +379,7 @@ public class NetcdfExportOpIntegrationTest {
 
             final File outputFile = new File(targetDirectory, "SM_REPB_MIR_SCLF1C_20110201T151254_20110201T151308_505_152_1.nc");
             assertTrue(outputFile.isFile());
-            assertEquals(881438, outputFile.length());
+            assertEquals(878375, outputFile.length());
 
             final ExportParameter exportParameter = new ExportParameter();
             targetFile = NetcdfFileOpener.open(outputFile);
@@ -522,7 +522,7 @@ public class NetcdfExportOpIntegrationTest {
                           parameterMap);
 
         assertTrue(outputFile.isFile());
-        assertEquals(881438, outputFile.length());
+        assertEquals(878375, outputFile.length());
     }
 
     @Test
@@ -539,7 +539,7 @@ public class NetcdfExportOpIntegrationTest {
 
             final File outputFile = new File(targetDirectory, "SM_REPB_MIR_SCLF1C_20110201T151254_20110201T151308_505_152_1.nc");
             assertTrue(outputFile.isFile());
-            assertEquals(188777, outputFile.length());
+            assertEquals(185714, outputFile.length());
 
             final ExportParameter exportParameter = new ExportParameter();
             targetFile = NetcdfFileOpener.open(outputFile);
@@ -582,7 +582,7 @@ public class NetcdfExportOpIntegrationTest {
 
             final File outputFile = new File(targetDirectory, "SM_OPER_MIR_OSUDP2_20091204T001853_20091204T011255_310_001_1.nc");
             assertTrue(outputFile.isFile());
-            assertEquals(6691415, outputFile.length());
+            assertEquals(6620965, outputFile.length());
 
             targetFile = NetcdfFileOpener.open(outputFile);
 
@@ -677,7 +677,7 @@ public class NetcdfExportOpIntegrationTest {
 
             final File outputFile = new File(targetDirectory, "SM_OPER_MIR_OSUDP2_20091204T001853_20091204T011255_310_001_1.nc");
             assertTrue(outputFile.isFile());
-            assertEquals(642459, outputFile.length());
+            assertEquals(575043, outputFile.length());
 
             targetFile = NetcdfFileOpener.open(outputFile);
 
@@ -718,7 +718,7 @@ public class NetcdfExportOpIntegrationTest {
 
             final File outputFile = new File(targetDirectory, "SM_OPER_MIR_SMUDP2_20120514T163815_20120514T173133_551_001_1.nc");
             assertTrue(outputFile.isFile());
-            assertEquals(2804152, outputFile.length());
+            assertEquals(2799300, outputFile.length());
 
             targetFile = NetcdfFileOpener.open(outputFile);
 

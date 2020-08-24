@@ -55,7 +55,7 @@ public class MetadataUtils {
     }
 
 
-    public static void extractAttributes(MetadataElement root, List<AttributeEntry> properties, String prefix) {
+    static void extractAttributes(MetadataElement root, List<AttributeEntry> properties, String prefix) {
         final MetadataAttribute[] attributes = root.getAttributes();
         for (MetadataAttribute attribute : attributes) {
             addAttributeTo(properties, prefix, attribute);
@@ -133,7 +133,7 @@ public class MetadataUtils {
             } else {
                 MetadataElement element = metadataRoot;
                 final int elementCount = tokens.length - 1;
-                for (int i = 0; i < elementCount; i++ ) {
+                for (int i = 0; i < elementCount; i++) {
                     element = ensureElement(element, tokens[i]);
                 }
 
@@ -153,17 +153,17 @@ public class MetadataUtils {
         return element;
     }
 
-    public static void shrinkNames(List<AttributeEntry> metaDataElements) {
+    static void shrinkNames(List<AttributeEntry> metaDataElements) {
         shrinkOrExpandNames(metaDataElements);
     }
 
-    public static void expandNames(List<AttributeEntry> metaDataElements) {
+    static void expandNames(List<AttributeEntry> metaDataElements) {
         shrinkOrExpandNames(metaDataElements);
     }
 
     private static void shrinkOrExpandNames(List<AttributeEntry> metaDataElements) {
         final ArrayList<AttributeEntry> resultList = new ArrayList<>(metaDataElements.size());
-        for (final AttributeEntry entry: metaDataElements) {
+        for (final AttributeEntry entry : metaDataElements) {
             final String name = entry.getName();
 
             final String replacedName = getReplacement(name);
@@ -183,12 +183,12 @@ public class MetadataUtils {
         final StringBuilder result = new StringBuilder();
 
         boolean replaced = false;
-        for (final String token: tokens) {
+        for (final String token : tokens) {
             final String replaceToken = NAME_REPLACEMENTS.get(token);
             if (StringUtils.isNotNullAndNotEmpty(replaceToken)) {
                 result.append(replaceToken);
                 result.append(SEPARATOR);
-                replaced= true;
+                replaced = true;
             } else {
                 result.append(token);
                 result.append(SEPARATOR);
@@ -199,5 +199,15 @@ public class MetadataUtils {
             return resultString.substring(0, resultString.length() - 1);    // skip trailing colon
         }
         return null;    // nothing replaced
+    }
+
+    public static boolean hasShrinkedAttributes(List<Attribute> metaDataElements) {
+        for (final Attribute attribute : metaDataElements) {
+            final String name = attribute.getShortName();
+            if (name.startsWith("FH") || name.startsWith("VH")) {
+                return true;
+            }
+        }
+        return false;
     }
 }

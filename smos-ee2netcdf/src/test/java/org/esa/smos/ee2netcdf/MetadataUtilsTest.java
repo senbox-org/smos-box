@@ -415,4 +415,19 @@ public class MetadataUtilsTest {
         assertEquals("Sea_Quality", MetadataUtils.getReplacement("SQ"));
         assertEquals("SQ", MetadataUtils.getReplacement("Sea_Quality"));
     }
+
+    @Test
+    public void testHasShrinkedAttributes() {
+        List<Attribute> metaDataElements = new ArrayList<>();
+        Attribute entry = new Attribute("FH:File_Class", "whatever");
+        metaDataElements.add(entry);
+
+        assertTrue(MetadataUtils.hasShrinkedAttributes(metaDataElements));
+
+        metaDataElements = new ArrayList<>();
+        entry = new Attribute("Fixed_Header:File_Class", "whatever");
+        metaDataElements.add(entry);
+
+        assertFalse(MetadataUtils.hasShrinkedAttributes(metaDataElements));
+    }
 }

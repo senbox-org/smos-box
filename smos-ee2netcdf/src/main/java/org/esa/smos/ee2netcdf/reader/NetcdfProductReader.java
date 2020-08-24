@@ -21,6 +21,7 @@ import org.esa.snap.core.dataio.ProductReaderPlugIn;
 import org.esa.snap.core.datamodel.Band;
 import org.esa.snap.core.datamodel.Product;
 import org.esa.snap.core.datamodel.ProductData;
+import org.esa.snap.core.util.StringUtils;
 import org.esa.snap.core.util.io.FileUtils;
 import org.esa.snap.dataio.netcdf.util.DataTypeUtils;
 import org.esa.snap.dataio.netcdf.util.NetcdfFileOpener;
@@ -44,6 +45,7 @@ public class NetcdfProductReader extends SmosReader {
 
     private static final String SENSING_TIMES_PATTERN = "'UTC='yyyy-MM-dd'T'HH:mm:ss";
     private static final String LSMASK_SCHEMA_NAME = "DBL_SM_XXXX_AUX_LSMASK_0200";
+    private static final String FILE_TYPE_ATTRIBUTE_NAME = "Fixed_Header:File_Type";
     private final HashMap<String, AbstractValueProvider> valueProviderMap;
     private NetcdfFile netcdfFile;
     private ProductTypeSupport typeSupport;
@@ -74,8 +76,12 @@ public class NetcdfProductReader extends SmosReader {
             }
         }
 
+        final String schemaValue = schemaAttribute.getStringValue();
+        if (StringUtils.isNullOrEmpty(schemaValue)) {
+            throw new IOException("Schema attribute is empty.");
+        }
 
-        return schemaAttribute.getStringValue().substring(0, 27);
+        return schemaValue.substring(0, 27);
     }
 
     @Override
@@ -211,7 +217,8 @@ public class NetcdfProductReader extends SmosReader {
             }
 
             final List<Attribute> globalAttributes = netcdfFile.getGlobalAttributes();
-            globalAttributeList = MetadataUtils.convertNetcdfAttributes(globalAttributes, isL2Type);
+            final boolean shrinkedAttributes = MetadataUtils.hasShrinkedAttributes(globalAttributes);
+            globalAttributeList = MetadataUtils.convertNetcdfAttributes(globalAttributes, isL2Type && shrinkedAttributes);
 
             product = ProductHelper.createProduct(inputFile, productType);
             product.setProductReader(this);
@@ -285,15 +292,16 @@ public class NetcdfProductReader extends SmosReader {
     }
 
     private String getProductTypeString() throws IOException {
-        String fileTypeAttribName;
-        if (isL2Type) {
-            fileTypeAttribName = MetadataUtils.getReplacement("Fixed_Header:File_Type");
-        } else {
-            fileTypeAttribName = "Fixed_Header:File_Type";
-        }
-        final Attribute fileTypeAttrbute = netcdfFile.findGlobalAttribute(fileTypeAttribName);
+        Attribute fileTypeAttrbute = netcdfFile.findGlobalAttribute(FILE_TYPE_ATTRIBUTE_NAME);
         if (fileTypeAttrbute == null) {
-            throw new IOException("Required attribute `Fixed_Header:File_Type` not found");
+            if (isL2Type) {
+                final String fileTypeAttribName = MetadataUtils.getReplacement(FILE_TYPE_ATTRIBUTE_NAME);
+                fileTypeAttrbute = netcdfFile.findGlobalAttribute(fileTypeAttribName);
+            }
+            if (fileTypeAttrbute == null) {
+                throw new IOException("Required attribute `Fixed_Header:File_Type` not found");
+            }
+
         }
         return fileTypeAttrbute.getStringValue();
     }
