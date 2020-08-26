@@ -31,6 +31,11 @@
             "description": "SMOS BWLF1C schema version 400"
         },
         {
+            "id": "SM_REPR_MIR_BWLF1C_20150823T145320",
+            "relativePath": "sensors_platforms/SMOS/MIR_BWLF1C/SM_REPR_MIR_BWLF1C_20150823T145320_20150823T154632_724_200_1.zip",
+            "description": "SMOS BWLF1C schema version 400, new flags"
+        },
+        {
             "id": "SMOS_BWSD1C_DBL",
             "relativePath": "sensors_platforms/SMOS/MIR_BWSD1C/SM_OPER_MIR_BWSD1C_20100201T134256_20100201T140057_324_001_1/SM_OPER_MIR_BWSD1C_20100201T134256_20100201T140057_324_001_1.DBL",
             "description": "SMOS BWSD1C as directory with DBL file"
@@ -69,6 +74,11 @@
             "id": "SM_TEST_MIR_BWSF1C_20110502T024130",
             "relativePath": "sensors_platforms/SMOS/MIR_BWSF1C/SM_TEST_MIR_BWSF1C_20110502T024130_20110502T033443_710_001_1/SM_TEST_MIR_BWSF1C_20110502T024130_20110502T033443_710_001_1.HDR",
             "description": "SMOS BWSF1C, schema version 400, repr v7.03"
+        },
+        {
+            "id": "SM_REPR_MIR_BWSF1C_20150823T145320",
+            "relativePath": "sensors_platforms/SMOS/MIR_BWSF1C/SM_REPR_MIR_BWSF1C_20150823T145320_20150823T154632_724_200_1.zip",
+            "description": "SMOS BWSF1C, schema version 400, new flags"
         },
         {
             "id": "SM_OPER_MIR_OSDAP2_20120514T022742",
