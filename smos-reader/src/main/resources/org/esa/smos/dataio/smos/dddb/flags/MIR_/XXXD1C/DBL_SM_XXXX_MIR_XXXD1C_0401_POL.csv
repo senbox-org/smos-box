@@ -1,5 +1,5 @@
 # name       | mask     | value
-X-pol      | 00000003 | 0
-Y-pol      | 00000003 | 1
-Re(XY-pol) | 00000003 | 2
-Im(XY-pol) | 00000003 | 3
+  X-pol      | 00000003 | 0
+  Y-pol      | 00000003 | 1
+  Re(XY-pol) | 00000003 | 2
+  Im(XY-pol) | 00000003 | 3
