@@ -24,10 +24,10 @@
 # *       | not used              | 00400000 | *     | *            | *
 *       | FG_CTRL_USED_FARATEC  | 00800000 | *     | *            | Flags raised if TEC for this grid point was obtained from AUX_FARA_x
 *       | FG_CTRL_POOR_GEOPHYS  | 01000000 | *     | *            | Flags set if this grid point probably has poor quality SSS due to geophysical problems (outliers                                ,glint                                                                                             ,etc)                                                                                     ,or FG_CTRL_VALID is false
-  *       | FG_CTRL_POOR_RETRIEVAL| 02000000 | *     | *            | Flags set if this grid point poor SSS due to retrieval failure, poor quality convergence, or FG_CTRL_VALID is false. Poor SSS quality retrieval may be caused by retrieval problems
-  *       | FG_CTRL_SUSPECT_RFI   | 04000000 | *     | *            | Grid point is suspected of being contaminated by RFI. Flag set if Dg_RFI_L2 / Dg_num_meas_L1 > Tg_num_RFI_max
-  *       | FG_CTRL_RFI_PRONE_X   | 08000000 | *     | *            | Grid point is likely to be contaminated by X polarization RFI as indicated by AUX_DGGRFI
-  *       | FG_CTRL_RFI_PRONE_Y   | 10000000 | *     | *            | Grid point is likely to be contaminated by Y polarization RFI as indicated by AUX_DGGRFI
-  *       | FG_CTRL_ADJUSTED_RA   | 20000000 | *     | *            | Set if radiometric accuracy of measurements on this grid point have been adjusted using AUX_DGGRFI
-  *       | FG_CTRL_RETRIEV_FAIL  | 40000000 | *     | *            | Flags raised if iterative scheme returns an error
+*       | FG_CTRL_POOR_RETRIEVAL| 02000000 | *     | *            | Flags set if this grid point poor SSS due to retrieval failure                                                                  ,poor quality convergence                                                                          ,or FG_CTRL_VALID is false. Poor SSS quality retrieval may be caused by retrieval problems
+*       | FG_CTRL_SUSPECT_RFI   | 04000000 | *     | *            | Grid point is suspected of being contaminated by RFI. Flag set if Dg_RFI_L2 / Dg_num_meas_L1 > Tg_num_RFI_max
+*       | FG_CTRL_RFI_PRONE_X   | 08000000 | *     | *            | Grid point is likely to be contaminated by X polarization RFI as indicated by AUX_DGGRFI
+*       | FG_CTRL_RFI_PRONE_Y   | 10000000 | *     | *            | Grid point is likely to be contaminated by Y polarization RFI as indicated by AUX_DGGRFI
+*       | FG_CTRL_ADJUSTED_RA   | 20000000 | *     | *            | Set if radiometric accuracy of measurements on this grid point have been adjusted using AUX_DGGRFI
+*       | FG_CTRL_RETRIEV_FAIL  | 40000000 | *     | *            | Flags raised if iterative scheme returns an error
 # *       | spare                 | 80000000 | *     | *            | *
