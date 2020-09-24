@@ -20,6 +20,8 @@ import java.awt.Color;
 
 public interface FlagDescriptor {
 
+    String DESCRIPTION_DEFAULT = "";
+
     String getFlagName();
 
     int getMask();
@@ -28,7 +30,9 @@ public interface FlagDescriptor {
 
     Color getColor();
 
-    double getTransparency();
+    String getCombinedDescriptor();
 
     String getDescription();
+
+    boolean evaluate(int flags);
 }

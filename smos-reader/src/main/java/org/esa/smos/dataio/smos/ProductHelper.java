@@ -269,7 +269,7 @@ public class ProductHelper {
                 final String expression = band.getName() + "." + flagDescriptor.getFlagName();
                 Mask mask = Mask.BandMathsType.create(maskName, flagDescriptor.getDescription(),
                                                       product.getSceneRasterWidth(), product.getSceneRasterHeight(),
-                                                      expression, color, flagDescriptor.getTransparency());
+                                                      expression, color, 0.5);
                 product.getMaskGroup().add(mask);
             }
         }

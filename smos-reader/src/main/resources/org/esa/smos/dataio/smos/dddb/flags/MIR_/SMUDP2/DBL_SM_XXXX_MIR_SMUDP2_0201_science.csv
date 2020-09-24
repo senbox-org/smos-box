@@ -1,4 +1,4 @@
-# visible | name                  | mask     | color | transparency | description
+# visible | name                  | mask     | color | combinedDesc | description
   *       | FL_NON_NOM            | 00000001 | *     | *            | Presence of other than nominal soil
   *       | FL_SCENE_T            | 00000002 | *     | *            | True (1) if any of scene flags is set (1)
   *       | FL_BARREN             | 00000004 | *     | *            | Scene flag indicating presence of rocks

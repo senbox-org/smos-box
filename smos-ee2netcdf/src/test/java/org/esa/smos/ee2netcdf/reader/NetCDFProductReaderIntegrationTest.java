@@ -23,7 +23,10 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 @RunWith(AcceptanceTestRunner.class)
 public class NetCDFProductReaderIntegrationTest {
@@ -345,7 +348,6 @@ public class NetCDFProductReaderIntegrationTest {
         sourceElement = metadataRoot.getElement("Variable_Header").getElement("Specific_Product_Header").getElement("Main_Info");
         ncSourceElement = ncMetadataRoot.getElement("Variable_Header").getElement("Specific_Product_Header").getElement("Main_Info");
         assertSameAttributes(sourceElement, ncSourceElement);
-
     }
 
     private void assertSameAttributes(MetadataElement sourceElement, MetadataElement ncSourceElement) {

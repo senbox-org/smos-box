@@ -1,4 +1,4 @@
-# visible | name                  | mask     | color | transparency | description
+# visible | name                  | mask     | color | combinedDesc | description
   *       | FL_R4                 | 00000001 | *     | *            | True (1) if attempted, regardless of success
   *       | FL_R3                 | 00000002 | *     | *            | True (1) if attempted, regardless of success
   *       | FL_R2                 | 00000004 | *     | *            | True (1) if attempted, regardless of success

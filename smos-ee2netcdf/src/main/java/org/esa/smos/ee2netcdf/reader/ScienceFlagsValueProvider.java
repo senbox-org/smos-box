@@ -23,7 +23,7 @@ public class ScienceFlagsValueProvider extends AbstractValueProvider {
     private long snapshotId;
 
 
-    public ScienceFlagsValueProvider(ArrayCache arrayCache, String variableName, BandDescriptor descriptor, Area area, GridPointInfo gridPointInfo, double incidenceAngleScalingFactor) {
+    ScienceFlagsValueProvider(ArrayCache arrayCache, String variableName, BandDescriptor descriptor, Area area, GridPointInfo gridPointInfo, double incidenceAngleScalingFactor) {
         this.gridPointInfo = gridPointInfo;
         this.area = area;
         this.variableName = variableName;
@@ -53,7 +53,7 @@ public class ScienceFlagsValueProvider extends AbstractValueProvider {
     }
 
     @Override
-    public byte getByte(int gridPointIndex) throws IOException {
+    public byte getByte(int gridPointIndex) {
         if (snapshotId < 0) {
             return (byte) getCombinedFlags(gridPointIndex);
         } else {
@@ -62,7 +62,7 @@ public class ScienceFlagsValueProvider extends AbstractValueProvider {
     }
 
     @Override
-    public short getShort(int gridPointIndex) throws IOException {
+    public short getShort(int gridPointIndex) {
         if (snapshotId < 0) {
             return (short) getCombinedFlags(gridPointIndex);
         } else {
@@ -71,7 +71,7 @@ public class ScienceFlagsValueProvider extends AbstractValueProvider {
     }
 
     @Override
-    public int getInt(int gridPointIndex) throws IOException {
+    public int getInt(int gridPointIndex) {
         if (snapshotId < 0) {
             return getCombinedFlags(gridPointIndex);
         } else {
@@ -80,7 +80,7 @@ public class ScienceFlagsValueProvider extends AbstractValueProvider {
     }
 
     @Override
-    public float getFloat(int gridPointIndex) throws IOException {
+    public float getFloat(int gridPointIndex) {
         if (snapshotId < 0) {
             return getCombinedFlags(gridPointIndex);
         } else {

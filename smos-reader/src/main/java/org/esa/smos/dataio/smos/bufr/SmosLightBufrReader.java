@@ -156,7 +156,7 @@ public class SmosLightBufrReader extends SmosReader {
         final Family<FlagDescriptor> flagDescriptors = Dddb.getInstance().getFlagDescriptors("BUFR_flags");
         final List<FlagDescriptor> flagDescriptorsList = flagDescriptors.asList();
 
-        return flagDescriptorsList.toArray(new FlagDescriptor[flagDescriptorsList.size()]);
+        return flagDescriptorsList.toArray(new FlagDescriptor[0]);
     }
 
     @Override
@@ -268,7 +268,7 @@ public class SmosLightBufrReader extends SmosReader {
             snapshotAreaMap.put(snapshotIdLong, snapshotRect);
         }
 
-        return new SnapshotInfo(snapshotIndexMap, all, x, y, xy, snapshotAreaMap);
+        return new SnapshotInfo(snapshotIndexMap, all, x, y, xy, snapshotAreaMap, null);
     }
 
     @Override
@@ -453,7 +453,7 @@ public class SmosLightBufrReader extends SmosReader {
     }
 
     private void addBand(Product product, Variable variable, int dataType, BandDescriptor descriptor) throws
-                                                                                                      IOException {
+            IOException {
         if (!descriptor.isVisible()) {
             return;
         }
@@ -598,8 +598,8 @@ public class SmosLightBufrReader extends SmosReader {
                         continue;
                     }
                     if (polarisation == 4 ||
-                        (observation.data[BufrSupport.POLARISATION_INDEX] & 3) == polarisation ||
-                        (polarisation & observation.data[BufrSupport.POLARISATION_INDEX] & 2) != 0) {
+                            (observation.data[BufrSupport.POLARISATION_INDEX] & 3) == polarisation ||
+                            (polarisation & observation.data[BufrSupport.POLARISATION_INDEX] & 2) != 0) {
 
                         final int incidenceAngleInt = observation.data[BufrSupport.INCIDENCE_ANGLE_INDEX];
                         if (incidenceAngleValueDecoder.isValid(incidenceAngleInt)) {
@@ -704,8 +704,8 @@ public class SmosLightBufrReader extends SmosReader {
                 for (final Observation observation : cellObservations) {
                     // @todo 2 tb/tb move this conditional to a method 2014-12-02
                     if (polarisation == 4 ||
-                        (observation.data[BufrSupport.POLARISATION_INDEX] & 3) == polarisation ||
-                        (polarisation & observation.data[BufrSupport.POLARISATION_INDEX] & 2) != 0) {
+                            (observation.data[BufrSupport.POLARISATION_INDEX] & 3) == polarisation ||
+                            (polarisation & observation.data[BufrSupport.POLARISATION_INDEX] & 2) != 0) {
 
                         final int incidenceAngleInt = observation.data[BufrSupport.INCIDENCE_ANGLE_INDEX];
 

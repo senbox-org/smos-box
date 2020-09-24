@@ -2,11 +2,9 @@ package org.esa.smos.ee2netcdf.reader;
 
 import ucar.nc2.NetcdfFile;
 
-import java.io.IOException;
-
 class ProductTypeSupportFactory {
 
-    static ProductTypeSupport get(String typeString, NetcdfFile netcdfFile) throws IOException {
+    static ProductTypeSupport get(String typeString, NetcdfFile netcdfFile) {
         if (typeString == null) {
             throw new IllegalArgumentException("Invalid product type: null");
         }

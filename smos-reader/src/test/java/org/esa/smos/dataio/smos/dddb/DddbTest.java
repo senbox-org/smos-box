@@ -22,10 +22,16 @@ import org.junit.Test;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 
 public class DddbTest {
 
@@ -76,7 +82,7 @@ public class DddbTest {
     }
 
     @Test
-    public void testGetBandDescriptors_BUFR() throws Exception {
+    public void testGetBandDescriptors_BUFR() {
         final Family<BandDescriptor> descriptors = dddb.getBandDescriptors("BUFR");
         assertEquals(27, descriptors.asList().size());
 
@@ -87,7 +93,7 @@ public class DddbTest {
     }
 
     @Test
-    public void testGetFlagDescriptors_BUFR() throws Exception {
+    public void testGetFlagDescriptors_BUFR() {
         final Family<FlagDescriptor> descriptors = dddb.getFlagDescriptors("BUFR_flags");
         assertEquals(14, descriptors.asList().size());
     }
@@ -104,8 +110,8 @@ public class DddbTest {
         assertEquals("RR_FLAG", descriptor.getFlagName());
         assertEquals(0x00000080, descriptor.getMask());
         assertNull(descriptor.getColor());
-        assertEquals(0.5, descriptor.getTransparency(), 0.0);
-        assertFalse(descriptor.getDescription().isEmpty());
+        assertEquals("", descriptor.getCombinedDescriptor());
+        assertEquals("Quality flag: rain rate", descriptor.getDescription());
     }
 
     @Test
@@ -515,6 +521,21 @@ public class DddbTest {
         assertEquals("Radiometric_Accuracy_of_Pixel", dddb.getEEVariableName("Pixel_Radiometric_Accuracy", DBL_SM_XXXX_MIR_BWSD1C_0200));
 
         assertEquals("schneckBand", dddb.getEEVariableName("schneckBand", "invalid_schema"));
+    }
+
+    @Test
+    public void testGetComplexFlagDescriptors() {
+        final Family<FlagDescriptor> descriptorFamily = dddb.getCombinedFlagDescriptors("DBL_SM_XXXX_MIR_XXXF1C_0401_RFI");
+        final List<FlagDescriptor> descriptors = descriptorFamily.asList();
+        assertEquals(4, descriptors.size());
+
+        FlagDescriptor descriptor = descriptors.get(1);
+        assertEquals("RFI_LOW", descriptor.getFlagName());
+        assertEquals(0X0000C000, descriptor.getMask());
+
+        descriptor = descriptors.get(3);
+        assertEquals("RFI_HIGH", descriptor.getFlagName());
+        assertEquals(0X0000C000, descriptor.getMask());
     }
 
     private class TestBandDescriptor implements BandDescriptor {

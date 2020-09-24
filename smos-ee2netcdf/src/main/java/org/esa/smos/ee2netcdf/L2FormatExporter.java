@@ -2,6 +2,8 @@ package org.esa.smos.ee2netcdf;
 
 
 import com.bc.ceres.binio.CompoundData;
+import org.apache.commons.lang.StringUtils;
+import org.esa.smos.DateTimeUtils;
 import org.esa.smos.SmosUtils;
 import org.esa.smos.ee2netcdf.variable.VariableDescriptor;
 import org.esa.smos.ee2netcdf.variable.VariableWriter;
@@ -13,6 +15,8 @@ import org.esa.snap.dataio.netcdf.nc.NFileWriteable;
 import org.esa.snap.dataio.netcdf.nc.NVariable;
 
 import java.io.IOException;
+import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 class L2FormatExporter extends AbstractFormatExporter {
@@ -48,6 +52,27 @@ class L2FormatExporter extends AbstractFormatExporter {
 
         for (VariableWriter writer : variableWriters) {
             writer.close();
+        }
+    }
+
+    @Override
+    public void addGlobalAttributes(NFileWriteable nFileWriteable, MetadataElement metadataRoot,
+                                    ExportParameter exportParameter) throws IOException {
+        final String institution = exportParameter.getInstitution();
+        if (StringUtils.isNotBlank(institution)) {
+            nFileWriteable.addGlobalAttribute("institution", institution);
+        }
+        final String contact = exportParameter.getContact();
+        if (StringUtils.isNotBlank(contact)) {
+            nFileWriteable.addGlobalAttribute("contact", contact);
+        }
+        nFileWriteable.addGlobalAttribute("creation_date", DateTimeUtils.toFixedHeaderFormat(new Date()));
+        nFileWriteable.addGlobalAttribute("total_number_of_grid_points", Integer.toString(gridPointCount));
+
+        final List<AttributeEntry> attributeList = extractMetadata(metadataRoot);
+        MetadataUtils.shrinkNames(attributeList);
+        for (final AttributeEntry entry : attributeList) {
+            nFileWriteable.addGlobalAttribute(entry.getName(), entry.getValue());
         }
     }
 

@@ -7,7 +7,7 @@
     <name>SMOS-Box</name>
     <groupId>org.esa.smostbx</groupId>
     <artifactId>smos-box</artifactId>
-    <version>5.7.0-SNAPSHOT</version>
+    <version>5.8.0-SNAPSHOT</version>
 
     <packaging>pom</packaging>
 
@@ -16,7 +16,7 @@
         <snap.version>8.0.0-SNAPSHOT</snap.version>
         <netbeans.version>RELEASE82</netbeans.version>
         <javahelp.version>2.0.05</javahelp.version>
-        <smos.nbmSpecVersion>5.7.0</smos.nbmSpecVersion>
+        <smos.nbmSpecVersion>5.8.0</smos.nbmSpecVersion>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -71,13 +71,8 @@
                 <version>${snap.version}</version>
             </dependency>
 
-            <!-- BEAM System Level Modules ############################################# -->
+            <!-- SNAP System Level Modules ############################################# -->
 
-            <dependency>
-                <groupId>org.esa.snap</groupId>
-                <artifactId>snap-beam-bootstrap</artifactId>
-                <version>${snap.version}</version>
-            </dependency>
             <dependency>
                 <groupId>org.esa.snap</groupId>
                 <artifactId>snap-core</artifactId>
@@ -546,12 +541,21 @@
 
     <developers>
         <developer>
+            <id>ralf</id>
+            <name>Ralf Quast</name>
+            <email>ralf.quast@brockmann-consult.de</email>
+            <organization>Brockmann Consult</organization>
+            <roles>
+                <role>Project Manager</role>
+                <role>Java Developer</role>
+            </roles>
+        </developer>
+        <developer>
             <id>tomblock</id>
             <name>Tom Block</name>
             <email>tom.block@brockmann-consult.de</email>
             <organization>Brockmann Consult</organization>
             <roles>
-                <role>Project Manager</role>
                 <role>Java Developer</role>
             </roles>
         </developer>
@@ -568,15 +572,6 @@
             <id>marcop</id>
             <name>Marco Peters</name>
             <email>marco.peters@brockmann-consult.de</email>
-            <organization>Brockmann Consult</organization>
-            <roles>
-                <role>Java Developer</role>
-            </roles>
-        </developer>
-        <developer>
-            <id>ralf</id>
-            <name>Ralf Quast</name>
-            <email>ralf.quast@brockmann-consult.de</email>
             <organization>Brockmann Consult</organization>
             <roles>
                 <role>Java Developer</role>

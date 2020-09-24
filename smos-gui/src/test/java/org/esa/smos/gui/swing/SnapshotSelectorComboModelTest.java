@@ -16,23 +16,21 @@
 package org.esa.smos.gui.swing;
 
 import org.esa.smos.dataio.smos.SnapshotInfo;
-import org.esa.smos.gui.swing.SnapshotSelectorComboModel;
-import org.esa.smos.gui.swing.SnapshotSelectorModel;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.awt.geom.Rectangle2D;
 import java.util.Arrays;
 import java.util.Collections;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotSame;
 
 public class SnapshotSelectorComboModelTest {
 
     private SnapshotSelectorComboModel selectorComboModel;
 
     @Before
-    public void before() throws Exception {
+    public void before() {
         selectorComboModel = createSnapshotSelectorComboModel();
     }
 
@@ -77,11 +75,11 @@ public class SnapshotSelectorComboModelTest {
 
     static SnapshotSelectorComboModel createSnapshotSelectorComboModel() {
         return new SnapshotSelectorComboModel(new SnapshotInfo(
-                Collections.<Long, Integer>emptyMap(),
+                Collections.emptyMap(),
                 Arrays.asList(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L),
                 Arrays.asList(1L, 3L, 5L, 7L),
                 Arrays.asList(2L, 4L, 6L, 8L),
-                Arrays.<Long>asList(),
-                Collections.<Long, Rectangle2D>emptyMap()));
+                Arrays.asList(),
+                Collections.emptyMap(), null));
     }
 }

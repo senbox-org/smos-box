@@ -25,6 +25,7 @@ import org.esa.smos.SmosUtils;
 import org.esa.smos.dataio.smos.dddb.BandDescriptor;
 import org.esa.smos.dataio.smos.dddb.Dddb;
 import org.esa.smos.dataio.smos.dddb.Family;
+import org.esa.smos.dataio.smos.dddb.FlagDescriptor;
 import org.esa.smos.dataio.smos.provider.AbstractValueProvider;
 import org.esa.smos.dataio.smos.provider.DP;
 import org.esa.smos.dataio.smos.provider.DPH;
@@ -42,11 +43,11 @@ import java.awt.geom.Rectangle2D;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
-import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -382,7 +383,19 @@ public class L1cScienceSmosFile extends L1cSmosFile {
             }
         }
 
-        return new SnapshotInfo(snapshotIndexMap, all, x, y, xy, snapshotAreaMap);
+        final String dataFormatName = getDataFormat().getName();
+        final Family<BandDescriptor> bandDescriptors = Dddb.getInstance().getBandDescriptors(dataFormatName);
+        final List<BandDescriptor> bandDescriptorsList = bandDescriptors.asList();
+        List<FlagDescriptor> flagDescriptorList = null;
+        for (final BandDescriptor descriptor : bandDescriptorsList) {
+            if (descriptor.getBandName().equals("RFI_Flags")) {
+                final Family<FlagDescriptor> flagDescriptors = descriptor.getFlagDescriptors();
+                flagDescriptorList = flagDescriptors.asList();
+                break;
+            }
+        }
+
+        return new SnapshotInfo(snapshotIndexMap, all, x, y, xy, snapshotAreaMap, flagDescriptorList);
     }
 
     private void addRotatedDualPolBands(Product product, Map<String, AbstractValueProvider> valueProviderMap) {

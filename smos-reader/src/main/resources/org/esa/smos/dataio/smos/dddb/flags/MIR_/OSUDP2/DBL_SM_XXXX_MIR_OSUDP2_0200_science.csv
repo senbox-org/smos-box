@@ -1,4 +1,4 @@
-# visible | name                  | mask     | color | transparency | description
+# visible | name                  | mask     | color | combinedDesc | description
   *       | FG_SC_LAND_SEA_COAST1 | 00000001 | *     | *            | Distance from coast to gridpoint is less than threshold Max1 in file AUX_DISTAN
   *       | FG_SC_LAND_SEA_COAST2 | 00000002 | *     | *            | Distance from coast to gridpoint is less than threshold Max2 in file AUX_DISTAN
   *       | FG_SC_TEC_GRADIENT    | 00000004 | *     | *            | High TEC gradient along dwell for a grid point

@@ -21,7 +21,7 @@ import org.esa.snap.core.datamodel.Band;
 import org.esa.snap.core.datamodel.Product;
 import org.esa.snap.core.datamodel.ProductData;
 import org.esa.snap.core.util.StringUtils;
-import org.esa.snap.core.util.logging.BeamLogManager;
+import org.esa.snap.core.util.SystemUtils;
 import ucar.ma2.Array;
 import ucar.ma2.StructureData;
 import ucar.ma2.StructureDataIterator;
@@ -48,12 +48,11 @@ import java.util.logging.Logger;
  */
 public class SmosBufrReader extends SmosReader {
 
+    private final Map<Integer, IndexArea> snapshotMessageIndexMap;
     private BufrSupport bufrSupport;
     private ValueDecoders valueDecoders;
     private int firstSnapshotId;
     private SnapshotInfo snapshotInfo;
-
-    private final Map<Integer, IndexArea> snapshotMessageIndexMap;
 
     public SmosBufrReader(SmosBufrReaderPlugIn smosBufrReaderPlugIn) {
         super(smosBufrReaderPlugIn);
@@ -75,7 +74,7 @@ public class SmosBufrReader extends SmosReader {
     }
 
     @Override
-    public final GridPointBtDataset getBtData(int gridPointIndex) throws IOException {
+    public final GridPointBtDataset getBtData(int gridPointIndex) {
         return null;
     }
 
@@ -194,7 +193,7 @@ public class SmosBufrReader extends SmosReader {
     protected final void readBandRasterDataImpl(int sourceOffsetX, int sourceOffsetY, int sourceWidth, int sourceHeight,
                                                 int sourceStepX, int sourceStepY, Band destBand, int destOffsetX,
                                                 int destOffsetY, int destWidth, int destHeight, ProductData destBuffer,
-                                                ProgressMonitor pm) throws IOException {
+                                                ProgressMonitor pm) {
         synchronized (this) {
             final RenderedImage image = destBand.getSourceImage();
             final Raster data = image.getData(new Rectangle(destOffsetX, destOffsetY, destWidth, destHeight));
@@ -243,7 +242,7 @@ public class SmosBufrReader extends SmosReader {
         }
     }
 
-    private void addBands(Product product) throws IOException {
+    private void addBands(Product product) {
         final SmosBufrFile smosBufrFile = bufrSupport.getSmosBufrFile();
         final Sequence sequence = smosBufrFile.getObservationStructure();
         final Family<BandDescriptor> descriptors = Dddb.getInstance().getBandDescriptors("BUFR");
@@ -262,8 +261,7 @@ public class SmosBufrReader extends SmosReader {
     }
 
 
-    private void addBand(Product product, Variable variable, int dataType, BandDescriptor descriptor) throws
-            IOException {
+    private void addBand(Product product, Variable variable, int dataType, BandDescriptor descriptor) {
         if (!descriptor.isVisible()) {
             return;
         }
@@ -361,9 +359,9 @@ public class SmosBufrReader extends SmosReader {
                 snapshotAreaMap.put(longSnapshotId, indexArea.getArea());
             }
 
-            snapshotInfo = new SnapshotInfo(snapshotIndexMap, all, x, y, xy, snapshotAreaMap);
+            snapshotInfo = new SnapshotInfo(snapshotIndexMap, all, x, y, xy, snapshotAreaMap, null);
         } catch (IOException e) {
-            final Logger systemLogger = BeamLogManager.getSystemLogger();
+            final Logger systemLogger = SystemUtils.LOG;
             systemLogger.warning("Failed to read snpshot data: " + e.getMessage());
             snapshotInfo = null;
         }
@@ -456,7 +454,7 @@ public class SmosBufrReader extends SmosReader {
                 }
                 dataLoaded = true;
             } catch (IOException e) {
-                final Logger systemLogger = BeamLogManager.getSystemLogger();
+                final Logger systemLogger = SystemUtils.LOG;
                 systemLogger.warning("Failed to read snpshot data: " + e.getMessage());
             }
         }

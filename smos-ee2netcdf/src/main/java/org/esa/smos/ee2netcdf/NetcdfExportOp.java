@@ -21,9 +21,9 @@ import java.util.TreeSet;
 
 @OperatorMetadata(
         alias = NetcdfExportOp.ALIAS,
-        version = "5.3.0",
+        version = "5.8.0",
         authors = "Tom Block",
-        copyright = "(c) 2014-2016 by Brockmann Consult",
+        copyright = "(c) 2014-2020 by Brockmann Consult",
         description = "Exports SMOS Earth Explorer products to NetCDF format.",
         autoWriteDisabled = true)
 public class NetcdfExportOp extends Operator {
@@ -61,7 +61,7 @@ public class NetcdfExportOp extends Operator {
     private String contact;
 
     @Parameter(defaultValue = "",
-            description = "A comma-separated list of variables to be included in the target netCDF file. Variables have to be denoted by names as defined in the ESA SMOS product specification documents. By default all variables in the source file are included in the target file.")
+            description = "A comma-separated list of variables to be included in the target netCDF file. Variables have to be denoted by names as defined in the ESA SMOS product specification documents. If left empty, all variables in the source file are included in the target file.")
     private String variableNames;
 
     @Parameter(defaultValue = "6",

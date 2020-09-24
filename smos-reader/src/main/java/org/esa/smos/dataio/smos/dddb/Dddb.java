@@ -70,17 +70,46 @@ public class Dddb {
     private final ConcurrentMap<String, DataFormat> dataFormatMap;
     private final ConcurrentMap<String, BandDescriptors> bandDescriptorMap;
     private final ConcurrentMap<String, FlagDescriptors> flagDescriptorMap;
+    private final ConcurrentMap<String, FlagDescriptorsCombined> flagDescriptorCombinedMap;
 
     private Dddb() {
         dataFormatMap = new ConcurrentHashMap<>(17);
         bandDescriptorMap = new ConcurrentHashMap<>(17);
         flagDescriptorMap = new ConcurrentHashMap<>(17);
+        flagDescriptorCombinedMap = new ConcurrentHashMap<>(8);
 
         resourceHandler = new ResourceHandler();
     }
 
     public static Dddb getInstance() {
         return Holder.INSTANCE;
+    }
+
+    // package access for testing only tb 2014-07-09
+    static String findOriginalName(Properties mappingProperties, String searchName) {
+        final Set<Map.Entry<Object, Object>> entries = mappingProperties.entrySet();
+        for (Map.Entry<Object, Object> next : entries) {
+            if (searchName.equalsIgnoreCase((String) next.getValue())) {
+                return (String) next.getKey();
+            }
+        }
+
+        return null;
+    }
+
+    // package access for testing only tb 2014-07-14
+    static Map<String, BandDescriptor> extractUniqueMembers(List<BandDescriptor> bandDescriptorsList) {
+        final HashMap<String, BandDescriptor> uniqueMemberMap = new HashMap<>();
+
+        for (BandDescriptor bandDescriptor : bandDescriptorsList) {
+            final String memberName = bandDescriptor.getMemberName();
+            if (uniqueMemberMap.containsKey(memberName)) {
+                continue;
+            }
+
+            uniqueMemberMap.put(memberName, bandDescriptor);
+        }
+        return uniqueMemberMap;
     }
 
     DataFormat getDataFormat(String formatName) {
@@ -182,10 +211,8 @@ public class Dddb {
 
     public Family<FlagDescriptor> getFlagDescriptors(String identifier) {
         if (!flagDescriptorMap.containsKey(identifier)) {
-            InputStream inputStream = null;
 
-            try {
-                inputStream = getFlagDescriptorResource(identifier);
+            try (InputStream inputStream = getFlagDescriptorResource(identifier)) {
                 if (inputStream != null) {
                     final FlagDescriptors descriptors = readFlagDescriptors(inputStream);
 
@@ -194,18 +221,24 @@ public class Dddb {
             } catch (Throwable e) {
                 throw new IllegalStateException(MessageFormat.format(
                         "An error occurred while reading flag descriptors for identifier ''{0}''.", identifier));
-            } finally {
-                if (inputStream != null) {
-                    try {
-                        inputStream.close();
-                    } catch (IOException e) {
-                        //ignore
-                    }
-                }
             }
         }
 
         return flagDescriptorMap.get(identifier);
+    }
+
+    public Family<FlagDescriptor> getCombinedFlagDescriptors(String identifier) {
+        if (!flagDescriptorCombinedMap.containsKey(identifier)) {
+            try (InputStream inputStream = getFlagDescriptorResource(identifier)) {
+                final FlagDescriptorsCombined descriptors = readCombinedFlagDescriptors(inputStream);
+                flagDescriptorCombinedMap.putIfAbsent(identifier, descriptors);
+            } catch (Throwable e) {
+                throw new IllegalStateException(MessageFormat.format(
+                        "An error occurred while reading flag descriptors for identifier ''{0}''.", identifier));
+            }
+        }
+
+        return flagDescriptorCombinedMap.get(identifier);
     }
 
     public Family<MemberDescriptor> getMemberDescriptors(File hdrFile) throws IOException {
@@ -284,33 +317,6 @@ public class Dddb {
             }
         }
         return variableName;
-    }
-
-    // package access for testing only tb 2014-07-09
-    static String findOriginalName(Properties mappingProperties, String searchName) {
-        final Set<Map.Entry<Object, Object>> entries = mappingProperties.entrySet();
-        for (Map.Entry<Object, Object> next : entries) {
-            if (searchName.equalsIgnoreCase((String) next.getValue())) {
-                return (String) next.getKey();
-            }
-        }
-
-        return null;
-    }
-
-    // package access for testing only tb 2014-07-14
-    static Map<String, BandDescriptor> extractUniqueMembers(List<BandDescriptor> bandDescriptorsList) {
-        final HashMap<String, BandDescriptor> uniqueMemberMap = new HashMap<>();
-
-        for (BandDescriptor bandDescriptor : bandDescriptorsList) {
-            final String memberName = bandDescriptor.getMemberName();
-            if (uniqueMemberMap.containsKey(memberName)) {
-                continue;
-            }
-
-            uniqueMemberMap.put(memberName, bandDescriptor);
-        }
-        return uniqueMemberMap;
     }
 
     private void extractMembers(CompoundType type, MemberDescriptors memberDescriptors) {
@@ -413,6 +419,13 @@ public class Dddb {
         final List<String[]> recordList = reader.readStringRecords();
 
         return new FlagDescriptors(recordList);
+    }
+
+    private FlagDescriptorsCombined readCombinedFlagDescriptors(InputStream inputStream) throws IOException {
+        final CsvReader reader = new CsvReader(new InputStreamReader(inputStream, charset), separators, true, "#");
+        final List<String[]> recordList = reader.readStringRecords();
+
+        return new FlagDescriptorsCombined(recordList);
     }
 
     private InputStream getBandDescriptorResource(String formatName) throws FileNotFoundException {

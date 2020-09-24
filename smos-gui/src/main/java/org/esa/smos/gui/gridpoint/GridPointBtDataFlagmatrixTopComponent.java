@@ -19,7 +19,9 @@ package org.esa.smos.gui.gridpoint;
 import org.esa.smos.dataio.smos.GridPointBtDataset;
 import org.esa.smos.dataio.smos.SmosReader;
 import org.esa.smos.dataio.smos.dddb.Dddb;
+import org.esa.smos.dataio.smos.dddb.Family;
 import org.esa.smos.dataio.smos.dddb.FlagDescriptor;
+import org.esa.snap.core.util.StringUtils;
 import org.esa.snap.ui.product.ProductSceneView;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -41,6 +43,7 @@ import org.openide.windows.TopComponent;
 import javax.swing.JComponent;
 import java.awt.Color;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @TopComponent.Description(
@@ -78,6 +81,25 @@ public class GridPointBtDataFlagmatrixTopComponent extends GridPointBtDataTopCom
         setDisplayName(DISPLAY_NAME);
     }
 
+    // package access for testing only tb 2020-06-16
+    static double[][] calculateFlaggingData(int iq, Number[][] dsData, FlagDescriptor[] flagDescriptors) {
+        final int numMeasurements = dsData.length;
+        final int numFlags = flagDescriptors.length;
+        double[][] data = new double[3][numFlags * numMeasurements];
+        for (int x = 0; x < numMeasurements; x++) {
+            final int flags = dsData[x][iq].intValue();
+            for (int y = 0; y < numFlags; y++) {
+                final int index = y * numMeasurements + x;
+                data[0][index] = (1 + x);
+                data[1][index] = y;
+                final int mask = flagDescriptors[y].getMask();
+                data[2][index] = ((flags & mask) == mask) ? (1 + y % 3) : 0.0;
+                data[2][index] = flagDescriptors[y].evaluate(flags) ? (1 + y % 3) : 0.0;
+            }
+        }
+        return data;
+    }
+
     @Override
     protected JComponent createGridPointComponent() {
         dataset = new DefaultXYZDataset();
@@ -90,7 +112,7 @@ public class GridPointBtDataFlagmatrixTopComponent extends GridPointBtDataTopCom
 
         final List<FlagDescriptor> flagDescriptorList = Dddb.getInstance().getFlagDescriptors(
                 DEFAULT_FLAG_DESCRIPTOR_IDENTIFIER).asList();
-        flagDescriptors = flagDescriptorList.toArray(new FlagDescriptor[flagDescriptorList.size()]);
+        flagDescriptors = flagDescriptorList.toArray(new FlagDescriptor[0]);
         final String[] flagNames = createFlagNames(flagDescriptors);
         final NumberAxis yAxis = createRangeAxis(flagNames);
 
@@ -132,12 +154,40 @@ public class GridPointBtDataFlagmatrixTopComponent extends GridPointBtDataTopCom
         }
         chartPanel.setEnabled(enabled);
         if (enabled) {
-            flagDescriptors = smosReader.getBtFlagDescriptors();
+            loadFlagDescriptors(smosReader);
             final String[] flagNames = createFlagNames(flagDescriptors);
             renderer.setBaseToolTipGenerator(new FlagToolTipGenerator(flagNames));
             final NumberAxis rangeAxis = createRangeAxis(flagNames);
             plot.setRangeAxis(rangeAxis);
         }
+    }
+
+    private void loadFlagDescriptors(SmosReader smosReader) {
+        final FlagDescriptor[] btFlagDescriptors = smosReader.getBtFlagDescriptors();
+        final List<FlagDescriptor> descriptorList = new ArrayList<>();
+        final List<String> alreadyLoadedCombined = new ArrayList<>();
+        for (final FlagDescriptor descriptor : btFlagDescriptors) {
+            final String combinedDescriptorResource = descriptor.getCombinedDescriptor();
+            if (StringUtils.isNullOrEmpty(combinedDescriptorResource)) {
+                descriptorList.add(descriptor);
+                continue;
+            }
+
+            if (alreadyLoadedCombined.contains(combinedDescriptorResource)) {
+                continue;
+            }
+
+            final Family<FlagDescriptor> complexFlagDescriptors = Dddb.getInstance().getCombinedFlagDescriptors(combinedDescriptorResource);
+            if (complexFlagDescriptors == null) {
+                continue;
+            }
+
+            final List<FlagDescriptor> combinedDescriptors = complexFlagDescriptors.asList();
+            descriptorList.addAll(combinedDescriptors);
+
+            alreadyLoadedCombined.add(combinedDescriptorResource);
+        }
+        flagDescriptors = descriptorList.toArray(new FlagDescriptor[0]);
     }
 
     @Override
@@ -147,19 +197,7 @@ public class GridPointBtDataFlagmatrixTopComponent extends GridPointBtDataTopCom
         int iq = ds.getFlagBandIndex();
         if (iq != -1) {
             final Number[][] dsData = ds.getData();
-            final int m = dsData.length;
-            final int n = flagDescriptors.length;
-            double[][] data = new double[3][n * m];
-            for (int x = 0; x < m; x++) {
-                final int flags = dsData[x][iq].intValue();
-                for (int y = 0; y < n; y++) {
-                    final int index = y * m + x;
-                    data[0][index] = (1 + x);
-                    data[1][index] = y;
-                    final int mask = flagDescriptors[y].getMask();
-                    data[2][index] = ((flags & mask) == mask) ? (1 + y % 3) : 0.0;
-                }
-            }
+            double[][] data = calculateFlaggingData(iq, dsData, flagDescriptors);
             dataset.addSeries(SERIES_KEY, data);
         } else {
             plot.setNoDataMessage("Not a SMOS D1C/F1C pixel.");
