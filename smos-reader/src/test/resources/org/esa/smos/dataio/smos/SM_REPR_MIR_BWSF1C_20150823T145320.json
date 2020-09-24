@@ -1,0 +1,862 @@
+{
+  "id": "SM_REPR_MIR_BWSF1C_20150823T145320",
+  "decodeQualification": "INTENDED",
+  "expectedContent": {
+    "sceneWidth": 16384,
+    "sceneHeight": 8064,
+    "startTime": "23-AUG-2015 14:53:20.000000",
+    "endTime": "23-AUG-2015 15:46:32.000000",
+    "geoCoding": {
+      "coordinates": [
+        {
+          "x": 7067.0,
+          "y": 4404.0,
+          "lat": -8.173828125,
+          "lon": -24.71923828125
+        },
+        {
+          "x": 12165.0,
+          "y": 5316.0,
+          "lat": -28.212890625,
+          "lon": 87.29736328125
+        }
+      ],
+      "reverseAccuracy": 0.0
+    },
+    "flagCodings": [
+      {
+        "name": "Flags",
+        "samples": [
+          {
+            "name": "POL_FLAG_1",
+            "value": 1,
+            "description": "Flag indicating antenna HH (0) or VV (1) polarisation"
+          },
+          {
+            "name": "POL_FLAG_2",
+            "value": 2,
+            "description": "Flag indicating Real and Imaginary part of the HV polarization when the instrument was in VHH+HVH+HHV arm configuration"
+          },
+          {
+            "name": "SUN_FOV",
+            "value": 4,
+            "description": "Direct Sun correction for the Sun in the front of the FOV has been performed during image reconstruction of this pixel"
+          },
+          {
+            "name": "SUN_GLINT_FOV",
+            "value": 8,
+            "description": "Reflected Sun correction has been performed during image reconstruction of this pixel. Sun correction is based on the Sea bistatic coefficients defined in the AUX_BSCAT ADF and computed for a fixed wind speed of 7 m/s and wind direction of 0 deg North"
+          },
+          {
+            "name": "MOON_FOV",
+            "value": 16,
+            "description": "Direct Moon correction has been performed during image reconstruction of this pixel"
+          },
+          {
+            "name": "SINGLE_SNAPSHOT",
+            "value": 32,
+            "description": ""
+          },
+          {
+            "name": "SUN_POINT",
+            "value": 128,
+            "description": "Pixel is located in a zone (circle around Sun alias position with radius configurable through Sun_Point_Flag_Size field in AUX CNFL1P) where a Sun alias was reconstructed (if Sun removal is active, measurement may be degraded)"
+          },
+          {
+            "name": "SUN_GLINT_AREA",
+            "value": 256,
+            "description": "Pixel is located in a zone where Sun reflection has been detected using the bi-static scattering coefficient threshold defined in the configuration file"
+          },
+          {
+            "name": "MOON_POINT",
+            "value": 512,
+            "description": "Pixel is located in a zone where a Moon alias was reconstructed (after Moon removal, measurement may be degraded)"
+          },
+          {
+            "name": "AF_FOV",
+            "value": 1024,
+            "description": "Pixel is inside the exclusive zone of Alias free (delimited by the six aliased unit circles)"
+          },
+          {
+            "name": "BORDER_FOV",
+            "value": 4096,
+            "description": "Pixel is close to the border delimiting the Extended Alias free zone or to the unit circle replicas borders (also known as “suspenders and belts”). Distance threshold is configurable through FOV_Border_Flag_Size field in AUX CNFL1P"
+          },
+          {
+            "name": "SUN_TAILS",
+            "value": 8192,
+            "description": "Pixel is located in the hexagonal alias directions centred on a Sun alias (if Sun is not removed, measurement may be degraded in these directions)"
+          },
+          {
+            "name": "RFI_POINT_SOURCE",
+            "value": 64,
+            "description": "Measurement is affected by point source RFI as identified in the AUX RFI list (flag is set in a circle around the RFI position, with a radius dependant on the RFI expected BT defined in the AUX RFILST), or it has exceeded the threshold defined in BT_Dual/Full_RFI_Pixel_Flag_Threshold fields in AUX CNFL1P, or is negative for Dual Polarisation values"
+          },
+          {
+            "name": "RFI_TAIL",
+            "value": 2048,
+            "description": "Measurement is affected by the tails of a point source RFI as identified in the AUX RFI list (tail width is dependant on the RFI estimated BT (from each snapshot measurements) , corresponding to 0.16 of the radius of the RFI circle flagged)"
+          },
+          {
+            "name": "RFI_FLAG_1",
+            "value": 16384,
+            "description": "Measurement is affected by a point source RFI identified in the AUX RFI list whose contribution generates a contamination in BT above a certain level defined in the AUX CNFL1P file"
+          },
+          {
+            "name": "RFI_FLAG_2",
+            "value": 32768,
+            "description": "Measurement is affected by a point source RFI identified in the AUX RFI list whose contribution generates a contamination in BT above a certain level defined in the AUX CNFL1P file"
+          }
+        ]
+      },
+      {
+        "name": "Land_Sea_Mask_Flags",
+        "samples": [
+          {
+            "name": "USGS_SEA_FLAG",
+            "value": 1,
+            "description": "Water fraction is above 95 percent (1); below 95 percent (0)"
+          },
+          {
+            "name": "USGS_LAND_FLAG",
+            "value": 2,
+            "description": "Water fraction is below 10 percent (1); above 10 percent (0)"
+          },
+          {
+            "name": "USGS_MIXED_FLAG",
+            "value": 4,
+            "description": "Water fraction is above 10 and below 95 percent (1); below 10 or above 95 percent (0)"
+          },
+          {
+            "name": "200_KM_COASTAL_FLAG",
+            "value": 8,
+            "description": "Distance to coastline is less than 200 km (1); greater than 200 km (0)"
+          },
+          {
+            "name": "100_KM_COASTAL_FLAG",
+            "value": 16,
+            "description": "Distance to coastline is less than 100 km (1); greater than 100 km (0)"
+          },
+          {
+            "name": "40_KM_COASTAL_FLAG",
+            "value": 32,
+            "description": "Distance to coastline is less than 40 km (1); greater than 40 km (0)"
+          },
+          {
+            "name": "MIN_SEA_ICE_FLAG",
+            "value": 64,
+            "description": "Sea ice is present for all months (1); is not present for all months (0)"
+          },
+          {
+            "name": "MAX_SEA_ICE_FLAG",
+            "value": 128,
+            "description": "Sea ice is present for any months (1); is not present for any months (0)"
+          }
+        ]
+      }
+    ],
+    "bands": [
+      {
+        "name": "BT_Value_X",
+        "description": "Brightness temperature measurement over current Earth fixed grid point, obtained by DFT interpolation from L1b data, antenna X polarisation",
+        "geophysicalUnit": "K",
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 854,
+            "y": 1459,
+            "value": "NaN"
+          },
+          {
+            "x": 14402,
+            "y": 330,
+            "value": 177.34112548828125
+          }
+        ]
+      },
+      {
+        "name": "BT_Value_Y",
+        "description": "Brightness temperature measurement over current Earth fixed grid point, obtained by DFT interpolation from L1b data, antenna Y polarisation",
+        "geophysicalUnit": "K",
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 4765,
+            "y": 2104,
+            "value": "NaN"
+          },
+          {
+            "x": 14402,
+            "y": 258,
+            "value": 234.20880126953125
+          }
+        ]
+      },
+      {
+        "name": "BT_Value_XY_Real",
+        "description": "Brightness temperature measurement over current Earth fixed grid point, obtained by DFT interpolation from L1b data, antenna XY polarisation, real value",
+        "geophysicalUnit": "K",
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 9011,
+            "y": 6105,
+            "value": "NaN"
+          },
+          {
+            "x": 11770,
+            "y": 306,
+            "value": 21.65421485900879
+          }
+        ]
+      },
+      {
+        "name": "BT_Value_XY_Imag",
+        "description": "Brightness temperature measurement over current Earth fixed grid point, obtained by DFT interpolation from L1b data, antenna XY polarisation, imaginary value",
+        "geophysicalUnit": "K",
+        "noDataValue": "-999.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 2593,
+            "y": 5456,
+            "value": "NaN"
+          },
+          {
+            "x": 11730,
+            "y": 710,
+            "value": -1.2239341735839844
+          }
+        ]
+      },
+      {
+        "name": "Azimuth_Angle_X",
+        "description": "Azimuth angle value corresponding to the measured BT value over current Earth fixed grid point, antenna X polarisation",
+        "geophysicalUnit": "deg",
+        "noDataValue": "0.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 12388,
+            "y": 3969,
+            "value": "NaN"
+          },
+          {
+            "x": 10826,
+            "y": 834,
+            "value": 57.3760986328125
+          }
+        ]
+      },
+      {
+        "name": "Azimuth_Angle_Y",
+        "description": "Azimuth angle value corresponding to the measured BT value over current Earth fixed grid point, antenna Y polarisation",
+        "geophysicalUnit": "deg",
+        "noDataValue": "0.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 5577,
+            "y": 7368,
+            "value": "NaN"
+          },
+          {
+            "x": 10827,
+            "y": 835,
+            "value": 57.337646484375
+          }
+        ]
+      },
+      {
+        "name": "Azimuth_Angle_XY",
+        "description": "Azimuth angle value corresponding to the measured BT value over current Earth fixed grid point, antenna XY polarisation",
+        "geophysicalUnit": "deg",
+        "noDataValue": "0.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 5364,
+            "y": 1614,
+            "value": "NaN"
+          },
+          {
+            "x": 10849,
+            "y": 1903,
+            "value": 329.5623779296875
+          }
+        ]
+      },
+      {
+        "name": "Footprint_Axis1_X",
+        "description": "Elliptical footprint major semi-axis value, antenna X polarisation",
+        "geophysicalUnit": "km",
+        "noDataValue": "0.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 15916,
+            "y": 4953,
+            "value": "NaN"
+          },
+          {
+            "x": 10383,
+            "y": 2083,
+            "value": 28.02734375
+          }
+        ]
+      },
+      {
+        "name": "Footprint_Axis1_Y",
+        "description": "Elliptical footprint major semi-axis value, antenna Y polarisation",
+        "geophysicalUnit": "km",
+        "noDataValue": "0.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 3800,
+            "y": 4075,
+            "value": "NaN"
+          },
+          {
+            "x": 10375,
+            "y": 2657,
+            "value": 27.8961181640625
+          }
+        ]
+      },
+      {
+        "name": "Footprint_Axis1_XY",
+        "description": "Elliptical footprint major semi-axis value, antenna XY polarisation",
+        "geophysicalUnit": "km",
+        "noDataValue": "0.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 5867,
+            "y": 4081,
+            "value": "NaN"
+          },
+          {
+            "x": 10473,
+            "y": 2941,
+            "value": 29.0374755859375
+          }
+        ]
+      },
+      {
+        "name": "Footprint_Axis2_X",
+        "description": "Elliptical footprint minor semi-axis value, antenna X polarisation",
+        "geophysicalUnit": "km",
+        "noDataValue": "0.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 9997,
+            "y": 3087,
+            "value": 22.22900390625
+          },
+          {
+            "x": 10571,
+            "y": 129,
+            "value": "NaN"
+          }
+        ]
+      },
+      {
+        "name": "Footprint_Axis2_Y",
+        "description": "Elliptical footprint minor semi-axis value, antenna Y polarisation",
+        "geophysicalUnit": "km",
+        "noDataValue": "0.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 15977,
+            "y": 3008,
+            "value": "NaN"
+          },
+          {
+            "x": 10267,
+            "y": 3497,
+            "value": 21.33941650390625
+          }
+        ]
+      },
+      {
+        "name": "Footprint_Axis2_XY",
+        "description": "Elliptical footprint minor semi-axis value, antenna XY polarisation",
+        "geophysicalUnit": "km",
+        "noDataValue": "0.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 1817,
+            "y": 3701,
+            "value": "NaN"
+          },
+          {
+            "x": 10125,
+            "y": 4001,
+            "value": 20.94573974609375
+          }
+        ]
+      },
+      {
+        "name": "Flags_X",
+        "description": "L1c flags applicable to the pixel for this particular integration time, antenna X polarisation",
+        "noDataValue": "0.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 8287,
+            "y": 4272,
+            "value": "NaN"
+          },
+          {
+            "x": 9971,
+            "y": 4213,
+            "value": 17428
+          }
+        ]
+      },
+      {
+        "name": "Flags_Y",
+        "description": "L1c flags applicable to the pixel for this particular integration time, antenna Y polarisation",
+        "noDataValue": "0.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 236,
+            "y": 3478,
+            "value": "NaN"
+          },
+          {
+            "x": 9769,
+            "y": 4551,
+            "value": 17429
+          }
+        ]
+      },
+      {
+        "name": "Flags_XY",
+        "description": "L1c flags applicable to the pixel for this particular integration time, antenna XY polarisation",
+        "noDataValue": "0.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 4862,
+            "y": 6103,
+            "value": "NaN"
+          },
+          {
+            "x": 9927,
+            "y": 4949,
+            "value": 1046
+          }
+        ]
+      },
+      {
+        "name": "Land_Sea_Mask",
+        "description": "Flag indicating Land/Sea USGS content, Coastline distance, and Ice content",
+        "noDataValue": "0.0",
+        "noDataValueUsed": "true",
+        "spectralWavelength": "0.0",
+        "spectralBandwidth": "0.0",
+        "expectedPixels": [
+          {
+            "x": 13672,
+            "y": 7746,
+            "value": 2.0
+          },
+          {
+            "x": 4074,
+            "y": 4357,
+            "value": 1.0
+          }
+        ]
+      }
+    ],
+    "masks": [
+      {
+        "name": "Flags_X_POL_FLAG_1",
+        "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+        "color": "246,182,21",
+        "description": "Flag indicating antenna HH (0) or VV (1) polarisation"
+      },
+      {
+        "name": "Flags_X_POL_FLAG_2",
+        "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+        "color": "95,92,204",
+        "description": "Flag indicating Real and Imaginary part of the HV polarization when the instrument was in VHH+HVH+HHV arm configuration"
+      },
+      {
+        "name": "Flags_X_SUN_FOV",
+        "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+        "color": "49,82,133",
+        "description": "Direct Sun correction for the Sun in the front of the FOV has been performed during image reconstruction of this pixel"
+      },
+      {
+        "name": "Flags_X_SUN_GLINT_FOV",
+        "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+        "color": "169,175,146",
+        "description": "Reflected Sun correction has been performed during image reconstruction of this pixel. Sun correction is based on the Sea bistatic coefficients defined in the AUX_BSCAT ADF and computed for a fixed wind speed of 7 m/s and wind direction of 0 deg North"
+      },
+      {
+        "name": "Flags_X_MOON_FOV",
+        "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+        "color": "156,188,14",
+        "description": "Direct Moon correction has been performed during image reconstruction of this pixel"
+      },
+      {
+        "name": "Flags_X_SINGLE_SNAPSHOT",
+        "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+        "color": "39,91,126",
+        "description": "Scene has not been combined with an adjacent scene in opposite polarisation during image reconstruction to account for crosspolarisation leakage (it has been processed with only co-polar antenna patterns information)"
+      },
+      {
+        "name": "Flags_X_SUN_POINT",
+        "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+        "color": "214,25,160",
+        "description": "Pixel is located in a zone (circle around Sun alias position with radius configurable through Sun_Point_Flag_Size field in AUX CNFL1P) where a Sun alias was reconstructed (if Sun removal is active, measurement may be degraded)"
+      },
+      {
+        "name": "Flags_X_SUN_GLINT_AREA",
+        "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+        "color": "178,13,207",
+        "description": "Pixel is located in a zone where Sun reflection has been detected using the bi-static scattering coefficient threshold defined in the configuration file"
+      },
+      {
+        "name": "Flags_X_MOON_POINT",
+        "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+        "color": "208,249,67",
+        "description": "Pixel is located in a zone where a Moon alias was reconstructed (after Moon removal, measurement may be degraded)"
+      },
+      {
+        "name": "Flags_X_AF_FOV",
+        "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+        "color": "106,109,115",
+        "description": "Pixel is inside the exclusive zone of Alias free (delimited by the six aliased unit circles)"
+      },
+      {
+        "name": "Flags_X_BORDER_FOV",
+        "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+        "color": "16,81,105",
+        "description": "Pixel is close to the border delimiting the Extended Alias free zone or to the unit circle replicas borders (also known as “suspenders and belts”). Distance threshold is configurable through FOV_Border_Flag_Size field in AUX CNFL1P"
+      },
+      {
+        "name": "Flags_X_SUN_TAILS",
+        "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+        "color": "171,1,243",
+        "description": "Pixel is located in the hexagonal alias directions centred on a Sun alias (if Sun is not removed, measurement may be degraded in these directions)"
+      },
+      {
+        "name": "Flags_X_RFI_POINT_SOURCE",
+        "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+        "color": "238,203,217",
+        "description": "Measurement is affected by point source RFI as identified in the AUX RFI list (flag is set in a circle around the RFI position, with a radius dependant on the RFI expected BT defined in the AUX RFILST), or it has exceeded the threshold defined in BT_Dual/Full_RFI_Pixel_Flag_Threshold fields in AUX CNFL1P, or is negative for Dual Polarisation values"
+      },
+      {
+        "name": "Flags_X_RFI_TAIL",
+        "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+        "color": "250,231,95",
+        "description": "Measurement is affected by the tails of a point source RFI as identified in the AUX RFI list (tail width is dependant on the RFI estimated BT (from each snapshot measurements) , corresponding to 0.16 of the radius of the RFI circle flagged)"
+      },
+      {
+        "name": "Flags_X_RFI_FLAG_1",
+        "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+        "color": "240,108,99",
+        "description": "Measurement is affected by a point source RFI identified in the AUX RFI list whose contribution generates a contamination in BT above a certain level defined in the AUX CNFL1P file"
+      },
+      {
+        "name": "Flags_X_RFI_FLAG_2",
+        "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+        "color": "115,141,245",
+        "description": "Measurement is affected by a point source RFI identified in the AUX RFI list whose contribution generates a contamination in BT above a certain level defined in the AUX CNFL1P file"
+      },
+      {
+        "name": "Flags_Y_POL_FLAG_1",
+        "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+        "color": "246,182,21",
+        "description": "Flag indicating antenna HH (0) or VV (1) polarisation"
+      },
+      {
+        "name": "Flags_Y_POL_FLAG_2",
+        "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+        "color": "95,92,204",
+        "description": "Flag indicating Real and Imaginary part of the HV polarization when the instrument was in VHH+HVH+HHV arm configuration"
+      },
+      {
+        "name": "Flags_Y_SUN_FOV",
+        "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+        "color": "49,82,133",
+        "description": "Direct Sun correction for the Sun in the front of the FOV has been performed during image reconstruction of this pixel"
+      },
+      {
+        "name": "Flags_Y_SUN_GLINT_FOV",
+        "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+        "color": "169,175,146",
+        "description": "Reflected Sun correction has been performed during image reconstruction of this pixel. Sun correction is based on the Sea bistatic coefficients defined in the AUX_BSCAT ADF and computed for a fixed wind speed of 7 m/s and wind direction of 0 deg North"
+      },
+      {
+        "name": "Flags_Y_MOON_FOV",
+        "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+        "color": "156,188,14",
+        "description": "Direct Moon correction has been performed during image reconstruction of this pixel"
+      },
+      {
+        "name": "Flags_Y_SINGLE_SNAPSHOT",
+        "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+        "color": "39,91,126",
+        "description": "Scene has not been combined with an adjacent scene in opposite polarisation during image reconstruction to account for crosspolarisation leakage (it has been processed with only co-polar antenna patterns information)"
+      },
+      {
+        "name": "Flags_Y_SUN_POINT",
+        "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+        "color": "214,25,160",
+        "description": "Pixel is located in a zone (circle around Sun alias position with radius configurable through Sun_Point_Flag_Size field in AUX CNFL1P) where a Sun alias was reconstructed (if Sun removal is active, measurement may be degraded)"
+      },
+      {
+        "name": "Flags_Y_SUN_GLINT_AREA",
+        "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+        "color": "178,13,207",
+        "description": "Pixel is located in a zone where Sun reflection has been detected using the bi-static scattering coefficient threshold defined in the configuration file"
+      },
+      {
+        "name": "Flags_Y_MOON_POINT",
+        "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+        "color": "208,249,67",
+        "description": "Pixel is located in a zone where a Moon alias was reconstructed (after Moon removal, measurement may be degraded)"
+      },
+      {
+        "name": "Flags_Y_AF_FOV",
+        "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+        "color": "106,109,115",
+        "description": "Pixel is inside the exclusive zone of Alias free (delimited by the six aliased unit circles)"
+      },
+      {
+        "name": "Flags_Y_BORDER_FOV",
+        "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+        "color": "16,81,105",
+        "description": "Pixel is close to the border delimiting the Extended Alias free zone or to the unit circle replicas borders (also known as “suspenders and belts”). Distance threshold is configurable through FOV_Border_Flag_Size field in AUX CNFL1P"
+      },
+      {
+        "name": "Flags_Y_SUN_TAILS",
+        "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+        "color": "171,1,243",
+        "description": "Pixel is located in the hexagonal alias directions centred on a Sun alias (if Sun is not removed, measurement may be degraded in these directions)"
+      },
+      {
+        "name": "Flags_Y_RFI_POINT_SOURCE",
+        "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+        "color": "238,203,217",
+        "description": "Measurement is affected by point source RFI as identified in the AUX RFI list (flag is set in a circle around the RFI position, with a radius dependant on the RFI expected BT defined in the AUX RFILST), or it has exceeded the threshold defined in BT_Dual/Full_RFI_Pixel_Flag_Threshold fields in AUX CNFL1P, or is negative for Dual Polarisation values"
+      },
+      {
+        "name": "Flags_Y_RFI_TAIL",
+        "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+        "color": "250,231,95",
+        "description": "Measurement is affected by the tails of a point source RFI as identified in the AUX RFI list (tail width is dependant on the RFI estimated BT (from each snapshot measurements) , corresponding to 0.16 of the radius of the RFI circle flagged)"
+      },
+      {
+        "name": "Flags_Y_RFI_FLAG_1",
+        "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+        "color": "240,108,99",
+        "description": "Measurement is affected by a point source RFI identified in the AUX RFI list whose contribution generates a contamination in BT above a certain level defined in the AUX CNFL1P file"
+      },
+      {
+        "name": "Flags_Y_RFI_FLAG_2",
+        "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+        "color": "115,141,245",
+        "description": "Measurement is affected by a point source RFI identified in the AUX RFI list whose contribution generates a contamination in BT above a certain level defined in the AUX CNFL1P file"
+      },
+      {
+        "name": "Flags_XY_POL_FLAG_1",
+        "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+        "color": "246,182,21",
+        "description": "Flag indicating antenna HH (0) or VV (1) polarisation"
+      },
+      {
+        "name": "Flags_XY_POL_FLAG_2",
+        "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+        "color": "95,92,204",
+        "description": "Flag indicating Real and Imaginary part of the HV polarization when the instrument was in VHH+HVH+HHV arm configuration"
+      },
+      {
+        "name": "Flags_XY_SUN_FOV",
+        "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+        "color": "49,82,133",
+        "description": "Direct Sun correction for the Sun in the front of the FOV has been performed during image reconstruction of this pixel"
+      },
+      {
+        "name": "Flags_XY_SUN_GLINT_FOV",
+        "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+        "color": "169,175,146",
+        "description": "Reflected Sun correction has been performed during image reconstruction of this pixel. Sun correction is based on the Sea bistatic coefficients defined in the AUX_BSCAT ADF and computed for a fixed wind speed of 7 m/s and wind direction of 0 deg North"
+      },
+      {
+        "name": "Flags_XY_MOON_FOV",
+        "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+        "color": "156,188,14",
+        "description": "Direct Moon correction has been performed during image reconstruction of this pixel"
+      },
+      {
+        "name": "Flags_XY_SINGLE_SNAPSHOT",
+        "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+        "color": "39,91,126",
+        "description": "Scene has not been combined with an adjacent scene in opposite polarisation during image reconstruction to account for crosspolarisation leakage (it has been processed with only co-polar antenna patterns information)"
+      },
+      {
+        "name": "Flags_XY_SUN_POINT",
+        "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+        "color": "214,25,160",
+        "description": "Pixel is located in a zone (circle around Sun alias position with radius configurable through Sun_Point_Flag_Size field in AUX CNFL1P) where a Sun alias was reconstructed (if Sun removal is active, measurement may be degraded)"
+      },
+      {
+        "name": "Flags_XY_SUN_GLINT_AREA",
+        "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+        "color": "178,13,207",
+        "description": "Pixel is located in a zone where Sun reflection has been detected using the bi-static scattering coefficient threshold defined in the configuration file"
+      },
+      {
+        "name": "Flags_XY_MOON_POINT",
+        "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+        "color": "208,249,67",
+        "description": "Pixel is located in a zone where a Moon alias was reconstructed (after Moon removal, measurement may be degraded)"
+      },
+      {
+        "name": "Flags_XY_AF_FOV",
+        "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+        "color": "106,109,115",
+        "description": "Pixel is inside the exclusive zone of Alias free (delimited by the six aliased unit circles)"
+      },
+      {
+        "name": "Flags_XY_BORDER_FOV",
+        "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+        "color": "16,81,105",
+        "description": "Pixel is close to the border delimiting the Extended Alias free zone or to the unit circle replicas borders (also known as “suspenders and belts”). Distance threshold is configurable through FOV_Border_Flag_Size field in AUX CNFL1P"
+      },
+      {
+        "name": "Flags_XY_SUN_TAILS",
+        "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+        "color": "171,1,243",
+        "description": "Pixel is located in the hexagonal alias directions centred on a Sun alias (if Sun is not removed, measurement may be degraded in these directions)"
+      },
+      {
+        "name": "Flags_XY_RFI_POINT_SOURCE",
+        "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+        "color": "238,203,217",
+        "description": "Measurement is affected by point source RFI as identified in the AUX RFI list (flag is set in a circle around the RFI position, with a radius dependant on the RFI expected BT defined in the AUX RFILST), or it has exceeded the threshold defined in BT_Dual/Full_RFI_Pixel_Flag_Threshold fields in AUX CNFL1P, or is negative for Dual Polarisation values"
+      },
+      {
+        "name": "Flags_XY_RFI_TAIL",
+        "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+        "color": "250,231,95",
+        "description": "Measurement is affected by the tails of a point source RFI as identified in the AUX RFI list (tail width is dependant on the RFI estimated BT (from each snapshot measurements) , corresponding to 0.16 of the radius of the RFI circle flagged)"
+      },
+      {
+        "name": "Flags_XY_RFI_FLAG_1",
+        "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+        "color": "240,108,99",
+        "description": "Measurement is affected by a point source RFI identified in the AUX RFI list whose contribution generates a contamination in BT above a certain level defined in the AUX CNFL1P file"
+      },
+      {
+        "name": "Flags_XY_RFI_FLAG_2",
+        "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+        "color": "115,141,245",
+        "description": "Measurement is affected by a point source RFI identified in the AUX RFI list whose contribution generates a contamination in BT above a certain level defined in the AUX CNFL1P file"
+      },
+      {
+        "name": "Land_Sea_Mask_USGS_SEA_FLAG",
+        "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+        "color": "0,0,255",
+        "description": "Water fraction is above 95 percent (1); below 95 percent (0)"
+      },
+      {
+        "name": "Land_Sea_Mask_USGS_LAND_FLAG",
+        "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+        "color": "0,255,0",
+        "description": "Water fraction is below 10 percent (1); above 10 percent (0)"
+      },
+      {
+        "name": "Land_Sea_Mask_USGS_MIXED_FLAG",
+        "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+        "color": "0,255,255",
+        "description": "Water fraction is above 10 and below 95 percent (1); below 10 or above 95 percent (0)"
+      },
+      {
+        "name": "Land_Sea_Mask_200_KM_COASTAL_FLAG",
+        "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+        "color": "178,140,0",
+        "description": "Distance to coastline is less than 200 km (1); greater than 200 km (0)"
+      },
+      {
+        "name": "Land_Sea_Mask_100_KM_COASTAL_FLAG",
+        "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+        "color": "255,200,0",
+        "description": "Distance to coastline is less than 100 km (1); greater than 100 km (0)"
+      },
+      {
+        "name": "Land_Sea_Mask_40_KM_COASTAL_FLAG",
+        "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+        "color": "255,255,0",
+        "description": "Distance to coastline is less than 40 km (1); greater than 40 km (0)"
+      },
+      {
+        "name": "Land_Sea_Mask_MIN_SEA_ICE_FLAG",
+        "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+        "color": "255,255,255",
+        "description": "Sea ice is present for all months (1); is not present for all months (0)"
+      },
+      {
+        "name": "Land_Sea_Mask_MAX_SEA_ICE_FLAG",
+        "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+        "color": "240,240,240",
+        "description": "Sea ice is present for any months (1); is not present for any months (0)"
+      }
+    ],
+    "metadata": [
+      {
+        "path": "Variable_Header/Main_Product_Header/Orbit_Information/Rel_Orbit",
+        "value": "+00409"
+      },
+      {
+        "path": "Fixed_Header/Source/System",
+        "value": "DPGS"
+      }
+    ]
+  }
+}
