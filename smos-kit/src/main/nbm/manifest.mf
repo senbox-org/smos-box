@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-OpenIDE-Module-Display-Category: SMOS-Box
+OpenIDE-Module-Display-Category: SNAP Toolboxes
 AutoUpdate-Show-In-Client: true
 AutoUpdate-Essential-Module: false
 OpenIDE-Module-Specification-Version: ${smos.nbmSpecVersion}
