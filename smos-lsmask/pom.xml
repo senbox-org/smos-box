@@ -6,7 +6,7 @@
     <parent>
         <artifactId>smos-box</artifactId>
         <groupId>org.esa.smostbx</groupId>
-        <version>5.8.0-SNAPSHOT</version>
+        <version>5.8.0</version>
     </parent>
 
     <artifactId>smos-lsmask</artifactId>
