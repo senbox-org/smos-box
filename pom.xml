@@ -13,7 +13,7 @@
 
     <properties>
         <brandingToken>smos</brandingToken>
-        <snap.version>8.0.0</snap.version>
+        <snap.version>9.0.0-SNAPSH0T</snap.version>
         <netbeans.version>RELEASE82</netbeans.version>
         <javahelp.version>2.0.05</javahelp.version>
         <smos.nbmSpecVersion>5.9.0</smos.nbmSpecVersion>
