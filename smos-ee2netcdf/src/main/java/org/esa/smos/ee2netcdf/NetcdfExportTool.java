@@ -14,6 +14,7 @@ import org.esa.snap.core.gpf.annotations.Parameter;
 import org.esa.snap.core.gpf.annotations.ParameterDescriptorFactory;
 import org.esa.snap.core.util.StringUtils;
 import org.esa.snap.core.util.SystemUtils;
+import org.esa.snap.runtime.Engine;
 
 import java.io.File;
 import java.lang.reflect.Field;
@@ -127,46 +128,52 @@ public class NetcdfExportTool {
             configureLogger();
         }
 
-        final ExportParameter exportParameter = new ExportParameter();
-        setExportParameters(commandLine, exportParameter);
+        final Engine engine = Engine.start();
 
-        final NetcdfExporter exporter = new NetcdfExporter(exportParameter);
         try {
-            exporter.initialize();
-        } catch (Exception e) {
-            final File targetDirectory = exportParameter.getTargetDirectory();
-            throw new ToolException(MessageFormat.format("The target directory ''{0}'' could not be created.", targetDirectory),
-                    e, EXECUTION_ERROR);
-        }
+            final ExportParameter exportParameter = new ExportParameter();
+            setExportParameters(commandLine, exportParameter);
 
-        for (final String path : commandLine.getArgs()) {
-            final File file = new File(path);
+            final NetcdfExporter exporter = new NetcdfExporter(exportParameter);
             try {
-                exporter.exportFile(file, getLogger());
+                exporter.initialize();
             } catch (Exception e) {
-                e.printStackTrace();
-                throw new ToolException(
-                        MessageFormat.format("An error has occurred while trying to convert file ''{0}''.", path), e,
-                        EXECUTION_ERROR);
+                final File targetDirectory = exportParameter.getTargetDirectory();
+                throw new ToolException(MessageFormat.format("The target directory ''{0}'' could not be created.", targetDirectory),
+                        e, EXECUTION_ERROR);
             }
-        }
 
-        if (commandLine.hasOption("source-product-paths")) {
-            final String sourceProductPathsCSV = commandLine.getOptionValue("source-product-paths");
-            final String[] sourceProductPaths = StringUtils.split(sourceProductPathsCSV, new char[]{','}, true);
-            final TreeSet<File> inputFileSet = ExporterUtils.createInputFileSet(sourceProductPaths);
-
-            for (File inputFile : inputFileSet) {
-                if (inputFile.isDirectory()) {
-                    continue;
-                }
+            for (final String path : commandLine.getArgs()) {
+                final File file = new File(path);
                 try {
-                    exporter.exportFile(inputFile, getLogger());
+                    exporter.exportFile(file, getLogger());
                 } catch (Exception e) {
                     e.printStackTrace();
-                    logger.severe(MessageFormat.format("An error has occurred while trying to convert file ''{0}''.", inputFile));
+                    throw new ToolException(
+                            MessageFormat.format("An error has occurred while trying to convert file ''{0}''.", path), e,
+                            EXECUTION_ERROR);
                 }
             }
+
+            if (commandLine.hasOption("source-product-paths")) {
+                final String sourceProductPathsCSV = commandLine.getOptionValue("source-product-paths");
+                final String[] sourceProductPaths = StringUtils.split(sourceProductPathsCSV, new char[]{','}, true);
+                final TreeSet<File> inputFileSet = ExporterUtils.createInputFileSet(sourceProductPaths);
+
+                for (File inputFile : inputFileSet) {
+                    if (inputFile.isDirectory()) {
+                        continue;
+                    }
+                    try {
+                        exporter.exportFile(inputFile, getLogger());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        logger.severe(MessageFormat.format("An error has occurred while trying to convert file ''{0}''.", inputFile));
+                    }
+                }
+            }
+        } finally {
+            engine.stop();
         }
     }
 

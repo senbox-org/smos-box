@@ -1,3 +1,7 @@
+#New in SMOS-Box 5.8.1
+* corrected NetCDF native library loading for stand-alone NetCDF exporter
+* corrected fill-value data-type issue for stand-alone NetCDF exporter
+
 #New in SMOS-Box 5.8.0
 Update to version 5.8.0 adds 
 * support for L1C data V724 (schema version 401)
