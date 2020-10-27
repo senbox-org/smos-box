@@ -20,12 +20,7 @@ import ucar.ma2.Array;
 import ucar.ma2.DataType;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 abstract class AbstractFormatExporter implements FormatExporter {
 
@@ -159,9 +154,12 @@ abstract class AbstractFormatExporter implements FormatExporter {
                 continue;
             }
             final VariableDescriptor variableDescriptor = variableDescriptors.get(ncVariableName);
+            final DataType dataType = variableDescriptor.getDataType();
+            final boolean unsigned = variableDescriptor.isUnsigned();
+
             final NVariable nVariable = nFileWriteable.addVariable(ncVariableName,
-                    variableDescriptor.getDataType(),
-                    true,
+                    dataType,
+                    unsigned,
                     null,
                     variableDescriptor.getDimensionNames(),
                     exportParameter.getCompressionLevel());
@@ -170,7 +168,22 @@ abstract class AbstractFormatExporter implements FormatExporter {
                 nVariable.addAttribute("units", unitValue);
             }
             if (variableDescriptor.isFillValuePresent()) {
-                nVariable.addAttribute("_FillValue", variableDescriptor.getFillValue());
+                final float fillValue = variableDescriptor.getFillValue();
+                if (dataType == DataType.UBYTE ||  dataType == DataType.BYTE) {
+                    nVariable.addAttribute("_FillValue", (byte) fillValue, unsigned);
+                } else if (dataType == DataType.USHORT || dataType == DataType.SHORT) {
+                    nVariable.addAttribute("_FillValue", (short) fillValue, unsigned);
+                } else if (dataType == DataType.UINT || dataType == DataType.INT) {
+                    nVariable.addAttribute("_FillValue", (int) fillValue, unsigned);
+                } else if (dataType == DataType.ULONG || dataType == DataType.LONG) {
+                    nVariable.addAttribute("_FillValue", (long) fillValue, unsigned);
+                } else if (dataType == DataType.FLOAT) {
+                    nVariable.addAttribute("_FillValue", fillValue);
+                } else if (dataType == DataType.DOUBLE) {
+                    nVariable.addAttribute("_FillValue", (double) fillValue);
+                } else {
+                    throw new IllegalStateException("Unsupported data type: " + dataType.toString());
+                }
             }
             if (variableDescriptor.isValidMinPresent()) {
                 nVariable.addAttribute("valid_min", variableDescriptor.getValidMin());
@@ -194,7 +207,7 @@ abstract class AbstractFormatExporter implements FormatExporter {
                 nVariable.addAttribute("scale_factor", variableDescriptor.getScaleFactor());
                 nVariable.addAttribute("scale_offset", variableDescriptor.getScaleOffset());
             }
-            if (variableDescriptor.isUnsigned()) {
+            if (unsigned) {
                 nVariable.addAttribute("_Unsigned", "true");
             }
         }
