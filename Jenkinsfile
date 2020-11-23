@@ -16,98 +16,41 @@
  */
 
 pipeline {
-    environment {
-        toolName = sh(returnStdout: true, script: "echo ${env.JOB_NAME} | cut -d '/' -f 1").trim()
-        branchVersion = sh(returnStdout: true, script: "echo ${env.GIT_BRANCH} | cut -d '/' -f 2").trim()
-        sonarOption = ""
-    }
     agent { label 'snap-test' }
+    parameters {
+        booleanParam(name: 'launchTests', defaultValue: true, description: 'When true all stages are launched, When false only stages "Package", "Deploy" and "Save installer data" are launched.')
+        booleanParam(name: 'runLongUnitTests', defaultValue: true, description: 'When true the option -Denable.long.tests=true is added to maven command so the long unit tests will be executed')
+    }
     stages {
-        stage('Package and Deploy') {
-            agent {
-                docker {
-                    label 'snap-test'
-                    image 'snap-build-server.tilaa.cloud/maven:3.6.0-jdk-8'
-                    args '-e MAVEN_CONFIG=/var/maven/.m2 -v /data/ssd/testData/:/data/ssd/testData/ -v /opt/maven/.m2/settings.xml:/home/snap/.m2/settings.xml -v docker_local-update-center:/local-update-center'
-                }
-            }
+        stage('Package and deploy') {
             steps {
                 script {
-                    sonarOption = ""
-                    if ("${branchVersion}" == "master") {
-                        // Only use sonar on master branch
-                        sonarOption = "sonar:sonar"
-                    }
-                }
-                echo "Build Job ${env.JOB_NAME} from ${env.GIT_BRANCH} with commit ${env.GIT_COMMIT}"
-                sh "mvn -Dm2repo=/var/tmp/repository/ -Duser.home=/home/snap -Dsnap.userdir=/home/snap clean package install ${sonarOption} -U -DskipTests=false -Dmaven.test.failure.ignore=true"
-            }
-            post {
-                always {
-                    junit "**/target/surefire-reports/*.xml"
-                    jacoco(execPattern: '**/*.exec')
-                }
-                success {
-                    script {
-                        if ("${env.GIT_BRANCH}" == 'master' || "${env.GIT_BRANCH}" =~ /\d+\.x/ || "${env.GIT_BRANCH}" =~ /\d+\.\d+\.x/ || "${env.GIT_BRANCH}" =~ /\d+\.\d+\.\d+(-rc\d+)?$/) {
-                            echo "Deploy ${env.JOB_NAME} from ${env.GIT_BRANCH} with commit ${env.GIT_COMMIT}"
-                            sh "mvn -Dm2repo=/var/tmp/repository/ -Duser.home=/home/snap -Dsnap.userdir=/home/snap deploy -DskipTests=true"
-                        }
-                    }
+                    def built = build(job: "snap-ci-nightly/master", parameters: [
+                        [$class: 'StringParameterValue', name: 'tag', value: "8.x"],
+                        [$class: 'StringParameterValue', name: 'docker', value: "snap-ci:master"],
+                        [$class: 'StringParameterValue', name: 'engine', value: "8.x"],
+                        [$class: 'BooleanParameterValue', name: 'engine_enabled', value: false],
+                        [$class: 'StringParameterValue', name: 'desktop', value: "8.x"],
+                        [$class: 'BooleanParameterValue', name: 'desktop_enabled', value: false],
+                        [$class: 'StringParameterValue', name: 's1tbx', value: "8.x"],
+                        [$class: 'BooleanParameterValue', name: 's1tbx_enabled', value: false],
+                        [$class: 'StringParameterValue', name: 's2tbx', value: "8.x"],
+                        [$class: 'BooleanParameterValue', name: 's2tbx_enabled', value: false],
+                        [$class: 'StringParameterValue', name: 's3tbx', value: "8.x"],
+                        [$class: 'BooleanParameterValue', name: 's3tbx_enabled', value: false],
+                        [$class: 'StringParameterValue', name: 'smos', value: "5.8.x"],
+                        [$class: 'BooleanParameterValue', name: 'smos_enabled', value: true],
+                        [$class: 'StringParameterValue', name: 'probav', value: "2.2.x"],
+                        [$class: 'BooleanParameterValue', name: 'probav_enabled', value: false],
+                        [$class: 'StringParameterValue', name: 'installer', value: "8.x"],
+                        [$class: 'BooleanParameterValue', name: 'unit_test', value: params.launchTests],
+                        [$class: 'BooleanParameterValue', name: 'long_test', value: params.runLongUnitTests],
+                    ],
+                    quietPeriod: 0,
+                    propagate: true,
+                    wait: true);
                 }
             }
         }
-        stage('Save installer data') {
-            agent {
-                docker {
-                    label 'snap-test'
-                    image 'snap-build-server.tilaa.cloud/scripts:1.0'
-                    args '-v docker_snap-installer:/snap-installer'
-                }
-            }
-            when {
-                expression {
-                    return "${env.GIT_BRANCH}" == 'master' || "${env.GIT_BRANCH}" =~ /\d+\.\d+\.\d+(-rc\d+)?$/;
-                }
-            }
-            steps {
-                echo "Save data for SNAP Installer ${env.JOB_NAME} from ${env.GIT_BRANCH} with commit ${env.GIT_COMMIT}"
-                sh "/opt/scripts/saveInstallData.sh ${toolName} ${env.GIT_BRANCH}"
-            }
-        }
-        /*stage('Deploy') {
-            agent {
-                docker {
-                    label 'snap-test'
-                    image 'snap-build-server.tilaa.cloud/maven:3.6.0-jdk-8'
-                    args '-e MAVEN_CONFIG=/var/maven/.m2 -v /opt/maven/.m2/settings.xml:/var/maven/.m2/settings.xml -v docker_local-update-center:/local-update-center'
-                }
-            }
-            when {
-                expression {
-                    return "${env.GIT_BRANCH}" == 'master' || "${env.GIT_BRANCH}" =~ /\d+\.x/ || "${env.GIT_BRANCH}" =~ /\d+\.\d+\.\d+(-rc\d+)?$/;
-                }
-            }
-            steps {
-                echo "Deploy ${env.JOB_NAME} from ${env.GIT_BRANCH} with commit ${env.GIT_COMMIT}"
-                sh "mvn -Duser.home=/var/maven -Dsnap.userdir=/home/snap deploy -U -DskipTests=true"
-            }
-        }*/
     }
-    /* disable email send on failure
-    post {
-        failure {
-            step (
-                emailext(
-                    subject: "[SNAP] JENKINS-NOTIFICATION: ${currentBuild.result ?: 'SUCCESS'} : Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
-                    body: """Build status : ${currentBuild.result ?: 'SUCCESS'}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':
-Check console output at ${env.BUILD_URL}
-${env.JOB_NAME} [${env.BUILD_NUMBER}]""",
-                    attachLog: true,
-                    compressLog: true,
-                    recipientProviders: [[$class: 'CulpritsRecipientProvider'], [$class:'DevelopersRecipientProvider']]
-                )
-            )
-        }
-    }*/
 }
