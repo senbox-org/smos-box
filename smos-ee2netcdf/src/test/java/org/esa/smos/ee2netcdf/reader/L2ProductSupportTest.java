@@ -5,7 +5,6 @@ import org.esa.smos.dataio.smos.dddb.BandDescriptor;
 import org.esa.smos.dataio.smos.provider.AbstractValueProvider;
 import org.esa.snap.core.datamodel.Band;
 import org.esa.snap.core.datamodel.ProductData;
-import org.jetbrains.annotations.NotNull;
 import org.junit.Before;
 import org.junit.Test;
 import ucar.nc2.Attribute;
@@ -122,7 +121,6 @@ public class L2ProductSupportTest {
         return descriptor;
     }
 
-    @NotNull
     private BandDescriptor createDescriptorMock(double scaling, double offset) {
         final BandDescriptor descriptor = mock(BandDescriptor.class);
         when(descriptor.getScalingFactor()).thenReturn(scaling);
