@@ -10,8 +10,8 @@ class BandDescriptorImpl implements BandDescriptor {
     private final int sampleModel;
     private final double scalingOffset;
     private final double scalingFactor;
-    private final double typicalMin;
-    private final double typicalMax;
+    private double typicalMin;
+    private double typicalMax;
     private final boolean cyclic;
     private final double fillValue;
     private final String validPixelExpression;
@@ -19,8 +19,8 @@ class BandDescriptorImpl implements BandDescriptor {
     private final String description;
     private final String flagCodingName;
     private final Family<FlagDescriptor> flagDescriptors;
-    private boolean gridPointData;
-    private String dimensionNames;
+    private final boolean gridPointData;
+    private final String dimensionNames;
     private String ancilliaryBandName;
 
     BandDescriptorImpl(String[] tokens, Dddb dddb) {
@@ -121,8 +121,18 @@ class BandDescriptorImpl implements BandDescriptor {
     }
 
     @Override
+    public void setTypicalMin(double min) {
+        typicalMin = min;
+    }
+
+    @Override
     public final double getTypicalMax() {
         return typicalMax;
+    }
+
+    @Override
+    public void setTypicalMax(double max) {
+        typicalMax = max;
     }
 
     @Override

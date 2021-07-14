@@ -26,12 +26,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class DddbTest {
 
@@ -599,6 +594,16 @@ public class DddbTest {
         @Override
         public double getTypicalMin() {
             return 0;
+        }
+
+        @Override
+        public void setTypicalMin(double min) {
+
+        }
+
+        @Override
+        public void setTypicalMax(double max) {
+
         }
 
         @Override
