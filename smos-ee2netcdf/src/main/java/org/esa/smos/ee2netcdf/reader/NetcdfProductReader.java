@@ -276,8 +276,8 @@ public class NetcdfProductReader extends SmosReader {
                 final SmosMultiLevelSource smosMultiLevelSource = new SmosMultiLevelSource(band, valueProvider);
                 final DefaultMultiLevelImage defaultMultiLevelImage = new DefaultMultiLevelImage(smosMultiLevelSource);
                 band.setSourceImage(defaultMultiLevelImage);
-                band.setImageInfo(ProductHelper.createImageInfo(band, descriptor));
                 calculateMinMaxIfMissing(variable, descriptor);
+                band.setImageInfo(ProductHelper.createImageInfo(band, descriptor));
                 valueProviderMap.put(descriptor.getBandName(), valueProvider);
             }
 
