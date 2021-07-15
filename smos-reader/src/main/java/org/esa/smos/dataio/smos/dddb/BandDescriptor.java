@@ -40,7 +40,11 @@ public interface BandDescriptor {
 
     double getTypicalMin();
 
+    void setTypicalMin(double min);
+
     double getTypicalMax();
+
+    void setTypicalMax(double max);
 
     double getFillValue();
 

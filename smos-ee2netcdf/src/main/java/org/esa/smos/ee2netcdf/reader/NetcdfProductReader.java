@@ -6,15 +6,7 @@ import com.bc.ceres.glevel.support.DefaultMultiLevelImage;
 import org.esa.smos.ObservationPointList;
 import org.esa.smos.Point;
 import org.esa.smos.SmosUtils;
-import org.esa.smos.dataio.smos.DggUtils;
-import org.esa.smos.dataio.smos.GridPointBtDataset;
-import org.esa.smos.dataio.smos.GridPointInfo;
-import org.esa.smos.dataio.smos.PolarisationModel;
-import org.esa.smos.dataio.smos.ProductHelper;
-import org.esa.smos.dataio.smos.SmosConstants;
-import org.esa.smos.dataio.smos.SmosMultiLevelSource;
-import org.esa.smos.dataio.smos.SmosReader;
-import org.esa.smos.dataio.smos.SnapshotInfo;
+import org.esa.smos.dataio.smos.*;
 import org.esa.smos.dataio.smos.dddb.BandDescriptor;
 import org.esa.smos.dataio.smos.dddb.Dddb;
 import org.esa.smos.dataio.smos.dddb.Family;
@@ -38,7 +30,7 @@ import ucar.nc2.Attribute;
 import ucar.nc2.NetcdfFile;
 import ucar.nc2.Variable;
 
-import java.awt.Rectangle;
+import java.awt.*;
 import java.awt.geom.Area;
 import java.awt.image.Raster;
 import java.awt.image.RenderedImage;
@@ -284,8 +276,8 @@ public class NetcdfProductReader extends SmosReader {
                 final SmosMultiLevelSource smosMultiLevelSource = new SmosMultiLevelSource(band, valueProvider);
                 final DefaultMultiLevelImage defaultMultiLevelImage = new DefaultMultiLevelImage(smosMultiLevelSource);
                 band.setSourceImage(defaultMultiLevelImage);
+                calculateMinMaxIfMissing(variable, descriptor);
                 band.setImageInfo(ProductHelper.createImageInfo(band, descriptor));
-
                 valueProviderMap.put(descriptor.getBandName(), valueProvider);
             }
 
@@ -297,6 +289,45 @@ public class NetcdfProductReader extends SmosReader {
         }
 
         return product;
+    }
+
+    static void calculateMinMaxIfMissing(Variable variable, BandDescriptor descriptor) throws IOException {
+        final boolean hasMin = descriptor.hasTypicalMin();
+        final boolean hasMax = descriptor.hasTypicalMax();
+        if (hasMin && hasMax) {
+            return;
+        }
+
+        final Array array = variable.read();
+        final int size = (int) array.getSize();
+
+        double fillValue = Double.NaN;
+        if (descriptor.hasFillValue()) {
+            fillValue = descriptor.getFillValue();
+        }
+
+        double min = Double.MAX_VALUE;
+        double max = - Double.MAX_VALUE;
+        for (int i = 0; i < size; i++) {
+            final double value = array.getDouble(i);
+            if (Math.abs(value - fillValue) < 1e-8) {
+                continue;
+            }
+
+            if (value < min) {
+                min = value;
+            }
+            if (value > max) {
+                max = value;
+            }
+        }
+
+        if (!hasMin) {
+            descriptor.setTypicalMin(min);
+        }
+        if (!hasMax) {
+            descriptor.setTypicalMax(max);
+        }
     }
 
     private String getProductTypeString() throws IOException {
@@ -426,7 +457,7 @@ public class NetcdfProductReader extends SmosReader {
         }
         if (descriptor.getFlagDescriptors() != null) {
             ProductHelper.addFlagsAndMasks(product, band, descriptor.getFlagCodingName(),
-                                           descriptor.getFlagDescriptors());
+                    descriptor.getFlagDescriptors());
         }
 
         band.setSourceImage(SmosLsMask.getInstance().getMultiLevelImage());
