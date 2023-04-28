@@ -2,7 +2,7 @@ package org.esa.smos.ee2netcdf;
 
 
 import com.bc.ceres.binio.CompoundData;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.esa.smos.DateTimeUtils;
 import org.esa.smos.SmosUtils;
 import org.esa.smos.ee2netcdf.variable.VariableDescriptor;

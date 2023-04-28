@@ -2,7 +2,7 @@ package org.esa.smos.ee2netcdf;
 
 
 import com.bc.ceres.binio.CompoundData;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.esa.smos.DateTimeUtils;
 import org.esa.smos.dataio.smos.SmosFile;
 import org.esa.smos.dataio.smos.SmosProductReader;
@@ -20,7 +20,12 @@ import ucar.ma2.Array;
 import ucar.ma2.DataType;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 abstract class AbstractFormatExporter implements FormatExporter {
 
