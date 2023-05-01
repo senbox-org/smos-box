@@ -89,9 +89,9 @@
                 <version>${snap.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.esa.snap.netbeans</groupId>
-                <artifactId>doc-windows</artifactId>
-                <version>1.0</version>
+                <groupId>eu.esa.snap.netbeans</groupId>
+                <artifactId>snap-gui-lib</artifactId>
+                <version>1.1</version>
             </dependency>
             <dependency>
                 <groupId>org.esa.snap</groupId>

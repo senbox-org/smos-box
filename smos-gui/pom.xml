@@ -80,8 +80,8 @@
             <artifactId>snap-netcdf</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.esa.snap.netbeans</groupId>
-            <artifactId>doc-windows</artifactId>
+            <groupId>eu.esa.snap.netbeans</groupId>
+            <artifactId>snap-gui-lib</artifactId>
         </dependency>
 
         <dependency>
