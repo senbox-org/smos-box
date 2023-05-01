@@ -91,7 +91,7 @@
             <dependency>
                 <groupId>eu.esa.snap.netbeans</groupId>
                 <artifactId>snap-gui-lib</artifactId>
-                <version>1.1</version>
+                <version>1.2.0</version>
             </dependency>
             <dependency>
                 <groupId>org.esa.snap</groupId>
