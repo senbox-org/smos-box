@@ -17,6 +17,7 @@
         <netbeans.version>RELEASE100</netbeans.version>
         <javahelp.version>2.0.05</javahelp.version>
         <smos.nbmSpecVersion>10.0.0</smos.nbmSpecVersion>
+        <buildDate>${maven.build.timestamp}</buildDate>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -403,6 +404,32 @@
                 <version>3.3.0</version>
                 <executions>
                     <execution>
+                        <id>create-nbmSpecVersion</id>
+                        <goals>
+                            <goal>regex-property</goal>
+                        </goals>
+                        <configuration>
+                            <name>project.nbmSpecVersion</name>
+                            <value>${smos.nbmSpecVersion}</value>
+                            <regex>(-SNAPSHOT)|(-rc[0-9]+)|(-JDK11SHOT)</regex>
+                            <replacement>.0</replacement>
+                            <failIfNoMatch>false</failIfNoMatch>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>create-nbmImplVersion</id>
+                        <goals>
+                            <goal>regex-property</goal>
+                        </goals>
+                        <configuration>
+                            <name>project.nbmImplVersion</name>
+                            <value>${smos.nbmSpecVersion}</value>
+                            <regex>(-SNAPSHOT)|(-rc[0-9]+)|(-JDK11SHOT)</regex>
+                            <replacement>.${buildDate}</replacement>
+                            <failIfNoMatch>false</failIfNoMatch>
+                        </configuration>
+                    </execution>
+                    <execution>
                         <id>parse-version</id>
                         <goals>
                             <goal>parse-version</goal>
@@ -420,6 +447,7 @@
                         <configuration>
                             <name>smosbox.buildDate</name>
                             <pattern>yyyy-MM-dd</pattern>
+                            <locale>en,UK</locale>
                         </configuration>
                     </execution>
                 </executions>
