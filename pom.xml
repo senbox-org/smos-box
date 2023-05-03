@@ -14,7 +14,7 @@
     <properties>
         <brandingToken>smos</brandingToken>
         <snap.version>10.0.0-JDK11SHOT</snap.version>
-        <netbeans.version>RELEASE100</netbeans.version>
+        <netbeans.version>RELEASE113</netbeans.version>
         <javahelp.version>2.0.05</javahelp.version>
         <smos.nbmSpecVersion>10.0.0</smos.nbmSpecVersion>
         <buildDate>${maven.build.timestamp}</buildDate>
