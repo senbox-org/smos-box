@@ -6,7 +6,6 @@ import org.junit.Test;
 import java.util.ArrayList;
 
 import static org.junit.Assert.*;
-import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.*;
 
 public class BandDescriptorImplTest {
@@ -43,7 +42,7 @@ public class BandDescriptorImplTest {
     public void testConstruction_extendedPropertySet() {
         final String[] tokens = new String[] {"false", "theBand", "theMember", "18", "19", "20.0", "21.1", "22.2", "23.3", "true", "24.4", "pixelExpression", "unit", "description", "codingName", "flagDescriptors", "ancilliaryBandName", "false", "dimension_name"};
         final Dddb dddb = mock(Dddb.class);
-        when(dddb.getFlagDescriptors(anyString())).thenReturn(new FlagDescriptors(new ArrayList<String[]>()));
+        when(dddb.getFlagDescriptors(anyString())).thenReturn(new FlagDescriptors(new ArrayList<>()));
 
         final BandDescriptorImpl descriptor = new BandDescriptorImpl(tokens, dddb);
         assertFalse(descriptor.isVisible());

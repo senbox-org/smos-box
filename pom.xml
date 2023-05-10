@@ -7,16 +7,18 @@
     <name>SMOS-Box</name>
     <groupId>org.esa.smostbx</groupId>
     <artifactId>smos-box</artifactId>
-    <version>10.0.0-SNAPSHOT</version>
+    <version>10.0.0-JDK11SHOT</version>
 
     <packaging>pom</packaging>
 
     <properties>
         <brandingToken>smos</brandingToken>
-        <snap.version>10.0.0-SNAPSHOT</snap.version>
-        <netbeans.version>RELEASE82</netbeans.version>
+        <snap.version>10.0.0-JDK11SHOT</snap.version>
+        <netbeans.version>RELEASE113</netbeans.version>
         <javahelp.version>2.0.05</javahelp.version>
         <smos.nbmSpecVersion>10.0.0</smos.nbmSpecVersion>
+        <snap-help-system.version>1.0.0</snap-help-system.version>
+        <buildDate>${maven.build.timestamp}</buildDate>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -84,14 +86,19 @@
                 <version>${snap.version}</version>
             </dependency>
             <dependency>
+                <groupId>eu.esa.snap.netbeans</groupId>
+                <artifactId>snap-help-system</artifactId>
+                <version>${snap-help-system.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>org.esa.snap</groupId>
                 <artifactId>snap-rcp</artifactId>
                 <version>${snap.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.esa.snap.netbeans</groupId>
-                <artifactId>doc-windows</artifactId>
-                <version>1.0</version>
+                <groupId>eu.esa.snap.netbeans</groupId>
+                <artifactId>snap-gui-lib</artifactId>
+                <version>1.2.0</version>
             </dependency>
             <dependency>
                 <groupId>org.esa.snap</groupId>
@@ -216,11 +223,6 @@
                 <artifactId>org-netbeans-api-annotations-common</artifactId>
                 <version>${netbeans.version}</version>
             </dependency>
-            <dependency>
-                <groupId>org.netbeans.api</groupId>
-                <artifactId>org-netbeans-modules-javahelp</artifactId>
-                <version>${netbeans.version}</version>
-            </dependency>
 
             <!-- JFreeChart libs -->
             <dependency>
@@ -251,8 +253,8 @@
             </dependency>
             <dependency>
                 <groupId>org.mockito</groupId>
-                <artifactId>mockito-all</artifactId>
-                <version>1.10.19</version>
+                <artifactId>mockito-core</artifactId>
+                <version>5.3.1</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
@@ -318,12 +320,12 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.11.0</version>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <source>11</source>
+                    <target>11</target>
 
                     <!-- added to fix an exception in the compiler -->
                     <useIncrementalCompilation>false</useIncrementalCompilation>
-                    
+
                     <debug>true</debug>
                     <fork>false</fork>
                     <encoding>UTF-8</encoding>
@@ -352,7 +354,7 @@
                                     <version>[3.2.5,)</version>
                                 </requireMavenVersion>
                                 <requireJavaVersion>
-                                    <version>1.8</version>
+                                    <version>11</version>
                                 </requireJavaVersion>
                             </rules>
                         </configuration>
@@ -403,6 +405,32 @@
                 <version>3.3.0</version>
                 <executions>
                     <execution>
+                        <id>create-nbmSpecVersion</id>
+                        <goals>
+                            <goal>regex-property</goal>
+                        </goals>
+                        <configuration>
+                            <name>project.nbmSpecVersion</name>
+                            <value>${smos.nbmSpecVersion}</value>
+                            <regex>(-SNAPSHOT)|(-rc[0-9]+)|(-JDK11SHOT)</regex>
+                            <replacement>.0</replacement>
+                            <failIfNoMatch>false</failIfNoMatch>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>create-nbmImplVersion</id>
+                        <goals>
+                            <goal>regex-property</goal>
+                        </goals>
+                        <configuration>
+                            <name>project.nbmImplVersion</name>
+                            <value>${smos.nbmSpecVersion}</value>
+                            <regex>(-SNAPSHOT)|(-rc[0-9]+)|(-JDK11SHOT)</regex>
+                            <replacement>.${buildDate}</replacement>
+                            <failIfNoMatch>false</failIfNoMatch>
+                        </configuration>
+                    </execution>
+                    <execution>
                         <id>parse-version</id>
                         <goals>
                             <goal>parse-version</goal>
@@ -420,6 +448,7 @@
                         <configuration>
                             <name>smosbox.buildDate</name>
                             <pattern>yyyy-MM-dd</pattern>
+                            <locale>en,UK</locale>
                         </configuration>
                     </execution>
                 </executions>
