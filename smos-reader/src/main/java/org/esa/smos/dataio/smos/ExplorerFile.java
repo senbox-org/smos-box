@@ -26,10 +26,11 @@ import org.esa.smos.dataio.smos.dddb.Family;
 import org.esa.snap.core.datamodel.Band;
 import org.esa.snap.core.datamodel.Product;
 import org.esa.snap.core.util.StringUtils;
-import org.jdom.Document;
-import org.jdom.Element;
-import org.jdom.JDOMException;
-import org.jdom.input.SAXBuilder;
+import org.jdom2.Content;
+import org.jdom2.Document;
+import org.jdom2.Element;
+import org.jdom2.JDOMException;
+import org.jdom2.input.SAXBuilder;
 
 import java.io.File;
 import java.io.IOException;
@@ -87,21 +88,19 @@ public abstract class ExplorerFile implements ProductFile {
     }
 
     protected Element getElement(Element parent, final String name) throws IOException {
-        final Iterator descendants = parent.getDescendants(o -> {
+        final Iterator<Content> descendants = parent.getDescendants();
+
+        while(descendants.hasNext()) {
+            Object o = descendants.next();
             if (o instanceof Element) {
-                final Element e = (Element) o;
+                Element e = (Element) o;
+
                 if (name.equals(e.getName())) {
-                    return true;
+                    return e;
                 }
             }
-
-            return false;
-        });
-        if (descendants.hasNext()) {
-            return (Element) descendants.next();
-        } else {
-            throw new IOException(MessageFormat.format("File ''{0}'': Missing element ''{1}''.", getHeaderFile().getPath(), name));
         }
+        throw new IOException(MessageFormat.format("File ''{0}'': Missing element ''{1}''.", getHeaderFile().getPath(), name));
     }
 
     protected void addAncilliaryBands(Product product) {

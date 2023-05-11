@@ -16,37 +16,20 @@
 
 package org.esa.smos.dataio.smos.dddb;
 
-import com.bc.ceres.binio.CompoundMember;
-import com.bc.ceres.binio.CompoundType;
-import com.bc.ceres.binio.DataFormat;
-import com.bc.ceres.binio.SequenceType;
-import com.bc.ceres.binio.Type;
+import com.bc.ceres.binio.*;
 import com.bc.ceres.binio.binx.BinX;
 import org.esa.snap.core.util.StringUtils;
 import org.esa.snap.core.util.io.CsvReader;
-import org.jdom.Document;
-import org.jdom.Element;
-import org.jdom.JDOMException;
-import org.jdom.Namespace;
-import org.jdom.input.SAXBuilder;
+import org.jdom2.*;
+import org.jdom2.input.SAXBuilder;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.ByteOrder;
 import java.nio.charset.Charset;
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -150,25 +133,17 @@ public class Dddb {
             throw new IOException(MessageFormat.format(
                     "File ''{0}'': Missing namespace", hdrFile.getPath()));
         }
-        final Iterator descendants = document.getDescendants(o -> {
+        final Iterator<Content> descendants = document.getDescendants();
+        while (descendants.hasNext()) {
+            Object o = descendants.next();
             if (o instanceof Element) {
                 final Element e = (Element) o;
                 if (e.getChildText(TAG_DATABLOCK_SCHEMA, namespace) != null) {
-                    return true;
+                    return e.getChildText(TAG_DATABLOCK_SCHEMA, namespace).substring(0, 27);
                 }
             }
-
-            return false;
-        });
-        final String formatName;
-        if (descendants.hasNext()) {
-            final Element e = (Element) descendants.next();
-            formatName = e.getChildText(TAG_DATABLOCK_SCHEMA, namespace).substring(0, 27);
-        } else {
-            throw new IOException(MessageFormat.format(
-                    "File ''{0}'': Missing datablock schema.", hdrFile.getPath()));
         }
-        return formatName;
+        throw new IOException(MessageFormat.format("File ''{0}'': Missing datablock schema.", hdrFile.getPath()));
     }
 
     public BandDescriptor findBandDescriptorForMember(String formatName, String memberName) {

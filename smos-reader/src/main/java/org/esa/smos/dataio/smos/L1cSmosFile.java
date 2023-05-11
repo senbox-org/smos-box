@@ -15,17 +15,13 @@
  */
 package org.esa.smos.dataio.smos;
 
-import com.bc.ceres.binio.CompoundType;
-import com.bc.ceres.binio.DataContext;
-import com.bc.ceres.binio.SequenceData;
-import com.bc.ceres.binio.SequenceType;
-import com.bc.ceres.binio.Type;
+import com.bc.ceres.binio.*;
 import org.esa.smos.EEFilePair;
 import org.esa.smos.dataio.smos.dddb.BandDescriptor;
 import org.esa.snap.core.datamodel.Band;
-import org.jdom.Document;
-import org.jdom.Element;
-import org.jdom.Namespace;
+import org.jdom2.Document;
+import org.jdom2.Element;
+import org.jdom2.Namespace;
 
 import java.io.IOException;
 import java.text.MessageFormat;

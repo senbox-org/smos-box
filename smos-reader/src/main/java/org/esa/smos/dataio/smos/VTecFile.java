@@ -25,11 +25,11 @@ import org.esa.snap.core.datamodel.Product;
 import org.esa.snap.core.datamodel.ProductData;
 import org.esa.snap.core.datamodel.TiePointGrid;
 import org.esa.snap.core.util.io.FileUtils;
-import org.jdom.Document;
-import org.jdom.Element;
-import org.jdom.Namespace;
+import org.jdom2.Document;
+import org.jdom2.Element;
+import org.jdom2.Namespace;
 
-import java.awt.Dimension;
+import java.awt.*;
 import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
 import java.io.IOException;
@@ -159,7 +159,7 @@ class VTecFile extends ExplorerFile {
         final double offsetY = (maxLat - lat1) * scaleY;
 
         final TiePointGrid tiePointGrid = new TiePointGrid(name, colCount, rowCount, offsetX, offsetY,
-                                                           samplingX, samplingY, tiePoints);
+                samplingX, samplingY, tiePoints);
         tiePointGrid.setScalingFactor(scalingFactor);
         tiePointGrid.setDescription(description);
         tiePointGrid.setUnit("TECU");
