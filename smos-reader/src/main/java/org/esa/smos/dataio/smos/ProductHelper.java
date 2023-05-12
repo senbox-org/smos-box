@@ -23,33 +23,20 @@ import org.esa.smos.dataio.smos.dddb.BandDescriptor;
 import org.esa.smos.dataio.smos.dddb.Family;
 import org.esa.smos.dataio.smos.dddb.FlagDescriptor;
 import org.esa.smos.dgg.SmosDgg;
-import org.esa.snap.core.datamodel.Band;
-import org.esa.snap.core.datamodel.ColorPaletteDef;
-import org.esa.snap.core.datamodel.CrsGeoCoding;
-import org.esa.snap.core.datamodel.FlagCoding;
-import org.esa.snap.core.datamodel.GeoCoding;
-import org.esa.snap.core.datamodel.ImageInfo;
-import org.esa.snap.core.datamodel.Mask;
-import org.esa.snap.core.datamodel.MetadataAttribute;
-import org.esa.snap.core.datamodel.MetadataElement;
-import org.esa.snap.core.datamodel.Product;
-import org.esa.snap.core.datamodel.ProductData;
-import org.esa.snap.core.datamodel.VirtualBand;
+import org.esa.snap.core.datamodel.*;
 import org.esa.snap.core.dataop.barithm.BandArithmetic;
 import org.esa.snap.core.jexp.ParseException;
 import org.esa.snap.core.util.io.FileUtils;
 import org.geotools.referencing.crs.DefaultGeographicCRS;
-import org.jdom.Document;
-import org.jdom.Element;
-import org.jdom.JDOMException;
-import org.jdom.Namespace;
-import org.jdom.input.SAXBuilder;
+import org.jdom2.Document;
+import org.jdom2.Element;
+import org.jdom2.JDOMException;
+import org.jdom2.Namespace;
+import org.jdom2.input.SAXBuilder;
 import org.opengis.referencing.FactoryException;
 import org.opengis.referencing.operation.TransformException;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Rectangle;
+import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.io.File;
 import java.io.IOException;
@@ -125,20 +112,20 @@ public class ProductHelper {
 
     private static ImageInfo createSoilMoistureImageInfo() {
         final ColorPaletteDef.Point[] points = new ColorPaletteDef.Point[5];
-        points[0] = new ColorPaletteDef.Point(0.00, new Color(255,136,0));
-        points[1] = new ColorPaletteDef.Point(0.05, new Color(237,190,0));
-        points[2] = new ColorPaletteDef.Point(0.10, new Color(225,221,0));
-        points[3] = new ColorPaletteDef.Point(0.20, new Color(106,193,0));
-        points[4] = new ColorPaletteDef.Point(1.00, new Color(0,0,153));
+        points[0] = new ColorPaletteDef.Point(0.00, new Color(255, 136, 0));
+        points[1] = new ColorPaletteDef.Point(0.05, new Color(237, 190, 0));
+        points[2] = new ColorPaletteDef.Point(0.10, new Color(225, 221, 0));
+        points[3] = new ColorPaletteDef.Point(0.20, new Color(106, 193, 0));
+        points[4] = new ColorPaletteDef.Point(1.00, new Color(0, 0, 153));
 
         return new ImageInfo(new ColorPaletteDef(points));
     }
 
     private static ImageInfo createTauNadImageInfo() {
         final ColorPaletteDef.Point[] points = new ColorPaletteDef.Point[3];
-        points[0] = new ColorPaletteDef.Point(0.00, new Color(213,255,135));
-        points[1] = new ColorPaletteDef.Point(0.15, new Color(135,181,0));
-        points[2] = new ColorPaletteDef.Point(1.20, new Color(0,45,0));
+        points[0] = new ColorPaletteDef.Point(0.00, new Color(213, 255, 135));
+        points[1] = new ColorPaletteDef.Point(0.15, new Color(135, 181, 0));
+        points[2] = new ColorPaletteDef.Point(1.20, new Color(0, 45, 0));
 
         return new ImageInfo(new ColorPaletteDef(points));
     }
@@ -245,14 +232,14 @@ public class ProductHelper {
     }
 
     public static void addFlagsAndMasks(Product product, Band band,
-                                 String flagCodingName, Family<FlagDescriptor> flagDescriptors) {
+                                        String flagCodingName, Family<FlagDescriptor> flagDescriptors) {
         FlagCoding flagCoding = product.getFlagCodingGroup().get(flagCodingName);
         if (flagCoding == null) {
             flagCoding = new FlagCoding(flagCodingName);
             for (final FlagDescriptor flagDescriptor : flagDescriptors.asList()) {
                 flagCoding.addFlag(flagDescriptor.getFlagName(),
-                                   flagDescriptor.getMask(),
-                                   flagDescriptor.getDescription());
+                        flagDescriptor.getMask(),
+                        flagDescriptor.getDescription());
             }
             product.getFlagCodingGroup().add(flagCoding);
         }
@@ -268,8 +255,8 @@ public class ProductHelper {
                 }
                 final String expression = band.getName() + "." + flagDescriptor.getFlagName();
                 Mask mask = Mask.BandMathsType.create(maskName, flagDescriptor.getDescription(),
-                                                      product.getSceneRasterWidth(), product.getSceneRasterHeight(),
-                                                      expression, color, 0.5);
+                        product.getSceneRasterWidth(), product.getSceneRasterHeight(),
+                        expression, color, 0.5);
                 product.getMaskGroup().add(mask);
             }
         }
@@ -277,9 +264,9 @@ public class ProductHelper {
 
     public static void addVirtualBand(Product product, BandDescriptor descriptor, String bandExpression) {
         final VirtualBand virtualBand = new VirtualBand(descriptor.getBandName(), ProductData.TYPE_FLOAT32,
-                                                 product.getSceneRasterWidth(),
-                                                 product.getSceneRasterHeight(),
-                                                 bandExpression);
+                product.getSceneRasterWidth(),
+                product.getSceneRasterHeight(),
+                bandExpression);
 
         final String validPixelExpression = createValidPixelExpression(product, bandExpression);
         virtualBand.setValidPixelExpression(validPixelExpression);

@@ -1,10 +1,6 @@
 package org.esa.smos.dataio.smos;
 
-import com.bc.ceres.binio.CompoundData;
-import com.bc.ceres.binio.CompoundMember;
-import com.bc.ceres.binio.CompoundType;
-import com.bc.ceres.binio.DataContext;
-import com.bc.ceres.binio.SequenceData;
+import com.bc.ceres.binio.*;
 import com.bc.ceres.glevel.MultiLevelImage;
 import com.bc.ceres.glevel.MultiLevelSource;
 import com.bc.ceres.glevel.support.DefaultMultiLevelImage;
@@ -20,9 +16,9 @@ import org.esa.snap.core.datamodel.Band;
 import org.esa.snap.core.datamodel.Product;
 import org.esa.snap.core.datamodel.ProductData;
 import org.esa.snap.core.util.io.FileUtils;
-import org.jdom.Document;
-import org.jdom.Element;
-import org.jdom.Namespace;
+import org.jdom2.Document;
+import org.jdom2.Element;
+import org.jdom2.Namespace;
 
 import java.awt.*;
 import java.awt.geom.Area;
