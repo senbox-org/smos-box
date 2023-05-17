@@ -31,10 +31,10 @@ import org.jfree.chart.labels.XYZToolTipGenerator;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.LookupPaintScale;
 import org.jfree.chart.renderer.xy.XYBlockRenderer;
+import org.jfree.chart.ui.RectangleInsets;
 import org.jfree.data.xy.DefaultXYZDataset;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYZDataset;
-import org.jfree.ui.RectangleInsets;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.awt.ActionReferences;
@@ -125,7 +125,7 @@ public class GridPointBtDataFlagmatrixTopComponent extends GridPointBtDataTopCom
 
         renderer = new XYBlockRenderer();
         renderer.setPaintScale(paintScale);
-        renderer.setBaseToolTipGenerator(new FlagToolTipGenerator(flagNames));
+        renderer.setDefaultToolTipGenerator(new FlagToolTipGenerator(flagNames));
 
         plot = new XYPlot(dataset, xAxis, yAxis, renderer);
         plot.setBackgroundPaint(Color.LIGHT_GRAY);
@@ -156,7 +156,7 @@ public class GridPointBtDataFlagmatrixTopComponent extends GridPointBtDataTopCom
         if (enabled) {
             loadFlagDescriptors(smosReader);
             final String[] flagNames = createFlagNames(flagDescriptors);
-            renderer.setBaseToolTipGenerator(new FlagToolTipGenerator(flagNames));
+            renderer.setDefaultToolTipGenerator(new FlagToolTipGenerator(flagNames));
             final NumberAxis rangeAxis = createRangeAxis(flagNames);
             plot.setRangeAxis(rangeAxis);
         }
