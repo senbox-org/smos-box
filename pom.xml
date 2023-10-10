@@ -270,6 +270,13 @@
                 <type>test-jar</type>
                 <scope>test</scope>
             </dependency>
+            <dependency>
+                <groupId>org.esa.snap</groupId>
+                <artifactId>ceres-core</artifactId>
+                <version>${snap.version}</version>
+                <scope>test</scope>
+                <type>test-jar</type>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
