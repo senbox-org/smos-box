@@ -14,12 +14,13 @@
     <properties>
         <brandingToken>smos</brandingToken>
         <snap.version>12.0.0-SNAPSHOT</snap.version>
-        <netbeans.version>RELEASE113</netbeans.version>
+        <netbeans.version>RELEASE210</netbeans.version>
         <javahelp.version>2.0.05</javahelp.version>
         <smos.nbmSpecVersion>10.0.0</smos.nbmSpecVersion>
         <snap-help-system.version>1.0.0</snap-help-system.version>
         <buildDate>${maven.build.timestamp}</buildDate>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <jvm.version>21</jvm.version>
     </properties>
 
     <modules>
@@ -333,8 +334,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.11.0</version>
                 <configuration>
-                    <source>11</source>
-                    <target>11</target>
+                    <source>${jvm.version}</source>
+                    <target>${jvm.version}</target>
 
                     <!-- added to fix an exception in the compiler -->
                     <useIncrementalCompilation>false</useIncrementalCompilation>
@@ -537,7 +538,7 @@
                 <plugin>
                     <groupId>org.apache.netbeans.utilities</groupId>
                     <artifactId>nbm-maven-plugin</artifactId>
-                    <version>4.4</version>
+                    <version>14.0</version>
                     <extensions>true</extensions>
                     <dependencies>
                         <dependency>
