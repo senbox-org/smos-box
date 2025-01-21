@@ -16,7 +16,7 @@
 
 package org.esa.smos.lsmask;
 
-import com.bc.ceres.glevel.MultiLevelImage;
+import com.bc.ceres.multilevel.MultiLevelImage;
 import org.junit.Test;
 
 import java.awt.Rectangle;

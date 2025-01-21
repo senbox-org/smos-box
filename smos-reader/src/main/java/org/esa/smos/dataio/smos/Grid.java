@@ -1,6 +1,6 @@
 package org.esa.smos.dataio.smos;
 
-import com.bc.ceres.glevel.MultiLevelModel;
+import com.bc.ceres.multilevel.MultiLevelModel;
 import org.esa.smos.dgg.SmosDgg;
 import org.esa.snap.binning.PlanetaryGrid;
 

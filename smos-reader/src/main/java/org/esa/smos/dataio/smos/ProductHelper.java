@@ -18,7 +18,7 @@ package org.esa.smos.dataio.smos;
 
 import com.bc.ceres.binio.SimpleType;
 import com.bc.ceres.binio.Type;
-import com.bc.ceres.glevel.MultiLevelImage;
+import com.bc.ceres.multilevel.MultiLevelImage;
 import org.esa.smos.dataio.smos.dddb.BandDescriptor;
 import org.esa.smos.dataio.smos.dddb.Family;
 import org.esa.smos.dataio.smos.dddb.FlagDescriptor;

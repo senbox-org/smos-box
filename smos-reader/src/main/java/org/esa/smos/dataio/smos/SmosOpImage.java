@@ -15,7 +15,7 @@
  */
 package org.esa.smos.dataio.smos;
 
-import com.bc.ceres.glevel.MultiLevelModel;
+import com.bc.ceres.multilevel.MultiLevelModel;
 import com.bc.ceres.jai.NoDataRaster;
 import org.esa.smos.dataio.smos.provider.ValueProvider;
 import org.esa.smos.dgg.SmosDgg;

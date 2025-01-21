@@ -17,7 +17,7 @@
 package org.esa.smos.gui.export;
 
 import com.bc.ceres.binio.CompoundData;
-import com.bc.ceres.glevel.MultiLevelImage;
+import com.bc.ceres.multilevel.MultiLevelImage;
 import org.esa.smos.dataio.smos.SmosConstants;
 import org.esa.smos.dgg.SmosDgg;
 

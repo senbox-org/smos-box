@@ -17,9 +17,9 @@
 package org.esa.smos.dgg;
 
 import com.bc.ceres.core.ProgressMonitor;
-import com.bc.ceres.glevel.MultiLevelImage;
-import com.bc.ceres.glevel.MultiLevelSource;
-import com.bc.ceres.glevel.support.DefaultMultiLevelImage;
+import com.bc.ceres.multilevel.MultiLevelImage;
+import com.bc.ceres.multilevel.MultiLevelSource;
+import com.bc.ceres.multilevel.support.DefaultMultiLevelImage;
 import org.esa.snap.core.image.TiledFileMultiLevelSource;
 import org.esa.snap.core.util.ResourceInstaller;
 import org.esa.snap.core.util.SystemUtils;
@@ -37,7 +37,7 @@ import java.nio.file.Paths;
 import java.text.MessageFormat;
 
 /**
- * Provides a {@link com.bc.ceres.glevel.MultiLevelImage multi level image} of
+ * Provides a {@link MultiLevelImage multi level image} of
  * the SMOS Discrete global grid.
  *
  * @author Marco Peters

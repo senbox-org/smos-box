@@ -16,7 +16,7 @@
 
 package org.esa.smos.dataio.smos;
 
-import com.bc.ceres.glevel.MultiLevelModel;
+import com.bc.ceres.multilevel.MultiLevelModel;
 import com.bc.ceres.jai.NoDataRaster;
 import org.esa.snap.core.datamodel.RasterDataNode;
 import org.esa.snap.core.image.ImageManager;
