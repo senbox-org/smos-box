@@ -19,7 +19,7 @@ import com.bc.ceres.binio.CompoundData;
 import com.bc.ceres.binio.CompoundType;
 import com.bc.ceres.binio.DataContext;
 import com.bc.ceres.binio.SequenceData;
-import com.bc.ceres.glevel.MultiLevelImage;
+import com.bc.ceres.multilevel.MultiLevelImage;
 import org.esa.smos.EEFilePair;
 import org.esa.smos.SmosUtils;
 import org.esa.smos.dataio.smos.dddb.BandDescriptor;

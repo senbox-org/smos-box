@@ -16,7 +16,7 @@
 
 package org.esa.smos.dataio.smos;
 
-import com.bc.ceres.glevel.support.AbstractMultiLevelSource;
+import com.bc.ceres.multilevel.support.AbstractMultiLevelSource;
 import org.esa.smos.dataio.smos.provider.ValueProvider;
 import org.esa.smos.dgg.SmosDgg;
 import org.esa.snap.core.datamodel.RasterDataNode;

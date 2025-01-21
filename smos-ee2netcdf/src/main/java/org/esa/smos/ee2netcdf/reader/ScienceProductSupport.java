@@ -1,6 +1,6 @@
 package org.esa.smos.ee2netcdf.reader;
 
-import com.bc.ceres.glevel.support.DefaultMultiLevelImage;
+import com.bc.ceres.multilevel.support.DefaultMultiLevelImage;
 import org.esa.smos.SmosUtils;
 import org.esa.smos.dataio.smos.DggUtils;
 import org.esa.smos.dataio.smos.GridPointInfo;

@@ -1,7 +1,7 @@
 package org.esa.smos.dataio.smos.bufr;
 
-import com.bc.ceres.glevel.MultiLevelModel;
-import com.bc.ceres.glevel.support.AbstractMultiLevelSource;
+import com.bc.ceres.multilevel.MultiLevelModel;
+import com.bc.ceres.multilevel.support.AbstractMultiLevelSource;
 import org.esa.smos.dataio.smos.CellGridOpImage;
 import org.esa.smos.dataio.smos.CellValueProvider;
 import org.esa.snap.core.datamodel.RasterDataNode;

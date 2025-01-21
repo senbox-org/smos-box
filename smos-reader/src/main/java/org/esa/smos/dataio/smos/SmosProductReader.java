@@ -26,7 +26,7 @@ import com.bc.ceres.binio.Type;
 import com.bc.ceres.binio.util.NumberUtils;
 import com.bc.ceres.core.ProgressMonitor;
 import com.bc.ceres.core.VirtualDir;
-import com.bc.ceres.glevel.MultiLevelImage;
+import com.bc.ceres.multilevel.MultiLevelImage;
 import org.esa.smos.DateTimeUtils;
 import org.esa.smos.EEFilePair;
 import org.esa.smos.SmosUtils;
