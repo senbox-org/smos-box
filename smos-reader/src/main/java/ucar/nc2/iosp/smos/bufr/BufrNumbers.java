@@ -287,6 +287,7 @@ final public class BufrNumbers {
      * @return long value
      * @throws IOException
      */
+    @SuppressWarnings("IntegerMultiplicationImplicitCastToLong")
     public static long int8(RandomAccessFile raf) throws IOException {
         int a = raf.read();
         int b = raf.read();
