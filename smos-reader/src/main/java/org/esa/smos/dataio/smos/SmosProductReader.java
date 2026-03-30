@@ -42,6 +42,7 @@ import org.esa.snap.core.dataio.ProductReaderPlugIn;
 import org.esa.snap.core.datamodel.Band;
 import org.esa.snap.core.datamodel.Product;
 import org.esa.snap.core.datamodel.ProductData;
+import org.esa.snap.core.util.ProductUtils;
 import org.esa.snap.core.util.StringUtils;
 import org.esa.snap.core.util.io.FileUtils;
 
@@ -156,7 +157,7 @@ public class SmosProductReader extends SmosReader {
         return null;
     }
 
-    public ProductFile getProductFile() {
+    public ProductFile getSMOSProductFile() {
         return productFile;
     }
 
@@ -486,7 +487,7 @@ public class SmosProductReader extends SmosReader {
             inputFile = inputFile.getParentFile();
         }
 
-        virtualDir = VirtualDir.create(inputFile);
+        virtualDir = ProductUtils.getProductVirtualDir(inputFile);
         if (virtualDir == null) {
             throw new IllegalArgumentException(MessageFormat.format("Illegal input: {0}", inputFile));
         }

@@ -44,7 +44,7 @@ class GridPointFilterStreamHandler {
         final ProductReader productReader = product.getProductReader();
         if (productReader instanceof SmosProductReader) {
             final SmosProductReader smosProductReader = (SmosProductReader) productReader;
-            final ProductFile productFile = smosProductReader.getProductFile();
+            final ProductFile productFile = smosProductReader.getSMOSProductFile();
             if (productFile instanceof SmosFile) {
                 smosFileProcessor.process((SmosFile) productFile, pm);
             }
