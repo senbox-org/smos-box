@@ -385,7 +385,7 @@ class GridPointExportDialog extends ProductChangeAwareDialog {
             final ProductReader productReader = selectedProduct.getProductReader();
             if (productReader instanceof SmosProductReader) {
                 final SmosProductReader smosProductReader = (SmosProductReader) productReader;
-                final ProductFile productFile = smosProductReader.getProductFile();
+                final ProductFile productFile = smosProductReader.getSMOSProductFile();
                 if (productFile instanceof SmosFile) {
                     selectedProduct.addProductNodeListener(geometryListener);
                     return selectedProduct;
