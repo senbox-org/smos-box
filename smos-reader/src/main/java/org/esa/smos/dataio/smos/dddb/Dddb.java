@@ -356,6 +356,8 @@ public class Dddb {
                 binX.setTypeMembersInlined(resourceHandler.getResourceAsProperties("structs_MIR_SMDAP2.properties"));
             } else if (name.contains("MIR_SMUDP2")) {
                 binX.setTypeMembersInlined(resourceHandler.getResourceAsProperties("structs_MIR_SMUDP2.properties"));
+            } else if (name.contains("AUX_ECMWF_")) {
+                binX.setTypeMembersInlined(resourceHandler.getResourceAsProperties("structs_AUX_ECMWF_.properties"));
             }
         } catch (IOException e) {
             throw new IllegalStateException(e.getMessage());

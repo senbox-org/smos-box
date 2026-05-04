@@ -296,6 +296,11 @@
             "description": "AUX_ECMWF, schema version 300"
         },
         {
+            "id": "SM_REPR_AUX_ECMWF__20251203T043236",
+            "relativePath": "sensors_platforms/SMOS/AUX_ECMWF_/SM_REPR_AUX_ECMWF__20251203T043236_20251203T053916_501_001_1/SM_REPR_AUX_ECMWF__20251203T043236_20251203T053916_501_001_1.HDR",
+            "description": "AUX_ECMWF, schema version 301"
+        },
+        {
             "id": "SM_OPER_AUX_VTEC_C_20100118T230000",
             "relativePath": "sensors_platforms/SMOS/AUX_VTEC_C/SM_OPER_AUX_VTEC_C_20100118T230000_20100120T010000_306_001_3/SM_OPER_AUX_VTEC_C_20100118T230000_20100120T010000_306_001_3.DBL",
             "description": "AUX_VTEC_C, consolidated vertical total electron content, schema version 202"

@@ -14,9 +14,9 @@
     <properties>
         <brandingToken>smos</brandingToken>
         <snap.version>13.0.2-SNAPSHOT</snap.version>
+        <smos.version>13.0.2-SNAPSHOT</smos.version>
         <netbeans.version>RELEASE210</netbeans.version>
         <javahelp.version>2.0.05</javahelp.version>
-        <smos.nbmSpecVersion>13.0.2-SNAPSHOT</smos.nbmSpecVersion>
         <snap-help-system.version>1.0.2</snap-help-system.version>
         <buildDate>${maven.build.timestamp}</buildDate>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -417,7 +417,7 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>
-                <version>3.3.0</version>
+                <version>3.5.0</version>
                 <executions>
                     <execution>
                         <id>create-nbmSpecVersion</id>
@@ -426,8 +426,8 @@
                         </goals>
                         <configuration>
                             <name>project.nbmSpecVersion</name>
-                            <value>${smos.nbmSpecVersion}</value>
-                            <regex>(-SNAPSHOT)|(-rc[0-9]+)|(-SNAPSHOT)</regex>
+                            <value>${smos.version}</value>
+                            <regex>(-SNAPSHOT)|(-rc[0-9]+)</regex>
                             <replacement>.0</replacement>
                             <failIfNoMatch>false</failIfNoMatch>
                         </configuration>
@@ -439,8 +439,8 @@
                         </goals>
                         <configuration>
                             <name>project.nbmImplVersion</name>
-                            <value>${smos.nbmSpecVersion}</value>
-                            <regex>(-SNAPSHOT)|(-rc[0-9]+)|(-SNAPSHOT)</regex>
+                            <value>${smos.version}</value>
+                            <regex>(-SNAPSHOT)|(-rc[0-9]+)</regex>
                             <replacement>.${buildDate}</replacement>
                             <failIfNoMatch>false</failIfNoMatch>
                         </configuration>

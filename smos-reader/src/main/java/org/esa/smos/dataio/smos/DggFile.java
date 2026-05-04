@@ -149,7 +149,6 @@ public class DggFile extends ExplorerFile {
         }
 
         final int memberIndex = compoundType.getMemberIndex(descriptor.getMemberName());
-
         if (memberIndex >= 0) {
             final CompoundMember member = compoundType.getMember(memberIndex);
 
