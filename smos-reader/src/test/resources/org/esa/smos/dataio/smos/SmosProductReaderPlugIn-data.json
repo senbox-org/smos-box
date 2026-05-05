@@ -11,6 +11,11 @@
         "description": "SMOS BWLD1C as directory with HDR file, schema version 400"
       },
       {
+        "id": "SM_REPR_MIR_BWLD1C_20100330T232514",
+        "relativePath": "sensors_platforms/SMOS/MIR_BWLD1C/SM_REPR_MIR_BWLD1C_20100330T232514_20100331T001835_783_100_1/SM_REPR_MIR_BWLD1C_20100330T232514_20100331T001835_783_100_1.HDR",
+        "description": "SMOS BWLD1C as directory with HDR file, schema version 401"
+      },
+      {
         "id": "SM_OPER_MIR_BWLF1C_20100119T061841",
         "relativePath": "sensors_platforms/SMOS/MIR_BWLF1C/SM_OPER_MIR_BWLF1C_20100119T061841_20100119T071243_324_003_1/SM_OPER_MIR_BWLF1C_20100119T061841_20100119T071243_324_003_1.DBL",
         "description": "SMOS BWLF1C as directory with DBL file, schema version 201"

@@ -156,7 +156,7 @@ public class DggFile extends ExplorerFile {
             final Band band = product.addBand(descriptor.getBandName(), dataType);
 
             band.setScalingOffset(descriptor.getScalingOffset());
-            setScaling(band, descriptor);
+                setScaling(band, descriptor);
             if (descriptor.hasFillValue()) {
                 band.setNoDataValueUsed(true);
                 band.setNoDataValue(descriptor.getFillValue());
