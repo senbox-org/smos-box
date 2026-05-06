@@ -76,7 +76,7 @@ public class NetcdfProductReaderPlugin implements ProductReaderPlugIn {
     private boolean isValidSmosNetCDF(File file) {
         NetcdfFile netcdfFile = null;
         try {
-            netcdfFile = NetcdfFileOpener.open(file.getAbsolutePath());
+            netcdfFile = NetcdfFileOpener.open(file);
             if (netcdfFile == null) {
                 return false;
             }

@@ -199,7 +199,7 @@ public class NetcdfProductReader extends SmosReader {
         Product product;
 
         final File inputFile = getInputFile();
-        netcdfFile = NetcdfFileOpener.open(inputFile.getAbsolutePath());
+        netcdfFile = NetcdfFileOpener.open(inputFile);
         if (netcdfFile == null) {
             throw new IOException("Unable to read file");
         }
