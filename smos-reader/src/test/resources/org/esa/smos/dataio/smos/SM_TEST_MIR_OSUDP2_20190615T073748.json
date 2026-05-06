@@ -1,0 +1,3138 @@
+{
+    "id": "SM_TEST_MIR_OSUDP2_20190615T073748",
+    "decodeQualification": "INTENDED",
+    "expectedContent": {
+        "sceneWidth": 16384,
+        "sceneHeight": 8064,
+        "startTime": "15-JUN-2019 07:37:48.000000",
+        "endTime": "15-JUN-2019 08:31:09.000000",
+        "geoCoding": {
+            "coordinates": [
+                {
+                    "x": 7066.0,
+                    "y": 4334.0,
+                    "lat": -6.6357421875,
+                    "lon": -24.7412109375
+                },
+                {
+                    "x": 12164.0,
+                    "y": 5232.0,
+                    "lat": -26.3671875,
+                    "lon": 87.275390625
+                }
+            ],
+            "reverseAccuracy": 0.0
+        },
+        "flagCodings": [
+            {
+                "name": "Control_Flags",
+                "samples": [
+                    {
+                        "name": "FG_CTRL_RANGE",
+                        "value": 2,
+                        "description": "Retrieved values outside range using forward model 1"
+                    },
+                    {
+                        "name": "FG_CTRL_SIGMA",
+                        "value": 4,
+                        "description": "High retrieval sigma using forward model 1"
+                    },
+                    {
+                        "name": "FG_CTRL_CHI2",
+                        "value": 8,
+                        "description": "Poor fit quality, set if (Dg_chi2/Nt) >= Tg_chi2."
+                    },
+                    {
+                        "name": "FG_CTRL_CHI2_P",
+                        "value": 16,
+                        "description": "Poor fit quality, set if (Dg_chi_2_P / 1000) > Tg_Chi2_P_max or (Dg_chi_2_P / 1000) < Tg_Chi2_P_min"
+                    },
+                    {
+                        "name": "FG_CTRL_CONTAMINATED",
+                        "value": 32,
+                        "description": "Set if SSS_corr is significantly different from SSS_uncorr"
+                    },
+                    {
+                        "name": "FG_CTRL_SUNGLINT",
+                        "value": 64,
+                        "description": "Grid point with number of measurements flagged for sunglint above threshold"
+                    },
+                    {
+                        "name": "FG_CTRL_MOONGLINT",
+                        "value": 128,
+                        "description": "Grid point with number of measurements flagged for moonglint above threshold"
+                    },
+                    {
+                        "name": "FG_CTRL_GAL_NOISE",
+                        "value": 256,
+                        "description": "Grid point with number of measurements flagged for galactic noise above threshold"
+                    },
+                    {
+                        "name": "FG_CTRL_MIXED_SCENE",
+                        "value": 512,
+                        "description": "Flag set if any (or all) grid point measurements have been corrected by mixed scene (land-sea) AUX_MSOTT_ LUT before convergence"
+                    },
+                    {
+                        "name": "FG_CTRL_REACH_MAXITER",
+                        "value": 1024,
+                        "description": "Maximum number of iteration reached before convergence using forward model 1"
+                    },
+                    {
+                        "name": "FG_CTRL_NUM_MEAS_MIN",
+                        "value": 2048,
+                        "description": "Not processed due to too few valid measurements"
+                    },
+                    {
+                        "name": "FG_CTRL_NUM_MEAS_LOW",
+                        "value": 4096,
+                        "description": "Processed, but with a low number of measurements. Flag set if number of valid measurement < Tg_num_meas_valid"
+                    },
+                    {
+                        "name": "FG_CTRL_MANY_OUTLIERS",
+                        "value": 8192,
+                        "description": "Flag set if number of outliers Dg_num_outliers >Tg_num_outliers_max"
+                    },
+                    {
+                        "name": "FG_CTRL_MARQ",
+                        "value": 16384,
+                        "description": "Iterative loop ends because Marquardt increment is greater than lambdaMax"
+                    },
+                    {
+                        "name": "FG_CTRL_ROUGHNESS",
+                        "value": 32768,
+                        "description": "Roughness correction applied"
+                    },
+                    {
+                        "name": "FG_CTRL_FOAM",
+                        "value": 65536,
+                        "description": "Wind speed is less than Tg_WS_foam and foam contribution and foam fraction are set to zero"
+                    },
+                    {
+                        "name": "FG_CTRL_ECMWF",
+                        "value": 131072,
+                        "description": "Flag set to false if one or more ECMWF data is missing for the different models"
+                    },
+                    {
+                        "name": "FG_CTRL_VALID",
+                        "value": 262144,
+                        "description": "Flags raised if grid points pass grid point measurement discrimination tests"
+                    },
+                    {
+                        "name": "FG_CTRL_NO_SURFACE",
+                        "value": 524288,
+                        "description": "Flags raised if the 42.5° angle is not included in the dwell line for grid points"
+                    },
+                    {
+                        "name": "FG_CTRL_RANGE_ACARD",
+                        "value": 1048576,
+                        "description": "Flags raised if retrieved Acard is outside range"
+                    },
+                    {
+                        "name": "FG_CTRL_SIGMA_ACARD",
+                        "value": 2097152,
+                        "description": "Flags raised if retrieved Acard sigma is too high"
+                    },
+                    {
+                        "name": "FG_CTRL_USED_FARATEC",
+                        "value": 8388608,
+                        "description": "Flags raised if TEC for this grid point was obtained from AUX_FARA_x"
+                    },
+                    {
+                        "name": "FG_CTRL_POOR_GEOPHYS",
+                        "value": 16777216,
+                        "description": "Flags set if this grid point probably has poor quality SSS due to geophysical problems (outliers, glint, etc), or FG_CTRL_VALID is false"
+                    },
+                    {
+                        "name": "FG_CTRL_POOR_RETRIEVAL",
+                        "value": 33554432,
+                        "description": "Flags set if this grid point poor SSS due to retrieval failure, poor quality convergence, or FG_CTRL_VALID is false. Poor SSS quality retrieval may be caused by retrieval problems"
+                    },
+                    {
+                        "name": "FG_CTRL_SUSPECT_RFI",
+                        "value": 67108864,
+                        "description": "Grid point is suspected of being contaminated by RFI. Flag set if Dg_RFI_L2 / Dg_num_meas_L1 > Tg_num_RFI_max"
+                    },
+                    {
+                        "name": "FG_CTRL_RFI_PRONE_X",
+                        "value": 134217728,
+                        "description": "Grid point is likely to be contaminated by X polarization RFI as indicated by AUX_DGGRFI"
+                    },
+                    {
+                        "name": "FG_CTRL_RFI_PRONE_Y",
+                        "value": 268435456,
+                        "description": "Grid point is likely to be contaminated by Y polarization RFI as indicated by AUX_DGGRFI"
+                    },
+                    {
+                        "name": "FG_CTRL_ADJUSTED_RA",
+                        "value": 536870912,
+                        "description": "Set if radiometric accuracy of measurements on this grid point have been adjusted using AUX_DGGRFI"
+                    },
+                    {
+                        "name": "FG_CTRL_RETRIEV_FAIL",
+                        "value": 1073741824,
+                        "description": "Flags raised if iterative scheme returns an error"
+                    }
+                ]
+            },
+            {
+                "name": "Science_Flags",
+                "samples": [
+                    {
+                        "name": "FG_SC_LAND_SEA_COAST1",
+                        "value": 1,
+                        "description": "Distance from coast to gridpoint is less than threshold Max1 in file AUX_DISTAN"
+                    },
+                    {
+                        "name": "FG_SC_LAND_SEA_COAST2",
+                        "value": 2,
+                        "description": "Distance from coast to gridpoint is less than threshold Max2 in file AUX_DISTAN"
+                    },
+                    {
+                        "name": "FG_SC_TEC_GRADIENT",
+                        "value": 4,
+                        "description": "High TEC gradient along dwell for a grid point"
+                    },
+                    {
+                        "name": "FG_SC_IN_CLIM_ICE",
+                        "value": 8,
+                        "description": "Gridpoint with maximum extend of sea ice accordy to monthly climatology"
+                    },
+                    {
+                        "name": "FG_SC_ICE",
+                        "value": 16,
+                        "description": "Ice concentration at gridpoint is above threshold Tg_ice_concentration"
+                    },
+                    {
+                        "name": "FG_SC_SUSPECT_ICE",
+                        "value": 32,
+                        "description": "Suspect ice on gridpoint"
+                    },
+                    {
+                        "name": "FG_SC_RAIN",
+                        "value": 64,
+                        "description": "Heavy rain suspected on gridpoint. Rain rate is above threshold Tg_max_rainfall"
+                    },
+                    {
+                        "name": "FG_SC_HIGH_WIND",
+                        "value": 128,
+                        "description": "High wind"
+                    },
+                    {
+                        "name": "FG_SC_LOW_WIND",
+                        "value": 256,
+                        "description": "Low wind"
+                    },
+                    {
+                        "name": "FG_SC_HIGHT_SST",
+                        "value": 512,
+                        "description": "High SST"
+                    },
+                    {
+                        "name": "FG_SC_LOW_SST",
+                        "value": 1024,
+                        "description": "Low SST"
+                    },
+                    {
+                        "name": "FG_SC_HIGH_SSS",
+                        "value": 2048,
+                        "description": "High SSS"
+                    },
+                    {
+                        "name": "FG_SC_LOW_SSS",
+                        "value": 4096,
+                        "description": "Low SSS"
+                    },
+                    {
+                        "name": "FG_SC_SEA_STATE_1",
+                        "value": 8192,
+                        "description": "Sea state class 1"
+                    },
+                    {
+                        "name": "FG_SC_SEA_STATE_2",
+                        "value": 16384,
+                        "description": "Sea state class 2"
+                    },
+                    {
+                        "name": "FG_SC_SEA_STATE_3",
+                        "value": 32768,
+                        "description": "Sea state class 3"
+                    },
+                    {
+                        "name": "FG_SC_SEA_STATE_4",
+                        "value": 65536,
+                        "description": "Sea state class 4"
+                    },
+                    {
+                        "name": "FG_SC_SEA_STATE_5",
+                        "value": 131072,
+                        "description": "Sea state class 5"
+                    },
+                    {
+                        "name": "FG_SC_SEA_STATE_6",
+                        "value": 262144,
+                        "description": "Sea state class 6"
+                    },
+                    {
+                        "name": "FG_SC_SST_FRONT",
+                        "value": 524288,
+                        "description": ""
+                    },
+                    {
+                        "name": "FG_SC_SSS_FRONT",
+                        "value": 1048576,
+                        "description": ""
+                    },
+                    {
+                        "name": "FG_SC_ICE_ACARD",
+                        "value": 2097152,
+                        "description": "Ice flag from cardioid"
+                    },
+                    {
+                        "name": "FG_SC_ECMWF_LAND",
+                        "value": 4194304,
+                        "description": "Grid point contains some land. Flag set if ECMWF Land_Sea_Mask > 0"
+                    }
+                ]
+            },
+            {
+                "name": "Land_Sea_Mask_Flags",
+                "samples": [
+                    {
+                        "name": "USGS_SEA_FLAG",
+                        "value": 1,
+                        "description": "Water fraction is above 95 percent (1); below 95 percent (0)"
+                    },
+                    {
+                        "name": "USGS_LAND_FLAG",
+                        "value": 2,
+                        "description": "Water fraction is below 10 percent (1); above 10 percent (0)"
+                    },
+                    {
+                        "name": "USGS_MIXED_FLAG",
+                        "value": 4,
+                        "description": "Water fraction is above 10 and below 95 percent (1); below 10 or above 95 percent (0)"
+                    },
+                    {
+                        "name": "200_KM_COASTAL_FLAG",
+                        "value": 8,
+                        "description": "Distance to coastline is less than 200 km (1); greater than 200 km (0)"
+                    },
+                    {
+                        "name": "100_KM_COASTAL_FLAG",
+                        "value": 16,
+                        "description": "Distance to coastline is less than 100 km (1); greater than 100 km (0)"
+                    },
+                    {
+                        "name": "40_KM_COASTAL_FLAG",
+                        "value": 32,
+                        "description": "Distance to coastline is less than 40 km (1); greater than 40 km (0)"
+                    },
+                    {
+                        "name": "MIN_SEA_ICE_FLAG",
+                        "value": 64,
+                        "description": "Sea ice is present for all months (1); is not present for all months (0)"
+                    },
+                    {
+                        "name": "MAX_SEA_ICE_FLAG",
+                        "value": 128,
+                        "description": "Sea ice is present for any months (1); is not present for any months (0)"
+                    }
+                ]
+            }
+        ],
+        "bands": [
+            {
+                "name": "Equiv_ftprt_diam",
+                "description": "Equivalent footprint diameter",
+                "bandWidth": 16384,
+                "bandHeight": 8064,
+                "geophysicalUnit": "km",
+                "noDataValue": "-999.0",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 3266,
+                        "y": 222,
+                        "value": 56.41192
+                    },
+                    {
+                        "x": 11224,
+                        "y": 6859,
+                        "value": "NaN"
+                    }
+                ]
+            },
+            {
+                "name": "Mean_acq_time",
+                "description": "Mean acquisition time",
+                "bandWidth": 16384,
+                "bandHeight": 8064,
+                "geophysicalUnit": "dd",
+                "noDataValue": "-999.0",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 4765,
+                        "y": 2071,
+                        "value": "NaN"
+                    },
+                    {
+                        "x": 3462,
+                        "y": 337,
+                        "value": 7105.35352
+                    }
+                ]
+            },
+            {
+                "name": "SSS_corr",
+                "description": "Sea surface salinity corrected for land-sea contamination",
+                "bandWidth": 16384,
+                "bandHeight": 8064,
+                "geophysicalUnit": "psu",
+                "noDataValue": "-999.0",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 6307,
+                        "y": 1366,
+                        "value": 33.64625
+                    },
+                    {
+                        "x": 9966,
+                        "y": 7487,
+                        "value": "NaN"
+                    }
+                ]
+            },
+            {
+                "name": "Sigma_SSS_corr",
+                "description": "Theoretical uncertainty computed for SSS_corr",
+                "bandWidth": 16384,
+                "bandHeight": 8064,
+                "geophysicalUnit": "psu",
+                "noDataValue": "-999.0",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 2593,
+                        "y": 5371,
+                        "value": "NaN"
+                    },
+                    {
+                        "x": 5960,
+                        "y": 1829,
+                        "value": 2.01034
+                    }
+                ]
+            },
+            {
+                "name": "SSS_uncorr",
+                "description": "Sea surface salinity without land-sea correction",
+                "bandWidth": 16384,
+                "bandHeight": 8064,
+                "geophysicalUnit": "psu",
+                "noDataValue": "-999.0",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 6480,
+                        "y": 2280,
+                        "value": 35.45765
+                    },
+                    {
+                        "x": 15577,
+                        "y": 3917,
+                        "value": "NaN"
+                    }
+                ]
+            },
+            {
+                "name": "Sigma_SSS_uncorr",
+                "description": "Theoretical uncertainty computed for SSS_uncorr",
+                "bandWidth": 16384,
+                "bandHeight": 8064,
+                "geophysicalUnit": "psu",
+                "noDataValue": "-999.0",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 5577,
+                        "y": 7253,
+                        "value": "NaN"
+                    },
+                    {
+                        "x": 6307,
+                        "y": 2708,
+                        "value": 1.1987370252609253
+                    }
+                ]
+            },
+            {
+                "name": "SSS_upgraded",
+                "description": "Sea surface salinity anomaly = SSS_corr minus climatology",
+                "bandWidth": 16384,
+                "bandHeight": 8064,
+                "geophysicalUnit": "psu",
+                "noDataValue": "-999.0",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 6434,
+                        "y": 2696,
+                        "value": 36.32388
+                    },
+                    {
+                        "x": 4475,
+                        "y": 348,
+                        "value": "NaN"
+                    }
+                ]
+            },
+            {
+                "name": "Sigma_SSS_upgraded",
+                "description": "Theoretical uncertainty computed for SSS_anom",
+                "bandWidth": 16384,
+                "bandHeight": 8064,
+                "geophysicalUnit": "psu",
+                "noDataValue": "-999.0",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 15916,
+                        "y": 4876,
+                        "value": "NaN"
+                    },
+                    {
+                        "x": 7509,
+                        "y": 6361,
+                        "value": 2.33294
+                    }
+                ]
+            },
+            {
+                "name": "Acard",
+                "description": "Effective Acard retrieved with minimalistic model",
+                "bandWidth": 16384,
+                "bandHeight": 8064,
+                "noDataValue": "-999.0",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 3800,
+                        "y": 4011,
+                        "value": "NaN"
+                    },
+                    {
+                        "x": 5260,
+                        "y": 5826,
+                        "value": "NaN"
+                    }
+                ]
+            },
+            {
+                "name": "Sigma_Acard",
+                "description": "Theoretical uncertainty computed for Acard",
+                "bandWidth": 16384,
+                "bandHeight": 8064,
+                "noDataValue": "-999.0",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 5867,
+                        "y": 4017,
+                        "value": "NaN"
+                    },
+                    {
+                        "x": 6600,
+                        "y": 3566,
+                        "value": 0.56154174
+                    }
+                ]
+            },
+            {
+                "name": "WS",
+                "description": "Equivalent neutral wind speed as derived from ECMWF",
+                "bandWidth": 16384,
+                "bandHeight": 8064,
+                "geophysicalUnit": "m s-1",
+                "noDataValue": "-999.0",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 9415,
+                        "y": 740,
+                        "value": "NaN"
+                    },
+                    {
+                        "x": 10571,
+                        "y": 127,
+                        "value": "NaN"
+                    }
+                ]
+            },
+            {
+                "name": "SST",
+                "description": "Sea Surface Temperature as derived from ECMWF",
+                "bandWidth": 16384,
+                "bandHeight": 8064,
+                "geophysicalUnit": "°C",
+                "noDataValue": "-999.0",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 15977,
+                        "y": 2961,
+                        "value": "NaN"
+                    },
+                    {
+                        "x": 15566,
+                        "y": 7631,
+                        "value": "NaN"
+                    }
+                ]
+            },
+            {
+                "name": "TBH",
+                "description": "Brightness temperature at surface level derived with default forward model and retrieved geophysical parameters, H polarisation direction",
+                "bandWidth": 16384,
+                "bandHeight": 8064,
+                "geophysicalUnit": "K",
+                "noDataValue": "-999.0",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 1817,
+                        "y": 3643,
+                        "value": "NaN"
+                    },
+                    {
+                        "x": 9353,
+                        "y": 4535,
+                        "value": "NaN"
+                    }
+                ]
+            },
+            {
+                "name": "Sigma_TBH",
+                "description": "Theoretical uncertainty computed for TBH",
+                "bandWidth": 16384,
+                "bandHeight": 8064,
+                "geophysicalUnit": "K",
+                "noDataValue": "-999.0",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 8287,
+                        "y": 4206,
+                        "value": "NaN"
+                    },
+                    {
+                        "x": 7384,
+                        "y": 4685,
+                        "value": "NaN"
+                    }
+                ]
+            },
+            {
+                "name": "TBV",
+                "description": "Brightness temperature at surface level derived with default forward model and retrieved geophysical parameters, V polarisation direction",
+                "bandWidth": 16384,
+                "bandHeight": 8064,
+                "geophysicalUnit": "K",
+                "noDataValue": "-999.0",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 236,
+                        "y": 3424,
+                        "value": "NaN"
+                    },
+                    {
+                        "x": 1149,
+                        "y": 8006,
+                        "value": "NaN"
+                    }
+                ]
+            },
+            {
+                "name": "Sigma_TBV",
+                "description": "Theoretical uncertainty computed for TBV",
+                "bandWidth": 16384,
+                "bandHeight": 8064,
+                "geophysicalUnit": "K",
+                "noDataValue": "-999.0",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 4862,
+                        "y": 6008,
+                        "value": "NaN"
+                    },
+                    {
+                        "x": 13165,
+                        "y": 5938,
+                        "value": "NaN"
+                    }
+                ]
+            },
+            {
+                "name": "TBX",
+                "description": "Brightness temperature at antenna level derived with default forward model and retrieved geophysical parameters, X polarisation direction",
+                "bandWidth": 16384,
+                "bandHeight": 8064,
+                "geophysicalUnit": "K",
+                "noDataValue": "-999.0",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 13671,
+                        "y": 7624,
+                        "value": "NaN"
+                    },
+                    {
+                        "x": 4073,
+                        "y": 4288,
+                        "value": "NaN"
+                    }
+                ]
+            },
+            {
+                "name": "Sigma_TBX",
+                "description": "Theoretical uncertainty computed for TBX",
+                "bandWidth": 16384,
+                "bandHeight": 8064,
+                "geophysicalUnit": "K",
+                "noDataValue": "-999.0",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 10010,
+                        "y": 2097,
+                        "value": "NaN"
+                    },
+                    {
+                        "x": 9058,
+                        "y": 1217,
+                        "value": "NaN"
+                    }
+                ]
+            },
+            {
+                "name": "TBY",
+                "description": "Brightness temperature at antenna level derived with default forward model and retrieved geophysical parameters, Y polarisation direction",
+                "bandWidth": 16384,
+                "bandHeight": 8064,
+                "geophysicalUnit": "K",
+                "noDataValue": "-999.0",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 7790,
+                        "y": 4508,
+                        "value": "NaN"
+                    },
+                    {
+                        "x": 1563,
+                        "y": 6852,
+                        "value": "NaN"
+                    }
+                ]
+            },
+            {
+                "name": "Sigma_TBY",
+                "description": "Theoretical uncertainty computed for TBY",
+                "bandWidth": 16384,
+                "bandHeight": 8064,
+                "geophysicalUnit": "K",
+                "noDataValue": "-999.0",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 1575,
+                        "y": 627,
+                        "value": "NaN"
+                    },
+                    {
+                        "x": 7455,
+                        "y": 5453,
+                        "value": "NaN"
+                    }
+                ]
+            },
+            {
+                "name": "Control_Flags_corr",
+                "description": "Control flags for SSS_corr retrieval",
+                "bandWidth": 16384,
+                "bandHeight": 8064,
+                "noDataValue": "0.0",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 7619,
+                        "y": 7219,
+                        "value": 2.1979791E9
+                    },
+                    {
+                        "x": 14212,
+                        "y": 4838,
+                        "value": "NaN"
+                    }
+                ]
+            },
+            {
+                "name": "Control_Flags_uncorr",
+                "description": "Control flags for SSS_uncorr retrieval",
+                "bandWidth": 16384,
+                "bandHeight": 8064,
+                "noDataValue": "0.0",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 15762,
+                        "y": 3072,
+                        "value": "NaN"
+                    },
+                    {
+                        "x": 1439,
+                        "y": 4295,
+                        "value": "NaN"
+                    }
+                ]
+            },
+            {
+                "name": "Control_Flags_upgraded",
+                "description": "Control flags for SSS_anom retrieval, nominally copied from Control_Flags_corr",
+                "bandWidth": 16384,
+                "bandHeight": 8064,
+                "noDataValue": "0.0",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 12049,
+                        "y": 4797,
+                        "value": "NaN"
+                    },
+                    {
+                        "x": 15993,
+                        "y": 1500,
+                        "value": "NaN"
+                    }
+                ]
+            },
+            {
+                "name": "Control_Flags_Acard",
+                "description": "Control flags for Acard retrieval",
+                "bandWidth": 16384,
+                "bandHeight": 8064,
+                "noDataValue": "0.0",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 7543,
+                        "y": 2104,
+                        "value": "NaN"
+                    },
+                    {
+                        "x": 3753,
+                        "y": 5223,
+                        "value": "NaN"
+                    }
+                ]
+            },
+            {
+                "name": "Dg_chi2_corr",
+                "description": "Normalized retrieval fit quality index for SSS_corr, scaled by multiplying by 100",
+                "bandWidth": 16384,
+                "bandHeight": 8064,
+                "noDataValue": "0.0",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 10480,
+                        "y": 3528,
+                        "value": "NaN"
+                    },
+                    {
+                        "x": 8708,
+                        "y": 4573,
+                        "value": "NaN"
+                    }
+                ]
+            },
+            {
+                "name": "Dg_chi2_uncorr",
+                "description": "Normalized retrieval fit quality index for SSS_uncorr, scaled by multiplying by 100",
+                "bandWidth": 16384,
+                "bandHeight": 8064,
+                "noDataValue": "0.0",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 6485,
+                        "y": 1724,
+                        "value": 0.94
+                    },
+                    {
+                        "x": 4571,
+                        "y": 7167,
+                        "value": "NaN"
+                    }
+                ]
+            },
+            {
+                "name": "WS_corr",
+                "description": "Wind speed module retrieved with SSS_corr, scaled by multiplying by 1000",
+                "bandWidth": 16384,
+                "bandHeight": 8064,
+                "noDataValue": "0.0",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 15493,
+                        "y": 4676,
+                        "value": "NaN"
+                    },
+                    {
+                        "x": 12420,
+                        "y": 2646,
+                        "value": "NaN"
+                    }
+                ]
+            },
+            {
+                "name": "Dg_chi2_Acard",
+                "description": "Normalized retrieval fit quality index from olarizat model, scaled by multiplying by 100",
+                "bandWidth": 16384,
+                "bandHeight": 8064,
+                "noDataValue": "0.0",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 9184,
+                        "y": 2345,
+                        "value": "NaN"
+                    },
+                    {
+                        "x": 13586,
+                        "y": 7021,
+                        "value": "NaN"
+                    }
+                ]
+            },
+            {
+                "name": "Dg_chi2_P_corr",
+                "description": "Normalised chi2 high value acceptability probability for SSS_corr, scaled by multiplying by 1000",
+                "bandWidth": 16384,
+                "bandHeight": 8064,
+                "noDataValue": "0.0",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 1771,
+                        "y": 7153,
+                        "value": "NaN"
+                    },
+                    {
+                        "x": 5634,
+                        "y": 6565,
+                        "value": "NaN"
+                    }
+                ]
+            },
+            {
+                "name": "Dg_chi2_P_uncorr",
+                "description": "Normalised chi2 high value acceptability probability for SSS_uncorr, scaled by multiplying by 1000",
+                "bandWidth": 16384,
+                "bandHeight": 8064,
+                "noDataValue": "0.0",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 2984,
+                        "y": 5583,
+                        "value": "NaN"
+                    },
+                    {
+                        "x": 9706,
+                        "y": 4427,
+                        "value": "NaN"
+                    }
+                ]
+            },
+            {
+                "name": "Sigma_WS_corr",
+                "description": "Error on wind speed module retrieved with SSS_corr, scaled by multiplying by 1000",
+                "bandWidth": 16384,
+                "bandHeight": 8064,
+                "noDataValue": "0.0",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 3370,
+                        "y": 2468,
+                        "value": "NaN"
+                    },
+                    {
+                        "x": 6722,
+                        "y": 6964,
+                        "value": "NaN"
+                    }
+                ]
+            },
+            {
+                "name": "Dg_chi2_P_Acard",
+                "description": "Normalised chi2 high value acceptability probability with from cardioids model, scaled by multiplying by 1000",
+                "bandWidth": 16384,
+                "bandHeight": 8064,
+                "noDataValue": "0.0",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 11497,
+                        "y": 7237,
+                        "value": "NaN"
+                    },
+                    {
+                        "x": 4875,
+                        "y": 8005,
+                        "value": "NaN"
+                    }
+                ]
+            },
+            {
+                "name": "Dg_quality_SSS_corr",
+                "description": "Quality index for SSS_corr: lower = better",
+                "bandWidth": 16384,
+                "bandHeight": 8064,
+                "noDataValue": "999.0",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 8965,
+                        "y": 941,
+                        "value": "NaN"
+                    },
+                    {
+                        "x": 3191,
+                        "y": 4524,
+                        "value": "NaN"
+                    }
+                ]
+            },
+            {
+                "name": "Dg_quality_SSS_uncorr",
+                "description": "Quality index for SSS_uncorr: lower = better",
+                "bandWidth": 16384,
+                "bandHeight": 8064,
+                "noDataValue": "999.0",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 7504,
+                        "y": 1039,
+                        "value": "NaN"
+                    },
+                    {
+                        "x": 13581,
+                        "y": 4619,
+                        "value": "NaN"
+                    }
+                ]
+            },
+            {
+                "name": "Dg_quality_SSS_upgraded",
+                "description": "Quality index for SSS_upgraded: lower = better",
+                "bandWidth": 16384,
+                "bandHeight": 8064,
+                "noDataValue": "999.0",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 1681,
+                        "y": 5456,
+                        "value": "NaN"
+                    },
+                    {
+                        "x": 11976,
+                        "y": 3807,
+                        "value": "NaN"
+                    }
+                ]
+            },
+            {
+                "name": "SSS_climatology",
+                "description": "Salinity from interpolated climatology, scaled by multiplying by 100",
+                "bandWidth": 16384,
+                "bandHeight": 8064,
+                "noDataValue": "0.0",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 2345,
+                        "y": 537,
+                        "value": 655.35
+                    },
+                    {
+                        "x": 13787,
+                        "y": 2417,
+                        "value": "NaN"
+                    }
+                ]
+            },
+            {
+                "name": "Dg_num_iter_corr",
+                "description": "Number of iterations for the retrieval of SSS_corr",
+                "bandWidth": 16384,
+                "bandHeight": 8064,
+                "noDataValue": "0.0",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 9703,
+                        "y": 7837,
+                        "value": "NaN"
+                    },
+                    {
+                        "x": 12736,
+                        "y": 221,
+                        "value": "NaN"
+                    }
+                ]
+            },
+            {
+                "name": "Dg_num_iter_uncorr",
+                "description": "Number of iterations for the retrieval of SSS_uncorr",
+                "bandWidth": 16384,
+                "bandHeight": 8064,
+                "noDataValue": "0.0",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 3550,
+                        "y": 1987,
+                        "value": "NaN"
+                    },
+                    {
+                        "x": 5233,
+                        "y": 1562,
+                        "value": "NaN"
+                    }
+                ]
+            },
+            {
+                "name": "Coast_distance",
+                "description": "Distance to nearest coast, scaled by multiplying by 0.05",
+                "bandWidth": 16384,
+                "bandHeight": 8064,
+                "noDataValue": "0.0",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 4628,
+                        "y": 7122,
+                        "value": "NaN"
+                    },
+                    {
+                        "x": 16343,
+                        "y": 609,
+                        "value": "NaN"
+                    }
+                ]
+            },
+            {
+                "name": "Dg_num_iter_Acard",
+                "description": "Number of iterations for the retrieval of Acard",
+                "bandWidth": 16384,
+                "bandHeight": 8064,
+                "noDataValue": "0.0",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 13417,
+                        "y": 4045,
+                        "value": "NaN"
+                    },
+                    {
+                        "x": 1027,
+                        "y": 3107,
+                        "value": "NaN"
+                    }
+                ]
+            },
+            {
+                "name": "Dg_num_meas_L1c",
+                "description": "Number of  measurements available in  L1c product",
+                "bandWidth": 16384,
+                "bandHeight": 8064,
+                "noDataValue": "0.0",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 4543,
+                        "y": 4694,
+                        "value": "NaN"
+                    },
+                    {
+                        "x": 15214,
+                        "y": 1119,
+                        "value": "NaN"
+                    }
+                ]
+            },
+            {
+                "name": "Dg_num_meas_valid",
+                "description": "Number of valid measurement available for SSS retrieval",
+                "bandWidth": 16384,
+                "bandHeight": 8064,
+                "noDataValue": "0.0",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 1713,
+                        "y": 1174,
+                        "value": "NaN"
+                    },
+                    {
+                        "x": 14478,
+                        "y": 860,
+                        "value": "NaN"
+                    }
+                ]
+            },
+            {
+                "name": "Dg_border_fov",
+                "description": "Number of valid measurements with BORDER_FOV flag raised",
+                "bandWidth": 16384,
+                "bandHeight": 8064,
+                "noDataValue": "0.0",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 6062,
+                        "y": 7107,
+                        "value": "NaN"
+                    },
+                    {
+                        "x": 9586,
+                        "y": 4641,
+                        "value": "NaN"
+                    }
+                ]
+            },
+            {
+                "name": "Dg_af_fov",
+                "description": "Number of valid measurements with AF_FOV flag raised",
+                "bandWidth": 16384,
+                "bandHeight": 8064,
+                "noDataValue": "0.0",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 5532,
+                        "y": 2628,
+                        "value": "NaN"
+                    },
+                    {
+                        "x": 6124,
+                        "y": 6904,
+                        "value": "NaN"
+                    }
+                ]
+            },
+            {
+                "name": "Dg_sun_tails",
+                "description": "Number of measurements with SUN_TAILS flag raised",
+                "bandWidth": 16384,
+                "bandHeight": 8064,
+                "noDataValue": "0.0",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 5338,
+                        "y": 5523,
+                        "value": "NaN"
+                    },
+                    {
+                        "x": 10542,
+                        "y": 5446,
+                        "value": "NaN"
+                    }
+                ]
+            },
+            {
+                "name": "Dg_sun_glint_area",
+                "description": "Number of measurements with SUN_GLINT_AREA flag raised",
+                "bandWidth": 16384,
+                "bandHeight": 8064,
+                "noDataValue": "0.0",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 8688,
+                        "y": 1051,
+                        "value": "NaN"
+                    },
+                    {
+                        "x": 7597,
+                        "y": 6456,
+                        "value": "NaN"
+                    }
+                ]
+            },
+            {
+                "name": "Dg_sun_glint_fov",
+                "description": "Number of measurements with SUN_GLINT_FOV flag raised",
+                "bandWidth": 16384,
+                "bandHeight": 8064,
+                "noDataValue": "0.0",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 13145,
+                        "y": 7274,
+                        "value": "NaN"
+                    },
+                    {
+                        "x": 419,
+                        "y": 5633,
+                        "value": "NaN"
+                    }
+                ]
+            },
+            {
+                "name": "Dg_sun_glint_L2",
+                "description": "Number of  measurements with  L2 sunglint flag raised",
+                "bandWidth": 16384,
+                "bandHeight": 8064,
+                "noDataValue": "0.0",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 14567,
+                        "y": 4645,
+                        "value": "NaN"
+                    },
+                    {
+                        "x": 10447,
+                        "y": 7319,
+                        "value": "NaN"
+                    }
+                ]
+            },
+            {
+                "name": "Dg_Suspect_ice",
+                "description": "Number of suspected ice contaminated measurements",
+                "bandWidth": 16384,
+                "bandHeight": 8064,
+                "noDataValue": "0.0",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 16094,
+                        "y": 2604,
+                        "value": "NaN"
+                    },
+                    {
+                        "x": 5885,
+                        "y": 43,
+                        "value": "NaN"
+                    }
+                ]
+            },
+            {
+                "name": "Dg_galactic_Noise_Error",
+                "description": "Number of measurements discarded due to errors in galactic noise",
+                "bandWidth": 16384,
+                "bandHeight": 8064,
+                "noDataValue": "0.0",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 13755,
+                        "y": 4589,
+                        "value": "NaN"
+                    },
+                    {
+                        "x": 9673,
+                        "y": 3210,
+                        "value": "NaN"
+                    }
+                ]
+            },
+            {
+                "name": "Dg_moonglint",
+                "description": "Number of measurements with L2 moonglint raised",
+                "bandWidth": 16384,
+                "bandHeight": 8064,
+                "noDataValue": "0.0",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 6465,
+                        "y": 7970,
+                        "value": "NaN"
+                    },
+                    {
+                        "x": 3761,
+                        "y": 5782,
+                        "value": "NaN"
+                    }
+                ]
+            },
+            {
+                "name": "Dg_sky",
+                "description": "Count measurements with specular direction toward a strong galactic source",
+                "bandWidth": 16384,
+                "bandHeight": 8064,
+                "noDataValue": "64537.0",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 15380,
+                        "y": 2326,
+                        "value": "NaN"
+                    },
+                    {
+                        "x": 5154,
+                        "y": 6870,
+                        "value": "NaN"
+                    }
+                ]
+            },
+            {
+                "name": "Dg_RFI_L1",
+                "description": "Number of measurements suspected by L1 as being contaminated by RFI",
+                "bandWidth": 16384,
+                "bandHeight": 8064,
+                "noDataValue": "64537.0",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 5367,
+                        "y": 4264,
+                        "value": "NaN"
+                    },
+                    {
+                        "x": 5868,
+                        "y": 6449,
+                        "value": "NaN"
+                    }
+                ]
+            },
+            {
+                "name": "Dg_RFI_X",
+                "description": "Number of measurements suspected by L1 as being contaminated by RFI in X polarisation",
+                "bandWidth": 16384,
+                "bandHeight": 8064,
+                "noDataValue": "64537.0",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 9183,
+                        "y": 1758,
+                        "value": "NaN"
+                    },
+                    {
+                        "x": 1558,
+                        "y": 5681,
+                        "value": "NaN"
+                    }
+                ]
+            },
+            {
+                "name": "Dg_RFI_Y",
+                "description": "Number of measurements suspected by L1 as being contaminated by RFI in Y polarisation",
+                "bandWidth": 16384,
+                "bandHeight": 8064,
+                "noDataValue": "64537.0",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 11511,
+                        "y": 6411,
+                        "value": "NaN"
+                    },
+                    {
+                        "x": 13829,
+                        "y": 548,
+                        "value": "NaN"
+                    }
+                ]
+            },
+            {
+                "name": "Dg_RFI_probability",
+                "description": "Probability of grid point being contaminated by RFI estimated from AUX_DGGRFI",
+                "bandWidth": 16384,
+                "bandHeight": 8064,
+                "geophysicalUnit": "%",
+                "noDataValue": "64537.0",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 13703,
+                        "y": 1830,
+                        "value": "NaN"
+                    },
+                    {
+                        "x": 10692,
+                        "y": 7501,
+                        "value": "NaN"
+                    }
+                ]
+            },
+            {
+                "name": "X_swath",
+                "description": "Grid point distance from the satellite track",
+                "bandWidth": 16384,
+                "bandHeight": 8064,
+                "geophysicalUnit": "m",
+                "noDataValue": "-999.0",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 4392,
+                        "y": 6946,
+                        "value": "NaN"
+                    },
+                    {
+                        "x": 6328,
+                        "y": 2990,
+                        "value": 453.72025
+                    }
+                ]
+            },
+            {
+                "name": "Science_Flags_corr",
+                "description": "Science flags for SSS_corr retrieval",
+                "bandWidth": 16384,
+                "bandHeight": 8064,
+                "noDataValue": "0.0",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 15923,
+                        "y": 5488,
+                        "value": "NaN"
+                    },
+                    {
+                        "x": 11875,
+                        "y": 3449,
+                        "value": "NaN"
+                    }
+                ]
+            },
+            {
+                "name": "Science_Flags_uncorr",
+                "description": "Science flags for SSS_uncorr retrieval",
+                "bandWidth": 16384,
+                "bandHeight": 8064,
+                "noDataValue": "0.0",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 8172,
+                        "y": 1119,
+                        "value": "NaN"
+                    },
+                    {
+                        "x": 15874,
+                        "y": 1097,
+                        "value": "NaN"
+                    }
+                ]
+            },
+            {
+                "name": "Science_Flags_upgraded",
+                "description": "Science flags for SSS_anom retrieval, nominally copied from Science_Flags_corr",
+                "bandWidth": 16384,
+                "bandHeight": 8064,
+                "noDataValue": "0.0",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 11812,
+                        "y": 4483,
+                        "value": "NaN"
+                    },
+                    {
+                        "x": 11564,
+                        "y": 7981,
+                        "value": "NaN"
+                    }
+                ]
+            },
+            {
+                "name": "Science_Flags_Acard",
+                "description": "Science flags for Acard retrieval",
+                "bandWidth": 16384,
+                "bandHeight": 8064,
+                "noDataValue": "0.0",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 10498,
+                        "y": 7305,
+                        "value": "NaN"
+                    },
+                    {
+                        "x": 13685,
+                        "y": 4281,
+                        "value": "NaN"
+                    }
+                ]
+            },
+            {
+                "name": "Grid_Point_ID",
+                "description": "Grid point ID",
+                "bandWidth": 16384,
+                "bandHeight": 8064,
+                "noDataValue": "0.0",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 8191,
+                        "y": 7498,
+                        "value": "NaN"
+                    },
+                    {
+                        "x": 9376,
+                        "y": 6229,
+                        "value": "NaN"
+                    }
+                ]
+            },
+            {
+                "name": "Latitude",
+                "description": "Latitude (-90, 90)",
+                "bandWidth": 16384,
+                "bandHeight": 8064,
+                "geophysicalUnit": "deg",
+                "noDataValue": "-999.0",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 15226,
+                        "y": 316,
+                        "value": "NaN"
+                    },
+                    {
+                        "x": 11536,
+                        "y": 5829,
+                        "value": "NaN"
+                    }
+                ]
+            },
+            {
+                "name": "Longitude",
+                "description": "Longitude (-180, 180)",
+                "bandWidth": 16384,
+                "bandHeight": 8064,
+                "geophysicalUnit": "deg",
+                "noDataValue": "-999.0",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 5689,
+                        "y": 55,
+                        "value": "NaN"
+                    },
+                    {
+                        "x": 3545,
+                        "y": 6938,
+                        "value": "NaN"
+                    }
+                ]
+            },
+            {
+                "name": "Land_Sea_Mask",
+                "description": "Flag indicating Land/Sea USGS content, Coastline distance, and Ice content",
+                "bandWidth": 16384,
+                "bandHeight": 8064,
+                "noDataValue": "0.0",
+                "noDataValueUsed": "true",
+                "spectralWavelength": "0.0",
+                "spectralBandwidth": "0.0",
+                "expectedPixels": [
+                    {
+                        "x": 2060,
+                        "y": 818,
+                        "value": 201.0
+                    },
+                    {
+                        "x": 1412,
+                        "y": 923,
+                        "value": 26.0
+                    }
+                ]
+            }
+        ],
+        "masks": [
+            {
+                "name": "Control_Flags_corr_FG_CTRL_RANGE",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "246,182,21",
+                "description": "Retrieved values outside range using forward model 1"
+            },
+            {
+                "name": "Control_Flags_corr_FG_CTRL_SIGMA",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "95,92,204",
+                "description": "High retrieval sigma using forward model 1"
+            },
+            {
+                "name": "Control_Flags_corr_FG_CTRL_CHI2",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "49,82,133",
+                "description": "Poor fit quality, set if (Dg_chi2/Nt) >= Tg_chi2."
+            },
+            {
+                "name": "Control_Flags_corr_FG_CTRL_CHI2_P",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "169,175,146",
+                "description": "Poor fit quality, set if (Dg_chi_2_P / 1000) > Tg_Chi2_P_max or (Dg_chi_2_P / 1000) < Tg_Chi2_P_min"
+            },
+            {
+                "name": "Control_Flags_corr_FG_CTRL_CONTAMINATED",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "156,188,14",
+                "description": "Set if SSS_corr is significantly different from SSS_uncorr"
+            },
+            {
+                "name": "Control_Flags_corr_FG_CTRL_SUNGLINT",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "39,91,126",
+                "description": "Grid point with number of measurements flagged for sunglint above threshold"
+            },
+            {
+                "name": "Control_Flags_corr_FG_CTRL_MOONGLINT",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "214,25,160",
+                "description": "Grid point with number of measurements flagged for moonglint above threshold"
+            },
+            {
+                "name": "Control_Flags_corr_FG_CTRL_GAL_NOISE",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "178,13,207",
+                "description": "Grid point with number of measurements flagged for galactic noise above threshold"
+            },
+            {
+                "name": "Control_Flags_corr_FG_CTRL_MIXED_SCENE",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "208,249,67",
+                "description": "Flag set if any (or all) grid point measurements have been corrected by mixed scene (land-sea) AUX_MSOTT_ LUT before convergence"
+            },
+            {
+                "name": "Control_Flags_corr_FG_CTRL_REACH_MAXITER",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "106,109,115",
+                "description": "Maximum number of iteration reached before convergence using forward model 1"
+            },
+            {
+                "name": "Control_Flags_corr_FG_CTRL_NUM_MEAS_MIN",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "16,81,105",
+                "description": "Not processed due to too few valid measurements"
+            },
+            {
+                "name": "Control_Flags_corr_FG_CTRL_NUM_MEAS_LOW",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "171,1,243",
+                "description": "Processed, but with a low number of measurements. Flag set if number of valid measurement < Tg_num_meas_valid"
+            },
+            {
+                "name": "Control_Flags_corr_FG_CTRL_MANY_OUTLIERS",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "238,203,217",
+                "description": "Flag set if number of outliers Dg_num_outliers >Tg_num_outliers_max"
+            },
+            {
+                "name": "Control_Flags_corr_FG_CTRL_MARQ",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "250,231,95",
+                "description": "Iterative loop ends because Marquardt increment is greater than lambdaMax"
+            },
+            {
+                "name": "Control_Flags_corr_FG_CTRL_ROUGHNESS",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "240,108,99",
+                "description": "Roughness correction applied"
+            },
+            {
+                "name": "Control_Flags_corr_FG_CTRL_FOAM",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "115,141,245",
+                "description": "Wind speed is less than Tg_WS_foam and foam contribution and foam fraction are set to zero"
+            },
+            {
+                "name": "Control_Flags_corr_FG_CTRL_ECMWF",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "134,147,45",
+                "description": "Flag set to false if one or more ECMWF data is missing for the different models"
+            },
+            {
+                "name": "Control_Flags_corr_FG_CTRL_VALID",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "128,201,42",
+                "description": "Flags raised if grid points pass grid point measurement discrimination tests"
+            },
+            {
+                "name": "Control_Flags_corr_FG_CTRL_NO_SURFACE",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "168,104,12",
+                "description": "Flags raised if the 42.5° angle is not included in the dwell line for grid points"
+            },
+            {
+                "name": "Control_Flags_corr_FG_CTRL_RANGE_ACARD",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "143,245,6",
+                "description": "Flags raised if retrieved Acard is outside range"
+            },
+            {
+                "name": "Control_Flags_corr_FG_CTRL_SIGMA_ACARD",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "36,87,190",
+                "description": "Flags raised if retrieved Acard sigma is too high"
+            },
+            {
+                "name": "Control_Flags_corr_FG_CTRL_USED_FARATEC",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "114,207,90",
+                "description": "Flags raised if TEC for this grid point was obtained from AUX_FARA_x"
+            },
+            {
+                "name": "Control_Flags_corr_FG_CTRL_POOR_GEOPHYS",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "145,13,33",
+                "description": "Flags set if this grid point probably has poor quality SSS due to geophysical problems (outliers, glint, etc), or FG_CTRL_VALID is false"
+            },
+            {
+                "name": "Control_Flags_corr_FG_CTRL_POOR_RETRIEVAL",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "52,182,192",
+                "description": "Flags set if this grid point poor SSS due to retrieval failure, poor quality convergence, or FG_CTRL_VALID is false. Poor SSS quality retrieval may be caused by retrieval problems"
+            },
+            {
+                "name": "Control_Flags_corr_FG_CTRL_SUSPECT_RFI",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "46,90,194",
+                "description": "Grid point is suspected of being contaminated by RFI. Flag set if Dg_RFI_L2 / Dg_num_meas_L1 > Tg_num_RFI_max"
+            },
+            {
+                "name": "Control_Flags_corr_FG_CTRL_RFI_PRONE_X",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "0,15,39",
+                "description": "Grid point is likely to be contaminated by X polarization RFI as indicated by AUX_DGGRFI"
+            },
+            {
+                "name": "Control_Flags_corr_FG_CTRL_RFI_PRONE_Y",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "160,208,135",
+                "description": "Grid point is likely to be contaminated by Y polarization RFI as indicated by AUX_DGGRFI"
+            },
+            {
+                "name": "Control_Flags_corr_FG_CTRL_ADJUSTED_RA",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "55,46,12",
+                "description": "Set if radiometric accuracy of measurements on this grid point have been adjusted using AUX_DGGRFI"
+            },
+            {
+                "name": "Control_Flags_corr_FG_CTRL_RETRIEV_FAIL",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "214,207,170",
+                "description": "Flags raised if iterative scheme returns an error"
+            },
+            {
+                "name": "Control_Flags_uncorr_FG_CTRL_RANGE",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "246,182,21",
+                "description": "Retrieved values outside range using forward model 1"
+            },
+            {
+                "name": "Control_Flags_uncorr_FG_CTRL_SIGMA",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "95,92,204",
+                "description": "High retrieval sigma using forward model 1"
+            },
+            {
+                "name": "Control_Flags_uncorr_FG_CTRL_CHI2",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "49,82,133",
+                "description": "Poor fit quality, set if (Dg_chi2/Nt) >= Tg_chi2."
+            },
+            {
+                "name": "Control_Flags_uncorr_FG_CTRL_CHI2_P",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "169,175,146",
+                "description": "Poor fit quality, set if (Dg_chi_2_P / 1000) > Tg_Chi2_P_max or (Dg_chi_2_P / 1000) < Tg_Chi2_P_min"
+            },
+            {
+                "name": "Control_Flags_uncorr_FG_CTRL_CONTAMINATED",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "156,188,14",
+                "description": "Set if SSS_corr is significantly different from SSS_uncorr"
+            },
+            {
+                "name": "Control_Flags_uncorr_FG_CTRL_SUNGLINT",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "39,91,126",
+                "description": "Grid point with number of measurements flagged for sunglint above threshold"
+            },
+            {
+                "name": "Control_Flags_uncorr_FG_CTRL_MOONGLINT",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "214,25,160",
+                "description": "Grid point with number of measurements flagged for moonglint above threshold"
+            },
+            {
+                "name": "Control_Flags_uncorr_FG_CTRL_GAL_NOISE",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "178,13,207",
+                "description": "Grid point with number of measurements flagged for galactic noise above threshold"
+            },
+            {
+                "name": "Control_Flags_uncorr_FG_CTRL_MIXED_SCENE",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "208,249,67",
+                "description": "Flag set if any (or all) grid point measurements have been corrected by mixed scene (land-sea) AUX_MSOTT_ LUT before convergence"
+            },
+            {
+                "name": "Control_Flags_uncorr_FG_CTRL_REACH_MAXITER",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "106,109,115",
+                "description": "Maximum number of iteration reached before convergence using forward model 1"
+            },
+            {
+                "name": "Control_Flags_uncorr_FG_CTRL_NUM_MEAS_MIN",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "16,81,105",
+                "description": "Not processed due to too few valid measurements"
+            },
+            {
+                "name": "Control_Flags_uncorr_FG_CTRL_NUM_MEAS_LOW",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "171,1,243",
+                "description": "Processed, but with a low number of measurements. Flag set if number of valid measurement < Tg_num_meas_valid"
+            },
+            {
+                "name": "Control_Flags_uncorr_FG_CTRL_MANY_OUTLIERS",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "238,203,217",
+                "description": "Flag set if number of outliers Dg_num_outliers >Tg_num_outliers_max"
+            },
+            {
+                "name": "Control_Flags_uncorr_FG_CTRL_MARQ",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "250,231,95",
+                "description": "Iterative loop ends because Marquardt increment is greater than lambdaMax"
+            },
+            {
+                "name": "Control_Flags_uncorr_FG_CTRL_ROUGHNESS",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "240,108,99",
+                "description": "Roughness correction applied"
+            },
+            {
+                "name": "Control_Flags_uncorr_FG_CTRL_FOAM",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "115,141,245",
+                "description": "Wind speed is less than Tg_WS_foam and foam contribution and foam fraction are set to zero"
+            },
+            {
+                "name": "Control_Flags_uncorr_FG_CTRL_ECMWF",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "134,147,45",
+                "description": "Flag set to false if one or more ECMWF data is missing for the different models"
+            },
+            {
+                "name": "Control_Flags_uncorr_FG_CTRL_VALID",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "128,201,42",
+                "description": "Flags raised if grid points pass grid point measurement discrimination tests"
+            },
+            {
+                "name": "Control_Flags_uncorr_FG_CTRL_NO_SURFACE",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "168,104,12",
+                "description": "Flags raised if the 42.5° angle is not included in the dwell line for grid points"
+            },
+            {
+                "name": "Control_Flags_uncorr_FG_CTRL_RANGE_ACARD",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "143,245,6",
+                "description": "Flags raised if retrieved Acard is outside range"
+            },
+            {
+                "name": "Control_Flags_uncorr_FG_CTRL_SIGMA_ACARD",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "36,87,190",
+                "description": "Flags raised if retrieved Acard sigma is too high"
+            },
+            {
+                "name": "Control_Flags_uncorr_FG_CTRL_USED_FARATEC",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "114,207,90",
+                "description": "Flags raised if TEC for this grid point was obtained from AUX_FARA_x"
+            },
+            {
+                "name": "Control_Flags_uncorr_FG_CTRL_POOR_GEOPHYS",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "145,13,33",
+                "description": "Flags set if this grid point probably has poor quality SSS due to geophysical problems (outliers, glint, etc), or FG_CTRL_VALID is false"
+            },
+            {
+                "name": "Control_Flags_uncorr_FG_CTRL_POOR_RETRIEVAL",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "52,182,192",
+                "description": "Flags set if this grid point poor SSS due to retrieval failure, poor quality convergence, or FG_CTRL_VALID is false. Poor SSS quality retrieval may be caused by retrieval problems"
+            },
+            {
+                "name": "Control_Flags_uncorr_FG_CTRL_SUSPECT_RFI",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "46,90,194",
+                "description": "Grid point is suspected of being contaminated by RFI. Flag set if Dg_RFI_L2 / Dg_num_meas_L1 > Tg_num_RFI_max"
+            },
+            {
+                "name": "Control_Flags_uncorr_FG_CTRL_RFI_PRONE_X",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "0,15,39",
+                "description": "Grid point is likely to be contaminated by X polarization RFI as indicated by AUX_DGGRFI"
+            },
+            {
+                "name": "Control_Flags_uncorr_FG_CTRL_RFI_PRONE_Y",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "160,208,135",
+                "description": "Grid point is likely to be contaminated by Y polarization RFI as indicated by AUX_DGGRFI"
+            },
+            {
+                "name": "Control_Flags_uncorr_FG_CTRL_ADJUSTED_RA",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "55,46,12",
+                "description": "Set if radiometric accuracy of measurements on this grid point have been adjusted using AUX_DGGRFI"
+            },
+            {
+                "name": "Control_Flags_uncorr_FG_CTRL_RETRIEV_FAIL",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "214,207,170",
+                "description": "Flags raised if iterative scheme returns an error"
+            },
+            {
+                "name": "Control_Flags_upgraded_FG_CTRL_RANGE",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "246,182,21",
+                "description": "Retrieved values outside range using forward model 1"
+            },
+            {
+                "name": "Control_Flags_upgraded_FG_CTRL_SIGMA",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "95,92,204",
+                "description": "High retrieval sigma using forward model 1"
+            },
+            {
+                "name": "Control_Flags_upgraded_FG_CTRL_CHI2",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "49,82,133",
+                "description": "Poor fit quality, set if (Dg_chi2/Nt) >= Tg_chi2."
+            },
+            {
+                "name": "Control_Flags_upgraded_FG_CTRL_CHI2_P",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "169,175,146",
+                "description": "Poor fit quality, set if (Dg_chi_2_P / 1000) > Tg_Chi2_P_max or (Dg_chi_2_P / 1000) < Tg_Chi2_P_min"
+            },
+            {
+                "name": "Control_Flags_upgraded_FG_CTRL_CONTAMINATED",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "156,188,14",
+                "description": "Set if SSS_corr is significantly different from SSS_uncorr"
+            },
+            {
+                "name": "Control_Flags_upgraded_FG_CTRL_SUNGLINT",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "39,91,126",
+                "description": "Grid point with number of measurements flagged for sunglint above threshold"
+            },
+            {
+                "name": "Control_Flags_upgraded_FG_CTRL_MOONGLINT",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "214,25,160",
+                "description": "Grid point with number of measurements flagged for moonglint above threshold"
+            },
+            {
+                "name": "Control_Flags_upgraded_FG_CTRL_GAL_NOISE",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "178,13,207",
+                "description": "Grid point with number of measurements flagged for galactic noise above threshold"
+            },
+            {
+                "name": "Control_Flags_upgraded_FG_CTRL_MIXED_SCENE",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "208,249,67",
+                "description": "Flag set if any (or all) grid point measurements have been corrected by mixed scene (land-sea) AUX_MSOTT_ LUT before convergence"
+            },
+            {
+                "name": "Control_Flags_upgraded_FG_CTRL_REACH_MAXITER",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "106,109,115",
+                "description": "Maximum number of iteration reached before convergence using forward model 1"
+            },
+            {
+                "name": "Control_Flags_upgraded_FG_CTRL_NUM_MEAS_MIN",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "16,81,105",
+                "description": "Not processed due to too few valid measurements"
+            },
+            {
+                "name": "Control_Flags_upgraded_FG_CTRL_NUM_MEAS_LOW",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "171,1,243",
+                "description": "Processed, but with a low number of measurements. Flag set if number of valid measurement < Tg_num_meas_valid"
+            },
+            {
+                "name": "Control_Flags_upgraded_FG_CTRL_MANY_OUTLIERS",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "238,203,217",
+                "description": "Flag set if number of outliers Dg_num_outliers >Tg_num_outliers_max"
+            },
+            {
+                "name": "Control_Flags_upgraded_FG_CTRL_MARQ",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "250,231,95",
+                "description": "Iterative loop ends because Marquardt increment is greater than lambdaMax"
+            },
+            {
+                "name": "Control_Flags_upgraded_FG_CTRL_ROUGHNESS",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "240,108,99",
+                "description": "Roughness correction applied"
+            },
+            {
+                "name": "Control_Flags_upgraded_FG_CTRL_FOAM",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "115,141,245",
+                "description": "Wind speed is less than Tg_WS_foam and foam contribution and foam fraction are set to zero"
+            },
+            {
+                "name": "Control_Flags_upgraded_FG_CTRL_ECMWF",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "134,147,45",
+                "description": "Flag set to false if one or more ECMWF data is missing for the different models"
+            },
+            {
+                "name": "Control_Flags_upgraded_FG_CTRL_VALID",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "128,201,42",
+                "description": "Flags raised if grid points pass grid point measurement discrimination tests"
+            },
+            {
+                "name": "Control_Flags_upgraded_FG_CTRL_NO_SURFACE",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "168,104,12",
+                "description": "Flags raised if the 42.5° angle is not included in the dwell line for grid points"
+            },
+            {
+                "name": "Control_Flags_upgraded_FG_CTRL_RANGE_ACARD",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "143,245,6",
+                "description": "Flags raised if retrieved Acard is outside range"
+            },
+            {
+                "name": "Control_Flags_upgraded_FG_CTRL_SIGMA_ACARD",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "36,87,190",
+                "description": "Flags raised if retrieved Acard sigma is too high"
+            },
+            {
+                "name": "Control_Flags_upgraded_FG_CTRL_USED_FARATEC",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "114,207,90",
+                "description": "Flags raised if TEC for this grid point was obtained from AUX_FARA_x"
+            },
+            {
+                "name": "Control_Flags_upgraded_FG_CTRL_POOR_GEOPHYS",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "145,13,33",
+                "description": "Flags set if this grid point probably has poor quality SSS due to geophysical problems (outliers, glint, etc), or FG_CTRL_VALID is false"
+            },
+            {
+                "name": "Control_Flags_upgraded_FG_CTRL_POOR_RETRIEVAL",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "52,182,192",
+                "description": "Flags set if this grid point poor SSS due to retrieval failure, poor quality convergence, or FG_CTRL_VALID is false. Poor SSS quality retrieval may be caused by retrieval problems"
+            },
+            {
+                "name": "Control_Flags_upgraded_FG_CTRL_SUSPECT_RFI",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "46,90,194",
+                "description": "Grid point is suspected of being contaminated by RFI. Flag set if Dg_RFI_L2 / Dg_num_meas_L1 > Tg_num_RFI_max"
+            },
+            {
+                "name": "Control_Flags_upgraded_FG_CTRL_RFI_PRONE_X",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "0,15,39",
+                "description": "Grid point is likely to be contaminated by X polarization RFI as indicated by AUX_DGGRFI"
+            },
+            {
+                "name": "Control_Flags_upgraded_FG_CTRL_RFI_PRONE_Y",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "160,208,135",
+                "description": "Grid point is likely to be contaminated by Y polarization RFI as indicated by AUX_DGGRFI"
+            },
+            {
+                "name": "Control_Flags_upgraded_FG_CTRL_ADJUSTED_RA",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "55,46,12",
+                "description": "Set if radiometric accuracy of measurements on this grid point have been adjusted using AUX_DGGRFI"
+            },
+            {
+                "name": "Control_Flags_upgraded_FG_CTRL_RETRIEV_FAIL",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "214,207,170",
+                "description": "Flags raised if iterative scheme returns an error"
+            },
+            {
+                "name": "Control_Flags_Acard_FG_CTRL_RANGE",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "246,182,21",
+                "description": "Retrieved values outside range using forward model 1"
+            },
+            {
+                "name": "Control_Flags_Acard_FG_CTRL_SIGMA",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "95,92,204",
+                "description": "High retrieval sigma using forward model 1"
+            },
+            {
+                "name": "Control_Flags_Acard_FG_CTRL_CHI2",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "49,82,133",
+                "description": "Poor fit quality, set if (Dg_chi2/Nt) >= Tg_chi2."
+            },
+            {
+                "name": "Control_Flags_Acard_FG_CTRL_CHI2_P",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "169,175,146",
+                "description": "Poor fit quality, set if (Dg_chi_2_P / 1000) > Tg_Chi2_P_max or (Dg_chi_2_P / 1000) < Tg_Chi2_P_min"
+            },
+            {
+                "name": "Control_Flags_Acard_FG_CTRL_CONTAMINATED",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "156,188,14",
+                "description": "Set if SSS_corr is significantly different from SSS_uncorr"
+            },
+            {
+                "name": "Control_Flags_Acard_FG_CTRL_SUNGLINT",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "39,91,126",
+                "description": "Grid point with number of measurements flagged for sunglint above threshold"
+            },
+            {
+                "name": "Control_Flags_Acard_FG_CTRL_MOONGLINT",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "214,25,160",
+                "description": "Grid point with number of measurements flagged for moonglint above threshold"
+            },
+            {
+                "name": "Control_Flags_Acard_FG_CTRL_GAL_NOISE",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "178,13,207",
+                "description": "Grid point with number of measurements flagged for galactic noise above threshold"
+            },
+            {
+                "name": "Control_Flags_Acard_FG_CTRL_MIXED_SCENE",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "208,249,67",
+                "description": "Flag set if any (or all) grid point measurements have been corrected by mixed scene (land-sea) AUX_MSOTT_ LUT before convergence"
+            },
+            {
+                "name": "Control_Flags_Acard_FG_CTRL_REACH_MAXITER",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "106,109,115",
+                "description": "Maximum number of iteration reached before convergence using forward model 1"
+            },
+            {
+                "name": "Control_Flags_Acard_FG_CTRL_NUM_MEAS_MIN",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "16,81,105",
+                "description": "Not processed due to too few valid measurements"
+            },
+            {
+                "name": "Control_Flags_Acard_FG_CTRL_NUM_MEAS_LOW",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "171,1,243",
+                "description": "Processed, but with a low number of measurements. Flag set if number of valid measurement < Tg_num_meas_valid"
+            },
+            {
+                "name": "Control_Flags_Acard_FG_CTRL_MANY_OUTLIERS",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "238,203,217",
+                "description": "Flag set if number of outliers Dg_num_outliers >Tg_num_outliers_max"
+            },
+            {
+                "name": "Control_Flags_Acard_FG_CTRL_MARQ",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "250,231,95",
+                "description": "Iterative loop ends because Marquardt increment is greater than lambdaMax"
+            },
+            {
+                "name": "Control_Flags_Acard_FG_CTRL_ROUGHNESS",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "240,108,99",
+                "description": "Roughness correction applied"
+            },
+            {
+                "name": "Control_Flags_Acard_FG_CTRL_FOAM",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "115,141,245",
+                "description": "Wind speed is less than Tg_WS_foam and foam contribution and foam fraction are set to zero"
+            },
+            {
+                "name": "Control_Flags_Acard_FG_CTRL_ECMWF",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "134,147,45",
+                "description": "Flag set to false if one or more ECMWF data is missing for the different models"
+            },
+            {
+                "name": "Control_Flags_Acard_FG_CTRL_VALID",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "128,201,42",
+                "description": "Flags raised if grid points pass grid point measurement discrimination tests"
+            },
+            {
+                "name": "Control_Flags_Acard_FG_CTRL_NO_SURFACE",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "168,104,12",
+                "description": "Flags raised if the 42.5° angle is not included in the dwell line for grid points"
+            },
+            {
+                "name": "Control_Flags_Acard_FG_CTRL_RANGE_ACARD",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "143,245,6",
+                "description": "Flags raised if retrieved Acard is outside range"
+            },
+            {
+                "name": "Control_Flags_Acard_FG_CTRL_SIGMA_ACARD",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "36,87,190",
+                "description": "Flags raised if retrieved Acard sigma is too high"
+            },
+            {
+                "name": "Control_Flags_Acard_FG_CTRL_USED_FARATEC",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "114,207,90",
+                "description": "Flags raised if TEC for this grid point was obtained from AUX_FARA_x"
+            },
+            {
+                "name": "Control_Flags_Acard_FG_CTRL_POOR_GEOPHYS",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "145,13,33",
+                "description": "Flags set if this grid point probably has poor quality SSS due to geophysical problems (outliers, glint, etc), or FG_CTRL_VALID is false"
+            },
+            {
+                "name": "Control_Flags_Acard_FG_CTRL_POOR_RETRIEVAL",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "52,182,192",
+                "description": "Flags set if this grid point poor SSS due to retrieval failure, poor quality convergence, or FG_CTRL_VALID is false. Poor SSS quality retrieval may be caused by retrieval problems"
+            },
+            {
+                "name": "Control_Flags_Acard_FG_CTRL_SUSPECT_RFI",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "46,90,194",
+                "description": "Grid point is suspected of being contaminated by RFI. Flag set if Dg_RFI_L2 / Dg_num_meas_L1 > Tg_num_RFI_max"
+            },
+            {
+                "name": "Control_Flags_Acard_FG_CTRL_RFI_PRONE_X",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "0,15,39",
+                "description": "Grid point is likely to be contaminated by X polarization RFI as indicated by AUX_DGGRFI"
+            },
+            {
+                "name": "Control_Flags_Acard_FG_CTRL_RFI_PRONE_Y",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "160,208,135",
+                "description": "Grid point is likely to be contaminated by Y polarization RFI as indicated by AUX_DGGRFI"
+            },
+            {
+                "name": "Control_Flags_Acard_FG_CTRL_ADJUSTED_RA",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "55,46,12",
+                "description": "Set if radiometric accuracy of measurements on this grid point have been adjusted using AUX_DGGRFI"
+            },
+            {
+                "name": "Control_Flags_Acard_FG_CTRL_RETRIEV_FAIL",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "214,207,170",
+                "description": "Flags raised if iterative scheme returns an error"
+            },
+            {
+                "name": "Science_Flags_corr_FG_SC_LAND_SEA_COAST1",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "246,182,21",
+                "description": "Distance from coast to gridpoint is less than threshold Max1 in file AUX_DISTAN"
+            },
+            {
+                "name": "Science_Flags_corr_FG_SC_LAND_SEA_COAST2",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "95,92,204",
+                "description": "Distance from coast to gridpoint is less than threshold Max2 in file AUX_DISTAN"
+            },
+            {
+                "name": "Science_Flags_corr_FG_SC_TEC_GRADIENT",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "49,82,133",
+                "description": "High TEC gradient along dwell for a grid point"
+            },
+            {
+                "name": "Science_Flags_corr_FG_SC_IN_CLIM_ICE",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "169,175,146",
+                "description": "Gridpoint with maximum extend of sea ice accordy to monthly climatology"
+            },
+            {
+                "name": "Science_Flags_corr_FG_SC_ICE",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "156,188,14",
+                "description": "Ice concentration at gridpoint is above threshold Tg_ice_concentration"
+            },
+            {
+                "name": "Science_Flags_corr_FG_SC_SUSPECT_ICE",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "39,91,126",
+                "description": "Suspect ice on gridpoint"
+            },
+            {
+                "name": "Science_Flags_corr_FG_SC_RAIN",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "214,25,160",
+                "description": "Heavy rain suspected on gridpoint. Rain rate is above threshold Tg_max_rainfall"
+            },
+            {
+                "name": "Science_Flags_corr_FG_SC_HIGH_WIND",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "178,13,207",
+                "description": "High wind"
+            },
+            {
+                "name": "Science_Flags_corr_FG_SC_LOW_WIND",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "208,249,67",
+                "description": "Low wind"
+            },
+            {
+                "name": "Science_Flags_corr_FG_SC_HIGHT_SST",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "106,109,115",
+                "description": "High SST"
+            },
+            {
+                "name": "Science_Flags_corr_FG_SC_LOW_SST",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "16,81,105",
+                "description": "Low SST"
+            },
+            {
+                "name": "Science_Flags_corr_FG_SC_HIGH_SSS",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "171,1,243",
+                "description": "High SSS"
+            },
+            {
+                "name": "Science_Flags_corr_FG_SC_LOW_SSS",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "238,203,217",
+                "description": "Low SSS"
+            },
+            {
+                "name": "Science_Flags_corr_FG_SC_SEA_STATE_1",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "250,231,95",
+                "description": "Sea state class 1"
+            },
+            {
+                "name": "Science_Flags_corr_FG_SC_SEA_STATE_2",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "240,108,99",
+                "description": "Sea state class 2"
+            },
+            {
+                "name": "Science_Flags_corr_FG_SC_SEA_STATE_3",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "115,141,245",
+                "description": "Sea state class 3"
+            },
+            {
+                "name": "Science_Flags_corr_FG_SC_SEA_STATE_4",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "134,147,45",
+                "description": "Sea state class 4"
+            },
+            {
+                "name": "Science_Flags_corr_FG_SC_SEA_STATE_5",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "128,201,42",
+                "description": "Sea state class 5"
+            },
+            {
+                "name": "Science_Flags_corr_FG_SC_SEA_STATE_6",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "168,104,12",
+                "description": "Sea state class 6"
+            },
+            {
+                "name": "Science_Flags_corr_FG_SC_SST_FRONT",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "143,245,6",
+                "description": ""
+            },
+            {
+                "name": "Science_Flags_corr_FG_SC_SSS_FRONT",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "36,87,190",
+                "description": ""
+            },
+            {
+                "name": "Science_Flags_corr_FG_SC_ICE_ACARD",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "114,207,90",
+                "description": "Ice flag from cardioid"
+            },
+            {
+                "name": "Science_Flags_corr_FG_SC_ECMWF_LAND",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "145,13,33",
+                "description": "Grid point contains some land. Flag set if ECMWF Land_Sea_Mask > 0"
+            },
+            {
+                "name": "Science_Flags_uncorr_FG_SC_LAND_SEA_COAST1",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "246,182,21",
+                "description": "Distance from coast to gridpoint is less than threshold Max1 in file AUX_DISTAN"
+            },
+            {
+                "name": "Science_Flags_uncorr_FG_SC_LAND_SEA_COAST2",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "95,92,204",
+                "description": "Distance from coast to gridpoint is less than threshold Max2 in file AUX_DISTAN"
+            },
+            {
+                "name": "Science_Flags_uncorr_FG_SC_TEC_GRADIENT",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "49,82,133",
+                "description": "High TEC gradient along dwell for a grid point"
+            },
+            {
+                "name": "Science_Flags_uncorr_FG_SC_IN_CLIM_ICE",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "169,175,146",
+                "description": "Gridpoint with maximum extend of sea ice accordy to monthly climatology"
+            },
+            {
+                "name": "Science_Flags_uncorr_FG_SC_ICE",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "156,188,14",
+                "description": "Ice concentration at gridpoint is above threshold Tg_ice_concentration"
+            },
+            {
+                "name": "Science_Flags_uncorr_FG_SC_SUSPECT_ICE",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "39,91,126",
+                "description": "Suspect ice on gridpoint"
+            },
+            {
+                "name": "Science_Flags_uncorr_FG_SC_RAIN",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "214,25,160",
+                "description": "Heavy rain suspected on gridpoint. Rain rate is above threshold Tg_max_rainfall"
+            },
+            {
+                "name": "Science_Flags_uncorr_FG_SC_HIGH_WIND",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "178,13,207",
+                "description": "High wind"
+            },
+            {
+                "name": "Science_Flags_uncorr_FG_SC_LOW_WIND",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "208,249,67",
+                "description": "Low wind"
+            },
+            {
+                "name": "Science_Flags_uncorr_FG_SC_HIGHT_SST",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "106,109,115",
+                "description": "High SST"
+            },
+            {
+                "name": "Science_Flags_uncorr_FG_SC_LOW_SST",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "16,81,105",
+                "description": "Low SST"
+            },
+            {
+                "name": "Science_Flags_uncorr_FG_SC_HIGH_SSS",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "171,1,243",
+                "description": "High SSS"
+            },
+            {
+                "name": "Science_Flags_uncorr_FG_SC_LOW_SSS",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "238,203,217",
+                "description": "Low SSS"
+            },
+            {
+                "name": "Science_Flags_uncorr_FG_SC_SEA_STATE_1",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "250,231,95",
+                "description": "Sea state class 1"
+            },
+            {
+                "name": "Science_Flags_uncorr_FG_SC_SEA_STATE_2",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "240,108,99",
+                "description": "Sea state class 2"
+            },
+            {
+                "name": "Science_Flags_uncorr_FG_SC_SEA_STATE_3",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "115,141,245",
+                "description": "Sea state class 3"
+            },
+            {
+                "name": "Science_Flags_uncorr_FG_SC_SEA_STATE_4",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "134,147,45",
+                "description": "Sea state class 4"
+            },
+            {
+                "name": "Science_Flags_uncorr_FG_SC_SEA_STATE_5",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "128,201,42",
+                "description": "Sea state class 5"
+            },
+            {
+                "name": "Science_Flags_uncorr_FG_SC_SEA_STATE_6",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "168,104,12",
+                "description": "Sea state class 6"
+            },
+            {
+                "name": "Science_Flags_uncorr_FG_SC_SST_FRONT",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "143,245,6",
+                "description": ""
+            },
+            {
+                "name": "Science_Flags_uncorr_FG_SC_SSS_FRONT",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "36,87,190",
+                "description": ""
+            },
+            {
+                "name": "Science_Flags_uncorr_FG_SC_ICE_ACARD",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "114,207,90",
+                "description": "Ice flag from cardioid"
+            },
+            {
+                "name": "Science_Flags_uncorr_FG_SC_ECMWF_LAND",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "145,13,33",
+                "description": "Grid point contains some land. Flag set if ECMWF Land_Sea_Mask > 0"
+            },
+            {
+                "name": "Science_Flags_upgraded_FG_SC_LAND_SEA_COAST1",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "246,182,21",
+                "description": "Distance from coast to gridpoint is less than threshold Max1 in file AUX_DISTAN"
+            },
+            {
+                "name": "Science_Flags_upgraded_FG_SC_LAND_SEA_COAST2",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "95,92,204",
+                "description": "Distance from coast to gridpoint is less than threshold Max2 in file AUX_DISTAN"
+            },
+            {
+                "name": "Science_Flags_upgraded_FG_SC_TEC_GRADIENT",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "49,82,133",
+                "description": "High TEC gradient along dwell for a grid point"
+            },
+            {
+                "name": "Science_Flags_upgraded_FG_SC_IN_CLIM_ICE",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "169,175,146",
+                "description": "Gridpoint with maximum extend of sea ice accordy to monthly climatology"
+            },
+            {
+                "name": "Science_Flags_upgraded_FG_SC_ICE",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "156,188,14",
+                "description": "Ice concentration at gridpoint is above threshold Tg_ice_concentration"
+            },
+            {
+                "name": "Science_Flags_upgraded_FG_SC_SUSPECT_ICE",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "39,91,126",
+                "description": "Suspect ice on gridpoint"
+            },
+            {
+                "name": "Science_Flags_upgraded_FG_SC_RAIN",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "214,25,160",
+                "description": "Heavy rain suspected on gridpoint. Rain rate is above threshold Tg_max_rainfall"
+            },
+            {
+                "name": "Science_Flags_upgraded_FG_SC_HIGH_WIND",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "178,13,207",
+                "description": "High wind"
+            },
+            {
+                "name": "Science_Flags_upgraded_FG_SC_LOW_WIND",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "208,249,67",
+                "description": "Low wind"
+            },
+            {
+                "name": "Science_Flags_upgraded_FG_SC_HIGHT_SST",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "106,109,115",
+                "description": "High SST"
+            },
+            {
+                "name": "Science_Flags_upgraded_FG_SC_LOW_SST",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "16,81,105",
+                "description": "Low SST"
+            },
+            {
+                "name": "Science_Flags_upgraded_FG_SC_HIGH_SSS",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "171,1,243",
+                "description": "High SSS"
+            },
+            {
+                "name": "Science_Flags_upgraded_FG_SC_LOW_SSS",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "238,203,217",
+                "description": "Low SSS"
+            },
+            {
+                "name": "Science_Flags_upgraded_FG_SC_SEA_STATE_1",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "250,231,95",
+                "description": "Sea state class 1"
+            },
+            {
+                "name": "Science_Flags_upgraded_FG_SC_SEA_STATE_2",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "240,108,99",
+                "description": "Sea state class 2"
+            },
+            {
+                "name": "Science_Flags_upgraded_FG_SC_SEA_STATE_3",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "115,141,245",
+                "description": "Sea state class 3"
+            },
+            {
+                "name": "Science_Flags_upgraded_FG_SC_SEA_STATE_4",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "134,147,45",
+                "description": "Sea state class 4"
+            },
+            {
+                "name": "Science_Flags_upgraded_FG_SC_SEA_STATE_5",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "128,201,42",
+                "description": "Sea state class 5"
+            },
+            {
+                "name": "Science_Flags_upgraded_FG_SC_SEA_STATE_6",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "168,104,12",
+                "description": "Sea state class 6"
+            },
+            {
+                "name": "Science_Flags_upgraded_FG_SC_SST_FRONT",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "143,245,6",
+                "description": ""
+            },
+            {
+                "name": "Science_Flags_upgraded_FG_SC_SSS_FRONT",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "36,87,190",
+                "description": ""
+            },
+            {
+                "name": "Science_Flags_upgraded_FG_SC_ICE_ACARD",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "114,207,90",
+                "description": "Ice flag from cardioid"
+            },
+            {
+                "name": "Science_Flags_upgraded_FG_SC_ECMWF_LAND",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "145,13,33",
+                "description": "Grid point contains some land. Flag set if ECMWF Land_Sea_Mask > 0"
+            },
+            {
+                "name": "Science_Flags_Acard_FG_SC_LAND_SEA_COAST1",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "246,182,21",
+                "description": "Distance from coast to gridpoint is less than threshold Max1 in file AUX_DISTAN"
+            },
+            {
+                "name": "Science_Flags_Acard_FG_SC_LAND_SEA_COAST2",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "95,92,204",
+                "description": "Distance from coast to gridpoint is less than threshold Max2 in file AUX_DISTAN"
+            },
+            {
+                "name": "Science_Flags_Acard_FG_SC_TEC_GRADIENT",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "49,82,133",
+                "description": "High TEC gradient along dwell for a grid point"
+            },
+            {
+                "name": "Science_Flags_Acard_FG_SC_IN_CLIM_ICE",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "169,175,146",
+                "description": "Gridpoint with maximum extend of sea ice accordy to monthly climatology"
+            },
+            {
+                "name": "Science_Flags_Acard_FG_SC_ICE",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "156,188,14",
+                "description": "Ice concentration at gridpoint is above threshold Tg_ice_concentration"
+            },
+            {
+                "name": "Science_Flags_Acard_FG_SC_SUSPECT_ICE",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "39,91,126",
+                "description": "Suspect ice on gridpoint"
+            },
+            {
+                "name": "Science_Flags_Acard_FG_SC_RAIN",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "214,25,160",
+                "description": "Heavy rain suspected on gridpoint. Rain rate is above threshold Tg_max_rainfall"
+            },
+            {
+                "name": "Science_Flags_Acard_FG_SC_HIGH_WIND",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "178,13,207",
+                "description": "High wind"
+            },
+            {
+                "name": "Science_Flags_Acard_FG_SC_LOW_WIND",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "208,249,67",
+                "description": "Low wind"
+            },
+            {
+                "name": "Science_Flags_Acard_FG_SC_HIGHT_SST",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "106,109,115",
+                "description": "High SST"
+            },
+            {
+                "name": "Science_Flags_Acard_FG_SC_LOW_SST",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "16,81,105",
+                "description": "Low SST"
+            },
+            {
+                "name": "Science_Flags_Acard_FG_SC_HIGH_SSS",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "171,1,243",
+                "description": "High SSS"
+            },
+            {
+                "name": "Science_Flags_Acard_FG_SC_LOW_SSS",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "238,203,217",
+                "description": "Low SSS"
+            },
+            {
+                "name": "Science_Flags_Acard_FG_SC_SEA_STATE_1",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "250,231,95",
+                "description": "Sea state class 1"
+            },
+            {
+                "name": "Science_Flags_Acard_FG_SC_SEA_STATE_2",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "240,108,99",
+                "description": "Sea state class 2"
+            },
+            {
+                "name": "Science_Flags_Acard_FG_SC_SEA_STATE_3",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "115,141,245",
+                "description": "Sea state class 3"
+            },
+            {
+                "name": "Science_Flags_Acard_FG_SC_SEA_STATE_4",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "134,147,45",
+                "description": "Sea state class 4"
+            },
+            {
+                "name": "Science_Flags_Acard_FG_SC_SEA_STATE_5",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "128,201,42",
+                "description": "Sea state class 5"
+            },
+            {
+                "name": "Science_Flags_Acard_FG_SC_SEA_STATE_6",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "168,104,12",
+                "description": "Sea state class 6"
+            },
+            {
+                "name": "Science_Flags_Acard_FG_SC_SST_FRONT",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "143,245,6",
+                "description": ""
+            },
+            {
+                "name": "Science_Flags_Acard_FG_SC_SSS_FRONT",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "36,87,190",
+                "description": ""
+            },
+            {
+                "name": "Science_Flags_Acard_FG_SC_ICE_ACARD",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "114,207,90",
+                "description": "Ice flag from cardioid"
+            },
+            {
+                "name": "Science_Flags_Acard_FG_SC_ECMWF_LAND",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "145,13,33",
+                "description": "Grid point contains some land. Flag set if ECMWF Land_Sea_Mask > 0"
+            },
+            {
+                "name": "Land_Sea_Mask_USGS_SEA_FLAG",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "0,0,255",
+                "description": "Water fraction is above 95 percent (1); below 95 percent (0)"
+            },
+            {
+                "name": "Land_Sea_Mask_USGS_LAND_FLAG",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "0,255,0",
+                "description": "Water fraction is below 10 percent (1); above 10 percent (0)"
+            },
+            {
+                "name": "Land_Sea_Mask_USGS_MIXED_FLAG",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "0,255,255",
+                "description": "Water fraction is above 10 and below 95 percent (1); below 10 or above 95 percent (0)"
+            },
+            {
+                "name": "Land_Sea_Mask_200_KM_COASTAL_FLAG",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "178,140,0",
+                "description": "Distance to coastline is less than 200 km (1); greater than 200 km (0)"
+            },
+            {
+                "name": "Land_Sea_Mask_100_KM_COASTAL_FLAG",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "255,200,0",
+                "description": "Distance to coastline is less than 100 km (1); greater than 100 km (0)"
+            },
+            {
+                "name": "Land_Sea_Mask_40_KM_COASTAL_FLAG",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "255,255,0",
+                "description": "Distance to coastline is less than 40 km (1); greater than 40 km (0)"
+            },
+            {
+                "name": "Land_Sea_Mask_MIN_SEA_ICE_FLAG",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "255,255,255",
+                "description": "Sea ice is present for all months (1); is not present for all months (0)"
+            },
+            {
+                "name": "Land_Sea_Mask_MAX_SEA_ICE_FLAG",
+                "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
+                "color": "240,240,240",
+                "description": "Sea ice is present for any months (1); is not present for any months (0)"
+            }
+        ],
+        "metadata": [
+            {
+                "path": "Variable_Header/Main_Product_Header/Orbit_Information/Z_Velocity",
+                "value": "-1885.521210"
+            },
+            {
+                "path": "Fixed_Header/Validity_Period/Validity_Start",
+                "value": "UTC=2019-06-15T07:37:48"
+            },
+            {
+                "path": "Variable_Header/Specific_Product_Header/Quality_Information/List_of_Retrieval_Schemes/Quality_Description[3]/List_of_Quality_Classes/Quality_Record[14]/Poor_Quality",
+                "value": "19879"
+            },
+            {
+                "path": "Variable_Header/Specific_Product_Header/L2_Product_Location/Easternmost_Gridpoint_ID",
+                "value": "6235982"
+            },
+            {
+                "path": "Variable_Header/Specific_Product_Header/L2_Product_Desciption/List_of_models/List_of_Retrieved_Parameters[4]/Retrieved_Parameter[7]/name",
+                "value": "not used"
+            },
+            {
+                "path": "Variable_Header/Main_Product_Header/Orbit_Information/OSV_UTC",
+                "value": "UTC=2019-06-15T07:37:00.000000"
+            },
+            {
+                "path": "Variable_Header/Main_Product_Header/Orbit_Information/Vector_Source",
+                "value": "FP"
+            },
+            {
+                "path": "Fixed_Header/Source/System",
+                "value": "DPGS"
+            },
+            {
+                "path": "Variable_Header/Specific_Product_Header/List_of_Data_Sets/Data_Set[16]/DS_Size",
+                "value": "0000000000"
+            },
+            {
+                "path": "Fixed_Header/Validity_Period/Validity_Stop",
+                "value": "UTC=2019-06-15T08:31:09"
+            }
+        ]
+    }
+}

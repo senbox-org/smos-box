@@ -22,8 +22,8 @@ import java.util.Map;
 
 public class DPV extends DP {
 
-    public DPV(Product product, Map<String, AbstractValueProvider> valueProviderMap, boolean accuracy) {
-        super(product, valueProviderMap, accuracy);
+    public DPV(Product product, Map<String, AbstractValueProvider> valueProviderMap, String quantity) {
+        super(product, valueProviderMap, quantity);
     }
 
     @Override

@@ -404,20 +404,32 @@ public class L1cScienceSmosFile extends L1cSmosFile {
         DP vp;
         BandDescriptor descriptor;
 
-        vp = new DPH(product, valueProviderMap, false);
+        vp = new DPH(product, valueProviderMap, "BT_Value");
         descriptor = descriptors.getMember("BT_Value_H");
         addRotatedBand(product, descriptor, vp);
 
-        vp = new DPV(product, valueProviderMap, false);
+        vp = new DPV(product, valueProviderMap, "BT_Value");
         descriptor = descriptors.getMember("BT_Value_V");
         addRotatedBand(product, descriptor, vp);
 
-        vp = new DPH(product, valueProviderMap, true);
+
         descriptor = descriptors.getMember("Pixel_Radiometric_Accuracy_H");
+        if (descriptor != null) {
+            vp = new DPH(product, valueProviderMap, "Pixel_Radiometric_Accuracy");
+        } else {
+            descriptor = descriptors.getMember("Pixel_Radiometric_Resolution_H");
+            vp = new DPH(product, valueProviderMap, "Pixel_Radiometric_Resolution");
+        }
         addRotatedBand(product, descriptor, vp);
 
-        vp = new DPV(product, valueProviderMap, true);
+
         descriptor = descriptors.getMember("Pixel_Radiometric_Accuracy_V");
+        if (descriptor != null) {
+            vp = new DPV(product, valueProviderMap, "Pixel_Radiometric_Accuracy");
+        } else {
+            descriptor = descriptors.getMember("Pixel_Radiometric_Resolution_V");
+            vp = new DPV(product, valueProviderMap, "Pixel_Radiometric_Resolution");
+        }
         addRotatedBand(product, descriptor, vp);
 
         ProductHelper.addVirtualBand(product, descriptors.getMember("Stokes_1"), "(BT_Value_X + BT_Value_Y) / 2.0");
@@ -430,30 +442,45 @@ public class L1cScienceSmosFile extends L1cSmosFile {
         FP vp;
         BandDescriptor descriptor;
 
-        vp = new FPH(product, valueProviderMap, false);
+        vp = new FPH(product, valueProviderMap, "BT_Value");
         descriptor = descriptors.getMember("BT_Value_H");
         addRotatedBand(product, descriptor, vp);
 
-        vp = new FPV(product, valueProviderMap, false);
+        vp = new FPV(product, valueProviderMap, "BT_Value");
         descriptor = descriptors.getMember("BT_Value_V");
         addRotatedBand(product, descriptor, vp);
 
-        vp = new FPHVR(product, valueProviderMap, false);
+        vp = new FPHVR(product, valueProviderMap, "BT_Value");
         descriptor = descriptors.getMember("BT_Value_HV_Real");
         addRotatedBand(product, descriptor, vp);
 
         ProductHelper.addVirtualBand(product, descriptors.getMember("BT_Value_HV_Imag"), "BT_Value_XY_Imag");
 
-        vp = new FPH(product, valueProviderMap, true);
         descriptor = descriptors.getMember("Pixel_Radiometric_Accuracy_H");
+        if (descriptor != null) {
+            vp = new FPH(product, valueProviderMap, "Pixel_Radiometric_Accuracy");
+        } else {
+            descriptor = descriptors.getMember("Pixel_Radiometric_Resolution_H");
+            vp = new FPH(product, valueProviderMap, "Pixel_Radiometric_Resolution");
+        }
         addRotatedBand(product, descriptor, vp);
 
-        vp = new FPV(product, valueProviderMap, true);
         descriptor = descriptors.getMember("Pixel_Radiometric_Accuracy_V");
+        if (descriptor != null) {
+            vp = new FPV(product, valueProviderMap, "Pixel_Radiometric_Accuracy");
+        } else {
+            descriptor = descriptors.getMember("Pixel_Radiometric_Resolution_V");
+            vp = new FPV(product, valueProviderMap, "Pixel_Radiometric_Resolution");
+        }
         addRotatedBand(product, descriptor, vp);
 
-        vp = new FPHVR(product, valueProviderMap, true);
         descriptor = descriptors.getMember("Pixel_Radiometric_Accuracy_HV");
+        if (descriptor != null) {
+            vp = new FPHVR(product, valueProviderMap, "Pixel_Radiometric_Accuracy");
+        } else {
+            descriptor = descriptors.getMember("Pixel_Radiometric_Resolution_HV");
+            vp = new FPHVR(product, valueProviderMap, "Pixel_Radiometric_Resolution");
+        }
         addRotatedBand(product, descriptor, vp);
 
         ProductHelper.addVirtualBand(product, descriptors.getMember("Stokes_1"), "(BT_Value_X + BT_Value_Y) / 2.0");

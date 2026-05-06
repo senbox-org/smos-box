@@ -34,20 +34,13 @@ abstract public class DP extends AbstractValueProvider {
 
     private final boolean accuracy;
 
-    public DP(Product product, Map<String, AbstractValueProvider> valueProviderMap, boolean accuracy) {
-        this.accuracy = accuracy;
+    public DP(Product product, Map<String, AbstractValueProvider> valueProviderMap, String quantity) {
+        this.accuracy = !quantity.contains("BT_Value");
 
         frxProvider = getValueProvider(product.getBand("Faraday_Rotation_Angle_X"), valueProviderMap);
         fryProvider = getValueProvider(product.getBand("Faraday_Rotation_Angle_Y"), valueProviderMap);
         grxProvider = getValueProvider(product.getBand("Geometric_Rotation_Angle_X"), valueProviderMap);
         gryProvider = getValueProvider(product.getBand("Geometric_Rotation_Angle_Y"), valueProviderMap);
-
-        final String quantity;
-        if (accuracy) {
-            quantity = "Pixel_Radiometric_Accuracy";
-        } else {
-            quantity = "BT_Value";
-        }
 
         btxProvider = getValueProvider(product.getBand(quantity + "_X"), valueProviderMap);
         btyProvider = getValueProvider(product.getBand(quantity + "_Y"), valueProviderMap);

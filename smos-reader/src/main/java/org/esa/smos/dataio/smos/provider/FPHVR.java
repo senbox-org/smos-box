@@ -22,8 +22,8 @@ import java.util.Map;
 
 public class FPHVR extends FP {
 
-    public FPHVR(Product product, Map<String, AbstractValueProvider> valueProviderMap, boolean accuracy) {
-        super(product, valueProviderMap, accuracy, false);
+    public FPHVR(Product product, Map<String, AbstractValueProvider> valueProviderMap, String quantity) {
+        super(product, valueProviderMap, quantity, false);
     }
 
     @Override

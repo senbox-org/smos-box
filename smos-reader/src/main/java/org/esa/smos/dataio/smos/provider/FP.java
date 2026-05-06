@@ -36,9 +36,9 @@ abstract public class FP extends AbstractValueProvider {
     private final boolean accuracy;
     private final boolean imaginary;
 
-    public FP(Product product, Map<String, AbstractValueProvider> valueProviderMap, boolean accuracy,
+    public FP(Product product, Map<String, AbstractValueProvider> valueProviderMap, String quantity,
               boolean imaginary) {
-        this.accuracy = accuracy;
+        this.accuracy = !quantity.contains("BT_Value");
         this.imaginary = imaginary;
 
         frxProvider = getValueProvider(product.getBand("Faraday_Rotation_Angle_X"), valueProviderMap);
@@ -46,12 +46,6 @@ abstract public class FP extends AbstractValueProvider {
         grxProvider = getValueProvider(product.getBand("Geometric_Rotation_Angle_X"), valueProviderMap);
         gryProvider = getValueProvider(product.getBand("Geometric_Rotation_Angle_Y"), valueProviderMap);
 
-        final String quantity;
-        if (accuracy) {
-            quantity = "Pixel_Radiometric_Accuracy";
-        } else {
-            quantity = "BT_Value";
-        }
         if (imaginary) {
             btxProvider = null;
             btyProvider = null;

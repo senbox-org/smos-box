@@ -22,8 +22,8 @@ import java.util.Map;
 
 public class DPH extends DP {
 
-    public DPH(Product product, Map<String, AbstractValueProvider> valueProviderMap, boolean accuracy) {
-        super(product, valueProviderMap, accuracy);
+    public DPH(Product product, Map<String, AbstractValueProvider> valueProviderMap, String quantity) {
+        super(product, valueProviderMap, quantity);
     }
 
     @Override
