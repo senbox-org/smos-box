@@ -35,7 +35,7 @@
           {
             "name": "POL_FLAG_2",
             "value": 2,
-            "description": "Flag indicating Real and Imaginary part of the HV polarization when the instrument was in VHH+HVH+HHV arm configuration"
+            "description": "Flag indicating antenna HHV (0) or VVH (1) polarisation"
           },
           {
             "name": "SUN_FOV",
@@ -50,12 +50,17 @@
           {
             "name": "MOON_FOV",
             "value": 16,
-            "description": "Direct Moon correction has been performed during image reconstruction of this pixel"
+            "description": "Moon correction has been performed during image reconstruction of this pixel"
           },
           {
             "name": "SINGLE_SNAPSHOT",
             "value": 32,
-            "description": "Scene has not been combined with an adjacent scene in opposite polarisation during image reconstruction to account for crosspolarisation leakage (it has been processed with only co-polar antenna patterns information)"
+            "description": "Scene has been combined with opposite polarization during reconstruction of this pixel"
+          },
+          {
+            "name": "RFI_MITIGATION",
+            "value": 64,
+            "description": "RFI mitigation has been performed during reconstruction of this pixel"
           },
           {
             "name": "SUN_POINT",
@@ -75,37 +80,32 @@
           {
             "name": "AF_FOV",
             "value": 1024,
-            "description": "Pixel is inside the exclusive zone of Alias free (delimited by the six aliased unit circles)"
+            "description": "Measurement is in the alias free field of view"
+          },
+          {
+            "name": "RFI_TAILS",
+            "value": 2048,
+            "description": "Measurement has been affected by tails from a point source RFI identified in the AUX_RFI list"
           },
           {
             "name": "BORDER_FOV",
             "value": 4096,
-            "description": "Pixel is close to the border delimiting the Extended Alias free zone or to the unit circle replicas borders (also known as “suspenders and belts”). Distance threshold is configurable through FOV_Border_Flag_Size field in AUX CNFL1P"
+            "description": "Measurement is near the border delimiting the Extended Alias Free zone or near to the unit circle replicas borders (aka belt & suspenders)"
           },
           {
             "name": "SUN_TAILS",
             "value": 8192,
-            "description": "Pixel is located in the hexagonal alias directions centred on a Sun alias (if Sun is not removed, measurement may be degraded in these directions)"
+            "description": "Pixel is located in the hexagonal alias directions centred on a Sun alias"
           },
           {
-            "name": "RFI_POINT_SOURCE",
-            "value": 64,
-            "description": "Measurement is affected by point source RFI as identified in the AUX RFI list (flag is set in a circle around the RFI position, with a radius dependant on the RFI expected BT defined in the AUX RFILST), or it has exceeded the threshold defined in BT_Dual/Full_RFI_Pixel_Flag_Threshold fields in AUX CNFL1P, or is negative for Dual Polarisation values"
-          },
-          {
-            "name": "RFI_TAIL",
-            "value": 2048,
-            "description": "Measurement is affected by the tails of a point source RFI as identified in the AUX RFI list (tail width is dependant on the RFI estimated BT (from each snapshot measurements) , corresponding to 0.16 of the radius of the RFI circle flagged)"
-          },
-          {
-            "name": "RFI_FLAG_1",
+            "name": "RFI_STRONG",
             "value": 16384,
-            "description": "Measurement is affected by a point source RFI identified in the AUX RFI list whose contribution generates a contamination in BT above a certain level defined in the AUX CNFL1P file"
+            "description": "Measurement is affected by strong self-estimated RFI in L1b"
           },
           {
-            "name": "RFI_FLAG_2",
+            "name": "RFI_POINT",
             "value": 32768,
-            "description": "Measurement is affected by a point source RFI identified in the AUX RFI list whose contribution generates a contamination in BT above a certain level defined in the AUX CNFL1P file"
+            "description": "Measurement has been affected by point source RFI identified in the AUX_RFI list, or it has exceeded an RFI threshold"
           }
         ]
       },
@@ -718,7 +718,7 @@
         "name": "Flags_POL_FLAG_2",
         "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
         "color": "95,92,204",
-        "description": "Flag indicating Real and Imaginary part of the HV polarization when the instrument was in VHH+HVH+HHV arm configuration"
+        "description": "Flag indicating antenna HHV (0) or VVH (1) polarisation"
       },
       {
         "name": "Flags_SUN_FOV",
@@ -736,73 +736,49 @@
         "name": "Flags_MOON_FOV",
         "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
         "color": "156,188,14",
-        "description": "Direct Moon correction has been performed during image reconstruction of this pixel"
+        "description": "Moon correction has been performed during image reconstruction of this pixel"
       },
       {
         "name": "Flags_SINGLE_SNAPSHOT",
         "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
         "color": "39,91,126",
-        "description": "Scene has not been combined with an adjacent scene in opposite polarisation during image reconstruction to account for crosspolarisation leakage (it has been processed with only co-polar antenna patterns information)"
+        "description": "Scene has been combined with opposite polarization during reconstruction of this pixel"
       },
       {
         "name": "Flags_SUN_POINT",
         "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
-        "color": "214,25,160",
+        "color": "178,13,207",
         "description": "Pixel is located in a zone (circle around Sun alias position with radius configurable through Sun_Point_Flag_Size field in AUX CNFL1P) where a Sun alias was reconstructed (if Sun removal is active, measurement may be degraded)"
       },
       {
         "name": "Flags_SUN_GLINT_AREA",
         "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
-        "color": "178,13,207",
+        "color": "208,249,67",
         "description": "Pixel is located in a zone where Sun reflection has been detected using the bi-static scattering coefficient threshold defined in the configuration file"
       },
       {
         "name": "Flags_MOON_POINT",
         "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
-        "color": "208,249,67",
+        "color": "106,109,115",
         "description": "Pixel is located in a zone where a Moon alias was reconstructed (after Moon removal, measurement may be degraded)"
       },
       {
         "name": "Flags_AF_FOV",
         "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
-        "color": "106,109,115",
-        "description": "Pixel is inside the exclusive zone of Alias free (delimited by the six aliased unit circles)"
+        "color": "16,81,105",
+        "description": "Measurement is in the alias free field of view"
       },
       {
         "name": "Flags_BORDER_FOV",
         "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
-        "color": "16,81,105",
-        "description": "Pixel is close to the border delimiting the Extended Alias free zone or to the unit circle replicas borders (also known as “suspenders and belts”). Distance threshold is configurable through FOV_Border_Flag_Size field in AUX CNFL1P"
+        "color": "238,203,217",
+        "description": "Measurement is near the border delimiting the Extended Alias Free zone or near to the unit circle replicas borders (aka belt & suspenders)"
       },
       {
         "name": "Flags_SUN_TAILS",
         "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
-        "color": "171,1,243",
-        "description": "Pixel is located in the hexagonal alias directions centred on a Sun alias (if Sun is not removed, measurement may be degraded in these directions)"
-      },
-      {
-        "name": "Flags_RFI_POINT_SOURCE",
-        "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
-        "color": "238,203,217",
-        "description": "Measurement is affected by point source RFI as identified in the AUX RFI list (flag is set in a circle around the RFI position, with a radius dependant on the RFI expected BT defined in the AUX RFILST), or it has exceeded the threshold defined in BT_Dual/Full_RFI_Pixel_Flag_Threshold fields in AUX CNFL1P, or is negative for Dual Polarisation values"
-      },
-      {
-        "name": "Flags_RFI_TAIL",
-        "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
         "color": "250,231,95",
-        "description": "Measurement is affected by the tails of a point source RFI as identified in the AUX RFI list (tail width is dependant on the RFI estimated BT (from each snapshot measurements) , corresponding to 0.16 of the radius of the RFI circle flagged)"
-      },
-      {
-        "name": "Flags_RFI_FLAG_1",
-        "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
-        "color": "240,108,99",
-        "description": "Measurement is affected by a point source RFI identified in the AUX RFI list whose contribution generates a contamination in BT above a certain level defined in the AUX CNFL1P file"
-      },
-      {
-        "name": "Flags_RFI_FLAG_2",
-        "type": "org.esa.snap.core.datamodel.Mask$BandMathsType",
-        "color": "115,141,245",
-        "description": "Measurement is affected by a point source RFI identified in the AUX RFI list whose contribution generates a contamination in BT above a certain level defined in the AUX CNFL1P file"
+        "description": "Pixel is located in the hexagonal alias directions centred on a Sun alias"
       },
       {
         "name": "Land_Sea_Mask_USGS_SEA_FLAG",
