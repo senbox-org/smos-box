@@ -258,7 +258,8 @@ public class DggFile extends ExplorerFile {
         }
     }
 
-    private static final class PlainGridPointList implements GridPointList {
+    // @todo 2 tb/tb move to outer
+    static final class PlainGridPointList implements GridPointList {
 
         private final SequenceData sequence;
         private final int latIndex;

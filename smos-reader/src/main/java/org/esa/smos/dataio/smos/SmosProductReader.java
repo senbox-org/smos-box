@@ -151,6 +151,8 @@ public class SmosProductReader extends SmosReader {
                 SmosUtils.isDggTfoFormat(formatName) ||
                 SmosUtils.isDggTlvFormat(formatName)) {
             return new AuxiliaryFile(eeFilePair, context);
+        } else if(SmosUtils.isAuxWINDSType(formatName)) {
+            return new AuxWindsFile(eeFilePair, context);
         }
 
         return null;

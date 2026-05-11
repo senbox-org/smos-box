@@ -309,6 +309,7 @@ public class SmosUtilsTest {
         assertTrue(SmosUtils.isAuxFileType("SM_OPER_AUX_OTT2F__20050101T000000_20500101T000000_001_002_3.zip"));
         assertTrue(SmosUtils.isAuxFileType("SM_OPER_AUX_OTT3D__20050101T000000_20500101T000000_001_004_3.zip"));
         assertTrue(SmosUtils.isAuxFileType("SM_OPER_AUX_BULL_B_20101202T000000_20500101T000000_100_002_3.zip"));
+        assertTrue(SmosUtils.isAuxFileType("SM_REPR_AUX_WINDS__20251203T180000_20251204T090000_501_001_1.HDR"));
 
         // first files delivered, needed to adapt code - testdata did not follow file name specs ....
         assertTrue(SmosUtils.isAuxFileType("SM_OPER_AUX_VTEC_R_20091117T230000_20091119T010000_306_001_3.zip"));
@@ -361,6 +362,16 @@ public class SmosUtilsTest {
         assertFalse(SmosUtils.isAuxECMWFType("SM_xxxx_MIR_CORN0__20070223T061024_20070223T062500_001_001_0.DBL"));
         assertFalse(SmosUtils.isAuxECMWFType("SM_TEST_MIR_OSUDP2_20121118T143742_20121118T153047_306_002_1.zip"));
         assertFalse(SmosUtils.isAuxECMWFType("SM_OPER_MIR_BWLD1C_20121118T002733_20121118T012104_116_001_1.zip"));
+    }
+
+    @Test
+    public void testIsAuxWINDSType() {
+        assertTrue(SmosUtils.isAuxWINDSType("SM_REPR_AUX_WINDS__20251203T180000_20251204T090000_501_001_1.HDR"));
+        assertTrue(SmosUtils.isAuxWINDSType("SM_REPR_AUX_WINDS__20251203T060000_20251203T210000_501_001_1.DBL"));
+
+        assertFalse(SmosUtils.isAuxWINDSType("SM_xxxx_MIR_CORN0__20070223T061024_20070223T062500_001_001_0.DBL"));
+        assertFalse(SmosUtils.isAuxWINDSType("SM_TEST_MIR_OSUDP2_20121118T143742_20121118T153047_306_002_1.zip"));
+        assertFalse(SmosUtils.isAuxWINDSType("SM_OPER_MIR_BWLD1C_20121118T002733_20121118T012104_116_001_1.zip"));
     }
 
     @Test
