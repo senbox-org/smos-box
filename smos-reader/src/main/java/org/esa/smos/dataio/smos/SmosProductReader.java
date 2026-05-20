@@ -254,6 +254,9 @@ public class SmosProductReader extends SmosReader {
         final Integer pixel_radiometric_accuracy = memberNamesMap.get("Pixel_Radiometric_Accuracy");
         if (pixel_radiometric_accuracy != null) {
             btDataset.setRadiometricAccuracyBandIndex(pixel_radiometric_accuracy);
+        } else {
+            final Integer pixel_radiometric_resolution = memberNamesMap.get("Pixel_Radiometric_Resolution");
+            btDataset.setRadiometricAccuracyBandIndex(pixel_radiometric_resolution);
         }
 
         final Integer bt_value_real = memberNamesMap.get("BT_Value_Real");
