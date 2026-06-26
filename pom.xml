@@ -427,7 +427,7 @@
                         <configuration>
                             <name>project.nbmSpecVersion</name>
                             <value>${smos.nbmSpecVersion}</value>
-                            <regex>(-SNAPSHOT)|(-rc[0-9]+)|(-SNAPSHOT)</regex>
+                            <regex>(-SNAPSHOT)|(-rc[0-9]+)|(-SNAPSHOT)|(-RC[0-9]+)</regex>
                             <replacement>.0</replacement>
                             <failIfNoMatch>false</failIfNoMatch>
                         </configuration>
@@ -440,7 +440,7 @@
                         <configuration>
                             <name>project.nbmImplVersion</name>
                             <value>${smos.nbmSpecVersion}</value>
-                            <regex>(-SNAPSHOT)|(-rc[0-9]+)|(-SNAPSHOT)</regex>
+                            <regex>(-SNAPSHOT)|(-rc[0-9]+)|(-SNAPSHOT)|(-RC[0-9]+)</regex>
                             <replacement>.${buildDate}</replacement>
                             <failIfNoMatch>false</failIfNoMatch>
                         </configuration>
