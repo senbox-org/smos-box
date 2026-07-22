@@ -1,11 +1,15 @@
 package org.esa.smos.ee2netcdf;
 
+import com.bc.ceres.annotation.STTM;
 import org.esa.smos.ee2netcdf.variable.VariableDescriptor;
 import org.esa.snap.core.datamodel.MetadataElement;
 import org.esa.snap.core.datamodel.Product;
 import org.junit.Test;
+import org.junit.Rule;
+import org.junit.rules.TemporaryFolder;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -14,6 +18,9 @@ import java.util.TreeSet;
 import static org.junit.Assert.*;
 
 public class ExporterUtilsTest {
+
+    @Rule
+    public TemporaryFolder temporaryFolder = new TemporaryFolder();
 
     @Test
     public void testCreateInputFileSet_emptyList() {
@@ -57,6 +64,29 @@ public class ExporterUtilsTest {
         final Iterator<File> iterator = inputFileSet.iterator();
         assertEquals("SM_OPER_MIR_BWLD1C_20100208T040959_20100208T050400_324_001_1.zip", iterator.next().getName());
         assertEquals("SM_OPER_MIR_BWLF1C_20111026T143206_20111026T152520_503_001_1.zip", iterator.next().getName());
+    }
+
+    @Test
+    @STTM("SNAP-4234")
+    public void testCreateInputFileSet_uppercaseProductsInSubDirectories() throws IOException {
+        final File sourceDir = temporaryFolder.newFolder("MIR_SMUDP2");
+        final File nestedProductDir = new File(sourceDir, "SM_OPER_MIR_SMUDP2_20100207T212942_20100207T222342_305_001_1");
+        assertTrue(nestedProductDir.mkdir());
+
+        final File hdrFile = new File(nestedProductDir, nestedProductDir.getName() + ".HDR");
+        final File dblFile = new File(nestedProductDir, nestedProductDir.getName() + ".DBL");
+        assertTrue(hdrFile.createNewFile());
+        assertTrue(dblFile.createNewFile());
+
+        final String absolutePath = sourceDir.getAbsolutePath();
+        final TreeSet<File> inputFileSet = ExporterUtils.createInputFileSet(new String[]{
+                absolutePath + File.separator + "*.DBL",
+                absolutePath + File.separator + "*" + File.separator + "*.DBL"
+        });
+
+        assertNotNull(inputFileSet);
+        assertEquals(1, inputFileSet.size());
+        assertEquals(hdrFile.getCanonicalPath(), inputFileSet.first().getCanonicalPath());
     }
 
     @Test
