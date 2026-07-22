@@ -18,6 +18,7 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.StringJoiner;
 import java.util.concurrent.ExecutionException;
 
 class NetcdfExportSwingWorker extends ProgressMonitorSwingWorker<List<Exception>, File> {
@@ -127,20 +128,19 @@ class NetcdfExportSwingWorker extends ProgressMonitorSwingWorker<List<Exception>
 
     // package access for testing only tb 2013-04-10
     static String createSourcePathWildcards(File sourceDirectory) {
-        final StringBuilder sourcePath = new StringBuilder();
         final String absolutePath = sourceDirectory.getAbsolutePath();
-        sourcePath.append(absolutePath);
-        sourcePath.append(File.separator);
-        sourcePath.append("*.zip,");
-        sourcePath.append(absolutePath);
-        sourcePath.append(File.separator);
-        sourcePath.append("*.dbl,");
-        sourcePath.append(absolutePath);
-        sourcePath.append(File.separator);
-        sourcePath.append("*");
-        sourcePath.append(File.separator);
-        sourcePath.append("*.dbl");
+        final StringJoiner sourcePath = new StringJoiner(",");
+        sourcePath.add(createSourcePathPattern(absolutePath, "*.zip"));
+        sourcePath.add(createSourcePathPattern(absolutePath, "*.ZIP"));
+        sourcePath.add(createSourcePathPattern(absolutePath, "*.dbl"));
+        sourcePath.add(createSourcePathPattern(absolutePath, "*.DBL"));
+        sourcePath.add(createSourcePathPattern(absolutePath + File.separator + "*", "*.dbl"));
+        sourcePath.add(createSourcePathPattern(absolutePath + File.separator + "*", "*.DBL"));
         return sourcePath.toString();
+    }
+
+    private static String createSourcePathPattern(String directoryPath, String filePattern) {
+        return directoryPath + File.separator + filePattern;
     }
 
     // package access for testing only tb 2013-07-21

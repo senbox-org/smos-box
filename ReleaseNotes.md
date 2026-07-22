@@ -1,6 +1,7 @@
 #New in SMOS-Box 5.9.0
 * corrected loading of native NetCDF library for NetCDF exporter
 * corrected fill-value datatype issues in NetCDF exporter
+* Exporting SMOS EE Files to NetCDF, does not consider all products on mac
 
 #New in SMOS-Box 5.8.0
 Update to version 5.8.0 adds 
