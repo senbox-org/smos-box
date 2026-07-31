@@ -7,16 +7,16 @@
     <name>SMOS-Box</name>
     <groupId>org.esa.smostbx</groupId>
     <artifactId>smos-box</artifactId>
-    <version>14.0.0-RC2</version>
+    <version>14.0.0</version>
 
     <packaging>pom</packaging>
 
     <properties>
         <brandingToken>smos</brandingToken>
-        <snap.version>14.0.0-RC2</snap.version>
+        <snap.version>14.0.0</snap.version>
         <netbeans.version>RELEASE210</netbeans.version>
         <javahelp.version>2.0.05</javahelp.version>
-        <smos.nbmSpecVersion>14.0.0-RC2</smos.nbmSpecVersion>
+        <smos.nbmSpecVersion>14.0.0</smos.nbmSpecVersion>
         <snap-help-system.version>1.0.3</snap-help-system.version>
         <maven.build.timestamp.format>yyyyMMdd</maven.build.timestamp.format>
         <buildDate>${maven.build.timestamp}</buildDate>

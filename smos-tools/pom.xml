@@ -6,7 +6,7 @@
     <parent>
         <artifactId>smos-box</artifactId>
         <groupId>org.esa.smostbx</groupId>
-        <version>14.0.0-RC2</version>
+        <version>14.0.0</version>
     </parent>
 
     <packaging>nbm</packaging>
