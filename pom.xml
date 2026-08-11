@@ -7,17 +7,18 @@
     <name>SMOS-Box</name>
     <groupId>org.esa.smostbx</groupId>
     <artifactId>smos-box</artifactId>
-    <version>13.0.2-SNAPSHOT</version>
+    <version>14.0.0</version>
 
     <packaging>pom</packaging>
 
     <properties>
         <brandingToken>smos</brandingToken>
-        <snap.version>13.0.2</snap.version>
-        <smos.version>13.0.2-SNAPSHOT</smos.version>
+        <snap.version>14.0.0</snap.version>
         <netbeans.version>RELEASE210</netbeans.version>
         <javahelp.version>2.0.05</javahelp.version>
-        <snap-help-system.version>1.0.2</snap-help-system.version>
+        <smos.nbmSpecVersion>14.0.0</smos.nbmSpecVersion>
+        <snap-help-system.version>1.0.3</snap-help-system.version>
+        <maven.build.timestamp.format>yyyyMMdd</maven.build.timestamp.format>
         <buildDate>${maven.build.timestamp}</buildDate>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <jvm.version>21</jvm.version>
@@ -426,8 +427,8 @@
                         </goals>
                         <configuration>
                             <name>project.nbmSpecVersion</name>
-                            <value>${smos.version}</value>
-                            <regex>(-SNAPSHOT)|(-rc[0-9]+)</regex>
+                            <value>${smos.nbmSpecVersion}</value>
+                            <regex>(-SNAPSHOT)|(-rc[0-9]+)|(-RC[0-9]+)</regex>
                             <replacement>.0</replacement>
                             <failIfNoMatch>false</failIfNoMatch>
                         </configuration>
@@ -439,8 +440,8 @@
                         </goals>
                         <configuration>
                             <name>project.nbmImplVersion</name>
-                            <value>${smos.version}</value>
-                            <regex>(-SNAPSHOT)|(-rc[0-9]+)</regex>
+                            <value>${smos.nbmSpecVersion}</value>
+                            <regex>(-SNAPSHOT)|(-rc[0-9]+)|(-RC[0-9]+)</regex>
                             <replacement>.${buildDate}</replacement>
                             <failIfNoMatch>false</failIfNoMatch>
                         </configuration>

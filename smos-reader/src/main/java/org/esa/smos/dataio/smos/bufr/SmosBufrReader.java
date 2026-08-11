@@ -22,6 +22,7 @@ import org.esa.snap.core.datamodel.Product;
 import org.esa.snap.core.datamodel.ProductData;
 import org.esa.snap.core.util.StringUtils;
 import org.esa.snap.core.util.SystemUtils;
+import org.esa.snap.core.util.io.FileUtils;
 import ucar.ma2.Array;
 import ucar.ma2.StructureData;
 import ucar.ma2.StructureDataIterator;
@@ -165,10 +166,11 @@ public class SmosBufrReader extends SmosReader {
     @Override
     protected Product readProductNodesImpl() throws IOException {
         final File inputFile = getInputFile();
+        final File cachedInputFile= FileUtils.getCachedFile(inputFile);
         bufrSupport = new BufrSupport();
-        bufrSupport.open(inputFile.getPath());
+        bufrSupport.open(cachedInputFile.getPath());
 
-        final Product product = ProductHelper.createProduct(inputFile, "SMOS.MIRAS.NRT_BUFR");
+        final Product product = ProductHelper.createProduct(cachedInputFile, "SMOS.MIRAS.NRT_BUFR");
 
         bufrSupport.extractMetaData(product);
         valueDecoders = bufrSupport.extractValueDecoders();

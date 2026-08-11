@@ -1,5 +1,6 @@
 package org.esa.smos.ee2netcdf.ui;
 
+import com.bc.ceres.annotation.STTM;
 import com.bc.ceres.binding.ConversionException;
 import org.esa.smos.ee2netcdf.ExportParameter;
 import org.esa.smos.gui.BindingConstants;
@@ -25,6 +26,7 @@ public class NetcdfExportSwingWorkerTest {
     }
 
     @Test
+    @STTM("SNAP-4234")
     public void testCreateMap_sourceDirectory() {
         final File expectedSourceDir = new File("/home/tom");
         exportParameter.setSourceDirectory(expectedSourceDir);
@@ -33,8 +35,11 @@ public class NetcdfExportSwingWorkerTest {
         final String sourceDirectory = (String) parameterMap.get("sourceProductPaths");
         final String absolutePath = expectedSourceDir.getAbsolutePath();
         assertEquals(absolutePath + File.separator + "*.zip," +
+                     absolutePath + File.separator + "*.ZIP," +
                      absolutePath + File.separator + "*.dbl," +
-                     absolutePath + File.separator + "*" + File.separator + "*.dbl",
+                     absolutePath + File.separator + "*.DBL," +
+                     absolutePath + File.separator + "*" + File.separator + "*.dbl," +
+                     absolutePath + File.separator + "*" + File.separator + "*.DBL",
                      sourceDirectory);
     }
 
@@ -111,14 +116,18 @@ public class NetcdfExportSwingWorkerTest {
     }
 
     @Test
+    @STTM("SNAP-4234")
     public void testCreateSourcePathWildcards() {
         final File inputDir = new File("data");
         final String pathWildcards = NetcdfExportSwingWorker.createSourcePathWildcards(inputDir);
 
         final String absolutePath = inputDir.getAbsolutePath();
         assertEquals(absolutePath + File.separator + "*.zip," +
+                     absolutePath + File.separator + "*.ZIP," +
                      absolutePath + File.separator + "*.dbl," +
-                     absolutePath + File.separator + "*" + File.separator + "*.dbl",
+                     absolutePath + File.separator + "*.DBL," +
+                     absolutePath + File.separator + "*" + File.separator + "*.dbl," +
+                     absolutePath + File.separator + "*" + File.separator + "*.DBL",
                      pathWildcards);
     }
 

@@ -59,7 +59,7 @@ abstract class AbstractFormatExporter implements FormatExporter {
 
     private static SmosFile getSmosFile(Product product) {
         final SmosProductReader smosReader = (SmosProductReader) product.getProductReader();
-        return (SmosFile) smosReader.getProductFile();
+        return (SmosFile) smosReader.getSMOSProductFile();
     }
 
     // package access for testing only tb 2014-07-30
