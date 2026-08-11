@@ -19,9 +19,11 @@ import com.bc.ceres.binio.*;
 import org.esa.smos.EEFilePair;
 import org.esa.smos.dataio.smos.dddb.BandDescriptor;
 import org.esa.snap.core.datamodel.Band;
+import org.esa.snap.core.util.StringUtils;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.Namespace;
+import org.jspecify.annotations.NonNull;
 
 import java.io.IOException;
 import java.text.MessageFormat;
@@ -47,7 +49,7 @@ public class L1cSmosFile extends SmosFile {
         final Namespace namespace = document.getRootElement().getNamespace();
         final Element specificProductHeader = getElement(document.getRootElement(), TAG_SPECIFIC_PRODUCT_HEADER);
 
-        radiometricAccuracyScale = Double.valueOf(specificProductHeader.getChildText("Radiometric_Accuracy_Scale", namespace));
+        radiometricAccuracyScale = getRadiometricAccuracyScale(specificProductHeader, namespace);
         pixelFootprintScale = Double.valueOf(specificProductHeader.getChildText("Pixel_Footprint_Scale", namespace));
 
         btDataListIndex = getGridPointType().getMemberIndex(SmosConstants.BT_DATA_LIST_NAME);
@@ -70,12 +72,21 @@ public class L1cSmosFile extends SmosFile {
         btDataType = (CompoundType) elementType;
     }
 
+    // package access for testing only tb 2026-05-05
+    static @NonNull Double getRadiometricAccuracyScale(Element specificProductHeader, Namespace namespace) {
+        String scaleText  = specificProductHeader.getChildText("Radiometric_Accuracy_Scale", namespace);
+        if (StringUtils.isNullOrEmpty(scaleText)) {
+            scaleText = specificProductHeader.getChildText("Radiometric_Resolution_Scale", namespace);
+        }
+        return Double.valueOf(scaleText );
+    }
+
     @Override
     protected void setScaling(Band band, BandDescriptor descriptor) {
         final String memberName = descriptor.getMemberName();
         if (memberName.startsWith("Footprint_Axis")) {
             band.setScalingFactor(descriptor.getScalingFactor() * pixelFootprintScale);
-        } else if (memberName.startsWith("Pixel_Radiometric_Accuracy")) {
+        } else if (memberName.startsWith("Pixel_Radiometric_Accuracy") || memberName.startsWith("Pixel_Resolution_Accuracy")) {
             band.setScalingFactor(descriptor.getScalingFactor() * radiometricAccuracyScale);
         } else if (memberName.startsWith("Radiometric_Accuracy_of_Pixel")) { // does not occur, is mapped to Pixel_Radiometric_Accuracy
             band.setScalingFactor(descriptor.getScalingFactor() * radiometricAccuracyScale);

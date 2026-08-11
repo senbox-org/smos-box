@@ -41,6 +41,7 @@ public class DddbTest {
     private static final String DBL_SM_XXXX_MIR_SMUDP2_0200 = "DBL_SM_XXXX_MIR_SMUDP2_0200";
     private static final String DBL_SM_XXXX_AUX_DGGROU_0400 = "DBL_SM_XXXX_AUX_DGGROU_0400";
     private static final String DBL_SM_XXXX_AUX_DGGTFO_0300 = "DBL_SM_XXXX_AUX_DGGTFO_0300";
+    private static final String DBL_SM_XXXX_MIR_BWLD1C_0401 = "DBL_SM_XXXX_MIR_BWLD1C_0401";
     private static final String DBL_SM_XXXX_MIR_BWLF1C_0200 = "DBL_SM_XXXX_MIR_BWLF1C_0200";
     private static final String DBL_SM_XXXX_MIR_BWND1C_0200 = "DBL_SM_XXXX_MIR_BWND1C_0200";
     private static final String DBL_SM_XXXX_MIR_BWNF1C_0200 = "DBL_SM_XXXX_MIR_BWNF1C_0200";
@@ -447,8 +448,18 @@ public class DddbTest {
     }
 
     @Test
-    public void testGetBWLD1C_v0400Descriptors() {
+    public void testGetBWLD1C_v0400_Descriptors() {
         final Family<BandDescriptor> descriptors = dddb.getBandDescriptors(DBL_SM_XXXX_MIR_BWLD1C_0400);
+        assertEquals(18, descriptors.asList().size());
+
+        final BandDescriptor bt_value_y = descriptors.getMember("BT_Value_Y");
+        assertNotNull(bt_value_y);
+        assertEquals("Pixel_Radiometric_Accuracy_Y", bt_value_y.getAncilliaryBandName());
+    }
+
+    @Test
+    public void testGetBWLD1C_v0401_Descriptors() {
+        final Family<BandDescriptor> descriptors = dddb.getBandDescriptors(DBL_SM_XXXX_MIR_BWLD1C_0401);
         assertEquals(18, descriptors.asList().size());
 
         final BandDescriptor footprint_axis2_y = descriptors.getMember("Footprint_Axis2_Y");
@@ -456,7 +467,7 @@ public class DddbTest {
 
         final BandDescriptor bt_value_y = descriptors.getMember("BT_Value_Y");
         assertNotNull(bt_value_y);
-        assertEquals("Pixel_Radiometric_Accuracy_Y", bt_value_y.getAncilliaryBandName());
+        assertEquals("Pixel_Radiometric_Resolution_Y", bt_value_y.getAncilliaryBandName());
     }
 
     @Test
@@ -514,6 +525,8 @@ public class DddbTest {
     public void testGetEEVariableName() throws IOException {
         assertEquals("Footprint_Axis2", dddb.getEEVariableName("Footprint_Axis2", DBL_SM_XXXX_MIR_BWSD1C_0200));
         assertEquals("Radiometric_Accuracy_of_Pixel", dddb.getEEVariableName("Pixel_Radiometric_Accuracy", DBL_SM_XXXX_MIR_BWSD1C_0200));
+
+        assertEquals("Radiometric_Resolution_of_Pixel", dddb.getEEVariableName("Pixel_Radiometric_Resolution", DBL_SM_XXXX_MIR_BWLD1C_0401));
 
         assertEquals("schneckBand", dddb.getEEVariableName("schneckBand", "invalid_schema"));
     }

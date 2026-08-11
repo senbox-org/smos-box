@@ -149,7 +149,6 @@ public class DggFile extends ExplorerFile {
         }
 
         final int memberIndex = compoundType.getMemberIndex(descriptor.getMemberName());
-
         if (memberIndex >= 0) {
             final CompoundMember member = compoundType.getMember(memberIndex);
 
@@ -157,7 +156,7 @@ public class DggFile extends ExplorerFile {
             final Band band = product.addBand(descriptor.getBandName(), dataType);
 
             band.setScalingOffset(descriptor.getScalingOffset());
-            setScaling(band, descriptor);
+                setScaling(band, descriptor);
             if (descriptor.hasFillValue()) {
                 band.setNoDataValueUsed(true);
                 band.setNoDataValue(descriptor.getFillValue());
@@ -259,7 +258,8 @@ public class DggFile extends ExplorerFile {
         }
     }
 
-    private static final class PlainGridPointList implements GridPointList {
+    // @todo 2 tb/tb move to outer
+    static final class PlainGridPointList implements GridPointList {
 
         private final SequenceData sequence;
         private final int latIndex;

@@ -190,7 +190,8 @@ public class SmosUtils {
                 fileName.matches("SM_.{4}_AUX_CNFFAR_.{45}") ||
                 fileName.matches("SM_.{4}_AUX_BULL_B_.{45}") ||
                 fileName.matches("SM_.{4}_AUX_OTT(1|2|3)(D|F)__.{45}") ||
-                fileName.matches("SM_.{4}_AUX_ECMWF__.{45}");
+                fileName.matches("SM_.{4}_AUX_ECMWF__.{45}") ||
+                fileName.matches("SM_.{4}_AUX_WINDS__.{45}");
     }
 
     public static boolean isQualityControlType(String fileName) {
@@ -208,6 +209,10 @@ public class SmosUtils {
 
     public static boolean isAuxECMWFType(String fileName) {
         return fileName.indexOf("_AUX_ECMWF_") > 0;
+    }
+
+    public static boolean isAuxWINDSType(String fileName) {
+        return fileName.indexOf("_AUX_WINDS_") > 0;
     }
 
     public static boolean isOsAnalysisFormat(String formatName) {

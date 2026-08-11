@@ -61,11 +61,12 @@ class ScienceProductSupport extends AbstractProductTypeSupport {
     }
 
     static boolean containsAccuracy_XY_Bands(Product product) {
-        return product.containsBand("Pixel_Radiometric_Accuracy_X") && product.containsBand("Pixel_Radiometric_Accuracy_Y");
+        return (product.containsBand("Pixel_Radiometric_Accuracy_X") && product.containsBand("Pixel_Radiometric_Accuracy_Y"))
+                || (product.containsBand("Pixel_Radiometric_Resolution_X") && product.containsBand("Pixel_Radiometric_Resolution_Y"));
     }
 
     static boolean containsAccuracy_XY_FP_Bands(Product product) {
-        return containsAccuracy_XY_Bands(product) && product.containsBand("Pixel_Radiometric_Accuracy_XY");
+        return containsAccuracy_XY_Bands(product) && (product.containsBand("Pixel_Radiometric_Accuracy_XY") || product.containsBand("Pixel_Radiometric_Resolutions_XY"));
     }
 
     static boolean containsBT_XY_Bands(Product product) {
@@ -309,15 +310,15 @@ class ScienceProductSupport extends AbstractProductTypeSupport {
             BandDescriptor descriptor;
 
             if (containsBT_XY_FP_Bands(product)) {
-                valueProvider = new FPH(product, valueProviderMap, false);
+                valueProvider = new FPH(product, valueProviderMap, "BT_Value");
                 descriptor = bandDescriptors.getMember("BT_Value_H");
                 addRotatedBand(product, descriptor, valueProvider);
 
-                valueProvider = new FPV(product, valueProviderMap, false);
+                valueProvider = new FPV(product, valueProviderMap, "BT_Value");
                 descriptor = bandDescriptors.getMember("BT_Value_V");
                 addRotatedBand(product, descriptor, valueProvider);
 
-                valueProvider = new FPHVR(product, valueProviderMap, false);
+                valueProvider = new FPHVR(product, valueProviderMap, "BT_Value");
                 descriptor = bandDescriptors.getMember("BT_Value_HV_Real");
                 addRotatedBand(product, descriptor, valueProvider);
 
@@ -331,16 +332,31 @@ class ScienceProductSupport extends AbstractProductTypeSupport {
             }
 
             if (containsAccuracy_XY_FP_Bands(product)) {
-                valueProvider = new FPH(product, valueProviderMap, true);
                 descriptor = bandDescriptors.getMember("Pixel_Radiometric_Accuracy_H");
+                if (descriptor != null) {
+                    valueProvider = new FPH(product, valueProviderMap, "Pixel_Radiometric_Accuracy");
+                } else {
+                    descriptor = bandDescriptors.getMember("Pixel_Radiometric_Resolution_H");
+                    valueProvider = new FPH(product, valueProviderMap, "Pixel_Radiometric_Resolution");
+                }
                 addRotatedBand(product, descriptor, valueProvider);
 
-                valueProvider = new FPV(product, valueProviderMap, true);
                 descriptor = bandDescriptors.getMember("Pixel_Radiometric_Accuracy_V");
+                if (descriptor != null) {
+                    valueProvider = new FPV(product, valueProviderMap, "Pixel_Radiometric_Accuracy");
+                } else {
+                    descriptor = bandDescriptors.getMember("Pixel_Radiometric_Resolution_V");
+                    valueProvider = new FPV(product, valueProviderMap, "Pixel_Radiometric_Resolution");
+                }
                 addRotatedBand(product, descriptor, valueProvider);
 
-                valueProvider = new FPHVR(product, valueProviderMap, true);
                 descriptor = bandDescriptors.getMember("Pixel_Radiometric_Accuracy_HV");
+                if (descriptor != null) {
+                    valueProvider = new FPHVR(product, valueProviderMap, "Pixel_Radiometric_Accuracy");
+                } else {
+                    descriptor = bandDescriptors.getMember("Pixel_Radiometric_Resolution_HV");
+                    valueProvider = new FPHVR(product, valueProviderMap, "Pixel_Radiometric_Resolution");
+                }
                 addRotatedBand(product, descriptor, valueProvider);
             }
 
@@ -356,11 +372,11 @@ class ScienceProductSupport extends AbstractProductTypeSupport {
             BandDescriptor descriptor;
 
             if (containsBT_XY_Bands(product)) {
-                valueProvider = new DPH(product, valueProviderMap, false);
+                valueProvider = new DPH(product, valueProviderMap, "BT_Value");
                 descriptor = bandDescriptors.getMember("BT_Value_H");
                 addRotatedBand(product, descriptor, valueProvider);
 
-                valueProvider = new DPV(product, valueProviderMap, false);
+                valueProvider = new DPV(product, valueProviderMap, "BT_Value");
                 descriptor = bandDescriptors.getMember("BT_Value_V");
                 addRotatedBand(product, descriptor, valueProvider);
 
@@ -369,12 +385,22 @@ class ScienceProductSupport extends AbstractProductTypeSupport {
             }
 
             if (containsAccuracy_XY_Bands(product)) {
-                valueProvider = new DPH(product, valueProviderMap, true);
                 descriptor = bandDescriptors.getMember("Pixel_Radiometric_Accuracy_H");
+                if (descriptor!= null) {
+                    valueProvider = new DPH(product, valueProviderMap, "Pixel_Radiometric_Accuracy");
+                } else {
+                    descriptor = bandDescriptors.getMember("Pixel_Radiometric_Resolution_H");
+                    valueProvider = new DPH(product, valueProviderMap, "Pixel_Radiometric_Resolutions");
+                }
                 addRotatedBand(product, descriptor, valueProvider);
 
-                valueProvider = new DPV(product, valueProviderMap, true);
                 descriptor = bandDescriptors.getMember("Pixel_Radiometric_Accuracy_V");
+                if (descriptor!= null) {
+                    valueProvider = new DPV(product, valueProviderMap, "Pixel_Radiometric_Accuracy");
+                } else {
+                    descriptor = bandDescriptors.getMember("Pixel_Radiometric_Resolution_V");
+                    valueProvider = new DPH(product, valueProviderMap, "Pixel_Radiometric_Resolutions");
+                }
                 addRotatedBand(product, descriptor, valueProvider);
             }
         }
