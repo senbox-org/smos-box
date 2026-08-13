@@ -390,7 +390,7 @@ class ScienceProductSupport extends AbstractProductTypeSupport {
                     valueProvider = new DPH(product, valueProviderMap, "Pixel_Radiometric_Accuracy");
                 } else {
                     descriptor = bandDescriptors.getMember("Pixel_Radiometric_Resolution_H");
-                    valueProvider = new DPH(product, valueProviderMap, "Pixel_Radiometric_Resolutions");
+                    valueProvider = new DPH(product, valueProviderMap, "Pixel_Radiometric_Resolution");
                 }
                 addRotatedBand(product, descriptor, valueProvider);
 
@@ -399,7 +399,7 @@ class ScienceProductSupport extends AbstractProductTypeSupport {
                     valueProvider = new DPV(product, valueProviderMap, "Pixel_Radiometric_Accuracy");
                 } else {
                     descriptor = bandDescriptors.getMember("Pixel_Radiometric_Resolution_V");
-                    valueProvider = new DPH(product, valueProviderMap, "Pixel_Radiometric_Resolutions");
+                    valueProvider = new DPH(product, valueProviderMap, "Pixel_Radiometric_Resolution");
                 }
                 addRotatedBand(product, descriptor, valueProvider);
             }
