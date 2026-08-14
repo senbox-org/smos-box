@@ -80,7 +80,9 @@ class L2FormatExporter extends AbstractFormatExporter {
         final String productType = product.getProductType();
         if (SmosUtils.isSmUserFormat(productType)) {
             final MetadataElement specificProductHeader = ExporterUtils.getSpecificProductHeader(product);
-            if (specificProductHeader == null) return;
+            if (specificProductHeader == null) {
+                return;
+            }
 
             final MetadataAttribute chi2ScaleAttribute = specificProductHeader.getAttribute("Chi_2_Scale");
             if (chi2ScaleAttribute == null) {

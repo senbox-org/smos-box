@@ -5,6 +5,7 @@ import org.esa.smos.dataio.smos.dddb.BandDescriptor;
 import org.esa.smos.dataio.smos.provider.AbstractValueProvider;
 import org.esa.snap.core.datamodel.Band;
 import org.esa.snap.core.util.StringUtils;
+import org.jspecify.annotations.Nullable;
 import ucar.nc2.Attribute;
 import ucar.nc2.NetcdfFile;
 
@@ -17,7 +18,8 @@ class L2ProductSupport extends AbstractProductTypeSupport {
     L2ProductSupport(NetcdfFile netcdfFile) {
         super(netcdfFile);
 
-        final Attribute chi2ScaleAttribute = netcdfFile.findGlobalAttribute("Variable_Header:Specific_Product_Header:Chi_2_Scale");
+
+        final Attribute chi2ScaleAttribute = getChi2ScaleAttribute(netcdfFile);
         if (chi2ScaleAttribute != null) {
             final String chi2ScaleString = chi2ScaleAttribute.getStringValue();
             if (StringUtils.isNotNullAndNotEmpty(chi2ScaleString)) {
@@ -28,6 +30,14 @@ class L2ProductSupport extends AbstractProductTypeSupport {
         } else {
             chi_2_scale = 1.0;
         }
+    }
+
+    static @Nullable Attribute getChi2ScaleAttribute(NetcdfFile netcdfFile) {
+        Attribute chi2ScaleAttribute = netcdfFile.findGlobalAttribute("Variable_Header:Specific_Product_Header:Chi_2_Scale");
+        if (chi2ScaleAttribute == null) {
+            chi2ScaleAttribute = netcdfFile.findGlobalAttribute("VH:SPH:Chi_2_Scale");
+        }
+        return chi2ScaleAttribute;
     }
 
     @Override

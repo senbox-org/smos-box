@@ -14,10 +14,7 @@ import ucar.nc2.Variable;
 import java.awt.Rectangle;
 import java.awt.geom.Area;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -113,6 +110,23 @@ public class L2ProductSupportTest {
         final AbstractValueProvider valueProvider = support.createValueProvider(arrayCache, "whatever", descriptor, new Area(new Rectangle(0, 0, 12, 34)), gridPointInfo);
         assertNotNull(valueProvider);
         assertTrue(valueProvider instanceof VariableValueProvider);
+    }
+
+    @Test
+    public void testGetChi2ScaleAttribute() {
+        when(netcdfFile.findGlobalAttribute("Variable_Header:Specific_Product_Header:Chi_2_Scale")).thenReturn(null);
+        assertNull(L2ProductSupport.getChi2ScaleAttribute(netcdfFile));
+
+        final Attribute attribute = new Attribute("don't care", 12.6);
+        when(netcdfFile.findGlobalAttribute("Variable_Header:Specific_Product_Header:Chi_2_Scale")).thenReturn(attribute);
+        Attribute chi2ScaleAttribute = L2ProductSupport.getChi2ScaleAttribute(netcdfFile);
+        assertNotNull(chi2ScaleAttribute);
+        assertEquals(12.6, chi2ScaleAttribute.getNumericValue().doubleValue(), 1e-8);
+
+        when(netcdfFile.findGlobalAttribute("VH:SPH:Chi_2_Scale")).thenReturn(attribute);
+        chi2ScaleAttribute = L2ProductSupport.getChi2ScaleAttribute(netcdfFile);
+        assertNotNull(chi2ScaleAttribute);
+        assertEquals(12.6, chi2ScaleAttribute.getNumericValue().doubleValue(), 1e-8);
     }
 
     private BandDescriptor createChi2Descriptor(double scaling, double offset) {
