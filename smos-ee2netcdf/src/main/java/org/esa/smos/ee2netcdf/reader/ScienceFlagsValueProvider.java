@@ -91,12 +91,19 @@ public class ScienceFlagsValueProvider extends AbstractValueProvider {
     private int getCombinedFlags(int gridPointIndex) {
         try {
             final Array flagDataArray = arrayCache.get(variableName);
+            final Array incidenceAngleArray = arrayCache.get(SmosConstants.INCIDENCE_ANGLE);
+            final Array btDataCounterArray = arrayCache.get("BT_Data_Counter");
+            if (flagDataArray == null || incidenceAngleArray == null || btDataCounterArray == null) {
+                return (int) descriptor.getFillValue();
+            }
+
             final Array flagsVector = extractGridPointVector(gridPointIndex, flagDataArray);
             final Index flagsVectorIndex = flagsVector.getIndex();
 
-            final Array incidenceAngleArray = arrayCache.get(SmosConstants.INCIDENCE_ANGLE);
             final Array incidenceAngleVector = extractGridPointVector(gridPointIndex, incidenceAngleArray);
             final Index angleVectorIndex = incidenceAngleVector.getIndex();
+
+            final int btDataCount = Math.min(btDataCounterArray.getInt(gridPointIndex), (int) flagsVector.getSize());
 
             int combinedFlags = 0;
 
@@ -104,7 +111,7 @@ public class ScienceFlagsValueProvider extends AbstractValueProvider {
             boolean hasUpper = false;
 
             final int polarization = descriptor.getPolarization();
-            for (int i = 0; i < flagsVector.getSize(); ++i) {
+            for (int i = 0; i < btDataCount; ++i) {
                 flagsVectorIndex.set(i);
                 angleVectorIndex.set(i);
                 final int flags = flagsVector.getInt(flagsVectorIndex);

@@ -93,7 +93,8 @@ public class ScienceValueProvider extends AbstractValueProvider {
         try {
             final Array flagsArray = arrayCache.get("Flags");
             final Array incidenceAngleArray = arrayCache.get(SmosConstants.INCIDENCE_ANGLE);
-            if (flagsArray == null || incidenceAngleArray == null) {
+            final Array btDataCounterArray = arrayCache.get("BT_Data_Counter");
+            if (flagsArray == null || incidenceAngleArray == null || btDataCounterArray == null) {
                 return fillValue;
             }
 
@@ -117,16 +118,14 @@ public class ScienceValueProvider extends AbstractValueProvider {
             boolean hasUpper = false;
 
             final int polarization = descriptor.getPolarization();
+            final int btDataCount = Math.min(btDataCounterArray.getInt(gridPointIndex), (int) gpDataVector.getSize());
 
-            for (int i = 0; i < gpDataVector.getSize(); i++) {
+            for (int i = 0; i < btDataCount; i++) {
                 dataIndex.set(i);
                 flagsIndex.set(i);
                 angleVectorIndex.set(i);
 
                 final float value = gpDataVector.getFloat(dataIndex);
-                if (Math.abs(value - fillValue) < 1e-8) {
-                    continue;
-                }
 
                 final int flags = flagsVector.getInt(flagsIndex);
                 if (polarization == 4 || polarization == (flags & 3) || (polarization & flags & 2) != 0) {
