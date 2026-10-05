@@ -17,7 +17,7 @@
         <netbeans.version>RELEASE210</netbeans.version>
         <javahelp.version>2.0.05</javahelp.version>
         <smos.nbmSpecVersion>14.0.1-SNAPSHOT</smos.nbmSpecVersion>
-        <snap-help-system.version>1.0.3</snap-help-system.version>
+        <snap-help-system.version>1.0.4</snap-help-system.version>
         <maven.build.timestamp.format>yyyyMMdd</maven.build.timestamp.format>
         <buildDate>${maven.build.timestamp}</buildDate>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
