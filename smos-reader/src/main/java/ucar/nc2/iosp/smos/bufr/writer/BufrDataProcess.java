@@ -235,8 +235,10 @@ public class BufrDataProcess {
 
         if (v.getDataType().isNumeric()) {
             long val = mdata.nextLong();
-            boolean result = ucar.nc2.iosp.smos.bufr.BufrNumbers.isMissing(val, bitWidth);
-            if (showData) out.format("%d %s,", val, result ? "(miss)" : "");
+            boolean result = BufrNumbers.isMissing(val, bitWidth);
+            if (showData) {
+                out.format("%d %s,", val, result ? "(miss)" : "");
+            }
             return result;
         }
 
@@ -265,7 +267,9 @@ public class BufrDataProcess {
         }
 
         boolean result = BufrNumbers.isMissing(val, bitWidth);
-        if (showData) out.format("%d %s,", val, result ? "(miss)" : "");
+        if (showData) {
+            out.format("%d %s,", val, result ? "(miss)" : "");
+        }
         return result;
     }
 

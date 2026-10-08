@@ -219,7 +219,9 @@ public class DataDescriptor {
     }
 
     public float convert(long raw) {
-        if (BufrNumbers.isMissing(raw, bitWidth)) return Float.NaN;
+        if (BufrNumbers.isMissing(raw, bitWidth)) {
+            return Float.NaN;
+        }
 
         // bpacked = (value * 10^scale - refVal)
         // value = (bpacked + refVal) / 10^scale

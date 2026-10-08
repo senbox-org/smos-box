@@ -433,10 +433,11 @@ public class MessageCompressedDataReader {
 
         if (dataWidth > 0) {
           long cv = reader.bits2UInt(dataWidth);
-          if (BufrNumbers.isMissing(cv, dataWidth))
+          if (BufrNumbers.isMissing(cv, dataWidth)) {
             value = BufrNumbers.missingValue(useBitWidth); // set to missing value
-          else // add to minimum
+          } else { // add to minimum
             value += cv;
+          }
         }
 
         // workaround for malformed messages
