@@ -17,7 +17,7 @@
         <netbeans.version>RELEASE210</netbeans.version>
         <javahelp.version>2.0.05</javahelp.version>
         <smos.nbmSpecVersion>15.0.0-SNAPSHOT</smos.nbmSpecVersion>
-        <snap-help-system.version>1.0.3</snap-help-system.version>
+        <snap-help-system.version>1.0.4</snap-help-system.version>
         <buildDate>${maven.build.timestamp}</buildDate>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <jvm.version>21</jvm.version>
@@ -342,7 +342,9 @@
 
                     <debug>true</debug>
                     <fork>false</fork>
+                    <!--
                     <encoding>UTF-8</encoding>
+                    -->
                 </configuration>
             </plugin>
 
@@ -427,7 +429,11 @@
                         <configuration>
                             <name>project.nbmSpecVersion</name>
                             <value>${smos.nbmSpecVersion}</value>
+                            <!--
                             <regex>(-SNAPSHOT)|(-rc[0-9]+)|(-SNAPSHOT)</regex>
+                            <replacement>.0</replacement>
+                            -->
+                            <regex>(-SNAPSHOT)|(-rc[0-9]+)</regex>
                             <replacement>.0</replacement>
                             <failIfNoMatch>false</failIfNoMatch>
                         </configuration>
@@ -440,7 +446,11 @@
                         <configuration>
                             <name>project.nbmImplVersion</name>
                             <value>${smos.nbmSpecVersion}</value>
+                            <!--
                             <regex>(-SNAPSHOT)|(-rc[0-9]+)|(-SNAPSHOT)</regex>
+                            <replacement>.${buildDate}</replacement>
+                            -->
+                            <regex>(-SNAPSHOT)|(-rc[0-9]+)</regex>
                             <replacement>.${buildDate}</replacement>
                             <failIfNoMatch>false</failIfNoMatch>
                         </configuration>
@@ -472,7 +482,9 @@
                 <artifactId>maven-resources-plugin</artifactId>
                 <version>3.3.1</version>
                 <configuration>
+                    <!--
                     <encoding>UTF-8</encoding>
+                    -->
                 </configuration>
                 <executions>
                     <execution>
