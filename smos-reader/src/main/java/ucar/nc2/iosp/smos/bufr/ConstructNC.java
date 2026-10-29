@@ -53,6 +53,8 @@ import ucar.nc2.time.CalendarDateUnit;
 import java.io.IOException;
 import java.util.List;
 
+import static eu.esa.snap.core.dataio.CfConstants.SCALE_FACTOR;
+
 /**
  * BufrIosp delegates the construction of the Netcdf objects to ConstructNC.
  *
@@ -392,7 +394,7 @@ class ConstructNC {
       int scale10 = dataDesc.scale;
       double scale = (scale10 == 0) ? 1.0 : Math.pow(10.0, -scale10);
       if (scale10 != 0)
-        v.addAttribute(new Attribute("scale_factor", (float) scale));
+        v.addAttribute(new Attribute(SCALE_FACTOR, (float) scale));
       if (dataDesc.refVal != 0)
         v.addAttribute(new Attribute("add_offset", (float) scale * dataDesc.refVal));
 

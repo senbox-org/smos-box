@@ -27,6 +27,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import static eu.esa.snap.core.dataio.CfConstants.*;
+
 abstract class AbstractFormatExporter implements FormatExporter {
 
     protected int gridPointCount;
@@ -170,22 +172,23 @@ abstract class AbstractFormatExporter implements FormatExporter {
                     exportParameter.getCompressionLevel());
             final String unitValue = variableDescriptor.getUnit();
             if (StringUtils.isNotBlank(unitValue)) {
-                nVariable.addAttribute("units", unitValue);
+                nVariable.addAttribute(UNITS, unitValue);
             }
+            // @todo 2 tb/** exttract method and add tests 2026-10-29
             if (variableDescriptor.isFillValuePresent()) {
                 final float fillValue = variableDescriptor.getFillValue();
                 if (dataType == DataType.UBYTE ||  dataType == DataType.BYTE) {
-                    nVariable.addAttribute("_FillValue", (byte) fillValue, unsigned);
+                    nVariable.addAttribute(FILL_VALUE, (byte) fillValue, unsigned);
                 } else if (dataType == DataType.USHORT || dataType == DataType.SHORT) {
-                    nVariable.addAttribute("_FillValue", (short) fillValue, unsigned);
+                    nVariable.addAttribute(FILL_VALUE, (short) fillValue, unsigned);
                 } else if (dataType == DataType.UINT || dataType == DataType.INT) {
-                    nVariable.addAttribute("_FillValue", (int) fillValue, unsigned);
+                    nVariable.addAttribute(FILL_VALUE, (int) fillValue, unsigned);
                 } else if (dataType == DataType.ULONG || dataType == DataType.LONG) {
-                    nVariable.addAttribute("_FillValue", (long) fillValue, unsigned);
+                    nVariable.addAttribute(FILL_VALUE, (long) fillValue, unsigned);
                 } else if (dataType == DataType.FLOAT) {
-                    nVariable.addAttribute("_FillValue", fillValue);
+                    nVariable.addAttribute(FILL_VALUE, fillValue);
                 } else if (dataType == DataType.DOUBLE) {
-                    nVariable.addAttribute("_FillValue", (double) fillValue);
+                    nVariable.addAttribute(FILL_VALUE, (double) fillValue);
                 } else {
                     throw new IllegalStateException("Unsupported data type: " + dataType.toString());
                 }
@@ -198,18 +201,18 @@ abstract class AbstractFormatExporter implements FormatExporter {
             }
             final short[] flagMasks = variableDescriptor.getFlagMasks();
             if (flagMasks != null) {
-                nVariable.addAttribute("flag_masks", Array.factory(DataType.SHORT, new int[]{flagMasks.length}, flagMasks));
+                nVariable.addAttribute(FLAG_MASKS, Array.factory(DataType.SHORT, new int[]{flagMasks.length}, flagMasks));
             }
             final short[] flagValues = variableDescriptor.getFlagValues();
             if (flagValues != null) {
-                nVariable.addAttribute("flag_values", Array.factory(DataType.SHORT, new int[]{flagValues.length}, flagValues));
+                nVariable.addAttribute(FLAG_VALUES, Array.factory(DataType.SHORT, new int[]{flagValues.length}, flagValues));
             }
             final String flagMeanings = variableDescriptor.getFlagMeanings();
             if (StringUtils.isNotBlank(flagMeanings)) {
-                nVariable.addAttribute("flag_meanings", flagMeanings);
+                nVariable.addAttribute(FLAG_MEANINGS, flagMeanings);
             }
             if (variableDescriptor.isScaleFactorPresent() || variableDescriptor.isScaleOffsetPresent()) {
-                nVariable.addAttribute("scale_factor", variableDescriptor.getScaleFactor());
+                nVariable.addAttribute(SCALE_FACTOR, variableDescriptor.getScaleFactor());
                 nVariable.addAttribute("scale_offset", variableDescriptor.getScaleOffset());
             }
             if (unsigned) {

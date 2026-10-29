@@ -34,6 +34,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import static eu.esa.snap.core.dataio.CfConstants.*;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -120,12 +121,12 @@ public class NetcdfExportOpIntegrationTest {
 
             final Variable latVariable = getVariableVerified("Grid_Point_Latitude", targetFile);
             assertEquals(DataType.FLOAT, latVariable.getDataType());
-            assertAttribute("units", "deg", latVariable);
-            assertAttribute("_FillValue", Double.NaN, latVariable);
-            assertNoAttribute("flag_masks", latVariable);
-            assertNoAttribute("flag_values", latVariable);
-            assertNoAttribute("flag_meanings", latVariable);
-            assertNoAttribute("scale_factor", latVariable);
+            assertAttribute(UNITS, "deg", latVariable);
+            assertAttribute(FILL_VALUE, Double.NaN, latVariable);
+            assertNoAttribute(FLAG_MASKS, latVariable);
+            assertNoAttribute(FLAG_VALUES, latVariable);
+            assertNoAttribute(FLAG_MEANINGS, latVariable);
+            assertNoAttribute(SCALE_FACTOR, latVariable);
             assertNoAttribute("_Unsigned", latVariable);
             Array array = latVariable.read(new int[]{467}, new int[]{2});
             assertEquals(78.56900024, array.getFloat(0), 1e-8);
@@ -133,12 +134,12 @@ public class NetcdfExportOpIntegrationTest {
 
             final Variable lonVariable = getVariableVerified("Grid_Point_Longitude", targetFile);
             assertEquals(DataType.FLOAT, lonVariable.getDataType());
-            assertAttribute("units", "deg", lonVariable);
-            assertAttribute("_FillValue", Double.NaN, lonVariable);
-            assertNoAttribute("flag_masks", lonVariable);
-            assertNoAttribute("flag_values", lonVariable);
-            assertNoAttribute("flag_meanings", lonVariable);
-            assertNoAttribute("scale_factor", lonVariable);
+            assertAttribute(UNITS, "deg", lonVariable);
+            assertAttribute(FILL_VALUE, Double.NaN, lonVariable);
+            assertNoAttribute(FLAG_MASKS, lonVariable);
+            assertNoAttribute(FLAG_VALUES, lonVariable);
+            assertNoAttribute(FLAG_MEANINGS, lonVariable);
+            assertNoAttribute(SCALE_FACTOR, lonVariable);
             assertNoAttribute("_Unsigned", lonVariable);
             array = lonVariable.read(new int[]{582}, new int[]{2});
             assertEquals(101.25, array.getFloat(0), 1e-8);
@@ -146,12 +147,12 @@ public class NetcdfExportOpIntegrationTest {
 
             final Variable altitudeVariable = getVariableVerified("Grid_Point_Altitude", targetFile);
             assertEquals(DataType.FLOAT, altitudeVariable.getDataType());
-            assertAttribute("units", "m", altitudeVariable);
-            assertAttribute("_FillValue", Double.NaN, altitudeVariable);
-            assertNoAttribute("flag_masks", altitudeVariable);
-            assertNoAttribute("flag_values", altitudeVariable);
-            assertNoAttribute("flag_meanings", altitudeVariable);
-            assertNoAttribute("scale_factor", altitudeVariable);
+            assertAttribute(UNITS, "m", altitudeVariable);
+            assertAttribute(FILL_VALUE, Double.NaN, altitudeVariable);
+            assertNoAttribute(FLAG_MASKS, altitudeVariable);
+            assertNoAttribute(FLAG_VALUES, altitudeVariable);
+            assertNoAttribute(FLAG_MEANINGS, altitudeVariable);
+            assertNoAttribute(SCALE_FACTOR, altitudeVariable);
             assertNoAttribute("_Unsigned", altitudeVariable);
             array = altitudeVariable.read(new int[]{619}, new int[]{2});
             assertEquals(-0.708, array.getFloat(0), 1e-8);
@@ -159,13 +160,13 @@ public class NetcdfExportOpIntegrationTest {
 
             final Variable gridPointMaskVariable = getVariableVerified("Grid_Point_Mask", targetFile);
             assertEquals(DataType.UBYTE, gridPointMaskVariable.getDataType());
-            assertNoAttribute("units", gridPointMaskVariable);
+            assertNoAttribute(UNITS, gridPointMaskVariable);
             // @todo 2 tb/tb check with spec 2020-08-20
-            //assertAttribute("_FillValue", Double.NaN, gridPointMaskVariable);
-            assertNoAttribute("flag_masks", gridPointMaskVariable);
-            assertNoAttribute("flag_values", gridPointMaskVariable);
-            assertNoAttribute("flag_meanings", gridPointMaskVariable);
-            assertNoAttribute("scale_factor", gridPointMaskVariable);
+            //assertAttribute(FILL_VALUE, Double.NaN, gridPointMaskVariable);
+            assertNoAttribute(FLAG_MASKS, gridPointMaskVariable);
+            assertNoAttribute(FLAG_VALUES, gridPointMaskVariable);
+            assertNoAttribute(FLAG_MEANINGS, gridPointMaskVariable);
+            assertNoAttribute(SCALE_FACTOR, gridPointMaskVariable);
             assertAttribute("_Unsigned", "true", gridPointMaskVariable);
             array = gridPointMaskVariable.read(new int[]{743}, new int[]{2});
             assertEquals(-39, array.getByte(0)); // @todo 2 tb/tb these should be unsigned values - resolve problem tb 2014-04-09
@@ -173,13 +174,13 @@ public class NetcdfExportOpIntegrationTest {
 
             final Variable btDataCountVariable = getVariableVerified("BT_Data_Counter", targetFile);
             assertEquals(DataType.UBYTE, btDataCountVariable.getDataType());
-            assertNoAttribute("units", btDataCountVariable);
+            assertNoAttribute(UNITS, btDataCountVariable);
             // @todo 2 tb/tb check with spec 2020-08-20
-//            assertAttribute("_FillValue", Double.NaN, gridPointMaskVariable);
-            assertNoAttribute("flag_masks", btDataCountVariable);
-            assertNoAttribute("flag_values", btDataCountVariable);
-            assertNoAttribute("flag_meanings", btDataCountVariable);
-            assertNoAttribute("scale_factor", btDataCountVariable);
+//            assertAttribute(FILL_VALUE, Double.NaN, gridPointMaskVariable);
+            assertNoAttribute(FLAG_MASKS, btDataCountVariable);
+            assertNoAttribute(FLAG_VALUES, btDataCountVariable);
+            assertNoAttribute(FLAG_MEANINGS, btDataCountVariable);
+            assertNoAttribute(SCALE_FACTOR, btDataCountVariable);
             assertAttribute("_Unsigned", "true", btDataCountVariable);
             array = btDataCountVariable.read(new int[]{833}, new int[]{2});
             assertEquals(4, array.getByte(0)); // @todo 2 tb/tb these should be unsigned values - resolve problem tb 2014-04-09
@@ -187,17 +188,17 @@ public class NetcdfExportOpIntegrationTest {
 
             final Variable flagsVariable = getVariableVerified("Flags", targetFile);
             assertEquals(DataType.USHORT, flagsVariable.getDataType());
-            assertNoAttribute("units", flagsVariable);
+            assertNoAttribute(UNITS, flagsVariable);
             // todo 2 tb/tb check with spec 2020-08-20
-//            assertAttribute("_FillValue", 0.0, flagsVariable);
-            assertAttribute("flag_masks", new short[]{1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, (short) 32768},
+//            assertAttribute(FILL_VALUE, 0.0, flagsVariable);
+            assertAttribute(FLAG_MASKS, new short[]{1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, (short) 32768},
                             flagsVariable);
-            assertAttribute("flag_values", new short[]{1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, (short) 32768},
+            assertAttribute(FLAG_VALUES, new short[]{1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, (short) 32768},
                             flagsVariable);
-            assertAttribute("flag_meanings",
+            assertAttribute(FLAG_MEANINGS,
                             "POL_FLAG_1 POL_FLAG_2 SUN_FOV SUN_GLINT_FOV MOON_GLINT_FOV SINGLE_SNAPSHOT FTT SUN_POINT SUN_GLINT_AREA MOON_POINT AF_FOV EAF_FOV BORDER_FOV SUN_TAILS RFI_1 RFI_2",
                             flagsVariable);
-            assertNoAttribute("scale_factor", flagsVariable);
+            assertNoAttribute(SCALE_FACTOR, flagsVariable);
             assertAttribute("_Unsigned", "true", flagsVariable);
             array = flagsVariable.read(new int[]{945, 1}, new int[]{2, 1});
             assertEquals(1045, array.getShort(0));
@@ -205,12 +206,12 @@ public class NetcdfExportOpIntegrationTest {
 
             final Variable btValueVariable = getVariableVerified("BT_Value", targetFile);
             assertEquals(DataType.FLOAT, btValueVariable.getDataType());
-            assertAttribute("units", "K", btValueVariable);
-            assertAttribute("_FillValue", -999.0, btValueVariable);
-            assertNoAttribute("flag_masks", btValueVariable);
-            assertNoAttribute("flag_values", btValueVariable);
-            assertNoAttribute("flag_meanings", btValueVariable);
-            assertNoAttribute("scale_factor", btValueVariable);
+            assertAttribute(UNITS, "K", btValueVariable);
+            assertAttribute(FILL_VALUE, -999.0, btValueVariable);
+            assertNoAttribute(FLAG_MASKS, btValueVariable);
+            assertNoAttribute(FLAG_VALUES, btValueVariable);
+            assertNoAttribute(FLAG_MEANINGS, btValueVariable);
+            assertNoAttribute(SCALE_FACTOR, btValueVariable);
             assertNoAttribute("_Unsigned", btValueVariable);
             array = btValueVariable.read(new int[]{1034, 2}, new int[]{2, 2});
             assertEquals(6.868230819702148, array.getFloat(0), 1e-8);
@@ -220,13 +221,13 @@ public class NetcdfExportOpIntegrationTest {
 
             final Variable radAccVariable = getVariableVerified("Radiometric_Accuracy_of_Pixel", targetFile);
             assertEquals(DataType.USHORT, radAccVariable.getDataType());
-            assertAttribute("units", "K", radAccVariable);
+            assertAttribute(UNITS, "K", radAccVariable);
             // todo 2 tb/tb check with spec 2020-08-20
-//            assertAttribute("_FillValue", 0.0, radAccVariable);
-            assertNoAttribute("flag_masks", radAccVariable);
-            assertNoAttribute("flag_values", radAccVariable);
-            assertNoAttribute("flag_meanings", radAccVariable);
-            assertAttribute("scale_factor", 1.52587890625E-5, radAccVariable);
+//            assertAttribute(FILL_VALUE, 0.0, radAccVariable);
+            assertNoAttribute(FLAG_MASKS, radAccVariable);
+            assertNoAttribute(FLAG_VALUES, radAccVariable);
+            assertNoAttribute(FLAG_MEANINGS, radAccVariable);
+            assertAttribute(SCALE_FACTOR, 1.52587890625E-5, radAccVariable);
             assertAttribute("scale_offset", 0.0, radAccVariable);
             assertAttribute("_Unsigned", "true", radAccVariable);
             array = radAccVariable.read(new int[]{1175, 0}, new int[]{2, 2});
@@ -237,13 +238,13 @@ public class NetcdfExportOpIntegrationTest {
 
             final Variable azimuthAngleVariable = getVariableVerified("Azimuth_Angle", targetFile);
             assertEquals(DataType.USHORT, azimuthAngleVariable.getDataType());
-            assertAttribute("units", "deg", azimuthAngleVariable);
+            assertAttribute(UNITS, "deg", azimuthAngleVariable);
             // todo 2 tb/tb check with spec 2020-08-20
-//            assertAttribute("_FillValue", 0.0, azimuthAngleVariable);
-            assertNoAttribute("flag_masks", azimuthAngleVariable);
-            assertNoAttribute("flag_values", azimuthAngleVariable);
-            assertNoAttribute("flag_meanings", azimuthAngleVariable);
-            assertAttribute("scale_factor", 0.0054931640625, azimuthAngleVariable);
+//            assertAttribute(FILL_VALUE, 0.0, azimuthAngleVariable);
+            assertNoAttribute(FLAG_MASKS, azimuthAngleVariable);
+            assertNoAttribute(FLAG_VALUES, azimuthAngleVariable);
+            assertNoAttribute(FLAG_MEANINGS, azimuthAngleVariable);
+            assertAttribute(SCALE_FACTOR, 0.0054931640625, azimuthAngleVariable);
             assertAttribute("scale_offset", 0.0, azimuthAngleVariable);
             assertAttribute("_Unsigned", "true", azimuthAngleVariable);
             array = azimuthAngleVariable.read(new int[]{1261, 1}, new int[]{2, 2});
@@ -254,13 +255,13 @@ public class NetcdfExportOpIntegrationTest {
 
             final Variable footAxis1Variable = getVariableVerified("Footprint_Axis1", targetFile);
             assertEquals(DataType.USHORT, footAxis1Variable.getDataType());
-            assertAttribute("units", "km", footAxis1Variable);
+            assertAttribute(UNITS, "km", footAxis1Variable);
             // todo 2 tb/tb check with spec 2020-08-20
-//            assertAttribute("_FillValue", 0.0, footAxis1Variable);
-            assertNoAttribute("flag_masks", footAxis1Variable);
-            assertNoAttribute("flag_values", footAxis1Variable);
-            assertNoAttribute("flag_meanings", footAxis1Variable);
-            assertAttribute("scale_factor", 1.52587890625E-5, footAxis1Variable);
+//            assertAttribute(FILL_VALUE, 0.0, footAxis1Variable);
+            assertNoAttribute(FLAG_MASKS, footAxis1Variable);
+            assertNoAttribute(FLAG_VALUES, footAxis1Variable);
+            assertNoAttribute(FLAG_MEANINGS, footAxis1Variable);
+            assertAttribute(SCALE_FACTOR, 1.52587890625E-5, footAxis1Variable);
             assertAttribute("scale_offset", 0.0, footAxis1Variable);
             assertAttribute("_Unsigned", "true", footAxis1Variable);
             array = footAxis1Variable.read(new int[]{1394, 2}, new int[]{2, 2});
@@ -271,13 +272,13 @@ public class NetcdfExportOpIntegrationTest {
 
             final Variable footAxis2Variable = getVariableVerified("Footprint_Axis2", targetFile);
             assertEquals(DataType.USHORT, footAxis2Variable.getDataType());
-            assertAttribute("units", "km", footAxis2Variable);
+            assertAttribute(UNITS, "km", footAxis2Variable);
             // todo 2 tb/tb check with spec 2020-08-20
-//            assertAttribute("_FillValue", 0.0, footAxis2Variable);
-            assertNoAttribute("flag_masks", footAxis2Variable);
-            assertNoAttribute("flag_values", footAxis2Variable);
-            assertNoAttribute("flag_meanings", footAxis2Variable);
-            assertAttribute("scale_factor", 1.52587890625E-5, footAxis2Variable);
+//            assertAttribute(FILL_VALUE, 0.0, footAxis2Variable);
+            assertNoAttribute(FLAG_MASKS, footAxis2Variable);
+            assertNoAttribute(FLAG_VALUES, footAxis2Variable);
+            assertNoAttribute(FLAG_MEANINGS, footAxis2Variable);
+            assertAttribute(SCALE_FACTOR, 1.52587890625E-5, footAxis2Variable);
             assertAttribute("scale_offset", 0.0, footAxis2Variable);
             assertAttribute("_Unsigned", "true", footAxis2Variable);
             array = footAxis2Variable.read(new int[]{1417, 0}, new int[]{2, 2});
@@ -456,8 +457,8 @@ public class NetcdfExportOpIntegrationTest {
 
             final Variable radiometric_accuracy = getVariableVerified("Radiometric_Accuracy", targetFile);
             assertEquals(DataType.FLOAT, radiometric_accuracy.getDataType());
-            assertAttribute("units", "K", radiometric_accuracy);
-            assertAttribute("scale_factor", 48.0, radiometric_accuracy);
+            assertAttribute(UNITS, "K", radiometric_accuracy);
+            assertAttribute(SCALE_FACTOR, 48.0, radiometric_accuracy);
             assertAttribute("scale_offset", 0.0, radiometric_accuracy);
             array = radiometric_accuracy.read(new int[]{2, 0}, new int[]{2, 2});
             assertEquals(3.27913236618042, array.getFloat(0), 1e-8);
@@ -467,8 +468,8 @@ public class NetcdfExportOpIntegrationTest {
 
             final Variable footprint_axis1 = getVariableVerified("Footprint_Axis1", targetFile);
             assertEquals(DataType.USHORT, footprint_axis1.getDataType());
-            assertAttribute("units", "km", footprint_axis1);
-            assertAttribute("scale_factor", 7.476806640625E-4, footprint_axis1);
+            assertAttribute(UNITS, "km", footprint_axis1);
+            assertAttribute(SCALE_FACTOR, 7.476806640625E-4, footprint_axis1);
             assertAttribute("scale_offset", 0.0, footprint_axis1);
             array = footprint_axis1.read(new int[]{4, 0}, new int[]{2, 2});
             assertEquals(-20156, array.getShort(0));
@@ -478,8 +479,8 @@ public class NetcdfExportOpIntegrationTest {
 
             final Variable footprint_axis2 = getVariableVerified("Footprint_Axis2", targetFile);
             assertEquals(DataType.USHORT, footprint_axis2.getDataType());
-            assertAttribute("units", "km", footprint_axis2);
-            assertAttribute("scale_factor", 7.476806640625E-4, footprint_axis2);
+            assertAttribute(UNITS, "km", footprint_axis2);
+            assertAttribute(SCALE_FACTOR, 7.476806640625E-4, footprint_axis2);
             assertAttribute("scale_offset", 0.0, footprint_axis2);
             array = footprint_axis2.read(new int[]{5, 0}, new int[]{2, 2});
             assertEquals(19972, array.getShort(0));
@@ -608,8 +609,8 @@ public class NetcdfExportOpIntegrationTest {
 
             final Variable latVariable = getVariableVerified("Latitude", targetFile);
             assertEquals(DataType.FLOAT, latVariable.getDataType());
-            assertAttribute("units", "deg", latVariable);
-            assertAttribute("_FillValue", -999.0, latVariable);
+            assertAttribute(UNITS, "deg", latVariable);
+            assertAttribute(FILL_VALUE, -999.0, latVariable);
             assertNoAttribute("_Unsigned", latVariable);
             Array array = latVariable.read(new int[]{672}, new int[]{2});
             assertEquals(-76.871002197, array.getFloat(0), 1e-8);
@@ -617,8 +618,8 @@ public class NetcdfExportOpIntegrationTest {
 
             final Variable lonVariable = getVariableVerified("Longitude", targetFile);
             assertEquals(DataType.FLOAT, lonVariable.getDataType());
-            assertAttribute("units", "deg", lonVariable);
-            assertAttribute("_FillValue", -999.0, lonVariable);
+            assertAttribute(UNITS, "deg", lonVariable);
+            assertAttribute(FILL_VALUE, -999.0, lonVariable);
             assertNoAttribute("_Unsigned", lonVariable);
             array = lonVariable.read(new int[]{718}, new int[]{2});
             assertEquals(168.957000732, array.getFloat(0), 1e-8);
@@ -626,32 +627,32 @@ public class NetcdfExportOpIntegrationTest {
 
             final Variable equiv_ftprt_diam = getVariableVerified("Equiv_ftprt_diam", targetFile);
             assertEquals(DataType.FLOAT, equiv_ftprt_diam.getDataType());
-            assertAttribute("units", "m", equiv_ftprt_diam);
-            assertAttribute("_FillValue", -999.0, equiv_ftprt_diam);
+            assertAttribute(UNITS, "m", equiv_ftprt_diam);
+            assertAttribute(FILL_VALUE, -999.0, equiv_ftprt_diam);
             array = equiv_ftprt_diam.read(new int[]{819}, new int[]{2});
             assertEquals(-999.0, array.getFloat(0), 1e-8);
             assertEquals(-999.0, array.getFloat(1), 1e-8);
 
             final Variable mean_acq_time = getVariableVerified("Mean_acq_time", targetFile);
             assertEquals(DataType.FLOAT, mean_acq_time.getDataType());
-            assertAttribute("units", "dd", mean_acq_time);
-            assertAttribute("_FillValue", -999.0, mean_acq_time);
+            assertAttribute(UNITS, "dd", mean_acq_time);
+            assertAttribute(FILL_VALUE, -999.0, mean_acq_time);
             array = mean_acq_time.read(new int[]{920}, new int[]{2});
             assertEquals(3625.015869140625, array.getFloat(0), 1e-8);
             assertEquals(3625.015869140625, array.getFloat(1), 1e-8);
 
             final Variable sss1 = getVariableVerified("SSS1", targetFile);
             assertEquals(DataType.FLOAT, sss1.getDataType());
-            assertAttribute("units", "psu", sss1);
-            assertAttribute("_FillValue", -999.0, sss1);
+            assertAttribute(UNITS, "psu", sss1);
+            assertAttribute(FILL_VALUE, -999.0, sss1);
             array = sss1.read(new int[]{10021}, new int[]{2});
             assertEquals(69.771240234375, array.getFloat(0), 1e-8);
             assertEquals(-4.7435197830200195, array.getFloat(1), 1e-8);
 
             final Variable sigma_sss1 = getVariableVerified("Sigma_SSS1", targetFile);
             assertEquals(DataType.FLOAT, sigma_sss1.getDataType());
-            assertAttribute("units", "psu", sigma_sss1);
-            assertAttribute("_FillValue", -999.0, sigma_sss1);
+            assertAttribute(UNITS, "psu", sigma_sss1);
+            assertAttribute(FILL_VALUE, -999.0, sigma_sss1);
             array = sigma_sss1.read(new int[]{10022}, new int[]{2});
             assertEquals(7.676535129547119, array.getFloat(0), 1e-8);
             assertEquals(66.9095687866211, array.getFloat(1), 1e-8);
@@ -742,16 +743,16 @@ public class NetcdfExportOpIntegrationTest {
 
             final Variable latVariable = getVariableVerified("Latitude", targetFile);
             assertEquals(DataType.FLOAT, latVariable.getDataType());
-            assertAttribute("units", "deg", latVariable);
-            assertAttribute("_FillValue", -999.0, latVariable);
+            assertAttribute(UNITS, "deg", latVariable);
+            assertAttribute(FILL_VALUE, -999.0, latVariable);
             Array array = latVariable.read(new int[]{130}, new int[]{2});
             assertEquals(-76.60199737548828, array.getFloat(0), 1e-8);
             assertEquals(-76.60800170898438, array.getFloat(1), 1e-8);
 
             final Variable lonVariable = getVariableVerified("Longitude", targetFile);
             assertEquals(DataType.FLOAT, lonVariable.getDataType());
-            assertAttribute("units", "deg", lonVariable);
-            assertAttribute("_FillValue", -999.0, lonVariable);
+            assertAttribute(UNITS, "deg", lonVariable);
+            assertAttribute(FILL_VALUE, -999.0, lonVariable);
             array = lonVariable.read(new int[]{129}, new int[]{2});
             assertEquals(-81.25199890136719, array.getFloat(0), 1e-8);
             assertEquals(-80.6969985961914, array.getFloat(1), 1e-8);
@@ -759,8 +760,8 @@ public class NetcdfExportOpIntegrationTest {
             final Variable chi_2 = getVariableVerified("Chi_2", targetFile);
             assertEquals(DataType.UBYTE, chi_2.getDataType());
             // @todo 2 tb/tb check with spec 2020-08-20
-//            assertAttribute("_FillValue", 0.0, chi_2);
-            assertAttribute("scale_factor", 0.20784314954653382, chi_2);
+//            assertAttribute(FILL_VALUE, 0.0, chi_2);
+            assertAttribute(SCALE_FACTOR, 0.20784314954653382, chi_2);
             assertAttribute("scale_offset", 0.0, chi_2);
             array = chi_2.read(new int[]{131}, new int[]{2});
             assertEquals(69, array.getByte(0));
