@@ -19,6 +19,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
+import static eu.esa.snap.core.dataio.CfConstants.CONTACT;
+import static eu.esa.snap.core.dataio.CfConstants.INSTITUTION;
+
 class L2FormatExporter extends AbstractFormatExporter {
 
 
@@ -60,11 +63,11 @@ class L2FormatExporter extends AbstractFormatExporter {
                                     ExportParameter exportParameter) throws IOException {
         final String institution = exportParameter.getInstitution();
         if (StringUtils.isNotBlank(institution)) {
-            nFileWriteable.addGlobalAttribute("institution", institution);
+            nFileWriteable.addGlobalAttribute(INSTITUTION, institution);
         }
         final String contact = exportParameter.getContact();
         if (StringUtils.isNotBlank(contact)) {
-            nFileWriteable.addGlobalAttribute("contact", contact);
+            nFileWriteable.addGlobalAttribute(CONTACT, contact);
         }
         nFileWriteable.addGlobalAttribute("creation_date", DateTimeUtils.toFixedHeaderFormat(new Date()));
         nFileWriteable.addGlobalAttribute("total_number_of_grid_points", Integer.toString(gridPointCount));

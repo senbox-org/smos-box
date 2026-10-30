@@ -582,8 +582,8 @@ public class NetcdfExportOpIntegrationTest {
             product = ProductIO.readProduct(file);
 
             final HashMap<String, Object> parameterMap = createDefaultParameterMap();
-            parameterMap.put("institution", "BC");
-            parameterMap.put("contact", "Tom");
+            parameterMap.put(INSTITUTION, "BC");
+            parameterMap.put(CONTACT, "Tom");
             GPF.createProduct(NetcdfExportOp.ALIAS,
                               parameterMap,
                               new Product[]{product});
@@ -802,16 +802,16 @@ public class NetcdfExportOpIntegrationTest {
     private void assertCorrectGlobalAttributes(NetcdfFile targetFile, int numGridPoints, ExportParameter exportParameter) throws ParseException {
         final String institution = exportParameter.getInstitution();
         if (StringUtils.isNotNullAndNotEmpty(institution)) {
-            assertGlobalAttribute("institution", institution, targetFile);
+            assertGlobalAttribute(INSTITUTION, institution, targetFile);
         } else {
-            assertNoGlobalAttribute("institution", targetFile);
+            assertNoGlobalAttribute(INSTITUTION, targetFile);
         }
 
         final String contact = exportParameter.getContact();
         if (StringUtils.isNotNullAndNotEmpty(contact)) {
-            assertGlobalAttribute("contact", contact, targetFile);
+            assertGlobalAttribute(CONTACT, contact, targetFile);
         } else {
-            assertNoGlobalAttribute("contact", targetFile);
+            assertNoGlobalAttribute(CONTACT, targetFile);
         }
 
         assertCreationDateWithinLast5Minutes(targetFile);

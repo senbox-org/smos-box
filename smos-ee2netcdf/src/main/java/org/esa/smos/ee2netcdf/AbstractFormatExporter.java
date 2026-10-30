@@ -137,11 +137,11 @@ abstract class AbstractFormatExporter implements FormatExporter {
                                     ExportParameter exportParameter) throws IOException {
         final String institution = exportParameter.getInstitution();
         if (StringUtils.isNotBlank(institution)) {
-            nFileWriteable.addGlobalAttribute("institution", institution);
+            nFileWriteable.addGlobalAttribute(INSTITUTION, institution);
         }
         final String contact = exportParameter.getContact();
         if (StringUtils.isNotBlank(contact)) {
-            nFileWriteable.addGlobalAttribute("contact", contact);
+            nFileWriteable.addGlobalAttribute(CONTACT, contact);
         }
         nFileWriteable.addGlobalAttribute("creation_date", DateTimeUtils.toFixedHeaderFormat(new Date()));
         nFileWriteable.addGlobalAttribute("total_number_of_grid_points", Integer.toString(gridPointCount));
@@ -194,10 +194,10 @@ abstract class AbstractFormatExporter implements FormatExporter {
                 }
             }
             if (variableDescriptor.isValidMinPresent()) {
-                nVariable.addAttribute("valid_min", variableDescriptor.getValidMin());
+                nVariable.addAttribute(VALID_MIN, variableDescriptor.getValidMin());
             }
             if (variableDescriptor.isValidMaxPresent()) {
-                nVariable.addAttribute("valid_max", variableDescriptor.getValidMax());
+                nVariable.addAttribute(VALID_MAX, variableDescriptor.getValidMax());
             }
             final short[] flagMasks = variableDescriptor.getFlagMasks();
             if (flagMasks != null) {

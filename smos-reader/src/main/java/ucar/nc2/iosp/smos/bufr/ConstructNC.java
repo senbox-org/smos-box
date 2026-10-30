@@ -53,7 +53,7 @@ import ucar.nc2.time.CalendarDateUnit;
 import java.io.IOException;
 import java.util.List;
 
-import static eu.esa.snap.core.dataio.CfConstants.SCALE_FACTOR;
+import static eu.esa.snap.core.dataio.CfConstants.*;
 
 /**
  * BufrIosp delegates the construction of the Netcdf objects to ConstructNC.
@@ -104,7 +104,7 @@ class ConstructNC {
     String header = proto.getHeader();
     if (header != null)
       ncfile.addAttribute(null, new Attribute("WMO Header", header));
-    ncfile.addAttribute(null, new Attribute("Conventions", "BUFR/CDM"));
+    ncfile.addAttribute(null, new Attribute(CONVENTIONS, "BUFR/CDM"));
 
     makeObsRecord();
     //makeReportIndexStructure();
@@ -117,15 +117,15 @@ class ConstructNC {
     ncfile.addVariable(null, reportIndex);
     reportIndex.setDimensions("record");
 
-    reportIndex.addAttribute(new Attribute("long_name", "index on report"));
+    reportIndex.addAttribute(new Attribute(LONG_NAME, "index on report"));
 
     Variable v = reportIndex.addMemberVariable(new Variable(ncfile, null, reportIndex, "name", DataType.STRING, ""));
-    v.addAttribute(new Attribute("long_name", "name of station"));
-    v.addAttribute(new Attribute("standard_name", "station_name"));
+    v.addAttribute(new Attribute(LONG_NAME, "name of station"));
+    v.addAttribute(new Attribute(STANDARD_NAME, "station_name"));
 
     v = reportIndex.addMemberVariable(new Variable(ncfile, null, reportIndex, "time", DataType.LONG, ""));
     v.addAttribute(new Attribute(CDM.UNITS, "msecs since 1970-01-01 00:00"));
-    v.addAttribute(new Attribute("long_name", "observation time"));
+    v.addAttribute(new Attribute(LONG_NAME, "observation time"));
     v.addAttribute(new Attribute(_Coordinate.AxisType, "Time"));
 
     return reportIndex;
@@ -142,7 +142,7 @@ class ConstructNC {
       isTimeOk = true;
       Variable timev = recordStructure.addMemberVariable(new Variable(ncfile, null, recordStructure, TIME_NAME, DataType.STRING, ""));
       timev.addAttribute(new Attribute(CDM.UNITS, dateUnit.toString()));
-      timev.addAttribute(new Attribute("long_name", "time of observation"));
+      timev.addAttribute(new Attribute(LONG_NAME, "time of observation"));
       timev.addAttribute(new Attribute(_Coordinate.AxisType, "Time"));
     }
 
@@ -307,7 +307,7 @@ class ConstructNC {
     }
 
     if (dataDesc.desc != null)
-        v.addAttribute(new Attribute("long_name", dataDesc.desc));
+        v.addAttribute(new Attribute(LONG_NAME, dataDesc.desc));
 
     if (dataDesc.units == null) {
       if (warnUnits) log.warn("dataDesc.units == null for " + uname);
@@ -360,29 +360,29 @@ class ConstructNC {
         v.setDataType(DataType.BYTE);
         if (nbits == 8) {
           v.addAttribute(new Attribute("_Unsigned", "true"));
-          v.addAttribute(new Attribute("missing_value", (short) BufrNumbers.missingValue(nbits)));
+          v.addAttribute(new Attribute(MISSING_VALUE, (short) BufrNumbers.missingValue(nbits)));
         } else
-          v.addAttribute(new Attribute("missing_value", (byte) BufrNumbers.missingValue(nbits)));
+          v.addAttribute(new Attribute(MISSING_VALUE, (byte) BufrNumbers.missingValue(nbits)));
 
       } else if (nbits < 17) {
         v.setDataType(DataType.SHORT);
         if (nbits == 16) {
           v.addAttribute(new Attribute("_Unsigned", "true"));
-          v.addAttribute(new Attribute("missing_value", BufrNumbers.missingValue(nbits)));
+          v.addAttribute(new Attribute(MISSING_VALUE, BufrNumbers.missingValue(nbits)));
         } else
-          v.addAttribute(new Attribute("missing_value", (short) BufrNumbers.missingValue(nbits)));
+          v.addAttribute(new Attribute(MISSING_VALUE, (short) BufrNumbers.missingValue(nbits)));
 
       } else if (nbits < 33) {
         v.setDataType(DataType.INT);
         if (nbits == 32) {
           v.addAttribute(new Attribute("_Unsigned", "true"));
-          v.addAttribute(new Attribute("missing_value", (int) BufrNumbers.missingValue(nbits)));
+          v.addAttribute(new Attribute(MISSING_VALUE, (int) BufrNumbers.missingValue(nbits)));
         } else
-          v.addAttribute(new Attribute("missing_value", BufrNumbers.missingValue(nbits)));
+          v.addAttribute(new Attribute(MISSING_VALUE, BufrNumbers.missingValue(nbits)));
 
       } else  {
         v.setDataType(DataType.LONG);
-        v.addAttribute(new Attribute("missing_value", BufrNumbers.missingValue(nbits)));
+        v.addAttribute(new Attribute(MISSING_VALUE, BufrNumbers.missingValue(nbits)));
       }
 
       // value = scale_factor * packed + add_offset
@@ -396,7 +396,7 @@ class ConstructNC {
       if (scale10 != 0)
         v.addAttribute(new Attribute(SCALE_FACTOR, (float) scale));
       if (dataDesc.refVal != 0)
-        v.addAttribute(new Attribute("add_offset", (float) scale * dataDesc.refVal));
+        v.addAttribute(new Attribute(ADD_OFFSET, (float) scale * dataDesc.refVal));
 
     }
 

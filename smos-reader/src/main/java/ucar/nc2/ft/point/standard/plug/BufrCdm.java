@@ -47,6 +47,8 @@ import ucar.nc2.iosp.smos.bufr.BufrIosp;
 import java.util.Formatter;
 import java.util.StringTokenizer;
 
+import static eu.esa.snap.core.dataio.CfConstants.CONVENTIONS;
+
 /**
  * BUFR datasets
  *
@@ -57,7 +59,7 @@ public class BufrCdm extends TableConfigurerImpl {
   private final String BufrConvention = "BUFR/CDM";
 
   public boolean isMine(FeatureType wantFeatureType, NetcdfDataset ds) {
-    String conv = ds.findAttValueIgnoreCase(null, "Conventions", null);
+    String conv = ds.findAttValueIgnoreCase(null, CONVENTIONS, null);
     if (conv == null) return false;
     if (conv.equals(BufrConvention)) return true;
 
