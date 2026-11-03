@@ -6,6 +6,8 @@ import org.locationtech.jts.geom.Geometry;
 
 import java.io.File;
 
+import static eu.esa.snap.core.dataio.CfConstants.INSTITUTION;
+
 public class ExportParameter {
 
     public static final String SELECTED_PRODUCT = "useSelectedProduct";
@@ -22,7 +24,7 @@ public class ExportParameter {
     public static final String EAST_BOUND = "eastBound";
 
     public static final String CONTACT = "contact";
-    public static final String INSTITUTION = "institution";
+    public static final String INSTITUTION ="institution";
     public static final String VARIABLES = "variables";
     public static final String COMPRESSION_LEVEL = "compressionLevel";
     public static final String OVERWRITE_TARGET = "overwriteTarget";

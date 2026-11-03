@@ -8,6 +8,8 @@ import org.junit.Test;
 
 import java.lang.reflect.Field;
 
+import static eu.esa.snap.core.dataio.CfConstants.CONTACT;
+import static eu.esa.snap.core.dataio.CfConstants.INSTITUTION;
 import static org.junit.Assert.*;
 
 public class NetcdfExportOpTest {
@@ -49,14 +51,14 @@ public class NetcdfExportOpTest {
 
     @Test
     public void testParameterAnnotations_Institution() throws NoSuchFieldException {
-        final Field institutionField = NetcdfExportOp.class.getDeclaredField("institution");
+        final Field institutionField = NetcdfExportOp.class.getDeclaredField(INSTITUTION);
         final Parameter institutionFieldAnnotation = institutionField.getAnnotation(Parameter.class);
         assertEquals("", institutionFieldAnnotation.defaultValue());
     }
 
     @Test
     public void testParameterAnnotations_Contact() throws NoSuchFieldException {
-        final Field contactField = NetcdfExportOp.class.getDeclaredField("contact");
+        final Field contactField = NetcdfExportOp.class.getDeclaredField(CONTACT);
         final Parameter contactFieldAnnotation = contactField.getAnnotation(Parameter.class);
         assertEquals("", contactFieldAnnotation.defaultValue());
     }

@@ -24,6 +24,8 @@ import java.nio.channels.WritableByteChannel;
 import java.util.HashMap;
 import java.util.Map;
 
+import static eu.esa.snap.core.dataio.CfConstants.*;
+
 /**
  * Represents a SMOS BUFR or Light-BUFR file.
  *
@@ -54,10 +56,6 @@ public class SmosBufrFile extends NetcdfFile implements Closeable {
     public static final String SNAPSHOT_IDENTIFIER = "Snapshot_identifier";
     public static final String TOTAL_ELECTRON_COUNT = "Total_electron_count_per_square_metre";
     public static final String WATER_FRACTION = "Water_fraction";
-
-    private static final String ATTR_NAME_ADD_OFFSET = "add_offset";
-    private static final String ATTR_NAME_SCALE_FACTOR = "scale_factor";
-    private static final String ATTR_NAME_MISSING_VALUE = "missing_value";
 
     private final SmosBufrIosp instance;
     private final Map<String, ValueDecoder> valueDecoderMap;
@@ -169,9 +167,9 @@ public class SmosBufrFile extends NetcdfFile implements Closeable {
 
     // not private for purpose of testing only
     static ValueDecoder createValueDecoder(Variable variable) {
-        final double scale = getAttributeValue(variable, ATTR_NAME_SCALE_FACTOR, 1.0);
-        final double offset = getAttributeValue(variable, ATTR_NAME_ADD_OFFSET, 0.0);
-        final Number missingValue = getAttributeValue(variable, ATTR_NAME_MISSING_VALUE);
+        final double scale = getAttributeValue(variable, SCALE_FACTOR, 1.0);
+        final double offset = getAttributeValue(variable, ADD_OFFSET, 0.0);
+        final Number missingValue = getAttributeValue(variable, MISSING_VALUE);
 
         return new ValueDecoder(scale, offset, missingValue);
     }

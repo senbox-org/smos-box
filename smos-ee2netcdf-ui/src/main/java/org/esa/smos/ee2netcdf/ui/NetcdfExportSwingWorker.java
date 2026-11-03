@@ -21,6 +21,9 @@ import java.util.List;
 import java.util.StringJoiner;
 import java.util.concurrent.ExecutionException;
 
+import static eu.esa.snap.core.dataio.CfConstants.CONTACT;
+import static eu.esa.snap.core.dataio.CfConstants.INSTITUTION;
+
 class NetcdfExportSwingWorker extends ProgressMonitorSwingWorker<List<Exception>, File> {
 
     private final AppContext appContext;
@@ -111,11 +114,11 @@ class NetcdfExportSwingWorker extends ProgressMonitorSwingWorker<List<Exception>
         }
         final String contact = exportParameter.getContact();
         if (contact != null) {
-            parameterMap.put("contact", contact);
+            parameterMap.put(CONTACT, contact);
         }
         final String institution = exportParameter.getInstitution();
         if (institution != null) {
-            parameterMap.put("institution", institution);
+            parameterMap.put(INSTITUTION, institution);
         }
         final String[] variableNames = exportParameter.getVariableNames();
         if (variableNames != null && variableNames.length != 0) {

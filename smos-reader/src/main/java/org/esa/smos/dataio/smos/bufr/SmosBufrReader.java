@@ -44,6 +44,8 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.logging.Logger;
 
+import static eu.esa.snap.core.dataio.CfConstants.UNITS;
+
 /**
  * @author Ralf Quast
  */
@@ -269,7 +271,7 @@ public class SmosBufrReader extends SmosReader {
         }
 
         final Band band = product.addBand(descriptor.getBandName(), dataType);
-        final Attribute units = variable.findAttribute("units");
+        final Attribute units = variable.findAttribute(UNITS);
         if (units != null) {
             band.setUnit(units.getStringValue());
         }
