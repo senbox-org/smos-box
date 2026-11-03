@@ -52,6 +52,8 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
+import static eu.esa.snap.core.dataio.CfConstants.UNITS;
+
 public class SmosLightBufrReader extends SmosReader {
 
     private HashMap<Integer, SnapshotObservation> snapshotMap;
@@ -461,7 +463,7 @@ public class SmosLightBufrReader extends SmosReader {
         }
 
         final Band band = product.addBand(descriptor.getBandName(), dataType);
-        final Attribute units = variable.findAttribute("units");
+        final Attribute units = variable.findAttribute(UNITS);
         if (units != null) {
             band.setUnit(units.getStringValue());
         }
